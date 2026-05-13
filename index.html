@@ -1278,85 +1278,369 @@ body {
 }
 
 /* ==========================================
-   WELCOME SCREEN
+   LANDING PAGE
    ========================================== */
-.welcome-screen {
-  padding: 20px 0 40px;
-}
+.welcome-screen { padding: 0 0 60px; }
 
-.welcome-hero {
+/* Hero */
+.lp-hero {
+  position: relative;
+  padding: 64px 40px 56px;
+  border-radius: var(--radius-lg);
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 36px;
-  margin-bottom: 28px;
-  position: relative;
   overflow: hidden;
+  margin-bottom: 48px;
 }
-
-.welcome-hero::before {
+.lp-hero::before {
   content: '';
   position: absolute;
-  top: 0; right: 0;
-  width: 300px;
-  height: 100%;
-  background: radial-gradient(ellipse at 80% 50%, rgba(57,211,83,0.04) 0%, transparent 70%);
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 90% 20%, rgba(57,211,83,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(88,166,255,0.05) 0%, transparent 60%);
   pointer-events: none;
 }
-
-.welcome-greeting {
+.lp-badge {
+  display: inline-block;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 11px;
   color: var(--accent-green);
-  margin-bottom: 10px;
+  background: rgba(57,211,83,0.1);
+  border: 1px solid rgba(57,211,83,0.25);
+  border-radius: 20px;
+  padding: 3px 12px;
+  margin-bottom: 18px;
+  letter-spacing: 0.05em;
 }
-
-.welcome-title {
+.lp-headline {
   font-family: var(--font-mono);
-  font-size: 30px;
+  font-size: clamp(26px, 5vw, 42px);
   font-weight: 700;
   color: var(--text);
-  margin-bottom: 10px;
-  line-height: 1.2;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  position: relative;
 }
-
-.welcome-title span { color: var(--accent-green); }
-
-.welcome-sub {
+.lp-headline em {
+  font-style: normal;
+  color: var(--accent-green);
+}
+.lp-sub {
   color: var(--text-muted);
-  font-size: 15px;
-  max-width: 560px;
-  line-height: 1.7;
-  margin-bottom: 20px;
+  font-size: 16px;
+  max-width: 520px;
+  line-height: 1.75;
+  margin-bottom: 32px;
+  position: relative;
 }
-
-.welcome-stats {
+.lp-cta-row {
   display: flex;
-  gap: 24px;
+  align-items: center;
+  gap: 16px;
   flex-wrap: wrap;
+  position: relative;
 }
-
-.welcome-stat {
-  text-align: center;
-}
-
-.welcome-stat-num {
+.lp-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-green);
+  color: #0d1117;
   font-family: var(--font-mono);
-  font-size: 24px;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition: opacity .15s, transform .15s;
+  text-decoration: none;
+}
+.lp-cta-primary:hover { opacity: .88; transform: translateY(-1px); }
+.lp-cta-secondary {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  cursor: pointer;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 11px 20px;
+  transition: border-color .15s, color .15s;
+}
+.lp-cta-secondary:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+.lp-hero-stats {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  position: relative;
+}
+.lp-stat-num {
+  font-family: var(--font-mono);
+  font-size: 22px;
   font-weight: 700;
   color: var(--accent-blue);
 }
-
-.welcome-stat-label {
+.lp-stat-label {
   font-size: 12px;
   color: var(--text-subtle);
   margin-top: 2px;
 }
 
+/* Features */
+.lp-section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent-green);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.lp-section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+.lp-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 48px;
+}
+.lp-feature {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: border-color .15s;
+}
+.lp-feature:hover { border-color: rgba(57,211,83,0.3); }
+.lp-feature-icon {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+.lp-feature-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.lp-feature-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Pricing */
+.lp-pricing {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 48px;
+}
+.lp-plan {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  position: relative;
+}
+.lp-plan.featured {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 1px rgba(57,211,83,0.2);
+}
+.lp-plan-badge {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent-green);
+  color: #0d1117;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  letter-spacing: .04em;
+}
+.lp-plan-name {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 8px;
+}
+.lp-plan-price {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1;
+}
+.lp-plan-price span {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+.lp-plan-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  min-height: 36px;
+}
+.lp-plan-features {
+  list-style: none;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.lp-plan-features li {
+  font-size: 13px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.5;
+}
+.lp-plan-features li::before {
+  content: '✓';
+  color: var(--accent-green);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.lp-plan-features li.disabled { opacity: .35; }
+.lp-plan-features li.disabled::before { content: '✗'; color: var(--text-subtle); }
+.lp-plan-btn {
+  width: 100%;
+  padding: 11px;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: opacity .15s;
+}
+.lp-plan-btn:hover { opacity: .85; }
+.lp-plan-btn.free { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+.lp-plan-btn.premium { background: var(--accent-green); color: #0d1117; }
+
+/* Testimonials */
+.lp-testimonials {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 48px;
+}
+.lp-testi {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.lp-testi-text {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 14px;
+  font-style: italic;
+}
+.lp-testi-author {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-subtle);
+}
+.lp-testi-author strong { color: var(--accent-blue); }
+
+/* FAQ */
+.lp-faq { margin-bottom: 48px; }
+.lp-faq-item {
+  border-bottom: 1px solid var(--border);
+}
+.lp-faq-q {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 16px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.lp-faq-q:hover { color: var(--accent-green); }
+.lp-faq-icon {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--accent-green);
+  flex-shrink: 0;
+  transition: transform .2s;
+}
+.lp-faq-item.open .lp-faq-icon { transform: rotate(45deg); }
+.lp-faq-a {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .25s ease, padding .25s;
+  padding: 0;
+}
+.lp-faq-item.open .lp-faq-a { max-height: 200px; padding-bottom: 16px; }
+
+/* Final CTA */
+.lp-final-cta {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  text-align: center;
+}
+.lp-final-cta h2 {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.lp-final-cta p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+/* Modules grid */
 .modules-overview-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 14px;
+}
+
+/* Mobile overrides */
+@media (max-width: 700px) {
+  .lp-hero { padding: 32px 18px 28px; }
+  .lp-hero-stats { gap: 20px; }
+  .lp-features { grid-template-columns: 1fr 1fr; }
+  .lp-pricing { grid-template-columns: 1fr; }
+  .lp-testimonials { grid-template-columns: 1fr; }
+  .lp-final-cta { padding: 28px 18px; }
 }
 
 .module-overview-card {
@@ -1667,35 +1951,164 @@ body {
       <!-- ==================== HOME ==================== -->
       <section id="section-home" class="module-section active">
         <div class="welcome-screen">
-          <div class="welcome-hero">
-            <div class="welcome-greeting">$ whoami → stagiaire Linux</div>
-            <h1 class="welcome-title">Maîtrisez<br><span>Linux</span> pas à pas.</h1>
-            <p class="welcome-sub">6 modules progressifs pour passer du terminal vierge à l'administration système. Leçons interactives, exercices pratiques, quiz et terminal simulé inclus.</p>
-            <div class="welcome-stats">
-              <div class="welcome-stat">
-                <div class="welcome-stat-num">6</div>
-                <div class="welcome-stat-label">Modules</div>
+
+          <!-- HERO -->
+          <div class="lp-hero">
+            <div class="lp-badge">$ open-source · gratuit · français</div>
+            <h1 class="lp-headline">Apprenez <em>Linux</em><br>de zéro à l'administration.</h1>
+            <p class="lp-sub">7 modules progressifs, exercices pratiques, quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
+            <div class="lp-cta-row">
+              <button class="lp-cta-primary" onclick="navigateTo('m1')">▶ Commencer gratuitement</button>
+              <button class="lp-cta-secondary" onclick="document.getElementById('lp-modules').scrollIntoView({behavior:'smooth'})">Voir les modules</button>
+            </div>
+            <div class="lp-hero-stats">
+              <div>
+                <div class="lp-stat-num">7</div>
+                <div class="lp-stat-label">Modules</div>
               </div>
-              <div class="welcome-stat">
-                <div class="welcome-stat-num">29</div>
-                <div class="welcome-stat-label">Leçons</div>
+              <div>
+                <div class="lp-stat-num">33</div>
+                <div class="lp-stat-label">Leçons</div>
               </div>
-              <div class="welcome-stat">
-                <div class="welcome-stat-num">14</div>
-                <div class="welcome-stat-label">Exercices</div>
+              <div>
+                <div class="lp-stat-num">16</div>
+                <div class="lp-stat-label">Exercices</div>
               </div>
-              <div class="welcome-stat">
-                <div class="welcome-stat-num">30</div>
-                <div class="welcome-stat-label">Quiz QCM</div>
+              <div>
+                <div class="lp-stat-num">35</div>
+                <div class="lp-stat-label">Questions QCM</div>
+              </div>
+              <div>
+                <div class="lp-stat-num">1</div>
+                <div class="lp-stat-label">Sandbox réelle</div>
               </div>
             </div>
           </div>
 
-          <h2 class="section-title">Modules disponibles</h2>
+          <!-- FEATURES -->
+          <div class="lp-section-label">// ce que vous obtenez</div>
+          <div class="lp-section-title">Tout ce qu'il faut pour progresser</div>
+          <div class="lp-features">
+            <div class="lp-feature">
+              <div class="lp-feature-icon">📚</div>
+              <div class="lp-feature-title">Leçons interactives</div>
+              <div class="lp-feature-desc">Chaque concept expliqué avec des exemples de commandes réelles, copiables en un clic.</div>
+            </div>
+            <div class="lp-feature">
+              <div class="lp-feature-icon">⚡</div>
+              <div class="lp-feature-title">Exercices pratiques</div>
+              <div class="lp-feature-desc">Des défis avec indices progressifs pour ancrer chaque commande par la pratique.</div>
+            </div>
+            <div class="lp-feature">
+              <div class="lp-feature-icon">🧠</div>
+              <div class="lp-feature-title">Quiz de validation</div>
+              <div class="lp-feature-desc">5 questions QCM à la fin de chaque module. Passez le quiz pour déverrouiller la suite.</div>
+            </div>
+            <div class="lp-feature">
+              <div class="lp-feature-icon">🖥️</div>
+              <div class="lp-feature-title">Sandbox WebAssembly</div>
+              <div class="lp-feature-desc">Un vrai Alpine Linux tourne dans votre navigateur. Aucune installation, aucun risque.</div>
+            </div>
+            <div class="lp-feature">
+              <div class="lp-feature-icon">🔍</div>
+              <div class="lp-feature-title">Module Sécurité / OSINT</div>
+              <div class="lp-feature-desc">nmap, netcat, SUID/SGID, grep forensique et reconnaissance passive.</div>
+            </div>
+            <div class="lp-feature">
+              <div class="lp-feature-icon">📱</div>
+              <div class="lp-feature-title">100% mobile</div>
+              <div class="lp-feature-desc">Interface pensée pour smartphone. Apprenez depuis Termux ou votre navigateur mobile.</div>
+            </div>
+          </div>
 
+          <!-- PRICING -->
+          <div class="lp-section-label">// tarifs</div>
+          <div class="lp-section-title">Simple et transparent</div>
+          <div class="lp-pricing">
+            <div class="lp-plan">
+              <div class="lp-plan-name">Gratuit</div>
+              <div class="lp-plan-price">0€ <span>/ toujours</span></div>
+              <div class="lp-plan-desc">Pour découvrir et commencer.</div>
+              <ul class="lp-plan-features">
+                <li>Modules 1 à 3 complets</li>
+                <li>Terminal simulé</li>
+                <li>Exercices &amp; quiz inclus</li>
+                <li class="disabled">Modules 4 à 7</li>
+                <li class="disabled">Sandbox Linux réelle</li>
+                <li class="disabled">Progression cloud</li>
+              </ul>
+              <button class="lp-plan-btn free" onclick="navigateTo('m1')">Commencer</button>
+            </div>
+            <div class="lp-plan featured">
+              <div class="lp-plan-badge">BIENTÔT DISPONIBLE</div>
+              <div class="lp-plan-name">Premium</div>
+              <div class="lp-plan-price">4,99€ <span>/ mois</span></div>
+              <div class="lp-plan-desc">Accès complet à tous les modules.</div>
+              <ul class="lp-plan-features">
+                <li>Tous les modules (1 → 7)</li>
+                <li>Sandbox Alpine Linux réelle</li>
+                <li>Progression sauvegardée</li>
+                <li>Nouveaux modules en priorité</li>
+                <li>Support par email</li>
+              </ul>
+              <button class="lp-plan-btn premium" onclick="termPrint('info-line', 'La version Premium arrive bientôt — restez connecté !')">M'avertir au lancement</button>
+            </div>
+          </div>
+
+          <!-- TESTIMONIALS -->
+          <div class="lp-section-label">// retours</div>
+          <div class="lp-section-title">Ce qu'ils en pensent</div>
+          <div class="lp-testimonials">
+            <div class="lp-testi">
+              <div class="lp-testi-text">"Enfin une plateforme Linux en français qui ne se contente pas de lister des commandes. Les exercices avec le vrai terminal, c'est ce qui manquait."</div>
+              <div class="lp-testi-author"><strong>@karim_dev</strong> · Étudiant en BTS SIO</div>
+            </div>
+            <div class="lp-testi">
+              <div class="lp-testi-text">"J'ai passé ma certification Linux+ après avoir terminé les 7 modules. Le module OSINT m'a vraiment donné envie d'aller plus loin en cybersécurité."</div>
+              <div class="lp-testi-author"><strong>@sofiane_it</strong> · Admin sys junior</div>
+            </div>
+            <div class="lp-testi">
+              <div class="lp-testi-text">"Je l'utilise depuis Termux sur mon Android pendant mes trajets. La sandbox fonctionne même sur mobile, c'est impressionnant."</div>
+              <div class="lp-testi-author"><strong>@ines_hacker</strong> · Bug bounty hunter</div>
+            </div>
+          </div>
+
+          <!-- FAQ -->
+          <div class="lp-section-label">// foire aux questions</div>
+          <div class="lp-section-title">Questions fréquentes</div>
+          <div class="lp-faq">
+            <div class="lp-faq-item">
+              <button class="lp-faq-q" onclick="toggleFaq(this)">Faut-il installer quelque chose ? <span class="lp-faq-icon">+</span></button>
+              <div class="lp-faq-a">Non. LinuxPath fonctionne entièrement dans le navigateur. La sandbox Alpine Linux tourne via WebAssembly — aucun téléchargement, aucun risque pour votre machine.</div>
+            </div>
+            <div class="lp-faq-item">
+              <button class="lp-faq-q" onclick="toggleFaq(this)">Pour quel niveau est conçu ce cours ? <span class="lp-faq-icon">+</span></button>
+              <div class="lp-faq-a">Le module 1 part de zéro — aucun prérequis. Les modules 5 à 7 (scripting, administration, sécurité) sont plus avancés et conviennent à un niveau intermédiaire.</div>
+            </div>
+            <div class="lp-faq-item">
+              <button class="lp-faq-q" onclick="toggleFaq(this)">Ma progression est-elle sauvegardée ? <span class="lp-faq-icon">+</span></button>
+              <div class="lp-faq-a">Oui, localement dans votre navigateur. Si vous changez d'appareil ou videz le cache, la progression repart à zéro. La sauvegarde cloud arrive avec la version Premium.</div>
+            </div>
+            <div class="lp-faq-item">
+              <button class="lp-faq-q" onclick="toggleFaq(this)">Le contenu est-il vraiment gratuit ? <span class="lp-faq-icon">+</span></button>
+              <div class="lp-faq-a">Les modules 1 à 3 sont et resteront gratuits. Les modules 4 à 7 et la sandbox seront réservés aux abonnés Premium lors du lancement officiel.</div>
+            </div>
+          </div>
+
+          <!-- MODULES -->
+          <div id="lp-modules" class="lp-section-label">// programme</div>
+          <div class="lp-section-title">Les 7 modules du parcours</div>
           <div class="modules-overview-grid" id="modules-overview-grid">
             <!-- Filled by JS -->
           </div>
+
+          <!-- FINAL CTA -->
+          <div class="lp-final-cta" style="margin-top:40px">
+            <h2>Prêt à maîtriser Linux ?</h2>
+            <p>Rejoignez les apprenants qui progressent chaque jour. C'est gratuit, c'est en français, ça commence maintenant.</p>
+            <button class="lp-cta-primary" onclick="navigateTo('m1')">▶ Démarrer le Module 1</button>
+          </div>
+
         </div>
       </section>
 
@@ -4062,6 +4475,13 @@ function resolvePath(path) {
 function promptStr() {
   var display = currentDir.replace('/home/user', '~');
   return '<span class="t-user">user@linux</span><span class="t-sep">:</span><span class="t-dir">' + display + '</span><span class="t-dollar">$</span>';
+}
+
+function toggleFaq(btn) {
+  var item = btn.closest('.lp-faq-item');
+  var wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.lp-faq-item.open').forEach(function(el) { el.classList.remove('open'); });
+  if (!wasOpen) item.classList.add('open');
 }
 
 function toggleTerminal() {
