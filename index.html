@@ -3486,7 +3486,8 @@ const MODULE_META = {
   m4: { title: 'Réseau de base', desc: 'Interfaces réseau, ping, curl, ports ouverts et DNS.' },
   m5: { title: 'Scripting Bash', desc: 'Variables, conditions, boucles, fonctions et scripts.' },
   m6: { title: 'Administration intermédiaire', desc: 'apt, systemctl, cron jobs, logs et SSH.' },
-  m7: { title: 'Sécurité &amp; OSINT', desc: 'nmap, netcat, grep forensique, SUID/SGID et reconnaissance.' }
+  m7: { title: 'Sécurité &amp; OSINT', desc: 'nmap, netcat, grep forensique, SUID/SGID et reconnaissance.' },
+  sandbox: { title: 'Sandbox Linux', desc: 'Terminal Alpine Linux réel via WebAssembly.' }
 };
 
 /* ============================================================
@@ -3501,7 +3502,7 @@ let state = {
   lessonsDone:     new Set(),
   exercisesDone:   new Set(),
   quizScores:      {}, // { m1: 4, m2: 3, ... }
-  unlockedModules: new Set(['m1'])
+  unlockedModules: new Set(['m1', 'sandbox'])
 };
 
 // Stockage persistant avec fallback mémoire
@@ -3530,6 +3531,7 @@ function loadState() {
     if (ed) state.exercisesDone   = new Set(JSON.parse(ed));
     if (qs) state.quizScores      = JSON.parse(qs);
     if (um) state.unlockedModules = new Set(JSON.parse(um));
+    state.unlockedModules.add('sandbox'); // toujours accessible
   } catch(e) { /* ignore */ }
 }
 
@@ -3537,7 +3539,7 @@ function resetState() {
   state.lessonsDone     = new Set();
   state.exercisesDone   = new Set();
   state.quizScores      = {};
-  state.unlockedModules = new Set(['m1']);
+  state.unlockedModules = new Set(['m1', 'sandbox']);
   saveState();
 }
 
@@ -3620,7 +3622,7 @@ function updateProgressUI() {
 let currentSection = 'home';
 
 function navigateTo(target) {
-  if (target !== 'home' && !state.unlockedModules.has(target)) {
+  if (target !== 'home' && target !== 'sandbox' && !state.unlockedModules.has(target)) {
     termPrint('error-line', `⚠ Le module "${target}" est verrouillé. Complétez le quiz du module précédent d'abord.`);
     return;
   }
