@@ -1267,11 +1267,14 @@ body {
   .quiz-option-letter { width: 26px; height: 26px; font-size: 11px; }
 
   /* --- Terminal dock --- */
-  .terminal-titlebar { padding: 0 10px; }
+  .terminal-section { height: 36px; overflow: hidden; } /* minimisé par défaut sur mobile */
+  .terminal-section:not(.minimized) { height: 260px; }
+  .terminal-titlebar { padding: 0 10px; min-height: 36px; cursor: pointer; }
   .terminal-input-row { padding: 6px 10px; }
   .terminal-input { font-size: 13px; }
   .terminal-output { font-size: 12px; }
   .terminal-prompt-label { font-size: 12px; }
+  .term-toggle-icon { font-size: 14px; padding: 8px; } /* zone de tap plus grande */
 }
 
 /* ==========================================
@@ -4061,6 +4064,23 @@ function promptStr() {
   return '<span class="t-user">user@linux</span><span class="t-sep">:</span><span class="t-dir">' + display + '</span><span class="t-dollar">$</span>';
 }
 
+function toggleTerminal() {
+  var sec  = document.getElementById('terminal-section');
+  var icon = document.getElementById('term-toggle-icon');
+  var isMin = sec.classList.toggle('minimized');
+  icon.textContent = isMin ? '▲' : '▼';
+}
+
+function focusTerminal() {
+  var sec  = document.getElementById('terminal-section');
+  var icon = document.getElementById('term-toggle-icon');
+  sec.classList.remove('minimized');
+  icon.textContent = '▼';
+  var inp = document.getElementById('terminal-input');
+  if (inp) inp.focus();
+  closeSidebar();
+}
+
 function termPrint(html, cls) {
   var out = document.getElementById('terminal-output');
   if (!out) return;
@@ -4656,6 +4676,14 @@ function handleCd(args) {
 function initTerminal() {
   var input = document.getElementById('terminal-input');
   if (!input) return;
+
+  // Sur mobile : terminal minimisé par défaut avec icône ▲
+  if (window.innerWidth <= 700) {
+    var sec = document.getElementById('terminal-section');
+    var icon = document.getElementById('term-toggle-icon');
+    if (sec) sec.classList.add('minimized');
+    if (icon) icon.textContent = '▲';
+  }
 
   termPrint('<span class="t-green">Linux Trainer Terminal v1.0 — Tapez <strong>help</strong> pour la liste des commandes.</span>', 'term-output');
   termPrint('<span class="t-muted">Répertoire courant : ' + escHtml(currentDir) + '</span>', 'term-output');
