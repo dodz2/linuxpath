@@ -1616,9 +1616,9 @@ body {
       </button>
 
       <button class="module-nav-item" data-target="m7" onclick="navigateTo('m7')" id="nav-m7">
-        <span class="module-nav-icon">🔒</span>
+        <span class="module-nav-icon">🔍</span>
         <span class="module-nav-title">Sécurité / OSINT</span>
-        <span class="mod-progress-badge" id="badge-m7">0%</span>
+        <span class="module-nav-badge" id="nav-badge-m7">0%</span>
       </button>
 
       <div class="sidebar-nav-label" style="margin-top:10px">Outils</div>
@@ -3571,7 +3571,7 @@ function updateProgressUI() {
   document.getElementById('topbar-progress-fill').style.width = p.pct + '%';
   document.getElementById('topbar-progress-label').textContent = p.done + ' / ' + p.total + ' complétés';
 
-  const modules = ['m1','m2','m3','m4','m5','m6'];
+  const modules = ['m1','m2','m3','m4','m5','m6','m7'];
   modules.forEach(mod => {
     const mp = getModuleProgress(mod);
     const badge = document.getElementById('nav-badge-' + mod);
@@ -3602,7 +3602,7 @@ function updateProgressUI() {
   });
 
   // Update sidebar lock state
-  const modOrder = ['m1','m2','m3','m4','m5','m6'];
+  const modOrder = ['m1','m2','m3','m4','m5','m6','m7'];
   modOrder.forEach(mod => {
     const btn = document.querySelector(`[data-target="${mod}"]`);
     if (btn) {
@@ -3657,7 +3657,7 @@ function closeSidebar() {
    LESSON RENDERING
    ============================================================ */
 function renderLessons() {
-  ['m1','m2','m3','m4','m5','m6'].forEach(mod => {
+  ['m1','m2','m3','m4','m5','m6','m7'].forEach(mod => {
     const container = document.getElementById('lessons-' + mod);
     if (!container) return;
     container.innerHTML = '';
@@ -3707,7 +3707,7 @@ function markLessonDone(id) {
    EXERCISE RENDERING
    ============================================================ */
 function renderExercises() {
-  ['m1','m2','m3','m4','m5','m6'].forEach(mod => {
+  ['m1','m2','m3','m4','m5','m6','m7'].forEach(mod => {
     const container = document.getElementById('exercises-' + mod);
     if (!container) return;
     container.innerHTML = '';
@@ -3808,7 +3808,7 @@ function checkExercise(exId, mod) {
    QUIZ RENDERING
    ============================================================ */
 function renderQuizzes() {
-  ['m1','m2','m3','m4','m5','m6'].forEach(mod => {
+  ['m1','m2','m3','m4','m5','m6','m7'].forEach(mod => {
     const container = document.getElementById('quiz-' + mod);
     if (!container) return;
     const quiz = QUIZZES[mod];
@@ -3938,7 +3938,7 @@ function showQuizResult(mod) {
 
   state.quizScores[mod] = score;
   if (pass) {
-    const modules = ['m1','m2','m3','m4','m5','m6'];
+    const modules = ['m1','m2','m3','m4','m5','m6','m7'];
     const idx = modules.indexOf(mod);
     if (idx < modules.length - 1) state.unlockedModules.add(modules[idx + 1]);
     state.unlockedModules.add(mod);
@@ -3980,9 +3980,9 @@ function getNextMod(mod) {
 function renderOverviewCards() {
   const grid = document.getElementById('modules-overview-grid');
   if (!grid) return;
-  const mods = ['m1','m2','m3','m4','m5','m6'];
-  const icons = ['🐧','🔒','👤','🌐','📜','⚙️'];
-  const nums = ['01','02','03','04','05','06'];
+  const mods = ['m1','m2','m3','m4','m5','m6','m7'];
+  const icons = ['🐧','🔒','👤','🌐','📜','⚙️','🔍'];
+  const nums = ['01','02','03','04','05','06','07'];
   grid.innerHTML = '';
   mods.forEach(function(mod, i) {
     var meta = MODULE_META[mod];
