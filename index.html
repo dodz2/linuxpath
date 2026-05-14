@@ -1730,6 +1730,32 @@ body {
   .sandbox-tips-grid { grid-template-columns: 1fr 1fr; }
   #sandbox-screen { font-size: 11px !important; }
 }
+
+/* === Boutons "Commencer →" sur les cartes de modules (landing page) === */
+.mod-card-btn {
+  background: linear-gradient(135deg, var(--accent-green), #00b4d8);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.mod-card-btn:hover {
+  box-shadow: 0 4px 16px rgba(0, 180, 216, 0.35);
+  transform: translateY(-1px);
+}
+.mod-card-btn .arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+.mod-card-btn:hover .arrow {
+  transform: translateX(4px);
+}
 </style>
 </head>
 <body>
@@ -4859,7 +4885,7 @@ function renderOverviewCards() {
       + '<p class="mod-card-desc">' + meta.desc + '</p>'
       + '<div class="mod-card-progress"><div class="mod-card-progress-bar"><div class="mod-card-progress-fill" style="width:' + pct + '%"></div></div><span class="mod-card-pct">' + pct + '%</span></div>'
       + (unlocked
-        ? '<button class="mod-card-btn" onclick="navigateTo(\'' + mod + '\')">Commencer →</button>'
+        ? '<button class="mod-card-btn" onclick="navigateTo(\'' + mod + '\')">Commencer <span class="arrow">→</span></button>'
         : '<div class="mod-card-locked-msg">🔒 Réussissez le quiz précédent pour débloquer</div>');
     grid.appendChild(card);
   });
@@ -6481,5 +6507,4 @@ R.prototype.jit_force_generate=function(a){this.jit_force_generate_unsafe&&this.
 R.prototype.get_state=function(){var a=[];a[0]=this.memory_size[0];a[1]=new Uint8Array([...this.segment_is_null,...this.segment_access_bytes]);a[2]=this.segment_offsets;a[3]=this.segment_limits;a[4]=this.protected_mode[0];a[5]=this.idtr_offset[0];a[6]=this.idtr_size[0];a[7]=this.gdtr_offset[0];a[8]=this.gdtr_size[0];a[9]=this.page_fault[0];a[10]=this.cr;a[11]=this.cpl[0];a[13]=this.is_32[0];a[16]=this.stack_size_32[0];a[17]=this.in_hlt[0];a[18]=this.last_virt_eip[0];a[19]=this.eip_phys[0];a[22]=this.sysenter_cs[0];
 a[23]=this.sysenter_eip[0];a[24]=this.sysenter_esp[0];a[25]=this.prefixes[0];a[26]=this.flags[0];a[27]=this.flags_changed[0];a[28]=this.last_op1[0];a[30]=this.last_op_size[0];a[37]=this.instruction_pointer[0];a[38]=this.previous_ip[0];a[39]=this.reg32;a[40]=this.sreg;a[41]=this.dreg;a[42]=this.reg_pdpte;this.store_current_tsc();a[43]=this.current_tsc;a[45]=this.devices.virtio_9p;a[46]=this.get_state_apic();a[47]=this.devices.rtc;a[48]=this.devices.pci;a[49]=this.devices.dma;a[50]=this.devices.acpi;
 a[52]=this.devices.vga;a[53]=this.devices.ps2;a[54]=this.devices.uart0;a[55]=this.devices.fdc;this.devices.ide.secondary?a[85]=this.devices.ide:this.devices.ide.primary?.master.is_atapi?a[56]=this.devices.ide.primary:a[57]=this.devices.ide.primary;a[58]=this.devices.pit;a[59]=this.devices.net;a[60]=this.get_state_pic();a[61]=this.devices.sb16;a[62]=this.fw_value;a[63]=this.get_state_ioapic();a[64]=this.tss_size_32[0];a[66]=this.reg_xmm32s;a[67]=this.fpu_st;a[68]=this.fpu_stack_empty[0];a[69]=this.fpu_stack_ptr[0];
-a[70]=this.fpu_control_word[0];a[71]=this.fpu_ip[0];a[72]=this.fpu_ip_selector[0];a[73]=this.fpu_dp[0];a[74]=this.fpu_dp_selector[0];a[75]=this.fpu_opcode[0];const {packed_memory:b,bitmap:c}=this.pack_memory();a[77]=b;a[78]=new Uint8Array(c.get_buffer());a[79]=this.devices.uart1;a[80]=this.devices.uart2;a[81]=this.devices.uart3;a[82]=this.devices.virtio_console;a[83]=this.devices.virtio_net;a[84]=this.devices.virtio_balloon;a[86]=this.last_result;a[87]=this.fpu_status_word;a[88]=this.mxcsr;return a};
-R.prototype.get_state_pic=function(){const a=new Uint8Array(this.wasm_memory.buffer,this.get_pic_addr_master(),13),b=new Uint8Array(this.wasm_memory.buffer,this.get_pic_addr_slave(),13),c=[],d=[];c[0]=a[0];c[1]=a[1];c[2]=a[2];c[3]=a[3];c[4]=a[4];c[5]=d;c[6]=a[6];c[7]=a[7];c[8]=a[8];c[9]=a[9];c[10]=a[10];c[11]=a[11];c[12]=a[12];d[0]=b[0];d[1]=b[1];d[2]=b[2];d[3]=b[3];d[4]=b[4];d[5]=null;d[6]=b[6];d[7]=b[7];d[8]=b[8];d[9]=b[9];
+a[70]=this.fpu_control_word[0];a[71]=this.fpu_ip[0];a[72]=this.fpu_ip_selector[0];a[73]=this.fpu_dp[0];a[74]=this.fpu_dp_selector[0];a[75]=this.fpu_opcode[0];const {packed_memory:b,bitmap:c}=this.pack_memory();a[77]=b;a[78]=new Uint8Array(c.get_buffer());a[79]=this.devices.uart1;a[80]=th
