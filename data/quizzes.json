@@ -1,0 +1,482 @@
+{
+  "m1": {
+    "title": "Quiz — Les bases de Linux",
+    "questions": [
+      {
+        "q": "Quel est le répertoire racine de Linux ?",
+        "options": [
+          "/",
+          "/home",
+          "/root",
+          "/sys"
+        ],
+        "correct": 0,
+        "expl": "La racine du système de fichiers Linux est <strong>/</strong>. Tous les autres répertoires en dépendent."
+      },
+      {
+        "q": "Quelle commande affiche le répertoire courant ?",
+        "options": [
+          "ls",
+          "cd",
+          "pwd",
+          "cat"
+        ],
+        "correct": 2,
+        "expl": "<strong>pwd</strong> signifie 'Print Working Directory' et affiche le chemin absolu du répertoire courant."
+      },
+      {
+        "q": "Quelle commande crée un dossier ?",
+        "options": [
+          "touch",
+          "mkdir",
+          "rm",
+          "cp"
+        ],
+        "correct": 1,
+        "expl": "<strong>mkdir</strong> (make directory) crée un nouveau répertoire. <code>touch</code> crée des fichiers vides."
+      },
+      {
+        "q": "Que signifie ~ dans le terminal ?",
+        "options": [
+          "Répertoire racine",
+          "Répertoire temporaire",
+          "Répertoire home de l'utilisateur",
+          "Répertoire système"
+        ],
+        "correct": 2,
+        "expl": "<strong>~</strong> est un alias pour le répertoire home de l'utilisateur courant, par exemple <code>/home/alice</code>."
+      },
+      {
+        "q": "Quelle commande affiche le contenu d'un fichier texte ?",
+        "options": [
+          "echo",
+          "ls",
+          "pwd",
+          "cat"
+        ],
+        "correct": 3,
+        "expl": "<strong>cat</strong> (concatenate) affiche le contenu d'un ou plusieurs fichiers. <code>echo</code> affiche du texte passé en argument."
+      }
+    ]
+  },
+  "m2": {
+    "title": "Quiz — Fichiers & permissions",
+    "questions": [
+      {
+        "q": "Que signifie chmod 755 ?",
+        "options": [
+          "rwxr-xr-x",
+          "rw-r--r--",
+          "rwxrwxrwx",
+          "r-xr-xr-x"
+        ],
+        "correct": 0,
+        "expl": "<strong>755</strong> = 7(rwx) propriétaire + 5(r-x) groupe + 5(r-x) autres → <code>rwxr-xr-x</code>"
+      },
+      {
+        "q": "Quelle commande change le propriétaire d'un fichier ?",
+        "options": [
+          "chmod",
+          "chown",
+          "chgrp",
+          "chmod -o"
+        ],
+        "correct": 1,
+        "expl": "<strong>chown</strong> (change owner) modifie le propriétaire et/ou le groupe d'un fichier. <code>chmod</code> modifie les permissions."
+      },
+      {
+        "q": "Comment rediriger la sortie vers un fichier en l'écrasant ?",
+        "options": [
+          ">>",
+          "|",
+          ">",
+          "2>"
+        ],
+        "correct": 2,
+        "expl": "<strong>&gt;</strong> redirige stdout vers un fichier en l'écrasant. <code>&gt;&gt;</code> ajoute à la fin, <code>2&gt;</code> redirige stderr."
+      },
+      {
+        "q": "Que fait ls -la ?",
+        "options": [
+          "Liste uniquement les fichiers cachés",
+          "Liste les fichiers avec permissions et fichiers cachés",
+          "Liste les dossiers",
+          "Liste les fichiers récents"
+        ],
+        "correct": 1,
+        "expl": "<strong>ls -l</strong> affiche le format long (permissions, taille, date) et <strong>-a</strong> inclut les fichiers cachés (commençant par .)."
+      },
+      {
+        "q": "Quel wildcard correspond à exactement un seul caractère quelconque ?",
+        "options": [
+          "*",
+          "?",
+          "[]",
+          "{}"
+        ],
+        "correct": 1,
+        "expl": "<strong>?</strong> remplace exactement un caractère. <code>*</code> remplace zéro ou plusieurs caractères. <code>[]</code> correspond à un caractère parmi une liste."
+      }
+    ]
+  },
+  "m3": {
+    "title": "Quiz — Utilisateurs & processus",
+    "questions": [
+      {
+        "q": "Quelle commande tue un processus par son PID ?",
+        "options": [
+          "stop",
+          "kill",
+          "end",
+          "terminate"
+        ],
+        "correct": 1,
+        "expl": "<strong>kill</strong> envoie un signal à un processus identifié par son PID. Par défaut, il envoie SIGTERM (15)."
+      },
+      {
+        "q": "Que fait sudo ?",
+        "options": [
+          "Changer d'utilisateur",
+          "Lancer une commande en arrière-plan",
+          "Exécuter avec les droits root",
+          "Supprimer un utilisateur"
+        ],
+        "correct": 2,
+        "expl": "<strong>sudo</strong> (Superuser Do) permet d'exécuter une commande avec les privilèges root, après authentification."
+      },
+      {
+        "q": "Quelle commande affiche les processus en cours (plusieurs réponses) ?",
+        "options": [
+          "jobs",
+          "top",
+          "ps",
+          "bg"
+        ],
+        "correct": 2,
+        "expl": "<strong>ps</strong> affiche un instantané des processus. <strong>top</strong> les affiche en temps réel. <code>jobs</code> liste seulement les jobs de la session."
+      },
+      {
+        "q": "Comment ramener un job en arrière-plan au premier plan ?",
+        "options": [
+          "bg",
+          "jobs",
+          "fg",
+          "nohup"
+        ],
+        "correct": 2,
+        "expl": "<strong>fg</strong> (foreground) ramène un job au premier plan. <code>bg</code> (background) le met en arrière-plan."
+      },
+      {
+        "q": "Quel signal envoie kill sans option supplémentaire ?",
+        "options": [
+          "SIGKILL (9)",
+          "SIGTERM (15)",
+          "SIGHUP (1)",
+          "SIGSTOP (19)"
+        ],
+        "correct": 1,
+        "expl": "<strong>kill PID</strong> envoie SIGTERM (15) par défaut, qui demande au processus de s'arrêter proprement. SIGKILL (9) est forcé."
+      }
+    ]
+  },
+  "m4": {
+    "title": "Quiz — Réseau de base",
+    "questions": [
+      {
+        "q": "Quelle commande affiche les interfaces réseau et leurs adresses IP ?",
+        "options": [
+          "ping",
+          "ip addr",
+          "curl",
+          "dig"
+        ],
+        "correct": 1,
+        "expl": "<strong>ip addr</strong> (ou <code>ip a</code>) affiche toutes les interfaces réseau et leurs adresses IP. C'est la commande moderne remplaçant <code>ifconfig</code>."
+      },
+      {
+        "q": "Quelle commande teste la connectivité réseau ?",
+        "options": [
+          "curl",
+          "wget",
+          "ping",
+          "ss"
+        ],
+        "correct": 2,
+        "expl": "<strong>ping</strong> envoie des paquets ICMP Echo et mesure le temps de réponse, permettant de tester la connectivité."
+      },
+      {
+        "q": "Quel fichier contient la configuration des serveurs DNS locaux ?",
+        "options": [
+          "/etc/resolv.conf",
+          "/etc/hosts",
+          "/etc/network",
+          "/etc/dns.conf"
+        ],
+        "correct": 0,
+        "expl": "<strong>/etc/resolv.conf</strong> liste les serveurs DNS utilisés par le système. <code>/etc/hosts</code> contient des correspondances IP/nom statiques."
+      },
+      {
+        "q": "Quelle commande affiche les ports TCP/UDP en écoute ?",
+        "options": [
+          "ping",
+          "curl",
+          "ip addr",
+          "ss"
+        ],
+        "correct": 3,
+        "expl": "<strong>ss -tuln</strong> affiche les ports en écoute. <code>ss</code> est la version moderne de <code>netstat</code>."
+      },
+      {
+        "q": "Quelle option de curl télécharge un fichier en conservant son nom original ?",
+        "options": [
+          "-v",
+          "-o",
+          "-O",
+          "-L"
+        ],
+        "correct": 2,
+        "expl": "<strong>curl -O</strong> (majuscule) télécharge le fichier en gardant son nom original. <code>-o</code> (minuscule) permet de spécifier un nom de sortie."
+      }
+    ]
+  },
+  "m5": {
+    "title": "Quiz — Scripting Bash",
+    "questions": [
+      {
+        "q": "Comment déclarer correctement une variable en Bash ?",
+        "options": [
+          "$VAR=valeur",
+          "VAR = valeur",
+          "VAR=valeur",
+          "set VAR valeur"
+        ],
+        "correct": 2,
+        "expl": "<strong>VAR=valeur</strong> est la syntaxe correcte. Pas d'espaces autour du =. <code>$VAR</code> est la syntaxe pour utiliser la variable, pas la déclarer."
+      },
+      {
+        "q": "Quelle est la shebang line correcte pour un script Bash ?",
+        "options": [
+          "#!/bash",
+          "#!bash",
+          "#!/bin/bash",
+          "#!/usr/bin/env bash"
+        ],
+        "correct": 2,
+        "expl": "<strong>#!/bin/bash</strong> et <code>#!/usr/bin/env bash</code> sont tous deux valides. La shebang indique quel interpréteur utiliser."
+      },
+      {
+        "q": "Comment rendre un script exécutable ?",
+        "options": [
+          "bash script.sh",
+          "chmod +x script.sh",
+          "run script.sh",
+          "exec script.sh"
+        ],
+        "correct": 1,
+        "expl": "<strong>chmod +x script.sh</strong> ajoute le bit d'exécution. Ensuite, on peut lancer avec <code>./script.sh</code>."
+      },
+      {
+        "q": "Quelle variable contient le code de retour de la dernière commande ?",
+        "options": [
+          "$0",
+          "$#",
+          "$?",
+          "$1"
+        ],
+        "correct": 2,
+        "expl": "<strong>$?</strong> contient le code de retour de la dernière commande. 0 = succès, toute autre valeur = erreur."
+      },
+      {
+        "q": "Comment boucler sur les nombres de 1 à 5 en Bash ?",
+        "options": [
+          "for i in {1..5}",
+          "for i from 1 to 5",
+          "loop i in 1 5",
+          "for (i=1; i<=5; i++)"
+        ],
+        "correct": 0,
+        "expl": "<strong>for i in {1..5}</strong> utilise la syntaxe de brace expansion de Bash. La syntaxe style C <code>for ((i=1; i<=5; i++))</code> est aussi valide."
+      }
+    ]
+  },
+  "m6": {
+    "title": "Quiz — Administration intermédiaire",
+    "questions": [
+      {
+        "q": "Quelle commande active un service au démarrage du système ?",
+        "options": [
+          "systemctl start",
+          "systemctl enable",
+          "systemctl run",
+          "service enable"
+        ],
+        "correct": 1,
+        "expl": "<strong>systemctl enable</strong> crée les liens symboliques nécessaires pour démarrer le service automatiquement. <code>start</code> le démarre seulement maintenant."
+      },
+      {
+        "q": "Quelle commande affiche les logs systemd en temps réel ?",
+        "options": [
+          "tail /var/log",
+          "journalctl -f",
+          "systemctl logs",
+          "cat /var/log"
+        ],
+        "correct": 1,
+        "expl": "<strong>journalctl -f</strong> suit les journaux systemd en temps réel (comme <code>tail -f</code>). On peut ajouter <code>-u service</code> pour filtrer."
+      },
+      {
+        "q": "Dans un crontab, que signifie : 0 * * * *",
+        "options": [
+          "Toutes les heures",
+          "Toutes les minutes",
+          "Tous les jours à minuit",
+          "Une seule fois"
+        ],
+        "correct": 0,
+        "expl": "<strong>0 * * * *</strong> : minute=0, heure=* → s'exécute à la minute 0 de chaque heure, soit <strong>toutes les heures</strong>."
+      },
+      {
+        "q": "Quelle commande installe un paquet sur Debian/Ubuntu ?",
+        "options": [
+          "yum install",
+          "apt install",
+          "pkg install",
+          "pacman -S"
+        ],
+        "correct": 1,
+        "expl": "<strong>apt install</strong> est la commande standard sur Debian et Ubuntu. <code>yum</code> est pour RHEL/CentOS, <code>pacman</code> pour Arch."
+      },
+      {
+        "q": "Quel fichier contient les clés SSH autorisées pour se connecter ?",
+        "options": [
+          "~/.ssh/known_hosts",
+          "~/.ssh/id_rsa.pub",
+          "~/.ssh/authorized_keys",
+          "~/.ssh/config"
+        ],
+        "correct": 2,
+        "expl": "<strong>~/.ssh/authorized_keys</strong> contient les clés publiques autorisées à se connecter. <code>known_hosts</code> contient les empreintes des serveurs connus."
+      }
+    ]
+  },
+  "m8": {
+    "title": "Quiz — Git &amp; Docker",
+    "questions": [
+      {
+        "q": "Quelle commande crée une nouvelle branche ET bascule dessus immédiatement ?",
+        "options": [
+          "git branch nouvelle-branche",
+          "git checkout -b nouvelle-branche",
+          "git merge nouvelle-branche",
+          "git switch nouvelle-branche"
+        ],
+        "correct": 1,
+        "expl": "<strong>git checkout -b</strong> crée ET bascule sur la branche en une seule commande. Depuis Git 2.23, <code>git switch -c</code> est l'équivalent moderne."
+      },
+      {
+        "q": "Quelle est la différence principale entre git merge et git rebase ?",
+        "options": [
+          "merge est plus rapide",
+          "rebase modifie l'historique, merge crée un commit de fusion",
+          "merge ne fonctionne qu'avec GitHub",
+          "rebase supprime les branches"
+        ],
+        "correct": 1,
+        "expl": "<strong>rebase</strong> réécrit l'historique en déplaçant les commits sur une nouvelle base. <strong>merge</strong> crée un commit de fusion qui préserve l'historique original."
+      },
+      {
+        "q": "Dans un Dockerfile, que spécifie l'instruction FROM ?",
+        "options": [
+          "Le port à exposer",
+          "La commande à exécuter au démarrage",
+          "L'image de base sur laquelle construire",
+          "Le répertoire de travail"
+        ],
+        "correct": 2,
+        "expl": "<strong>FROM</strong> définit l'image parente (de base) sur laquelle votre image est construite. C'est obligatoirement la première instruction de tout Dockerfile."
+      },
+      {
+        "q": "Quelle est la différence entre un volume Docker et un bind mount ?",
+        "options": [
+          "Les volumes sont plus lents",
+          "Les bind mounts sont gérés par Docker, les volumes par le système de fichiers hôte",
+          "Les volumes sont gérés par Docker, les bind mounts pointent vers un chemin hôte spécifique",
+          "Il n'y a pas de différence"
+        ],
+        "correct": 2,
+        "expl": "<strong>Les volumes</strong> sont gérés par Docker dans /var/lib/docker/volumes/. <strong>Les bind mounts</strong> mappent un chemin absolu de l'hôte vers le conteneur."
+      },
+      {
+        "q": "Quelle commande affiche uniquement les conteneurs Docker actuellement en cours d'exécution ?",
+        "options": [
+          "docker images",
+          "docker ps",
+          "docker ps -a",
+          "docker list"
+        ],
+        "correct": 1,
+        "expl": "<strong>docker ps</strong> affiche uniquement les conteneurs actifs. <code>docker ps -a</code> affiche tous les conteneurs y compris ceux qui sont arrêtés."
+      }
+    ]
+  },
+  "m7": {
+    "title": "Quiz — Sécurité &amp; OSINT",
+    "questions": [
+      {
+        "q": "Quelle commande liste tous les binaires SUID sur le système ?",
+        "options": [
+          "ls -la / | grep s",
+          "find / -perm -4000 -type f 2>/dev/null",
+          "chmod -R 4000 /",
+          "ls -Rla | grep rwsr"
+        ],
+        "correct": 1,
+        "expl": "<strong>find / -perm -4000 -type f</strong> recherche tous les fichiers avec le bit SUID actif. C'est la commande standard pour l'audit de privilèges sur un système Linux."
+      },
+      {
+        "q": "Quelle option nmap effectue un scan furtif (SYN scan) ?",
+        "options": [
+          "-sU",
+          "-sT",
+          "-sS",
+          "-sV"
+        ],
+        "correct": 2,
+        "expl": "<strong>-sS</strong> (SYN scan ou scan stealth) envoie des paquets SYN sans compléter le handshake TCP, laissant moins de traces. Nécessite les droits root."
+      },
+      {
+        "q": "Que signifie OSINT ?",
+        "options": [
+          "Operating System Intelligence",
+          "Open Source Intelligence",
+          "Online Security Inspection Tool",
+          "Open System Intrusion Network"
+        ],
+        "correct": 1,
+        "expl": "<strong>OSINT (Open Source Intelligence)</strong> désigne le renseignement obtenu à partir de sources publiques et ouvertes (sites web, réseaux sociaux, bases de données publiques, DNS, etc.)."
+      },
+      {
+        "q": "Quelle commande permet de faire du banner grabbing sur le port 22 ?",
+        "options": [
+          "curl -I 192.168.1.1:22",
+          "nc -v 192.168.1.1 22",
+          "ssh --banner 192.168.1.1",
+          "nmap --banner 192.168.1.1 22"
+        ],
+        "correct": 1,
+        "expl": "<strong>nc -v 192.168.1.1 22</strong> ouvre une connexion TCP verbose sur le port 22 et affiche la bannière du service SSH (version, etc.)."
+      },
+      {
+        "q": "Quelle option grep affiche le contexte de 3 lignes APRÈS chaque correspondance ?",
+        "options": [
+          "-B 3",
+          "-C 3",
+          "-A 3",
+          "-n 3"
+        ],
+        "correct": 2,
+        "expl": "<strong>-A N</strong> (After) affiche N lignes après chaque match. <code>-B N</code> affiche N lignes avant, et <code>-C N</code> affiche N lignes avant ET après."
+      }
+    ]
+  }
+}

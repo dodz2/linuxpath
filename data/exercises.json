@@ -1,0 +1,360 @@
+{
+  "m1": [
+    {
+      "id": "m1-e1",
+      "title": "Créer un dossier",
+      "desc": "Créez un dossier nommé <code>projets</code> dans le répertoire courant.",
+      "accepted": [
+        "mkdir projets",
+        "mkdir ./projets",
+        "mkdir -p projets",
+        "mkdir -p ./projets"
+      ],
+      "hints": [
+        "Pensez à la commande pour créer des dossiers.",
+        "La commande commence par 'mk'.",
+        "Tapez : mkdir projets"
+      ]
+    },
+    {
+      "id": "m1-e2",
+      "title": "Afficher le répertoire courant",
+      "desc": "Affichez le chemin complet du répertoire dans lequel vous vous trouvez.",
+      "accepted": [
+        "pwd",
+        "pwd -L",
+        "pwd -P"
+      ],
+      "hints": [
+        "C'est une commande courte qui affiche le chemin.",
+        "La commande contient 3 lettres et signifie 'Print Working Directory'.",
+        "Tapez : pwd"
+      ]
+    },
+    {
+      "id": "m1-e3",
+      "title": "Naviguer vers le home",
+      "desc": "Naviguez vers votre répertoire home (<code>/home/user</code>).",
+      "accepted": [
+        "cd /home/user",
+        "cd ~",
+        "cd",
+        "cd ~/"
+      ],
+      "hints": [
+        "Utilisez la commande de changement de répertoire.",
+        "Le symbole ~ représente votre répertoire home.",
+        "Tapez : cd ~ ou cd /home/user"
+      ]
+    }
+  ],
+  "m2": [
+    {
+      "id": "m2-e1",
+      "title": "Rendre un script exécutable",
+      "desc": "Rendez le fichier <code>script.sh</code> exécutable.",
+      "accepted": [
+        "chmod +x script.sh",
+        "chmod 755 script.sh",
+        "chmod a+x script.sh",
+        "chmod u+x script.sh",
+        "chmod 0755 script.sh",
+        "chmod ug+x script.sh"
+      ],
+      "hints": [
+        "Il faut modifier les permissions du fichier.",
+        "La commande est 'chmod' et vous devez ajouter le bit d'exécution.",
+        "Tapez : chmod +x script.sh"
+      ]
+    },
+    {
+      "id": "m2-e2",
+      "title": "Afficher les permissions",
+      "desc": "Affichez les permissions détaillées du fichier <code>script.sh</code>.",
+      "accepted": [
+        "ls -la script.sh",
+        "ls -l script.sh",
+        "ls -la",
+        "ls -l",
+        "ls -al script.sh",
+        "ls -al",
+        "ls -lh script.sh",
+        "ls -lh"
+      ],
+      "hints": [
+        "Utilisez la commande 'ls' avec des options.",
+        "L'option -l affiche les permissions en format long.",
+        "Tapez : ls -la script.sh"
+      ]
+    }
+  ],
+  "m3": [
+    {
+      "id": "m3-e1",
+      "title": "Afficher les processus",
+      "desc": "Affichez la liste de tous les processus en cours d'exécution.",
+      "accepted": [
+        "ps aux",
+        "ps -aux",
+        "ps",
+        "ps -ef",
+        "ps -e",
+        "ps -a -u -x",
+        "ps axu",
+        "ps -eF"
+      ],
+      "hints": [
+        "Utilisez la commande 'ps' pour lister les processus.",
+        "Les options 'aux' permettent d'afficher tous les processus.",
+        "Tapez : ps aux"
+      ]
+    },
+    {
+      "id": "m3-e2",
+      "title": "Afficher l'utilisateur courant",
+      "desc": "Affichez le nom de l'utilisateur actuellement connecté.",
+      "accepted": [
+        "whoami"
+      ],
+      "hints": [
+        "Il existe une commande dédiée pour afficher votre identité.",
+        "La commande se traduit littéralement par 'qui suis-je ?'.",
+        "Tapez : whoami"
+      ]
+    }
+  ],
+  "m4": [
+    {
+      "id": "m4-e1",
+      "title": "Tester la connectivité",
+      "desc": "Pinguez <code>google.com</code> pour tester la connectivité réseau.",
+      "accepted": [
+        "ping google.com",
+        "ping -c 4 google.com",
+        "ping -c 1 google.com",
+        "ping -c 2 google.com",
+        "ping -c 3 google.com",
+        "ping -c 5 google.com"
+      ],
+      "hints": [
+        "Utilisez la commande de test de connectivité réseau.",
+        "La commande 'ping' envoie des paquets ICMP.",
+        "Tapez : ping google.com"
+      ]
+    },
+    {
+      "id": "m4-e2",
+      "title": "Afficher la configuration réseau",
+      "desc": "Affichez la configuration de vos interfaces réseau.",
+      "accepted": [
+        "ip addr",
+        "ip a",
+        "ifconfig",
+        "ip addr show",
+        "ip address",
+        "ip address show",
+        "ifconfig -a"
+      ],
+      "hints": [
+        "Utilisez une commande réseau pour afficher les interfaces.",
+        "La commande moderne est 'ip addr'.",
+        "Tapez : ip addr"
+      ]
+    }
+  ],
+  "m5": [
+    {
+      "id": "m5-e1",
+      "title": "Créer un script",
+      "desc": "Créez un fichier nommé <code>hello.sh</code>.",
+      "accepted": [
+        "touch hello.sh",
+        "touch ./hello.sh"
+      ],
+      "hints": [
+        "Il faut créer un fichier vide.",
+        "La commande 'touch' crée des fichiers vides.",
+        "Tapez : touch hello.sh"
+      ]
+    },
+    {
+      "id": "m5-e2",
+      "title": "Afficher une variable",
+      "desc": "Affichez la valeur de la variable <code>$HOME</code>.",
+      "accepted": [
+        "echo $HOME",
+        "echo ${HOME}",
+        "echo $USER",
+        "echo \"$HOME\"",
+        "echo '$HOME'",
+        "echo \"${HOME}\"",
+        "echo $LOGNAME"
+      ],
+      "hints": [
+        "Utilisez la commande d'affichage de texte.",
+        "La commande 'echo' affiche du texte. Les variables commencent par $.",
+        "Tapez : echo $HOME"
+      ]
+    }
+  ],
+  "m6": [
+    {
+      "id": "m6-e1",
+      "title": "Statut du service SSH",
+      "desc": "Affichez le statut du service SSH.",
+      "accepted": [
+        "systemctl status ssh",
+        "systemctl status sshd",
+        "service ssh status",
+        "service sshd status",
+        "systemctl is-active ssh",
+        "systemctl is-active sshd"
+      ],
+      "hints": [
+        "Utilisez la commande de gestion des services systemd.",
+        "La commande est 'systemctl' avec l'action 'status'.",
+        "Tapez : systemctl status ssh"
+      ]
+    },
+    {
+      "id": "m6-e2",
+      "title": "Lister les tâches cron",
+      "desc": "Listez les tâches cron de l'utilisateur courant.",
+      "accepted": [
+        "crontab -l",
+        "crontab -l -u user",
+        "crontab -lu user"
+      ],
+      "hints": [
+        "Utilisez la commande de gestion des tâches planifiées.",
+        "La commande est 'crontab' avec une option pour lister.",
+        "Tapez : crontab -l"
+      ]
+    }
+  ],
+  "m8": [
+    {
+      "id": "m8-e1",
+      "title": "Initialiser un dépôt Git",
+      "desc": "Initialisez un nouveau dépôt Git dans le répertoire courant.",
+      "accepted": [
+        "git init",
+        "git init ."
+      ],
+      "hints": [
+        "Utilisez la commande Git pour initialiser un dépôt.",
+        "La commande est 'git' avec la sous-commande 'init'.",
+        "Tapez : git init"
+      ]
+    },
+    {
+      "id": "m8-e2",
+      "title": "Stager tous les fichiers",
+      "desc": "Ajoutez tous les fichiers du répertoire courant à la zone de staging.",
+      "accepted": [
+        "git add .",
+        "git add -A",
+        "git add --all"
+      ],
+      "hints": [
+        "Utilisez git add pour stager les fichiers.",
+        "Le point '.' représente le répertoire courant.",
+        "Tapez : git add ."
+      ]
+    },
+    {
+      "id": "m8-e3",
+      "title": "Télécharger une image Docker",
+      "desc": "Téléchargez l'image Ubuntu depuis Docker Hub.",
+      "accepted": [
+        "docker pull ubuntu",
+        "docker pull ubuntu:latest",
+        "docker pull ubuntu:22.04",
+        "docker pull ubuntu:20.04"
+      ],
+      "hints": [
+        "Utilisez la commande Docker pour télécharger une image.",
+        "La commande est 'docker pull' suivie du nom de l'image.",
+        "Tapez : docker pull ubuntu"
+      ]
+    },
+    {
+      "id": "m8-e4",
+      "title": "Lancer un conteneur interactif",
+      "desc": "Lancez un conteneur Ubuntu en mode interactif avec bash.",
+      "accepted": [
+        "docker run -it ubuntu bash",
+        "docker run -it ubuntu /bin/bash",
+        "docker run -ti ubuntu bash",
+        "docker run -ti ubuntu /bin/bash",
+        "docker run --rm -it ubuntu bash",
+        "docker run --rm -it ubuntu /bin/bash",
+        "docker run -it --rm ubuntu bash",
+        "docker run -it --rm ubuntu /bin/bash"
+      ],
+      "hints": [
+        "Utilisez docker run avec les options pour le mode interactif.",
+        "Les options -i (interactif) et -t (pseudo-TTY) sont nécessaires, combinées en -it.",
+        "Tapez : docker run -it ubuntu bash"
+      ]
+    }
+  ],
+  "m7": [
+    {
+      "id": "m7-e1",
+      "title": "Trouver les binaires SUID",
+      "desc": "Listez tous les fichiers avec le bit SUID actif sur le système.",
+      "accepted": [
+        "find / -perm -4000 -type f 2>/dev/null",
+        "find / -perm -4000 -type f",
+        "find / -perm /4000 -type f 2>/dev/null",
+        "find / -perm /4000 -type f",
+        "find / -type f -perm -4000 2>/dev/null",
+        "find / -type f -perm /4000 2>/dev/null",
+        "find / -type f -perm -4000",
+        "find / -type f -perm /4000"
+      ],
+      "hints": [
+        "Utilisez la commande de recherche de fichiers avec un filtre sur les permissions.",
+        "La commande est <code>find</code> avec l’option <code>-perm</code>. Le SUID correspond au bit 4000.",
+        "Tapez : find / -perm -4000 -type f 2>/dev/null"
+      ]
+    },
+    {
+      "id": "m7-e2",
+      "title": "Analyse de logs — grep",
+      "desc": "Recherchez le mot \"error\" (insensible à la casse) dans /var/log/syslog.",
+      "accepted": [
+        "grep -i \"error\" /var/log/syslog",
+        "grep -i 'error' /var/log/syslog",
+        "grep -i error /var/log/syslog",
+        "grep -i \"Error\" /var/log/syslog",
+        "grep --ignore-case error /var/log/syslog",
+        "grep --ignore-case \"error\" /var/log/syslog"
+      ],
+      "hints": [
+        "Utilisez grep avec une option pour ignorer la casse.",
+        "L’option pour ignorer la casse est <code>-i</code>.",
+        "Tapez : grep -i \"error\" /var/log/syslog"
+      ]
+    },
+    {
+      "id": "m7-e3",
+      "title": "Reconnaissance DNS",
+      "desc": "Obtenez tous les enregistrements DNS de example.com avec dig.",
+      "accepted": [
+        "dig example.com ANY",
+        "dig ANY example.com",
+        "dig example.com any",
+        "dig any example.com",
+        "dig example.com ANY +noall +answer",
+        "dig example.com type255"
+      ],
+      "hints": [
+        "Utilisez la commande de résolution DNS avec le type d’enregistrement ALL.",
+        "La commande est <code>dig</code> avec le type <code>ANY</code> après le domaine.",
+        "Tapez : dig example.com ANY"
+      ]
+    }
+  ]
+}
