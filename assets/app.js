@@ -274,7 +274,9 @@ function updateProgressUI() {
 let currentSection = 'home';
 
 function navigateTo(target) {
-  if (target !== 'home' && target !== 'sandbox' && !state.unlockedModules.has(target)) {
+  // 'ctf' et 'sandbox' sont toujours accessibles sans condition de module
+  const freeTargets = ['home', 'sandbox', 'ctf'];
+  if (!freeTargets.includes(target) && !state.unlockedModules.has(target)) {
     termPrint('error-line', `⚠ Le module "${target}" est verrouillé. Complétez le quiz du module précédent d'abord.`);
     return;
   }
@@ -289,6 +291,14 @@ function navigateTo(target) {
   // Update topbar title
   if (target === 'home') {
     document.querySelector('.top-bar-title').innerHTML = '<span>user@linux</span>:~$';
+  } else if (target === 'ctf') {
+    document.querySelector('.top-bar-title').innerHTML = '<span>ctf@challenge</span>:~$ <span style="color:var(--text-subtle);font-size:11px">Challenges CTF</span>';
+    // Afficher la grille, masquer le détail
+    const grid   = document.getElementById('ctf-grid');
+    const detail = document.getElementById('ctf-detail');
+    if (grid)   grid.style.display   = '';
+    if (detail) detail.style.display = 'none';
+    renderCTFGrid();
   } else {
     const meta = MODULE_META[target];
     document.querySelector('.top-bar-title').innerHTML = `<span>user@linux</span>:~/linux-trainer/${target}$ <span style="color:var(--text-subtle);font-size:11px">${meta.title}</span>`;
@@ -1632,18 +1642,23 @@ async function init() {
   // Load data files and state concurrently
   let dataOk = true;
   try {
-    const [lessonsResp, exercisesResp, quizzesResp, ctfResp] = await Promise.all([
+    const [lessonsResp, exercisesResp, quizzesResp] = await Promise.all([
       fetch('data/lessons.json'),
       fetch('data/exercises.json'),
-      fetch('data/quizzes.json'),
-      fetch('data/ctf.json')
+      fetch('data/quizzes.json')
     ]);
-    if (!lessonsResp.ok || !exercisesResp.ok || !quizzesResp.ok || !ctfResp.ok) throw new Error('Fetch failed');
+    if (!lessonsResp.ok || !exercisesResp.ok || !quizzesResp.ok) throw new Error('Fetch failed');
     LESSONS   = await lessonsResp.json();
     EXERCISES = await exercisesResp.json();
     QUIZZES   = await quizzesResp.json();
-    const ctfData = await ctfResp.json();
-    CTF_CHALLENGES = ctfData.challenges || [];
+    // CTF chargé séparément — ne bloque pas l'appli si absent
+    try {
+      const ctfResp = await fetch('data/ctf.json');
+      if (ctfResp.ok) {
+        const ctfData = await ctfResp.json();
+        CTF_CHALLENGES = ctfData.challenges || [];
+      }
+    } catch(e) { /* ctf.json absent ou invalide — la section CTF restera vide */ }
   } catch (err) {
     dataOk = false;
     document.body.innerHTML = `
@@ -2290,29 +2305,7 @@ async function showNextCTFHint() {
   renderCTFHints(ch);
 }
 
-/* --- navigateTo étendu pour 'ctf' --- */
-const _origNavigateTo = navigateTo;
-navigateTo = function(target) {
-  if (target === 'ctf') {
-    document.querySelectorAll('.module-section').forEach(function(s){ s.classList.remove('active'); });
-    document.querySelectorAll('.module-nav-item').forEach(function(b){ b.classList.remove('active'); });
-    document.getElementById('section-ctf').classList.add('active');
-    const btn = document.querySelector('[data-target="ctf"]');
-    if (btn) btn.classList.add('active');
-    currentSection = 'ctf';
-    window.scrollTo(0, 0);
-    closeSidebar();
-    document.querySelector('.top-bar-title').innerHTML = '<span>ctf@challenge</span>:~$ <span style="color:var(--text-subtle);font-size:11px">Challenges CTF</span>';
-    // S'assurer que la grille est visible et le détail masqué
-    const grid   = document.getElementById('ctf-grid');
-    const detail = document.getElementById('ctf-detail');
-    if (grid)   grid.style.display   = '';
-    if (detail) detail.style.display = 'none';
-    renderCTFGrid();
-    return;
-  }
-  _origNavigateTo(target);
-};
+/* navigateTo() gère désormais nativement la cible 'ctf' — voir la fonction navigateTo() */
 
 
 document.addEventListener('DOMContentLoaded', init);
