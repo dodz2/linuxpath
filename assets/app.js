@@ -301,6 +301,13 @@ function navigateTo(target) {
     renderCTFGrid();
   } else if (target === 'news') {
     document.querySelector('.top-bar-title').innerHTML = '<span>user@linux</span>:~/actualites-cyber$ <span style="color:var(--text-subtle);font-size:11px">Bulletin hebdomadaire</span>';
+    // Si les données sont déjà chargées, re-render immédiatement
+    // Si elles ne le sont pas encore (fetch en cours ou échoué), relancer loadNews()
+    if (_newsData.length > 0) {
+      renderNewsGrid(_newsActiveFilter);
+    } else {
+      loadNews();
+    }
   } else {
     const meta = MODULE_META[target];
     document.querySelector('.top-bar-title').innerHTML = `<span>user@linux</span>:~/linux-trainer/${target}$ <span style="color:var(--text-subtle);font-size:11px">${meta.title}</span>`;
@@ -2418,7 +2425,10 @@ async function loadNews() {
       el.textContent = 'Dernière mise à jour : ' + formatNewsDate(data.last_updated)
         + (data.edition ? ' — ' + data.edition : '');
     }
-    renderNewsGrid('all');
+    // Sync le bouton filtre actif visuellement
+    const allBtn = document.querySelector('#news-filters .news-filter-btn[data-filter="all"]');
+    if (allBtn) filterNews('all', allBtn);
+    else renderNewsGrid('all');
   } catch(e) {
     const grid = document.getElementById('news-grid');
     if (grid) grid.innerHTML = '<div class="news-empty">Impossible de charger les actualités. Réessayez plus tard.</div>';
