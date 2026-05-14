@@ -275,7 +275,7 @@ let currentSection = 'home';
 
 function navigateTo(target) {
   // 'ctf' et 'sandbox' sont toujours accessibles sans condition de module
-  const freeTargets = ['home', 'sandbox', 'ctf'];
+  const freeTargets = ['home', 'sandbox', 'ctf', 'news'];
   if (!freeTargets.includes(target) && !state.unlockedModules.has(target)) {
     termPrint('error-line', `⚠ Le module "${target}" est verrouillé. Complétez le quiz du module précédent d'abord.`);
     return;
@@ -299,6 +299,8 @@ function navigateTo(target) {
     if (grid)   grid.style.display   = '';
     if (detail) detail.style.display = 'none';
     renderCTFGrid();
+  } else if (target === 'news') {
+    document.querySelector('.top-bar-title').innerHTML = '<span>user@linux</span>:~/actualites-cyber$ <span style="color:var(--text-subtle);font-size:11px">Bulletin hebdomadaire</span>';
   } else {
     const meta = MODULE_META[target];
     document.querySelector('.top-bar-title').innerHTML = `<span>user@linux</span>:~/linux-trainer/${target}$ <span style="color:var(--text-subtle);font-size:11px">${meta.title}</span>`;
@@ -1680,6 +1682,8 @@ async function init() {
   renderOverviewCards();
   updateProgressUI();
   initTerminal();
+  // News chargées indépendamment — ne bloque pas l'appli si absent
+  loadNews();
 }
 
 /* ============================================================
@@ -2305,8 +2309,124 @@ async function showNextCTFHint() {
   renderCTFHints(ch);
 }
 
-/* navigateTo() gère désormais nativement la cible 'ctf' — voir la fonction navigateTo() */
 
+/* ============================================================
+   ACTUALITÉS CYBER — NEWS
+   ============================================================ */
+let _newsData = [];
+let _newsActiveFilter = 'all';
+
+function cvssClass(score) {
+  if (!score) return '';
+  if (score >= 9.0) return 'cvss-critical';
+  if (score >= 7.0) return 'cvss-high';
+  return 'cvss-medium';
+}
+
+function sevLabel(sev) {
+  const map = { critical: 'Critique', high: 'Élevé', medium: 'Moyen', info: 'Info' };
+  return map[sev] || sev;
+}
+
+function formatNewsDate(dateStr) {
+  try {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+  } catch(e) { return dateStr; }
+}
+
+function renderNewsGrid(filter) {
+  _newsActiveFilter = filter || _newsActiveFilter;
+  const grid = document.getElementById('news-grid');
+  if (!grid) return;
+
+  let items = [..._newsData].sort((a, b) => b.date.localeCompare(a.date));
+
+  if (_newsActiveFilter !== 'all') {
+    if (_newsActiveFilter.startsWith('tag:')) {
+      const tag = _newsActiveFilter.slice(4);
+      items = items.filter(n => n.tags && n.tags.includes(tag));
+    } else {
+      items = items.filter(n => n.severity === _newsActiveFilter);
+    }
+  }
+
+  if (items.length === 0) {
+    grid.innerHTML = '<div class="news-empty">Aucune actualité pour ce filtre.</div>';
+    return;
+  }
+
+  grid.innerHTML = items.map(n => {
+    const cvssHtml = n.cvss
+      ? `<span class="news-cvss ${cvssClass(n.cvss)}" title="Score CVSS">CVSS ${n.cvss.toFixed(1)}</span>`
+      : '';
+    const cveHtml = n.cve
+      ? `<span class="news-tag" style="color:var(--accent-orange);border-color:rgba(255,166,87,0.3)">${n.cve}</span>`
+      : '';
+    const tagsHtml = n.tags
+      ? n.tags.map(t => `<span class="news-tag">${t}</span>`).join('')
+      : '';
+    return `
+      <div class="news-card" data-severity="${n.severity}" data-id="${n.id}">
+        <div class="news-card-top">
+          <div class="news-card-title">${n.title}</div>
+          <div class="news-card-badges">
+            <span class="news-sev-badge ${n.severity}">${sevLabel(n.severity)}</span>
+            ${cvssHtml}
+          </div>
+        </div>
+        <div class="news-card-meta">
+          <span class="news-card-date">📅 ${formatNewsDate(n.date)}</span>
+          <span class="news-card-source">⌂ ${n.source_label}</span>
+        </div>
+        <div class="news-tags">${cveHtml}${tagsHtml}</div>
+        <div class="news-card-summary">${n.summary}</div>
+        <div class="news-card-context">${n.context}</div>
+        <div class="news-card-footer">
+          <a href="${n.source_url}" target="_blank" rel="noopener noreferrer" class="news-source-link">
+            Lire la source →
+          </a>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function filterNews(filter, btn) {
+  document.querySelectorAll('#news-filters .news-filter-btn').forEach(b => {
+    b.classList.remove('active', 'active-critical', 'active-high', 'active-medium', 'active-info');
+  });
+  if (btn) {
+    if (filter === 'all') btn.classList.add('active');
+    else if (filter === 'critical') btn.classList.add('active-critical');
+    else if (filter === 'high') btn.classList.add('active-high');
+    else if (filter === 'medium') btn.classList.add('active-medium');
+    else if (filter === 'info') btn.classList.add('active-info');
+    else btn.classList.add('active');
+  }
+  renderNewsGrid(filter);
+}
+
+async function loadNews() {
+  try {
+    const resp = await fetch('data/news.json');
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    _newsData = data.news || [];
+    const el = document.getElementById('news-last-updated');
+    if (el && data.last_updated) {
+      el.textContent = 'Dernière mise à jour : ' + formatNewsDate(data.last_updated)
+        + (data.edition ? ' — ' + data.edition : '');
+    }
+    renderNewsGrid('all');
+  } catch(e) {
+    const grid = document.getElementById('news-grid');
+    if (grid) grid.innerHTML = '<div class="news-empty">Impossible de charger les actualités. Réessayez plus tard.</div>';
+    console.warn('[LinuxPath] Chargement news.json échoué :', e);
+  }
+}
+
+/* navigateTo() gère désormais nativement la cible 'news' — voir la fonction navigateTo() */
 
 document.addEventListener('DOMContentLoaded', init);
 /* ============================================================

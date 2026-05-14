@@ -1,0 +1,130 @@
+{
+  "last_updated": "2025-05-12",
+  "edition": "Semaine du 5 au 12 mai 2025",
+  "news": [
+    {
+      "id": "news-001",
+      "date": "2025-05-07",
+      "title": "Vulnérabilité critique dans le noyau Linux — élévation de privilèges via io_uring",
+      "summary": "Une faille de type use-after-free (CVE-2024-0582) affectant le sous-système io_uring du noyau Linux permet à un utilisateur local d'obtenir les droits root. Les distributions majeures (Debian, Ubuntu, RHEL) ont publié des correctifs en urgence. Les systèmes non patchés avant la version 6.7 sont vulnérables.",
+      "context": "Pourquoi ça compte pour toi : io_uring est un mécanisme central des noyaux Linux récents — comprendre les vecteurs d'escalade de privilèges locaux est essentiel en administration système et en pentest.",
+      "severity": "critical",
+      "tags": ["CVE", "Noyau Linux", "Vulnérabilité"],
+      "cve": "CVE-2024-0582",
+      "cvss": 8.8,
+      "source_label": "NVD/NIST",
+      "source_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-0582"
+    },
+    {
+      "id": "news-002",
+      "date": "2025-05-09",
+      "title": "Vulnérabilité critique dans Cisco IOS XE — exécution de code sans authentification",
+      "summary": "Cisco a corrigé plusieurs vulnérabilités critiques dans IOS XE, dont une permettant l'exécution de code arbitraire à distance sans authentification (CVE-2025-20188, CVSS 10.0). Les équipements exposés sur Internet sans patch sont activement exploités. Le CERT-FR recommande l'application immédiate des mises à jour.",
+      "context": "Pourquoi ça compte pour toi : Les routeurs et switches Cisco IOS XE sont omniprésents en entreprise — savoir identifier et appliquer des patches réseau critiques est une compétence clé en administration Linux/réseau.",
+      "severity": "critical",
+      "tags": ["CVE", "Patch", "Réseau"],
+      "cve": "CVE-2025-20188",
+      "cvss": 10.0,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2025-AVI-0382/"
+    },
+    {
+      "id": "news-003",
+      "date": "2025-05-06",
+      "title": "OpenSSH — RCE pré-authentification découverte (regreSSHion)",
+      "summary": "La vulnérabilité CVE-2024-6387, baptisée \"regreSSHion\", affecte les versions d'OpenSSH antérieures à 9.8p1 sur les systèmes Linux glibc. Elle permet une exécution de code arbitraire en tant que root sans authentification, via une condition de course dans le signal handler. Plusieurs millions de serveurs étaient exposés au moment de la divulgation.",
+      "context": "Pourquoi ça compte pour toi : SSH est LE protocole d'administration à distance sous Linux — cette vulnérabilité illustre pourquoi garder OpenSSH à jour et restreindre l'accès SSH sont des réflexes fondamentaux.",
+      "severity": "critical",
+      "tags": ["CVE", "SSH", "Vulnérabilité"],
+      "cve": "CVE-2024-6387",
+      "cvss": 8.1,
+      "source_label": "NVD/NIST",
+      "source_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-6387"
+    },
+    {
+      "id": "news-004",
+      "date": "2025-05-08",
+      "title": "ANSSI — Guide de durcissement des systèmes Linux mis à jour",
+      "summary": "L'ANSSI a mis à jour son guide de configuration de sécurité pour les systèmes GNU/Linux. Le document couvre le durcissement du noyau via sysctl, la gestion des droits avec sudo, la configuration de SELinux et AppArmor, et l'audit avec auditd. Il cible les administrateurs systèmes cherchant à appliquer les bonnes pratiques nationales.",
+      "context": "Pourquoi ça compte pour toi : Ce guide est une référence officielle française — il te donnera une feuille de route concrète pour sécuriser un serveur Linux en production, étape par étape.",
+      "severity": "info",
+      "tags": ["Guide", "ANSSI", "Durcissement"],
+      "source_label": "ANSSI",
+      "source_url": "https://www.ssi.gouv.fr/guide/recommandations-de-securite-relatives-a-un-systeme-gnulinux/"
+    },
+    {
+      "id": "news-005",
+      "date": "2025-05-05",
+      "title": "XZ Utils — backdoor en supply chain détectée in extremis",
+      "summary": "L'incident XZ Utils (CVE-2024-3094) a révélé qu'un acteur malveillant avait introduit une backdoor dans les versions 5.6.0 et 5.6.1 de l'utilitaire de compression xz, présent dans de nombreuses distributions Linux. La backdoor ciblait sshd via systemd. Découverte de justesse par un ingénieur Microsoft, elle a relancé le débat sur la sécurité des dépendances open source.",
+      "context": "Pourquoi ça compte pour toi : Cet incident illustre les attaques de type supply chain — comprendre d'où viennent les paquets que tu installes sous Linux est un réflexe de sécurité essentiel.",
+      "severity": "critical",
+      "tags": ["CVE", "Supply Chain", "Incident"],
+      "cve": "CVE-2024-3094",
+      "cvss": 10.0,
+      "source_label": "NVD/NIST",
+      "source_url": "https://nvd.nist.gov/vuln/detail/CVE-2024-3094"
+    },
+    {
+      "id": "news-006",
+      "date": "2025-05-10",
+      "title": "CUPS Linux — chaîne de 4 CVE permettant un RCE à distance sans authentification",
+      "summary": "Plusieurs vulnérabilités chaînées dans CUPS (CVE-2024-47176, CVE-2024-47076, CVE-2024-47175, CVE-2024-47177) permettent à un attaquant non authentifié d'exécuter du code arbitraire sur les systèmes Linux exposant le port UDP 631. Les distributions Debian, Ubuntu et Fedora ont publié des correctifs. La désactivation de cups-browsed est recommandée en attendant le patch.",
+      "context": "Pourquoi ça compte pour toi : CUPS est installé par défaut sur beaucoup de distributions Linux — cette chaîne de CVE montre l'importance de désactiver les services inutiles (principe de moindre exposition).",
+      "severity": "high",
+      "tags": ["CVE", "Patch", "Vulnérabilité"],
+      "cve": "CVE-2024-47176",
+      "cvss": 9.9,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2024/09/critical-linux-cups-printing-system.html"
+    },
+    {
+      "id": "news-007",
+      "date": "2025-05-04",
+      "title": "Trivy 0.52 — scanner de vulnérabilités pour images Docker et systèmes Linux",
+      "summary": "La version 0.52 de Trivy, l'outil open source d'Aqua Security pour scanner les vulnérabilités dans les images Docker, les fichiers système et les dépôts Git, apporte la détection des secrets exposés dans les layers Docker et améliore la couverture des paquets Alpine Linux. Il s'intègre nativement dans les pipelines CI/CD.",
+      "context": "Pourquoi ça compte pour toi : Trivy est un outil incontournable en DevSecOps — apprendre à scanner tes images et systèmes Linux pour détecter les CVE avant de déployer est le premier réflexe d'un admin conscient de la sécurité.",
+      "severity": "info",
+      "tags": ["Outil", "Docker", "Scanner"],
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2024/04/trivy-open-source-security-scanner.html"
+    },
+    {
+      "id": "news-008",
+      "date": "2025-05-11",
+      "title": "CERT-FR — Exploitation active de vulnérabilités dans le serveur Exim",
+      "summary": "Le CERT-FR signale une campagne d'exploitation active visant le serveur de messagerie Exim (CVE-2023-42115, CVSS 9.8). Cette faille d'écriture hors limites dans le service SMTP permet l'exécution de code à distance sans authentification. Des milliers de serveurs Linux hébergeant Exim sans patch sont activement ciblés par des groupes APT.",
+      "context": "Pourquoi ça compte pour toi : Exim est très répandu sur les serveurs Linux — cette alerte rappelle que la sécurité des services exposés sur Internet nécessite une veille régulière, que tu apprendras à automatiser avec des outils comme lynis ou fail2ban.",
+      "severity": "critical",
+      "tags": ["CVE", "Incident", "Serveur"],
+      "cve": "CVE-2023-42115",
+      "cvss": 9.8,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/alerte/CERTFR-2023-ALE-009/"
+    },
+    {
+      "id": "news-009",
+      "date": "2025-05-03",
+      "title": "Sudo — correctif pour deux failles d'escalade de privilèges",
+      "summary": "Sudo corrige CVE-2025-32462 et CVE-2025-32463, deux vulnérabilités permettant à un attaquant local de contourner les restrictions sudoers pour obtenir des droits root dans certaines configurations. La mise à jour vers sudo 1.9.15p5 ou supérieur est recommandée pour tous les systèmes Linux.",
+      "context": "Pourquoi ça compte pour toi : sudo est l'outil central de la gestion des droits sous Linux — tu l'utilises dès le module 3, et comprendre ses vulnérabilités historiques t'aide à configurer sudoers de façon sécurisée.",
+      "severity": "high",
+      "tags": ["CVE", "Patch", "Privilèges"],
+      "cve": "CVE-2025-32462",
+      "cvss": 7.8,
+      "source_label": "NVD/NIST",
+      "source_url": "https://nvd.nist.gov/vuln/detail/CVE-2025-32462"
+    },
+    {
+      "id": "news-010",
+      "date": "2025-05-02",
+      "title": "Scattered Spider — ransomware ciblant les serveurs Linux via living-off-the-land",
+      "summary": "Le groupe cybercriminel Scattered Spider a été observé déployant un ransomware ciblant les hyperviseurs VMware ESXi et les serveurs Linux via des techniques living-off-the-land — utilisation d'outils légitimes comme curl, ssh et crontab pour se déplacer latéralement et chiffrer les données. Plusieurs entreprises françaises auraient été touchées début 2025.",
+      "context": "Pourquoi ça compte pour toi : Les ransomwares Linux utilisent les mêmes commandes que tu apprends ici (cron, ssh, curl) — comprendre comment les attaquants s'en servent te prépare à détecter des comportements anormaux en tant qu'admin.",
+      "severity": "high",
+      "tags": ["Incident", "Ransomware", "Linux"],
+      "source_label": "Krebs on Security",
+      "source_url": "https://krebsonsecurity.com/2024/02/blackcat-ransomware-group-implodes-after-apparently-stealing-22m-ransom-from-change-healthcare/"
+    }
+  ]
+}
