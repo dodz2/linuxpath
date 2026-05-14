@@ -6,7 +6,7 @@
      - assets/*        : cache-first (CSS/JS applicatif)
    ============================================================ */
 
-const CACHE_NAME = 'linuxpath-v7';
+const CACHE_NAME = 'linuxpath-v8';
 
 // Ressources pré-cachées à l'installation
 const PRECACHE_URLS = [
@@ -19,6 +19,9 @@ const PRECACHE_URLS = [
   './data/quizzes.json',
   './data/ctf.json',
   './data/news.json',
+  './manifest.json',
+  './sitemap.xml',
+  './assets/favicon.svg',
   './v86/libv86.js',
   './v86/linux.iso',
   './v86/seabios.bin',

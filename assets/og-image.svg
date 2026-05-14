@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0f"/>
+      <stop offset="100%" style="stop-color:#111118"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00d97e"/>
+      <stop offset="100%" style="stop-color:#9d7aff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid lines -->
+  <line x1="0" y1="210" x2="1200" y2="210" stroke="#ffffff08" stroke-width="1"/>
+  <line x1="0" y1="420" x2="1200" y2="420" stroke="#ffffff08" stroke-width="1"/>
+  <line x1="400" y1="0" x2="400" y2="630" stroke="#ffffff08" stroke-width="1"/>
+  <line x1="800" y1="0" x2="800" y2="630" stroke="#ffffff08" stroke-width="1"/>
+
+  <!-- Accent bar top -->
+  <rect x="0" y="0" width="1200" height="5" fill="url(#accent)"/>
+
+  <!-- Terminal icon -->
+  <rect x="80" y="215" width="80" height="60" rx="6" fill="none" stroke="#00d97e" stroke-width="2"/>
+  <text x="88" y="252" font-family="monospace" font-size="20" fill="#00d97e">$ _</text>
+
+  <!-- Main title -->
+  <text x="185" y="243" font-family="Arial, sans-serif" font-size="64" font-weight="700" fill="#ffffff">Linux<tspan fill="#00d97e">Path</tspan></text>
+
+  <!-- Tagline -->
+  <text x="80" y="310" font-family="Arial, sans-serif" font-size="26" fill="#ffffffcc">Apprends Linux &amp; Cybersécurité — gratuitement, en français</text>
+
+  <!-- Separator -->
+  <rect x="80" y="345" width="300" height="3" fill="url(#accent)" rx="2"/>
+
+  <!-- Features -->
+  <text x="80" y="400" font-family="monospace" font-size="20" fill="#00d97e">▸</text>
+  <text x="105" y="400" font-family="Arial, sans-serif" font-size="20" fill="#ffffffaa">8 modules progressifs</text>
+
+  <text x="80" y="435" font-family="monospace" font-size="20" fill="#9d7aff">▸</text>
+  <text x="105" y="435" font-family="Arial, sans-serif" font-size="20" fill="#ffffffaa">Sandbox Linux réel (Alpine)</text>
+
+  <text x="80" y="470" font-family="monospace" font-size="20" fill="#00d97e">▸</text>
+  <text x="105" y="470" font-family="Arial, sans-serif" font-size="20" fill="#ffffffaa">Challenges CTF &amp; veille cyber</text>
+
+  <!-- URL -->
+  <text x="80" y="560" font-family="monospace" font-size="18" fill="#ffffff55">dodz2.github.io/linuxpath</text>
+
+  <!-- Right side: decorative terminal -->
+  <rect x="750" y="150" width="390" height="330" rx="10" fill="#111118" stroke="#ffffff15" stroke-width="1"/>
+  <rect x="750" y="150" width="390" height="34" rx="10" fill="#1a1a24"/>
+  <rect x="750" y="170" width="390" height="14" fill="#1a1a24"/>
+  <circle cx="775" cy="167" r="6" fill="#ff5f57"/>
+  <circle cx="797" cy="167" r="6" fill="#ffbd2e"/>
+  <circle cx="819" cy="167" r="6" fill="#28ca41"/>
+
+  <text x="775" y="220" font-family="monospace" font-size="14" fill="#00d97e">$ whoami</text>
+  <text x="775" y="242" font-family="monospace" font-size="14" fill="#ffffff99">linuxpath_student</text>
+  <text x="775" y="270" font-family="monospace" font-size="14" fill="#00d97e">$ ls modules/</text>
+  <text x="775" y="292" font-family="monospace" font-size="14" fill="#9d7aff">m1/ m2/ m3/ m4/</text>
+  <text x="775" y="312" font-family="monospace" font-size="14" fill="#9d7aff">m5/ m6/ m7/ m8/</text>
+  <text x="775" y="340" font-family="monospace" font-size="14" fill="#00d97e">$ cat progression.txt</text>
+  <text x="775" y="362" font-family="monospace" font-size="14" fill="#ffffff99">🎯 Module 1 ██████ 100%</text>
+  <text x="775" y="384" font-family="monospace" font-size="14" fill="#ffffff99">🔐 Module 2 ████░░  67%</text>
+  <text x="775" y="406" font-family="monospace" font-size="14" fill="#ffffff99">🌐 Module 3 ██░░░░  33%</text>
+  <text x="775" y="432" font-family="monospace" font-size="14" fill="#00d97e">$ <tspan fill="#ffffff33">|</tspan></text>
+</svg>

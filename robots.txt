@@ -1,0 +1,9 @@
+# LinuxPath — robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://dodz2.github.io/linuxpath/sitemap.xml
+
+# Bloquer les ressources non utiles pour le crawl
+Disallow: /assets/v86/

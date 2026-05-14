@@ -1,0 +1,17 @@
+{
+  "name": "LinuxPath — Formation Linux & Cybersécurité",
+  "short_name": "LinuxPath",
+  "description": "Apprends Linux et la cybersécurité gratuitement en français",
+  "start_url": "/linuxpath/",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "assets/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ]
+}
