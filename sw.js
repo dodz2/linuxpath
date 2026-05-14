@@ -6,7 +6,7 @@
      - assets/*        : cache-first (CSS/JS applicatif)
    ============================================================ */
 
-const CACHE_NAME = 'linuxpath-v5';
+const CACHE_NAME = 'linuxpath-v6';
 
 // Ressources pré-cachées à l'installation
 const PRECACHE_URLS = [
