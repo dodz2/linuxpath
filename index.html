@@ -199,6 +199,12 @@ body {
   min-width: 20px;
 }
 
+.module-nav-item .module-nav-icon {
+  font-size: 13px;
+  min-width: 20px;
+  text-align: center;
+}
+
 .module-nav-item.active .module-num { color: var(--accent-blue); }
 
 .module-nav-title { flex: 1; line-height: 1.3; }
@@ -1437,106 +1443,6 @@ body {
   line-height: 1.6;
 }
 
-/* Pricing */
-.lp-pricing {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
-  margin-bottom: 48px;
-}
-.lp-plan {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 28px;
-  position: relative;
-}
-.lp-plan.featured {
-  border-color: var(--accent-green);
-  box-shadow: 0 0 0 1px rgba(57,211,83,0.2);
-}
-.lp-plan-badge {
-  position: absolute;
-  top: -11px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--accent-green);
-  color: #0d1117;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 12px;
-  border-radius: 20px;
-  white-space: nowrap;
-  letter-spacing: .04em;
-}
-.lp-plan-name {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  margin-bottom: 8px;
-}
-.lp-plan-price {
-  font-family: var(--font-mono);
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 4px;
-  line-height: 1;
-}
-.lp-plan-price span {
-  font-size: 14px;
-  color: var(--text-muted);
-  font-weight: 400;
-}
-.lp-plan-desc {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 20px;
-  min-height: 36px;
-}
-.lp-plan-features {
-  list-style: none;
-  margin-bottom: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.lp-plan-features li {
-  font-size: 13px;
-  color: var(--text-muted);
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  line-height: 1.5;
-}
-.lp-plan-features li::before {
-  content: '✓';
-  color: var(--accent-green);
-  font-family: var(--font-mono);
-  font-weight: 700;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.lp-plan-features li.disabled { opacity: .35; }
-.lp-plan-features li.disabled::before { content: '✗'; color: var(--text-subtle); }
-.lp-plan-btn {
-  width: 100%;
-  padding: 11px;
-  border-radius: var(--radius);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  border: none;
-  transition: opacity .15s;
-}
-.lp-plan-btn:hover { opacity: .85; }
-.lp-plan-btn.free { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
-.lp-plan-btn.premium { background: var(--accent-green); color: #0d1117; }
 
 /* Testimonials */
 .lp-testimonials {
@@ -1638,7 +1544,6 @@ body {
   .lp-hero { padding: 32px 18px 28px; }
   .lp-hero-stats { gap: 20px; }
   .lp-features { grid-template-columns: 1fr 1fr; }
-  .lp-pricing { grid-template-columns: 1fr; }
   .lp-testimonials { grid-template-columns: 1fr; }
   .lp-final-cta { padding: 28px 18px; }
 }
@@ -1908,6 +1813,12 @@ body {
         <span class="module-nav-badge" id="nav-badge-m7">0%</span>
       </button>
 
+      <button class="module-nav-item" data-target="m8" onclick="navigateTo('m8')" id="nav-m8">
+        <span class="module-nav-icon">🐙</span>
+        <span class="module-nav-title">Git &amp; Docker</span>
+        <span class="module-nav-badge" id="nav-badge-m8">0%</span>
+      </button>
+
       <div class="sidebar-nav-label" style="margin-top:10px">Outils</div>
       <button class="module-nav-item" onclick="focusTerminal()">
         <span class="module-num">⌨</span>
@@ -1956,26 +1867,26 @@ body {
           <div class="lp-hero">
             <div class="lp-badge">$ open-source · gratuit · français</div>
             <h1 class="lp-headline">Apprenez <em>Linux</em><br>de zéro à l'administration.</h1>
-            <p class="lp-sub">7 modules progressifs, exercices pratiques, quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
+            <p class="lp-sub">8 modules progressifs, exercices pratiques, quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
             <div class="lp-cta-row">
               <button class="lp-cta-primary" onclick="navigateTo('m1')">▶ Commencer gratuitement</button>
               <button class="lp-cta-secondary" onclick="document.getElementById('lp-modules').scrollIntoView({behavior:'smooth'})">Voir les modules</button>
             </div>
             <div class="lp-hero-stats">
               <div>
-                <div class="lp-stat-num">7</div>
+                <div class="lp-stat-num">8</div>
                 <div class="lp-stat-label">Modules</div>
               </div>
               <div>
-                <div class="lp-stat-num">33</div>
+                <div class="lp-stat-num">43</div>
                 <div class="lp-stat-label">Leçons</div>
               </div>
               <div>
-                <div class="lp-stat-num">16</div>
+                <div class="lp-stat-num">20</div>
                 <div class="lp-stat-label">Exercices</div>
               </div>
               <div>
-                <div class="lp-stat-num">35</div>
+                <div class="lp-stat-num">40</div>
                 <div class="lp-stat-label">Questions QCM</div>
               </div>
               <div>
@@ -2021,40 +1932,6 @@ body {
             </div>
           </div>
 
-          <!-- PRICING -->
-          <div class="lp-section-label">// tarifs</div>
-          <div class="lp-section-title">Simple et transparent</div>
-          <div class="lp-pricing">
-            <div class="lp-plan">
-              <div class="lp-plan-name">Gratuit</div>
-              <div class="lp-plan-price">0€ <span>/ toujours</span></div>
-              <div class="lp-plan-desc">Pour découvrir et commencer.</div>
-              <ul class="lp-plan-features">
-                <li>Modules 1 à 3 complets</li>
-                <li>Terminal simulé</li>
-                <li>Exercices &amp; quiz inclus</li>
-                <li class="disabled">Modules 4 à 7</li>
-                <li class="disabled">Sandbox Linux réelle</li>
-                <li class="disabled">Progression cloud</li>
-              </ul>
-              <button class="lp-plan-btn free" onclick="navigateTo('m1')">Commencer</button>
-            </div>
-            <div class="lp-plan featured">
-              <div class="lp-plan-badge">BIENTÔT DISPONIBLE</div>
-              <div class="lp-plan-name">Premium</div>
-              <div class="lp-plan-price">4,99€ <span>/ mois</span></div>
-              <div class="lp-plan-desc">Accès complet à tous les modules.</div>
-              <ul class="lp-plan-features">
-                <li>Tous les modules (1 → 7)</li>
-                <li>Sandbox Alpine Linux réelle</li>
-                <li>Progression sauvegardée</li>
-                <li>Nouveaux modules en priorité</li>
-                <li>Support par email</li>
-              </ul>
-              <button class="lp-plan-btn premium" onclick="termPrint('info-line', 'La version Premium arrive bientôt — restez connecté !')">M'avertir au lancement</button>
-            </div>
-          </div>
-
           <!-- TESTIMONIALS -->
           <div class="lp-section-label">// retours</div>
           <div class="lp-section-title">Ce qu'ils en pensent</div>
@@ -2087,17 +1964,17 @@ body {
             </div>
             <div class="lp-faq-item">
               <button class="lp-faq-q" onclick="toggleFaq(this)">Ma progression est-elle sauvegardée ? <span class="lp-faq-icon">+</span></button>
-              <div class="lp-faq-a">Oui, localement dans votre navigateur. Si vous changez d'appareil ou videz le cache, la progression repart à zéro. La sauvegarde cloud arrive avec la version Premium.</div>
+              <div class="lp-faq-a">Oui, localement dans votre navigateur. Si vous changez d'appareil ou videz le cache, la progression repart à zéro.</div>
             </div>
             <div class="lp-faq-item">
               <button class="lp-faq-q" onclick="toggleFaq(this)">Le contenu est-il vraiment gratuit ? <span class="lp-faq-icon">+</span></button>
-              <div class="lp-faq-a">Les modules 1 à 3 sont et resteront gratuits. Les modules 4 à 7 et la sandbox seront réservés aux abonnés Premium lors du lancement officiel.</div>
+              <div class="lp-faq-a">Oui, tous les modules et la sandbox sont entièrement gratuits et open-source.</div>
             </div>
           </div>
 
           <!-- MODULES -->
           <div id="lp-modules" class="lp-section-label">// programme</div>
-          <div class="lp-section-title">Les 7 modules du parcours</div>
+          <div class="lp-section-title">Les 8 modules du parcours</div>
           <div class="modules-overview-grid" id="modules-overview-grid">
             <!-- Filled by JS -->
           </div>
@@ -2253,6 +2130,26 @@ body {
         <div id="exercises-m7"></div>
         <h3 class="section-title">Quiz de validation</h3>
         <div id="quiz-m7"></div>
+      </section>
+
+      <!-- ======= MODULE 8 : GIT & DOCKER ======= -->
+      <section id="section-m8" class="module-section">
+        <div class="module-header">
+          <div class="module-tag">Module 08</div>
+          <h2 class="module-title"><span class="prompt-prefix">$</span> Git &amp; Docker</h2>
+          <p class="module-desc">Gestion de versions avec Git et conteneurisation avec Docker.</p>
+          <div class="module-meta">
+            <span class="module-meta-item">📚 10 leçons</span>
+            <span class="module-meta-item">⚡ 4 exercices</span>
+            <span class="module-meta-item">❓ Quiz 5 questions</span>
+          </div>
+        </div>
+        <h3 class="section-title">Leçons</h3>
+        <div class="lessons-grid" id="lessons-m8"></div>
+        <h3 class="section-title">Exercices pratiques</h3>
+        <div id="exercises-m8"></div>
+        <h3 class="section-title">Quiz de validation</h3>
+        <div id="quiz-m8"></div>
       </section>
 
       <!-- ======= SANDBOX LINUX RÉELLE ======= -->
@@ -3442,6 +3339,402 @@ main</div>
         <div class="info-box warning"><strong>⚠️ Cadre légal :</strong> La reconnaissance passive sur des sources publiques est légale. En revanche, interagir avec des systèmes sans autorisation (scans actifs, tests d’intrusion) est illégal hors du scope de bug bounty ou de pentest contracté.</div>
       `
     }
+  ],
+
+  m8: [
+    {
+      id: 'm8-l1',
+      title: 'Introduction à Git',
+      content: `
+        <h3>Pourquoi versionner son code ?</h3>
+        <p>Git est un <strong>système de contrôle de version distribué</strong> créé par Linus Torvalds en 2005. Il permet de :</p>
+        <ul>
+          <li>Conserver l'<strong>historique complet</strong> de toutes les modifications</li>
+          <li><strong>Collaborer</strong> à plusieurs sans écraser le travail des autres</li>
+          <li>Revenir à n'importe quelle version précédente</li>
+          <li>Travailler sur des <strong>branches</strong> parallèles (fonctionnalités, correctifs)</li>
+          <li>Auditer qui a modifié quoi et pourquoi</li>
+        </ul>
+        <div class="info-box info"><strong>Git vs GitHub :</strong> Git est l'outil en ligne de commande. GitHub, GitLab et Bitbucket sont des <em>plateformes en ligne</em> qui hébergent des dépôts Git. Git fonctionne parfaitement sans eux.</div>
+
+        <h3>Initialiser un dépôt</h3>
+        <div class="code-block"><span class="prompt">$ </span><span class="cmd">git init</span>
+<span class="output">Initialized empty Git repository in /home/user/monprojet/.git/</span>
+<span class="comment"># Crée un dossier caché .git qui contient tout l'historique</span>
+
+<span class="prompt">$ </span><span class="cmd">git clone https://github.com/utilisateur/repo.git</span>
+<span class="output">Cloning into 'repo'...</span>
+<span class="comment"># Télécharge un dépôt existant avec tout son historique</span></div>
+
+        <h3>Configuration globale</h3>
+        <div class="code-block"><span class="comment"># À faire une seule fois sur chaque machine</span>
+<span class="prompt">$ </span><span class="cmd">git config --global user.name "Alice Dupont"</span>
+<span class="prompt">$ </span><span class="cmd">git config --global user.email "alice@example.com"</span>
+<span class="prompt">$ </span><span class="cmd">git config --global core.editor nano</span>    <span class="comment"># éditeur par défaut</span>
+<span class="prompt">$ </span><span class="cmd">git config --global init.defaultBranch main</span>
+<span class="prompt">$ </span><span class="cmd">git config --list</span>    <span class="comment"># afficher la configuration actuelle</span></div>
+
+        <div class="info-box tip"><strong>Bonne pratique :</strong> Configurez toujours votre nom et email avant de faire votre premier commit. Ces informations apparaissent dans chaque commit de l'historique.</div>
+      `
+    },
+    {
+      id: 'm8-l2',
+      title: 'Cycle de vie d\'un fichier',
+      content: `
+        <h3>Les états d'un fichier dans Git</h3>
+        <p>Chaque fichier dans un dépôt Git peut être dans l'un de ces états :</p>
+        <table class="cmd-table">
+          <tr><th>État</th><th>Description</th></tr>
+          <tr><td>Untracked</td><td>Nouveau fichier, Git ne le connaît pas encore</td></tr>
+          <tr><td>Staged (Index)</td><td>Ajouté à la "zone de transit", prêt pour le commit</td></tr>
+          <tr><td>Committed</td><td>Sauvegardé dans l'historique Git</td></tr>
+          <tr><td>Modified</td><td>Modifié depuis le dernier commit, mais pas encore staged</td></tr>
+        </table>
+
+        <h3>Les commandes du cycle de base</h3>
+        <div class="code-block"><span class="prompt">$ </span><span class="cmd">git status</span>
+<span class="output">On branch main
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+        nouveau.txt
+
+Changes not staged for commit:
+        modified:   README.md</span>
+
+<span class="prompt">$ </span><span class="cmd">git add nouveau.txt</span>        <span class="comment"># stager un fichier spécifique</span>
+<span class="prompt">$ </span><span class="cmd">git add .</span>                  <span class="comment"># stager tous les fichiers du dossier courant</span>
+<span class="prompt">$ </span><span class="cmd">git add -A</span>                 <span class="comment"># stager toutes les modifications (y compris suppressions)</span>
+<span class="prompt">$ </span><span class="cmd">git commit -m "feat: ajouter nouveau.txt"</span>
+<span class="output">[main 3a7f2c1] feat: ajouter nouveau.txt
+ 1 file changed, 5 insertions(+)</span></div>
+
+        <h3>Consulter l'historique</h3>
+        <div class="code-block"><span class="prompt">$ </span><span class="cmd">git log</span>                    <span class="comment"># historique complet</span>
+<span class="prompt">$ </span><span class="cmd">git log --oneline</span>          <span class="comment"># une ligne par commit</span>
+<span class="prompt">$ </span><span class="cmd">git log --oneline --graph</span>  <span class="comment"># avec graphe des branches</span></div>
+
+        <h3>Ignorer des fichiers avec .gitignore</h3>
+        <div class="code-block"><span class="comment"># Fichier .gitignore à la racine du projet</span>
+<span class="output">node_modules/     # dossier des dépendances Node.js
+*.log             # tous les fichiers .log
+.env              # variables d'environnement secrètes
+__pycache__/      # cache Python
+dist/             # dossier de build</span>
+<span class="prompt">$ </span><span class="cmd">git rm --cached fichier.env</span>  <span class="comment"># désindexer un fichier déjà tracké</span></div>
+      `
+    },
+    {
+      id: 'm8-l3',
+      title: 'Branches Git',
+      content: `
+        <h3>Concept de branche et HEAD</h3>
+        <p>Une <strong>branche</strong> est un pointeur léger vers un commit. Cela permet de développer des fonctionnalités en parallèle sans affecter la branche principale.</p>
+        <p><strong>HEAD</strong> est un pointeur spécial qui indique votre position actuelle dans l'historique (la branche ou le commit courant).</p>
+
+        <h3>Créer et naviguer entre les branches</h3>
+        <div class="code-block"><span class="prompt">$ </span><span class="cmd">git branch</span>               <span class="comment"># lister les branches locales</span>
+<span class="prompt">$ </span><span class="cmd">git branch -a</span>            <span class="comment"># lister toutes les branches (locales + distantes)</span>
+<span class="prompt">$ </span><span class="cmd">git branch nouvelle-fonc</span> <span class="comment"># créer une branche</span>
+<span class="prompt">$ </span><span class="cmd">git checkout nouvelle-fonc</span>      <span class="comment"># basculer sur la branche</span>
+<span class="prompt">$ </span><span class="cmd">git checkout -b nouvelle-fonc</span>   <span class="comment"># créer ET basculer (classique)</span>
+<span class="prompt">$ </span><span class="cmd">git switch -c nouvelle-fonc</span>     <span class="comment"># créer ET basculer (Git 2.23+)</span>
+<span class="prompt">$ </span><span class="cmd">git branch -d nouvelle-fonc</span>     <span class="comment"># supprimer la branche (si mergée)</span>
+<span class="prompt">$ </span><span class="cmd">git branch -D nouvelle-fonc</span>     <span class="comment"># forcer la suppression</span></div>
+
+        <h3>Fusionner des branches (merge)</h3>
+        <div class="code-block"><span class="comment"># Se positionner sur la branche de destination</span>
+<span class="prompt">$ </span><span class="cmd">git checkout main</span>
+<span class="prompt">$ </span><span class="cmd">git merge nouvelle-fonc</span>
+<span class="output">Updating 3a7f2c1..9b4e8f2
+Fast-forward
+ fonctionnalite.txt | 10 +++++++++++
+ 1 file changed, 10 insertions(+)</span></div>
+
+        <h3>Résolution basique de conflits</h3>
+        <div class="code-block"><span class="comment"># En cas de conflit, Git marque les zones conflictuelles :</span>
+<span class="output">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+Votre version de la ligne
+=======
+Version de l'autre branche
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; nouvelle-fonc</span>
+<span class="comment"># Éditez le fichier, supprimez les marqueurs, puis :</span>
+<span class="prompt">$ </span><span class="cmd">git add fichier-conflit.txt</span>
+<span class="prompt">$ </span><span class="cmd">git commit -m "fix: résolution du conflit"</span></div>
+      `
+    },
+    {
+      id: 'm8-l4',
+      title: 'Travail avec les remotes',
+      content: `
+        <h3>Remotes — dépôts distants</h3>
+        <p>Un <strong>remote</strong> est une copie du dépôt hébergée sur un serveur (GitHub, GitLab, Bitbucket, votre propre serveur). Le remote par convention s'appelle <code>origin</code>.</p>
+
+        <div class="code-block"><span class="comment"># Associer un remote à un dépôt local</span>
+<span class="prompt">$ </span><span class="cmd">git remote add origin https://github.com/user/repo.git</span>
+<span class="prompt">$ </span><span class="cmd">git remote -v</span>           <span class="comment"># afficher les remotes configurés</span>
+<span class="output">origin  https://github.com/user/repo.git (fetch)
+origin  https://github.com/user/repo.git (push)</span>
+<span class="prompt">$ </span><span class="cmd">git remote remove origin</span>  <span class="comment"># supprimer un remote</span></div>
+
+        <h3>Push et Pull</h3>
+        <div class="code-block"><span class="comment"># Premier push : établit le lien branche locale → branche distante</span>
+<span class="prompt">$ </span><span class="cmd">git push -u origin main</span>
+<span class="output">Branch 'main' set up to track remote branch 'main' from 'origin'.</span>
+
+<span class="comment"># Pousser les commits suivants</span>
+<span class="prompt">$ </span><span class="cmd">git push</span>
+
+<span class="comment"># Récupérer et fusionner les changements distants</span>
+<span class="prompt">$ </span><span class="cmd">git pull</span>              <span class="comment"># = git fetch + git merge</span>
+<span class="prompt">$ </span><span class="cmd">git pull --rebase</span>     <span class="comment"># = git fetch + git rebase (historique plus propre)</span>
+
+<span class="comment"># Récupérer sans fusionner</span>
+<span class="prompt">$ </span><span class="cmd">git fetch origin</span>      <span class="comment"># télécharge sans modifier les fichiers locaux</span></div>
+
+        <div class="info-box tip"><strong>GitHub/GitLab :</strong> Pour s'authentifier, utilisez soit une <strong>clé SSH</strong> (<code>ssh-keygen</code> + ajout dans les paramètres), soit un <strong>token d'accès personnel</strong> (PAT) à la place du mot de passe.</div>
+      `
+    },
+    {
+      id: 'm8-l5',
+      title: 'Commandes Git avancées',
+      content: `
+        <h3>git stash — remiser des changements temporairement</h3>
+        <div class="code-block"><span class="prompt">$ </span><span class="cmd">git stash</span>              <span class="comment"># sauvegarder les modifications en cours</span>
+<span class="prompt">$ </span><span class="cmd">git stash list</span>         <span class="comment"># lister les stashs</span>
+<span class="prompt">$ </span><span class="cmd">git stash pop</span>          <span class="comment"># restaurer le dernier stash</span>
+<span class="prompt">$ </span><span class="cmd">git stash apply stash@{0}</span>  <span class="comment"># restaurer un stash spécifique</span>
+<span class="prompt">$ </span><span class="cmd">git stash drop stash@{0}</span>   <span class="comment"># supprimer un stash</span></div>
+
+        <h3>git rebase — réécrire l'historique</h3>
+        <div class="code-block"><span class="comment"># Rebaser la branche courante sur main</span>
+<span class="prompt">$ </span><span class="cmd">git rebase main</span>
+<span class="comment"># Rebase interactif : réécrire, fusionner, réordonner des commits</span>
+<span class="prompt">$ </span><span class="cmd">git rebase -i HEAD~3</span>    <span class="comment"># éditer les 3 derniers commits</span></div>
+        <div class="info-box warning"><strong>Attention :</strong> Ne rebasez jamais des commits déjà poussés sur un remote partagé, cela réécrira l'historique et causera des problèmes aux autres contributeurs.</div>
+
+        <h3>git reset — annuler des commits</h3>
+        <div class="code-block"><span class="prompt">$ </span><span class="cmd">git reset --soft HEAD~1</span>   <span class="comment"># annule le commit, garde les fichiers stagés</span>
+<span class="prompt">$ </span><span class="cmd">git reset HEAD~1</span>          <span class="comment"># annule le commit, garde les modifications</span>
+<span class="prompt">$ </span><span class="cmd">git reset --hard HEAD~1</span>   <span class="comment"># annule le commit ET les modifications (irréversible !)</span></div>
+
+        <h3>git diff et git tag</h3>
+        <div class="code-block"><span class="prompt">$ </span><span class="cmd">git diff</span>                  <span class="comment"># différences non stagées</span>
+<span class="prompt">$ </span><span class="cmd">git diff --staged</span>         <span class="comment"># différences stagées (avant commit)</span>
+<span class="prompt">$ </span><span class="cmd">git diff main..feature</span>   <span class="comment"># entre deux branches</span>
+<span class="prompt">$ </span><span class="cmd">git tag v1.0.0</span>            <span class="comment"># créer un tag (version)</span>
+<span class="prompt">$ </span><span class="cmd">git tag -a v1.0.0 -m "Version 1.0.0 stable"</span>
+<span class="prompt">$ </span><span class="cmd">git push origin --tags</span>   <span class="comment"># pousser les tags vers le remote</span></div>
+      `
+    },
+    {
+      id: 'm8-l6',
+      title: 'Introduction à Docker',
+      content: `
+        <h3>Conteneurs vs Machines virtuelles</h3>
+        <p>Docker est une plateforme de <strong>conteneurisation</strong>. Un conteneur est un processus isolé qui partage le noyau de l'hôte, contrairement à une VM qui virtualise tout un système.</p>
+        <table class="cmd-table">
+          <tr><th>Critère</th><th>Conteneur Docker</th><th>Machine Virtuelle</th></tr>
+          <tr><td>Démarrage</td><td>Secondes</td><td>Minutes</td></tr>
+          <tr><td>Taille</td><td>Mo (image)</td><td>Go (disque VM)</td></tr>
+          <tr><td>Isolation</td><td>Processus (namespaces)</td><td>Complète (hyperviseur)</td></tr>
+          <tr><td>Partage kernel</td><td>Oui (avec l'hôte)</td><td>Non (kernel propre)</td></tr>
+          <tr><td>Performance</td><td>Quasi-native</td><td>Surcoût hyperviseur</td></tr>
+        </table>
+
+        <h3>Architecture Docker</h3>
+        <p>Docker fonctionne selon un modèle <strong>client/serveur</strong> :</p>
+        <ul>
+          <li><strong>Docker Daemon</strong> (<code>dockerd</code>) : le serveur qui gère les conteneurs et images</li>
+          <li><strong>Docker CLI</strong> (<code>docker</code>) : le client en ligne de commande</li>
+          <li><strong>Docker Hub</strong> : le registre public d'images</li>
+        </ul>
+
+        <div class="code-block"><span class="prompt">$ </span><span class="cmd">docker version</span>
+<span class="output">Client: Docker Engine - Community
+ Version:           24.0.5
+Server: Docker Engine - Community
+ Engine: Version: 24.0.5</span>
+
+<span class="prompt">$ </span><span class="cmd">docker info</span>
+<span class="output">Containers: 3
+ Running: 1
+ Images: 12
+Server Version: 24.0.5
+Storage Driver: overlay2</span></div>
+
+        <div class="info-box tip"><strong>Cas d'usage :</strong> Isoler des applications, déployer des microservices, créer des environnements de développement reproductibles, packager une application avec toutes ses dépendances.</div>
+      `
+    },
+    {
+      id: 'm8-l7',
+      title: 'Images et conteneurs Docker',
+      content: `
+        <h3>Images vs Conteneurs</h3>
+        <p>Une <strong>image</strong> est un template immuable (comme un plan). Un <strong>conteneur</strong> est une instance en cours d'exécution d'une image (comme une maison construite sur le plan).</p>
+
+        <h3>Gérer les images</h3>
+        <div class="code-block"><span class="prompt">$ </span><span class="cmd">docker pull ubuntu</span>
+<span class="output">Using default tag: latest
+latest: Pulling from library/ubuntu
+Digest: sha256:abc123...
+Status: Downloaded newer image for ubuntu:latest</span>
+
+<span class="prompt">$ </span><span class="cmd">docker pull ubuntu:22.04</span>  <span class="comment"># version spécifique</span>
+<span class="prompt">$ </span><span class="cmd">docker images</span>             <span class="comment"># lister les images locales</span>
+<span class="output">REPOSITORY   TAG       IMAGE ID       CREATED        SIZE
+ubuntu       22.04     174c8c134b2a   2 weeks ago    77.9MB</span>
+<span class="prompt">$ </span><span class="cmd">docker rmi ubuntu:22.04</span>   <span class="comment"># supprimer une image</span></div>
+
+        <h3>Gérer les conteneurs</h3>
+        <div class="code-block"><span class="prompt">$ </span><span class="cmd">docker run ubuntu echo "Bonjour"</span>    <span class="comment"># lancer et supprimer automatiquement</span>
+<span class="prompt">$ </span><span class="cmd">docker run -it ubuntu bash</span>          <span class="comment"># mode interactif avec bash</span>
+<span class="prompt">$ </span><span class="cmd">docker run -d nginx</span>                 <span class="comment"># mode détaché (arrière-plan)</span>
+<span class="prompt">$ </span><span class="cmd">docker run --rm -it ubuntu bash</span>     <span class="comment"># supprime le conteneur après arrêt</span>
+<span class="prompt">$ </span><span class="cmd">docker ps</span>                           <span class="comment"># conteneurs en cours d'exécution</span>
+<span class="output">CONTAINER ID   IMAGE   COMMAND   CREATED   STATUS    PORTS   NAMES
+a1b2c3d4e5f6   nginx   "..."     1 min     Up 1 min  80/tcp  happy_foo</span>
+<span class="prompt">$ </span><span class="cmd">docker ps -a</span>          <span class="comment"># tous les conteneurs (y compris arrêtés)</span>
+<span class="prompt">$ </span><span class="cmd">docker stop a1b2c3</span>    <span class="comment"># arrêter un conteneur (par ID ou nom)</span>
+<span class="prompt">$ </span><span class="cmd">docker rm a1b2c3</span>      <span class="comment"># supprimer un conteneur arrêté</span>
+<span class="prompt">$ </span><span class="cmd">docker logs a1b2c3</span>    <span class="comment"># afficher les logs d'un conteneur</span>
+<span class="prompt">$ </span><span class="cmd">docker exec -it a1b2c3 bash</span>  <span class="comment"># entrer dans un conteneur en cours</span></div>
+      `
+    },
+    {
+      id: 'm8-l8',
+      title: 'Dockerfile',
+      content: `
+        <h3>Qu'est-ce qu'un Dockerfile ?</h3>
+        <p>Un <strong>Dockerfile</strong> est un fichier texte contenant les instructions pour construire une image Docker. Il décrit l'environnement de l'application couche par couche.</p>
+
+        <h3>Instructions principales</h3>
+        <table class="cmd-table">
+          <tr><th>Instruction</th><th>Description</th><th>Exemple</th></tr>
+          <tr><td>FROM</td><td>Image de base (obligatoire, en premier)</td><td><code>FROM python:3.11</code></td></tr>
+          <tr><td>RUN</td><td>Exécute une commande lors du build</td><td><code>RUN apt-get install -y curl</code></td></tr>
+          <tr><td>COPY</td><td>Copie des fichiers locaux vers l'image</td><td><code>COPY app.py /app/</code></td></tr>
+          <tr><td>WORKDIR</td><td>Définit le répertoire de travail</td><td><code>WORKDIR /app</code></td></tr>
+          <tr><td>EXPOSE</td><td>Documente le port exposé</td><td><code>EXPOSE 8080</code></td></tr>
+          <tr><td>ENV</td><td>Définit une variable d'environnement</td><td><code>ENV NODE_ENV=production</code></td></tr>
+          <tr><td>CMD</td><td>Commande par défaut au démarrage</td><td><code>CMD ["python", "app.py"]</code></td></tr>
+          <tr><td>ENTRYPOINT</td><td>Point d'entrée non surchargeable</td><td><code>ENTRYPOINT ["nginx"]</code></td></tr>
+        </table>
+
+        <h3>Exemple complet</h3>
+        <div class="code-block"><span class="comment"># Dockerfile pour une app Python Flask</span>
+<span class="keyword">FROM</span> <span class="string">python:3.11-slim</span>
+
+<span class="keyword">WORKDIR</span> <span class="string">/app</span>
+
+<span class="keyword">COPY</span> <span class="string">requirements.txt .</span>
+<span class="keyword">RUN</span> <span class="cmd">pip install --no-cache-dir -r requirements.txt</span>
+
+<span class="keyword">COPY</span> <span class="string">. .</span>
+
+<span class="keyword">EXPOSE</span> <span class="string">5000</span>
+
+<span class="keyword">CMD</span> <span class="string">["python", "app.py"]</span></div>
+
+        <h3>Construire et tagger une image</h3>
+        <div class="code-block"><span class="prompt">$ </span><span class="cmd">docker build -t monapp:latest .</span>
+<span class="output">Step 1/6 : FROM python:3.11-slim
+Step 2/6 : WORKDIR /app
+...
+Successfully built 9f8e7d6c5b4a
+Successfully tagged monapp:latest</span>
+
+<span class="prompt">$ </span><span class="cmd">docker build -t monapp:1.0.0 .</span>
+<span class="prompt">$ </span><span class="cmd">docker tag monapp:latest user/monapp:latest</span>  <span class="comment"># pour Docker Hub</span></div>
+      `
+    },
+    {
+      id: 'm8-l9',
+      title: 'Volumes et réseau Docker',
+      content: `
+        <h3>Persistance des données avec les volumes</h3>
+        <p>Par défaut, les données d'un conteneur sont perdues à sa suppression. Les <strong>volumes</strong> et <strong>bind mounts</strong> permettent de persister les données.</p>
+
+        <table class="cmd-table">
+          <tr><th>Type</th><th>Description</th><th>Cas d'usage</th></tr>
+          <tr><td>Volume Docker</td><td>Géré par Docker dans /var/lib/docker/volumes/</td><td>Bases de données, données persistantes</td></tr>
+          <tr><td>Bind mount</td><td>Mappe un chemin hôte spécifique</td><td>Développement (code source)</td></tr>
+          <tr><td>tmpfs</td><td>En mémoire seulement</td><td>Données sensibles temporaires</td></tr>
+        </table>
+
+        <div class="code-block"><span class="comment"># Volumes Docker (gérés par Docker)</span>
+<span class="prompt">$ </span><span class="cmd">docker volume create mydata</span>
+<span class="prompt">$ </span><span class="cmd">docker volume ls</span>
+<span class="prompt">$ </span><span class="cmd">docker run -v mydata:/var/lib/mysql mysql</span>
+
+<span class="comment"># Bind mounts (chemin hôte absolu)</span>
+<span class="prompt">$ </span><span class="cmd">docker run -v /home/user/app:/app monapp</span>
+<span class="prompt">$ </span><span class="cmd">docker run -v $(pwd):/app monapp</span>  <span class="comment"># répertoire courant</span></div>
+
+        <h3>Mapping de ports</h3>
+        <div class="code-block"><span class="comment"># -p PORT_HÔTE:PORT_CONTENEUR</span>
+<span class="prompt">$ </span><span class="cmd">docker run -p 8080:80 nginx</span>      <span class="comment"># accès via localhost:8080</span>
+<span class="prompt">$ </span><span class="cmd">docker run -p 3306:3306 mysql</span>    <span class="comment"># MySQL</span>
+<span class="prompt">$ </span><span class="cmd">docker run -p 127.0.0.1:5432:5432 postgres</span>  <span class="comment"># limité à localhost</span></div>
+
+        <h3>Réseau Docker</h3>
+        <div class="code-block"><span class="prompt">$ </span><span class="cmd">docker network ls</span>
+<span class="output">NETWORK ID     NAME      DRIVER    SCOPE
+abc123         bridge    bridge    local
+def456         host      host      local
+ghi789         none      null      local</span>
+
+<span class="prompt">$ </span><span class="cmd">docker network create monreseau</span>
+<span class="prompt">$ </span><span class="cmd">docker run --network monreseau --name web nginx</span>
+<span class="prompt">$ </span><span class="cmd">docker run --network monreseau --name app monapp</span>
+<span class="comment"># Sur le même réseau, les conteneurs se trouvent par nom</span></div>
+      `
+    },
+    {
+      id: 'm8-l10',
+      title: 'Docker Compose',
+      content: `
+        <h3>Qu'est-ce que Docker Compose ?</h3>
+        <p>Docker Compose permet de définir et lancer des applications <strong>multi-conteneurs</strong> via un fichier YAML (<code>docker-compose.yml</code>). Au lieu de multiples commandes <code>docker run</code>, tout se configure en un seul fichier.</p>
+
+        <h3>Structure d'un docker-compose.yml</h3>
+        <div class="code-block"><span class="comment"># docker-compose.yml — Application web avec base de données</span>
+<span class="keyword">services</span>:
+  <span class="string">web</span>:
+    <span class="keyword">build</span>: <span class="output">.</span>
+    <span class="keyword">ports</span>:
+      - <span class="string">"8080:5000"</span>
+    <span class="keyword">volumes</span>:
+      - <span class="string">./app:/app</span>
+    <span class="keyword">environment</span>:
+      - <span class="string">DATABASE_URL=postgresql://db/mydb</span>
+    <span class="keyword">depends_on</span>:
+      - <span class="string">db</span>
+
+  <span class="string">db</span>:
+    <span class="keyword">image</span>: <span class="output">postgres:15</span>
+    <span class="keyword">environment</span>:
+      - <span class="string">POSTGRES_DB=mydb</span>
+      - <span class="string">POSTGRES_PASSWORD=secret</span>
+    <span class="keyword">volumes</span>:
+      - <span class="string">dbdata:/var/lib/postgresql/data</span>
+
+<span class="keyword">volumes</span>:
+  <span class="string">dbdata</span>:</div>
+
+        <h3>Commandes Docker Compose</h3>
+        <div class="code-block"><span class="prompt">$ </span><span class="cmd">docker compose up -d</span>        <span class="comment"># démarrer en arrière-plan</span>
+<span class="prompt">$ </span><span class="cmd">docker compose up --build</span>   <span class="comment"># reconstruire les images avant</span>
+<span class="prompt">$ </span><span class="cmd">docker compose down</span>         <span class="comment"># arrêter et supprimer les conteneurs</span>
+<span class="prompt">$ </span><span class="cmd">docker compose down -v</span>      <span class="comment"># supprimer aussi les volumes</span>
+<span class="prompt">$ </span><span class="cmd">docker compose logs -f</span>      <span class="comment"># suivre les logs en temps réel</span>
+<span class="prompt">$ </span><span class="cmd">docker compose logs web</span>     <span class="comment"># logs d'un service spécifique</span>
+<span class="prompt">$ </span><span class="cmd">docker compose ps</span>           <span class="comment"># état des services</span>
+<span class="prompt">$ </span><span class="cmd">docker compose exec web bash</span>  <span class="comment"># entrer dans un service</span>
+<span class="prompt">$ </span><span class="cmd">docker compose restart web</span>  <span class="comment"># redémarrer un service</span></div>
+
+        <div class="info-box tip"><strong>Bonne pratique :</strong> Utilisez un fichier <code>.env</code> à côté de <code>docker-compose.yml</code> pour les valeurs sensibles. Docker Compose les charge automatiquement. N'ajoutez jamais <code>.env</code> dans Git.</div>
+      `
+    }
   ]
 };
 
@@ -3454,7 +3747,8 @@ const EXERCISES = {
       id: 'm1-e1',
       title: 'Créer un dossier',
       desc: 'Créez un dossier nommé <code>projets</code> dans le répertoire courant.',
-      accepted: ['mkdir projets', 'mkdir ./projets'],
+      // Variantes : avec chemin explicite, avec -p (idempotent), guillemets
+      accepted: ['mkdir projets', 'mkdir ./projets', 'mkdir -p projets', 'mkdir -p ./projets'],
       hints: [
         'Pensez à la commande pour créer des dossiers.',
         "La commande commence par 'mk'.",
@@ -3465,7 +3759,8 @@ const EXERCISES = {
       id: 'm1-e2',
       title: 'Afficher le répertoire courant',
       desc: 'Affichez le chemin complet du répertoire dans lequel vous vous trouvez.',
-      accepted: ['pwd'],
+      // pwd n'accepte pas d'arguments pertinents ici
+      accepted: ['pwd', 'pwd -L', 'pwd -P'],
       hints: [
         "C'est une commande courte qui affiche le chemin.",
         "La commande contient 3 lettres et signifie 'Print Working Directory'.",
@@ -3476,7 +3771,8 @@ const EXERCISES = {
       id: 'm1-e3',
       title: 'Naviguer vers le home',
       desc: 'Naviguez vers votre répertoire home (<code>/home/user</code>).',
-      accepted: ['cd /home/user', 'cd ~', 'cd'],
+      // cd sans argument, cd ~, cd /home/user, avec ou sans slash final
+      accepted: ['cd /home/user', 'cd ~', 'cd', 'cd ~/'],
       hints: [
         'Utilisez la commande de changement de répertoire.',
         "Le symbole ~ représente votre répertoire home.",
@@ -3489,7 +3785,8 @@ const EXERCISES = {
       id: 'm2-e1',
       title: 'Rendre un script exécutable',
       desc: 'Rendez le fichier <code>script.sh</code> exécutable.',
-      accepted: ['chmod +x script.sh', 'chmod 755 script.sh', 'chmod a+x script.sh', 'chmod u+x script.sh'],
+      // +x, 755, a+x, u+x — formes équivalentes pour rendre exécutable
+      accepted: ['chmod +x script.sh', 'chmod 755 script.sh', 'chmod a+x script.sh', 'chmod u+x script.sh', 'chmod 0755 script.sh', 'chmod ug+x script.sh'],
       hints: [
         'Il faut modifier les permissions du fichier.',
         "La commande est 'chmod' et vous devez ajouter le bit d'exécution.",
@@ -3500,7 +3797,8 @@ const EXERCISES = {
       id: 'm2-e2',
       title: 'Afficher les permissions',
       desc: 'Affichez les permissions détaillées du fichier <code>script.sh</code>.',
-      accepted: ['ls -la script.sh', 'ls -l script.sh', 'ls -la', 'ls -l'],
+      // -la/-al interchangeables (normalisation sortFlags), avec ou sans fichier cible
+      accepted: ['ls -la script.sh', 'ls -l script.sh', 'ls -la', 'ls -l', 'ls -al script.sh', 'ls -al', 'ls -lh script.sh', 'ls -lh'],
       hints: [
         "Utilisez la commande 'ls' avec des options.",
         "L'option -l affiche les permissions en format long.",
@@ -3513,7 +3811,8 @@ const EXERCISES = {
       id: 'm3-e1',
       title: 'Afficher les processus',
       desc: 'Affichez la liste de tous les processus en cours d\'exécution.',
-      accepted: ['ps aux', 'ps -aux', 'ps', 'ps -ef'],
+      // ps aux, ps -ef, ps -e, et variantes avec options séparées
+      accepted: ['ps aux', 'ps -aux', 'ps', 'ps -ef', 'ps -e', 'ps -a -u -x', 'ps axu', 'ps -eF'],
       hints: [
         "Utilisez la commande 'ps' pour lister les processus.",
         "Les options 'aux' permettent d'afficher tous les processus.",
@@ -3537,7 +3836,8 @@ const EXERCISES = {
       id: 'm4-e1',
       title: 'Tester la connectivité',
       desc: 'Pinguez <code>google.com</code> pour tester la connectivité réseau.',
-      accepted: ['ping google.com', 'ping -c 4 google.com', 'ping -c 1 google.com'],
+      // ping avec différents nombres de paquets (-c 1 à 5), ou sans -c
+      accepted: ['ping google.com', 'ping -c 4 google.com', 'ping -c 1 google.com', 'ping -c 2 google.com', 'ping -c 3 google.com', 'ping -c 5 google.com'],
       hints: [
         'Utilisez la commande de test de connectivité réseau.',
         "La commande 'ping' envoie des paquets ICMP.",
@@ -3548,7 +3848,8 @@ const EXERCISES = {
       id: 'm4-e2',
       title: 'Afficher la configuration réseau',
       desc: 'Affichez la configuration de vos interfaces réseau.',
-      accepted: ['ip addr', 'ip a', 'ifconfig', 'ip addr show'],
+      // ip addr / ip a / ifconfig — formes équivalentes pour voir les interfaces
+      accepted: ['ip addr', 'ip a', 'ifconfig', 'ip addr show', 'ip address', 'ip address show', 'ifconfig -a'],
       hints: [
         'Utilisez une commande réseau pour afficher les interfaces.',
         "La commande moderne est 'ip addr'.",
@@ -3561,7 +3862,8 @@ const EXERCISES = {
       id: 'm5-e1',
       title: 'Créer un script',
       desc: 'Créez un fichier nommé <code>hello.sh</code>.',
-      accepted: ['touch hello.sh'],
+      // touch crée le fichier ; ./hello.sh aussi valide
+      accepted: ['touch hello.sh', 'touch ./hello.sh'],
       hints: [
         'Il faut créer un fichier vide.',
         "La commande 'touch' crée des fichiers vides.",
@@ -3572,7 +3874,9 @@ const EXERCISES = {
       id: 'm5-e2',
       title: 'Afficher une variable',
       desc: 'Affichez la valeur de la variable <code>$HOME</code>.',
-      accepted: ['echo $HOME', 'echo ${HOME}', 'echo $USER'],
+      // echo avec/sans guillemets — normaliseCmd retire les guillemets
+      // $USER est accepté car c'est aussi une variable d'environnement standard
+      accepted: ['echo $HOME', 'echo ${HOME}', 'echo $USER', 'echo "$HOME"', "echo '$HOME'", 'echo "${HOME}"', 'echo $LOGNAME'],
       hints: [
         "Utilisez la commande d'affichage de texte.",
         "La commande 'echo' affiche du texte. Les variables commencent par $.",
@@ -3585,7 +3889,8 @@ const EXERCISES = {
       id: 'm6-e1',
       title: 'Statut du service SSH',
       desc: 'Affichez le statut du service SSH.',
-      accepted: ['systemctl status ssh', 'systemctl status sshd', 'service ssh status'],
+      // systemctl ou service, ssh ou sshd comme nom de service
+      accepted: ['systemctl status ssh', 'systemctl status sshd', 'service ssh status', 'service sshd status', 'systemctl is-active ssh', 'systemctl is-active sshd'],
       hints: [
         "Utilisez la commande de gestion des services systemd.",
         "La commande est 'systemctl' avec l'action 'status'.",
@@ -3596,11 +3901,67 @@ const EXERCISES = {
       id: 'm6-e2',
       title: 'Lister les tâches cron',
       desc: 'Listez les tâches cron de l\'utilisateur courant.',
-      accepted: ['crontab -l', 'crontab -l -u user'],
+      // crontab -l : lister les tâches ; -u user spécifie l'utilisateur
+      accepted: ['crontab -l', 'crontab -l -u user', 'crontab -lu user'],
       hints: [
         "Utilisez la commande de gestion des tâches planifiées.",
         "La commande est 'crontab' avec une option pour lister.",
         'Tapez : crontab -l'
+      ]
+    }
+  ],
+  m8: [
+    {
+      id: 'm8-e1',
+      title: 'Initialiser un dépôt Git',
+      desc: 'Initialisez un nouveau dépôt Git dans le répertoire courant.',
+      accepted: ['git init', 'git init .'],
+      hints: [
+        'Utilisez la commande Git pour initialiser un dépôt.',
+        "La commande est 'git' avec la sous-commande 'init'.",
+        'Tapez : git init'
+      ]
+    },
+    {
+      id: 'm8-e2',
+      title: 'Stager tous les fichiers',
+      desc: 'Ajoutez tous les fichiers du répertoire courant à la zone de staging.',
+      accepted: ['git add .', 'git add -A', 'git add --all'],
+      hints: [
+        'Utilisez git add pour stager les fichiers.',
+        "Le point '.' représente le répertoire courant.",
+        'Tapez : git add .'
+      ]
+    },
+    {
+      id: 'm8-e3',
+      title: 'Télécharger une image Docker',
+      desc: 'Téléchargez l\'image Ubuntu depuis Docker Hub.',
+      accepted: ['docker pull ubuntu', 'docker pull ubuntu:latest', 'docker pull ubuntu:22.04', 'docker pull ubuntu:20.04'],
+      hints: [
+        'Utilisez la commande Docker pour télécharger une image.',
+        "La commande est 'docker pull' suivie du nom de l'image.",
+        'Tapez : docker pull ubuntu'
+      ]
+    },
+    {
+      id: 'm8-e4',
+      title: 'Lancer un conteneur interactif',
+      desc: 'Lancez un conteneur Ubuntu en mode interactif avec bash.',
+      accepted: [
+        'docker run -it ubuntu bash',
+        'docker run -it ubuntu /bin/bash',
+        'docker run -ti ubuntu bash',
+        'docker run -ti ubuntu /bin/bash',
+        'docker run --rm -it ubuntu bash',
+        'docker run --rm -it ubuntu /bin/bash',
+        'docker run -it --rm ubuntu bash',
+        'docker run -it --rm ubuntu /bin/bash'
+      ],
+      hints: [
+        'Utilisez docker run avec les options pour le mode interactif.',
+        "Les options -i (interactif) et -t (pseudo-TTY) sont nécessaires, combinées en -it.",
+        'Tapez : docker run -it ubuntu bash'
       ]
     }
   ],
@@ -3609,7 +3970,10 @@ const EXERCISES = {
       id: 'm7-e1',
       title: 'Trouver les binaires SUID',
       desc: 'Listez tous les fichiers avec le bit SUID actif sur le système.',
-      accepted: ['find / -perm -4000 -type f 2>/dev/null', 'find / -perm -4000 -type f', 'find / -perm /4000 -type f 2>/dev/null', 'find / -perm /4000 -type f'],
+      // -4000 et /4000 sont deux syntaxes find équivalentes pour le bit SUID
+      // 2>/dev/null supprime les erreurs — les deux formes sont correctes
+      // -o 4000 est aussi valide sur certains systèmes
+      accepted: ['find / -perm -4000 -type f 2>/dev/null', 'find / -perm -4000 -type f', 'find / -perm /4000 -type f 2>/dev/null', 'find / -perm /4000 -type f', 'find / -type f -perm -4000 2>/dev/null', 'find / -type f -perm /4000 2>/dev/null', 'find / -type f -perm -4000', 'find / -type f -perm /4000'],
       hints: [
         'Utilisez la commande de recherche de fichiers avec un filtre sur les permissions.',
         'La commande est <code>find</code> avec l’option <code>-perm</code>. Le SUID correspond au bit 4000.',
@@ -3620,7 +3984,9 @@ const EXERCISES = {
       id: 'm7-e2',
       title: 'Analyse de logs — grep',
       desc: 'Recherchez le mot "error" (insensible à la casse) dans /var/log/syslog.',
-      accepted: ['grep -i "error" /var/log/syslog', "grep -i 'error' /var/log/syslog", 'grep -i error /var/log/syslog'],
+      // grep -i : insensible à la casse ; guillemets optionnels autour d'error
+      // normaliseCmd retire les guillemets donc les 3 formes sont équivalentes après normalisation
+      accepted: ['grep -i "error" /var/log/syslog', "grep -i 'error' /var/log/syslog", 'grep -i error /var/log/syslog', 'grep -i "Error" /var/log/syslog', 'grep --ignore-case error /var/log/syslog', 'grep --ignore-case "error" /var/log/syslog'],
       hints: [
         'Utilisez grep avec une option pour ignorer la casse.',
         'L’option pour ignorer la casse est <code>-i</code>.',
@@ -3631,7 +3997,9 @@ const EXERCISES = {
       id: 'm7-e3',
       title: 'Reconnaissance DNS',
       desc: 'Obtenez tous les enregistrements DNS de example.com avec dig.',
-      accepted: ['dig example.com ANY', 'dig ANY example.com', 'dig example.com any'],
+      // dig accepte le type avant ou après le domaine
+      // la casse de ANY/any est ignorée après toLowerCase
+      accepted: ['dig example.com ANY', 'dig ANY example.com', 'dig example.com any', 'dig any example.com', 'dig example.com ANY +noall +answer', 'dig example.com type255'],
       hints: [
         'Utilisez la commande de résolution DNS avec le type d’enregistrement ALL.',
         'La commande est <code>dig</code> avec le type <code>ANY</code> après le domaine.',
@@ -3855,6 +4223,41 @@ const QUIZZES = {
       }
     ]
   },
+  m8: {
+    title: 'Quiz — Git &amp; Docker',
+    questions: [
+      {
+        q: "Quelle commande crée une nouvelle branche ET bascule dessus immédiatement ?",
+        options: ['git branch nouvelle-branche', 'git checkout -b nouvelle-branche', 'git merge nouvelle-branche', 'git switch nouvelle-branche'],
+        correct: 1,
+        expl: "<strong>git checkout -b</strong> crée ET bascule sur la branche en une seule commande. Depuis Git 2.23, <code>git switch -c</code> est l'équivalent moderne."
+      },
+      {
+        q: "Quelle est la différence principale entre git merge et git rebase ?",
+        options: ['merge est plus rapide', 'rebase modifie l\'historique, merge crée un commit de fusion', 'merge ne fonctionne qu\'avec GitHub', 'rebase supprime les branches'],
+        correct: 1,
+        expl: "<strong>rebase</strong> réécrit l'historique en déplaçant les commits sur une nouvelle base. <strong>merge</strong> crée un commit de fusion qui préserve l'historique original."
+      },
+      {
+        q: "Dans un Dockerfile, que spécifie l'instruction FROM ?",
+        options: ['Le port à exposer', 'La commande à exécuter au démarrage', 'L\'image de base sur laquelle construire', 'Le répertoire de travail'],
+        correct: 2,
+        expl: "<strong>FROM</strong> définit l'image parente (de base) sur laquelle votre image est construite. C'est obligatoirement la première instruction de tout Dockerfile."
+      },
+      {
+        q: "Quelle est la différence entre un volume Docker et un bind mount ?",
+        options: ['Les volumes sont plus lents', 'Les bind mounts sont gérés par Docker, les volumes par le système de fichiers hôte', 'Les volumes sont gérés par Docker, les bind mounts pointent vers un chemin hôte spécifique', 'Il n\'y a pas de différence'],
+        correct: 2,
+        expl: "<strong>Les volumes</strong> sont gérés par Docker dans /var/lib/docker/volumes/. <strong>Les bind mounts</strong> mappent un chemin absolu de l'hôte vers le conteneur."
+      },
+      {
+        q: "Quelle commande affiche uniquement les conteneurs Docker actuellement en cours d'exécution ?",
+        options: ['docker images', 'docker ps', 'docker ps -a', 'docker list'],
+        correct: 1,
+        expl: "<strong>docker ps</strong> affiche uniquement les conteneurs actifs. <code>docker ps -a</code> affiche tous les conteneurs y compris ceux qui sont arrêtés."
+      }
+    ]
+  },
   m7: {
     title: 'Quiz — Sécurité &amp; OSINT',
     questions: [
@@ -3903,16 +4306,17 @@ const MODULE_META = {
   m5: { title: 'Scripting Bash', desc: 'Variables, conditions, boucles, fonctions et scripts.' },
   m6: { title: 'Administration intermédiaire', desc: 'apt, systemctl, cron jobs, logs et SSH.' },
   m7: { title: 'Sécurité &amp; OSINT', desc: 'nmap, netcat, grep forensique, SUID/SGID et reconnaissance.' },
+  m8: { title: 'Git &amp; Docker', desc: 'Gestion de versions avec Git et conteneurisation avec Docker.' },
   sandbox: { title: 'Sandbox Linux', desc: 'Terminal Alpine Linux réel via WebAssembly.' }
 };
 
 /* ============================================================
    STATE & STORAGE
    ============================================================ */
-const TOTAL_LESSONS   = 33; // m1=4,m2=5,m3=4,m4=5,m5=5,m6=5,m7=5
-const TOTAL_EXERCISES = 16; // m1=3,m2=2,m3=2,m4=2,m5=2,m6=2,m7=3
-const TOTAL_QUIZ      = 7;
-const TOTAL_ITEMS     = 33 + 16 + 7; // 56
+const TOTAL_LESSONS   = 43; // m1=4,m2=5,m3=4,m4=5,m5=5,m6=5,m7=5,m8=10
+const TOTAL_EXERCISES = 20; // m1=3,m2=2,m3=2,m4=2,m5=2,m6=2,m7=3,m8=4
+const TOTAL_QUIZ      = 8;
+const TOTAL_ITEMS     = 43 + 20 + 8; // 71
 
 let state = {
   lessonsDone:     new Set(),
@@ -3989,7 +4393,7 @@ function updateProgressUI() {
   document.getElementById('topbar-progress-fill').style.width = p.pct + '%';
   document.getElementById('topbar-progress-label').textContent = p.done + ' / ' + p.total + ' complétés';
 
-  const modules = ['m1','m2','m3','m4','m5','m6','m7'];
+  const modules = ['m1','m2','m3','m4','m5','m6','m7','m8'];
   modules.forEach(mod => {
     const mp = getModuleProgress(mod);
     const badge = document.getElementById('nav-badge-' + mod);
@@ -4020,7 +4424,7 @@ function updateProgressUI() {
   });
 
   // Update sidebar lock state
-  const modOrder = ['m1','m2','m3','m4','m5','m6','m7'];
+  const modOrder = ['m1','m2','m3','m4','m5','m6','m7','m8'];
   modOrder.forEach(mod => {
     const btn = document.querySelector(`[data-target="${mod}"]`);
     if (btn) {
@@ -4075,7 +4479,7 @@ function closeSidebar() {
    LESSON RENDERING
    ============================================================ */
 function renderLessons() {
-  ['m1','m2','m3','m4','m5','m6','m7'].forEach(mod => {
+  ['m1','m2','m3','m4','m5','m6','m7','m8'].forEach(mod => {
     const container = document.getElementById('lessons-' + mod);
     if (!container) return;
     container.innerHTML = '';
@@ -4125,7 +4529,7 @@ function markLessonDone(id) {
    EXERCISE RENDERING
    ============================================================ */
 function renderExercises() {
-  ['m1','m2','m3','m4','m5','m6','m7'].forEach(mod => {
+  ['m1','m2','m3','m4','m5','m6','m7','m8'].forEach(mod => {
     const container = document.getElementById('exercises-' + mod);
     if (!container) return;
     container.innerHTML = '';
@@ -4192,19 +4596,59 @@ function checkExercise(exId, mod) {
   const feedback = document.getElementById('feedback-' + exId);
   if (!input || !feedback) return;
 
-  const val = input.value.trim().toLowerCase();
-  const accepted = ex.accepted.map(a => a.trim().toLowerCase());
-  const isCorrect = accepted.some(a => val === a || val.startsWith(a.split(' ')[0] + ' '));
+  /**
+   * normalizeCmd : prépare une commande pour la comparaison
+   *  - met en minuscules
+   *  - réduit les espaces multiples en un seul
+   *  - supprime les guillemets simples/doubles autour des arguments
+   *    (ex: grep -i "error" → grep -i error)
+   */
+  function normalizeCmd(s) {
+    return s
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, ' ')                  // espaces multiples → un seul
+      .replace(/"([^"]*)"/g, '$1')           // retire les guillemets doubles
+      .replace(/'([^']*)'/g, '$1');          // retire les guillemets simples
+  }
 
-  // More flexible check: exact match or starts-with first word of accepted
-  const strictMatch = accepted.some(a => val === a);
+  /**
+   * sortFlags : trie les caractères dans les flags combinés COURTS et purement alphabétiques
+   *  (ex: -la → -al, -al → -al)
+   * Permet d'accepter 'ls -al' autant que 'ls -la'.
+   * Les mots-clés d'options (comme -type, -perm, -name) sont préservés intacts.
+   */
+  const PRESERVED_FLAGS = new Set([
+    'type','perm','name','user','group','exec','mtime','atime','ctime','size',
+    'depth','maxdepth','mindepth','noall','answer','ignore','case','nocase',
+    'color','colour','print','delete','regex','path','ipath','newer','empty',
+    'readable','writable','executable','links','nolinks','mount','follow'
+  ]);
+  function sortFlags(cmd) {
+    return cmd.replace(/(?<!\w)-([a-zA-Z]{2,})/g, (match, flags) => {
+      // Préserver les mots-clés et les flags longs (>4 chars) ou mixtes
+      if (PRESERVED_FLAGS.has(flags.toLowerCase()) || flags.length > 4 || !/^[a-zA-Z]+$/.test(flags)) {
+        return match;
+      }
+      return '-' + flags.toLowerCase().split('').sort().join('');
+    });
+  }
 
-  if (strictMatch || accepted.some(a => {
-    // normalize and compare
-    const normalize = s => s.replace(/\s+/g,' ').trim();
-    return normalize(val) === normalize(a);
-  })) {
-    // Correct!
+  /**
+   * normalizeForCompare : normalisation complète pour la comparaison finale
+   */
+  function normalizeForCompare(s) {
+    return sortFlags(normalizeCmd(s));
+  }
+
+  const val = normalizeForCompare(input.value);
+  const accepted = ex.accepted.map(a => normalizeForCompare(a));
+
+  // Comparaison stricte après normalisation complète
+  const isCorrect = accepted.some(a => val === a);
+
+  if (isCorrect) {
+    // Correct !
     state.exercisesDone.add(exId);
     saveState();
     feedback.className = 'exercise-feedback success';
@@ -4212,7 +4656,7 @@ function checkExercise(exId, mod) {
     input.disabled = true;
     document.querySelector(`[onclick="checkExercise('${exId}', '${mod}')"]`).disabled = true;
     updateProgressUI();
-    // Also run in terminal
+    // Exécuter aussi dans le terminal pour afficher le résultat
     processTerminalCommand(input.value.trim());
   } else {
     feedback.className = 'exercise-feedback error';
@@ -4226,7 +4670,7 @@ function checkExercise(exId, mod) {
    QUIZ RENDERING
    ============================================================ */
 function renderQuizzes() {
-  ['m1','m2','m3','m4','m5','m6','m7'].forEach(mod => {
+  ['m1','m2','m3','m4','m5','m6','m7','m8'].forEach(mod => {
     const container = document.getElementById('quiz-' + mod);
     if (!container) return;
     const quiz = QUIZZES[mod];
@@ -4356,7 +4800,7 @@ function showQuizResult(mod) {
 
   state.quizScores[mod] = score;
   if (pass) {
-    const modules = ['m1','m2','m3','m4','m5','m6','m7'];
+    const modules = ['m1','m2','m3','m4','m5','m6','m7','m8'];
     const idx = modules.indexOf(mod);
     if (idx < modules.length - 1) state.unlockedModules.add(modules[idx + 1]);
     state.unlockedModules.add(mod);
@@ -4382,12 +4826,12 @@ function showQuizResult(mod) {
     + (pass ? '<div class="quiz-unlock-msg">🔓 Module suivant déverrouillé !</div>' : '')
     + '<div class="quiz-result-actions">'
     + '<button class="btn-start-quiz" onclick="startQuiz(\'' + mod + '\')">Recommencer</button>'
-    + (pass && mod !== 'm7' ? '<button class="btn-start-quiz" style="background:var(--accent-blue-dim);margin-left:8px" onclick="navigateTo(\'' + nextMod + '\')">Module suivant →</button>' : '')
+    + (pass && mod !== 'm8' ? '<button class="btn-start-quiz" style="background:var(--accent-blue-dim);margin-left:8px" onclick="navigateTo(\'' + nextMod + '\')">Module suivant →</button>' : '')
     + '</div></div>';
 }
 
 function getNextMod(mod) {
-  const mods = ['m1','m2','m3','m4','m5','m6','m7'];
+  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
   const idx = mods.indexOf(mod);
   return idx < mods.length - 1 ? mods[idx + 1] : mod;
 }
@@ -4398,9 +4842,9 @@ function getNextMod(mod) {
 function renderOverviewCards() {
   const grid = document.getElementById('modules-overview-grid');
   if (!grid) return;
-  const mods = ['m1','m2','m3','m4','m5','m6','m7'];
-  const icons = ['🐧','🔒','👤','🌐','📜','⚙️','🔍'];
-  const nums = ['01','02','03','04','05','06','07'];
+  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+  const icons = ['🐧','🔒','👤','🌐','📜','⚙️','🔍','🐙'];
+  const nums = ['01','02','03','04','05','06','07','08'];
   grid.innerHTML = '';
   mods.forEach(function(mod, i) {
     var meta = MODULE_META[mod];
@@ -4870,7 +5314,7 @@ function processTerminalCommand(rawCmd) {
     case 'which': {
       var prog = args[0];
       if (!prog) break;
-      var known = {bash:'/bin/bash',ls:'/bin/ls',cat:'/bin/cat',echo:'/bin/echo',grep:'/bin/grep',python3:'/usr/bin/python3',node:'/usr/bin/node',git:'/usr/bin/git',chmod:'/bin/chmod',chown:'/bin/chown'};
+      var known = {bash:'/bin/bash',ls:'/bin/ls',cat:'/bin/cat',echo:'/bin/echo',grep:'/bin/grep',python3:'/usr/bin/python3',node:'/usr/bin/node',git:'/usr/bin/git',docker:'/usr/bin/docker',chmod:'/bin/chmod',chown:'/bin/chown'};
       if (known[prog]) termPrint(known[prog], 'term-output');
       else termPrint('<span class="t-err">' + escHtml(prog) + ' : introuvable</span>');
       break;
@@ -4979,6 +5423,211 @@ function processTerminalCommand(rawCmd) {
     case 'source': case '.': { termPrint('<span class="t-yellow">Sourcing ' + escHtml(args[0]||'') + '... (simulation)</span>', 'term-output'); break; }
     case 'export': { termPrint('<span class="t-muted">Variable exportée (simulation).</span>', 'term-output'); break; }
     case 'alias': { termPrint('<span class="t-muted">alias ll=\'ls -la\'\nalias gs=\'git status\'</span>', 'term-output'); break; }
+    case 'git': {
+      var gitSub = args[0];
+      var gitArgs = args.slice(1);
+      if (!gitSub) { termPrint('<span class="t-err">git : sous-commande manquante. Essayez : git init, git status, git add, git commit, git log, git branch, git push, git pull</span>'); break; }
+      if (gitSub === 'init') {
+        vfs[currentDir + '/.git'] = { type: 'dir', children: [] };
+        termPrint('<span class="t-green">Dépôt Git vide initialisé dans ' + escHtml(currentDir) + '/.git/</span>', 'term-output');
+      } else if (gitSub === 'status') {
+        termPrint('<span class="t-green">Sur la branche main</span>', 'term-output');
+        termPrint('', 'term-output');
+        termPrint('<span class="t-muted">Rien à valider, la copie de travail est propre.</span>', 'term-output');
+      } else if (gitSub === 'add') {
+        var addArg = gitArgs[0] || '.';
+        termPrint('<span class="t-muted">git add ' + escHtml(addArg) + ' — fichiers ajoutés à l\'index (simulation)</span>', 'term-output');
+      } else if (gitSub === 'commit') {
+        var msgIdx = gitArgs.indexOf('-m');
+        var commitMsg = msgIdx >= 0 && gitArgs[msgIdx+1] ? gitArgs[msgIdx+1] : 'commit';
+        termPrint('[main ' + Math.random().toString(16).slice(2,9) + '] ' + escHtml(commitMsg), 'term-output');
+        termPrint(' 1 file changed, 1 insertion(+)', 'term-output');
+      } else if (gitSub === 'log') {
+        termPrint('<span class="t-yellow">commit 3a7f2c1b8e9d4f5a6c7b8e9d (HEAD -&gt; main)</span>', 'term-output');
+        termPrint('Author: User &lt;user@example.com&gt;', 'term-output');
+        termPrint('Date:   ' + new Date().toDateString(), 'term-output');
+        termPrint('', 'term-output');
+        termPrint('    feat: initial commit', 'term-output');
+      } else if (gitSub === 'branch') {
+        if (gitArgs[0] && !gitArgs[0].startsWith('-')) {
+          termPrint('<span class="t-green">Branche « ' + escHtml(gitArgs[0]) + ' » créée.</span>', 'term-output');
+        } else {
+          termPrint('* <span class="t-green">main</span>', 'term-output');
+          termPrint('  develop', 'term-output');
+        }
+      } else if (gitSub === 'checkout') {
+        if (gitArgs.includes('-b') || gitArgs.includes('-B')) {
+          var bname = gitArgs.filter(function(a){return !a.startsWith('-');})[0] || 'nouvelle-branche';
+          termPrint('Basculement sur la nouvelle branche « ' + escHtml(bname) + ' »', 'term-output');
+        } else {
+          var bname2 = gitArgs[0] || 'main';
+          termPrint('Basculement sur la branche « ' + escHtml(bname2) + ' »', 'term-output');
+        }
+      } else if (gitSub === 'switch') {
+        var switchBranch = gitArgs.filter(function(a){return !a.startsWith('-');})[0] || 'main';
+        var isCreate = gitArgs.includes('-c') || gitArgs.includes('-C');
+        if (isCreate) termPrint('Basculement sur la nouvelle branche « ' + escHtml(switchBranch) + ' »', 'term-output');
+        else termPrint('Basculement sur la branche « ' + escHtml(switchBranch) + ' »', 'term-output');
+      } else if (gitSub === 'merge') {
+        var mergeBranch = gitArgs[0] || 'feature';
+        termPrint('Merge made by the \'ort\' strategy.', 'term-output');
+        termPrint('<span class="t-green"> 1 file changed, 5 insertions(+)</span>', 'term-output');
+      } else if (gitSub === 'remote') {
+        if (gitArgs[0] === 'add') {
+          termPrint('<span class="t-green">Remote « ' + escHtml(gitArgs[1]||'origin') + ' » ajouté.</span>', 'term-output');
+        } else if (gitArgs[0] === '-v' || gitArgs[0] === 'show') {
+          termPrint('origin  https://github.com/user/repo.git (fetch)', 'term-output');
+          termPrint('origin  https://github.com/user/repo.git (push)', 'term-output');
+        }
+      } else if (gitSub === 'push') {
+        termPrint('Décompte des objets: 3, fait.', 'term-output');
+        termPrint('<span class="t-green">To https://github.com/user/repo.git</span>', 'term-output');
+        termPrint('   3a7f2c1..9b4e8f2  main -&gt; main', 'term-output');
+      } else if (gitSub === 'pull') {
+        termPrint('Already up to date.', 'term-output');
+      } else if (gitSub === 'fetch') {
+        termPrint('<span class="t-muted">Récupération de origin...</span>', 'term-output');
+      } else if (gitSub === 'stash') {
+        if (gitArgs[0] === 'pop') termPrint('<span class="t-green">Modifications restaurées depuis le stash.</span>', 'term-output');
+        else if (gitArgs[0] === 'list') termPrint('stash@{0}: WIP on main: 3a7f2c1 feat: initial commit', 'term-output');
+        else termPrint('<span class="t-green">Modifications remisées dans le stash.</span>', 'term-output');
+      } else if (gitSub === 'diff') {
+        termPrint('<span class="t-muted">diff --git a/fichier.txt b/fichier.txt</span>', 'term-output');
+        termPrint('<span class="t-green">+++ b/fichier.txt</span>', 'term-output');
+        termPrint('<span class="t-green">+nouvelle ligne ajoutée</span>', 'term-output');
+      } else if (gitSub === 'rebase') {
+        termPrint('<span class="t-green">Rebase effectué avec succès (simulation).</span>', 'term-output');
+      } else if (gitSub === 'reset') {
+        termPrint('<span class="t-yellow">Reset effectué (simulation).</span>', 'term-output');
+      } else if (gitSub === 'tag') {
+        var tagName = gitArgs.filter(function(a){return !a.startsWith('-');})[0] || 'v1.0.0';
+        termPrint('<span class="t-green">Tag « ' + escHtml(tagName) + ' » créé.</span>', 'term-output');
+      } else if (gitSub === 'clone') {
+        var cloneUrl = gitArgs[0] || 'https://github.com/user/repo.git';
+        var repoName = cloneUrl.split('/').pop().replace('.git','') || 'repo';
+        termPrint('Clonage dans « ' + escHtml(repoName) + ' »...', 'term-output');
+        termPrint('<span class="t-green">Dépôt cloné avec succès.</span>', 'term-output');
+      } else if (gitSub === 'config') {
+        termPrint('<span class="t-muted">Configuration Git mise à jour (simulation).</span>', 'term-output');
+      } else {
+        termPrint('<span class="t-err">git: « ' + escHtml(gitSub) + ' » n\'est pas une commande git connue</span>');
+      }
+      break;
+    }
+    case 'docker': {
+      var dockerSub = args[0];
+      var dockerArgs = args.slice(1);
+      if (!dockerSub) { termPrint('<span class="t-err">docker : sous-commande manquante. Essayez : docker ps, docker images, docker pull, docker run, docker stop, docker rm</span>'); break; }
+      if (dockerSub === 'version') {
+        termPrint('Client: Docker Engine - Community', 'term-output');
+        termPrint(' Version:           24.0.5', 'term-output');
+        termPrint('Server: Docker Engine - Community', 'term-output');
+        termPrint(' Engine: Version:   24.0.5', 'term-output');
+      } else if (dockerSub === 'info') {
+        termPrint('Containers: 2', 'term-output');
+        termPrint(' Running: 1', 'term-output');
+        termPrint(' Stopped: 1', 'term-output');
+        termPrint('Images: 5', 'term-output');
+        termPrint('Server Version: 24.0.5', 'term-output');
+        termPrint('Storage Driver: overlay2', 'term-output');
+      } else if (dockerSub === 'ps') {
+        if (dockerArgs.includes('-a')) {
+          termPrint('<span class="t-muted">CONTAINER ID   IMAGE     COMMAND   CREATED       STATUS                   NAMES</span>', 'term-output');
+          termPrint('a1b2c3d4e5f6   nginx     "nginx"   5 min ago     Up 5 minutes             webserver', 'term-output');
+          termPrint('b2c3d4e5f6a7   ubuntu    "bash"    10 min ago    Exited (0) 8 minutes ago  stoppe', 'term-output');
+        } else {
+          termPrint('<span class="t-muted">CONTAINER ID   IMAGE   COMMAND   CREATED      STATUS       PORTS     NAMES</span>', 'term-output');
+          termPrint('a1b2c3d4e5f6   nginx   "nginx"   5 min ago    Up 5 min     80/tcp    webserver', 'term-output');
+        }
+      } else if (dockerSub === 'images') {
+        termPrint('<span class="t-muted">REPOSITORY   TAG       IMAGE ID       CREATED        SIZE</span>', 'term-output');
+        termPrint('ubuntu       22.04     174c8c134b2a   2 weeks ago    77.9MB', 'term-output');
+        termPrint('nginx        latest    a6bd71f48f68   3 weeks ago    187MB', 'term-output');
+        termPrint('python       3.11      8c4f3b2e9a1d   1 month ago    920MB', 'term-output');
+      } else if (dockerSub === 'pull') {
+        var pullImg = dockerArgs[0] || 'ubuntu';
+        termPrint('Pulling from library/' + escHtml(pullImg.split(':')[0]), 'term-output');
+        termPrint('<span class="t-green">Status: Downloaded newer image for ' + escHtml(pullImg) + '</span>', 'term-output');
+      } else if (dockerSub === 'run') {
+        var runImg = dockerArgs.filter(function(a){return !a.startsWith('-');})[0] || 'ubuntu';
+        var runCmd = dockerArgs.filter(function(a){return !a.startsWith('-');}).slice(1).join(' ');
+        if (dockerArgs.includes('-d')) {
+          termPrint('<span class="t-green">a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0</span>', 'term-output');
+        } else if (dockerArgs.includes('-it') || (dockerArgs.includes('-i') && dockerArgs.includes('-t'))) {
+          termPrint('<span class="t-yellow">Conteneur ' + escHtml(runImg) + ' démarré en mode interactif (simulation).</span>', 'term-output');
+          termPrint('<span class="t-muted">root@a1b2c3d4:/#</span> exit', 'term-output');
+        } else if (runCmd) {
+          termPrint(escHtml(runCmd), 'term-output');
+        } else {
+          termPrint('<span class="t-green">Conteneur démarré depuis l\'image ' + escHtml(runImg) + '.</span>', 'term-output');
+        }
+      } else if (dockerSub === 'stop') {
+        var stopId = dockerArgs[0] || 'container_id';
+        termPrint(escHtml(stopId), 'term-output');
+      } else if (dockerSub === 'rm') {
+        var rmId = dockerArgs[0] || 'container_id';
+        termPrint(escHtml(rmId), 'term-output');
+      } else if (dockerSub === 'rmi') {
+        var rmiImg = dockerArgs[0] || 'image_id';
+        termPrint('<span class="t-green">Image ' + escHtml(rmiImg) + ' supprimée.</span>', 'term-output');
+      } else if (dockerSub === 'build') {
+        termPrint('Step 1/4 : FROM ubuntu:22.04', 'term-output');
+        termPrint('Step 2/4 : RUN apt-get update', 'term-output');
+        termPrint('Step 3/4 : COPY . .', 'term-output');
+        termPrint('Step 4/4 : CMD ["/bin/bash"]', 'term-output');
+        termPrint('<span class="t-green">Successfully built 9f8e7d6c5b4a</span>', 'term-output');
+        var tagArg = dockerArgs.filter(function(a){return !a.startsWith('-');}).find(function(a){return !a.startsWith('.');});
+        if (tagArg) termPrint('<span class="t-green">Successfully tagged ' + escHtml(tagArg) + '</span>', 'term-output');
+      } else if (dockerSub === 'tag') {
+        termPrint('<span class="t-green">Image taguée avec succès.</span>', 'term-output');
+      } else if (dockerSub === 'logs') {
+        var logsId = dockerArgs.filter(function(a){return !a.startsWith('-');})[0] || 'container_id';
+        termPrint('<span class="t-muted">Logs du conteneur ' + escHtml(logsId) + ' :</span>', 'term-output');
+        termPrint('2024-01-15 10:00:01 INFO  Démarrage du serveur...', 'term-output');
+        termPrint('2024-01-15 10:00:02 INFO  Écoute sur le port 80', 'term-output');
+      } else if (dockerSub === 'exec') {
+        termPrint('<span class="t-yellow">docker exec : exécution dans le conteneur (simulation).</span>', 'term-output');
+      } else if (dockerSub === 'volume') {
+        if (dockerArgs[0] === 'create') termPrint('<span class="t-green">Volume créé : ' + escHtml(dockerArgs[1]||'myvolume') + '</span>', 'term-output');
+        else if (dockerArgs[0] === 'ls') {
+          termPrint('<span class="t-muted">DRIVER    VOLUME NAME</span>', 'term-output');
+          termPrint('local     mydata', 'term-output');
+        } else termPrint('<span class="t-muted">docker volume : utilisez create ou ls</span>', 'term-output');
+      } else if (dockerSub === 'network') {
+        if (dockerArgs[0] === 'ls') {
+          termPrint('<span class="t-muted">NETWORK ID     NAME      DRIVER    SCOPE</span>', 'term-output');
+          termPrint('abc123456789   bridge    bridge    local', 'term-output');
+          termPrint('def456789012   host      host      local', 'term-output');
+          termPrint('ghi789012345   none      null      local', 'term-output');
+        } else if (dockerArgs[0] === 'create') {
+          termPrint('<span class="t-green">Réseau créé : ' + escHtml(dockerArgs[1]||'monreseau') + '</span>', 'term-output');
+        } else termPrint('<span class="t-muted">docker network : utilisez ls ou create</span>', 'term-output');
+      } else if (dockerSub === 'compose') {
+        var composeSub = dockerArgs[0];
+        if (composeSub === 'up') {
+          termPrint('Creating network "app_default" with the default driver', 'term-output');
+          termPrint('<span class="t-green">Creating app_db_1  ... done</span>', 'term-output');
+          termPrint('<span class="t-green">Creating app_web_1 ... done</span>', 'term-output');
+        } else if (composeSub === 'down') {
+          termPrint('<span class="t-green">Stopping app_web_1 ... done</span>', 'term-output');
+          termPrint('<span class="t-green">Stopping app_db_1  ... done</span>', 'term-output');
+          termPrint('<span class="t-green">Removing network app_default</span>', 'term-output');
+        } else if (composeSub === 'logs') {
+          termPrint('<span class="t-muted">Attaching to app_web_1, app_db_1</span>', 'term-output');
+          termPrint('web_1  | 2024-01-15 10:00:01 INFO Server started', 'term-output');
+          termPrint('db_1   | 2024-01-15 10:00:00 INFO PostgreSQL 15 ready', 'term-output');
+        } else if (composeSub === 'ps') {
+          termPrint('<span class="t-muted">NAME        SERVICE   STATUS    PORTS</span>', 'term-output');
+          termPrint('app_web_1   web       running   0.0.0.0:8080->5000/tcp', 'term-output');
+          termPrint('app_db_1    db        running   5432/tcp', 'term-output');
+        } else {
+          termPrint('<span class="t-muted">docker compose : up, down, logs, ps, exec</span>', 'term-output');
+        }
+      } else {
+        termPrint('<span class="t-err">docker: « ' + escHtml(dockerSub) + ' » n\'est pas une commande Docker connue</span>');
+      }
+      break;
+    }
     case 'help': {
       termPrint('<div class="help-grid">'
         + '<div class="help-section"><strong>Navigation</strong><br>'
@@ -5833,248 +6482,4 @@ R.prototype.get_state=function(){var a=[];a[0]=this.memory_size[0];a[1]=new Uint
 a[23]=this.sysenter_eip[0];a[24]=this.sysenter_esp[0];a[25]=this.prefixes[0];a[26]=this.flags[0];a[27]=this.flags_changed[0];a[28]=this.last_op1[0];a[30]=this.last_op_size[0];a[37]=this.instruction_pointer[0];a[38]=this.previous_ip[0];a[39]=this.reg32;a[40]=this.sreg;a[41]=this.dreg;a[42]=this.reg_pdpte;this.store_current_tsc();a[43]=this.current_tsc;a[45]=this.devices.virtio_9p;a[46]=this.get_state_apic();a[47]=this.devices.rtc;a[48]=this.devices.pci;a[49]=this.devices.dma;a[50]=this.devices.acpi;
 a[52]=this.devices.vga;a[53]=this.devices.ps2;a[54]=this.devices.uart0;a[55]=this.devices.fdc;this.devices.ide.secondary?a[85]=this.devices.ide:this.devices.ide.primary?.master.is_atapi?a[56]=this.devices.ide.primary:a[57]=this.devices.ide.primary;a[58]=this.devices.pit;a[59]=this.devices.net;a[60]=this.get_state_pic();a[61]=this.devices.sb16;a[62]=this.fw_value;a[63]=this.get_state_ioapic();a[64]=this.tss_size_32[0];a[66]=this.reg_xmm32s;a[67]=this.fpu_st;a[68]=this.fpu_stack_empty[0];a[69]=this.fpu_stack_ptr[0];
 a[70]=this.fpu_control_word[0];a[71]=this.fpu_ip[0];a[72]=this.fpu_ip_selector[0];a[73]=this.fpu_dp[0];a[74]=this.fpu_dp_selector[0];a[75]=this.fpu_opcode[0];const {packed_memory:b,bitmap:c}=this.pack_memory();a[77]=b;a[78]=new Uint8Array(c.get_buffer());a[79]=this.devices.uart1;a[80]=this.devices.uart2;a[81]=this.devices.uart3;a[82]=this.devices.virtio_console;a[83]=this.devices.virtio_net;a[84]=this.devices.virtio_balloon;a[86]=this.last_result;a[87]=this.fpu_status_word;a[88]=this.mxcsr;return a};
-R.prototype.get_state_pic=function(){const a=new Uint8Array(this.wasm_memory.buffer,this.get_pic_addr_master(),13),b=new Uint8Array(this.wasm_memory.buffer,this.get_pic_addr_slave(),13),c=[],d=[];c[0]=a[0];c[1]=a[1];c[2]=a[2];c[3]=a[3];c[4]=a[4];c[5]=d;c[6]=a[6];c[7]=a[7];c[8]=a[8];c[9]=a[9];c[10]=a[10];c[11]=a[11];c[12]=a[12];d[0]=b[0];d[1]=b[1];d[2]=b[2];d[3]=b[3];d[4]=b[4];d[5]=null;d[6]=b[6];d[7]=b[7];d[8]=b[8];d[9]=b[9];d[10]=b[10];d[11]=b[11];d[12]=b[12];return c};
-R.prototype.get_state_apic=function(){return new Uint8Array(this.wasm_memory.buffer,this.get_apic_addr(),184)};R.prototype.get_state_ioapic=function(){return new Uint8Array(this.wasm_memory.buffer,this.get_ioapic_addr(),208)};
-R.prototype.set_state=function(a){this.memory_size[0]=a[0];this.mem8.length!==this.memory_size[0]&&console.warn("Note: Memory size mismatch. we="+this.mem8.length+" state="+this.memory_size[0]);8===a[1].length?(this.segment_is_null.set(a[1]),this.segment_access_bytes.fill(242),this.segment_access_bytes[1]=250):16===a[1].length&&(this.segment_is_null.set(a[1].subarray(0,8)),this.segment_access_bytes.set(a[1].subarray(8,16)));this.segment_offsets.set(a[2]);this.segment_limits.set(a[3]);this.protected_mode[0]=
-a[4];this.idtr_offset[0]=a[5];this.idtr_size[0]=a[6];this.gdtr_offset[0]=a[7];this.gdtr_size[0]=a[8];this.page_fault[0]=a[9];this.cr.set(a[10]);this.cpl[0]=a[11];this.is_32[0]=a[13];this.stack_size_32[0]=a[16];this.in_hlt[0]=a[17];this.last_virt_eip[0]=a[18];this.eip_phys[0]=a[19];this.sysenter_cs[0]=a[22];this.sysenter_eip[0]=a[23];this.sysenter_esp[0]=a[24];this.prefixes[0]=a[25];this.flags[0]=a[26];this.flags_changed[0]=a[27];this.last_op1[0]=a[28];this.last_op_size[0]=a[30];this.instruction_pointer[0]=
-a[37];this.previous_ip[0]=a[38];this.reg32.set(a[39]);this.sreg.set(a[40]);this.dreg.set(a[41]);a[42]&&this.reg_pdpte.set(a[42]);this.set_tsc(a[43][0],a[43][1]);this.devices.virtio_9p&&this.devices.virtio_9p.set_state(a[45]);a[46]&&this.set_state_apic(a[46]);this.devices.rtc&&this.devices.rtc.set_state(a[47]);this.devices.dma&&this.devices.dma.set_state(a[49]);this.devices.acpi&&this.devices.acpi.set_state(a[50]);this.devices.vga&&this.devices.vga.set_state(a[52]);this.devices.ps2&&this.devices.ps2.set_state(a[53]);
-this.devices.uart0&&this.devices.uart0.set_state(a[54]);this.devices.fdc&&this.devices.fdc.set_state(a[55]);if(a[56]||a[57]){var b=[[void 0,void 0],[void 0,void 0]];b[0][0]=a[56]?{is_cdrom:!0,buffer:this.devices.cdrom.buffer}:{is_cdrom:!1,buffer:this.devices.ide.primary.master.buffer};this.devices.ide=new $c(this,this.devices.ide.bus,b);this.devices.cdrom=a[56]?this.devices.ide.primary.master:void 0;this.devices.ide.primary.set_state(a[56]||a[57])}else a[85]&&this.devices.ide.set_state(a[85]);this.devices.pci&&
-this.devices.pci.set_state(a[48]);this.devices.pit&&this.devices.pit.set_state(a[58]);this.devices.net&&this.devices.net.set_state(a[59]);this.set_state_pic(a[60]);this.devices.sb16&&this.devices.sb16.set_state(a[61]);this.devices.uart1&&this.devices.uart1.set_state(a[79]);this.devices.uart2&&this.devices.uart2.set_state(a[80]);this.devices.uart3&&this.devices.uart3.set_state(a[81]);this.devices.virtio_console&&this.devices.virtio_console.set_state(a[82]);this.devices.virtio_net&&this.devices.virtio_net.set_state(a[83]);
-this.devices.virtio_balloon&&this.devices.virtio_balloon.set_state(a[84]);this.fw_value=a[62];a[63]&&this.set_state_ioapic(a[63]);this.tss_size_32[0]=a[64];this.reg_xmm32s.set(a[66]);this.fpu_st.set(a[67]);this.fpu_stack_empty[0]=a[68];this.fpu_stack_ptr[0]=a[69];this.fpu_control_word[0]=a[70];this.fpu_ip[0]=a[71];this.fpu_ip_selector[0]=a[72];this.fpu_dp[0]=a[73];this.fpu_dp_selector[0]=a[74];this.fpu_opcode[0]=a[75];void 0!==a[86]&&(this.last_result=a[86]);void 0!==a[87]&&(this.fpu_status_word=
-a[87]);void 0!==a[88]&&(this.mxcsr=a[88]);b=new na(a[78].buffer);this.unpack_memory(b,a[77]);this.update_state_flags();this.full_clear_tlb();this.jit_clear_cache()};
-R.prototype.set_state_pic=function(a){const b=new Uint8Array(this.wasm_memory.buffer,this.get_pic_addr_master(),13),c=new Uint8Array(this.wasm_memory.buffer,this.get_pic_addr_slave(),13);b[0]=a[0];b[1]=a[1];b[2]=a[2];b[3]=a[3];b[4]=a[4];const d=a[5];b[6]=a[6];b[7]=a[7];b[8]=a[8];b[9]=a[9];b[10]=a[10];b[11]=a[11];b[12]=a[12];c[0]=d[0];c[1]=d[1];c[2]=d[2];c[3]=d[3];c[4]=d[4];c[6]=d[6];c[7]=d[7];c[8]=d[8];c[9]=d[9];c[10]=d[10];c[11]=d[11];c[12]=d[12]};
-R.prototype.set_state_apic=function(a){if(a instanceof Array){const b=new Int32Array(this.wasm_memory.buffer,this.get_apic_addr(),46);b[0]=a[0];b[1]=a[1];b[2]=a[2];b[3]=a[3];b[4]=a[4];b[8]=a[6];b[9]=a[7];b[10]=a[8];b[11]=a[9];b[12]=a[10];b[13]=a[11];b[14]=a[12];b[15]=a[13];b.set(a[15],16);b.set(a[15],24);b.set(a[16],32);b[40]=a[17];b[41]=a[18];b[42]=a[19];b[43]=a[20];b[44]=a[21];b[45]=a[22]||65536}else(new Uint8Array(this.wasm_memory.buffer,this.get_apic_addr(),184)).set(a)};
-R.prototype.set_state_ioapic=function(a){if(a instanceof Array){const b=new Int32Array(this.wasm_memory.buffer,this.get_ioapic_addr(),52);b.set(a[0],0);b.set(a[1],24);b[48]=a[2];b[49]=a[3];b[50]=a[4];b[51]=a[5]}else(new Uint8Array(this.wasm_memory.buffer,this.get_ioapic_addr(),208)).set(a)};
-R.prototype.pack_memory=function(){var a=this.mem8.length>>12,b=[];for(var c=0;c<a;c++)this.is_memory_zeroed(c<<12,4096)||b.push(c);a=new na(a);c=new Uint8Array(b.length<<12);for(const [d,e]of b.entries())a.set(e,1),b=e<<12,b=this.mem8.subarray(b,b+4096),c.set(b,d<<12);return{bitmap:a,packed_memory:c}};
-R.prototype.unpack_memory=function(a,b){this.zero_memory(0,this.memory_size[0]);const c=this.memory_size[0]>>12;let d=0;for(let f=0;f<c;f++)if(a.get(f)){var e=d<<12;e=b.subarray(e,e+4096);this.mem8.set(e,f<<12);d++}};
-R.prototype.reboot_internal=function(){this.reset_cpu();this.fw_value=[];this.devices.virtio_9p&&this.devices.virtio_9p.reset();this.devices.virtio_console&&this.devices.virtio_console.reset();this.devices.virtio_net&&this.devices.virtio_net.reset();this.devices.ps2&&this.devices.ps2.reset();this.load_bios()};R.prototype.reset_memory=function(){this.mem8.fill(0)};
-R.prototype.create_memory=function(a,b){a<b?a=b:0>(a|0)&&(a=Math.pow(2,31)-131072);a=(a-1|131071)+1|0;console.assert(0===this.memory_size[0],"Expected uninitialised memory");this.memory_size[0]=a;b=this.allocate_memory(a);this.mem8=k(Uint8Array,this.wasm_memory,b,a);this.mem32s=k(Uint32Array,this.wasm_memory,b,a>>2)};
-R.prototype.init=function(a,b){this.create_memory(a.memory_size||67108864,a.initrd?67108864:1048576);a.disable_jit&&this.set_jit_config(0,1);a.cpuid_level&&this.set_cpuid_level(a.cpuid_level);this.acpi_enabled[0]=+a.acpi;this.reset_cpu();var c=new Da(this);this.io=c;this.bios.main=a.bios;this.bios.vga=a.vga_bios;this.load_bios();if(a.bzimage){const e=gd(this.mem8,a.bzimage,a.initrd,a.cmdline||"");e&&this.option_roms.push(e)}c.register_read(179,this,function(){return 0});var d=0;c.register_read(146,
-this,function(){return d});c.register_write(146,this,function(e){d=e});c.register_read(1297,this,function(){return this.fw_pointer<this.fw_value.length?this.fw_value[this.fw_pointer++]:0});c.register_write(1296,this,void 0,function(e){function f(l){return new Uint8Array(Int32Array.of(l).buffer)}function g(l){return l>>8|l<<8&65280}function h(l){return l<<24|l<<8&16711680|l>>8&65280|l>>>24}va("bios config port, index="+y(e));this.fw_pointer=0;if(0===e)this.fw_value=f(1431127377);else if(1===e)this.fw_value=
-f(0);else if(3===e)this.fw_value=f(this.memory_size[0]);else if(5===e)this.fw_value=f(1);else if(15===e)this.fw_value=f(1);else if(13===e)this.fw_value=new Uint8Array(16);else if(25===e){e=new Int32Array(4+64*this.option_roms.length);const l=new Uint8Array(e.buffer);e[0]=h(this.option_roms.length);for(let m=0;m<this.option_roms.length;m++){const {name:n,data:p}=this.option_roms[m],q=4+64*m;e[q+0>>2]=h(p.length);e[q+4>>2]=g(49152+m);for(let r=0;r<n.length;r++)l[q+8+r]=n.charCodeAt(r)}this.fw_value=
-l}else 32768<=e&&49152>e?this.fw_value=f(0):49152<=e&&e-49152<this.option_roms.length?this.fw_value=this.option_roms[e-49152].data:(va("Warning: Unimplemented fw index: "+y(e)),this.fw_value=f(0))});this.devices={};a.load_devices&&(this.devices.pci=new Gc(this),this.acpi_enabled[0]&&(this.devices.acpi=new Ec(this)),this.devices.rtc=new hb(this),this.fill_cmos(this.devices.rtc,a),this.devices.dma=new B(this),this.devices.vga=new Y(this,b,a.screen,a.vga_memory_size||8388608),this.devices.ps2=new Mc(this,
-b),this.devices.uart0=new Fc(this,1016,b),a.uart1&&(this.devices.uart1=new Fc(this,760,b)),a.uart2&&(this.devices.uart2=new Fc(this,1E3,b)),a.uart3&&(this.devices.uart3=new Fc(this,744,b)),this.devices.fdc=new W(this,a.fda,a.fdb),c=[[void 0,void 0],[void 0,void 0]],a.hda&&(c[0][0]={buffer:a.hda},c[0][1]={buffer:a.hdb}),c[1][0]={is_cdrom:!0,buffer:a.cdrom},this.devices.ide=new $c(this,b,c),this.devices.cdrom=this.devices.ide.secondary.master,this.devices.pit=new ib(this,b),"ne2k"===a.net_device.type?
-this.devices.net=new Jc(this,b,a.preserve_mac_from_state_image,a.mac_address_translation):"virtio"===a.net_device.type&&(this.devices.virtio_net=new bd(this,b,a.preserve_mac_from_state_image,a.net_device.mtu)),a.fs9p?this.devices.virtio_9p=new hd(a.fs9p,this,b):a.handle9p?this.devices.virtio_9p=new id(a.handle9p,this):a.proxy9p&&(this.devices.virtio_9p=new jd(a.proxy9p,this)),a.virtio_console&&(this.devices.virtio_console=new Kc(this,b)),a.virtio_balloon&&(this.devices.virtio_balloon=new fd(this,
-b)),this.devices.sb16=new D(this,b));a.multiboot&&(a=this.load_multiboot_option_rom(a.multiboot,a.initrd,a.cmdline))&&(this.bios.main?this.option_roms.push(a):this.reg32[0]=this.io.port_read32(244));this.debug_init()};R.prototype.load_multiboot=function(a){this.load_multiboot_option_rom(a,void 0,"")&&(this.reg32[0]=this.io.port_read32(244))};
-R.prototype.load_multiboot_option_rom=function(a,b,c){if(8192>a.byteLength){var d=new Int32Array(2048);(new Uint8Array(d.buffer)).set(new Uint8Array(a))}else d=new Int32Array(a,0,2048);for(var e=0;8192>e;e+=4){if(464367618===d[e>>2]){var f=d[e+4>>2];if(464367618+f+d[e+8>>2]|0)continue}else continue;va("Multiboot magic found, flags: "+y(f>>>0,8),2);var g=this;this.io.register_read(244,this,function(){return 0},function(){return 0},function(){var n,p=31860;let q=0;if(c){q|=4;g.write32(31760,p);c+="\x00";
-var r=(new TextEncoder).encode(c);g.write_blob(r,p);p+=r.length}if(f&2){q|=64;r=0;g.write32(31788,0);g.write32(31792,p);var x=0;var C=!1;for(n=0;4294967296>n;n+=131072)C&&void 0!==g.memory_map_read8[n>>>17]?(g.write32(p,20),g.write32(p+4,x),g.write32(p+8,0),g.write32(p+12,n-x),g.write32(p+16,0),g.write32(p+20,1),p+=24,r+=24,C=!1):C||void 0!==g.memory_map_read8[n>>>17]||(x=n,C=!0);g.write32(31788,r)}x=r=0;if(f&65536){n=d[e+12>>2];r=d[e+16>>2];var t=d[e+20>>2];x=d[e+24>>2];C=d[e+28>>2];y(n,8);y(r,8);
-y(t,8);y(x,8);y(C,8);n=new Uint8Array(a,e-(n-r),0===t?void 0:t-r);g.write_blob(n,r);r=C|0;x=Math.max(t,x)}else if(1179403647===d[0]){C=new DataView(a);const [A,M]=Uc(C,Rc);console.assert(52===M);console.assert(1179403647===A.magic,"Bad magic");console.assert(1===A.class,"Unimplemented: 64 bit elf");console.assert(1===A.data,"Unimplemented: big endian");console.assert(1===A.version0,"Bad version0");console.assert(2===A.type,"Unimplemented type");console.assert(1===A.version1,"Bad version1");console.assert(52===
-A.ehsize,"Bad header size");console.assert(32===A.phentsize,"Bad program header size");console.assert(40===A.shentsize,"Bad section header size");[r]=Vc(new DataView(C.buffer,C.byteOffset+A.phoff,A.phentsize*A.phnum),Sc,A.phnum);Vc(new DataView(C.buffer,C.byteOffset+A.shoff,A.shentsize*A.shnum),Tc,A.shnum);C=A;n=r;r=C.entry;for(t of n)0!==t.type&&(1===t.type?t.paddr+t.memsz<g.memory_size[0]?(t.filesz&&(n=new Uint8Array(a,t.offset,t.filesz),g.write_blob(n,t.paddr)),x=Math.max(x,t.paddr+t.memsz),r===
-C.entry&&t.vaddr<=r&&t.vaddr+t.memsz>r&&(r=r-t.vaddr+t.paddr)):y(t.paddr):2===t.type||3===t.type||4===t.type||6===t.type||7===t.type||1685382480===t.type||1685382481===t.type||1685382482===t.type||1685382483===t.type||y(t.type))}b&&(q|=8,g.write32(31764,1),g.write32(31768,p),t=x,0!==(t&4095)&&(t=(t&-4096)+4096),x=t+b.byteLength,g.write32(p,t),g.write32(p+4,x),g.write32(p+8,0),g.write32(p+12,0),g.write_blob(new Uint8Array(b),t));g.write32(31744,q);g.reg32[3]=31744;g.cr[0]=1;g.protected_mode[0]=1;g.flags[0]=
-2;g.is_32[0]=1;g.stack_size_32[0]=1;for(p=0;6>p;p++)g.segment_is_null[p]=0,g.segment_offsets[p]=0,g.segment_limits[p]=4294967295,g.sreg[p]=45058;g.instruction_pointer[0]=g.get_seg_cs()+r|0;g.update_state_flags();g.dump_state();g.dump_regs_short();return 732803074});this.io.register_write_consecutive(244,this,function(n){console.log("Test exited with code "+y(n,2));throw"HALT";},function(){},function(){},function(){});for(let n=0;15>=n;n++){function p(q){y(n);y(q,2);q?this.device_raise_irq(n):this.device_lower_irq(n)}
-this.io.register_write(8192+n,this,p,p,p)}const l=new Uint8Array(512);(new Uint16Array(l.buffer))[0]=43605;l[2]=1;var h=3;l[h++]=102;l[h++]=229;l[h++]=244;let m=l[h]=0;for(let n=0;n<l.length;n++)m+=l[n];l[h]=-m;return{name:"genroms/multiboot.bin",data:l}}};
-R.prototype.fill_cmos=function(a,b){var c=b.boot_order||291;a.cmos_write(56,1|c>>4&240);a.cmos_write(61,c&255);a.cmos_write(21,128);a.cmos_write(22,2);c=0;1048576<=this.memory_size[0]&&(c=this.memory_size[0]-1048576>>10,c=Math.min(c,65535));a.cmos_write(23,c&255);a.cmos_write(24,c>>8&255);a.cmos_write(48,c&255);a.cmos_write(49,c>>8&255);c=0;16777216<=this.memory_size[0]&&(c=this.memory_size[0]-16777216>>16,c=Math.min(c,65535));a.cmos_write(52,c&255);a.cmos_write(53,c>>8&255);a.cmos_write(91,0);a.cmos_write(92,
-0);a.cmos_write(93,0);a.cmos_write(20,47);a.cmos_write(95,0);b.fastboot&&a.cmos_write(63,1)};
-R.prototype.load_bios=function(){var a=this.bios.main,b=this.bios.vga;if(a){var c=new Uint8Array(a);this.write_blob(c,1048576-a.byteLength);if(b){var d=new Uint8Array(b);this.write_blob(d,786432);this.io.mmap_register(4272947200,1048576,function(e){e=e-4272947200|0;return e<d.length?d[e]:0},function(){})}this.io.mmap_register(4293918720,1048576,function(e){return this.mem8[e&1048575]}.bind(this),function(e,f){this.mem8[e&1048575]=f}.bind(this))}};
-R.prototype.codegen_finalize=function(a,b,c,d,e){const f=new Uint8Array(this.wasm_memory.buffer,d>>>0,e>>>0);WebAssembly.instantiate(f,{e:this.jit_imports}).then(g=>{this.wm.wasm_table.set(a+1024,g.instance.exports.f);this.codegen_finalize_finished(a,b,c);this.test_hook_did_finalize_wasm&&this.test_hook_did_finalize_wasm(f)})};R.prototype.log_uncompiled_code=function(){};R.prototype.dump_function_code=function(){};
-R.prototype.run_hardware_timers=function(a,b){const c=this.devices.pit.timer(b,!1),d=this.devices.rtc.timer(b,!1);let e=100,f=100;a&&(e=this.devices.acpi.timer(b),f=this.apic_timer(b));return Math.min(c,d,e,f)};R.prototype.debug_init=function(){};R.prototype.dump_stack=function(){};R.prototype.debug_get_state=function(){};R.prototype.dump_state=function(){};R.prototype.get_regs_short=function(){};R.prototype.dump_regs_short=function(){};R.prototype.dump_gdt_ldt=function(){};R.prototype.dump_idt=function(){};
-R.prototype.dump_page_structures=function(){if(this.cr[4]&32)for(var a=0;4>a;a++){var b=this.read32s(this.cr[3]+8*a);b&1&&this.dump_page_directory(b&4294963200,!0,a<<30)}else this.dump_page_directory(this.cr[3],!1,0)};R.prototype.dump_page_directory=function(){};R.prototype.get_memory_dump=function(){};R.prototype.memory_hex_dump=function(){};R.prototype.used_memory_dump=function(){};R.prototype.debug_interrupt=function(){};R.prototype.debug_dump_code=function(){};R.prototype.dump_wasm=function(){};function Lc(a,b){this.cpu=a;this.pci=a.devices.pci;this.device_id=b.device_id;this.pci_space=[244,26,b.device_id&255,b.device_id>>8,7,5,16,0,1,0,2,0,0,0,0,0,1,168,0,0,0,16,191,254,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,244,26,b.subsystem_device_id&255,b.subsystem_device_id>>8,0,0,0,0,64,0,0,0,0,0,0,0,0,1,0,0];this.pci_space=this.pci_space.concat(Array(256-this.pci_space.length).fill(0));this.pci_id=b.pci_id;this.pci_bars=[];this.name=b.name;this.driver_feature_select=this.device_feature_select=0;
-this.device_feature=new Uint32Array(4);this.driver_feature=new Uint32Array(4);for(var c of b.common.features)this.device_feature[c>>>5]|=1<<(c&31),this.driver_feature[c>>>5]|=1<<(c&31);b.common.features.includes(32);this.features_ok=!0;this.device_status=0;this.config_has_changed=!1;this.config_generation=0;this.queues=[];for(const d of b.common.queues)this.queues.push(new Z(a,this,d));this.queue_select=0;this.queue_selected=this.queues[0];this.isr_status=0;c=[];c.push(this.create_common_capability(b.common));
-c.push(this.create_notification_capability(b.notification));c.push(this.create_isr_capability(b.isr_status));b.device_specific&&c.push(this.create_device_specific_capability(b.device_specific));this.init_capabilities(c);a.devices.pci.register_device(this);this.reset()}
-Lc.prototype.create_common_capability=function(a){return{type:1,bar:0,port:a.initial_port,use_mmio:!1,offset:0,extra:new Uint8Array(0),struct:[{bytes:4,name:"device_feature_select",read:()=>this.device_feature_select,write:b=>{this.device_feature_select=b}},{bytes:4,name:"device_feature",read:()=>this.device_feature[this.device_feature_select]||0,write:()=>{}},{bytes:4,name:"driver_feature_select",read:()=>this.driver_feature_select,write:b=>{this.driver_feature_select=b}},{bytes:4,name:"driver_feature",
-read:()=>this.driver_feature[this.driver_feature_select]||0,write:b=>{const c=this.device_feature[this.driver_feature_select];this.driver_feature_select<this.driver_feature.length&&(this.driver_feature[this.driver_feature_select]=b&c);this.features_ok=this.features_ok&&!(b&~c)}},{bytes:2,name:"msix_config",read:()=>65535,write:()=>{}},{bytes:2,name:"num_queues",read:()=>this.queues.length,write:()=>{}},{bytes:1,name:"device_status",read:()=>this.device_status,write:b=>{0===b&&this.reset();b&~this.device_status&
-4&&this.device_status&64&&this.notify_config_changes();this.features_ok||(b&=-9);this.device_status=b;if(b&~this.device_status&4)a.on_driver_ok()}},{bytes:1,name:"config_generation",read:()=>this.config_generation,write:()=>{}},{bytes:2,name:"queue_select",read:()=>this.queue_select,write:b=>{this.queue_select=b;this.queue_selected=this.queue_select<this.queues.length?this.queues[this.queue_select]:null}},{bytes:2,name:"queue_size",read:()=>this.queue_selected?this.queue_selected.size:0,write:b=>
-{this.queue_selected&&(b&b-1&&(b=1<<da(b-1)+1),b>this.queue_selected.size_supported&&(b=this.queue_selected.size_supported),this.queue_selected.set_size(b))}},{bytes:2,name:"queue_msix_vector",read:()=>65535,write:()=>{}},{bytes:2,name:"queue_enable",read:()=>this.queue_selected?this.queue_selected.enabled|0:0,write:b=>{this.queue_selected&&1===b&&this.queue_selected.is_configured()&&this.queue_selected.enable()}},{bytes:2,name:"queue_notify_off",read:()=>this.queue_selected?this.queue_selected.notify_offset:
-0,write:()=>{}},{bytes:4,name:"queue_desc (low dword)",read:()=>this.queue_selected?this.queue_selected.desc_addr:0,write:b=>{this.queue_selected&&(this.queue_selected.desc_addr=b)}},{bytes:4,name:"queue_desc (high dword)",read:()=>0,write:()=>{}},{bytes:4,name:"queue_avail (low dword)",read:()=>this.queue_selected?this.queue_selected.avail_addr:0,write:b=>{this.queue_selected&&(this.queue_selected.avail_addr=b)}},{bytes:4,name:"queue_avail (high dword)",read:()=>0,write:()=>{}},{bytes:4,name:"queue_used (low dword)",
-read:()=>this.queue_selected?this.queue_selected.used_addr:0,write:b=>{this.queue_selected&&(this.queue_selected.used_addr=b)}},{bytes:4,name:"queue_used (high dword)",read:()=>0,write:()=>{}}]}};
-Lc.prototype.create_notification_capability=function(a){const b=[];let c;c=a.single_handler?0:2;for(const [d,e]of a.handlers.entries())b.push({bytes:2,name:"notify"+d,read:()=>65535,write:e||(()=>{})});return{type:2,bar:1,port:a.initial_port,use_mmio:!1,offset:0,extra:new Uint8Array([c&255,c>>8&255,c>>16&255,c>>24]),struct:b}};
-Lc.prototype.create_isr_capability=function(a){return{type:3,bar:2,port:a.initial_port,use_mmio:!1,offset:0,extra:new Uint8Array(0),struct:[{bytes:1,name:"isr_status",read:()=>{const b=this.isr_status;this.lower_irq();return b},write:()=>{}}]}};Lc.prototype.create_device_specific_capability=function(a){return{type:4,bar:3,port:a.initial_port,use_mmio:!1,offset:0,extra:new Uint8Array(0),struct:a.struct}};
-Lc.prototype.init_capabilities=function(a){let b=this.pci_space[52]=64;var c=b;for(const e of a){a=16+e.extra.length;c=b;b=c+a;var d=e.struct.reduce((f,g)=>f+g.bytes,0);d+=e.offset;d=16>d?16:1<<da(d-1)+1;this.pci_bars[e.bar]={size:d};this.pci_space[c]=9;this.pci_space[c+1]=b;this.pci_space[c+2]=a;this.pci_space[c+3]=e.type;this.pci_space[c+4]=e.bar;this.pci_space[c+5]=0;this.pci_space[c+6]=0;this.pci_space[c+7]=0;this.pci_space[c+8]=e.offset&255;this.pci_space[c+9]=e.offset>>>8&255;this.pci_space[c+
-10]=e.offset>>>16&255;this.pci_space[c+11]=e.offset>>>24;this.pci_space[c+12]=d&255;this.pci_space[c+13]=d>>>8&255;this.pci_space[c+14]=d>>>16&255;this.pci_space[c+15]=d>>>24;for(const [f,g]of e.extra.entries())this.pci_space[c+16+f]=g;c=16+4*e.bar;this.pci_space[c]=e.port&254|!e.use_mmio;this.pci_space[c+1]=e.port>>>8&255;this.pci_space[c+2]=e.port>>>16&255;this.pci_space[c+3]=e.port>>>24&255;c=e.port+e.offset;for(const f of e.struct){let g=f.read;a=f.write;if(!e.use_mmio){d=function(m){return g(m&
--2)>>((m&1)<<3)&255};const h=function(m){return g(m&-4)>>((m&3)<<3)&255},l=function(m){return g(m)};switch(f.bytes){case 4:this.cpu.io.register_read(c,this,h,void 0,g);this.cpu.io.register_read(c+1,this,h);this.cpu.io.register_read(c+2,this,h);this.cpu.io.register_read(c+3,this,h);this.cpu.io.register_write(c,this,void 0,void 0,a);break;case 2:this.cpu.io.register_read(c,this,d,g,l);this.cpu.io.register_read(c+1,this,d);this.cpu.io.register_write(c,this,void 0,a);break;case 1:this.cpu.io.register_read(c,
-this,g),this.cpu.io.register_write(c,this,a)}}c+=f.bytes}}this.pci_space[b]=9;this.pci_space[b+1]=0;this.pci_space[b+2]=20;this.pci_space[b+3]=5;this.pci_space[b+4]=0;this.pci_space[b+5]=0;this.pci_space[b+6]=0;this.pci_space[b+7]=0;this.pci_space[b+8]=0;this.pci_space[b+9]=0;this.pci_space[b+10]=0;this.pci_space[b+11]=0;this.pci_space[b+12]=0;this.pci_space[b+13]=0;this.pci_space[b+14]=0;this.pci_space[b+15]=0;this.pci_space[b+16]=0;this.pci_space[b+17]=0;this.pci_space[b+18]=0;this.pci_space[b+
-19]=0};Lc.prototype.get_state=function(){let a=[];a[0]=this.device_feature_select;a[1]=this.driver_feature_select;a[2]=this.device_feature;a[3]=this.driver_feature;a[4]=this.features_ok;a[5]=this.device_status;a[6]=this.config_has_changed;a[7]=this.config_generation;a[8]=this.isr_status;a[9]=this.queue_select;return a=a.concat(this.queues)};
-Lc.prototype.set_state=function(a){this.device_feature_select=a[0];this.driver_feature_select=a[1];this.device_feature=a[2];this.driver_feature=a[3];this.features_ok=a[4];this.device_status=a[5];this.config_has_changed=a[6];this.config_generation=a[7];this.isr_status=a[8];this.queue_select=a[9];let b=0;for(const c of a.slice(10))this.queues[b].set_state(c),b++;this.queue_selected=this.queues[this.queue_select]||null};
-Lc.prototype.reset=function(){this.driver_feature_select=this.device_feature_select=0;this.driver_feature.set(this.device_feature);this.features_ok=!0;this.queue_select=this.device_status=0;this.queue_selected=this.queues[0];for(const a of this.queues)a.reset();this.config_has_changed=!1;this.config_generation=0;this.lower_irq()};Lc.prototype.notify_config_changes=function(){this.config_has_changed=!0;this.device_status&4&&this.raise_irq(2)};
-Lc.prototype.update_config_generation=function(){this.config_has_changed&&(this.config_generation++,this.config_generation&=255,this.config_has_changed=!1)};Lc.prototype.is_feature_negotiated=function(a){return 0<(this.driver_feature[a>>>5]&1<<(a&31))};Lc.prototype.needs_reset=function(){this.device_status|=64;this.device_status&4&&this.notify_config_changes()};Lc.prototype.raise_irq=function(a){y(a);this.isr_status|=a;this.pci.raise_irq(this.pci_id)};
-Lc.prototype.lower_irq=function(){this.isr_status=0;this.pci.lower_irq(this.pci_id)};function Z(a,b,c){this.cpu=a;this.virtio=b;this.size_supported=this.size=c.size_supported;this.mask=this.size-1;this.enabled=!1;this.notify_offset=c.notify_offset;this.num_staged_replies=this.used_addr=this.avail_last_idx=this.avail_addr=this.desc_addr=0;this.reset()}
-Z.prototype.get_state=function(){const a=[];a[0]=this.size;a[1]=this.size_supported;a[2]=this.enabled;a[3]=this.notify_offset;a[4]=this.desc_addr;a[5]=this.avail_addr;a[6]=this.avail_last_idx;a[7]=this.used_addr;a[8]=this.num_staged_replies;a[9]=1;return a};
-Z.prototype.set_state=function(a){this.size=a[0];this.size_supported=a[1];this.enabled=a[2];this.notify_offset=a[3];this.desc_addr=a[4];this.avail_addr=a[5];this.avail_last_idx=a[6];this.used_addr=a[7];this.num_staged_replies=a[8];this.mask=this.size-1;this.fix_wrapping=1!==a[9]};Z.prototype.reset=function(){this.enabled=!1;this.num_staged_replies=this.used_addr=this.avail_last_idx=this.avail_addr=this.desc_addr=0;this.set_size(this.size_supported)};
-Z.prototype.is_configured=function(){return this.desc_addr&&this.avail_addr&&this.used_addr};Z.prototype.enable=function(){this.is_configured();this.enabled=!0};Z.prototype.set_size=function(a){this.size=a;this.mask=a-1};Z.prototype.count_requests=function(){this.fix_wrapping&&(this.fix_wrapping=!1,this.avail_last_idx=(this.avail_get_idx()&~this.mask)+(this.avail_last_idx&this.mask));return this.avail_get_idx()-this.avail_last_idx&65535};Z.prototype.has_request=function(){return 0!==this.count_requests()};
-Z.prototype.pop_request=function(){this.has_request();var a=this.avail_get_entry(this.avail_last_idx);a=new kd(this,a);this.avail_last_idx=this.avail_last_idx+1&65535;return a};Z.prototype.push_reply=function(a){const b=this.used_get_idx()+this.num_staged_replies&this.mask;this.used_set_entry(b,a.head_idx,a.length_written);this.num_staged_replies++};
-Z.prototype.flush_replies=function(){if(0!==this.num_staged_replies){var a=this.used_get_idx()+this.num_staged_replies&65535;this.used_set_idx(a);this.num_staged_replies=0;this.virtio.is_feature_negotiated(29)?(this.avail_get_used_event(),this.virtio.raise_irq(1)):~this.avail_get_flags()&1&&this.virtio.raise_irq(1)}};Z.prototype.notify_me_after=function(a){a=this.avail_get_idx()+a&65535;this.used_set_avail_event(a)};
-Z.prototype.get_descriptor=function(a,b){return{addr_low:this.cpu.read32s(a+16*b),addr_high:this.cpu.read32s(a+16*b+4),len:this.cpu.read32s(a+16*b+8),flags:this.cpu.read16(a+16*b+12),next:this.cpu.read16(a+16*b+14)}};Z.prototype.avail_get_flags=function(){return this.cpu.read16(this.avail_addr)};Z.prototype.avail_get_idx=function(){return this.cpu.read16(this.avail_addr+2)};Z.prototype.avail_get_entry=function(a){return this.cpu.read16(this.avail_addr+4+2*(a&this.mask))};
-Z.prototype.avail_get_used_event=function(){return this.cpu.read16(this.avail_addr+4+2*this.size)};Z.prototype.used_get_flags=function(){return this.cpu.read16(this.used_addr)};Z.prototype.used_set_flags=function(a){this.cpu.write16(this.used_addr,a)};Z.prototype.used_get_idx=function(){return this.cpu.read16(this.used_addr+2)};Z.prototype.used_set_idx=function(a){this.cpu.write16(this.used_addr+2,a)};
-Z.prototype.used_set_entry=function(a,b,c){this.cpu.write32(this.used_addr+4+8*a,b);this.cpu.write32(this.used_addr+8+8*a,c)};Z.prototype.used_set_avail_event=function(a){this.cpu.write16(this.used_addr+4+8*this.size,a)};
-function kd(a,b){this.cpu=a.cpu;this.virtio=a.virtio;this.head_idx=b;this.read_buffers=[];this.length_readable=this.read_buffer_offset=this.read_buffer_idx=0;this.write_buffers=[];this.length_writable=this.length_written=this.write_buffer_offset=this.write_buffer_idx=0;let c=a.desc_addr,d=0,e=a.size,f=!1;const g=this.virtio.is_feature_negotiated(28);do{const h=a.get_descriptor(c,b);y(h.addr_high,8);y(h.addr_low,8);y(h.len,8);y(h.flags,4);y(h.next,4);if(g&&h.flags&4)c=h.addr_low,d=b=0,e=h.len/16;else{if(h.flags&
-2)f=!0,this.write_buffers.push(h),this.length_writable+=h.len;else{if(f)break;this.read_buffers.push(h);this.length_readable+=h.len}d++;if(d>e)break;if(h.flags&1)b=h.next;else break}}while(1)}
-kd.prototype.get_next_blob=function(a){let b=0,c=a.length;for(;c&&this.read_buffer_idx!==this.read_buffers.length;){var d=this.read_buffers[this.read_buffer_idx];const e=d.addr_low+this.read_buffer_offset;d=d.len-this.read_buffer_offset;d>c?(d=c,this.read_buffer_offset+=c):(this.read_buffer_idx++,this.read_buffer_offset=0);a.set(this.cpu.read_blob(e,d),b);b+=d;c-=d}return b};
-kd.prototype.set_next_blob=function(a){let b=0,c=a.length;for(;c&&this.write_buffer_idx!==this.write_buffers.length;){var d=this.write_buffers[this.write_buffer_idx];const e=d.addr_low+this.write_buffer_offset;d=d.len-this.write_buffer_offset;d>c?(d=c,this.write_buffer_offset+=c):(this.write_buffer_idx++,this.write_buffer_offset=0);this.cpu.write_blob(a.subarray(b,b+d),e);b+=d;c-=d}this.length_written+=b;return b};function ld(a,b,c,d){const e=new Lc(a,{name:"virtio-9p",pci_id:48,device_id:4169,subsystem_device_id:9,common:{initial_port:43008,queues:[{size_supported:32,notify_offset:0}],features:[0,32,29,28],on_driver_ok:()=>{}},notification:{initial_port:43264,single_handler:!1,handlers:[f=>{if(0===f){for(f=e.queues[0];f.has_request();){const g=f.pop_request();d(g)}f.notify_me_after(0)}}]},isr_status:{initial_port:42752},device_specific:{initial_port:42496,struct:[{bytes:2,name:"mount tag length",read:()=>
-b,write:()=>{}}].concat(Array.from(Array(254).keys()).map(f=>({bytes:1,name:"mount tag name "+f,read:()=>c[f]||0,write:()=>{}})))}});return e}
-function hd(a,b,c){this.fs=a;this.bus=c;this.configspace_tagname=[104,111,115,116,57,112];this.configspace_taglen=this.configspace_tagname.length;this.virtio=ld(b,this.configspace_taglen,this.configspace_tagname,this.ReceiveRequest.bind(this));this.virtqueue=this.virtio.queues[0];this.VERSION="9P2000.L";this.msize=this.BLOCKSIZE=8192;this.replybuffer=new Uint8Array(2*this.msize);this.replybuffersize=0;this.fids=[]}
-hd.prototype.get_state=function(){var a=[];a[0]=this.configspace_tagname;a[1]=this.configspace_taglen;a[2]=this.virtio;a[3]=this.VERSION;a[4]=this.BLOCKSIZE;a[5]=this.msize;a[6]=this.replybuffer;a[7]=this.replybuffersize;a[8]=this.fids.map(function(b){return[b.inodeid,b.type,b.uid,b.dbg_name]});a[9]=this.fs;return a};
-hd.prototype.set_state=function(a){this.configspace_tagname=a[0];this.configspace_taglen=a[1];this.virtio.set_state(a[2]);this.virtqueue=this.virtio.queues[0];this.VERSION=a[3];this.BLOCKSIZE=a[4];this.msize=a[5];this.replybuffer=a[6];this.replybuffersize=a[7];this.fids=a[8].map(function(b){return{inodeid:b[0],type:b[1],uid:b[2],dbg_name:b[3]}});this.fs.set_state(a[9])};hd.prototype.Createfid=function(a,b,c,d){return{inodeid:a,type:b,uid:c,dbg_name:d}};
-hd.prototype.update_dbg_name=function(a,b){for(const c of this.fids)c.inodeid===a&&(c.dbg_name=b)};hd.prototype.reset=function(){this.fids=[];this.virtio.reset()};hd.prototype.BuildReply=function(a,b,c){I(["w","b","h"],[c+7,a+1,b],this.replybuffer,0);this.replybuffersize=c+7};hd.prototype.SendError=function(a,b,c){b=I(["w"],[c],this.replybuffer,7);this.BuildReply(6,a,b)};
-hd.prototype.SendReply=function(a){a.set_next_blob(this.replybuffer.subarray(0,this.replybuffersize));this.virtqueue.push_reply(a);this.virtqueue.flush_replies()};
-hd.prototype.ReceiveRequest=async function(a){var b=new Uint8Array(a.length_readable);a.get_next_blob(b);var c={offset:0},d=J(["w","b","h"],b,c),e=d[1];d=d[2];switch(e){case 8:var f=this.fs.GetTotalSize();var g=this.fs.GetSpace(),h=[16914839];h[1]=this.BLOCKSIZE;h[2]=Math.floor(g/h[1]);h[3]=h[2]-Math.floor(f/h[1]);h[4]=h[2]-Math.floor(f/h[1]);h[5]=this.fs.CountUsedInodes();h[6]=this.fs.CountFreeInodes();h[7]=0;h[8]=256;f=I("wwddddddw".split(""),h,this.replybuffer,7);this.BuildReply(e,d,f);this.SendReply(a);
-break;case 112:case 12:h=J(["w","w"],b,c);f=h[0];var l=h[1];b=this.fids[f].inodeid;c=this.fs.GetInode(b);await this.fs.OpenInode(b,l);h=[];h[0]=c.qid;h[1]=this.msize-24;I(["Q","w"],h,this.replybuffer,7);this.BuildReply(e,d,17);this.SendReply(a);break;case 70:h=J(["w","w","s"],b,c);b=h[0];f=h[1];g=h[2];f=this.fs.Link(this.fids[b].inodeid,this.fids[f].inodeid,g);if(0>f){this.SendError(d,-1===f?"Operation not permitted":"Unknown error: "+-f,-f);this.SendReply(a);break}this.BuildReply(e,d,0);this.SendReply(a);
-break;case 16:h=J(["w","s","s","w"],b,c);f=h[0];g=h[1];var m=h[3];b=this.fs.CreateSymlink(g,this.fids[f].inodeid,h[2]);c=this.fs.GetInode(b);c.uid=this.fids[f].uid;c.gid=m;I(["Q"],[c.qid],this.replybuffer,7);this.BuildReply(e,d,13);this.SendReply(a);break;case 18:h=J("wswwww".split(""),b,c);f=h[0];g=h[1];l=h[2];b=h[3];c=h[4];m=h[5];b=this.fs.CreateNode(g,this.fids[f].inodeid,b,c);c=this.fs.GetInode(b);c.mode=l;c.uid=this.fids[f].uid;c.gid=m;I(["Q"],[c.qid],this.replybuffer,7);this.BuildReply(e,d,
-13);this.SendReply(a);break;case 22:h=J(["w"],b,c);f=h[0];c=this.fs.GetInode(this.fids[f].inodeid);f=I(["s"],[c.symlink],this.replybuffer,7);this.BuildReply(e,d,f);this.SendReply(a);break;case 72:h=J(["w","s","w","w"],b,c);f=h[0];g=h[1];l=h[2];m=h[3];b=this.fs.CreateDirectory(g,this.fids[f].inodeid);c=this.fs.GetInode(b);c.mode=l|16384;c.uid=this.fids[f].uid;c.gid=m;I(["Q"],[c.qid],this.replybuffer,7);this.BuildReply(e,d,13);this.SendReply(a);break;case 14:h=J(["w","s","w","w","w"],b,c);f=h[0];g=
-h[1];l=h[3];m=h[4];this.bus.send("9p-create",[g,this.fids[f].inodeid]);b=this.fs.CreateFile(g,this.fids[f].inodeid);this.fids[f].inodeid=b;this.fids[f].type=1;this.fids[f].dbg_name=g;c=this.fs.GetInode(b);c.uid=this.fids[f].uid;c.gid=m;c.mode=l|32768;I(["Q","w"],[c.qid,this.msize-24],this.replybuffer,7);this.BuildReply(e,d,17);this.SendReply(a);break;case 52:h=J("wbwddws".split(""),b,c);f=h[0];g=h[2];b=0===h[4]?Infinity:h[4];h=this.fs.DescribeLock(h[1],h[3],b,h[5],h[6]);f=this.fs.Lock(this.fids[f].inodeid,
-h,g);I(["b"],[f],this.replybuffer,7);this.BuildReply(e,d,1);this.SendReply(a);break;case 54:h=J("wbddws".split(""),b,c);f=h[0];b=0===h[3]?Infinity:h[3];h=this.fs.DescribeLock(h[1],h[2],b,h[4],h[5]);f=this.fs.GetLock(this.fids[f].inodeid,h);f||(f=h,f.type=2);f=I(["b","d","d","w","s"],[f.type,f.start,Infinity===f.length?0:f.length,f.proc_id,f.client_id],this.replybuffer,7);this.BuildReply(e,d,f);this.SendReply(a);break;case 24:h=J(["w","d"],b,c);f=h[0];c=this.fs.GetInode(this.fids[f].inodeid);if(!c||
-4===c.status){this.SendError(d,"No such file or directory",2);this.SendReply(a);break}h[0]=h[1];h[1]=c.qid;h[2]=c.mode;h[3]=c.uid;h[4]=c.gid;h[5]=c.nlinks;h[6]=c.major<<8|c.minor;h[7]=c.size;h[8]=this.BLOCKSIZE;h[9]=Math.floor(c.size/512+1);h[10]=c.atime;h[11]=0;h[12]=c.mtime;h[13]=0;h[14]=c.ctime;h[15]=0;h[16]=0;h[17]=0;h[18]=0;h[19]=0;I("dQwwwddddddddddddddd".split(""),h,this.replybuffer,7);this.BuildReply(e,d,153);this.SendReply(a);break;case 26:h=J("wwwwwddddd".split(""),b,c);f=h[0];c=this.fs.GetInode(this.fids[f].inodeid);
-h[1]&1&&(c.mode=h[2]);h[1]&2&&(c.uid=h[3]);h[1]&4&&(c.gid=h[4]);h[1]&16&&(c.atime=Math.floor((new Date).getTime()/1E3));h[1]&32&&(c.mtime=Math.floor((new Date).getTime()/1E3));h[1]&64&&(c.ctime=Math.floor((new Date).getTime()/1E3));h[1]&128&&(c.atime=h[6]);h[1]&256&&(c.mtime=h[8]);h[1]&8&&await this.fs.ChangeSize(this.fids[f].inodeid,h[5]);this.BuildReply(e,d,0);this.SendReply(a);break;case 50:J(["w","d"],b,c);this.BuildReply(e,d,0);this.SendReply(a);break;case 40:case 116:h=J(["w","d","w"],b,c);
-f=h[0];g=h[1];l=h[2];c=this.fs.GetInode(this.fids[f].inodeid);if(!c||4===c.status){this.SendError(d,"No such file or directory",2);this.SendReply(a);break}if(2===this.fids[f].type)for(c.caps.length<g+l&&(l=c.caps.length-g),h=0;h<l;h++)this.replybuffer[11+h]=c.caps[g+h];else await this.fs.OpenInode(this.fids[f].inodeid,void 0),h=this.fids[f].inodeid,l=Math.min(l,this.replybuffer.length-11),c.size<g+l?l=c.size-g:40===e&&(l=this.fs.RoundToDirentry(h,g+l)-g),g>c.size&&(l=0),this.bus.send("9p-read-start",
-[this.fids[f].dbg_name]),h=await this.fs.Read(h,g,l),this.bus.send("9p-read-end",[this.fids[f].dbg_name,l]),h&&this.replybuffer.set(h,11);I(["w"],[l],this.replybuffer,7);this.BuildReply(e,d,4+l);this.SendReply(a);break;case 118:h=J(["w","d","w"],b,c);f=h[0];g=h[1];l=h[2];h=this.fids[f].dbg_name;if(2===this.fids[f].type){this.SendError(d,"Setxattr not supported",95);this.SendReply(a);break}else await this.fs.Write(this.fids[f].inodeid,g,l,b.subarray(c.offset));this.bus.send("9p-write-end",[h,l]);I(["w"],
-[l],this.replybuffer,7);this.BuildReply(e,d,4);this.SendReply(a);break;case 74:h=J(["w","s","w","s"],b,c);f=await this.fs.Rename(this.fids[h[0]].inodeid,h[1],this.fids[h[2]].inodeid,h[3]);if(0>f){this.SendError(d,-2===f?"No such file or directory":-1===f?"Operation not permitted":-39===f?"Directory not empty":"Unknown error: "+-f,-f);this.SendReply(a);break}this.BuildReply(e,d,0);this.SendReply(a);break;case 76:h=J(["w","s","w"],b,c);b=h[0];g=h[1];f=this.fs.Search(this.fids[b].inodeid,g);if(-1===
-f){this.SendError(d,"No such file or directory",2);this.SendReply(a);break}f=this.fs.Unlink(this.fids[b].inodeid,g);if(0>f){this.SendError(d,-39===f?"Directory not empty":-1===f?"Operation not permitted":"Unknown error: "+-f,-f);this.SendReply(a);break}this.BuildReply(e,d,0);this.SendReply(a);break;case 100:f=J(["w","s"],b,c);this.msize!==f[0]&&(this.msize=f[0],this.replybuffer=new Uint8Array(Math.min(16777216,2*this.msize)));f=I(["w","s"],[this.msize,this.VERSION],this.replybuffer,7);this.BuildReply(e,
-d,f);this.SendReply(a);break;case 104:h=J(["w","w","s","s","w"],b,c);f=h[0];g=h[4];y(h[1]);this.fids[f]=this.Createfid(0,1,g,"");c=this.fs.GetInode(this.fids[f].inodeid);I(["Q"],[c.qid],this.replybuffer,7);this.BuildReply(e,d,13);this.SendReply(a);this.bus.send("9p-attach");break;case 108:J(["h"],b,c);this.BuildReply(e,d,0);this.SendReply(a);break;case 110:h=J(["w","w","h"],b,c);f=h[0];l=h[1];m=h[2];if(0===m){this.fids[l]=this.Createfid(this.fids[f].inodeid,1,this.fids[f].uid,this.fids[f].dbg_name);
-I(["h"],[0],this.replybuffer,7);this.BuildReply(e,d,2);this.SendReply(a);break}g=[];for(h=0;h<m;h++)g.push("s");c=J(g,b,c);b=this.fids[f].inodeid;g=9;var n=0;for(h=0;h<m;h++){b=this.fs.Search(b,c[h]);if(-1===b)break;g+=I(["Q"],[this.fs.GetInode(b).qid],this.replybuffer,g);n++;this.fids[l]=this.Createfid(b,1,this.fids[f].uid,c[h])}I(["h"],[n],this.replybuffer,7);this.BuildReply(e,d,g-7);this.SendReply(a);break;case 120:h=J(["w"],b,c);this.fids[h[0]]&&0<=this.fids[h[0]].inodeid&&(await this.fs.CloseInode(this.fids[h[0]].inodeid),
-this.fids[h[0]].inodeid=-1,this.fids[h[0]].type=-1);this.BuildReply(e,d,0);this.SendReply(a);break;case 32:h=J(["w","s","d","w"],b,c);f=h[0];this.fids[f].type=2;this.BuildReply(e,d,0);this.SendReply(a);break;case 30:J(["w","w","s"],b,c),this.SendError(d,"Setxattr not supported",95),this.SendReply(a)}};
-function id(a,b){this.handle_fn=a;this.tag_bufchain=new Map;this.configspace_tagname=[104,111,115,116,57,112];this.configspace_taglen=this.configspace_tagname.length;this.virtio=ld(b,this.configspace_taglen,this.configspace_tagname,async c=>{const d=new Uint8Array(c.length_readable);c.get_next_blob(d);var e=J(["w","b","h"],d,{offset:0})[2];this.tag_bufchain.set(e,c);this.handle_fn(d,f=>{var g=J(["w","b","h"],f,{offset:0})[2];const h=this.tag_bufchain.get(g);h?(h.set_next_blob(f),this.virtqueue.push_reply(h),
-this.virtqueue.flush_replies(),this.tag_bufchain.delete(g)):console.error("No bufchain found for tag: "+g)})});this.virtqueue=this.virtio.queues[0]}id.prototype.get_state=function(){var a=[];a[0]=this.configspace_tagname;a[1]=this.configspace_taglen;a[2]=this.virtio;a[3]=this.tag_bufchain;return a};id.prototype.set_state=function(a){this.configspace_tagname=a[0];this.configspace_taglen=a[1];this.virtio.set_state(a[2]);this.virtqueue=this.virtio.queues[0];this.tag_bufchain=a[3]};
-id.prototype.reset=function(){this.virtio.reset()};
-function jd(a,b){this.socket=void 0;this.cpu=b;this.send_queue=[];this.url=a;this.reconnect_interval=1E4;this.last_connect_attempt=Date.now()-this.reconnect_interval;this.send_queue_limit=64;this.destroyed=!1;this.tag_bufchain=new Map;this.configspace_tagname=[104,111,115,116,57,112];this.configspace_taglen=this.configspace_tagname.length;this.virtio=ld(b,this.configspace_taglen,this.configspace_tagname,async c=>{const d=new Uint8Array(c.length_readable);c.get_next_blob(d);const e=J(["w","b","h"],
-d,{offset:0})[2];this.tag_bufchain.set(e,c);this.send(d)});this.virtqueue=this.virtio.queues[0]}jd.prototype.get_state=function(){var a=[];a[0]=this.configspace_tagname;a[1]=this.configspace_taglen;a[2]=this.virtio;a[3]=this.tag_bufchain;return a};jd.prototype.set_state=function(a){this.configspace_tagname=a[0];this.configspace_taglen=a[1];this.virtio.set_state(a[2]);this.virtqueue=this.virtio.queues[0];this.tag_bufchain=a[3]};jd.prototype.reset=function(){this.virtio.reset()};
-jd.prototype.handle_message=function(a){a=new Uint8Array(a.data);const b=J(["w","b","h"],a,{offset:0})[2],c=this.tag_bufchain.get(b);c?(c.set_next_blob(a),this.virtqueue.push_reply(c),this.virtqueue.flush_replies(),this.tag_bufchain.delete(b)):console.error("Virtio9pProxy: No bufchain found for tag: "+b)};jd.prototype.handle_close=function(){this.destroyed||(this.connect(),setTimeout(this.connect.bind(this),this.reconnect_interval))};
-jd.prototype.handle_open=function(){for(var a=0;a<this.send_queue.length;a++)this.send(this.send_queue[a]);this.send_queue=[]};jd.prototype.handle_error=function(){};jd.prototype.destroy=function(){this.destroyed=!0;this.socket&&this.socket.close()};
-jd.prototype.connect=function(){if("undefined"!==typeof WebSocket){if(this.socket){var a=this.socket.readyState;if(0===a||1===a)return}a=Date.now();if(!(this.last_connect_attempt+this.reconnect_interval>a)){this.last_connect_attempt=Date.now();try{this.socket=new WebSocket(this.url)}catch(b){console.error(b);return}this.socket.binaryType="arraybuffer";this.socket.onopen=this.handle_open.bind(this);this.socket.onmessage=this.handle_message.bind(this);this.socket.onclose=this.handle_close.bind(this);
-this.socket.onerror=this.handle_error.bind(this)}}};jd.prototype.send=function(a){this.socket&&1===this.socket.readyState?this.socket.send(a):(this.send_queue.push(a),this.send_queue.length>2*this.send_queue_limit&&(this.send_queue=this.send_queue.slice(-this.send_queue_limit)),this.connect())};jd.prototype.change_proxy=function(a){this.url=a;this.socket&&(this.socket.onclose=function(){},this.socket.onerror=function(){},this.socket.close(),this.socket=void 0)};}).call(this);
-
-</script>
-<script>
-/* ============================================================
-   SANDBOX v86 — Alpine Linux réel dans le navigateur
-   ============================================================ */
-var _sandboxEmulator = null;
-var _sandboxSerial   = '';
-var _sandboxReady    = false;
-var _sandboxBooting  = false;
-
-function setSandboxStatus(text) {
-  var el = document.getElementById('sandbox-status-text');
-  if (el) el.textContent = text;
-}
-
-function startSandbox() {
-  if (_sandboxBooting || _sandboxEmulator) return;
-  _sandboxBooting = true;
-
-  document.getElementById('btn-start-sandbox').style.display = 'none';
-  document.getElementById('sandbox-status').style.display = 'flex';
-  setSandboxStatus('Chargement de l’image Alpine Linux (8 Mo)...');
-
-  var screen = document.getElementById('sandbox-screen');
-  screen.innerHTML = '';
-
-  try {
-    _sandboxEmulator = new V86({
-      wasm_path:       'v86/v86.wasm',
-      memory_size:     32 * 1024 * 1024,
-      vga_memory_size:  2 * 1024 * 1024,
-      bios:            { url: 'v86/seabios.bin' },
-      vga_bios:        { url: 'v86/vgabios.bin' },
-      cdrom:           { url: 'v86/linux.iso' },
-      autostart:       true,
-      disable_mouse:   true,
-      disable_keyboard: false,
-    });
-  } catch(e) {
-    setSandboxStatus('Erreur : ' + e.message + '. Assurez-vous que SharedArrayBuffer est activé.');
-    _sandboxBooting = false;
-    document.getElementById('btn-start-sandbox').style.display = '';
-    return;
-  }
-
-  // Réception de la sortie série
-  _sandboxEmulator.add_listener('serial0-output-char', function(c) {
-    _sandboxSerial += c;
-    // Afficher dans le div screen
-    screen.textContent += c;
-    screen.scrollTop = screen.scrollHeight;
-
-    // Détection du prompt shell (login réussi)
-    if (!_sandboxReady && (
-        _sandboxSerial.endsWith('# ') ||
-        _sandboxSerial.endsWith('$ ') ||
-        _sandboxSerial.includes('localhost:~#') ||
-        _sandboxSerial.includes('/ #')
-      )) {
-      _sandboxReady = true;
-      document.getElementById('sandbox-status').style.display = 'none';
-      document.getElementById('sandbox-screen-wrap').style.display = 'block';
-      document.getElementById('sandbox-input-row').style.display = 'flex';
-      document.getElementById('btn-reset-sandbox').style.display = '';
-      updateSandboxPrompt();
-      setTimeout(function() {
-        document.getElementById('sandbox-input').focus();
-      }, 100);
-    } else if (!_sandboxReady) {
-      // Mettre à jour le message de statut selon la phase de boot
-      if (_sandboxSerial.includes('Loading')) setSandboxStatus('Chargement du noyau Linux...');
-      else if (_sandboxSerial.includes('Booting')) setSandboxStatus('Démarrage du système...');
-      else if (_sandboxSerial.includes('Starting')) setSandboxStatus('Lancement des services...');
-      else if (_sandboxSerial.includes('login')) setSandboxStatus('Connexion automatique...');
-    }
-  });
-
-  // Auto-login : envoyer "root" + Enter dès que le prompt login apparaît
-  _sandboxEmulator.add_listener('serial0-output-char', function(c) {
-    if (_sandboxSerial.endsWith('login: ')) {
-      setTimeout(function() { _sandboxEmulator.serial0_send('root\n'); }, 200);
-    }
-    if (_sandboxSerial.endsWith('Password: ')) {
-      setTimeout(function() { _sandboxEmulator.serial0_send('\n'); }, 200);
-    }
-  });
-
-  // Afficher la zone dés le chargement
-  document.getElementById('sandbox-screen-wrap').style.display = 'block';
-}
-
-function resetSandbox() {
-  if (_sandboxEmulator) {
-    try { _sandboxEmulator.destroy(); } catch(e) {}
-    _sandboxEmulator = null;
-  }
-  _sandboxSerial  = '';
-  _sandboxReady   = false;
-  _sandboxBooting = false;
-
-  document.getElementById('sandbox-screen').textContent = '';
-  document.getElementById('sandbox-screen-wrap').style.display = 'none';
-  document.getElementById('sandbox-input-row').style.display = 'none';
-  document.getElementById('sandbox-status').style.display = 'none';
-  document.getElementById('btn-start-sandbox').style.display = '';
-  document.getElementById('btn-reset-sandbox').style.display = 'none';
-}
-
-function updateSandboxPrompt() {
-  var lbl = document.getElementById('sandbox-prompt-label');
-  if (!lbl) return;
-  // Extraire le dernier prompt de la sortie série
-  var lines = _sandboxSerial.split('\n');
-  var last = lines[lines.length - 1] || lines[lines.length - 2] || '';
-  if (last.trim()) lbl.textContent = last.trim();
-  else lbl.textContent = '# ';
-}
-
-// Gérer les touches dans le champ de saisie sandbox
-document.addEventListener('DOMContentLoaded', function() {
-  var inp = document.getElementById('sandbox-input');
-  if (!inp) return;
-  inp.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      if (!_sandboxEmulator || !_sandboxReady) return;
-      var cmd = inp.value;
-      _sandboxEmulator.serial0_send(cmd + '\n');
-      inp.value = '';
-      _sandboxSerial = ''; // reset pour re-détecter le prochain prompt
-      setTimeout(updateSandboxPrompt, 800);
-    }
-    // Ctrl+C
-    if (e.key === 'c' && e.ctrlKey) {
-      e.preventDefault();
-      if (_sandboxEmulator) _sandboxEmulator.serial0_send('\x03');
-    }
-    // Tab
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      if (_sandboxEmulator) _sandboxEmulator.serial0_send('\t');
-    }
-  });
-});
-</script>
-</body>
-</html>
+R.prototype.get_state_pic=function(){const a=new Uint8Array(this.wasm_memory.buffer,this.get_pic_addr_master(),13),b=new Uint8Array(this.wasm_memory.buffer,this.get_pic_addr_slave(),13),c=[],d=[];c[0]=a[0];c[1]=a[1];c[2]=a[2];c[3]=a[3];c[4]=a[4];c[5]=d;c[6]=a[6];c[7]=a[7];c[8]=a[8];c[9]=a[9];c[10]=a[10];c[11]=a[11];c[12]=a[12];d[0]=b[0];d[1]=b[1];d[2]=b[2];d[3]=b[3];d[4]=b[4];d[5]=null;d[6]=b[6];d[7]=b[7];d[8]=b[8];d[9]=b[9];
