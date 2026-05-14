@@ -1746,3 +1746,51 @@ body {
 .mod-card-btn:hover .arrow {
   transform: translateX(4px);
 }
+/* ============================================================
+   SANDBOX — Avertissement mobile
+   ============================================================ */
+.sandbox-mobile-warning {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  background: rgba(255, 166, 87, 0.08);
+  border: 1px solid rgba(255, 166, 87, 0.35);
+  border-radius: var(--radius);
+  font-size: 13px;
+  color: var(--text);
+}
+
+.sandbox-mobile-warning__icon {
+  font-size: 20px;
+  line-height: 1.2;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.sandbox-mobile-warning__body {
+  flex: 1;
+}
+
+.sandbox-mobile-warning__body strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--accent-orange);
+  font-size: 14px;
+}
+
+.sandbox-mobile-warning__body p {
+  margin: 0 0 4px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.sandbox-mobile-warning__body p:last-child {
+  margin-bottom: 0;
+}
+
+.sandbox-mobile-warning__body strong:not(:first-child) {
+  color: var(--text);
+  font-size: inherit;
+}

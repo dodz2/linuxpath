@@ -1658,6 +1658,25 @@ async function init() {
   initTerminal();
 }
 
+/* ============================================================
+   SANDBOX — Avertissement mobile
+   ============================================================ */
+
+/**
+ * Affiche ou masque l'avertissement sandbox selon la taille d'écran.
+ * Seuil : 768px (breakpoint tablette/desktop standard).
+ */
+function updateSandboxMobileWarning() {
+  const el = document.getElementById('sandbox-mobile-warning');
+  if (!el) return;
+  const isMobile = window.innerWidth < 768;
+  el.style.display = isMobile ? '' : 'none';
+}
+
+// Affichage initial + mise à jour au redimensionnement
+document.addEventListener('DOMContentLoaded', updateSandboxMobileWarning);
+window.addEventListener('resize', updateSandboxMobileWarning);
+
 document.addEventListener('DOMContentLoaded', init);
 /* ============================================================
    SANDBOX v86 — Démarrage et reset

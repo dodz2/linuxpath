@@ -437,6 +437,15 @@
           <p class="module-desc">Un vrai noyau Linux (Alpine) exécuté en WebAssembly — aucune installation requise.</p>
         </div>
         <div id="sandbox-container">
+          <!-- Avertissement mobile — affiché uniquement sur petits écrans via JS -->
+          <div id="sandbox-mobile-warning" class="sandbox-mobile-warning" style="display:none" role="alert" aria-live="polite">
+            <span class="sandbox-mobile-warning__icon">⚠️</span>
+            <div class="sandbox-mobile-warning__body">
+              <strong>Performances limitées sur mobile</strong>
+              <p>La sandbox émule un processeur x86 complet via WebAssembly et charge ~8 Mo d'Alpine Linux. Les navigateurs mobiles manquent souvent de RAM et imposent des quotas WebAssembly qui peuvent empêcher le boot de se terminer.</p>
+              <p>Pour une expérience fiable, <strong>utilisez un ordinateur</strong>.</p>
+            </div>
+          </div>
           <div class="sandbox-info-bar">
             <div class="sandbox-badges">
               <span class="sbadge sbadge-green">🐧 Alpine Linux x86</span>
