@@ -1,0 +1,182 @@
+{
+  "challenges": [
+    {
+      "id": "ctf-01",
+      "title": "Fichier caché",
+      "difficulty": "easy",
+      "context": "Tu es analyste SOC en pleine investigation d'un incident. Un utilisateur suspect a laissé un fichier dans son répertoire home. Les fichiers cachés sous Linux commencent par un point — ils n'apparaissent pas avec un simple <code>ls</code>. À toi de trouver ce qui se dissimule dans <code>/home/user/</code>.",
+      "objective": "Trouve le flag dissimulé dans un fichier caché du répertoire home.",
+      "hints": [
+        "Certains fichiers sont cachés par convention sous Linux. Essaie d'afficher tous les fichiers, y compris les cachés.",
+        "La commande <code>ls</code> a une option pour afficher les fichiers cachés (ceux dont le nom commence par <code>.</code>). Consulte <code>man ls</code>.",
+        "Utilise <code>ls -la /home/user/</code> pour tout voir, puis <code>cat</code> sur le fichier <code>.secret</code>."
+      ],
+      "flagHash": "59d5ff9249209fff453fbb628714ee3d2b7bee0d793b4cc4ada051a1b51273e7",
+      "vfs": {
+        "/": { "type": "dir", "children": ["home", "bin", "etc", "var", "tmp"] },
+        "/home": { "type": "dir", "children": ["user"] },
+        "/home/user": { "type": "dir", "children": ["documents", ".bashrc", ".profile", "readme.txt", ".secret"] },
+        "/home/user/documents": { "type": "dir", "children": ["rapport.txt"] },
+        "/home/user/documents/rapport.txt": { "type": "file", "content": "Rapport d'incident du 2024-03-15\nAucune anomalie détectée... en apparence." },
+        "/home/user/.bashrc": { "type": "file", "content": "# ~/.bashrc\nexport PATH=\"$HOME/.local/bin:$PATH\"\nalias ll=\"ls -la\"" },
+        "/home/user/.profile": { "type": "file", "content": "# ~/.profile — rien à voir ici." },
+        "/home/user/readme.txt": { "type": "file", "content": "Dossier personnel de l'utilisateur.\nDernière connexion : 2024-03-15 03:42:17" },
+        "/home/user/.secret": { "type": "file", "content": "flag{hidden_in_plain_sight}" },
+        "/bin": { "type": "dir", "children": ["bash", "ls", "cat"] },
+        "/etc": { "type": "dir", "children": ["passwd", "hosts"] },
+        "/etc/passwd": { "type": "file", "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash" },
+        "/etc/hosts": { "type": "file", "content": "127.0.0.1\tlocalhost\n127.0.1.1\tworkstation" },
+        "/var": { "type": "dir", "children": ["log"] },
+        "/var/log": { "type": "dir", "children": ["syslog"] },
+        "/var/log/syslog": { "type": "file", "content": "Mar 15 03:40:01 workstation sshd[2341]: Connection from 10.0.0.42\nMar 15 03:42:17 workstation sshd[2341]: Accepted password for user" },
+        "/tmp": { "type": "dir", "children": [] }
+      }
+    },
+    {
+      "id": "ctf-02",
+      "title": "Permission refusée",
+      "difficulty": "easy",
+      "context": "Un attaquant a stocké un flag dans un fichier protégé <code>/etc/shadow_flag</code>, lisible uniquement par root. Mais dans sa précipitation, il a oublié une copie mal sécurisée quelque part dans <code>/tmp</code> ou <code>/var</code>. Utilise <code>find</code> pour traquer cette copie.",
+      "objective": "Trouve la copie non protégée du flag laissée par mégarde dans le système.",
+      "hints": [
+        "Le fichier original est protégé, mais une copie traîne ailleurs. Cherche dans tout le système.",
+        "La commande <code>find</code> permet de rechercher des fichiers par nom. Essaie de trouver un fichier qui contient 'flag' dans son nom.",
+        "Utilise <code>find / -name \"*flag*\"</code> pour lister tous les fichiers contenant 'flag', puis <code>cat</code> le bon."
+      ],
+      "flagHash": "458640adbd70c3a2a7f69ac593449bbff8bf4cc269b50928a16312dcfc13abee",
+      "vfs": {
+        "/": { "type": "dir", "children": ["home", "bin", "etc", "var", "tmp"] },
+        "/home": { "type": "dir", "children": ["user"] },
+        "/home/user": { "type": "dir", "children": [".bashrc", "notes.txt"] },
+        "/home/user/.bashrc": { "type": "file", "content": "# ~/.bashrc\nexport PATH=\"$HOME/.local/bin:$PATH\"" },
+        "/home/user/notes.txt": { "type": "file", "content": "Investigation en cours.\nFichier sensible localisé dans /etc/shadow_flag — accès root requis." },
+        "/bin": { "type": "dir", "children": ["bash", "ls", "cat", "find"] },
+        "/etc": { "type": "dir", "children": ["passwd", "hosts", "shadow_flag"] },
+        "/etc/passwd": { "type": "file", "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash" },
+        "/etc/hosts": { "type": "file", "content": "127.0.0.1\tlocalhost" },
+        "/etc/shadow_flag": { "type": "file", "content": "Permission denied.", "perms": "-r--------" },
+        "/var": { "type": "dir", "children": ["log", "backups"] },
+        "/var/log": { "type": "dir", "children": ["syslog"] },
+        "/var/log/syslog": { "type": "file", "content": "Mar 16 11:00:01 srv sudo[1234]: user NOT in sudoers" },
+        "/var/backups": { "type": "dir", "children": ["flag.bak"] },
+        "/var/backups/flag.bak": { "type": "file", "content": "flag{world_readable_mistake}" },
+        "/tmp": { "type": "dir", "children": [] }
+      }
+    },
+    {
+      "id": "ctf-03",
+      "title": "Log suspect",
+      "difficulty": "medium",
+      "context": "Tu reçois une alerte : un attaquant a compromis le serveur et a dissimulé un message dans <code>/var/log/auth.log</code>. D'après les renseignements, il a encodé le flag en base64 pour le camoufler parmi les entrées légitimes. Utilise <code>grep</code> pour isoler la ligne suspecte, puis <code>base64</code> pour la décoder.",
+      "objective": "Extrais et décode le flag encodé en base64 dans le fichier auth.log.",
+      "hints": [
+        "Cherche une ligne qui sort de l'ordinaire dans /var/log/auth.log. Les vraies entrées de log ont un format précis.",
+        "Utilise <code>grep</code> pour filtrer les lignes qui contiennent un motif inhabituel. Les chaînes base64 ont un aspect particulier.",
+        "Utilise <code>grep 'DATA' /var/log/auth.log</code> pour trouver la ligne suspecte, puis décode la valeur avec <code>echo 'ZmxhZ3Ri...' | base64 -d</code>."
+      ],
+      "flagHash": "d7ba614676b457e3e6c432df3d5965368400fd07723d23b85ddbbba4e8e781c3",
+      "vfs": {
+        "/": { "type": "dir", "children": ["home", "bin", "etc", "var", "tmp"] },
+        "/home": { "type": "dir", "children": ["user"] },
+        "/home/user": { "type": "dir", "children": [".bashrc"] },
+        "/home/user/.bashrc": { "type": "file", "content": "# ~/.bashrc" },
+        "/bin": { "type": "dir", "children": ["bash", "ls", "cat", "grep", "base64"] },
+        "/etc": { "type": "dir", "children": ["passwd"] },
+        "/etc/passwd": { "type": "file", "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash" },
+        "/var": { "type": "dir", "children": ["log"] },
+        "/var/log": { "type": "dir", "children": ["auth.log", "syslog"] },
+        "/var/log/syslog": { "type": "file", "content": "Mar 17 08:00:01 srv systemd[1]: Started Daily apt upgrade.\nMar 17 08:01:12 srv kernel: [12345.678] eth0: renamed from veth3a2f" },
+        "/var/log/auth.log": { "type": "file", "content": "Mar 17 02:10:01 srv sshd[4421]: Accepted publickey for deploy from 10.0.0.2 port 51234\nMar 17 02:10:03 srv sshd[4422]: pam_unix(sshd:session): session opened for user deploy\nMar 17 02:11:47 srv sudo[4501]: deploy : TTY=pts/1 ; COMMAND=/usr/bin/apt update\nMar 17 02:14:22 srv sshd[4421]: DATA: ZmxhZ3tiYXNlNjRfaXNfbm90X2VuY3J5cHRpb259\nMar 17 02:15:01 srv sshd[4422]: pam_unix(sshd:session): session closed for user deploy\nMar 17 02:16:33 srv sshd[4601]: Failed password for invalid user admin from 203.0.113.42 port 44321\nMar 17 02:16:35 srv sshd[4601]: Failed password for invalid user admin from 203.0.113.42 port 44322\nMar 17 02:16:37 srv sshd[4601]: Failed password for invalid user admin from 203.0.113.42 port 44323" },
+        "/tmp": { "type": "dir", "children": [] }
+      }
+    },
+    {
+      "id": "ctf-04",
+      "title": "Script piégé",
+      "difficulty": "medium",
+      "context": "Un script de maintenance suspect a été déposé dans <code>/opt/maintenance/</code>. Le développeur malveillant a laissé le flag dans une variable d'environnement commentée du script, pensant que personne n'irait lire le code. Utilise <code>cat</code> et <code>grep</code> pour l'extraire.",
+      "objective": "Trouve le flag dissimulé dans le code source d'un script bash.",
+      "hints": [
+        "Explore le répertoire /opt/ et lis les fichiers qui s'y trouvent.",
+        "Les variables dans un script bash sont définies avec le signe =. Cherche les lignes commentées qui contiennent une affectation de variable.",
+        "Utilise <code>grep '#' /opt/maintenance/cleanup.sh</code> pour voir toutes les lignes commentées, puis cherche la variable suspecte."
+      ],
+      "flagHash": "74016f65e6fe68016bf9da3c0890e7fe06b4eed62ead9b1ab3fc0d63d06cffb1",
+      "vfs": {
+        "/": { "type": "dir", "children": ["home", "bin", "etc", "opt", "var", "tmp"] },
+        "/home": { "type": "dir", "children": ["user"] },
+        "/home/user": { "type": "dir", "children": [".bashrc", "todo.txt"] },
+        "/home/user/.bashrc": { "type": "file", "content": "# ~/.bashrc" },
+        "/home/user/todo.txt": { "type": "file", "content": "- Auditer les scripts dans /opt/\n- Vérifier les crons suspects\n- Analyser les connexions sortantes" },
+        "/bin": { "type": "dir", "children": ["bash", "ls", "cat", "grep"] },
+        "/etc": { "type": "dir", "children": ["passwd"] },
+        "/etc/passwd": { "type": "file", "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash" },
+        "/opt": { "type": "dir", "children": ["maintenance"] },
+        "/opt/maintenance": { "type": "dir", "children": ["cleanup.sh", "README"] },
+        "/opt/maintenance/README": { "type": "file", "content": "Script de nettoyage automatique.\nAuteur : admin@corp.internal\nVersion : 2.1.3" },
+        "/opt/maintenance/cleanup.sh": { "type": "file", "content": "#!/bin/bash\n# Script de nettoyage automatique — v2.1.3\n# Auteur : admin@corp.internal\n\n# Configuration\nMAX_AGE=30\nLOG_DIR=/var/log\nBACKUP_DIR=/var/backups\n\n# TODO: supprimer avant la mise en prod\n# SECRET_KEY=flag{environment_variable_leak}\n\n# Nettoyage des fichiers temporaires\nfind /tmp -mtime +$MAX_AGE -delete 2>/dev/null\n\necho \"Nettoyage terminé : $(date)\"", "perms": "-rwxr-xr-x" },
+        "/var": { "type": "dir", "children": ["log", "backups"] },
+        "/var/log": { "type": "dir", "children": ["syslog"] },
+        "/var/log/syslog": { "type": "file", "content": "Mar 18 06:30:01 srv CRON[5512]: (root) CMD (/opt/maintenance/cleanup.sh)" },
+        "/var/backups": { "type": "dir", "children": [] },
+        "/tmp": { "type": "dir", "children": [] }
+      }
+    },
+    {
+      "id": "ctf-05",
+      "title": "Processus fantôme",
+      "difficulty": "hard",
+      "context": "Une alerte SIEM signale un processus anormal sur le serveur. Un programme malveillant tourne en arrière-plan et a été lancé avec le flag comme argument de ligne de commande — une erreur classique de développeur pressé. Le flag est visible dans la liste des processus. Utilise <code>ps aux</code> et <code>grep</code> pour l'identifier.",
+      "objective": "Retrouve le flag passé en argument à un processus en cours d'exécution.",
+      "hints": [
+        "Sous Linux, les arguments passés à un programme au démarrage sont visibles dans la liste des processus.",
+        "La commande <code>ps aux</code> affiche tous les processus avec leurs arguments complets. Cherche un processus inhabituel.",
+        "Utilise <code>ps aux</code> et observe attentivement la colonne COMMAND — un processus nommé 'beacon' a été lancé avec un argument suspect."
+      ],
+      "flagHash": "15237fa1b9516ceffa324afeffe52458ce0b06252455e7941750eb270bffed6f",
+      "vfs": {
+        "/": { "type": "dir", "children": ["home", "bin", "etc", "var", "proc", "tmp"] },
+        "/home": { "type": "dir", "children": ["user"] },
+        "/home/user": { "type": "dir", "children": [".bashrc", "alert.txt"] },
+        "/home/user/.bashrc": { "type": "file", "content": "# ~/.bashrc" },
+        "/home/user/alert.txt": { "type": "file", "content": "ALERTE SIEM — 2024-03-19 14:32:01\nProcessus non référencié détecté.\nPID inconnu, commande suspecte.\nInvestigation requise." },
+        "/bin": { "type": "dir", "children": ["bash", "ls", "cat", "grep", "ps"] },
+        "/etc": { "type": "dir", "children": ["passwd"] },
+        "/etc/passwd": { "type": "file", "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash" },
+        "/proc": { "type": "dir", "children": [] },
+        "/var": { "type": "dir", "children": ["log"] },
+        "/var/log": { "type": "dir", "children": ["syslog"] },
+        "/var/log/syslog": { "type": "file", "content": "Mar 19 14:31:58 srv systemd[1]: Started Session 42.\nMar 19 14:32:00 srv kernel: process spawned pid=9342" },
+        "/tmp": { "type": "dir", "children": [] }
+      }
+    },
+    {
+      "id": "ctf-06",
+      "title": "Exfiltration réseau",
+      "difficulty": "hard",
+      "context": "Les équipes réseau ont détecté des connexions sortantes suspectes vers l'IP <code>203.0.113.99</code>. Ces connexions apparaissent dans <code>/var/log/syslog</code>. Les données exfiltrées ont été fragmentées sur plusieurs lignes : chaque ligne contenant cette IP finit par un segment du flag. Reconstitue-le avec <code>grep</code> et <code>awk</code> ou <code>cut</code>.",
+      "objective": "Reconstitue le flag fragmenté dans les logs réseau.",
+      "hints": [
+        "Cherche dans /var/log/syslog les lignes qui contiennent l'IP suspecte 203.0.113.99.",
+        "Les lignes suspectes ont toutes un champ DATA= à la fin. Utilise <code>grep '203.0.113.99' /var/log/syslog</code> pour les isoler.",
+        "Chaque ligne DATA= contient un morceau du flag dans l'ordre. Concatène les 4 valeurs DATA= pour reconstituer : flag{network_exfiltration_trace}."
+      ],
+      "flagHash": "75ae3ce451747291fee91aef10f2267be5de33267c5fabe7d6d07b086caefa3c",
+      "vfs": {
+        "/": { "type": "dir", "children": ["home", "bin", "etc", "var", "tmp"] },
+        "/home": { "type": "dir", "children": ["user"] },
+        "/home/user": { "type": "dir", "children": [".bashrc", "ioc.txt"] },
+        "/home/user/.bashrc": { "type": "file", "content": "# ~/.bashrc" },
+        "/home/user/ioc.txt": { "type": "file", "content": "Indicateurs de compromission (IOC)\nIP suspecte : 203.0.113.99\nPremière détection : 2024-03-20 22:14:08\nProtocole : TCP/443\nDirection : outbound" },
+        "/bin": { "type": "dir", "children": ["bash", "ls", "cat", "grep", "awk", "cut"] },
+        "/etc": { "type": "dir", "children": ["passwd"] },
+        "/etc/passwd": { "type": "file", "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash" },
+        "/var": { "type": "dir", "children": ["log"] },
+        "/var/log": { "type": "dir", "children": ["syslog", "auth.log"] },
+        "/var/log/auth.log": { "type": "file", "content": "Mar 20 22:10:01 srv sshd[6001]: Accepted publickey for user from 10.0.0.1\nMar 20 22:10:03 srv sshd[6001]: pam_unix: session opened for user" },
+        "/var/log/syslog": { "type": "file", "content": "Mar 20 22:00:01 srv systemd[1]: Started Daily Cleanup.\nMar 20 22:05:14 srv kernel: eth0: link is up 1000Mbps\nMar 20 22:14:08 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=flag{\nMar 20 22:14:09 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=network_\nMar 20 22:14:10 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=exfiltration_\nMar 20 22:14:11 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=trace}\nMar 20 22:15:30 srv systemd[1]: NetworkManager[910]: connection activated\nMar 20 22:18:44 srv kernel: usb 1-1: new high-speed USB device" },
+        "/tmp": { "type": "dir", "children": [] }
+      }
+    }
+  ]
+}

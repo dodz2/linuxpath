@@ -189,6 +189,10 @@ async function resetState() {
   state.quizScores      = {};
   state.unlockedModules = new Set(['m1', 'sandbox']);
   await saveState();
+  // Réinitialiser aussi la progression CTF
+  ctfState.solved = new Set();
+  ctfState.hints  = {};
+  await saveCTFState();
 }
 
 async function confirmReset() {
@@ -1628,15 +1632,18 @@ async function init() {
   // Load data files and state concurrently
   let dataOk = true;
   try {
-    const [lessonsResp, exercisesResp, quizzesResp] = await Promise.all([
+    const [lessonsResp, exercisesResp, quizzesResp, ctfResp] = await Promise.all([
       fetch('data/lessons.json'),
       fetch('data/exercises.json'),
-      fetch('data/quizzes.json')
+      fetch('data/quizzes.json'),
+      fetch('data/ctf.json')
     ]);
-    if (!lessonsResp.ok || !exercisesResp.ok || !quizzesResp.ok) throw new Error('Fetch failed');
+    if (!lessonsResp.ok || !exercisesResp.ok || !quizzesResp.ok || !ctfResp.ok) throw new Error('Fetch failed');
     LESSONS   = await lessonsResp.json();
     EXERCISES = await exercisesResp.json();
     QUIZZES   = await quizzesResp.json();
+    const ctfData = await ctfResp.json();
+    CTF_CHALLENGES = ctfData.challenges || [];
   } catch (err) {
     dataOk = false;
     document.body.innerHTML = `
@@ -1650,6 +1657,8 @@ async function init() {
   if (!dataOk) return;
 
   await loadState();
+  await loadCTFState();
+  updateCTFBadge();
   renderLessons();
   renderExercises();
   renderQuizzes();
@@ -1676,6 +1685,635 @@ function updateSandboxMobileWarning() {
 // Affichage initial + mise à jour au redimensionnement
 document.addEventListener('DOMContentLoaded', updateSandboxMobileWarning);
 window.addEventListener('resize', updateSandboxMobileWarning);
+
+
+/* ============================================================
+   CTF CHALLENGES
+   ============================================================ */
+
+let CTF_CHALLENGES = [];   // chargé depuis data/ctf.json
+let ctfCurrentId   = null; // id du challenge ouvert
+
+/* --- State CTF --- */
+// Clés IndexedDB / localStorage
+const CTF_STORAGE_KEYS = {
+  solved: 'lt_ctf_solved',  // Set des ids résolus
+  hints:  'lt_ctf_hints'    // { id: nbIndicesAffichés }
+};
+
+let ctfState = {
+  solved: new Set(),
+  hints:  {}
+};
+
+async function saveCTFState() {
+  await Promise.all([
+    storage.set(CTF_STORAGE_KEYS.solved, JSON.stringify([...ctfState.solved])),
+    storage.set(CTF_STORAGE_KEYS.hints,  JSON.stringify(ctfState.hints))
+  ]);
+}
+
+async function loadCTFState() {
+  try {
+    const [sv, hi] = await Promise.all([
+      storage.get(CTF_STORAGE_KEYS.solved),
+      storage.get(CTF_STORAGE_KEYS.hints)
+    ]);
+    if (sv) ctfState.solved = new Set(JSON.parse(sv));
+    if (hi) ctfState.hints  = JSON.parse(hi);
+  } catch(e) { /* état par défaut */ }
+}
+
+/* --- SHA-256 via Web Crypto API --- */
+async function sha256hex(str) {
+  const buf  = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+/* --- Normalisation du flag soumis --- */
+function normalizeFlag(raw) {
+  return raw.trim().toLowerCase();
+}
+
+/* --- Mise à jour du badge sidebar CTF --- */
+function updateCTFBadge() {
+  const badge = document.getElementById('nav-badge-ctf');
+  if (badge) badge.textContent = ctfState.solved.size + '/6';
+}
+
+/* --- Rendu de la grille des cards --- */
+function renderCTFGrid() {
+  const grid = document.getElementById('ctf-grid');
+  if (!grid || !CTF_CHALLENGES.length) return;
+  grid.innerHTML = '';
+
+  const diffLabels = { easy: 'Facile', medium: 'Moyen', hard: 'Difficile' };
+  const diffClasses = { easy: 'ctf-diff-easy', medium: 'ctf-diff-medium', hard: 'ctf-diff-hard' };
+
+  CTF_CHALLENGES.forEach(function(ch) {
+    const solved = ctfState.solved.has(ch.id);
+    const card = document.createElement('div');
+    card.className = 'ctf-card' + (solved ? ' solved' : '');
+    card.id = 'ctf-card-' + ch.id;
+    card.innerHTML =
+      '<div class="ctf-card-top">'
+      + '<span class="ctf-card-title">' + escHtml(ch.title) + '</span>'
+      + '<span class="ctf-difficulty-badge ' + diffClasses[ch.difficulty] + '">' + (diffLabels[ch.difficulty] || ch.difficulty) + '</span>'
+      + '</div>'
+      + '<p class="ctf-card-desc">' + ch.context.replace(/<[^>]+>/g, '').slice(0, 100) + '…</p>'
+      + '<div class="ctf-card-footer">'
+      + '<span class="ctf-status-badge' + (solved ? ' solved' : '') + '">'
+      + (solved ? '✓ Résolu' : '○ Non résolu')
+      + '</span>'
+      + '<button class="ctf-card-btn" onclick="openCTFChallenge(\'' + ch.id + '\')">'
+      + (solved ? '↺ Rejouer' : '▶ Relever le défi')
+      + '</button>'
+      + '</div>';
+    grid.appendChild(card);
+  });
+}
+
+/* --- Ouvrir un challenge --- */
+function openCTFChallenge(id) {
+  const ch = CTF_CHALLENGES.find(function(c){ return c.id === id; });
+  if (!ch) return;
+  ctfCurrentId = id;
+
+  // Masquer la grille, afficher le détail
+  document.getElementById('ctf-grid').style.display  = 'none';
+  document.getElementById('ctf-detail').style.display = '';
+
+  // Remplir l'en-tête
+  const diffLabels  = { easy: 'Facile', medium: 'Moyen', hard: 'Difficile' };
+  const diffClasses = { easy: 'ctf-diff-easy', medium: 'ctf-diff-medium', hard: 'ctf-diff-hard' };
+  document.getElementById('ctf-detail-title').textContent = ch.title;
+  const diffBadge = document.getElementById('ctf-detail-diff');
+  diffBadge.textContent  = diffLabels[ch.difficulty] || ch.difficulty;
+  diffBadge.className    = 'ctf-difficulty-badge ' + (diffClasses[ch.difficulty] || '');
+
+  document.getElementById('ctf-context-box').innerHTML   = ch.context;
+  document.getElementById('ctf-objective-box').innerHTML = '<strong>Objectif :</strong> ' + ch.objective;
+
+  // Champ flag et feedback
+  const flagInput    = document.getElementById('ctf-flag-input');
+  const flagFeedback = document.getElementById('ctf-flag-feedback');
+  flagInput.value    = '';
+  flagInput.disabled = false;
+  flagFeedback.className   = 'ctf-flag-feedback';
+  flagFeedback.textContent = '';
+
+  if (ctfState.solved.has(id)) {
+    flagInput.value    = '✓ Challenge résolu !';
+    flagInput.disabled = true;
+    flagFeedback.className   = 'ctf-flag-feedback success';
+    flagFeedback.textContent = '🎉 Tu as déjà résolu ce challenge. Bravo !';
+  }
+
+  // Indices
+  renderCTFHints(ch);
+
+  // Initialiser le terminal CTF
+  loadCTFChallenge(id);
+}
+
+/* --- Fermer le détail, retourner à la grille --- */
+function closeCTFDetail() {
+  document.getElementById('ctf-detail').style.display = 'none';
+  document.getElementById('ctf-grid').style.display   = '';
+  ctfCurrentId = null;
+  // Rafraîchir la grille (statuts résolus)
+  renderCTFGrid();
+}
+
+/* --- Terminal CTF isolé --- */
+let ctfVfs         = {};
+let ctfCurrentDir  = '/home/user';
+let ctfPrevDir     = null;
+let ctfCmdHistory  = [];
+let ctfHistoryIdx  = -1;
+let ctfTermInited  = false;
+
+function ctfTermOutput(html, cls) {
+  const out = document.getElementById('ctf-terminal-output');
+  if (!out) return;
+  const line = document.createElement('div');
+  line.className = 'term-line' + (cls ? ' ' + cls : '');
+  line.innerHTML = html;
+  out.appendChild(line);
+  out.scrollTop = out.scrollHeight;
+}
+
+function ctfTermCmdEcho(cmd) {
+  const out = document.getElementById('ctf-terminal-output');
+  if (!out) return;
+  const line = document.createElement('div');
+  line.className = 'term-line term-cmd-echo';
+  line.innerHTML = ctfPromptStr() + ' <span class="t-input">' + escHtml(cmd) + '</span>';
+  out.appendChild(line);
+  out.scrollTop = out.scrollHeight;
+}
+
+function ctfPromptStr() {
+  const display = ctfCurrentDir.replace('/home/user', '~');
+  return '<span style="color:var(--accent-red)">ctf@challenge</span><span class="t-sep">:</span><span class="t-dir">' + display + '</span><span class="t-dollar">$</span>';
+}
+
+function updateCTFPromptLabel() {
+  const label = document.getElementById('ctf-terminal-prompt');
+  if (!label) return;
+  const display = ctfCurrentDir.replace('/home/user', '~');
+  label.innerHTML = '<span style="color:var(--accent-red)">ctf@challenge</span><span class="t-sep">:</span><span class="t-dir">' + display + '</span><span class="t-dollar">$</span>';
+}
+
+function ctfResolvePath(path) {
+  if (!path || path === '~') return '/home/user';
+  if (path === '-') return ctfPrevDir || ctfCurrentDir;
+  if (path.startsWith('~/')) return '/home/user' + path.slice(1);
+  if (!path.startsWith('/')) {
+    const base = ctfCurrentDir === '/' ? '' : ctfCurrentDir;
+    path = base + '/' + path;
+  }
+  const parts = path.split('/').filter(Boolean);
+  const resolved = [];
+  for (let i = 0; i < parts.length; i++) {
+    if (parts[i] === '..') resolved.pop();
+    else if (parts[i] !== '.') resolved.push(parts[i]);
+  }
+  return '/' + resolved.join('/');
+}
+
+function loadCTFChallenge(id) {
+  const ch = CTF_CHALLENGES.find(function(c){ return c.id === id; });
+  if (!ch) return;
+
+  // Cloner le vfs du challenge (isolation totale)
+  ctfVfs        = JSON.parse(JSON.stringify(ch.vfs));
+  ctfCurrentDir = '/home/user';
+  ctfPrevDir    = null;
+  ctfCmdHistory = [];
+  ctfHistoryIdx = -1;
+
+  // Vider et réinitialiser le terminal
+  const out = document.getElementById('ctf-terminal-output');
+  if (out) out.innerHTML = '';
+  updateCTFPromptLabel();
+
+  const titleEl = document.getElementById('ctf-terminal-title');
+  if (titleEl) titleEl.textContent = 'ctf@challenge:~$ — ' + ch.title;
+
+  ctfTermOutput('<span style="color:var(--accent-red)">CTF Challenge : ' + escHtml(ch.title) + '</span>', 'term-output');
+  ctfTermOutput('<span class="t-muted">Tape <strong>help</strong> pour les commandes disponibles. Bonne chance !</span>', 'term-output');
+  ctfTermOutput('', 'term-output');
+
+  // Attacher l'écouteur une seule fois
+  if (!ctfTermInited) {
+    initCTFTerminalInput();
+    ctfTermInited = true;
+  }
+
+  const input = document.getElementById('ctf-terminal-input');
+  if (input) { input.value = ''; input.focus(); }
+}
+
+function resetCTFTerminal() {
+  if (ctfCurrentId) {
+    ctfTermInited = false; // forcer re-init propre
+    loadCTFChallenge(ctfCurrentId);
+  }
+}
+
+function initCTFTerminalInput() {
+  const input = document.getElementById('ctf-terminal-input');
+  if (!input) return;
+
+  // Supprimer les anciens listeners en clonant le nœud
+  const fresh = input.cloneNode(true);
+  input.parentNode.replaceChild(fresh, input);
+
+  fresh.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      const val = fresh.value.trim();
+      if (val) { processCTFCommand(val); fresh.value = ''; ctfHistoryIdx = ctfCmdHistory.length; }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (ctfHistoryIdx > 0) { ctfHistoryIdx--; fresh.value = ctfCmdHistory[ctfHistoryIdx] || ''; }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (ctfHistoryIdx < ctfCmdHistory.length - 1) { ctfHistoryIdx++; fresh.value = ctfCmdHistory[ctfHistoryIdx] || ''; }
+      else { ctfHistoryIdx = ctfCmdHistory.length; fresh.value = ''; }
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      const val2  = fresh.value;
+      const parts = val2.split(/\s+/);
+      if (parts.length >= 2) {
+        const partial = parts[parts.length - 1];
+        const node    = ctfVfs[ctfCurrentDir];
+        if (node && node.children) {
+          const matches = node.children.filter(function(c){ return c.startsWith(partial); });
+          if (matches.length === 1) { parts[parts.length - 1] = matches[0]; fresh.value = parts.join(' ') + ' '; }
+          else if (matches.length > 1) { ctfTermCmdEcho(val2); ctfTermOutput(matches.join('  '), 'term-output'); }
+        }
+      }
+    } else if (e.key === 'l' && e.ctrlKey) {
+      e.preventDefault();
+      const out = document.getElementById('ctf-terminal-output');
+      if (out) out.innerHTML = '';
+    }
+  });
+
+  // Clic sur le terminal → focus input
+  const wrap = document.querySelector('.ctf-terminal-wrap');
+  if (wrap) {
+    wrap.addEventListener('click', function(e) {
+      if (!e.target.closest('.ctf-terminal-titlebar')) fresh.focus();
+    });
+  }
+}
+
+/* --- Traitement des commandes CTF --- */
+function processCTFCommand(rawCmd) {
+  const trimmed = rawCmd.trim();
+  if (ctfCmdHistory[ctfCmdHistory.length - 1] !== trimmed) ctfCmdHistory.push(trimmed);
+  ctfHistoryIdx = ctfCmdHistory.length;
+  ctfTermCmdEcho(trimmed);
+
+  const parts = trimmed.split(/\s+/);
+  const cmd   = parts[0];
+  const args  = parts.slice(1);
+
+  switch(cmd) {
+    case 'clear': {
+      const out = document.getElementById('ctf-terminal-output');
+      if (out) out.innerHTML = '';
+      break;
+    }
+    case 'pwd': ctfTermOutput(escHtml(ctfCurrentDir), 'term-output'); break;
+    case 'whoami': ctfTermOutput('ctf', 'term-output'); break;
+    case 'id': ctfTermOutput('uid=1337(ctf) gid=1337(ctf) groupes=1337(ctf)', 'term-output'); break;
+    case 'hostname': ctfTermOutput('challenge-box', 'term-output'); break;
+    case 'ls': ctfHandleLs(args); break;
+    case 'cd': ctfHandleCd(args); break;
+    case 'cat': {
+      if (!args[0]) { ctfTermOutput('<span class="t-err">cat : aucun fichier spécifié</span>'); break; }
+      const t = ctfResolvePath(args[0]);
+      if (!ctfVfs[t]) { ctfTermOutput('<span class="t-err">cat : ' + escHtml(args[0]) + ' : Aucun fichier ou dossier de ce type</span>'); break; }
+      if (ctfVfs[t].type === 'dir') { ctfTermOutput('<span class="t-err">cat : ' + escHtml(args[0]) + ' : est un répertoire</span>'); break; }
+      if (ctfVfs[t].perms && ctfVfs[t].perms.startsWith('-r--------')) {
+        ctfTermOutput('<span class="t-err">cat : ' + escHtml(args[0]) + ' : Permission non accordée</span>'); break;
+      }
+      const lines = (ctfVfs[t].content || '').split('\n');
+      lines.forEach(function(l){ ctfTermOutput(escHtml(l), 'term-output'); });
+      break;
+    }
+    case 'echo': {
+      ctfTermOutput(escHtml(args.join(' ')), 'term-output');
+      break;
+    }
+    case 'find': {
+      // find [dir] [-name pattern]
+      const nonFlags = args.filter(function(a){ return !a.startsWith('-'); });
+      const searchRoot = ctfResolvePath(nonFlags[0] || '.');
+      const nameIdx = args.indexOf('-name');
+      const namePattern = nameIdx >= 0 ? args[nameIdx + 1] : null;
+      const results = [];
+      function ctfFindRecur(dirPath) {
+        const node = ctfVfs[dirPath];
+        if (!node) return;
+        if (!namePattern || dirPath.split('/').pop().includes(namePattern.replace(/\*/g,''))) {
+          results.push(dirPath);
+        }
+        if (node.type === 'dir' && node.children) {
+          node.children.forEach(function(child) {
+            ctfFindRecur((dirPath === '/' ? '' : dirPath) + '/' + child);
+          });
+        }
+      }
+      // Only add root if it matches or no pattern
+      if (!namePattern) results.push(searchRoot);
+      const rootNode = ctfVfs[searchRoot];
+      if (rootNode && rootNode.children) {
+        rootNode.children.forEach(function(child) {
+          ctfFindRecur((searchRoot === '/' ? '' : searchRoot) + '/' + child);
+        });
+      }
+      results.forEach(function(r){ ctfTermOutput(escHtml(r), 'term-output'); });
+      if (!results.length) ctfTermOutput('<span class="t-muted">(aucun résultat)</span>');
+      break;
+    }
+    case 'grep': {
+      const flags   = args.filter(function(a){ return a.startsWith('-'); });
+      const nonFlag = args.filter(function(a){ return !a.startsWith('-'); });
+      if (nonFlag.length < 2) { ctfTermOutput('<span class="t-muted">(grep : spécifiez un motif et un fichier)</span>'); break; }
+      const pattern = nonFlag[0];
+      const file    = nonFlag[1];
+      const t       = ctfResolvePath(file);
+      if (!ctfVfs[t] || !ctfVfs[t].content) { ctfTermOutput('<span class="t-err">grep : ' + escHtml(file) + ' : Aucun fichier de ce type</span>'); break; }
+      const ci = flags.includes('-i');
+      const lines2 = ctfVfs[t].content.split('\n').filter(function(l){
+        return ci ? l.toLowerCase().includes(pattern.toLowerCase()) : l.includes(pattern);
+      });
+      if (!lines2.length) { ctfTermOutput('<span class="t-muted">(aucune correspondance)</span>'); break; }
+      lines2.forEach(function(l){
+        const re = new RegExp(escHtml(pattern).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'), ci ? 'gi' : 'g');
+        ctfTermOutput(escHtml(l).replace(re, function(m){ return '<span class="t-green">'+m+'</span>'; }), 'term-output');
+      });
+      break;
+    }
+    case 'base64': {
+      // Simule : echo 'xxx' | base64 -d  → on accepte la syntaxe simplifiée
+      // Usage direct : base64 -d <<< 'chaine'  ou base64 fichier
+      if (args[0] === '-d' && args[1]) {
+        try {
+          const decoded = atob(args[1]);
+          ctfTermOutput(escHtml(decoded), 'term-output');
+        } catch(e) {
+          ctfTermOutput('<span class="t-err">base64 : données invalides</span>');
+        }
+      } else if (args[0]) {
+        const t = ctfResolvePath(args[0]);
+        if (ctfVfs[t] && ctfVfs[t].content) {
+          ctfTermOutput(escHtml(btoa(ctfVfs[t].content)), 'term-output');
+        } else {
+          ctfTermOutput('<span class="t-err">base64 : ' + escHtml(args[0]) + ' : Aucun fichier</span>');
+        }
+      } else {
+        ctfTermOutput('<span class="t-muted">Usage : base64 -d &lt;chaine_base64&gt;</span>');
+      }
+      break;
+    }
+    case 'ps': {
+      // Pour ctf-05 : afficher le processus fantôme avec le flag dans ses args
+      if (args.includes('aux') || args.includes('-aux') || args.includes('-ef')) {
+        ctfTermOutput('<span class="t-muted">USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span>', 'term-output');
+        ctfTermOutput('root           1  0.0  0.1 168380 13008 ?        Ss   10:00   0:02 /sbin/init', 'term-output');
+        ctfTermOutput('root         891  0.0  0.0  72300  5612 ?        Ss   10:00   0:00 /usr/sbin/sshd -D', 'term-output');
+        ctfTermOutput('ctf         1023  0.0  0.0  10596  5120 pts/0    Ss   10:02   0:00 bash', 'term-output');
+        ctfTermOutput('root        9342  0.3  0.1  18240  7680 ?        S    14:32   0:01 /usr/local/bin/beacon --token flag{process_arguments_exposed} --interval 30', 'term-output');
+        ctfTermOutput('ctf         9999  0.0  0.0  12940  3712 pts/0    R+   14:35   0:00 ps aux', 'term-output');
+      } else {
+        ctfTermOutput('<span class="t-muted">  PID TTY          TIME CMD</span>', 'term-output');
+        ctfTermOutput(' 1023 pts/0    00:00:00 bash', 'term-output');
+        ctfTermOutput(' 9999 pts/0    00:00:00 ps', 'term-output');
+      }
+      break;
+    }
+    case 'awk':
+    case 'cut': {
+      ctfTermOutput('<span class="t-muted">(' + escHtml(cmd) + ' : commande disponible — utilise grep d\'abord pour isoler les lignes)</span>', 'term-output');
+      break;
+    }
+    case 'man': {
+      const manShort = {
+        ls:     'ls [-la] [dir] — lister les fichiers. -l format long, -a afficher les cachés',
+        cat:    'cat [fichier] — afficher le contenu d\'un fichier',
+        find:   'find [dir] [-name motif] — rechercher des fichiers',
+        grep:   'grep [motif] [fichier] — filtrer les lignes contenant un motif',
+        base64: 'base64 -d &lt;chaine&gt; — décoder du base64',
+        ps:     'ps aux — afficher tous les processus avec leurs arguments',
+        cut:    'cut -d [sep] -f [n] [fichier] — extraire un champ',
+        awk:    'awk \'{print $n}\' [fichier] — extraire une colonne'
+      };
+      const topic = args[0];
+      if (!topic) { ctfTermOutput('<span class="t-err">man : quel manuel ?</span>'); break; }
+      if (manShort[topic]) ctfTermOutput('<div class="man-page"><strong>' + escHtml(topic.toUpperCase()) + '(1)</strong> — ' + manShort[topic] + '</div>', 'term-output');
+      else ctfTermOutput('<span class="t-err">Aucune entrée de manuel pour ' + escHtml(topic) + '</span>');
+      break;
+    }
+    case 'history': {
+      ctfCmdHistory.forEach(function(c, i){ ctfTermOutput('  ' + String(i+1).padStart(3) + '  ' + escHtml(c), 'term-output'); });
+      break;
+    }
+    case 'help': {
+      ctfTermOutput('<div class="help-grid">'
+        + '<div class="help-section"><strong>Navigation</strong><br>'
+        + '<span class="t-blue">pwd</span> — répertoire courant<br>'
+        + '<span class="t-blue">ls [-la]</span> — lister fichiers<br>'
+        + '<span class="t-blue">cd [dir]</span> — changer répertoire</div>'
+        + '<div class="help-section"><strong>Fichiers</strong><br>'
+        + '<span class="t-blue">cat [f]</span> — afficher contenu<br>'
+        + '<span class="t-blue">find [dir] [-name]</span> — rechercher<br>'
+        + '<span class="t-blue">grep [motif] [f]</span> — filtrer</div>'
+        + '<div class="help-section"><strong>Outils CTF</strong><br>'
+        + '<span class="t-blue">base64 -d &lt;str&gt;</span> — décoder base64<br>'
+        + '<span class="t-blue">ps aux</span> — processus actifs<br>'
+        + '<span class="t-blue">man [cmd]</span> — aide</div>'
+        + '</div>', 'term-output');
+      break;
+    }
+    default:
+      ctfTermOutput('<span class="t-err">bash: ' + escHtml(cmd) + ': commande introuvable</span>');
+  }
+  updateCTFPromptLabel();
+}
+
+function ctfHandleLs(args) {
+  const longFormat = args.some(function(a){ return a.match(/^-[a-zA-Z]*l/); });
+  const showHidden = args.some(function(a){ return a.match(/^-[a-zA-Z]*a/); });
+  const fileArg    = args.filter(function(a){ return !a.startsWith('-'); })[0];
+  const targetDir  = fileArg ? ctfResolvePath(fileArg) : ctfCurrentDir;
+
+  if (!ctfVfs[targetDir]) {
+    ctfTermOutput('<span class="t-err">ls : impossible d\'accéder à \'' + escHtml(fileArg) + '\': Aucun fichier ou dossier de ce type</span>');
+    return;
+  }
+
+  let items = [];
+  if (ctfVfs[targetDir].type === 'file') {
+    items = [{ name: (fileArg || '').split('/').pop(), node: ctfVfs[targetDir] }];
+  } else {
+    const children = ctfVfs[targetDir].children || [];
+    items = children.map(function(name) {
+      const nodePath = (targetDir === '/' ? '' : targetDir) + '/' + name;
+      return { name: name, node: ctfVfs[nodePath] || { type: 'file' } };
+    });
+    if (showHidden) {
+      items = [{ name: '.', node: { type: 'dir' } }, { name: '..', node: { type: 'dir' } }].concat(items);
+    } else {
+      items = items.filter(function(it){ return !it.name.startsWith('.'); });
+    }
+  }
+
+  if (longFormat) {
+    ctfTermOutput('<span class="t-muted">total ' + (items.length * 4) + '</span>', 'term-output');
+    items.forEach(function(item) {
+      const isDir  = item.node && item.node.type === 'dir';
+      const perm   = item.node && item.node.perms ? item.node.perms : (isDir ? 'drwxr-xr-x' : '-rw-r--r--');
+      const size   = isDir ? '  4096' : String((item.node && item.node.content ? item.node.content.length : 0) + 128).padStart(6);
+      const nameHtml = isDir
+        ? '<span class="ls-dir">' + escHtml(item.name) + '/</span>'
+        : item.name.endsWith('.sh')
+          ? '<span class="ls-exec">' + escHtml(item.name) + '</span>'
+          : item.name.startsWith('.')
+            ? '<span class="ls-hidden">' + escHtml(item.name) + '</span>'
+            : '<span class="ls-file">' + escHtml(item.name) + '</span>';
+      ctfTermOutput(escHtml(perm) + ' 1 ctf ctf ' + size + ' Mar 15 10:23 ' + nameHtml, 'term-output ls-line');
+    });
+  } else {
+    const parts2 = items.map(function(item) {
+      const isDir = item.node && item.node.type === 'dir';
+      if (isDir)                     return '<span class="ls-dir">' + escHtml(item.name) + '</span>';
+      if (item.name.endsWith('.sh')) return '<span class="ls-exec">' + escHtml(item.name) + '</span>';
+      if (item.name.startsWith('.')) return '<span class="ls-hidden">' + escHtml(item.name) + '</span>';
+      return '<span class="ls-file">' + escHtml(item.name) + '</span>';
+    });
+    ctfTermOutput(parts2.join('  '), 'term-output');
+  }
+}
+
+function ctfHandleCd(args) {
+  const target = args[0];
+  if (!target || target === '~' || target === '') {
+    ctfPrevDir = ctfCurrentDir; ctfCurrentDir = '/home/user'; return;
+  }
+  if (target === '-') {
+    if (ctfPrevDir) { const tmp = ctfCurrentDir; ctfCurrentDir = ctfPrevDir; ctfPrevDir = tmp; ctfTermOutput(escHtml(ctfCurrentDir), 'term-output'); }
+    return;
+  }
+  const resolved = ctfResolvePath(target);
+  if (!ctfVfs[resolved]) { ctfTermOutput('<span class="t-err">bash: cd: ' + escHtml(target) + ': Aucun fichier ou dossier de ce type</span>'); return; }
+  if (ctfVfs[resolved].type !== 'dir') { ctfTermOutput('<span class="t-err">bash: cd: ' + escHtml(target) + ': N\'est pas un répertoire</span>'); return; }
+  ctfPrevDir = ctfCurrentDir;
+  ctfCurrentDir = resolved;
+}
+
+/* --- Soumission du flag --- */
+async function submitCTFFlag() {
+  const input    = document.getElementById('ctf-flag-input');
+  const feedback = document.getElementById('ctf-flag-feedback');
+  if (!input || !feedback || !ctfCurrentId) return;
+
+  const raw      = input.value;
+  const norm     = normalizeFlag(raw);
+  if (!norm) return;
+
+  const ch       = CTF_CHALLENGES.find(function(c){ return c.id === ctfCurrentId; });
+  if (!ch) return;
+
+  const hash     = await sha256hex(norm);
+  const isCorrect = hash === ch.flagHash;
+
+  if (isCorrect) {
+    ctfState.solved.add(ctfCurrentId);
+    await saveCTFState();
+    updateCTFBadge();
+
+    feedback.className   = 'ctf-flag-feedback success';
+    feedback.textContent = '🎉 Félicitations ! Flag correct. Challenge validé !';
+    input.disabled       = true;
+
+    // Mettre à jour la card
+    const card = document.getElementById('ctf-card-' + ctfCurrentId);
+    if (card) card.classList.add('solved');
+  } else {
+    feedback.className   = 'ctf-flag-feedback error';
+    feedback.textContent = '✗ Flag incorrect. Continuez à explorer le système !';
+    input.select();
+  }
+}
+
+/* --- Indices débloquables --- */
+function renderCTFHints(ch) {
+  const list    = document.getElementById('ctf-hints-list');
+  const btn     = document.getElementById('ctf-hint-btn');
+  if (!list || !btn) return;
+
+  const shown = ctfState.hints[ch.id] || 0;
+  list.innerHTML = '';
+
+  for (let i = 0; i < shown; i++) {
+    const item = document.createElement('div');
+    item.className = 'ctf-hint-item';
+    item.innerHTML = '<span class="ctf-hint-num">Indice ' + (i + 1) + '/' + ch.hints.length + '</span>' + ch.hints[i];
+    list.appendChild(item);
+  }
+
+  if (shown >= ch.hints.length) {
+    btn.disabled     = true;
+    btn.textContent  = 'Tous les indices affichés';
+  } else {
+    btn.disabled     = false;
+    btn.textContent  = 'Afficher un indice (' + shown + '/' + ch.hints.length + ')';
+  }
+}
+
+async function showNextCTFHint() {
+  const ch = CTF_CHALLENGES.find(function(c){ return c.id === ctfCurrentId; });
+  if (!ch) return;
+
+  const shown = ctfState.hints[ch.id] || 0;
+  if (shown >= ch.hints.length) return;
+
+  if (!confirm('Afficher l\'indice ' + (shown + 1) + ' sur ' + ch.hints.length + ' ?')) return;
+
+  ctfState.hints[ch.id] = shown + 1;
+  await saveCTFState();
+  renderCTFHints(ch);
+}
+
+/* --- navigateTo étendu pour 'ctf' --- */
+const _origNavigateTo = navigateTo;
+navigateTo = function(target) {
+  if (target === 'ctf') {
+    document.querySelectorAll('.module-section').forEach(function(s){ s.classList.remove('active'); });
+    document.querySelectorAll('.module-nav-item').forEach(function(b){ b.classList.remove('active'); });
+    document.getElementById('section-ctf').classList.add('active');
+    const btn = document.querySelector('[data-target="ctf"]');
+    if (btn) btn.classList.add('active');
+    currentSection = 'ctf';
+    window.scrollTo(0, 0);
+    closeSidebar();
+    document.querySelector('.top-bar-title').innerHTML = '<span>ctf@challenge</span>:~$ <span style="color:var(--text-subtle);font-size:11px">Challenges CTF</span>';
+    // S'assurer que la grille est visible et le détail masqué
+    const grid   = document.getElementById('ctf-grid');
+    const detail = document.getElementById('ctf-detail');
+    if (grid)   grid.style.display   = '';
+    if (detail) detail.style.display = 'none';
+    renderCTFGrid();
+    return;
+  }
+  _origNavigateTo(target);
+};
+
 
 document.addEventListener('DOMContentLoaded', init);
 /* ============================================================

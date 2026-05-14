@@ -96,6 +96,13 @@
         <span class="module-nav-badge" id="nav-badge-m8">0%</span>
       </button>
 
+      <div class="sidebar-nav-label" style="margin-top:10px">Challenges</div>
+      <button class="module-nav-item" data-target="ctf" onclick="navigateTo('ctf')" id="nav-ctf">
+        <span class="module-nav-icon">🚩</span>
+        <span class="module-nav-title">Challenges CTF</span>
+        <span class="module-nav-badge ctf-badge" id="nav-badge-ctf">0/6</span>
+      </button>
+
       <div class="sidebar-nav-label" style="margin-top:10px">Outils</div>
       <button class="module-nav-item" onclick="focusTerminal()">
         <span class="module-num">⌨</span>
@@ -487,6 +494,81 @@
               <div class="tip-card"><code>whoami</code><span>Utilisateur courant</span></div>
               <div class="tip-card"><code>echo $PATH</code><span>Variable PATH</span></div>
             </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ======= CHALLENGES CTF ======= -->
+      <section id="section-ctf" class="module-section">
+        <div class="module-header">
+          <div class="module-tag" style="background:rgba(248,81,73,0.12);color:var(--accent-red)">Challenges CTF</div>
+          <h2 class="module-title"><span class="prompt-prefix" style="color:var(--accent-red)">$</span> Challenges CTF</h2>
+          <p class="module-desc">Missions d'investigation réelles : explore un système de fichiers compromis, trouve le flag caché et soumets-le. Format : <code>flag{...}</code></p>
+          <div class="module-meta">
+            <span class="module-meta-item">🚩 6 challenges</span>
+            <span class="module-meta-item">🟢 2 faciles</span>
+            <span class="module-meta-item">🟡 2 moyens</span>
+            <span class="module-meta-item">🔴 2 difficiles</span>
+          </div>
+        </div>
+
+        <!-- Grille des cards -->
+        <div class="ctf-grid" id="ctf-grid">
+          <!-- Rempli par JS -->
+        </div>
+
+        <!-- Vue détaillée d'un challenge -->
+        <div class="ctf-detail" id="ctf-detail" style="display:none">
+          <div class="ctf-detail-header">
+            <button class="ctf-back-btn" onclick="closeCTFDetail()">← Retour aux challenges</button>
+            <div class="ctf-detail-meta">
+              <span class="ctf-detail-title" id="ctf-detail-title"></span>
+              <span class="ctf-difficulty-badge" id="ctf-detail-diff"></span>
+            </div>
+          </div>
+
+          <div class="ctf-context-box" id="ctf-context-box"></div>
+          <div class="ctf-objective-box" id="ctf-objective-box"></div>
+
+          <!-- Terminal CTF dédié -->
+          <div class="ctf-terminal-wrap">
+            <div class="ctf-terminal-titlebar">
+              <div class="term-dots">
+                <div class="term-dot dot-red"></div>
+                <div class="term-dot dot-yellow"></div>
+                <div class="term-dot dot-green"></div>
+              </div>
+              <div class="ctf-terminal-title" id="ctf-terminal-title">ctf@challenge:~$</div>
+              <button class="ctf-reset-term-btn" onclick="resetCTFTerminal()" title="Réinitialiser le terminal">↺</button>
+            </div>
+            <div class="ctf-terminal-output" id="ctf-terminal-output"></div>
+            <div class="ctf-terminal-input-row">
+              <span class="ctf-terminal-prompt" id="ctf-terminal-prompt">ctf@challenge:~$</span>
+              <input type="text" class="ctf-terminal-input" id="ctf-terminal-input"
+                placeholder="tapez une commande..."
+                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </div>
+          </div>
+
+          <!-- Soumission du flag -->
+          <div class="ctf-submit-section">
+            <h3 class="ctf-section-label">🚩 Soumettre le flag</h3>
+            <div class="ctf-submit-row">
+              <input type="text" class="ctf-flag-input" id="ctf-flag-input"
+                placeholder="flag{...}"
+                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                onkeydown="if(event.key==='Enter') submitCTFFlag()">
+              <button class="ctf-submit-btn" onclick="submitCTFFlag()">Valider</button>
+            </div>
+            <div class="ctf-flag-feedback" id="ctf-flag-feedback"></div>
+          </div>
+
+          <!-- Indices débloquables -->
+          <div class="ctf-hints-section">
+            <h3 class="ctf-section-label">💡 Indices</h3>
+            <div class="ctf-hints-list" id="ctf-hints-list"></div>
+            <button class="ctf-hint-btn" id="ctf-hint-btn" onclick="showNextCTFHint()">Afficher un indice</button>
           </div>
         </div>
       </section>
