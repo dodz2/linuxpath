@@ -191,9 +191,9 @@ async function resetState() {
   await saveState();
 }
 
-function confirmReset() {
+async function confirmReset() {
   if (confirm('Voulez-vous vraiment réinitialiser toute votre progression ? Cette action est irréversible.')) {
-    resetState();
+    await resetState();
     location.reload();
   }
 }
@@ -415,7 +415,7 @@ function findExercise(id) {
   return null;
 }
 
-function checkExercise(exId, mod) {
+async function checkExercise(exId, mod) {
   const ex = findExercise(exId);
   if (!ex) return;
   if (state.exercisesDone.has(exId)) return;
@@ -1659,3 +1659,82 @@ async function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+/* ============================================================
+   SANDBOX v86 — Démarrage et reset
+   ============================================================ */
+
+let _sandboxEmulator = null;
+
+function startSandbox() {
+  const btnStart = document.getElementById('btn-start-sandbox');
+  const btnReset = document.getElementById('btn-reset-sandbox');
+  const status   = document.getElementById('sandbox-status');
+  const statusTxt = document.getElementById('sandbox-status-text');
+  const screenWrap = document.getElementById('sandbox-screen-wrap');
+  const screen   = document.getElementById('sandbox-screen');
+  const inputRow = document.getElementById('sandbox-input-row');
+  const input    = document.getElementById('sandbox-input');
+  const promptLbl = document.getElementById('sandbox-prompt-label');
+
+  if (btnStart) btnStart.style.display = 'none';
+  if (btnReset) btnReset.style.display = '';
+  if (status) status.style.display = '';
+  if (statusTxt) statusTxt.textContent = 'Chargement de l\'image Alpine Linux (~8 Mo)…';
+
+  if (!window.V86) {
+    if (statusTxt) statusTxt.textContent = 'Erreur : libv86 non disponible.';
+    return;
+  }
+
+  _sandboxEmulator = new window.V86({
+    wasm_path:     'v86/v86.wasm',
+    bios:          { url: 'v86/seabios.bin' },
+    vga_bios:      { url: 'v86/vgabios.bin' },
+    cdrom:         { url: 'v86/linux.iso' },
+    screen_container: screen,
+    autostart:     true,
+    memory_size:   64 * 1024 * 1024,
+    vga_memory_size: 8 * 1024 * 1024,
+  });
+
+  _sandboxEmulator.add_listener('emulator-started', function() {
+    if (statusTxt) statusTxt.textContent = 'Boot en cours… (30–60s)';
+  });
+
+  _sandboxEmulator.add_listener('serial0-output-char', function(char) {
+    if (status) status.style.display = 'none';
+    if (screenWrap) screenWrap.style.display = '';
+  });
+
+  // Entrée clavier vers le terminal série
+  if (input) {
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        const cmd = input.value;
+        input.value = '';
+        if (_sandboxEmulator) {
+          _sandboxEmulator.serial0_send(cmd + '\n');
+        }
+      }
+    });
+    if (inputRow) inputRow.style.display = '';
+  }
+}
+
+function resetSandbox() {
+  if (_sandboxEmulator) {
+    _sandboxEmulator.destroy();
+    _sandboxEmulator = null;
+  }
+  const screen = document.getElementById('sandbox-screen');
+  if (screen) screen.textContent = '';
+  const screenWrap = document.getElementById('sandbox-screen-wrap');
+  if (screenWrap) screenWrap.style.display = 'none';
+  const status = document.getElementById('sandbox-status');
+  if (status) status.style.display = 'none';
+  const btnStart = document.getElementById('btn-start-sandbox');
+  if (btnStart) btnStart.style.display = '';
+  const btnReset = document.getElementById('btn-reset-sandbox');
+  if (btnReset) btnReset.style.display = 'none';
+  startSandbox();
+}
