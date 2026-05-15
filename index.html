@@ -196,6 +196,11 @@
         <span class="module-nav-title">Cheatsheet Linux</span>
         <span class="module-nav-badge" style="background:rgba(0,217,126,0.12);color:var(--accent-green);border:1px solid rgba(0,217,126,0.2)">NEW</span>
       </button>
+      <button class="module-nav-item" data-target="glossary" onclick="navigateTo('glossary')" id="nav-glossary">
+        <span class="module-nav-icon">📖</span>
+        <span class="module-nav-title">Glossaire</span>
+        <span class="module-nav-badge" style="background:rgba(157,122,255,0.12);color:var(--accent-purple);border:1px solid rgba(157,122,255,0.2)">NEW</span>
+      </button>
     </nav>
 
     <div class="sidebar-footer">
@@ -699,6 +704,57 @@
         <!-- Note de bas de page -->
         <div class="news-footer-note">
           <strong>Sources :</strong> CERT-FR, ANSSI, NVD/NIST, Krebs on Security, The Hacker News — Sélection et résumés par LinuxPath. Les actualités sont vérifiées manuellement avant publication.
+        </div>
+      </section>
+
+      <!-- ======= GLOSSAIRE ======= -->
+      <section id="section-glossary" class="module-section">
+        <div class="module-header">
+          <div class="module-tag" style="background:rgba(157,122,255,0.12);color:var(--accent-purple)">Référence</div>
+          <h2 class="module-title"><span class="prompt-prefix" style="color:var(--accent-purple)">$</span> Glossaire Linux &amp; Cybersécurité</h2>
+          <p class="module-desc">74 termes essentiels expliqués en français, avec exemples concrets. Du vocabulaire que tu rencontres dans les modules, les CTF et les actualités.</p>
+          <div class="module-meta">
+            <span class="module-meta-item">📖 74 termes</span>
+            <span class="module-meta-item">📂 7 catégories</span>
+            <span class="module-meta-item">🔤 Index A–Z</span>
+          </div>
+        </div>
+
+        <!-- Barre de recherche -->
+        <div class="cheatsheet-search-wrap">
+          <input
+            type="text"
+            id="glossary-search"
+            class="cheatsheet-search"
+            placeholder="🔍  Rechercher un terme... (ex: kernel, CVE, permission)"
+            oninput="filterGlossary()"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+          >
+        </div>
+
+        <!-- Filtres catégories -->
+        <div class="cheatsheet-filters" id="glossary-cat-filters">
+          <button class="cheatsheet-filter-btn active" data-cat="all" onclick="filterGlossaryCat('all', this)">Tout</button>
+          <button class="cheatsheet-filter-btn" data-cat="securite" onclick="filterGlossaryCat('securite', this)">🛡️ Sécurité</button>
+          <button class="cheatsheet-filter-btn" data-cat="systeme" onclick="filterGlossaryCat('systeme', this)">🖥️ Système</button>
+          <button class="cheatsheet-filter-btn" data-cat="shell" onclick="filterGlossaryCat('shell', this)">📝 Shell</button>
+          <button class="cheatsheet-filter-btn" data-cat="reseau" onclick="filterGlossaryCat('reseau', this)">🌐 Réseau</button>
+          <button class="cheatsheet-filter-btn" data-cat="permissions" onclick="filterGlossaryCat('permissions', this)">🔐 Permissions</button>
+          <button class="cheatsheet-filter-btn" data-cat="developpement" onclick="filterGlossaryCat('developpement', this)">⚙️ Dev</button>
+          <button class="cheatsheet-filter-btn" data-cat="virtualisation" onclick="filterGlossaryCat('virtualisation', this)">📦 Virtualisation</button>
+        </div>
+
+        <!-- Nav alphabétique -->
+        <div class="glossary-alpha-nav" id="glossary-alpha-nav">
+          <!-- Remplie par JS -->
+        </div>
+
+        <!-- Contenu du glossaire -->
+        <div class="glossary-grid" id="glossary-grid">
+          <!-- Rempli par JS -->
         </div>
       </section>
 

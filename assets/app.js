@@ -275,7 +275,7 @@ let currentSection = 'home';
 
 function navigateTo(target) {
   // 'ctf' et 'sandbox' sont toujours accessibles sans condition de module
-  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet'];
+  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary'];
   if (!freeTargets.includes(target) && !state.unlockedModules.has(target)) {
     termPrint('error-line', `⚠ Le module "${target}" est verrouillé. Complétez le quiz du module précédent d'abord.`);
     return;
@@ -307,6 +307,13 @@ function navigateTo(target) {
       renderNewsGrid(_newsActiveFilter);
     } else {
       loadNews();
+    }
+  } else if (target === 'glossary') {
+    document.querySelector('.top-bar-title').innerHTML = '<span>user@linux</span>:~/glossaire$ <span style="color:var(--text-subtle);font-size:11px">Glossaire Linux & Cybersécurité</span>';
+    if (_glossaryData.length > 0) {
+      renderGlossary();
+    } else {
+      loadGlossary();
     }
   } else if (target === 'cheatsheet') {
     document.querySelector('.top-bar-title').innerHTML = '<span>user@linux</span>:~/cheatsheet$ <span style="color:var(--text-subtle);font-size:11px">Référence rapide Linux</span>';
@@ -2669,4 +2676,143 @@ function escapeAttr(str) {
     .replace(/\\/g, '\\\\')
     .replace(/'/g, "\\'")
     .replace(/"/g, '&quot;');
+}
+
+/* ============================================================
+   GLOSSAIRE LINUX & CYBERSÉCURITÉ
+   ============================================================ */
+
+let _glossaryData = [];
+let _glossaryActiveFilter = 'all';
+let _glossaryActiveLetter = 'all';
+
+const GLOSSARY_CAT_LABELS = {
+  securite: '🛡️ Sécurité',
+  systeme: '🖥️ Système',
+  shell: '📝 Shell',
+  reseau: '🌐 Réseau',
+  permissions: '🔐 Permissions',
+  developpement: '⚙️ Dev',
+  virtualisation: '📦 Virtualisation'
+};
+
+async function loadGlossary() {
+  try {
+    const res = await fetch('./data/glossary.json');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    _glossaryData = json.terms || [];
+    buildGlossaryAlphaNav();
+    renderGlossary();
+  } catch (err) {
+    console.error('Glossary load error:', err);
+    const grid = document.getElementById('glossary-grid');
+    if (grid) grid.innerHTML = '<p class="news-empty">Erreur de chargement. Rechargez la page.</p>';
+  }
+}
+
+function buildGlossaryAlphaNav() {
+  const nav = document.getElementById('glossary-alpha-nav');
+  if (!nav) return;
+  const letters = [...new Set(_glossaryData.map(t => t.letter))].sort();
+  let html = '<button class="glossary-alpha-btn active" data-letter="all" onclick="filterGlossaryLetter(\'all\', this)">Tout</button>';
+  letters.forEach(l => {
+    html += `<button class="glossary-alpha-btn" data-letter="${l}" onclick="filterGlossaryLetter('${l}', this)">${l}</button>`;
+  });
+  nav.innerHTML = html;
+}
+
+function renderGlossary() {
+  const search = (document.getElementById('glossary-search')?.value || '').toLowerCase().trim();
+  const grid = document.getElementById('glossary-grid');
+  if (!grid) return;
+
+  // Filter terms
+  let filtered = _glossaryData.filter(t => {
+    const catOk = _glossaryActiveFilter === 'all' || t.category === _glossaryActiveFilter;
+    const letterOk = _glossaryActiveLetter === 'all' || t.letter === _glossaryActiveLetter;
+    const searchOk = !search || 
+      t.term.toLowerCase().includes(search) ||
+      t.definition.toLowerCase().includes(search) ||
+      (t.full && t.full.toLowerCase().includes(search));
+    return catOk && letterOk && searchOk;
+  });
+
+  // Sort alphabetically
+  filtered.sort((a, b) => a.term.localeCompare(b.term, 'fr'));
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="news-empty">Aucun terme trouvé${search ? ` pour "<strong>${escapeHtml(search)}</strong>"` : ''}.</div>`;
+    return;
+  }
+
+  // Group by first letter
+  const groups = {};
+  filtered.forEach(t => {
+    const l = t.term[0].toUpperCase();
+    if (!groups[l]) groups[l] = [];
+    groups[l].push(t);
+  });
+
+  let html = '';
+  Object.keys(groups).sort().forEach(letter => {
+    html += `<div class="glossary-letter-group">
+      <div class="glossary-letter-header">${letter}</div>
+      <div class="glossary-terms-grid">
+        ${groups[letter].map(t => `
+          <div class="glossary-term-card">
+            <div class="glossary-term-top">
+              <div class="glossary-term-name">${escapeHtml(t.term)}</div>
+              <span class="glossary-cat-badge glossary-cat-${t.category}">${GLOSSARY_CAT_LABELS[t.category] || t.category}</span>
+            </div>
+            ${t.full ? `<div class="glossary-term-full">${escapeHtml(t.full)}</div>` : ''}
+            <div class="glossary-term-def">${escapeHtml(t.definition)}</div>
+            <code class="glossary-term-example">${escapeHtml(t.example)}</code>
+            ${t.related && t.related.length ? `
+              <div class="glossary-related">
+                ${t.related.map(r => `<span class="glossary-related-tag">${escapeHtml(r)}</span>`).join('')}
+              </div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+  });
+
+  grid.innerHTML = html;
+}
+
+function filterGlossaryCat(cat, btn) {
+  _glossaryActiveFilter = cat;
+  _glossaryActiveLetter = 'all';
+  // Reset letter nav
+  document.querySelectorAll('.glossary-alpha-btn').forEach(b => b.classList.remove('active'));
+  const allLetterBtn = document.querySelector('.glossary-alpha-btn[data-letter="all"]');
+  if (allLetterBtn) allLetterBtn.classList.add('active');
+  // Update cat buttons
+  document.querySelectorAll('#glossary-cat-filters .cheatsheet-filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  // Reset search
+  const searchEl = document.getElementById('glossary-search');
+  if (searchEl) searchEl.value = '';
+  renderGlossary();
+}
+
+function filterGlossaryLetter(letter, btn) {
+  _glossaryActiveLetter = letter;
+  document.querySelectorAll('.glossary-alpha-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderGlossary();
+}
+
+function filterGlossary() {
+  // Reset letter and cat filters when searching
+  _glossaryActiveLetter = 'all';
+  _glossaryActiveFilter = 'all';
+  document.querySelectorAll('.glossary-alpha-btn').forEach(b => b.classList.remove('active'));
+  const allLetterBtn = document.querySelector('.glossary-alpha-btn[data-letter="all"]');
+  if (allLetterBtn) allLetterBtn.classList.add('active');
+  document.querySelectorAll('#glossary-cat-filters .cheatsheet-filter-btn').forEach(b => b.classList.remove('active'));
+  const allCatBtn = document.querySelector('#glossary-cat-filters .cheatsheet-filter-btn[data-cat="all"]');
+  if (allCatBtn) allCatBtn.classList.add('active');
+  renderGlossary();
 }

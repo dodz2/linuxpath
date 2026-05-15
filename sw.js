@@ -6,7 +6,7 @@
      - assets/*        : cache-first (CSS/JS applicatif)
    ============================================================ */
 
-const CACHE_NAME = 'linuxpath-v9';
+const CACHE_NAME = 'linuxpath-v10';
 
 // Ressources pré-cachées à l'installation
 const PRECACHE_URLS = [
@@ -20,6 +20,7 @@ const PRECACHE_URLS = [
   './data/ctf.json',
   './data/news.json',
   './data/cheatsheet.json',
+  './data/glossary.json',
   './manifest.json',
   './sitemap.xml',
   './assets/favicon.svg',

