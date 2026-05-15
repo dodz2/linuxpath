@@ -219,6 +219,24 @@ function getModuleProgress(mod) {
 }
 
 function updateProgressUI() {
+  // Badge du groupe "Modules Linux" dans la sidebar
+  const modulesBadge = document.getElementById('group-modules-badge');
+  if (modulesBadge) {
+    const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+    let totalDone = 0, totalItems = 0;
+    mods.forEach(mod => {
+      const counts = MODULE_COUNTS[mod];
+      if (!counts) return;
+      const modTotal = counts.lessons + counts.exercises + counts.quizzes;
+      const modDone = [...state.lessonsDone].filter(id => id.startsWith(mod + '-')).length
+        + [...state.exercisesDone].filter(id => id.startsWith(mod + '-')).length
+        + Object.keys(state.quizScores).filter(id => id.startsWith(mod + '-')).length;
+      totalDone += modDone;
+      totalItems += modTotal;
+    });
+    const pct = totalItems > 0 ? Math.round(totalDone / totalItems * 100) : 0;
+    modulesBadge.textContent = pct + '%';
+  }
   const p = getProgress();
   document.getElementById('sidebar-progress-fill').style.width = p.pct + '%';
   document.getElementById('sidebar-pct').textContent = p.pct + '%';
@@ -286,6 +304,9 @@ function navigateTo(target) {
   const btn = document.querySelector(`[data-target="${target}"]`);
   if (btn) btn.classList.add('active');
   currentSection = target;
+  // Ouvrir le groupe accordéon correspondant à la cible
+  openGroupForTarget(target);
+  updateGroupActiveHeader(target);
   window.scrollTo(0, 0);
   closeSidebar();
   // Update topbar title
@@ -346,6 +367,66 @@ function closeSidebar() {
   document.getElementById('sidebar-overlay').classList.remove('visible');
   const hamburger = document.querySelector('.hamburger');
   if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+}
+
+/* ─── Accordéons sidebar ──────────────────────────────────────────────────── */
+
+/**
+ * Ouvre ou ferme un groupe accordéon de la sidebar.
+ * @param {string} groupId — id du .sidebar-group (ex: 'group-modules')
+ */
+function toggleSidebarGroup(groupId) {
+  const group = document.getElementById(groupId);
+  if (!group) return;
+  const isOpen = group.classList.toggle('open');
+  const header = group.querySelector('.sidebar-group-header');
+  if (header) header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+
+/**
+ * Ouvre le groupe contenant la cible et ferme les autres.
+ * Appelée automatiquement par navigateTo().
+ * @param {string} target — section cible (ex: 'm3', 'ctf', 'sandbox', 'news'…)
+ */
+function openGroupForTarget(target) {
+  // Mapping cible → groupe
+  const GROUP_MAP = {
+    m1: 'group-modules', m2: 'group-modules', m3: 'group-modules',
+    m4: 'group-modules', m5: 'group-modules', m6: 'group-modules',
+    m7: 'group-modules', m8: 'group-modules',
+    ctf: 'group-challenges',
+    sandbox: 'group-tools',
+    news: 'group-resources', cheatsheet: 'group-resources', glossary: 'group-resources',
+  };
+
+  const targetGroup = GROUP_MAP[target];
+  if (!targetGroup) return; // home, roadmap — pas dans un groupe
+
+  document.querySelectorAll('.sidebar-group').forEach(g => {
+    const shouldOpen = g.id === targetGroup;
+    g.classList.toggle('open', shouldOpen);
+    const header = g.querySelector('.sidebar-group-header');
+    if (header) header.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+  });
+}
+
+/**
+ * Met à jour l'indicateur visuel "has-active" sur le header du groupe actif.
+ * @param {string} target
+ */
+function updateGroupActiveHeader(target) {
+  document.querySelectorAll('.sidebar-group-header').forEach(h => h.classList.remove('has-active'));
+  const group = document.getElementById(
+    target.startsWith('m') && target !== 'ma' ? 'group-modules'
+    : target === 'ctf' ? 'group-challenges'
+    : target === 'sandbox' ? 'group-tools'
+    : ['news','cheatsheet','glossary'].includes(target) ? 'group-resources'
+    : null
+  );
+  if (group) {
+    const header = group.querySelector('.sidebar-group-header');
+    if (header) header.classList.add('has-active');
+  }
 }
 
 /* ============================================================

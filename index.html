@@ -113,6 +113,8 @@
     </div>
 
     <nav class="sidebar-nav" aria-label="Menu de navigation">
+
+      <!-- ── Navigation principale ── -->
       <div class="sidebar-nav-label">Navigation</div>
 
       <button class="module-nav-item active" data-target="home" onclick="navigateTo('home')">
@@ -124,89 +126,128 @@
         <span class="module-nav-title">Ma Progression</span>
       </button>
 
-      <div class="sidebar-nav-label" style="margin-top:10px">Modules</div>
+      <!-- ── Groupe : Modules ── -->
+      <div class="sidebar-group" id="group-modules">
+        <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-modules')" aria-expanded="false" aria-controls="group-modules-body">
+          <span class="sidebar-group-icon">📚</span>
+          <span class="sidebar-group-title">Modules Linux</span>
+          <span class="sidebar-group-badge" id="group-modules-badge">0%</span>
+          <svg class="sidebar-group-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <polyline points="2,4 6,8 10,4"/>
+          </svg>
+        </button>
+        <div class="sidebar-group-body" id="group-modules-body"><div>
+          <button class="module-nav-item" data-target="m1" onclick="navigateTo('m1')">
+            <span class="module-num">01</span>
+            <span class="module-nav-title">Bases de Linux</span>
+            <span class="module-nav-badge" id="nav-badge-m1">0%</span>
+          </button>
+          <button class="module-nav-item" data-target="m2" onclick="navigateTo('m2')" id="nav-m2">
+            <span class="module-num">02</span>
+            <span class="module-nav-title">Fichiers &amp; permissions</span>
+            <span class="module-nav-badge" id="nav-badge-m2">0%</span>
+          </button>
+          <button class="module-nav-item" data-target="m3" onclick="navigateTo('m3')" id="nav-m3">
+            <span class="module-num">03</span>
+            <span class="module-nav-title">Utilisateurs &amp; processus</span>
+            <span class="module-nav-badge" id="nav-badge-m3">0%</span>
+          </button>
+          <button class="module-nav-item" data-target="m4" onclick="navigateTo('m4')" id="nav-m4">
+            <span class="module-num">04</span>
+            <span class="module-nav-title">Réseau de base</span>
+            <span class="module-nav-badge" id="nav-badge-m4">0%</span>
+          </button>
+          <button class="module-nav-item" data-target="m5" onclick="navigateTo('m5')" id="nav-m5">
+            <span class="module-num">05</span>
+            <span class="module-nav-title">Scripting Bash</span>
+            <span class="module-nav-badge" id="nav-badge-m5">0%</span>
+          </button>
+          <button class="module-nav-item" data-target="m6" onclick="navigateTo('m6')" id="nav-m6">
+            <span class="module-num">06</span>
+            <span class="module-nav-title">Administration</span>
+            <span class="module-nav-badge" id="nav-badge-m6">0%</span>
+          </button>
+          <button class="module-nav-item" data-target="m7" onclick="navigateTo('m7')" id="nav-m7">
+            <span class="module-nav-icon">🔍</span>
+            <span class="module-nav-title">Sécurité / OSINT</span>
+            <span class="module-nav-badge" id="nav-badge-m7">0%</span>
+          </button>
+          <button class="module-nav-item" data-target="m8" onclick="navigateTo('m8')" id="nav-m8">
+            <span class="module-nav-icon">🐙</span>
+            <span class="module-nav-title">Git &amp; Docker</span>
+            <span class="module-nav-badge" id="nav-badge-m8">0%</span>
+          </button>
+        </div></div>
+        
+      </div>
 
-      <button class="module-nav-item" data-target="m1" onclick="navigateTo('m1')">
-        <span class="module-num">01</span>
-        <span class="module-nav-title">Bases de Linux</span>
-        <span class="module-nav-badge" id="nav-badge-m1">0%</span>
-      </button>
+      <!-- ── Groupe : Challenges ── -->
+      <div class="sidebar-group" id="group-challenges">
+        <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-challenges')" aria-expanded="false" aria-controls="group-challenges-body">
+          <span class="sidebar-group-icon">🚩</span>
+          <span class="sidebar-group-title">Challenges</span>
+          <span class="sidebar-group-badge" id="nav-badge-ctf" style="background:rgba(248,81,73,0.12);color:var(--accent-red);border:1px solid rgba(248,81,73,0.2)">0/6</span>
+          <svg class="sidebar-group-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <polyline points="2,4 6,8 10,4"/>
+          </svg>
+        </button>
+        <div class="sidebar-group-body" id="group-challenges-body"><div>
+          <button class="module-nav-item" data-target="ctf" onclick="navigateTo('ctf')" id="nav-ctf">
+            <span class="module-nav-icon">🏴</span>
+            <span class="module-nav-title">Challenges CTF</span>
+          </button>
+        </div></div>
+        
+      </div>
 
-      <button class="module-nav-item" data-target="m2" onclick="navigateTo('m2')" id="nav-m2">
-        <span class="module-num">02</span>
-        <span class="module-nav-title">Fichiers &amp; permissions</span>
-        <span class="module-nav-badge" id="nav-badge-m2">0%</span>
-      </button>
+      <!-- ── Groupe : Outils ── -->
+      <div class="sidebar-group" id="group-tools">
+        <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-tools')" aria-expanded="false" aria-controls="group-tools-body">
+          <span class="sidebar-group-icon">⚙️</span>
+          <span class="sidebar-group-title">Outils</span>
+          <svg class="sidebar-group-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <polyline points="2,4 6,8 10,4"/>
+          </svg>
+        </button>
+        <div class="sidebar-group-body" id="group-tools-body"><div>
+          <button class="module-nav-item" onclick="focusTerminal()">
+            <span class="module-num">⌨</span>
+            <span class="module-nav-title">Terminal simulé</span>
+          </button>
+          <button class="module-nav-item" data-target="sandbox" onclick="navigateTo('sandbox')" id="nav-sandbox">
+            <span class="module-nav-icon">🐧</span>
+            <span class="module-nav-title">Sandbox Linux réelle</span>
+          </button>
+        </div></div>
+        
+      </div>
 
-      <button class="module-nav-item" data-target="m3" onclick="navigateTo('m3')" id="nav-m3">
-        <span class="module-num">03</span>
-        <span class="module-nav-title">Utilisateurs &amp; processus</span>
-        <span class="module-nav-badge" id="nav-badge-m3">0%</span>
-      </button>
+      <!-- ── Groupe : Ressources ── -->
+      <div class="sidebar-group" id="group-resources">
+        <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-resources')" aria-expanded="false" aria-controls="group-resources-body">
+          <span class="sidebar-group-icon">📖</span>
+          <span class="sidebar-group-title">Ressources</span>
+          <svg class="sidebar-group-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <polyline points="2,4 6,8 10,4"/>
+          </svg>
+        </button>
+        <div class="sidebar-group-body" id="group-resources-body"><div>
+          <button class="module-nav-item" data-target="news" onclick="navigateTo('news')" id="nav-news">
+            <span class="module-nav-icon">📰</span>
+            <span class="module-nav-title">Actualités Cyber</span>
+            <span class="module-nav-badge" style="background:rgba(248,81,73,0.12);color:var(--accent-red);border:1px solid rgba(248,81,73,0.2)">NEW</span>
+          </button>
+          <button class="module-nav-item" data-target="cheatsheet" onclick="navigateTo('cheatsheet')" id="nav-cheatsheet">
+            <span class="module-nav-icon">📋</span>
+            <span class="module-nav-title">Cheatsheet Linux</span>
+          </button>
+          <button class="module-nav-item" data-target="glossary" onclick="navigateTo('glossary')" id="nav-glossary">
+            <span class="module-nav-icon">📖</span>
+            <span class="module-nav-title">Glossaire</span>
+          </button>
+        </div>
+      </div>
 
-      <button class="module-nav-item" data-target="m4" onclick="navigateTo('m4')" id="nav-m4">
-        <span class="module-num">04</span>
-        <span class="module-nav-title">Réseau de base</span>
-        <span class="module-nav-badge" id="nav-badge-m4">0%</span>
-      </button>
-
-      <button class="module-nav-item" data-target="m5" onclick="navigateTo('m5')" id="nav-m5">
-        <span class="module-num">05</span>
-        <span class="module-nav-title">Scripting Bash</span>
-        <span class="module-nav-badge" id="nav-badge-m5">0%</span>
-      </button>
-
-      <button class="module-nav-item" data-target="m6" onclick="navigateTo('m6')" id="nav-m6">
-        <span class="module-num">06</span>
-        <span class="module-nav-title">Administration</span>
-        <span class="module-nav-badge" id="nav-badge-m6">0%</span>
-      </button>
-
-      <button class="module-nav-item" data-target="m7" onclick="navigateTo('m7')" id="nav-m7">
-        <span class="module-nav-icon">🔍</span>
-        <span class="module-nav-title">Sécurité / OSINT</span>
-        <span class="module-nav-badge" id="nav-badge-m7">0%</span>
-      </button>
-
-      <button class="module-nav-item" data-target="m8" onclick="navigateTo('m8')" id="nav-m8">
-        <span class="module-nav-icon">🐙</span>
-        <span class="module-nav-title">Git &amp; Docker</span>
-        <span class="module-nav-badge" id="nav-badge-m8">0%</span>
-      </button>
-
-      <div class="sidebar-nav-label" style="margin-top:10px">Challenges</div>
-      <button class="module-nav-item" data-target="ctf" onclick="navigateTo('ctf')" id="nav-ctf">
-        <span class="module-nav-icon">🚩</span>
-        <span class="module-nav-title">Challenges CTF</span>
-        <span class="module-nav-badge ctf-badge" id="nav-badge-ctf">0/6</span>
-      </button>
-
-      <div class="sidebar-nav-label" style="margin-top:10px">Outils</div>
-      <button class="module-nav-item" onclick="focusTerminal()">
-        <span class="module-num">⌨</span>
-        <span class="module-nav-title">Terminal simulé</span>
-      </button>
-      <button class="module-nav-item" data-target="sandbox" onclick="navigateTo('sandbox')" id="nav-sandbox">
-        <span class="module-nav-icon">🐧</span>
-        <span class="module-nav-title">Sandbox Linux réelle</span>
-      </button>
-
-      <div class="sidebar-nav-label" style="margin-top:10px">Ressources</div>
-      <button class="module-nav-item" data-target="news" onclick="navigateTo('news')" id="nav-news">
-        <span class="module-nav-icon">📰</span>
-        <span class="module-nav-title">Actualités Cyber</span>
-        <span class="module-nav-badge" style="background:rgba(248,81,73,0.12);color:var(--accent-red);border:1px solid rgba(248,81,73,0.2)">NEW</span>
-      </button>
-      <button class="module-nav-item" data-target="cheatsheet" onclick="navigateTo('cheatsheet')" id="nav-cheatsheet">
-        <span class="module-nav-icon">📋</span>
-        <span class="module-nav-title">Cheatsheet Linux</span>
-        <span class="module-nav-badge" style="background:rgba(0,217,126,0.12);color:var(--accent-green);border:1px solid rgba(0,217,126,0.2)">NEW</span>
-      </button>
-      <button class="module-nav-item" data-target="glossary" onclick="navigateTo('glossary')" id="nav-glossary">
-        <span class="module-nav-icon">📖</span>
-        <span class="module-nav-title">Glossaire</span>
-        <span class="module-nav-badge" style="background:rgba(157,122,255,0.12);color:var(--accent-purple);border:1px solid rgba(157,122,255,0.2)">NEW</span>
-      </button>
     </nav>
 
     <div class="sidebar-footer">
@@ -280,7 +321,8 @@
                 <div class="lp-feature-title">100% mobile</div>
                 <div class="lp-feature-desc">Interface pensée pour smartphone. Apprenez depuis Termux ou votre navigateur mobile.</div>
               </div>
-            </div>
+            </div></div>
+        
           </div>
 
           <!-- ===== TESTIMONIALS ===== -->

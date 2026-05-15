@@ -3795,3 +3795,116 @@ textarea:focus-visible {
 .skip-link:focus {
   top: 0;
 }
+
+/* ==========================================
+   SIDEBAR — Groupes accordéons dépliables
+   ========================================== */
+
+.sidebar-group {
+  margin: 4px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.sidebar-group.open {
+  border-color: rgba(48, 54, 61, 0.6);
+  background: rgba(22, 27, 34, 0.4);
+}
+
+/* Header cliquable du groupe */
+.sidebar-group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+  user-select: none;
+}
+
+.sidebar-group-header:hover {
+  background: rgba(56, 68, 77, 0.35);
+  color: var(--text-primary);
+}
+
+.sidebar-group.open .sidebar-group-header {
+  color: var(--text-primary);
+  border-radius: 8px 8px 0 0;
+}
+
+.sidebar-group-icon {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.sidebar-group-title {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-group-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background: rgba(88, 166, 255, 0.1);
+  color: var(--accent-blue);
+  border: 1px solid rgba(88, 166, 255, 0.2);
+  flex-shrink: 0;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Chevron animé */
+.sidebar-group-chevron {
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+  opacity: 0.5;
+}
+
+.sidebar-group.open .sidebar-group-chevron {
+  transform: rotate(180deg);
+  opacity: 0.8;
+}
+
+/* Contenu du groupe — slide animé via max-height */
+.sidebar-group-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.sidebar-group.open .sidebar-group-body {
+  max-height: 500px; /* assez grand pour 8 items */
+}
+
+/* Les items à l'intérieur d'un groupe sont légèrement indentés */
+.sidebar-group-body .module-nav-item {
+  padding-left: 20px;
+  font-size: 12.5px;
+  border-radius: 6px;
+}
+
+/* Indicateur de groupe actif dans le header */
+.sidebar-group-header.has-active {
+  color: var(--text-primary);
+}
+
+.sidebar-group-header.has-active .sidebar-group-chevron {
+  opacity: 0.9;
+}
