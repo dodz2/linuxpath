@@ -326,7 +326,11 @@ function navigateTo(target) {
   // Ouvrir le groupe accordéon correspondant à la cible
   openGroupForTarget(target);
   updateGroupActiveHeader(target);
-  window.scrollTo(0, 0);
+  // Scroller en haut — cibler content-area ET window pour compatibilité maximale
+  const ca = document.getElementById('content-area');
+  if (ca) ca.scrollTop = 0;
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  document.documentElement.scrollTop = 0;
   closeSidebar();
   // Update topbar title
   if (target === 'home') {
