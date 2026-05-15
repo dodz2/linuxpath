@@ -18,6 +18,7 @@ const MODULE_META = {
   m6: { title: 'Administration intermédiaire', desc: 'apt, systemctl, cron jobs, logs et SSH.' },
   m7: { title: 'Sécurité &amp; OSINT', desc: 'nmap, netcat, grep forensique, SUID/SGID et reconnaissance.' },
   m8: { title: 'Git &amp; Docker', desc: 'Gestion de versions avec Git et conteneurisation avec Docker.' },
+  m9: { title: 'Services réseau &amp; protocoles', desc: 'SSH avancé, Nginx, DNS, nftables et WireGuard.' },
   sandbox: { title: 'Sandbox Linux', desc: 'Terminal Alpine Linux réel via WebAssembly.' }
 };
 
@@ -816,7 +817,7 @@ function getNextMod(mod) {
 function renderOverviewCards() {
   const grid = document.getElementById('modules-overview-grid');
   if (!grid) return;
-  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8','m9'];
+  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
   const icons = ['🐧','🔒','👤','🌐','📜','⚙️','🔍','🐙'];
   const nums = ['01','02','03','04','05','06','07','08'];
   grid.innerHTML = '';
@@ -3217,8 +3218,8 @@ function renderHome() {
   const el = document.getElementById('home-hero');
   if (!el) return;
 
-  // Compute global progress
-  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8','m9'];
+  // Compute global progress (modules Linux m1-m8 uniquement pour le hero)
+  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
   let totalItems = 0, doneItems = 0, completedMods = 0;
 
   mods.forEach(m => {
@@ -3247,7 +3248,7 @@ function renderHome() {
       }
     }
   }
-  const resumeLabel = MODULE_META[resumeTarget]
+  const resumeLabel = (MODULE_META[resumeTarget] && MODULE_META[resumeTarget].title)
     ? MODULE_META[resumeTarget].title
     : 'Module suivant';
 
