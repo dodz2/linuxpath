@@ -25,10 +25,10 @@ const MODULE_META = {
 /* ============================================================
    STATE & STORAGE
    ============================================================ */
-const TOTAL_LESSONS   = 43; // m1=4,m2=5,m3=4,m4=5,m5=5,m6=5,m7=5,m8=10
-const TOTAL_EXERCISES = 20; // m1=3,m2=2,m3=2,m4=2,m5=2,m6=2,m7=3,m8=4
-const TOTAL_QUIZ      = 8;
-const TOTAL_ITEMS     = 43 + 20 + 8; // 71
+const TOTAL_LESSONS   = 48; // m1=4,m2=5,m3=4,m4=5,m5=5,m6=5,m7=5,m8=10,m9=5
+const TOTAL_EXERCISES = 23; // m1=3,m2=2,m3=2,m4=2,m5=2,m6=2,m7=3,m8=4,m9=3
+const TOTAL_QUIZ      = 9;
+const TOTAL_ITEMS     = 48 + 23 + 9; // 80
 
 let state = {
   lessonsDone:     new Set(),
@@ -820,6 +820,7 @@ function renderOverviewCards() {
   const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
   const icons = ['🐧','🔒','👤','🌐','📜','⚙️','🔍','🐙'];
   const nums = ['01','02','03','04','05','06','07','08'];
+  // M9 affiché séparément dans la section réseau (pas dans la grid Linux)
   grid.innerHTML = '';
   mods.forEach(function(mod, i) {
     const meta = MODULE_META[mod];
@@ -3093,7 +3094,7 @@ function renderRoadmapSummary() {
       </div>
     </div>
     <div class="roadmap-stat-card">
-      <div class="roadmap-stat-number" style="color:var(--accent-blue)">${completedModules}<span style="font-size:16px;color:var(--text-subtle)">/8</span></div>
+      <div class="roadmap-stat-number" style="color:var(--accent-blue)">${completedModules}<span style="font-size:16px;color:var(--text-subtle)">/${mods.length}</span></div>
       <div class="roadmap-stat-label">Modules complétés</div>
     </div>
     <div class="roadmap-stat-card">
@@ -3267,7 +3268,7 @@ function renderHome() {
               <div class="lp-return-stat-label">Accompli</div>
             </div>
             <div class="lp-return-stat">
-              <div class="lp-return-stat-num" style="color:var(--accent-blue)">${completedMods}/8</div>
+              <div class="lp-return-stat-num" style="color:var(--accent-blue)">${completedMods}/${mods.length}</div>
               <div class="lp-return-stat-label">Modules</div>
             </div>
             <div class="lp-return-stat">
@@ -3306,16 +3307,16 @@ function renderHome() {
       <div class="lp-hero">
         <div class="lp-badge">$ open-source · gratuit · 100% français</div>
         <h1 class="lp-headline">Apprenez <em>Linux</em><br>de zéro à l'administration.</h1>
-        <p class="lp-sub">8 modules progressifs, exercices pratiques, quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
+        <p class="lp-sub">9 modules, exercices pratiques, quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
         <div class="lp-cta-row">
           <button class="lp-cta-primary" onclick="navigateTo('m1')">▶ Commencer gratuitement</button>
           <button class="lp-cta-secondary" onclick="document.getElementById('lp-modules').scrollIntoView({behavior:'smooth'})">Voir les modules</button>
         </div>
         <div class="lp-hero-stats">
-          <div><div class="lp-stat-num">8</div><div class="lp-stat-label">Modules</div></div>
-          <div><div class="lp-stat-num">43</div><div class="lp-stat-label">Leçons</div></div>
-          <div><div class="lp-stat-num">20</div><div class="lp-stat-label">Exercices</div></div>
-          <div><div class="lp-stat-num">40</div><div class="lp-stat-label">Questions QCM</div></div>
+          <div><div class="lp-stat-num">9</div><div class="lp-stat-label">Modules</div></div>
+          <div><div class="lp-stat-num">48</div><div class="lp-stat-label">Leçons</div></div>
+          <div><div class="lp-stat-num">23</div><div class="lp-stat-label">Exercices</div></div>
+          <div><div class="lp-stat-num">45</div><div class="lp-stat-label">Questions QCM</div></div>
           <div><div class="lp-stat-num">6</div><div class="lp-stat-label">Challenges CTF</div></div>
         </div>
       </div>`;

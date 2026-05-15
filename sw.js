@@ -20,7 +20,7 @@
    - Mise à jour transparente : le SW s'active sans fermer l'onglet
    ============================================================ */
 
-const SW_VERSION = 'linuxpath-v21';
+const SW_VERSION = 'linuxpath-v22';
 
 /* ---- Ressources pré-cachées à l'installation -------------- */
 // On ne pre-cache plus libv86/linux.iso (chargés en lazy ou à la demande)
