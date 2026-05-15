@@ -291,6 +291,7 @@ function navigateTo(target) {
   // Update topbar title
   if (target === 'home') {
     document.querySelector('.top-bar-title').innerHTML = '<span>user@linux</span>:~$';
+    renderHome();
   } else if (target === 'ctf') {
     document.querySelector('.top-bar-title').innerHTML = '<span>ctf@challenge</span>:~$ <span style="color:var(--text-subtle);font-size:11px">Challenges CTF</span>';
     // Afficher la grille, masquer le détail
@@ -1705,6 +1706,7 @@ async function init() {
   renderQuizzes();
   renderOverviewCards();
   updateProgressUI();
+  renderHome();
   initTerminal();
   // News chargées indépendamment — ne bloque pas l'appli si absent
   loadNews();
@@ -3019,4 +3021,116 @@ function renderRoadmapBonus() {
       <div class="roadmap-bonus-desc">${escapeHtml(s.desc)}</div>
     </div>
   `).join('');
+}
+
+/* ============================================================
+   HOME — Hero dynamique (retour vs nouveau)
+   ============================================================ */
+
+function renderHome() {
+  const el = document.getElementById('home-hero');
+  if (!el) return;
+
+  // Compute global progress
+  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+  let totalItems = 0, doneItems = 0, completedMods = 0;
+
+  mods.forEach(m => {
+    const c = MODULE_COUNTS[m];
+    totalItems += c.lessons + c.exercises + c.quizzes;
+    const ld = [...state.lessonsDone].filter(id => id.startsWith(m + '-')).length;
+    const ed = [...state.exercisesDone].filter(id => id.startsWith(m + '-')).length;
+    const qd = state.quizScores[m] !== undefined ? c.quizzes : 0;
+    doneItems += Math.min(ld, c.lessons) + Math.min(ed, c.exercises) + qd;
+    if (ld >= c.lessons && ed >= c.exercises && state.quizScores[m] !== undefined) completedMods++;
+  });
+
+  const pct = totalItems > 0 ? Math.round((doneItems / totalItems) * 100) : 0;
+  const isReturning = doneItems > 0;
+
+  // Find next unlocked module in progress
+  let resumeTarget = 'm1';
+  for (const m of mods) {
+    if (state.unlockedModules.has(m)) {
+      const c = MODULE_COUNTS[m];
+      const ld = [...state.lessonsDone].filter(id => id.startsWith(m + '-')).length;
+      const ed = [...state.exercisesDone].filter(id => id.startsWith(m + '-')).length;
+      if (ld < c.lessons || ed < c.exercises || state.quizScores[m] === undefined) {
+        resumeTarget = m;
+        break;
+      }
+    }
+  }
+  const resumeLabel = MODULE_META[resumeTarget]
+    ? MODULE_META[resumeTarget].title
+    : 'Module suivant';
+
+  if (isReturning) {
+    // ---- RETURNING USER ----
+    el.innerHTML = `
+      <div class="lp-hero lp-hero-returning">
+        <div class="lp-hero-returning-top">
+          <div class="lp-return-badge">
+            <span class="lp-return-dot"></span>
+            Bon retour sur LinuxPath
+          </div>
+          <div class="lp-return-stats">
+            <div class="lp-return-stat">
+              <div class="lp-return-stat-num" style="color:var(--accent-green)">${pct}%</div>
+              <div class="lp-return-stat-label">Accompli</div>
+            </div>
+            <div class="lp-return-stat">
+              <div class="lp-return-stat-num" style="color:var(--accent-blue)">${completedMods}/8</div>
+              <div class="lp-return-stat-label">Modules</div>
+            </div>
+            <div class="lp-return-stat">
+              <div class="lp-return-stat-num" style="color:var(--accent-purple)">${doneItems}</div>
+              <div class="lp-return-stat-label">Éléments faits</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lp-return-progress-wrap">
+          <div class="lp-return-progress-bar">
+            <div class="lp-return-progress-fill" style="width:${pct}%"></div>
+          </div>
+          <span class="lp-return-progress-label">${pct}% du parcours complété</span>
+        </div>
+
+        <h1 class="lp-headline" style="margin-top:28px">
+          ${pct === 100
+            ? 'Félicitations, parcours <em>terminé</em> !'
+            : pct >= 50
+              ? 'Tu es à <em>mi-chemin</em>. Continue !'
+              : 'Tu progresses bien.<br>La suite t\'attend.'}
+        </h1>
+
+        <div class="lp-cta-row" style="margin-top:24px">
+          <button class="lp-cta-primary" onclick="navigateTo('${resumeTarget}')">
+            ▶ Reprendre — ${escapeHtml(resumeLabel)}
+          </button>
+          <button class="lp-cta-roadmap" onclick="navigateTo('roadmap')">🗺️ Ma progression</button>
+          <button class="lp-cta-secondary" onclick="document.getElementById('lp-modules').scrollIntoView({behavior:'smooth'})">Voir les modules</button>
+        </div>
+      </div>`;
+  } else {
+    // ---- NEW USER ----
+    el.innerHTML = `
+      <div class="lp-hero">
+        <div class="lp-badge">$ open-source · gratuit · 100% français</div>
+        <h1 class="lp-headline">Apprenez <em>Linux</em><br>de zéro à l'administration.</h1>
+        <p class="lp-sub">8 modules progressifs, exercices pratiques, quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
+        <div class="lp-cta-row">
+          <button class="lp-cta-primary" onclick="navigateTo('m1')">▶ Commencer gratuitement</button>
+          <button class="lp-cta-secondary" onclick="document.getElementById('lp-modules').scrollIntoView({behavior:'smooth'})">Voir les modules</button>
+        </div>
+        <div class="lp-hero-stats">
+          <div><div class="lp-stat-num">8</div><div class="lp-stat-label">Modules</div></div>
+          <div><div class="lp-stat-num">43</div><div class="lp-stat-label">Leçons</div></div>
+          <div><div class="lp-stat-num">20</div><div class="lp-stat-label">Exercices</div></div>
+          <div><div class="lp-stat-num">40</div><div class="lp-stat-label">Questions QCM</div></div>
+          <div><div class="lp-stat-num">6</div><div class="lp-stat-label">Challenges CTF</div></div>
+        </div>
+      </div>`;
+  }
 }

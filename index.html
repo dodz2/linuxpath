@@ -240,133 +240,140 @@
       <section id="section-home" class="module-section active">
         <div class="welcome-screen">
 
-          <!-- HERO -->
-          <div class="lp-hero">
-            <div class="lp-badge">$ open-source · gratuit · français</div>
-            <h1 class="lp-headline">Apprenez <em>Linux</em><br>de zéro à l'administration.</h1>
-            <p class="lp-sub">8 modules progressifs, exercices pratiques, quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
-            <div class="lp-cta-row">
-              <button class="lp-cta-primary" onclick="navigateTo('m1')">▶ Commencer gratuitement</button>
-              <button class="lp-cta-secondary" onclick="document.getElementById('lp-modules').scrollIntoView({behavior:'smooth'})">Voir les modules</button>
-              <button class="lp-cta-roadmap" onclick="navigateTo('roadmap')">🗺️ Ma progression</button>
-            </div>
-            <div class="lp-hero-stats">
-              <div>
-                <div class="lp-stat-num">8</div>
-                <div class="lp-stat-label">Modules</div>
+          <!-- ===== HERO — rendu dynamique par JS (renderHome) ===== -->
+          <div id="home-hero"><!-- rempli par renderHome() --></div>
+
+          <!-- ===== FEATURES ===== -->
+          <div class="lp-section-block">
+            <div class="lp-section-label">// ce que vous obtenez</div>
+            <div class="lp-section-title">Tout ce qu'il faut pour progresser</div>
+            <div class="lp-features">
+              <div class="lp-feature">
+                <div class="lp-feature-icon">📚</div>
+                <div class="lp-feature-title">Leçons interactives</div>
+                <div class="lp-feature-desc">Chaque concept expliqué avec des exemples de commandes réelles, avec exemples copiables en un clic.</div>
               </div>
-              <div>
-                <div class="lp-stat-num">43</div>
-                <div class="lp-stat-label">Leçons</div>
+              <div class="lp-feature">
+                <div class="lp-feature-icon">⚡</div>
+                <div class="lp-feature-title">Exercices pratiques</div>
+                <div class="lp-feature-desc">Des défis avec indices progressifs pour ancrer chaque commande par la pratique.</div>
               </div>
-              <div>
-                <div class="lp-stat-num">20</div>
-                <div class="lp-stat-label">Exercices</div>
+              <div class="lp-feature">
+                <div class="lp-feature-icon">🧠</div>
+                <div class="lp-feature-title">Quiz de validation</div>
+                <div class="lp-feature-desc">5 questions QCM à la fin de chaque module. Passez le quiz pour déverrouiller la suite.</div>
               </div>
-              <div>
-                <div class="lp-stat-num">40</div>
-                <div class="lp-stat-label">Questions QCM</div>
+              <div class="lp-feature">
+                <div class="lp-feature-icon">🖥️</div>
+                <div class="lp-feature-title">Sandbox WebAssembly</div>
+                <div class="lp-feature-desc">Un vrai Alpine Linux tourne dans votre navigateur. Aucune installation, aucun risque.</div>
               </div>
-              <div>
-                <div class="lp-stat-num">1</div>
-                <div class="lp-stat-label">Sandbox réelle</div>
+              <div class="lp-feature">
+                <div class="lp-feature-icon">🚩</div>
+                <div class="lp-feature-title">Challenges CTF</div>
+                <div class="lp-feature-desc">6 challenges d'investigation réels : trouve le flag caché dans un système compromis.</div>
+              </div>
+              <div class="lp-feature">
+                <div class="lp-feature-icon">📱</div>
+                <div class="lp-feature-title">100% mobile</div>
+                <div class="lp-feature-desc">Interface pensée pour smartphone. Apprenez depuis Termux ou votre navigateur mobile.</div>
               </div>
             </div>
           </div>
 
-          <!-- FEATURES -->
-          <div class="lp-section-label">// ce que vous obtenez</div>
-          <div class="lp-section-title">Tout ce qu'il faut pour progresser</div>
-          <div class="lp-features">
-            <div class="lp-feature">
-              <div class="lp-feature-icon">📚</div>
-              <div class="lp-feature-title">Leçons interactives</div>
-              <div class="lp-feature-desc">Chaque concept expliqué avec des exemples de commandes réelles, copiables en un clic.</div>
-            </div>
-            <div class="lp-feature">
-              <div class="lp-feature-icon">⚡</div>
-              <div class="lp-feature-title">Exercices pratiques</div>
-              <div class="lp-feature-desc">Des défis avec indices progressifs pour ancrer chaque commande par la pratique.</div>
-            </div>
-            <div class="lp-feature">
-              <div class="lp-feature-icon">🧠</div>
-              <div class="lp-feature-title">Quiz de validation</div>
-              <div class="lp-feature-desc">5 questions QCM à la fin de chaque module. Passez le quiz pour déverrouiller la suite.</div>
-            </div>
-            <div class="lp-feature">
-              <div class="lp-feature-icon">🖥️</div>
-              <div class="lp-feature-title">Sandbox WebAssembly</div>
-              <div class="lp-feature-desc">Un vrai Alpine Linux tourne dans votre navigateur. Aucune installation, aucun risque.</div>
-            </div>
-            <div class="lp-feature">
-              <div class="lp-feature-icon">🔍</div>
-              <div class="lp-feature-title">Module Sécurité / OSINT</div>
-              <div class="lp-feature-desc">nmap, netcat, SUID/SGID, grep forensique et reconnaissance passive.</div>
-            </div>
-            <div class="lp-feature">
-              <div class="lp-feature-icon">📱</div>
-              <div class="lp-feature-title">100% mobile</div>
-              <div class="lp-feature-desc">Interface pensée pour smartphone. Apprenez depuis Termux ou votre navigateur mobile.</div>
-            </div>
-          </div>
-
-          <!-- TESTIMONIALS -->
-          <div class="lp-section-label">// retours</div>
-          <div class="lp-section-title">Ce qu'ils en pensent</div>
-          <div class="lp-testimonials">
-            <div class="lp-testi">
-              <div class="lp-testi-text">"Enfin une plateforme Linux en français qui ne se contente pas de lister des commandes. Les exercices avec le vrai terminal, c'est ce qui manquait."</div>
-              <div class="lp-testi-author"><strong>@karim_dev</strong> · Étudiant en BTS SIO</div>
-            </div>
-            <div class="lp-testi">
-              <div class="lp-testi-text">"J'ai passé ma certification Linux+ après avoir terminé les 7 modules. Le module OSINT m'a vraiment donné envie d'aller plus loin en cybersécurité."</div>
-              <div class="lp-testi-author"><strong>@sofiane_it</strong> · Admin sys junior</div>
-            </div>
-            <div class="lp-testi">
-              <div class="lp-testi-text">"Je l'utilise depuis Termux sur mon Android pendant mes trajets. La sandbox fonctionne même sur mobile, c'est impressionnant."</div>
-              <div class="lp-testi-author"><strong>@ines_hacker</strong> · Bug bounty hunter</div>
+          <!-- ===== TESTIMONIALS ===== -->
+          <div class="lp-section-block">
+            <div class="lp-section-label">// retours</div>
+            <div class="lp-section-title">Ce qu'ils en pensent</div>
+            <div class="lp-testimonials">
+              <div class="lp-testi">
+                <div class="lp-testi-stars">★★★★★</div>
+                <div class="lp-testi-text">"Enfin une plateforme Linux en français qui ne se contente pas de lister des commandes. Les exercices avec le vrai terminal, c'est ce qui manquait."</div>
+                <div class="lp-testi-footer">
+                  <div class="lp-testi-avatar">K</div>
+                  <div>
+                    <div class="lp-testi-author">@karim_dev</div>
+                    <div class="lp-testi-role">Étudiant BTS SIO</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lp-testi">
+                <div class="lp-testi-stars">★★★★★</div>
+                <div class="lp-testi-text">"J'ai passé ma certification Linux+ après avoir terminé les 7 modules. Le module OSINT m'a vraiment donné envie d'aller plus loin en cybersécurité."</div>
+                <div class="lp-testi-footer">
+                  <div class="lp-testi-avatar" style="background:rgba(157,122,255,0.2);color:var(--accent-purple)">S</div>
+                  <div>
+                    <div class="lp-testi-author">@sofiane_it</div>
+                    <div class="lp-testi-role">Admin système junior</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lp-testi">
+                <div class="lp-testi-stars">★★★★★</div>
+                <div class="lp-testi-text">"Je l'utilise depuis Termux sur mon Android pendant mes trajets. La sandbox fonctionne même sur mobile, c'est impressionnant."</div>
+                <div class="lp-testi-footer">
+                  <div class="lp-testi-avatar" style="background:rgba(88,166,255,0.2);color:var(--accent-blue)">I</div>
+                  <div>
+                    <div class="lp-testi-author">@ines_hacker</div>
+                    <div class="lp-testi-role">Bug bounty hunter</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- FAQ -->
-          <div class="lp-section-label">// foire aux questions</div>
-          <div class="lp-section-title">Questions fréquentes</div>
-          <div class="lp-faq">
-            <div class="lp-faq-item">
-              <button class="lp-faq-q" onclick="toggleFaq(this)">Faut-il installer quelque chose ? <span class="lp-faq-icon">+</span></button>
-              <div class="lp-faq-a">Non. LinuxPath fonctionne entièrement dans le navigateur. La sandbox Alpine Linux tourne via WebAssembly — aucun téléchargement, aucun risque pour votre machine.</div>
-            </div>
-            <div class="lp-faq-item">
-              <button class="lp-faq-q" onclick="toggleFaq(this)">Pour quel niveau est conçu ce cours ? <span class="lp-faq-icon">+</span></button>
-              <div class="lp-faq-a">Le module 1 part de zéro — aucun prérequis. Les modules 5 à 7 (scripting, administration, sécurité) sont plus avancés et conviennent à un niveau intermédiaire.</div>
-            </div>
-            <div class="lp-faq-item">
-              <button class="lp-faq-q" onclick="toggleFaq(this)">Ma progression est-elle sauvegardée ? <span class="lp-faq-icon">+</span></button>
-              <div class="lp-faq-a">Oui, localement dans votre navigateur. Si vous changez d'appareil ou videz le cache, la progression repart à zéro.</div>
-            </div>
-            <div class="lp-faq-item">
-              <button class="lp-faq-q" onclick="toggleFaq(this)">Le contenu est-il vraiment gratuit ? <span class="lp-faq-icon">+</span></button>
-              <div class="lp-faq-a">Oui, tous les modules et la sandbox sont entièrement gratuits et open-source.</div>
+          <!-- ===== FAQ ===== -->
+          <div class="lp-section-block">
+            <div class="lp-section-label">// foire aux questions</div>
+            <div class="lp-section-title">Questions fréquentes</div>
+            <div class="lp-faq">
+              <div class="lp-faq-item">
+                <button class="lp-faq-q" onclick="toggleFaq(this)">Faut-il installer quelque chose ? <span class="lp-faq-icon">+</span></button>
+                <div class="lp-faq-a">Non. LinuxPath fonctionne entièrement dans le navigateur. La sandbox Alpine Linux tourne via WebAssembly — aucun téléchargement, aucun risque pour votre machine.</div>
+              </div>
+              <div class="lp-faq-item">
+                <button class="lp-faq-q" onclick="toggleFaq(this)">Pour quel niveau est conçu ce cours ? <span class="lp-faq-icon">+</span></button>
+                <div class="lp-faq-a">Le module 1 part de zéro — aucun prérequis. Les modules 5 à 7 (scripting, administration, sécurité) sont plus avancés et conviennent à un niveau intermédiaire.</div>
+              </div>
+              <div class="lp-faq-item">
+                <button class="lp-faq-q" onclick="toggleFaq(this)">Ma progression est-elle sauvegardée ? <span class="lp-faq-icon">+</span></button>
+                <div class="lp-faq-a">Oui, localement dans votre navigateur via IndexedDB. Si vous changez d'appareil ou videz le cache, la progression repart à zéro. Un compte cloud arrive prochainement.</div>
+              </div>
+              <div class="lp-faq-item">
+                <button class="lp-faq-q" onclick="toggleFaq(this)">Le contenu est-il vraiment gratuit ? <span class="lp-faq-icon">+</span></button>
+                <div class="lp-faq-a">Oui, tous les modules, la sandbox et les challenges CTF sont entièrement gratuits et open-source.</div>
+              </div>
+              <div class="lp-faq-item">
+                <button class="lp-faq-q" onclick="toggleFaq(this)">Quelles certifications prépare ce cours ? <span class="lp-faq-icon">+</span></button>
+                <div class="lp-faq-a">LinuxPath pose les bases pour CompTIA Linux+, LPIC-1 et contribue à la préparation du CEH et de l'OSCP pour la partie Linux et administration système.</div>
+              </div>
             </div>
           </div>
 
-          <!-- MODULES -->
-          <div id="lp-modules" class="lp-section-label">// programme</div>
-          <div class="lp-section-title">Les 8 modules du parcours</div>
-          <div class="modules-overview-grid" id="modules-overview-grid">
-            <!-- Filled by JS -->
+          <!-- ===== MODULES OVERVIEW ===== -->
+          <div class="lp-section-block">
+            <div id="lp-modules" class="lp-section-label">// programme</div>
+            <div class="lp-section-title">Les 8 modules du parcours</div>
+            <div class="modules-overview-grid" id="modules-overview-grid">
+              <!-- Filled by JS -->
+            </div>
           </div>
 
-          <!-- FINAL CTA -->
-          <div class="lp-final-cta" style="margin-top:40px">
-            <h2>Prêt à maîtriser Linux ?</h2>
-            <p>Rejoignez les apprenants qui progressent chaque jour. C'est gratuit, c'est en français, ça commence maintenant.</p>
-            <button class="lp-cta-primary" onclick="navigateTo('m1')">▶ Démarrer le Module 1</button>
+          <!-- ===== FINAL CTA ===== -->
+          <div class="lp-final-cta">
+            <div class="lp-final-cta-inner">
+              <div class="lp-final-cta-badge">$ sudo apt install knowledge</div>
+              <h2 class="lp-final-cta-title">Prêt à maîtriser Linux ?</h2>
+              <p class="lp-final-cta-sub">Rejoignez les apprenants qui progressent chaque jour.<br>C'est gratuit, c'est en français, ça commence maintenant.</p>
+              <div class="lp-cta-row" style="justify-content:center">
+                <button class="lp-cta-primary" onclick="navigateTo('m1')">▶ Démarrer le Module 1</button>
+                <button class="lp-cta-roadmap" onclick="navigateTo('roadmap')">🗺️ Voir ma progression</button>
+              </div>
+            </div>
           </div>
 
         </div>
       </section>
-
       <!-- ==================== MODULE 1 ==================== -->
       <section id="section-m1" class="module-section">
         <div class="module-header">
