@@ -82,13 +82,15 @@
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
+  <!-- Skip to main content — accessibilité clavier -->
+  <a href="#main-content" class="skip-link">Passer au contenu principal</a>
 <div id="app">
 
   <!-- ===================== SIDEBAR ===================== -->
-  <aside class="sidebar" id="sidebar">
+  <aside class="sidebar" id="sidebar" aria-label="Navigation principale">
     <div class="sidebar-logo">
       <!-- SVG Logo -->
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="Linux Trainer Logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" role="img" aria-label="Logo Linux Trainer">
         <rect width="32" height="32" rx="6" fill="#161b22" stroke="#30363d" stroke-width="1"/>
         <rect x="5" y="5" width="22" height="14" rx="2" stroke="#39d353" stroke-width="1.5"/>
         <line x1="11" y1="22" x2="21" y2="22" stroke="#39d353" stroke-width="1.5" stroke-linecap="round"/>
@@ -110,7 +112,7 @@
       </div>
     </div>
 
-    <nav class="sidebar-nav">
+    <nav class="sidebar-nav" aria-label="Menu de navigation">
       <div class="sidebar-nav-label">Navigation</div>
 
       <button class="module-nav-item active" data-target="home" onclick="navigateTo('home')">
@@ -208,7 +210,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <button class="btn-reset" onclick="confirmReset()">
+      <button class="btn-reset" onclick="confirmReset()" aria-label="Réinitialiser toute la progression">
         <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         Réinitialiser la progression
       </button>
@@ -218,9 +220,9 @@
   <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
   <!-- ===================== MAIN ===================== -->
-  <main class="main">
+  <main class="main" role="main" aria-label="Contenu principal">
     <div class="top-bar">
-      <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+      <button class="hamburger" onclick="toggleSidebar()" aria-label="Ouvrir le menu de navigation" aria-expanded="false" aria-controls="sidebar">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
           <line x1="3" y1="6" x2="17" y2="6"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="14" x2="17" y2="14"/>
         </svg>
@@ -328,15 +330,15 @@
             <div class="lp-section-title">Questions fréquentes</div>
             <div class="lp-faq">
               <div class="lp-faq-item">
-                <button class="lp-faq-q" onclick="toggleFaq(this)">Faut-il installer quelque chose ? <span class="lp-faq-icon">+</span></button>
+                <button class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Faut-il installer quelque chose ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
                 <div class="lp-faq-a">Non. LinuxPath fonctionne entièrement dans le navigateur. La sandbox Alpine Linux tourne via WebAssembly — aucun téléchargement, aucun risque pour votre machine.</div>
               </div>
               <div class="lp-faq-item">
-                <button class="lp-faq-q" onclick="toggleFaq(this)">Pour quel niveau est conçu ce cours ? <span class="lp-faq-icon">+</span></button>
+                <button class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Pour quel niveau est conçu ce cours ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
                 <div class="lp-faq-a">Le module 1 part de zéro — aucun prérequis. Les modules 5 à 7 (scripting, administration, sécurité) sont plus avancés et conviennent à un niveau intermédiaire.</div>
               </div>
               <div class="lp-faq-item">
-                <button class="lp-faq-q" onclick="toggleFaq(this)">Ma progression est-elle sauvegardée ? <span class="lp-faq-icon">+</span></button>
+                <button class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Ma progression est-elle sauvegardée ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
                 <div class="lp-faq-a">Oui, localement dans votre navigateur via IndexedDB. Si vous changez d'appareil ou videz le cache, la progression repart à zéro. Un compte cloud arrive prochainement.</div>
               </div>
               <div class="lp-faq-item">

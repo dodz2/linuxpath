@@ -335,13 +335,17 @@ function navigateTo(target) {
 function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('sidebar-overlay');
-  sidebar.classList.toggle('open');
+  const hamburger = document.querySelector('.hamburger');
+  const isOpen = sidebar.classList.toggle('open');
   overlay.classList.toggle('visible');
+  if (hamburger) hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
 
 function closeSidebar() {
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sidebar-overlay').classList.remove('visible');
+  const hamburger = document.querySelector('.hamburger');
+  if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
 }
 
 /* ============================================================
@@ -793,8 +797,16 @@ function promptStr() {
 function toggleFaq(btn) {
   const item = btn.closest('.lp-faq-item');
   const wasOpen = item.classList.contains('open');
-  document.querySelectorAll('.lp-faq-item.open').forEach(function(el) { el.classList.remove('open'); });
-  if (!wasOpen) item.classList.add('open');
+  // Fermer tous les items ouverts
+  document.querySelectorAll('.lp-faq-item.open').forEach(function(el) {
+    el.classList.remove('open');
+    const q = el.querySelector('.lp-faq-q');
+    if (q) q.setAttribute('aria-expanded', 'false');
+  });
+  if (!wasOpen) {
+    item.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
 }
 
 function toggleTerminal() {
@@ -1688,13 +1700,11 @@ async function init() {
     } catch(e) { /* ctf.json absent ou invalide — la section CTF restera vide */ }
   } catch (err) {
     dataOk = false;
-    document.body.innerHTML = `
-      <div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;flex-direction:column;gap:1rem;">
-        <h1 style="color:#e74c3c;">⚠️ Erreur de chargement</h1>
-        <p>Impossible de charger les données du cours (<code>data/*.json</code>).</p>
-        <p>Assurez-vous de servir le site via un serveur HTTP (pas en ouvrant le fichier directement).</p>
-        <button onclick="location.reload()" style="padding:.5rem 1.5rem;cursor:pointer;">Réessayer</button>
-      </div>`;
+    showAppError(
+      'Impossible de charger les données du cours',
+      'Les fichiers data/*.json sont inaccessibles. Servez le site via un serveur HTTP (pas en ouvrant le fichier directement).',
+      () => location.reload()
+    );
   }
   if (!dataOk) return;
 
@@ -2449,13 +2459,35 @@ async function loadNews() {
     if (allBtn) filterNews('all', allBtn);
     else renderNewsGrid('all');
   } catch(e) {
-    const grid = document.getElementById('news-grid');
-    if (grid) grid.innerHTML = '<div class="news-empty">Impossible de charger les actualités. Réessayez plus tard.</div>';
     console.warn('[LinuxPath] Chargement news.json échoué :', e);
+    const grid = document.getElementById('news-grid');
+    if (grid) grid.innerHTML = `
+      <div class="lp-error-state" role="alert">
+        <div class="lp-error-icon">⚠️</div>
+        <p class="lp-error-msg">Impossible de charger les actualités.</p>
+        <button class="lp-error-retry" onclick="loadNews()">↺ Réessayer</button>
+      </div>`;
   }
 }
 
 /* navigateTo() gère désormais nativement la cible 'news' — voir la fonction navigateTo() */
+
+
+/* ============================================================
+   showAppError() — Écran d'erreur critique avec retry
+   Utilisé quand les données essentielles ne peuvent pas être chargées.
+   ============================================================ */
+function showAppError(title, message, retryFn) {
+  document.body.innerHTML = `
+    <div class="lp-app-error" role="alert" aria-live="assertive">
+      <div class="lp-app-error-inner">
+        <div class="lp-app-error-icon" aria-hidden="true">⚠️</div>
+        <h1 class="lp-app-error-title">${title}</h1>
+        <p class="lp-app-error-msg">${message}</p>
+        <button class="lp-app-error-btn" onclick="location.reload()">↺ Réessayer</button>
+      </div>
+    </div>`;
+}
 
 document.addEventListener('DOMContentLoaded', init);
 /* ============================================================
@@ -2596,9 +2628,14 @@ async function loadCheatsheet() {
     buildCheatsheetFilters();
     renderCheatsheet('all');
   } catch (err) {
-    console.error('Cheatsheet load error:', err);
+    console.error('[LinuxPath] Cheatsheet load error:', err);
     const grid = document.getElementById('cheatsheet-grid');
-    if (grid) grid.innerHTML = '<p class="news-empty">Erreur de chargement. Rechargez la page.</p>';
+    if (grid) grid.innerHTML = `
+      <div class="lp-error-state" role="alert">
+        <div class="lp-error-icon">⚠️</div>
+        <p class="lp-error-msg">Impossible de charger la cheatsheet.</p>
+        <button class="lp-error-retry" onclick="loadCheatsheet()">↺ Réessayer</button>
+      </div>`;
   }
 }
 
@@ -2752,9 +2789,14 @@ async function loadGlossary() {
     buildGlossaryAlphaNav();
     renderGlossary();
   } catch (err) {
-    console.error('Glossary load error:', err);
+    console.error('[LinuxPath] Glossary load error:', err);
     const grid = document.getElementById('glossary-grid');
-    if (grid) grid.innerHTML = '<p class="news-empty">Erreur de chargement. Rechargez la page.</p>';
+    if (grid) grid.innerHTML = `
+      <div class="lp-error-state" role="alert">
+        <div class="lp-error-icon">⚠️</div>
+        <p class="lp-error-msg">Impossible de charger le glossaire.</p>
+        <button class="lp-error-retry" onclick="loadGlossary()">↺ Réessayer</button>
+      </div>`;
   }
 }
 

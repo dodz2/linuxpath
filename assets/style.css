@@ -3656,3 +3656,142 @@ body {
     gap: 8px;
   }
 }
+
+/* ==========================================
+   ERROR STATES — états d'erreur avec retry
+   ========================================== */
+
+/* Inline error dans une section (news, cheatsheet, glossary) */
+.lp-error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.lp-error-icon {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.lp-error-msg {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 0;
+}
+
+.lp-error-retry {
+  background: rgba(248, 81, 73, 0.1);
+  border: 1px solid rgba(248, 81, 73, 0.25);
+  color: var(--accent-red);
+  border-radius: 6px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.lp-error-retry:hover {
+  background: rgba(248, 81, 73, 0.18);
+  border-color: rgba(248, 81, 73, 0.4);
+}
+
+/* Écran d'erreur critique plein écran (init fail) */
+.lp-app-error {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary, #0d1117);
+  z-index: 9999;
+  padding: 24px;
+}
+
+.lp-app-error-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 480px;
+  text-align: center;
+  background: var(--bg-secondary, #161b22);
+  border: 1px solid var(--border, #30363d);
+  border-radius: 12px;
+  padding: 40px 32px;
+}
+
+.lp-app-error-icon {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.lp-app-error-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary, #e6edf3);
+  margin: 0;
+}
+
+.lp-app-error-msg {
+  font-size: 14px;
+  color: var(--text-secondary, #8b949e);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.lp-app-error-btn {
+  background: var(--accent-green, #39d353);
+  color: #0d1117;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  margin-top: 4px;
+}
+
+.lp-app-error-btn:hover {
+  opacity: 0.88;
+}
+
+/* ==========================================
+   ACCESSIBILITY — focus amélioré
+   ========================================== */
+
+/* Focus visible renforcé sur tous les boutons interactifs */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* Skip-to-content link (pour lecteurs d'écran) */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 8px;
+  background: var(--accent-green);
+  color: #0d1117;
+  padding: 6px 14px;
+  border-radius: 0 0 6px 6px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  z-index: 10000;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
