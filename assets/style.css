@@ -1476,6 +1476,24 @@ body {
   transform: translateY(-1px);
 }
 
+.lp-cta-roadmap {
+  font-size: 13px;
+  color: var(--accent-purple);
+  font-family: var(--font-mono);
+  cursor: pointer;
+  background: rgba(157, 122, 255, 0.08);
+  border: 1px solid rgba(157, 122, 255, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 11px 20px;
+  transition: all var(--transition);
+}
+
+.lp-cta-roadmap:hover {
+  background: rgba(157, 122, 255, 0.16);
+  border-color: var(--accent-purple);
+  transform: translateY(-1px);
+}
+
 /* Stats */
 .lp-hero-stats {
   display: flex;
