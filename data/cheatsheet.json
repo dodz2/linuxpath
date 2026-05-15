@@ -1,0 +1,192 @@
+{
+  "categories": [
+    {
+      "id": "navigation",
+      "label": "Navigation",
+      "icon": "📁",
+      "commands": [
+        { "cmd": "pwd", "desc": "Affiche le répertoire courant", "example": "pwd" },
+        { "cmd": "ls", "desc": "Liste les fichiers du répertoire", "example": "ls -lah" },
+        { "cmd": "cd <dossier>", "desc": "Change de répertoire", "example": "cd /var/log" },
+        { "cmd": "cd ..", "desc": "Remonte d'un niveau", "example": "cd .." },
+        { "cmd": "cd ~", "desc": "Retourne dans le home", "example": "cd ~" },
+        { "cmd": "cd -", "desc": "Retourne au répertoire précédent", "example": "cd -" },
+        { "cmd": "tree", "desc": "Affiche l'arborescence en arbre", "example": "tree -L 2" },
+        { "cmd": "du -sh <dossier>", "desc": "Taille d'un dossier", "example": "du -sh /var/log" }
+      ]
+    },
+    {
+      "id": "fichiers",
+      "label": "Fichiers",
+      "icon": "📄",
+      "commands": [
+        { "cmd": "cat <fichier>", "desc": "Affiche le contenu d'un fichier", "example": "cat /etc/hostname" },
+        { "cmd": "less <fichier>", "desc": "Affiche page par page (q pour quitter)", "example": "less /var/log/syslog" },
+        { "cmd": "head -n <fichier>", "desc": "Affiche les N premières lignes", "example": "head -20 fichier.log" },
+        { "cmd": "tail -n <fichier>", "desc": "Affiche les N dernières lignes", "example": "tail -50 fichier.log" },
+        { "cmd": "tail -f <fichier>", "desc": "Suit un fichier en temps réel", "example": "tail -f /var/log/syslog" },
+        { "cmd": "touch <fichier>", "desc": "Crée un fichier vide", "example": "touch notes.txt" },
+        { "cmd": "cp <src> <dest>", "desc": "Copie un fichier", "example": "cp config.txt config.bak" },
+        { "cmd": "cp -r <src> <dest>", "desc": "Copie un dossier récursivement", "example": "cp -r /etc/nginx /backup/" },
+        { "cmd": "mv <src> <dest>", "desc": "Déplace ou renomme", "example": "mv old.txt new.txt" },
+        { "cmd": "rm <fichier>", "desc": "Supprime un fichier", "example": "rm fichier.tmp" },
+        { "cmd": "rm -rf <dossier>", "desc": "Supprime un dossier et son contenu", "example": "rm -rf /tmp/cache/" },
+        { "cmd": "mkdir <dossier>", "desc": "Crée un répertoire", "example": "mkdir -p /opt/app/logs" },
+        { "cmd": "ln -s <cible> <lien>", "desc": "Crée un lien symbolique", "example": "ln -s /usr/bin/python3 /usr/local/bin/python" },
+        { "cmd": "wc -l <fichier>", "desc": "Compte les lignes d'un fichier", "example": "wc -l access.log" }
+      ]
+    },
+    {
+      "id": "permissions",
+      "label": "Permissions",
+      "icon": "🔐",
+      "commands": [
+        { "cmd": "chmod <mode> <fichier>", "desc": "Change les permissions", "example": "chmod 755 script.sh" },
+        { "cmd": "chmod +x <fichier>", "desc": "Rend un fichier exécutable", "example": "chmod +x deploy.sh" },
+        { "cmd": "chown <user>:<group> <fichier>", "desc": "Change le propriétaire", "example": "chown www-data:www-data /var/www/" },
+        { "cmd": "ls -la", "desc": "Liste avec permissions détaillées", "example": "ls -la /etc/passwd" },
+        { "cmd": "stat <fichier>", "desc": "Infos complètes sur un fichier", "example": "stat /etc/shadow" },
+        { "cmd": "umask", "desc": "Affiche/définit les permissions par défaut", "example": "umask 022" },
+        { "cmd": "sudo <commande>", "desc": "Exécute en tant que root", "example": "sudo apt update" },
+        { "cmd": "su - <user>", "desc": "Change d'utilisateur", "example": "su - deploy" },
+        { "cmd": "id", "desc": "Affiche l'utilisateur et ses groupes", "example": "id" },
+        { "cmd": "groups", "desc": "Affiche les groupes de l'utilisateur courant", "example": "groups" }
+      ]
+    },
+    {
+      "id": "processus",
+      "label": "Processus",
+      "icon": "⚙️",
+      "commands": [
+        { "cmd": "ps aux", "desc": "Liste tous les processus en cours", "example": "ps aux | grep nginx" },
+        { "cmd": "top", "desc": "Moniteur de processus interactif", "example": "top" },
+        { "cmd": "htop", "desc": "Moniteur amélioré (si installé)", "example": "htop" },
+        { "cmd": "kill <PID>", "desc": "Arrête un processus par son PID", "example": "kill 1234" },
+        { "cmd": "kill -9 <PID>", "desc": "Force l'arrêt immédiat (SIGKILL)", "example": "kill -9 1234" },
+        { "cmd": "pkill <nom>", "desc": "Arrête un processus par son nom", "example": "pkill nginx" },
+        { "cmd": "bg / fg", "desc": "Envoie en arrière-plan / ramène au premier plan", "example": "bg %1" },
+        { "cmd": "jobs", "desc": "Liste les processus en arrière-plan", "example": "jobs" },
+        { "cmd": "nohup <cmd> &", "desc": "Lance un processus qui survit à la déconnexion", "example": "nohup python3 server.py &" },
+        { "cmd": "systemctl status <service>", "desc": "État d'un service systemd", "example": "systemctl status nginx" },
+        { "cmd": "systemctl start|stop|restart <service>", "desc": "Démarre/arrête/redémarre un service", "example": "systemctl restart sshd" },
+        { "cmd": "journalctl -u <service>", "desc": "Logs d'un service systemd", "example": "journalctl -u nginx -f" }
+      ]
+    },
+    {
+      "id": "reseau",
+      "label": "Réseau",
+      "icon": "🌐",
+      "commands": [
+        { "cmd": "ip a", "desc": "Affiche les interfaces réseau et IPs", "example": "ip a" },
+        { "cmd": "ip r", "desc": "Affiche la table de routage", "example": "ip r" },
+        { "cmd": "ping <hôte>", "desc": "Teste la connectivité réseau", "example": "ping -c 4 8.8.8.8" },
+        { "cmd": "curl <url>", "desc": "Effectue une requête HTTP", "example": "curl -I https://example.com" },
+        { "cmd": "wget <url>", "desc": "Télécharge un fichier depuis une URL", "example": "wget https://example.com/file.tar.gz" },
+        { "cmd": "ss -tuln", "desc": "Liste les ports en écoute", "example": "ss -tuln" },
+        { "cmd": "netstat -tuln", "desc": "Ports en écoute (ancienne syntaxe)", "example": "netstat -tuln" },
+        { "cmd": "nmap <cible>", "desc": "Scanne les ports ouverts", "example": "nmap -sV 192.168.1.1" },
+        { "cmd": "traceroute <hôte>", "desc": "Trace la route des paquets", "example": "traceroute google.com" },
+        { "cmd": "dig <domaine>", "desc": "Résolution DNS détaillée", "example": "dig google.com A" },
+        { "cmd": "host <domaine>", "desc": "Résolution DNS simple", "example": "host google.com" },
+        { "cmd": "ssh <user>@<hôte>", "desc": "Connexion SSH distante", "example": "ssh admin@192.168.1.10" },
+        { "cmd": "scp <src> <user>@<hôte>:<dest>", "desc": "Copie de fichiers via SSH", "example": "scp backup.tar.gz user@server:/opt/" },
+        { "cmd": "rsync -avz <src> <dest>", "desc": "Synchronisation efficace de fichiers", "example": "rsync -avz /var/www/ user@server:/backup/" }
+      ]
+    },
+    {
+      "id": "recherche",
+      "label": "Recherche",
+      "icon": "🔍",
+      "commands": [
+        { "cmd": "grep <motif> <fichier>", "desc": "Cherche un motif dans un fichier", "example": "grep 'error' /var/log/syslog" },
+        { "cmd": "grep -r <motif> <dossier>", "desc": "Recherche récursive dans un dossier", "example": "grep -r 'password' /etc/" },
+        { "cmd": "grep -i <motif>", "desc": "Recherche insensible à la casse", "example": "grep -i 'root' /etc/passwd" },
+        { "cmd": "grep -v <motif>", "desc": "Exclut les lignes contenant le motif", "example": "grep -v '#' /etc/hosts" },
+        { "cmd": "grep -n <motif>", "desc": "Affiche les numéros de ligne", "example": "grep -n 'fail' auth.log" },
+        { "cmd": "find <chemin> -name <motif>", "desc": "Cherche des fichiers par nom", "example": "find /var -name '*.log'" },
+        { "cmd": "find <chemin> -type f -mtime -7", "desc": "Fichiers modifiés dans les 7 derniers jours", "example": "find /home -type f -mtime -7" },
+        { "cmd": "find <chemin> -perm /4000", "desc": "Trouve les fichiers SUID (audit sécurité)", "example": "find / -perm /4000 2>/dev/null" },
+        { "cmd": "locate <fichier>", "desc": "Recherche rapide dans la base de fichiers", "example": "locate nginx.conf" },
+        { "cmd": "which <commande>", "desc": "Trouve le chemin d'une commande", "example": "which python3" },
+        { "cmd": "whereis <commande>", "desc": "Chemin binaire, sources et man page", "example": "whereis bash" }
+      ]
+    },
+    {
+      "id": "archivage",
+      "label": "Archivage",
+      "icon": "📦",
+      "commands": [
+        { "cmd": "tar -czf <archive.tar.gz> <dossier>", "desc": "Compresse un dossier en .tar.gz", "example": "tar -czf backup.tar.gz /var/www/" },
+        { "cmd": "tar -xzf <archive.tar.gz>", "desc": "Extrait un .tar.gz", "example": "tar -xzf backup.tar.gz" },
+        { "cmd": "tar -tf <archive>", "desc": "Liste le contenu sans extraire", "example": "tar -tf backup.tar.gz" },
+        { "cmd": "gzip <fichier>", "desc": "Compresse un fichier en .gz", "example": "gzip access.log" },
+        { "cmd": "gunzip <fichier.gz>", "desc": "Décompresse un .gz", "example": "gunzip access.log.gz" },
+        { "cmd": "zip -r <archive.zip> <dossier>", "desc": "Crée une archive ZIP", "example": "zip -r site.zip /var/www/" },
+        { "cmd": "unzip <archive.zip>", "desc": "Extrait une archive ZIP", "example": "unzip site.zip -d /opt/" }
+      ]
+    },
+    {
+      "id": "scripting",
+      "label": "Scripting Bash",
+      "icon": "📝",
+      "commands": [
+        { "cmd": "#!/bin/bash", "desc": "Shebang — déclare un script Bash", "example": "#!/bin/bash" },
+        { "cmd": "VAR=\"valeur\"", "desc": "Déclare une variable", "example": "NAME=\"LinuxPath\"" },
+        { "cmd": "echo $VAR", "desc": "Affiche la valeur d'une variable", "example": "echo $NAME" },
+        { "cmd": "if [ condition ]; then ... fi", "desc": "Condition if/then/fi", "example": "if [ -f fichier.txt ]; then echo 'existe'; fi" },
+        { "cmd": "for i in liste; do ... done", "desc": "Boucle for", "example": "for f in *.log; do echo $f; done" },
+        { "cmd": "while [ condition ]; do ... done", "desc": "Boucle while", "example": "while [ $i -lt 10 ]; do echo $i; i=$((i+1)); done" },
+        { "cmd": "function nom() { ... }", "desc": "Définit une fonction", "example": "function greet() { echo \"Bonjour $1\"; }" },
+        { "cmd": "$1, $2, ...", "desc": "Arguments passés au script", "example": "echo \"Arg1: $1\"" },
+        { "cmd": "$?", "desc": "Code de retour de la dernière commande", "example": "ls /tmp && echo $?" },
+        { "cmd": "cmd1 | cmd2", "desc": "Pipe : passe la sortie de cmd1 à cmd2", "example": "ps aux | grep nginx" },
+        { "cmd": "cmd > fichier", "desc": "Redirige la sortie vers un fichier (écrase)", "example": "ls > liste.txt" },
+        { "cmd": "cmd >> fichier", "desc": "Ajoute la sortie à la fin d'un fichier", "example": "echo 'log' >> app.log" },
+        { "cmd": "cmd 2>/dev/null", "desc": "Supprime les erreurs", "example": "find / -name secret 2>/dev/null" }
+      ]
+    },
+    {
+      "id": "securite",
+      "label": "Sécurité",
+      "icon": "🛡️",
+      "commands": [
+        { "cmd": "ufw status", "desc": "État du pare-feu UFW", "example": "ufw status verbose" },
+        { "cmd": "ufw allow <port>", "desc": "Autorise un port dans le pare-feu", "example": "ufw allow 22/tcp" },
+        { "cmd": "ufw deny <port>", "desc": "Bloque un port", "example": "ufw deny 23" },
+        { "cmd": "fail2ban-client status", "desc": "Statut de Fail2Ban", "example": "fail2ban-client status sshd" },
+        { "cmd": "last", "desc": "Historique des connexions utilisateurs", "example": "last | head -20" },
+        { "cmd": "lastb", "desc": "Tentatives de connexion échouées", "example": "lastb | head -20" },
+        { "cmd": "who", "desc": "Utilisateurs actuellement connectés", "example": "who" },
+        { "cmd": "w", "desc": "Utilisateurs connectés + activité", "example": "w" },
+        { "cmd": "auditctl -l", "desc": "Liste les règles d'audit actives", "example": "auditctl -l" },
+        { "cmd": "lynis audit system", "desc": "Audit de sécurité complet du système", "example": "lynis audit system" },
+        { "cmd": "openssl s_client -connect <host>:443", "desc": "Teste un certificat SSL", "example": "openssl s_client -connect google.com:443" },
+        { "cmd": "sha256sum <fichier>", "desc": "Calcule le hash SHA-256 d'un fichier", "example": "sha256sum /usr/bin/bash" },
+        { "cmd": "gpg --verify <fichier.sig>", "desc": "Vérifie la signature GPG d'un fichier", "example": "gpg --verify archive.tar.gz.sig" }
+      ]
+    },
+    {
+      "id": "systeme",
+      "label": "Système",
+      "icon": "🖥️",
+      "commands": [
+        { "cmd": "uname -a", "desc": "Infos complètes sur le noyau", "example": "uname -a" },
+        { "cmd": "uname -r", "desc": "Version du noyau uniquement", "example": "uname -r" },
+        { "cmd": "lsb_release -a", "desc": "Distribution Linux installée", "example": "lsb_release -a" },
+        { "cmd": "uptime", "desc": "Durée de fonctionnement du système", "example": "uptime" },
+        { "cmd": "free -h", "desc": "Mémoire RAM disponible", "example": "free -h" },
+        { "cmd": "df -h", "desc": "Espace disque disponible", "example": "df -h" },
+        { "cmd": "lscpu", "desc": "Infos sur le processeur", "example": "lscpu" },
+        { "cmd": "lsblk", "desc": "Liste les périphériques de stockage", "example": "lsblk" },
+        { "cmd": "lsof -i :<port>", "desc": "Processus utilisant un port donné", "example": "lsof -i :80" },
+        { "cmd": "dmesg | tail", "desc": "Messages récents du noyau", "example": "dmesg | tail -50" },
+        { "cmd": "env", "desc": "Affiche toutes les variables d'environnement", "example": "env | grep PATH" },
+        { "cmd": "history", "desc": "Historique des commandes", "example": "history | grep ssh" },
+        { "cmd": "crontab -l", "desc": "Affiche les tâches planifiées", "example": "crontab -l" },
+        { "cmd": "crontab -e", "desc": "Édite les tâches planifiées", "example": "crontab -e" },
+        { "cmd": "shutdown -h now", "desc": "Éteint le système immédiatement", "example": "shutdown -h now" },
+        { "cmd": "reboot", "desc": "Redémarre le système", "example": "reboot" }
+      ]
+    }
+  ]
+}

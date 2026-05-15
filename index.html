@@ -191,6 +191,11 @@
         <span class="module-nav-title">Actualités Cyber</span>
         <span class="module-nav-badge" style="background:rgba(248,81,73,0.12);color:var(--accent-red);border:1px solid rgba(248,81,73,0.2)">NEW</span>
       </button>
+      <button class="module-nav-item" data-target="cheatsheet" onclick="navigateTo('cheatsheet')" id="nav-cheatsheet">
+        <span class="module-nav-icon">📋</span>
+        <span class="module-nav-title">Cheatsheet Linux</span>
+        <span class="module-nav-badge" style="background:rgba(0,217,126,0.12);color:var(--accent-green);border:1px solid rgba(0,217,126,0.2)">NEW</span>
+      </button>
     </nav>
 
     <div class="sidebar-footer">
@@ -695,6 +700,49 @@
         <div class="news-footer-note">
           <strong>Sources :</strong> CERT-FR, ANSSI, NVD/NIST, Krebs on Security, The Hacker News — Sélection et résumés par LinuxPath. Les actualités sont vérifiées manuellement avant publication.
         </div>
+      </section>
+
+      <!-- ======= CHEATSHEET LINUX ======= -->
+      <section id="section-cheatsheet" class="module-section">
+        <div class="module-header">
+          <div class="module-tag" style="background:rgba(0,217,126,0.12);color:var(--accent-green)">Référence rapide</div>
+          <h2 class="module-title"><span class="prompt-prefix">$</span> Cheatsheet Linux</h2>
+          <p class="module-desc">118 commandes essentielles organisées par thème. Clique sur une commande pour la copier directement.</p>
+          <div class="module-meta">
+            <span class="module-meta-item">📋 118 commandes</span>
+            <span class="module-meta-item">📂 10 catégories</span>
+            <span class="module-meta-item">🔍 Recherche instantanée</span>
+          </div>
+        </div>
+
+        <!-- Barre de recherche -->
+        <div class="cheatsheet-search-wrap">
+          <input
+            type="text"
+            id="cheatsheet-search"
+            class="cheatsheet-search"
+            placeholder="🔍  Rechercher une commande... (ex: grep, chmod, ssh)"
+            oninput="filterCheatsheet()"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+          >
+        </div>
+
+        <!-- Filtres catégories -->
+        <div class="cheatsheet-filters" id="cheatsheet-filters">
+          <button class="cheatsheet-filter-btn active" data-cat="all" onclick="filterCheatsheetCat('all', this)">Tout</button>
+          <!-- Rempli dynamiquement par JS -->
+        </div>
+
+        <!-- Grille des commandes -->
+        <div class="cheatsheet-grid" id="cheatsheet-grid">
+          <!-- Rempli par JS -->
+        </div>
+
+        <!-- Toast copie -->
+        <div class="cheatsheet-toast" id="cheatsheet-toast">✓ Copié dans le presse-papier</div>
       </section>
 
     </div><!-- /.content-area -->

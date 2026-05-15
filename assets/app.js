@@ -275,7 +275,7 @@ let currentSection = 'home';
 
 function navigateTo(target) {
   // 'ctf' et 'sandbox' sont toujours accessibles sans condition de module
-  const freeTargets = ['home', 'sandbox', 'ctf', 'news'];
+  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet'];
   if (!freeTargets.includes(target) && !state.unlockedModules.has(target)) {
     termPrint('error-line', `⚠ Le module "${target}" est verrouillé. Complétez le quiz du module précédent d'abord.`);
     return;
@@ -307,6 +307,13 @@ function navigateTo(target) {
       renderNewsGrid(_newsActiveFilter);
     } else {
       loadNews();
+    }
+  } else if (target === 'cheatsheet') {
+    document.querySelector('.top-bar-title').innerHTML = '<span>user@linux</span>:~/cheatsheet$ <span style="color:var(--text-subtle);font-size:11px">Référence rapide Linux</span>';
+    if (_cheatsheetData.length > 0) {
+      renderCheatsheet('all');
+    } else {
+      loadCheatsheet();
     }
   } else {
     const meta = MODULE_META[target];
@@ -2517,4 +2524,149 @@ function resetSandbox() {
   const btnReset = document.getElementById('btn-reset-sandbox');
   if (btnReset) btnReset.style.display = 'none';
   startSandbox();
+}
+
+/* ============================================================
+   CHEATSHEET LINUX
+   ============================================================ */
+
+let _cheatsheetData = [];
+let _cheatsheetActiveFilter = 'all';
+
+async function loadCheatsheet() {
+  try {
+    const res = await fetch('./data/cheatsheet.json');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    _cheatsheetData = json.categories || [];
+    buildCheatsheetFilters();
+    renderCheatsheet('all');
+  } catch (err) {
+    console.error('Cheatsheet load error:', err);
+    const grid = document.getElementById('cheatsheet-grid');
+    if (grid) grid.innerHTML = '<p class="news-empty">Erreur de chargement. Rechargez la page.</p>';
+  }
+}
+
+function buildCheatsheetFilters() {
+  const container = document.getElementById('cheatsheet-filters');
+  if (!container) return;
+
+  // Keep the "Tout" button, add one per category
+  let html = '<button class="cheatsheet-filter-btn active" data-cat="all" onclick="filterCheatsheetCat(\'all\', this)">Tout</button>';
+  _cheatsheetData.forEach(cat => {
+    html += `<button class="cheatsheet-filter-btn" data-cat="${cat.id}" onclick="filterCheatsheetCat('${cat.id}', this)">${cat.icon} ${cat.label}</button>`;
+  });
+  container.innerHTML = html;
+}
+
+function renderCheatsheet(filterCat) {
+  _cheatsheetActiveFilter = filterCat;
+  const search = (document.getElementById('cheatsheet-search')?.value || '').toLowerCase().trim();
+  const grid = document.getElementById('cheatsheet-grid');
+  if (!grid) return;
+
+  const toRender = filterCat === 'all'
+    ? _cheatsheetData
+    : _cheatsheetData.filter(c => c.id === filterCat);
+
+  let html = '';
+  let totalVisible = 0;
+
+  toRender.forEach(cat => {
+    const matchedCmds = cat.commands.filter(cmd => {
+      if (!search) return true;
+      return cmd.cmd.toLowerCase().includes(search)
+          || cmd.desc.toLowerCase().includes(search)
+          || cmd.example.toLowerCase().includes(search);
+    });
+
+    if (matchedCmds.length === 0) return;
+    totalVisible += matchedCmds.length;
+
+    html += `
+      <div class="cheatsheet-category">
+        <div class="cheatsheet-cat-header">
+          <span class="cheatsheet-cat-icon">${cat.icon}</span>
+          <span class="cheatsheet-cat-label">${cat.label}</span>
+          <span class="cheatsheet-cat-count">${matchedCmds.length} commande${matchedCmds.length > 1 ? 's' : ''}</span>
+        </div>
+        <div class="cheatsheet-cmd-list">
+          ${matchedCmds.map(cmd => `
+            <div class="cheatsheet-cmd-card" onclick="copyCmd('${escapeAttr(cmd.example)}')" title="Cliquer pour copier">
+              <div class="cheatsheet-cmd-top">
+                <code class="cheatsheet-cmd">${escapeHtml(cmd.cmd)}</code>
+                <button class="cheatsheet-copy-btn" aria-label="Copier">
+                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                    <rect x="5" y="5" width="9" height="9" rx="1.5"/>
+                    <path d="M11 5V3.5A1.5 1.5 0 009.5 2h-6A1.5 1.5 0 002 3.5v6A1.5 1.5 0 003.5 11H5"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="cheatsheet-cmd-desc">${escapeHtml(cmd.desc)}</div>
+              <code class="cheatsheet-cmd-example">${escapeHtml(cmd.example)}</code>
+            </div>
+          `).join('')}
+        </div>
+      </div>`;
+  });
+
+  if (totalVisible === 0) {
+    html = `<div class="news-empty">Aucune commande trouvée pour "<strong>${escapeHtml(search)}</strong>"</div>`;
+  }
+
+  grid.innerHTML = html;
+}
+
+function filterCheatsheetCat(cat, btn) {
+  _cheatsheetActiveFilter = cat;
+  document.querySelectorAll('.cheatsheet-filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  // Reset search
+  const searchEl = document.getElementById('cheatsheet-search');
+  if (searchEl) searchEl.value = '';
+  renderCheatsheet(cat);
+}
+
+function filterCheatsheet() {
+  renderCheatsheet(_cheatsheetActiveFilter);
+}
+
+function copyCmd(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    showCheatsheetToast();
+  }).catch(() => {
+    // Fallback for older browsers
+    const el = document.createElement('textarea');
+    el.value = text;
+    el.style.position = 'fixed';
+    el.style.opacity = '0';
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    showCheatsheetToast();
+  });
+}
+
+function showCheatsheetToast() {
+  const toast = document.getElementById('cheatsheet-toast');
+  if (!toast) return;
+  toast.classList.add('visible');
+  setTimeout(() => toast.classList.remove('visible'), 2000);
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function escapeAttr(str) {
+  return String(str)
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/"/g, '&quot;');
 }

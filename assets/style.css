@@ -2800,3 +2800,235 @@ body {
   .news-filter-btn { font-size: 10px; padding: 3px 9px; }
   .news-filters-sep { display: none; }
 }
+
+/* ============================================================
+   CHEATSHEET LINUX
+   ============================================================ */
+
+/* Barre de recherche */
+.cheatsheet-search-wrap {
+  margin-bottom: 20px;
+}
+
+.cheatsheet-search {
+  width: 100%;
+  padding: 12px 18px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: var(--font-mono);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.cheatsheet-search:focus {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 3px rgba(0, 217, 126, 0.1);
+}
+
+.cheatsheet-search::placeholder {
+  color: var(--text-subtle);
+}
+
+/* Filtres catégories */
+.cheatsheet-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.cheatsheet-filter-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.cheatsheet-filter-btn:hover {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+  background: rgba(0, 217, 126, 0.05);
+}
+
+.cheatsheet-filter-btn.active {
+  background: rgba(0, 217, 126, 0.12);
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+  font-weight: 600;
+}
+
+/* Grille des catégories */
+.cheatsheet-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Bloc catégorie */
+.cheatsheet-category {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cheatsheet-cat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--border);
+}
+
+.cheatsheet-cat-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.cheatsheet-cat-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.cheatsheet-cat-count {
+  font-size: 11px;
+  color: var(--text-subtle);
+  background: rgba(255,255,255,0.05);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* Liste des commandes */
+.cheatsheet-cmd-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1px;
+  background: var(--border);
+}
+
+/* Carte d'une commande */
+.cheatsheet-cmd-card {
+  background: var(--bg-secondary);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
+}
+
+.cheatsheet-cmd-card:hover {
+  background: rgba(0, 217, 126, 0.04);
+}
+
+.cheatsheet-cmd-card:hover .cheatsheet-copy-btn {
+  opacity: 1;
+}
+
+.cheatsheet-cmd-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.cheatsheet-cmd {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--accent-green);
+  background: rgba(0, 217, 126, 0.08);
+  padding: 3px 8px;
+  border-radius: 5px;
+  word-break: break-all;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.cheatsheet-copy-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--text-subtle);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+  display: flex;
+  align-items: center;
+}
+
+.cheatsheet-copy-btn:hover {
+  color: var(--accent-green);
+}
+
+.cheatsheet-cmd-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.cheatsheet-cmd-example {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-subtle);
+  background: rgba(255,255,255,0.03);
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: block;
+  word-break: break-all;
+}
+
+/* Toast copié */
+.cheatsheet-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--accent-green);
+  color: #0a0a0f;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 9999;
+  white-space: nowrap;
+}
+
+.cheatsheet-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Responsive mobile */
+@media (max-width: 600px) {
+  .cheatsheet-cmd-list {
+    grid-template-columns: 1fr;
+  }
+
+  .cheatsheet-filters {
+    gap: 6px;
+  }
+
+  .cheatsheet-filter-btn {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+}
