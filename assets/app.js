@@ -275,7 +275,7 @@ let currentSection = 'home';
 
 function navigateTo(target) {
   // 'ctf' et 'sandbox' sont toujours accessibles sans condition de module
-  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary'];
+  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap'];
   if (!freeTargets.includes(target) && !state.unlockedModules.has(target)) {
     termPrint('error-line', `⚠ Le module "${target}" est verrouillé. Complétez le quiz du module précédent d'abord.`);
     return;
@@ -308,6 +308,9 @@ function navigateTo(target) {
     } else {
       loadNews();
     }
+  } else if (target === 'roadmap') {
+    document.querySelector('.top-bar-title').innerHTML = '<span>user@linux</span>:~/progression$ <span style="color:var(--text-subtle);font-size:11px">Ma progression</span>';
+    renderRoadmap();
   } else if (target === 'glossary') {
     document.querySelector('.top-bar-title').innerHTML = '<span>user@linux</span>:~/glossaire$ <span style="color:var(--text-subtle);font-size:11px">Glossaire Linux & Cybersécurité</span>';
     if (_glossaryData.length > 0) {
@@ -2815,4 +2818,205 @@ function filterGlossary() {
   const allCatBtn = document.querySelector('#glossary-cat-filters .cheatsheet-filter-btn[data-cat="all"]');
   if (allCatBtn) allCatBtn.classList.add('active');
   renderGlossary();
+}
+
+/* ============================================================
+   ROADMAP / PROGRESSION
+   ============================================================ */
+
+// Counts per module (matches data/lessons.json, exercises.json, quizzes.json)
+const MODULE_COUNTS = {
+  m1: { lessons: 4,  exercises: 3, quizzes: 2 },
+  m2: { lessons: 5,  exercises: 2, quizzes: 2 },
+  m3: { lessons: 4,  exercises: 2, quizzes: 2 },
+  m4: { lessons: 5,  exercises: 2, quizzes: 2 },
+  m5: { lessons: 5,  exercises: 2, quizzes: 2 },
+  m6: { lessons: 5,  exercises: 2, quizzes: 2 },
+  m7: { lessons: 5,  exercises: 3, quizzes: 2 },
+  m8: { lessons: 10, exercises: 4, quizzes: 2 }
+};
+
+const MODULE_ICONS = {
+  m1: '🐧', m2: '📁', m3: '👤',
+  m4: '🌐', m5: '📝', m6: '⚙️',
+  m7: '🛡️', m8: '🐳'
+};
+
+const BONUS_SECTIONS = [
+  { target: 'sandbox',    icon: '💻', label: 'Sandbox Linux',      desc: 'Terminal Alpine réel via WebAssembly' },
+  { target: 'ctf',        icon: '🚩', label: 'Challenges CTF',     desc: '6 challenges d\'investigation' },
+  { target: 'cheatsheet', icon: '📋', label: 'Cheatsheet',         desc: '118 commandes de référence' },
+  { target: 'glossary',   icon: '📖', label: 'Glossaire',          desc: '74 termes expliqués en français' },
+  { target: 'news',       icon: '📰', label: 'Actualités Cyber',   desc: 'Veille cybersécurité — mai 2026' }
+];
+
+function renderRoadmap() {
+  renderRoadmapSummary();
+  renderRoadmapTimeline();
+  renderRoadmapBonus();
+}
+
+function renderRoadmapSummary() {
+  const el = document.getElementById('roadmap-summary');
+  if (!el) return;
+
+  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+
+  // Compute totals
+  let totalLessons = 0, doneLessons = 0;
+  let totalExercises = 0, doneExercises = 0;
+  let totalQuizzes = 0, doneQuizzes = 0;
+  let completedModules = 0;
+
+  mods.forEach(m => {
+    const counts = MODULE_COUNTS[m];
+    totalLessons   += counts.lessons;
+    totalExercises += counts.exercises;
+    totalQuizzes   += counts.quizzes;
+
+    // Count done items for this module
+    const lessonsDone = [...state.lessonsDone].filter(id => id.startsWith(m + '-')).length;
+    const exDone      = [...state.exercisesDone].filter(id => id.startsWith(m + '-')).length;
+    const quizDone    = state.quizScores[m] !== undefined ? counts.quizzes : 0;
+
+    doneLessons   += Math.min(lessonsDone, counts.lessons);
+    doneExercises += Math.min(exDone, counts.exercises);
+    doneQuizzes   += quizDone;
+
+    // Module fully completed = all lessons + all exercises + quiz done
+    if (
+      lessonsDone >= counts.lessons &&
+      exDone      >= counts.exercises &&
+      state.quizScores[m] !== undefined
+    ) completedModules++;
+  });
+
+  const totalItems = totalLessons + totalExercises + totalQuizzes;
+  const doneItems  = doneLessons + doneExercises + doneQuizzes;
+  const pct = totalItems > 0 ? Math.round((doneItems / totalItems) * 100) : 0;
+
+  el.innerHTML = `
+    <div class="roadmap-stat-card">
+      <div class="roadmap-stat-number" style="color:var(--accent-green)">${pct}%</div>
+      <div class="roadmap-stat-label">Progression globale</div>
+      <div class="roadmap-stat-bar">
+        <div class="roadmap-stat-fill" style="width:${pct}%;background:var(--accent-green)"></div>
+      </div>
+    </div>
+    <div class="roadmap-stat-card">
+      <div class="roadmap-stat-number" style="color:var(--accent-blue)">${completedModules}<span style="font-size:16px;color:var(--text-subtle)">/8</span></div>
+      <div class="roadmap-stat-label">Modules complétés</div>
+    </div>
+    <div class="roadmap-stat-card">
+      <div class="roadmap-stat-number" style="color:var(--accent-purple)">${doneLessons}<span style="font-size:16px;color:var(--text-subtle)">/${totalLessons}</span></div>
+      <div class="roadmap-stat-label">Leçons terminées</div>
+    </div>
+    <div class="roadmap-stat-card">
+      <div class="roadmap-stat-number" style="color:#ffa600">${doneExercises}<span style="font-size:16px;color:var(--text-subtle)">/${totalExercises}</span></div>
+      <div class="roadmap-stat-label">Exercices résolus</div>
+    </div>
+  `;
+}
+
+function renderRoadmapTimeline() {
+  const el = document.getElementById('roadmap-timeline');
+  if (!el) return;
+
+  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+  let html = '';
+
+  mods.forEach((m, idx) => {
+    const meta   = MODULE_META[m];
+    const counts = MODULE_COUNTS[m];
+    const icon   = MODULE_ICONS[m];
+    const num    = String(idx + 1).padStart(2, '0');
+
+    // Progress for this module
+    const lessonsDone = [...state.lessonsDone].filter(id => id.startsWith(m + '-')).length;
+    const exDone      = [...state.exercisesDone].filter(id => id.startsWith(m + '-')).length;
+    const quizDone    = state.quizScores[m] !== undefined;
+
+    const totalItems = counts.lessons + counts.exercises + counts.quizzes;
+    const doneItems  = Math.min(lessonsDone, counts.lessons)
+                     + Math.min(exDone, counts.exercises)
+                     + (quizDone ? counts.quizzes : 0);
+    const pct = totalItems > 0 ? Math.round((doneItems / totalItems) * 100) : 0;
+
+    // Determine state
+    const isUnlocked   = state.unlockedModules.has(m);
+    const isCompleted  = lessonsDone >= counts.lessons && exDone >= counts.exercises && quizDone;
+    const isActive     = isUnlocked && !isCompleted && doneItems > 0;
+    const isStartable  = isUnlocked && doneItems === 0;
+    const isLocked     = !isUnlocked;
+
+    let nodeClass = 'roadmap-node';
+    let statusLabel = '';
+    let statusClass = '';
+    if (isCompleted) {
+      nodeClass += ' completed';
+      statusLabel = '✅ Complété';
+      statusClass = 'roadmap-status-completed';
+    } else if (isActive) {
+      nodeClass += ' active';
+      statusLabel = '🔵 En cours';
+      statusClass = 'roadmap-status-active';
+    } else if (isStartable) {
+      nodeClass += ' startable';
+      statusLabel = '▶ Déverrouillé';
+      statusClass = 'roadmap-status-startable';
+    } else {
+      nodeClass += ' locked';
+      statusLabel = '🔒 Verrouillé';
+      statusClass = 'roadmap-status-locked';
+    }
+
+    const btnDisabled = isLocked ? 'disabled' : '';
+    const btnLabel    = isCompleted ? 'Revoir' : (isLocked ? 'Verrouillé' : (doneItems > 0 ? 'Continuer →' : 'Commencer →'));
+
+    html += `
+      <div class="${nodeClass}">
+        <div class="roadmap-node-connector">
+          <div class="roadmap-dot ${isCompleted ? 'dot-completed' : isActive ? 'dot-active' : isStartable ? 'dot-startable' : 'dot-locked'}">
+            ${isCompleted ? '✓' : isLocked ? '🔒' : icon}
+          </div>
+          ${idx < mods.length - 1 ? '<div class="roadmap-line ' + (isCompleted ? 'line-done' : '') + '"></div>' : ''}
+        </div>
+        <div class="roadmap-node-content">
+          <div class="roadmap-node-header">
+            <span class="roadmap-node-num">${num}</span>
+            <span class="roadmap-node-title">${escapeHtml(meta.title)}</span>
+            <span class="roadmap-node-status ${statusClass}">${statusLabel}</span>
+          </div>
+          <p class="roadmap-node-desc">${escapeHtml(meta.desc)}</p>
+          ${!isLocked ? `
+          <div class="roadmap-node-progress">
+            <div class="roadmap-progress-items">
+              <span class="${lessonsDone >= counts.lessons ? 'roadmap-item-done' : ''}">📚 ${Math.min(lessonsDone, counts.lessons)}/${counts.lessons} leçons</span>
+              <span class="${exDone >= counts.exercises ? 'roadmap-item-done' : ''}">⌨️ ${Math.min(exDone, counts.exercises)}/${counts.exercises} exercices</span>
+              <span class="${quizDone ? 'roadmap-item-done' : ''}">✅ ${quizDone ? counts.quizzes : 0}/${counts.quizzes} quiz</span>
+            </div>
+            <div class="roadmap-pct-bar">
+              <div class="roadmap-pct-fill ${isCompleted ? 'fill-completed' : 'fill-active'}" style="width:${pct}%"></div>
+            </div>
+            <span class="roadmap-pct-label">${pct}%</span>
+          </div>` : ''}
+          <button class="roadmap-node-btn ${isLocked ? 'btn-locked' : ''}" ${btnDisabled} onclick="navigateTo('${m}')">${btnLabel}</button>
+        </div>
+      </div>`;
+  });
+
+  el.innerHTML = html;
+}
+
+function renderRoadmapBonus() {
+  const el = document.getElementById('roadmap-bonus-grid');
+  if (!el) return;
+
+  el.innerHTML = BONUS_SECTIONS.map(s => `
+    <div class="roadmap-bonus-card" onclick="navigateTo('${s.target}')">
+      <div class="roadmap-bonus-icon">${s.icon}</div>
+      <div class="roadmap-bonus-label">${escapeHtml(s.label)}</div>
+      <div class="roadmap-bonus-desc">${escapeHtml(s.desc)}</div>
+    </div>
+  `).join('');
 }

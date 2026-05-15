@@ -117,6 +117,10 @@
         <span class="module-num">⌂</span>
         <span class="module-nav-title">Accueil</span>
       </button>
+      <button class="module-nav-item" data-target="roadmap" onclick="navigateTo('roadmap')" id="nav-roadmap">
+        <span class="module-nav-icon">🗺️</span>
+        <span class="module-nav-title">Ma Progression</span>
+      </button>
 
       <div class="sidebar-nav-label" style="margin-top:10px">Modules</div>
 
@@ -704,6 +708,31 @@
         <!-- Note de bas de page -->
         <div class="news-footer-note">
           <strong>Sources :</strong> CERT-FR, ANSSI, NVD/NIST, Krebs on Security, The Hacker News — Sélection et résumés par LinuxPath. Les actualités sont vérifiées manuellement avant publication.
+        </div>
+      </section>
+
+      <!-- ======= ROADMAP / PROGRESSION ======= -->
+      <section id="section-roadmap" class="module-section">
+        <div class="module-header">
+          <div class="module-tag" style="background:rgba(88,166,255,0.12);color:var(--accent-blue)">Progression</div>
+          <h2 class="module-title"><span class="prompt-prefix" style="color:var(--accent-blue)">$</span> Ma progression</h2>
+          <p class="module-desc">Vue d'ensemble de ton parcours LinuxPath — modules complétés, en cours et à venir.</p>
+        </div>
+
+        <!-- Récap global -->
+        <div class="roadmap-summary" id="roadmap-summary">
+          <!-- Rempli par JS -->
+        </div>
+
+        <!-- Timeline modules -->
+        <div class="roadmap-timeline" id="roadmap-timeline">
+          <!-- Rempli par JS -->
+        </div>
+
+        <!-- Sections bonus -->
+        <div class="roadmap-bonus-title">Outils &amp; Ressources</div>
+        <div class="roadmap-bonus-grid" id="roadmap-bonus-grid">
+          <!-- Rempli par JS -->
         </div>
       </section>
 
