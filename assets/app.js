@@ -180,6 +180,7 @@ async function loadState() {
     if (qs) state.quizScores      = JSON.parse(qs);
     if (um) state.unlockedModules = new Set(JSON.parse(um));
     state.unlockedModules.add('sandbox'); // toujours accessible
+    state.unlockedModules.add('m9');      // module indépendant, toujours accessible
   } catch(e) { /* état par défaut conservé */ }
 }
 
@@ -187,7 +188,7 @@ async function resetState() {
   state.lessonsDone     = new Set();
   state.exercisesDone   = new Set();
   state.quizScores      = {};
-  state.unlockedModules = new Set(['m1', 'sandbox']);
+  state.unlockedModules = new Set(['m1', 'sandbox', 'm9']);
   await saveState();
   // Réinitialiser aussi la progression CTF
   ctfState.solved = new Set();
@@ -294,6 +295,7 @@ function updateProgressUI() {
   modOrder.forEach(mod => {
     const btn = document.querySelector(`[data-target="${mod}"]`);
     if (btn) {
+      // m9 est toujours accessible (module indépendant)
       btn.classList.toggle('locked', !state.unlockedModules.has(mod));
     }
   });
@@ -309,7 +311,7 @@ let currentSection = 'home';
 
 function navigateTo(target) {
   // 'ctf' et 'sandbox' sont toujours accessibles sans condition de module
-  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap'];
+  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm9'];
   if (!freeTargets.includes(target) && !state.unlockedModules.has(target)) {
     termPrint('error-line', `⚠ Le module "${target}" est verrouillé. Complétez le quiz du module précédent d'abord.`);
     return;
