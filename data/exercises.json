@@ -356,5 +356,54 @@
         "Tapez : dig example.com ANY"
       ]
     }
+  ],
+  "m9": [
+    {
+      "id": "m9-e1",
+      "title": "Générer une paire de clés SSH",
+      "desc": "Générez une paire de clés SSH de type <code>ed25519</code>. Utilisez la commande standard sans options supplémentaires de fichier.",
+      "accepted": [
+        "ssh-keygen -t ed25519",
+        "ssh-keygen -t ed25519 -C \"\"",
+        "ssh-keygen -t ed25519 -C \"mon-commentaire\""
+      ],
+      "hints": [
+        "La commande pour générer des clés SSH commence par ssh-keygen.",
+        "L'option -t permet de spécifier le type de clé.",
+        "Tapez : ssh-keygen -t ed25519"
+      ]
+    },
+    {
+      "id": "m9-e2",
+      "title": "Interroger le DNS d'un domaine",
+      "desc": "Utilisez <code>dig</code> pour obtenir l'adresse IP (enregistrement A) du domaine <code>linux.org</code> en format court.",
+      "accepted": [
+        "dig linux.org +short",
+        "dig linux.org A +short",
+        "dig +short linux.org",
+        "dig +short linux.org A"
+      ],
+      "hints": [
+        "La commande dig permet d'interroger le DNS.",
+        "L'option +short affiche uniquement la réponse.",
+        "Tapez : dig linux.org +short"
+      ]
+    },
+    {
+      "id": "m9-e3",
+      "title": "Lister les règles nftables",
+      "desc": "Affichez l'ensemble des règles nftables actuellement actives sur le système.",
+      "accepted": [
+        "sudo nft list ruleset",
+        "nft list ruleset",
+        "sudo nft list ruleset -a",
+        "nft list ruleset -a"
+      ],
+      "hints": [
+        "La commande nftables s'appelle nft.",
+        "L'action 'list' permet d'afficher les règles, et 'ruleset' désigne l'ensemble complet.",
+        "Tapez : sudo nft list ruleset"
+      ]
+    }
   ]
 }

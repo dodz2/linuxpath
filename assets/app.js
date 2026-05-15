@@ -222,7 +222,7 @@ function updateProgressUI() {
   // Badge du groupe "Modules Linux" dans la sidebar
   const modulesBadge = document.getElementById('group-modules-badge');
   if (modulesBadge) {
-    const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+    const mods = ['m1','m2','m3','m4','m5','m6','m7','m8','m9'];
     let totalDone = 0, totalItems = 0;
     mods.forEach(mod => {
       const counts = MODULE_COUNTS[mod];
@@ -243,7 +243,7 @@ function updateProgressUI() {
   document.getElementById('topbar-progress-fill').style.width = p.pct + '%';
   document.getElementById('topbar-progress-label').textContent = p.done + ' / ' + p.total + ' complétés';
 
-  const modules = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+  const modules = ['m1','m2','m3','m4','m5','m6','m7','m8','m9'];
   modules.forEach(mod => {
     const mp = getModuleProgress(mod);
     const badge = document.getElementById('nav-badge-' + mod);
@@ -274,7 +274,7 @@ function updateProgressUI() {
   });
 
   // Update sidebar lock state
-  const modOrder = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+  const modOrder = ['m1','m2','m3','m4','m5','m6','m7','m8','m9'];
   modOrder.forEach(mod => {
     const btn = document.querySelector(`[data-target="${mod}"]`);
     if (btn) {
@@ -393,7 +393,7 @@ function openGroupForTarget(target) {
   const GROUP_MAP = {
     m1: 'group-modules', m2: 'group-modules', m3: 'group-modules',
     m4: 'group-modules', m5: 'group-modules', m6: 'group-modules',
-    m7: 'group-modules', m8: 'group-modules',
+    m7: 'group-modules', m8: 'group-modules', m9: 'group-modules',
     ctf: 'group-challenges',
     sandbox: 'group-tools',
     news: 'group-resources', cheatsheet: 'group-resources', glossary: 'group-resources',
@@ -433,7 +433,7 @@ function updateGroupActiveHeader(target) {
    LESSON RENDERING
    ============================================================ */
 function renderLessons() {
-  ['m1','m2','m3','m4','m5','m6','m7','m8'].forEach(mod => {
+  ['m1','m2','m3','m4','m5','m6','m7','m8','m9'].forEach(mod => {
     const container = document.getElementById('lessons-' + mod);
     if (!container) return;
     container.innerHTML = '';
@@ -483,7 +483,7 @@ async function markLessonDone(id) {
    EXERCISE RENDERING
    ============================================================ */
 function renderExercises() {
-  ['m1','m2','m3','m4','m5','m6','m7','m8'].forEach(mod => {
+  ['m1','m2','m3','m4','m5','m6','m7','m8','m9'].forEach(mod => {
     const container = document.getElementById('exercises-' + mod);
     if (!container) return;
     container.innerHTML = '';
@@ -624,7 +624,7 @@ async function checkExercise(exId, mod) {
    QUIZ RENDERING
    ============================================================ */
 function renderQuizzes() {
-  ['m1','m2','m3','m4','m5','m6','m7','m8'].forEach(mod => {
+  ['m1','m2','m3','m4','m5','m6','m7','m8','m9'].forEach(mod => {
     const container = document.getElementById('quiz-' + mod);
     if (!container) return;
     const quiz = QUIZZES[mod];
@@ -754,7 +754,7 @@ async function showQuizResult(mod) {
 
   state.quizScores[mod] = score;
   if (pass) {
-    const modules = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+    const modules = ['m1','m2','m3','m4','m5','m6','m7','m8','m9'];
     const idx = modules.indexOf(mod);
     if (idx < modules.length - 1) state.unlockedModules.add(modules[idx + 1]);
     state.unlockedModules.add(mod);
@@ -785,7 +785,7 @@ async function showQuizResult(mod) {
 }
 
 function getNextMod(mod) {
-  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8','m9'];
   const idx = mods.indexOf(mod);
   return idx < mods.length - 1 ? mods[idx + 1] : mod;
 }
@@ -796,7 +796,7 @@ function getNextMod(mod) {
 function renderOverviewCards() {
   const grid = document.getElementById('modules-overview-grid');
   if (!grid) return;
-  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8','m9'];
   const icons = ['🐧','🔒','👤','🌐','📜','⚙️','🔍','🐙'];
   const nums = ['01','02','03','04','05','06','07','08'];
   grid.innerHTML = '';
@@ -3000,13 +3000,14 @@ const MODULE_COUNTS = {
   m5: { lessons: 5,  exercises: 2, quizzes: 2 },
   m6: { lessons: 5,  exercises: 2, quizzes: 2 },
   m7: { lessons: 5,  exercises: 3, quizzes: 2 },
-  m8: { lessons: 10, exercises: 4, quizzes: 2 }
+  m8: { lessons: 10, exercises: 4, quizzes: 2 },
+  m9: { lessons: 5,  exercises: 3, quizzes: 1 }
 };
 
 const MODULE_ICONS = {
   m1: '🐧', m2: '📁', m3: '👤',
   m4: '🌐', m5: '📝', m6: '⚙️',
-  m7: '🛡️', m8: '🐳'
+  m7: '🛡️', m8: '🐳', m9: '🌐'
 };
 
 const BONUS_SECTIONS = [
@@ -3027,7 +3028,7 @@ function renderRoadmapSummary() {
   const el = document.getElementById('roadmap-summary');
   if (!el) return;
 
-  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8','m9'];
 
   // Compute totals
   let totalLessons = 0, doneLessons = 0;
@@ -3089,7 +3090,7 @@ function renderRoadmapTimeline() {
   const el = document.getElementById('roadmap-timeline');
   if (!el) return;
 
-  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8','m9'];
   let html = '';
 
   mods.forEach((m, idx) => {
@@ -3197,7 +3198,7 @@ function renderHome() {
   if (!el) return;
 
   // Compute global progress
-  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8','m9'];
   let totalItems = 0, doneItems = 0, completedMods = 0;
 
   mods.forEach(m => {

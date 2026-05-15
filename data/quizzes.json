@@ -478,5 +478,65 @@
         "expl": "<strong>-A N</strong> (After) affiche N lignes après chaque match. <code>-B N</code> affiche N lignes avant, et <code>-C N</code> affiche N lignes avant ET après."
       }
     ]
+  },
+  "m9": {
+    "title": "Quiz — Services réseau &amp; protocoles",
+    "questions": [
+      {
+        "q": "Quelle commande copie votre clé SSH publique sur un serveur distant ?",
+        "options": [
+          "ssh-keygen -t ed25519",
+          "ssh-copy-id user@serveur",
+          "scp ~/.ssh/id_ed25519.pub user@serveur",
+          "ssh-add user@serveur"
+        ],
+        "correct": 1,
+        "expl": "<strong>ssh-copy-id</strong> copie automatiquement votre clé publique dans le fichier <code>~/.ssh/authorized_keys</code> du serveur distant, permettant la connexion sans mot de passe."
+      },
+      {
+        "q": "Dans Nginx, où place-t-on les fichiers de config des sites disponibles (mais pas forcément actifs) ?",
+        "options": [
+          "/etc/nginx/sites-enabled/",
+          "/etc/nginx/conf.d/",
+          "/etc/nginx/sites-available/",
+          "/var/www/nginx/"
+        ],
+        "correct": 2,
+        "expl": "<strong>sites-available/</strong> contient toutes les configs. On active un site en créant un lien symbolique dans <code>sites-enabled/</code> pointant vers le fichier dans <code>sites-available/</code>."
+      },
+      {
+        "q": "Quelle commande dig affiche uniquement l'adresse IP d'un domaine, sans les informations supplémentaires ?",
+        "options": [
+          "dig monsite.com -short",
+          "dig monsite.com +brief",
+          "dig monsite.com +short",
+          "dig --simple monsite.com"
+        ],
+        "correct": 2,
+        "expl": "<strong>dig monsite.com +short</strong> n'affiche que la réponse finale (l'adresse IP), sans les en-têtes, statistiques et autres informations normalement affichées par dig."
+      },
+      {
+        "q": "Dans nftables, quelle est la politique recommandée pour la chaîne 'input' d'un serveur exposé ?",
+        "options": [
+          "policy accept — on bloque ce qu'on ne veut pas",
+          "policy drop — on n'autorise que ce qu'on veut",
+          "policy reject — on refuse tout avec message",
+          "policy forward — on redirige vers un autre hôte"
+        ],
+        "correct": 1,
+        "expl": "<strong>policy drop</strong> sur la chaîne input est la bonne pratique : tout ce qui n'est pas explicitement autorisé est silencieusement ignoré. C'est l'approche \"liste blanche\" — plus sûre qu'une liste noire."
+      },
+      {
+        "q": "Sur quel protocole de transport WireGuard fonctionne-t-il ?",
+        "options": [
+          "TCP",
+          "HTTP/2",
+          "UDP",
+          "QUIC"
+        ],
+        "correct": 2,
+        "expl": "<strong>WireGuard utilise UDP</strong> exclusivement. UDP est sans connexion et plus léger que TCP, ce qui convient parfaitement à un VPN où la rapidité est prioritaire. Le port par défaut est <strong>51820/UDP</strong>."
+      }
+    ]
   }
 }
