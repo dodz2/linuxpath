@@ -2459,10 +2459,50 @@ async function loadNews() {
 
 document.addEventListener('DOMContentLoaded', init);
 /* ============================================================
-   SANDBOX v86 — Démarrage et reset
+   SANDBOX v86 — Chargement lazy + Démarrage et reset
    ============================================================ */
 
 let _sandboxEmulator = null;
+let _v86Loaded = false;
+let _v86Loading = false;
+
+/**
+ * Charge libv86.js de façon dynamique (une seule fois),
+ * puis appelle le callback fourni.
+ */
+function loadV86Script(callback) {
+  if (_v86Loaded) {
+    callback();
+    return;
+  }
+  if (_v86Loading) {
+    // Déjà en cours : attendre que le script soit prêt
+    const wait = setInterval(() => {
+      if (_v86Loaded) {
+        clearInterval(wait);
+        callback();
+      }
+    }, 100);
+    return;
+  }
+  _v86Loading = true;
+  const script = document.createElement('script');
+  script.src = 'v86/libv86.js';
+  script.onload = () => {
+    _v86Loaded = true;
+    _v86Loading = false;
+    callback();
+  };
+  script.onerror = () => {
+    _v86Loading = false;
+    console.error('Impossible de charger libv86.js');
+    const statusTxt = document.getElementById('sandbox-status-text');
+    if (statusTxt) statusTxt.textContent = 'Erreur : impossible de charger la sandbox. Vérifiez votre connexion.';
+    const status = document.getElementById('sandbox-status');
+    if (status) status.style.display = '';
+  };
+  document.head.appendChild(script);
+}
 
 function startSandbox() {
   const btnStart = document.getElementById('btn-start-sandbox');
@@ -2480,8 +2520,10 @@ function startSandbox() {
   if (status) status.style.display = '';
   if (statusTxt) statusTxt.textContent = 'Chargement de l\'image Alpine Linux (~8 Mo)…';
 
+  // Chargement lazy de libv86 si pas encore disponible
   if (!window.V86) {
-    if (statusTxt) statusTxt.textContent = 'Erreur : libv86 non disponible.';
+    if (statusTxt) statusTxt.textContent = 'Chargement de la sandbox (~8 Mo)…';
+    loadV86Script(() => startSandbox());
     return;
   }
 
