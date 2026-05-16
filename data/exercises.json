@@ -375,6 +375,23 @@
     },
     {
       "id": "m9-e2",
+      "title": "Synchroniser un dossier avec rsync",
+      "desc": "Utilisez <code>rsync</code> pour synchroniser le dossier <code>projet/</code> vers le serveur <code>user@serveur:/backup/</code> en mode archive avec compression.",
+      "accepted": [
+        "rsync -avz projet/ user@serveur:/backup/",
+        "rsync -avz ./projet/ user@serveur:/backup/",
+        "rsync -avz projet user@serveur:/backup/"
+      ],
+      "hints": [
+        "rsync utilise des options comme -a (archive), -v (verbose), -z (compression).",
+        "La syntaxe est : rsync [options] source destination.",
+        "Tapez : rsync -avz projet/ user@serveur:/backup/"
+      ]
+    }
+  ],
+  "m10": [
+    {
+      "id": "m10-e1",
       "title": "Interroger le DNS d'un domaine",
       "desc": "Utilisez <code>dig</code> pour obtenir l'adresse IP (enregistrement A) du domaine <code>linux.org</code> en format court.",
       "accepted": [
@@ -390,7 +407,24 @@
       ]
     },
     {
-      "id": "m9-e3",
+      "id": "m10-e2",
+      "title": "Obtenir un certificat HTTPS avec Certbot",
+      "desc": "Utilisez <code>certbot</code> avec le plugin Nginx pour obtenir un certificat SSL pour le domaine <code>monsite.com</code>.",
+      "accepted": [
+        "sudo certbot --nginx -d monsite.com",
+        "certbot --nginx -d monsite.com",
+        "sudo certbot --nginx -d monsite.com -d www.monsite.com"
+      ],
+      "hints": [
+        "Certbot s'utilise avec l'option --nginx pour configurer automatiquement Nginx.",
+        "L'option -d spécifie le domaine.",
+        "Tapez : sudo certbot --nginx -d monsite.com"
+      ]
+    }
+  ],
+  "m11": [
+    {
+      "id": "m11-e1",
       "title": "Lister les règles nftables",
       "desc": "Affichez l'ensemble des règles nftables actuellement actives sur le système.",
       "accepted": [
@@ -403,6 +437,22 @@
         "La commande nftables s'appelle nft.",
         "L'action 'list' permet d'afficher les règles, et 'ruleset' désigne l'ensemble complet.",
         "Tapez : sudo nft list ruleset"
+      ]
+    },
+    {
+      "id": "m11-e2",
+      "title": "Lister les ports TCP en écoute",
+      "desc": "Utilisez <code>ss</code> pour afficher tous les ports TCP en écoute avec les processus associés, en format numérique.",
+      "accepted": [
+        "ss -tlnp",
+        "sudo ss -tlnp",
+        "ss -tnlp",
+        "sudo ss -tnlp"
+      ],
+      "hints": [
+        "ss est le remplaçant moderne de netstat.",
+        "Les options : -t (TCP), -l (listening), -n (numérique), -p (processus).",
+        "Tapez : ss -tlnp"
       ]
     }
   ]

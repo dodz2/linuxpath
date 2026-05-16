@@ -56,7 +56,7 @@
       "@type": "Course",
       "@id": "https://dodz2.github.io/linuxpath/#course",
       "name": "Formation Linux & Cybersécurité — LinuxPath",
-      "description": "9 modules progressifs pour maîtriser Linux : bases, fichiers, permissions, réseau, scripting, sécurité, Docker, Git et services réseau.",
+      "description": "11 modules progressifs pour maîtriser Linux : bases, fichiers, permissions, réseau, scripting, sécurité, Docker, Git, SSH, serveurs web et sécurité réseau.",
       "url": "https://dodz2.github.io/linuxpath/",
       "inLanguage": "fr-FR",
       "isAccessibleForFree": true,
@@ -193,9 +193,19 @@
         </button>
         <div class="sidebar-group-body" id="group-network-body">
           <button class="module-nav-item" data-target="m9" onclick="navigateTo('m9')" id="nav-m9">
-            <span class="module-nav-icon">🔌</span>
-            <span class="module-nav-title">Services réseau</span>
+            <span class="module-nav-icon">🔑</span>
+            <span class="module-nav-title">SSH & accès distant</span>
             <span class="module-nav-badge" id="nav-badge-m9">0%</span>
+          </button>
+          <button class="module-nav-item" data-target="m10" onclick="navigateTo('m10')" id="nav-m10">
+            <span class="module-nav-icon">🌐</span>
+            <span class="module-nav-title">Serveurs web & DNS</span>
+            <span class="module-nav-badge" id="nav-badge-m10">0%</span>
+          </button>
+          <button class="module-nav-item" data-target="m11" onclick="navigateTo('m11')" id="nav-m11">
+            <span class="module-nav-icon">🛡️</span>
+            <span class="module-nav-title">Sécurité réseau</span>
+            <span class="module-nav-badge" id="nav-badge-m11">0%</span>
           </button>
         </div>
       </div>
@@ -601,14 +611,15 @@
       </section>
 
             <!-- ======= MODULE 9 ======= -->
+      <!-- ==================== MODULE 9 — SSH & accès distant ==================== -->
       <section id="section-m9" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 09</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Services réseau &amp; protocoles</h2>
-          <p class="module-desc">SSH avancé, Nginx, DNS, pare-feu nftables et VPN WireGuard — les outils réseau de l'admin Linux.</p>
+          <h2 class="module-title"><span class="prompt-prefix">$</span> SSH &amp; accès distant</h2>
+          <p class="module-desc">Authentification par clé, tunnels SSH, transferts de fichiers (SCP, SFTP, rsync) et VPN WireGuard.</p>
           <div class="module-meta">
-            <span class="module-meta-item">📚 5 leçons</span>
-            <span class="module-meta-item">⚡ 3 exercices</span>
+            <span class="module-meta-item">📚 3 leçons</span>
+            <span class="module-meta-item">⚡ 2 exercices</span>
             <span class="module-meta-item">❓ Quiz 5 questions</span>
           </div>
         </div>
@@ -618,6 +629,46 @@
         <div id="exercises-m9"></div>
         <h3 class="section-title">Quiz de validation</h3>
         <div id="quiz-m9"></div>
+      </section>
+
+      <!-- ==================== MODULE 10 — Serveurs web & DNS ==================== -->
+      <section id="section-m10" class="module-section">
+        <div class="module-header">
+          <div class="module-tag">Module 10</div>
+          <h2 class="module-title"><span class="prompt-prefix">$</span> Serveurs web &amp; DNS</h2>
+          <p class="module-desc">Nginx, résolution DNS avec dig et nslookup, et sécurisation HTTPS avec Let's Encrypt.</p>
+          <div class="module-meta">
+            <span class="module-meta-item">📚 3 leçons</span>
+            <span class="module-meta-item">⚡ 2 exercices</span>
+            <span class="module-meta-item">❓ Quiz 5 questions</span>
+          </div>
+        </div>
+        <h3 class="section-title">Leçons</h3>
+        <div class="lessons-grid" id="lessons-m10"></div>
+        <h3 class="section-title">Exercices pratiques</h3>
+        <div id="exercises-m10"></div>
+        <h3 class="section-title">Quiz de validation</h3>
+        <div id="quiz-m10"></div>
+      </section>
+
+      <!-- ==================== MODULE 11 — Sécurité réseau ==================== -->
+      <section id="section-m11" class="module-section">
+        <div class="module-header">
+          <div class="module-tag">Module 11</div>
+          <h2 class="module-title"><span class="prompt-prefix">$</span> Sécurité réseau</h2>
+          <p class="module-desc">Pare-feu nftables et monitoring réseau avec tcpdump, ss et outils de diagnostic.</p>
+          <div class="module-meta">
+            <span class="module-meta-item">📚 2 leçons</span>
+            <span class="module-meta-item">⚡ 2 exercices</span>
+            <span class="module-meta-item">❓ Quiz 5 questions</span>
+          </div>
+        </div>
+        <h3 class="section-title">Leçons</h3>
+        <div class="lessons-grid" id="lessons-m11"></div>
+        <h3 class="section-title">Exercices pratiques</h3>
+        <div id="exercises-m11"></div>
+        <h3 class="section-title">Quiz de validation</h3>
+        <div id="quiz-m11"></div>
       </section>
 
       <!-- ======= SANDBOX LINUX RÉELLE ======= -->

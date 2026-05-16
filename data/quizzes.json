@@ -480,7 +480,7 @@
     ]
   },
   "m9": {
-    "title": "Quiz — Services réseau &amp; protocoles",
+    "title": "Quiz — SSH &amp; accès distant",
     "questions": [
       {
         "q": "Quelle commande copie votre clé SSH publique sur un serveur distant ?",
@@ -493,6 +493,55 @@
         "correct": 1,
         "expl": "<strong>ssh-copy-id</strong> copie automatiquement votre clé publique dans le fichier <code>~/.ssh/authorized_keys</code> du serveur distant, permettant la connexion sans mot de passe."
       },
+      {
+        "q": "Sur quel protocole de transport WireGuard fonctionne-t-il ?",
+        "options": [
+          "TCP",
+          "HTTP/2",
+          "UDP",
+          "QUIC"
+        ],
+        "correct": 2,
+        "expl": "<strong>WireGuard utilise UDP</strong> exclusivement. UDP est sans connexion et plus léger que TCP, ce qui convient parfaitement à un VPN où la rapidité est prioritaire. Le port par défaut est <strong>51820/UDP</strong>."
+      },
+      {
+        "q": "Quel outil est recommandé pour synchroniser un dossier volumineux entre deux serveurs via SSH ?",
+        "options": [
+          "scp -r",
+          "rsync -avz",
+          "sftp put",
+          "tar | ssh"
+        ],
+        "correct": 1,
+        "expl": "<strong>rsync -avz</strong> est l'outil idéal : il ne transfère que les différences, préserve les permissions, et compresse les données en transit."
+      },
+      {
+        "q": "Quel est l'avantage principal de rsync par rapport à scp ?",
+        "options": [
+          "rsync utilise un chiffrement plus fort",
+          "rsync ne transfère que les fichiers modifiés",
+          "rsync fonctionne sans SSH",
+          "rsync est installé par défaut sur Windows"
+        ],
+        "correct": 1,
+        "expl": "<strong>rsync</strong> compare les fichiers source et destination et ne transfère que les différences (delta transfer). Pour des sauvegardes régulières, c'est bien plus rapide que scp qui recopie tout."
+      },
+      {
+        "q": "Quelle option de ssh-keygen est recommandée pour générer une clé moderne et sécurisée ?",
+        "options": [
+          "-t rsa -b 2048",
+          "-t dsa",
+          "-t ed25519",
+          "-t ecdsa -b 256"
+        ],
+        "correct": 2,
+        "expl": "<strong>ed25519</strong> est l'algorithme recommandé : clés plus courtes, plus rapides, et résistantes aux attaques par canaux auxiliaires."
+      }
+    ]
+  },
+  "m10": {
+    "title": "Quiz — Serveurs web &amp; DNS",
+    "questions": [
       {
         "q": "Dans Nginx, où place-t-on les fichiers de config des sites disponibles (mais pas forcément actifs) ?",
         "options": [
@@ -516,6 +565,44 @@
         "expl": "<strong>dig monsite.com +short</strong> n'affiche que la réponse finale (l'adresse IP), sans les en-têtes, statistiques et autres informations normalement affichées par dig."
       },
       {
+        "q": "Quelle commande Certbot permet d'obtenir un certificat SSL et de configurer Nginx automatiquement ?",
+        "options": [
+          "certbot install --nginx",
+          "certbot --nginx -d monsite.com",
+          "certbot ssl --auto",
+          "certbot renew --nginx"
+        ],
+        "correct": 1,
+        "expl": "<strong>certbot --nginx -d monsite.com</strong> obtient le certificat auprès de Let's Encrypt et modifie automatiquement la configuration Nginx pour activer HTTPS."
+      },
+      {
+        "q": "Quelle est la durée de validité d'un certificat Let's Encrypt ?",
+        "options": [
+          "30 jours",
+          "90 jours",
+          "1 an",
+          "2 ans"
+        ],
+        "correct": 1,
+        "expl": "Les certificats Let's Encrypt sont valides <strong>90 jours</strong>. Certbot met en place un renouvellement automatique via un timer systemd ou une tâche cron."
+      },
+      {
+        "q": "Quel type d'enregistrement DNS associe un nom de domaine à une adresse IPv4 ?",
+        "options": [
+          "CNAME",
+          "MX",
+          "A",
+          "AAAA"
+        ],
+        "correct": 2,
+        "expl": "L'enregistrement <strong>A</strong> (Address) associe un nom de domaine à une adresse IPv4. <strong>AAAA</strong> est pour IPv6, <strong>CNAME</strong> est un alias, et <strong>MX</strong> est pour les serveurs mail."
+      }
+    ]
+  },
+  "m11": {
+    "title": "Quiz — Sécurité réseau",
+    "questions": [
+      {
         "q": "Dans nftables, quelle est la politique recommandée pour la chaîne 'input' d'un serveur exposé ?",
         "options": [
           "policy accept — on bloque ce qu'on ne veut pas",
@@ -527,15 +614,48 @@
         "expl": "<strong>policy drop</strong> sur la chaîne input est la bonne pratique : tout ce qui n'est pas explicitement autorisé est silencieusement ignoré. C'est l'approche \"liste blanche\" — plus sûre qu'une liste noire."
       },
       {
-        "q": "Sur quel protocole de transport WireGuard fonctionne-t-il ?",
+        "q": "Quelle commande ss affiche les ports TCP en écoute avec les processus associés ?",
         "options": [
-          "TCP",
-          "HTTP/2",
-          "UDP",
-          "QUIC"
+          "ss -a",
+          "ss -tlnp",
+          "ss -u",
+          "ss --all"
+        ],
+        "correct": 1,
+        "expl": "<strong>ss -tlnp</strong> : <strong>-t</strong> TCP, <strong>-l</strong> listening, <strong>-n</strong> numérique, <strong>-p</strong> processus. C'est LA commande de diagnostic réseau de base."
+      },
+      {
+        "q": "Quel outil capture le trafic réseau en temps réel depuis le terminal ?",
+        "options": [
+          "wireshark",
+          "tcpdump",
+          "nmap",
+          "iftop"
+        ],
+        "correct": 1,
+        "expl": "<strong>tcpdump</strong> est l'outil standard en ligne de commande pour capturer et analyser le trafic réseau. Wireshark fait la même chose mais avec une interface graphique."
+      },
+      {
+        "q": "Avec tcpdump, comment sauvegarder une capture dans un fichier .pcap ?",
+        "options": [
+          "tcpdump --save capture.pcap",
+          "tcpdump -o capture.pcap",
+          "tcpdump -w capture.pcap",
+          "tcpdump > capture.pcap"
         ],
         "correct": 2,
-        "expl": "<strong>WireGuard utilise UDP</strong> exclusivement. UDP est sans connexion et plus léger que TCP, ce qui convient parfaitement à un VPN où la rapidité est prioritaire. Le port par défaut est <strong>51820/UDP</strong>."
+        "expl": "L'option <strong>-w</strong> (write) sauvegarde les paquets bruts dans un fichier <code>.pcap</code> qui peut ensuite être relu avec <code>tcpdump -r</code> ou ouvert dans Wireshark."
+      },
+      {
+        "q": "Dans nftables, quelle commande crée une table de type 'inet' nommée 'firewall' ?",
+        "options": [
+          "nft create table firewall",
+          "nft add table inet firewall",
+          "nft new inet table firewall",
+          "nft table add inet firewall"
+        ],
+        "correct": 1,
+        "expl": "<strong>nft add table inet firewall</strong> crée une table de la famille <code>inet</code> (IPv4 + IPv6). La famille <code>inet</code> est la plus polyvalente car elle gère les deux protocoles."
       }
     ]
   }
