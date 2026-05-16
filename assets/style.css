@@ -45,6 +45,7 @@
 
   --font-mono:          'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace;
   --font-body:          'Inter', system-ui, sans-serif;
+  --font-heading:       'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
   --transition:         0.15s ease;
 }
 
@@ -60,6 +61,8 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
+
+h1, h2, h3, h4 { font-family: var(--font-heading); }
 
 /* Text selection */
 ::selection {
@@ -422,6 +425,7 @@ body {
 }
 
 .module-title {
+  font-family: var(--font-heading);
   font-family: var(--font-mono);
   font-size: 28px;
   font-weight: 700;
@@ -624,6 +628,7 @@ body {
    SECTION TITLES
    ========================================== */
 .section-title {
+  font-family: var(--font-heading);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
@@ -1672,6 +1677,7 @@ body {
 }
 
 .lp-section-title {
+  font-family: var(--font-heading);
   font-size: 24px;
   font-weight: 700;
   color: var(--text-primary);
@@ -1708,6 +1714,7 @@ body {
 }
 
 .lp-feature-title {
+  font-family: var(--font-heading);
   font-family: var(--font-mono);
   font-size: 13px;
   font-weight: 700;
@@ -2189,6 +2196,7 @@ body {
 }
 
 .ctf-card-title {
+  font-family: var(--font-heading);
   font-size: 15px;
   font-weight: 600;
   color: var(--text-primary);
@@ -2318,6 +2326,7 @@ body {
 }
 
 .ctf-detail-title {
+  font-family: var(--font-heading);
   font-family: var(--font-mono);
   font-size: 18px;
   font-weight: 700;
@@ -2597,6 +2606,7 @@ body {
 }
 
 .news-title {
+  font-family: var(--font-heading);
   font-family: var(--font-mono);
   font-size: 26px;
   font-weight: 700;
@@ -3370,6 +3380,7 @@ body {
 }
 
 .roadmap-stat-number {
+  font-family: var(--font-heading);
   font-size: 36px;
   font-weight: 700;
   font-family: var(--font-mono);
@@ -3522,6 +3533,7 @@ body {
 }
 
 .roadmap-node-title {
+  font-family: var(--font-heading);
   font-size: 15px;
   font-weight: 600;
   color: var(--text-primary);
