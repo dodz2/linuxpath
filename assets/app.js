@@ -845,8 +845,363 @@ function renderOverviewCards() {
   });
 }
 
+
 /* ============================================================
-   TERMINAL SIMULATOR
+   TERMINAL ENGINE (moteur unifié)
+   ============================================================ */
+/* ============================================================
+   TERMINAL ENGINE — Moteur unifié pour terminal principal & CTF
+   ============================================================ */
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/**
+ * createTerminalEngine(config) — Factory pour créer une instance de terminal.
+ *
+ * @param {Object} config
+ * @param {Object} config.vfs            — Virtual filesystem
+ * @param {string} config.outputElId     — ID de l'élément de sortie
+ * @param {string} config.inputElId      — ID de l'input
+ * @param {string} config.promptLabelElId— ID du label prompt
+ * @param {Function} config.promptFn     — (currentDir) => HTML du prompt
+ * @param {Object} config.userInfo       — { user, hostname, uid, gid, groups }
+ * @param {Object} config.extraCommands  — { name: function(args, engine) }
+ * @param {Object} config.manPages       — { cmd: 'HTML description' }
+ * @param {string} config.helpHtml       — HTML pour la commande help
+ * @param {boolean} config.permCheck     — Activer la vérification de permissions sur cat (CTF)
+ * @param {boolean} config.recursiveFind — Utiliser find récursif (CTF)
+ */
+function createTerminalEngine(config) {
+  let vfs        = config.vfs;
+  let currentDir = '/home/user';
+  let prevDir    = null;
+  let cmdHistory = [];
+  let historyIdx = -1;
+
+  const userInfo   = config.userInfo || { user: 'user', hostname: 'user-pc', uid: '1000', gid: '1000', groups: 'user : user adm cdrom sudo dip plugdev lxd' };
+  const promptFn   = config.promptFn;
+  const extraCmds  = config.extraCommands || {};
+  const manPages   = config.manPages || {};
+  const helpHtml   = config.helpHtml || '';
+  const permCheck  = config.permCheck || false;
+  const recursiveFind = config.recursiveFind || false;
+
+  /* --- Output helpers --- */
+  function print(html, cls) {
+    const out = document.getElementById(config.outputElId);
+    if (!out) return;
+    const line = document.createElement('div');
+    line.className = 'term-line' + (cls ? ' ' + cls : '');
+    line.innerHTML = html;
+    out.appendChild(line);
+    out.scrollTop = out.scrollHeight;
+  }
+
+  function cmdEcho(cmd) {
+    const out = document.getElementById(config.outputElId);
+    if (!out) return;
+    const line = document.createElement('div');
+    line.className = 'term-line term-cmd-echo';
+    line.innerHTML = promptFn(currentDir) + ' <span class="t-input">' + escHtml(cmd) + '</span>';
+    out.appendChild(line);
+    out.scrollTop = out.scrollHeight;
+  }
+
+  function updatePromptLabel() {
+    const label = document.getElementById(config.promptLabelElId);
+    if (label) label.innerHTML = promptFn(currentDir);
+  }
+
+  /* --- Path resolution --- */
+  function resolvePath(path) {
+    if (!path || path === '~') return '/home/user';
+    if (path === '-') return prevDir || currentDir;
+    if (path.startsWith('~/')) return '/home/user' + path.slice(1);
+    if (!path.startsWith('/')) {
+      const base = currentDir === '/' ? '' : currentDir;
+      path = base + '/' + path;
+    }
+    let parts = path.split('/').filter(Boolean);
+    const resolved = [];
+    for (let i = 0; i < parts.length; i++) {
+      if (parts[i] === '..') resolved.pop();
+      else if (parts[i] !== '.') resolved.push(parts[i]);
+    }
+    return '/' + resolved.join('/');
+  }
+
+  /* --- Core commands --- */
+  function handleLs(args) {
+    const longFormat = args.some(function(a){ return a.match(/^-[a-zA-Z]*l/); });
+    const showHidden = args.some(function(a){ return a.match(/^-[a-zA-Z]*a/); });
+    const fileArg = args.filter(function(a){ return !a.startsWith('-'); })[0];
+    const targetDir = fileArg ? resolvePath(fileArg) : currentDir;
+    const singleFile = fileArg && vfs[targetDir] && vfs[targetDir].type === 'file';
+
+    if (!vfs[targetDir]) {
+      print('<span class="t-err">ls : impossible d\'accéder à \'' + escHtml(fileArg) + '\': Aucun fichier ou dossier de ce type</span>');
+      return;
+    }
+
+    let items = [];
+    if (singleFile) {
+      items = [{ name: fileArg.split('/').pop(), node: vfs[targetDir] }];
+    } else {
+      const children = (vfs[targetDir].children || []);
+      items = children.map(function(name) {
+        const nodePath = (targetDir === '/' ? '' : targetDir) + '/' + name;
+        return { name: name, node: vfs[nodePath] || { type: 'file' } };
+      });
+      if (showHidden) {
+        items = [{ name: '.', node: { type: 'dir' } }, { name: '..', node: { type: 'dir' } }].concat(items);
+      } else {
+        items = items.filter(function(it){ return !it.name.startsWith('.'); });
+      }
+    }
+
+    if (longFormat) {
+      print('<span class="t-muted">total ' + (items.length * 4) + '</span>', 'term-output');
+      items.forEach(function(item) {
+        let isDir = item.node && item.node.type === 'dir';
+        const perm = item.node && item.node.perms ? item.node.perms : (isDir ? 'drwxr-xr-x' : '-rw-r--r--');
+        const size = isDir ? '  4096' : String((item.node && item.node.content ? item.node.content.length : 0) + 128).padStart(6);
+        const nameHtml = isDir ? '<span class="ls-dir">' + escHtml(item.name) + '/</span>'
+          : item.name.endsWith('.sh') ? '<span class="ls-exec">' + escHtml(item.name) + '</span>'
+          : item.name.startsWith('.') ? '<span class="ls-hidden">' + escHtml(item.name) + '</span>'
+          : '<span class="ls-file">' + escHtml(item.name) + '</span>';
+        print(escHtml(perm) + ' 1 ' + userInfo.user + ' ' + userInfo.user + ' ' + size + ' Dec 15 10:23 ' + nameHtml, 'term-output ls-line');
+      });
+    } else {
+      const parts2 = items.map(function(item) {
+        const isDir = item.node && item.node.type === 'dir';
+        if (isDir) return '<span class="ls-dir">' + escHtml(item.name) + '</span>';
+        if (item.name.endsWith('.sh')) return '<span class="ls-exec">' + escHtml(item.name) + '</span>';
+        if (item.name.startsWith('.')) return '<span class="ls-hidden">' + escHtml(item.name) + '</span>';
+        return '<span class="ls-file">' + escHtml(item.name) + '</span>';
+      });
+      print(parts2.join('  '), 'term-output');
+    }
+  }
+
+  function handleCd(args) {
+    const target = args[0];
+    if (!target || target === '~' || target === '') {
+      prevDir = currentDir; currentDir = '/home/user'; return;
+    }
+    if (target === '-') {
+      if (prevDir) { var tmp = currentDir; currentDir = prevDir; prevDir = tmp; print(escHtml(currentDir), 'term-output'); }
+      return;
+    }
+    const resolved = resolvePath(target);
+    if (!vfs[resolved]) { print('<span class="t-err">bash: cd: ' + escHtml(target) + ': Aucun fichier ou dossier de ce type</span>'); return; }
+    if (vfs[resolved].type !== 'dir') { print('<span class="t-err">bash: cd: ' + escHtml(target) + ': N\'est pas un répertoire</span>'); return; }
+    prevDir = currentDir;
+    currentDir = resolved;
+  }
+
+  /* --- Built-in commands shared by all terminals --- */
+  const builtinCommands = {
+    clear: function() {
+      const out = document.getElementById(config.outputElId);
+      if (out) out.innerHTML = '';
+    },
+    pwd: function() { print(escHtml(currentDir), 'term-output'); },
+    whoami: function() { print(userInfo.user, 'term-output'); },
+    hostname: function() { print(userInfo.hostname, 'term-output'); },
+    id: function() { print('uid=' + userInfo.uid + '(' + userInfo.user + ') gid=' + userInfo.gid + '(' + userInfo.user + ') groupes=' + userInfo.gid + '(' + userInfo.user + ')' + (userInfo.extraGroups || ''), 'term-output'); },
+    ls: function(args) { handleLs(args); },
+    cd: function(args) { handleCd(args); },
+    cat: function(args) {
+      if (!args[0]) { print('<span class="t-err">cat : aucun fichier spécifié</span>'); return; }
+      var t = resolvePath(args[0]);
+      if (!vfs[t]) { print('<span class="t-err">cat : ' + escHtml(args[0]) + ' : Aucun fichier ou dossier de ce type</span>'); return; }
+      if (vfs[t].type === 'dir') { print('<span class="t-err">cat : ' + escHtml(args[0]) + ' : est un répertoire</span>'); return; }
+      if (permCheck && vfs[t].perms && vfs[t].perms.startsWith('-r--------')) {
+        print('<span class="t-err">cat : ' + escHtml(args[0]) + ' : Permission non accordée</span>'); return;
+      }
+      var lines = (vfs[t].content || '').split('\n');
+      lines.forEach(function(l){ print(escHtml(l), 'term-output'); });
+    },
+    echo: function(args) {
+      var text = args.join(' ');
+      if (!permCheck) { // main terminal: expand variables
+        text = text.replace(/\$HOME/g,'/home/user').replace(/\$USER/g,userInfo.user).replace(/\$PWD/g,currentDir).replace(/\$SHELL/g,'/bin/bash').replace(/\$PATH/g,'/usr/local/sbin:/usr/local/bin:/usr/bin:/bin');
+      }
+      print(escHtml(text), 'term-output');
+    },
+    find: function(args) {
+      if (recursiveFind) {
+        // Recursive find (CTF style)
+        var nonFlags = args.filter(function(a){ return !a.startsWith('-'); });
+        var searchRoot = resolvePath(nonFlags[0] || '.');
+        var nameIdx = args.indexOf('-name');
+        var namePattern = nameIdx >= 0 ? args[nameIdx + 1] : null;
+        var results = [];
+        function findRecur(dirPath) {
+          var node = vfs[dirPath];
+          if (!node) return;
+          if (!namePattern || dirPath.split('/').pop().includes(namePattern.replace(/\*/g,''))) {
+            results.push(dirPath);
+          }
+          if (node.type === 'dir' && node.children) {
+            node.children.forEach(function(child) {
+              findRecur((dirPath === '/' ? '' : dirPath) + '/' + child);
+            });
+          }
+        }
+        if (!namePattern) results.push(searchRoot);
+        var rootNode = vfs[searchRoot];
+        if (rootNode && rootNode.children) {
+          rootNode.children.forEach(function(child) {
+            findRecur((searchRoot === '/' ? '' : searchRoot) + '/' + child);
+          });
+        }
+        results.forEach(function(r){ print(escHtml(r), 'term-output'); });
+        if (!results.length) print('<span class="t-muted">(aucun résultat)</span>');
+      } else {
+        // Simple find (main terminal)
+        var searchDir = args.filter(function(a){return !a.startsWith('-');})[0] || '.';
+        var resolved2 = resolvePath(searchDir);
+        print(escHtml(searchDir), 'term-output');
+        if (vfs[resolved2] && vfs[resolved2].children) {
+          vfs[resolved2].children.forEach(function(c){ print(escHtml(searchDir) + '/' + escHtml(c), 'term-output'); });
+        }
+      }
+    },
+    grep: function(args) {
+      var flags   = args.filter(function(a){ return a.startsWith('-'); });
+      var nonFlag = args.filter(function(a){ return !a.startsWith('-'); });
+      if (nonFlag.length < 2) { print('<span class="t-muted">(grep : spécifiez un motif et un fichier)</span>'); return; }
+      var pattern = nonFlag[0];
+      var file    = nonFlag[1];
+      var t       = resolvePath(file);
+      if (!vfs[t] || !vfs[t].content) { print('<span class="t-err">grep : ' + escHtml(file) + ' : Aucun fichier de ce type</span>'); return; }
+      var ci = flags.includes('-i');
+      var lines2 = vfs[t].content.split('\n').filter(function(l){
+        return ci ? l.toLowerCase().includes(pattern.toLowerCase()) : l.toLowerCase().includes(pattern.toLowerCase());
+      });
+      if (!lines2.length) { if (permCheck) print('<span class="t-muted">(aucune correspondance)</span>'); return; }
+      lines2.forEach(function(l){
+        var re = new RegExp(escHtml(pattern).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'), ci ? 'gi' : 'gi');
+        print(escHtml(l).replace(re, function(m){ return '<span class="t-green">'+m+'</span>'; }), 'term-output');
+      });
+    },
+    history: function() {
+      cmdHistory.forEach(function(c, i){ print('  ' + String(i+1).padStart(3) + '  ' + escHtml(c), 'term-output'); });
+    },
+    man: function(args) {
+      var topic = args[0];
+      if (!topic) { print('<span class="t-err">man : quel manuel voulez-vous ?</span>'); return; }
+      if (manPages[topic]) print('<div class="man-page">' + manPages[topic] + '</div>', 'term-output');
+      else print('<span class="t-err">Aucune entrée de manuel pour ' + escHtml(topic) + '</span>');
+    },
+    help: function() { print(helpHtml, 'term-output'); }
+  };
+
+  /* --- Command dispatcher --- */
+  function exec(rawCmd) {
+    if (!rawCmd || !rawCmd.trim()) return;
+    var trimmed = rawCmd.trim();
+    if (cmdHistory[cmdHistory.length - 1] !== trimmed) cmdHistory.push(trimmed);
+    historyIdx = cmdHistory.length;
+    cmdEcho(trimmed);
+
+    var parts = trimmed.split(/\s+/);
+    var cmd   = parts[0];
+    var args  = parts.slice(1);
+
+    // Extra commands have priority (allows overriding builtins like ps)
+    if (extraCmds[cmd]) {
+      extraCmds[cmd](args, engine);
+      updatePromptLabel();
+      return;
+    }
+
+    if (builtinCommands[cmd]) {
+      builtinCommands[cmd](args);
+      updatePromptLabel();
+      return;
+    }
+
+    // Unknown command
+    print('<span class="t-err">bash: ' + escHtml(cmd) + ': commande introuvable</span>');
+    updatePromptLabel();
+  }
+
+  /* --- Input listener --- */
+  function initInput() {
+    var input = document.getElementById(config.inputElId);
+    if (!input) return;
+
+    // Clone to remove old listeners
+    var fresh = input.cloneNode(true);
+    input.parentNode.replaceChild(fresh, input);
+
+    fresh.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        var val = fresh.value.trim();
+        if (val) { exec(val); fresh.value = ''; historyIdx = cmdHistory.length; }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (historyIdx > 0) { historyIdx--; fresh.value = cmdHistory[historyIdx] || ''; }
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (historyIdx < cmdHistory.length - 1) { historyIdx++; fresh.value = cmdHistory[historyIdx] || ''; }
+        else { historyIdx = cmdHistory.length; fresh.value = ''; }
+      } else if (e.key === 'Tab') {
+        e.preventDefault();
+        var val2 = fresh.value;
+        var tparts = val2.split(/\s+/);
+        if (tparts.length >= 2) {
+          var partial = tparts[tparts.length - 1];
+          var node = vfs[currentDir];
+          if (node && node.children) {
+            var matches = node.children.filter(function(c){ return c.startsWith(partial); });
+            if (matches.length === 1) { tparts[tparts.length - 1] = matches[0]; fresh.value = tparts.join(' ') + ' '; }
+            else if (matches.length > 1) { cmdEcho(val2); print(matches.join('  '), 'term-output'); }
+          }
+        }
+      } else if (e.key === 'l' && e.ctrlKey) {
+        e.preventDefault();
+        var out = document.getElementById(config.outputElId);
+        if (out) out.innerHTML = '';
+      }
+    });
+
+    return fresh;
+  }
+
+  /* --- Public API --- */
+  var engine = {
+    exec: exec,
+    print: print,
+    cmdEcho: cmdEcho,
+    updatePromptLabel: updatePromptLabel,
+    getVfs: function() { return vfs; },
+    setVfs: function(newVfs) { vfs = newVfs; },
+    getCurrentDir: function() { return currentDir; },
+    setCurrentDir: function(d) { currentDir = d; },
+    getPrevDir: function() { return prevDir; },
+    setPrevDir: function(d) { prevDir = d; },
+    resetHistory: function() { cmdHistory = []; historyIdx = -1; },
+    resolvePath: resolvePath,
+    handleLs: handleLs,
+    handleCd: handleCd,
+    initInput: initInput,
+    escHtml: escHtml
+  };
+
+  return engine;
+}
+
+/* ============================================================
+   TERMINAL PRINCIPAL (utilise createTerminalEngine)
+   ============================================================ */
+
+/* ============================================================
+   TERMINAL PRINCIPAL — Instance du moteur unifié
    ============================================================ */
 const vfs = {
   '/': { type: 'dir', children: ['home', 'bin', 'etc', 'var', 'tmp', 'usr'] },
@@ -874,916 +1229,724 @@ const vfs = {
   '/usr': { type: 'dir', children: ['bin', 'lib', 'share', 'local'] }
 };
 
-let currentDir = '/home/user';
-const cmdHistory = [];
-let historyIdx = -1;
-let prevDir = null;
-
-function resolvePath(path) {
-  if (!path || path === '~') return '/home/user';
-  if (path === '-') return prevDir || currentDir;
-  if (path.startsWith('~/')) return '/home/user' + path.slice(1);
-  if (!path.startsWith('/')) {
-    const base = currentDir === '/' ? '' : currentDir;
-    path = base + '/' + path;
-  }
-  let parts = path.split('/').filter(Boolean);
-  const resolved = [];
-  for (let i = 0; i < parts.length; i++) {
-    if (parts[i] === '..') resolved.pop();
-    else if (parts[i] !== '.') resolved.push(parts[i]);
-  }
-  return '/' + resolved.join('/');
-}
-
-function promptStr() {
-  let display = currentDir.replace('/home/user', '~');
-  return '<span class="t-user">user@linux</span><span class="t-sep">:</span><span class="t-dir">' + display + '</span><span class="t-dollar">$</span>';
-}
-
-function toggleFaq(btn) {
-  const item = btn.closest('.lp-faq-item');
-  const wasOpen = item.classList.contains('open');
-  // Fermer tous les items ouverts
-  document.querySelectorAll('.lp-faq-item.open').forEach(function(el) {
-    el.classList.remove('open');
-    const q = el.querySelector('.lp-faq-q');
-    if (q) q.setAttribute('aria-expanded', 'false');
-  });
-  if (!wasOpen) {
-    item.classList.add('open');
-    btn.setAttribute('aria-expanded', 'true');
-  }
-}
-
-function toggleTerminal() {
-  let sec  = document.getElementById('terminal-section');
-  let icon = document.getElementById('term-toggle-icon');
-  const isMin = sec.classList.toggle('minimized');
-  icon.textContent = isMin ? '▲' : '▼';
-}
-
-function focusTerminal() {
-  const sec  = document.getElementById('terminal-section');
-  const icon = document.getElementById('term-toggle-icon');
-  sec.classList.remove('minimized');
-  icon.textContent = '▼';
-  const inp = document.getElementById('terminal-input');
-  if (inp) inp.focus();
-  closeSidebar();
-}
-
-function termPrint(html, cls) {
-  let out = document.getElementById('terminal-output');
-  if (!out) return;
-  let line = document.createElement('div');
-  line.className = 'term-line' + (cls ? ' ' + cls : '');
-  line.innerHTML = html;
-  out.appendChild(line);
-  out.scrollTop = out.scrollHeight;
-}
-
-function termCommand(cmd) {
-  let out = document.getElementById('terminal-output');
-  if (!out) return;
-  const line = document.createElement('div');
-  line.className = 'term-line term-cmd-echo';
-  line.innerHTML = promptStr() + ' <span class="t-input">' + escHtml(cmd) + '</span>';
-  out.appendChild(line);
-  out.scrollTop = out.scrollHeight;
-}
-
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function updatePromptLabel() {
-  const label = document.getElementById('terminal-prompt-label');
-  if (label) {
-    const display = currentDir.replace('/home/user', '~');
-    label.innerHTML = '<span class="t-user">user@linux</span><span class="t-sep">:</span><span class="t-dir">' + display + '</span><span class="t-dollar">$</span>';
-  }
-}
-
-function processTerminalCommand(rawCmd) {
-  if (!rawCmd || !rawCmd.trim()) return;
-  const trimmed = rawCmd.trim();
-  if (cmdHistory[cmdHistory.length - 1] !== trimmed) cmdHistory.push(trimmed);
-  historyIdx = cmdHistory.length;
-  termCommand(trimmed);
-
-  const parts = trimmed.split(/\s+/);
-  const cmd = parts[0];
-  const args = parts.slice(1);
-
-  switch(cmd) {
-    case 'clear': {
-      const out = document.getElementById('terminal-output');
-      if (out) out.innerHTML = '';
-      break;
-    }
-    case 'pwd': {
-      termPrint(escHtml(currentDir), 'term-output');
-      break;
-    }
-    case 'ls': {
-      handleLs(args);
-      break;
-    }
-    case 'cd': {
-      handleCd(args);
-      break;
-    }
-    case 'mkdir': {
-      const opts = args.filter(function(a){return a.startsWith('-');});
-      const dirs = args.filter(function(a){return !a.startsWith('-');});
-      if (!dirs[0]) { termPrint('<span class="t-err">mkdir : nom de répertoire manquant</span>'); break; }
-      let target = resolvePath(dirs[0]);
-      if (vfs[target]) { termPrint('<span class="t-err">mkdir : impossible de créer le répertoire « ' + escHtml(dirs[0]) + ' » : Le fichier existe</span>'); break; }
-      let parentPath = target.lastIndexOf('/') > 0 ? target.substring(0, target.lastIndexOf('/')) : '/';
-      const dirName = target.split('/').pop();
-      if (!vfs[parentPath] && !opts.includes('-p')) { termPrint('<span class="t-err">mkdir : impossible de créer le répertoire : chemin parent inexistant (utilisez -p)</span>'); break; }
-      if (opts.includes('-p') && !vfs[parentPath]) vfs[parentPath] = { type: 'dir', children: [] };
-      vfs[target] = { type: 'dir', children: [] };
-      if (vfs[parentPath] && !vfs[parentPath].children.includes(dirName)) vfs[parentPath].children.push(dirName);
-      break;
-    }
-    case 'touch': {
-      if (!args[0]) { termPrint('<span class="t-err">touch : nom de fichier manquant</span>'); break; }
-      let target = resolvePath(args[0]);
-      if (!vfs[target]) {
-        const parentPath = target.lastIndexOf('/') > 0 ? target.substring(0, target.lastIndexOf('/')) : '/';
-        const fname = target.split('/').pop();
-        vfs[target] = { type: 'file', content: '' };
-        if (vfs[parentPath] && !vfs[parentPath].children.includes(fname)) vfs[parentPath].children.push(fname);
-      }
-      break;
-    }
-    case 'cat': {
-      if (!args[0]) { termPrint('<span class="t-err">cat : aucun fichier spécifié</span>'); break; }
-      let target = resolvePath(args[0]);
-      if (!vfs[target]) { termPrint('<span class="t-err">cat : ' + escHtml(args[0]) + ' : Aucun fichier ou dossier de ce type</span>'); break; }
-      if (vfs[target].type === 'dir') { termPrint('<span class="t-err">cat : ' + escHtml(args[0]) + ' : est un répertoire</span>'); break; }
-      const lines = (vfs[target].content || '').split('\n');
-      lines.forEach(function(l){ termPrint(escHtml(l), 'term-output'); });
-      break;
-    }
-    case 'echo': {
-      let text = args.join(' ');
-      text = text.replace(/\$HOME/g,'/home/user').replace(/\$USER/g,'user').replace(/\$PWD/g,currentDir).replace(/\$SHELL/g,'/bin/bash').replace(/\$PATH/g,'/usr/local/sbin:/usr/local/bin:/usr/bin:/bin');
-      termPrint(escHtml(text), 'term-output');
-      break;
-    }
-    case 'rm': {
-      const recursive = args.some(function(a){return a==='-r'||a==='-rf'||a==='-fr'||a==='-r';});
-      const fileArgs = args.filter(function(a){return !a.startsWith('-');});
-      if (!fileArgs[0]) { termPrint('<span class="t-err">rm : aucun fichier spécifié</span>'); break; }
-      let target = resolvePath(fileArgs[0]);
-      if (!vfs[target]) { termPrint('<span class="t-err">rm : impossible de supprimer « ' + escHtml(fileArgs[0]) + ' » : Aucun fichier ou dossier de ce type</span>'); break; }
-      if (vfs[target].type === 'dir' && !recursive) { termPrint('<span class="t-err">rm : impossible de supprimer « ' + escHtml(fileArgs[0]) + ' » : est un répertoire (utilisez -r)</span>'); break; }
-      const parentPath2 = target.lastIndexOf('/') > 0 ? target.substring(0, target.lastIndexOf('/')) : '/';
-      const name = target.split('/').pop();
-      if (vfs[parentPath2]) vfs[parentPath2].children = vfs[parentPath2].children.filter(function(c){return c!==name;});
-      delete vfs[target];
-      break;
-    }
-    case 'cp': {
-      const fileArgs2 = args.filter(function(a){return !a.startsWith('-');});
-      if (fileArgs2.length < 2) { termPrint('<span class="t-err">cp : opérandes de fichier manquantes</span>'); break; }
-      let src = resolvePath(fileArgs2[0]);
-      let dest = resolvePath(fileArgs2[1]);
-      if (!vfs[src]) { termPrint('<span class="t-err">cp : ' + escHtml(fileArgs2[0]) + ' : Aucun fichier de ce type</span>'); break; }
-      const destName = fileArgs2[1].split('/').pop();
-      vfs[dest] = Object.assign({}, vfs[src]);
-      let destParent = dest.lastIndexOf('/') > 0 ? dest.substring(0, dest.lastIndexOf('/')) : '/';
-      if (vfs[destParent] && !vfs[destParent].children.includes(destName)) vfs[destParent].children.push(destName);
-      break;
-    }
-    case 'mv': {
-      if (args.length < 2) { termPrint('<span class="t-err">mv : opérandes de fichier manquantes</span>'); break; }
-      const src = resolvePath(args[0]);
-      const dest = resolvePath(args[1]);
-      if (!vfs[src]) { termPrint('<span class="t-err">mv : ' + escHtml(args[0]) + ' : Aucun fichier de ce type</span>'); break; }
-      vfs[dest] = Object.assign({}, vfs[src]);
-      const destParent = dest.lastIndexOf('/') > 0 ? dest.substring(0, dest.lastIndexOf('/')) : '/';
-      const destName2 = dest.split('/').pop();
-      if (vfs[destParent] && !vfs[destParent].children.includes(destName2)) vfs[destParent].children.push(destName2);
-      const srcParent = src.lastIndexOf('/') > 0 ? src.substring(0, src.lastIndexOf('/')) : '/';
-      const srcName = src.split('/').pop();
-      if (vfs[srcParent]) vfs[srcParent].children = vfs[srcParent].children.filter(function(c){return c!==srcName;});
-      delete vfs[src];
-      break;
-    }
-    case 'whoami': termPrint('user', 'term-output'); break;
-    case 'hostname': termPrint('user-pc', 'term-output'); break;
-    case 'date': termPrint(new Date().toString(), 'term-output'); break;
-    case 'uname': {
-      if (args.includes('-a')) termPrint('Linux user-pc 5.15.0-91-generic #101-Ubuntu SMP Tue Nov 14 13:30:08 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux', 'term-output');
-      else termPrint('Linux', 'term-output');
-      break;
-    }
-    case 'ps': {
+const mainTerminal = createTerminalEngine({
+  vfs: vfs,
+  outputElId: 'terminal-output',
+  inputElId: 'terminal-input',
+  promptLabelElId: 'terminal-prompt-label',
+  promptFn: function(dir) {
+    var display = dir.replace('/home/user', '~');
+    return '<span class="t-user">user@linux</span><span class="t-sep">:</span><span class="t-dir">' + display + '</span><span class="t-dollar">$</span>';
+  },
+  userInfo: { user: 'user', hostname: 'user-pc', uid: '1000', gid: '1000', extraGroups: ',4(adm),27(sudo)', groups: 'user : user adm cdrom sudo dip plugdev lxd' },
+  manPages: {
+    ls: '<strong>LS(1)</strong> — Liste le contenu d\'un répertoire<br>OPTIONS: -l format long, -a tout afficher, -h tailles lisibles, -r ordre inverse',
+    cd: '<strong>CD(1)</strong> — Changer de répertoire<br>~ = home, - = répertoire précédent, .. = parent',
+    pwd: '<strong>PWD(1)</strong> — Afficher le répertoire courant',
+    mkdir: '<strong>MKDIR(1)</strong> — Créer des répertoires<br>OPTIONS: -p créer les parents, -v verbose',
+    rm: '<strong>RM(1)</strong> — Supprimer des fichiers<br>OPTIONS: -r récursif, -f forcer, -i interactif',
+    chmod: '<strong>CHMOD(1)</strong> — Modifier les permissions<br>MODES: +x exécutable, 755 rwxr-xr-x, 644 rw-r--r--',
+    chown: '<strong>CHOWN(1)</strong> — Changer le propriétaire<br>SYNTAXE: chown [user][:group] fichier',
+    grep: '<strong>GREP(1)</strong> — Rechercher dans des fichiers<br>OPTIONS: -r récursif, -i insensible casse, -n numéros ligne',
+    ssh: '<strong>SSH(1)</strong> — Client SSH sécurisé<br>OPTIONS: -p port, -i clé, -v verbose',
+    systemctl: '<strong>SYSTEMCTL(1)</strong> — Contrôle systemd<br>COMMANDES: start, stop, restart, enable, disable, status',
+    apt: '<strong>APT(8)</strong> — Gestionnaire de paquets Debian<br>COMMANDES: update, upgrade, install, remove, search',
+    find: '<strong>FIND(1)</strong> — Rechercher des fichiers<br>OPTIONS: -name motif, -type f|d, -mtime jours',
+    cat: '<strong>CAT(1)</strong> — Afficher le contenu d\'un fichier<br>OPTIONS: -n numéroter les lignes, -A afficher tout',
+    echo: '<strong>ECHO(1)</strong> — Afficher du texte<br>OPTIONS: -n sans newline, -e interpréter les séquences'
+  },
+  helpHtml: '<div class="help-grid">'
+    + '<div class="help-section"><strong>Navigation</strong><br>'
+    + '<span class="t-blue">pwd</span> — répertoire courant<br>'
+    + '<span class="t-blue">ls [-la]</span> — lister fichiers<br>'
+    + '<span class="t-blue">cd [dir]</span> — changer répertoire</div>'
+    + '<div class="help-section"><strong>Fichiers</strong><br>'
+    + '<span class="t-blue">touch [f]</span> — créer fichier<br>'
+    + '<span class="t-blue">mkdir [d]</span> — créer dossier<br>'
+    + '<span class="t-blue">cat [f]</span> — afficher contenu<br>'
+    + '<span class="t-blue">rm [-r] [f]</span> — supprimer<br>'
+    + '<span class="t-blue">cp/mv src dst</span> — copier/déplacer</div>'
+    + '<div class="help-section"><strong>Système</strong><br>'
+    + '<span class="t-blue">whoami</span> — utilisateur<br>'
+    + '<span class="t-blue">uname -a</span> — infos système<br>'
+    + '<span class="t-blue">ps [aux]</span> — processus<br>'
+    + '<span class="t-blue">top</span> — moniteur système<br>'
+    + '<span class="t-blue">kill [pid]</span> — tuer processus</div>'
+    + '<div class="help-section"><strong>Réseau</strong><br>'
+    + '<span class="t-blue">ping [host]</span> — tester connectivité<br>'
+    + '<span class="t-blue">ip addr</span> — interfaces réseau<br>'
+    + '<span class="t-blue">curl/wget [url]</span> — télécharger<br>'
+    + '<span class="t-blue">ss</span> — ports ouverts</div>'
+    + '<div class="help-section"><strong>Permissions</strong><br>'
+    + '<span class="t-blue">chmod [mode] [f]</span> — permissions<br>'
+    + '<span class="t-blue">chown user [f]</span> — propriétaire</div>'
+    + '<div class="help-section"><strong>Divers</strong><br>'
+    + '<span class="t-blue">echo [texte]</span> — afficher texte<br>'
+    + '<span class="t-blue">date</span> — date/heure<br>'
+    + '<span class="t-blue">history</span> — historique<br>'
+    + '<span class="t-blue">man [cmd]</span> — aide commande<br>'
+    + '<span class="t-blue">clear</span> — vider terminal</div>'
+    + '</div>',
+  extraCommands: {
+    date: function() { mainTerminal.print(new Date().toString(), 'term-output'); },
+    uname: function(args) {
+      if (args.includes('-a')) mainTerminal.print('Linux user-pc 5.15.0-91-generic #101-Ubuntu SMP Tue Nov 14 13:30:08 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux', 'term-output');
+      else mainTerminal.print('Linux', 'term-output');
+    },
+    ps: function(args) {
       if (args.includes('aux') || args.includes('-aux') || args.includes('-ef')) {
-        termPrint('<span class="t-muted">USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span>', 'term-output');
-        termPrint('root           1  0.0  0.1 168380 13008 ?        Ss   10:00   0:02 /sbin/init', 'term-output');
-        termPrint('root         891  0.0  0.0  72300  5612 ?        Ss   10:00   0:00 /usr/sbin/sshd -D', 'term-output');
-        termPrint('user        1023  0.1  0.0  10596  5120 pts/0    Ss   10:02   0:00 bash', 'term-output');
-        termPrint('user        1847  0.0  0.0  12940  3712 pts/0    R+   10:15   0:00 ps aux', 'term-output');
+        mainTerminal.print('<span class="t-muted">USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span>', 'term-output');
+        mainTerminal.print('root           1  0.0  0.1 168380 13008 ?        Ss   10:00   0:02 /sbin/init', 'term-output');
+        mainTerminal.print('root         891  0.0  0.0  72300  5612 ?        Ss   10:00   0:00 /usr/sbin/sshd -D', 'term-output');
+        mainTerminal.print('user        1023  0.1  0.0  10596  5120 pts/0    Ss   10:02   0:00 bash', 'term-output');
+        mainTerminal.print('user        1847  0.0  0.0  12940  3712 pts/0    R+   10:15   0:00 ps aux', 'term-output');
       } else {
-        termPrint('<span class="t-muted">  PID TTY          TIME CMD</span>', 'term-output');
-        termPrint(' 1023 pts/0    00:00:00 bash', 'term-output');
-        termPrint(' 1847 pts/0    00:00:00 ps', 'term-output');
+        mainTerminal.print('<span class="t-muted">  PID TTY          TIME CMD</span>', 'term-output');
+        mainTerminal.print(' 1023 pts/0    00:00:00 bash', 'term-output');
+        mainTerminal.print(' 1847 pts/0    00:00:00 ps', 'term-output');
       }
-      break;
-    }
-    case 'ping': {
-      const host = args.filter(function(a){return !a.startsWith('-');})[0];
-      if (!host) { termPrint('<span class="t-err">ping : hôte manquant</span>'); break; }
-      let count = 4;
+    },
+    mkdir: function(args) {
+      var opts = args.filter(function(a){return a.startsWith('-');});
+      var dirs = args.filter(function(a){return !a.startsWith('-');});
+      if (!dirs[0]) { mainTerminal.print('<span class="t-err">mkdir : nom de répertoire manquant</span>'); return; }
+      var target = mainTerminal.resolvePath(dirs[0]);
+      var _vfs = mainTerminal.getVfs();
+      if (_vfs[target]) { mainTerminal.print('<span class="t-err">mkdir : impossible de créer le répertoire « ' + escHtml(dirs[0]) + ' » : Le fichier existe</span>'); return; }
+      var parentPath = target.lastIndexOf('/') > 0 ? target.substring(0, target.lastIndexOf('/')) : '/';
+      var dirName = target.split('/').pop();
+      if (!_vfs[parentPath] && !opts.includes('-p')) { mainTerminal.print('<span class="t-err">mkdir : impossible de créer le répertoire : chemin parent inexistant (utilisez -p)</span>'); return; }
+      if (opts.includes('-p') && !_vfs[parentPath]) _vfs[parentPath] = { type: 'dir', children: [] };
+      _vfs[target] = { type: 'dir', children: [] };
+      if (_vfs[parentPath] && !_vfs[parentPath].children.includes(dirName)) _vfs[parentPath].children.push(dirName);
+    },
+    touch: function(args) {
+      if (!args[0]) { mainTerminal.print('<span class="t-err">touch : nom de fichier manquant</span>'); return; }
+      var target = mainTerminal.resolvePath(args[0]);
+      var _vfs = mainTerminal.getVfs();
+      if (!_vfs[target]) {
+        var parentPath = target.lastIndexOf('/') > 0 ? target.substring(0, target.lastIndexOf('/')) : '/';
+        var fname = target.split('/').pop();
+        _vfs[target] = { type: 'file', content: '' };
+        if (_vfs[parentPath] && !_vfs[parentPath].children.includes(fname)) _vfs[parentPath].children.push(fname);
+      }
+    },
+    rm: function(args) {
+      var recursive = args.some(function(a){return a==='-r'||a==='-rf'||a==='-fr';});
+      var fileArgs = args.filter(function(a){return !a.startsWith('-');});
+      if (!fileArgs[0]) { mainTerminal.print('<span class="t-err">rm : aucun fichier spécifié</span>'); return; }
+      var target = mainTerminal.resolvePath(fileArgs[0]);
+      var _vfs = mainTerminal.getVfs();
+      if (!_vfs[target]) { mainTerminal.print('<span class="t-err">rm : impossible de supprimer « ' + escHtml(fileArgs[0]) + ' » : Aucun fichier ou dossier de ce type</span>'); return; }
+      if (_vfs[target].type === 'dir' && !recursive) { mainTerminal.print('<span class="t-err">rm : impossible de supprimer « ' + escHtml(fileArgs[0]) + ' » : est un répertoire (utilisez -r)</span>'); return; }
+      var parentPath2 = target.lastIndexOf('/') > 0 ? target.substring(0, target.lastIndexOf('/')) : '/';
+      var name = target.split('/').pop();
+      if (_vfs[parentPath2]) _vfs[parentPath2].children = _vfs[parentPath2].children.filter(function(c){return c!==name;});
+      delete _vfs[target];
+    },
+    cp: function(args) {
+      var fileArgs2 = args.filter(function(a){return !a.startsWith('-');});
+      if (fileArgs2.length < 2) { mainTerminal.print('<span class="t-err">cp : opérandes de fichier manquantes</span>'); return; }
+      var src = mainTerminal.resolvePath(fileArgs2[0]);
+      var dest = mainTerminal.resolvePath(fileArgs2[1]);
+      var _vfs = mainTerminal.getVfs();
+      if (!_vfs[src]) { mainTerminal.print('<span class="t-err">cp : ' + escHtml(fileArgs2[0]) + ' : Aucun fichier de ce type</span>'); return; }
+      var destName = fileArgs2[1].split('/').pop();
+      _vfs[dest] = Object.assign({}, _vfs[src]);
+      var destParent = dest.lastIndexOf('/') > 0 ? dest.substring(0, dest.lastIndexOf('/')) : '/';
+      if (_vfs[destParent] && !_vfs[destParent].children.includes(destName)) _vfs[destParent].children.push(destName);
+    },
+    mv: function(args) {
+      if (args.length < 2) { mainTerminal.print('<span class="t-err">mv : opérandes de fichier manquantes</span>'); return; }
+      var src = mainTerminal.resolvePath(args[0]);
+      var dest = mainTerminal.resolvePath(args[1]);
+      var _vfs = mainTerminal.getVfs();
+      if (!_vfs[src]) { mainTerminal.print('<span class="t-err">mv : ' + escHtml(args[0]) + ' : Aucun fichier de ce type</span>'); return; }
+      _vfs[dest] = Object.assign({}, _vfs[src]);
+      var destParent = dest.lastIndexOf('/') > 0 ? dest.substring(0, dest.lastIndexOf('/')) : '/';
+      var destName2 = dest.split('/').pop();
+      if (_vfs[destParent] && !_vfs[destParent].children.includes(destName2)) _vfs[destParent].children.push(destName2);
+      var srcParent = src.lastIndexOf('/') > 0 ? src.substring(0, src.lastIndexOf('/')) : '/';
+      var srcName = src.split('/').pop();
+      if (_vfs[srcParent]) _vfs[srcParent].children = _vfs[srcParent].children.filter(function(c){return c!==srcName;});
+      delete _vfs[src];
+    },
+    chmod: function(args) {
+      if (args.length < 2) { mainTerminal.print('<span class="t-err">chmod : opérandes manquantes</span>'); return; }
+      var fileArg = args[args.length-1];
+      var target = mainTerminal.resolvePath(fileArg);
+      var _vfs = mainTerminal.getVfs();
+      if (!_vfs[target]) { mainTerminal.print('<span class="t-err">chmod : impossible d\'accéder à « ' + escHtml(fileArg) + ' » : Aucun fichier ou dossier de ce type</span>'); return; }
+      var perm = args[0];
+      var permMap = {'+x':'rwxr-xr-x','a+x':'rwxr-xr-x','u+x':'rwxr-xr-x','755':'rwxr-xr-x','644':'rw-r--r--','600':'rw-------','777':'rwxrwxrwx','700':'rwx------','400':'r--------'};
+      if (permMap[perm]) _vfs[target].perms = '-' + permMap[perm];
+    },
+    chown: function(args) {
+      if (args.length < 2) { mainTerminal.print('<span class="t-err">chown : opérandes manquantes</span>'); return; }
+    },
+    ping: function(args) {
+      var host = args.filter(function(a){return !a.startsWith('-');})[0];
+      if (!host) { mainTerminal.print('<span class="t-err">ping : hôte manquant</span>'); return; }
+      var count = 4;
       if (args.includes('-c')) count = parseInt(args[args.indexOf('-c')+1]) || 4;
-      termPrint('PING ' + escHtml(host) + ' (142.250.74.46) 56(84) bytes of data.', 'term-output');
-      for (let i=1; i<=count; i++) {
-        termPrint('64 bytes from ' + escHtml(host) + ' (142.250.74.46): icmp_seq=' + i + ' ttl=119 time=' + (20+Math.random()*15).toFixed(3) + ' ms', 'term-output');
+      mainTerminal.print('PING ' + escHtml(host) + ' (142.250.74.46) 56(84) bytes of data.', 'term-output');
+      for (var i=1; i<=count; i++) {
+        mainTerminal.print('64 bytes from ' + escHtml(host) + ' (142.250.74.46): icmp_seq=' + i + ' ttl=119 time=' + (20+Math.random()*15).toFixed(3) + ' ms', 'term-output');
       }
-      termPrint('--- ' + escHtml(host) + ' ping statistics ---', 'term-output');
-      termPrint(count + ' packets transmitted, ' + count + ' received, 0% packet loss', 'term-output');
-      break;
-    }
-    case 'ip': {
+      mainTerminal.print('--- ' + escHtml(host) + ' ping statistics ---', 'term-output');
+      mainTerminal.print(count + ' packets transmitted, ' + count + ' received, 0% packet loss', 'term-output');
+    },
+    ip: function(args) {
       if (args[0]==='addr'||args[0]==='a') {
-        termPrint('1: <span class="t-cmd-name">lo</span>: &lt;LOOPBACK,UP&gt; mtu 65536', 'term-output');
-        termPrint('    inet <span class="t-green">127.0.0.1/8</span> scope host lo', 'term-output');
-        termPrint('2: <span class="t-cmd-name">eth0</span>: &lt;BROADCAST,MULTICAST,UP&gt; mtu 1500', 'term-output');
-        termPrint('    inet <span class="t-green">192.168.1.42/24</span> brd 192.168.1.255 scope global eth0', 'term-output');
-      } else { termPrint('<span class="t-err">ip : objet "' + escHtml(args[0]||'') + '" inconnu</span>'); }
-      break;
-    }
-    case 'ifconfig': {
-      termPrint('<span class="t-cmd-name">eth0</span>: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500', 'term-output');
-      termPrint('        inet <span class="t-green">192.168.1.42</span>  netmask 255.255.255.0  broadcast 192.168.1.255', 'term-output');
-      termPrint('<span class="t-cmd-name">lo</span>: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536', 'term-output');
-      termPrint('        inet <span class="t-green">127.0.0.1</span>  netmask 255.0.0.0', 'term-output');
-      break;
-    }
-    case 'ss': {
-      termPrint('<span class="t-muted">Netid  State   Recv-Q  Send-Q  Local Address:Port    Peer Address:Port</span>', 'term-output');
-      termPrint('tcp    LISTEN  0       128     0.0.0.0:22           0.0.0.0:*', 'term-output');
-      termPrint('tcp    LISTEN  0       511     0.0.0.0:80           0.0.0.0:*', 'term-output');
-      termPrint('tcp    LISTEN  0       511     0.0.0.0:443          0.0.0.0:*', 'term-output');
-      break;
-    }
-    case 'netstat': {
-      termPrint('<span class="t-muted">Proto  Recv-Q  Send-Q  Local Address     Foreign Address     State</span>', 'term-output');
-      termPrint('tcp        0       0  0.0.0.0:22        0.0.0.0:*           LISTEN', 'term-output');
-      break;
-    }
-    case 'curl': {
-      let url = args.filter(function(a){return !a.startsWith('-');})[0];
-      if (!url) { termPrint('<span class="t-err">curl : URL manquante</span>'); break; }
-      termPrint('<span class="t-muted">  % Total    % Received % Xferd  Average Speed</span>', 'term-output');
-      termPrint('100  1024  100  1024    0     0  12345      0', 'term-output');
-      termPrint('<span class="t-green">&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;Response&lt;/title&gt;...', 'term-output');
-      break;
-    }
-    case 'wget': {
-      const url = args.filter(function(a){return !a.startsWith('-');})[0];
-      if (!url) { termPrint('<span class="t-err">wget : URL manquante</span>'); break; }
-      const fname = url.split('/').pop() || 'index.html';
-      termPrint('Résolution de ' + escHtml(url.split('/')[2]||url) + '... 142.250.74.46', 'term-output');
-      termPrint('Connexion... 200 OK', 'term-output');
-      termPrint('<span class="t-green">« ' + escHtml(fname) + ' » sauvegardé [4096/4096]</span>', 'term-output');
-      break;
-    }
-    case 'chmod': {
-      if (args.length < 2) { termPrint('<span class="t-err">chmod : opérandes manquantes</span>'); break; }
-      const fileArg = args[args.length-1];
-      let target = resolvePath(fileArg);
-      if (!vfs[target]) { termPrint('<span class="t-err">chmod : impossible d\'accéder à « ' + escHtml(fileArg) + ' » : Aucun fichier ou dossier de ce type</span>'); break; }
-      const perm = args[0];
-      const permMap = {'+x':'rwxr-xr-x','a+x':'rwxr-xr-x','u+x':'rwxr-xr-x','755':'rwxr-xr-x','644':'rw-r--r--','600':'rw-------','777':'rwxrwxrwx','700':'rwx------','400':'r--------'};
-      if (permMap[perm]) vfs[target].perms = '-' + permMap[perm];
-      break;
-    }
-    case 'chown': {
-      if (args.length < 2) { termPrint('<span class="t-err">chown : opérandes manquantes</span>'); break; }
-      break; // silent success
-    }
-    case 'man': {
-      const manPages = {
-        ls: '<strong>LS(1)</strong> — Liste le contenu d\'un répertoire<br>OPTIONS: -l format long, -a tout afficher, -h tailles lisibles, -r ordre inverse',
-        cd: '<strong>CD(1)</strong> — Changer de répertoire<br>~ = home, - = répertoire précédent, .. = parent',
-        pwd: '<strong>PWD(1)</strong> — Afficher le répertoire courant',
-        mkdir: '<strong>MKDIR(1)</strong> — Créer des répertoires<br>OPTIONS: -p créer les parents, -v verbose',
-        rm: '<strong>RM(1)</strong> — Supprimer des fichiers<br>OPTIONS: -r récursif, -f forcer, -i interactif',
-        chmod: '<strong>CHMOD(1)</strong> — Modifier les permissions<br>MODES: +x exécutable, 755 rwxr-xr-x, 644 rw-r--r--',
-        chown: '<strong>CHOWN(1)</strong> — Changer le propriétaire<br>SYNTAXE: chown [user][:group] fichier',
-        grep: '<strong>GREP(1)</strong> — Rechercher dans des fichiers<br>OPTIONS: -r récursif, -i insensible casse, -n numéros ligne',
-        ssh: '<strong>SSH(1)</strong> — Client SSH sécurisé<br>OPTIONS: -p port, -i clé, -v verbose',
-        systemctl: '<strong>SYSTEMCTL(1)</strong> — Contrôle systemd<br>COMMANDES: start, stop, restart, enable, disable, status',
-        apt: '<strong>APT(8)</strong> — Gestionnaire de paquets Debian<br>COMMANDES: update, upgrade, install, remove, search',
-        find: '<strong>FIND(1)</strong> — Rechercher des fichiers<br>OPTIONS: -name motif, -type f|d, -mtime jours',
-        cat: '<strong>CAT(1)</strong> — Afficher le contenu d\'un fichier<br>OPTIONS: -n numéroter les lignes, -A afficher tout',
-        echo: '<strong>ECHO(1)</strong> — Afficher du texte<br>OPTIONS: -n sans newline, -e interpréter les séquences'
-      };
-      const topic = args[0];
-      if (!topic) { termPrint('<span class="t-err">man : quel manuel voulez-vous ?</span>'); break; }
-      if (manPages[topic]) termPrint('<div class="man-page">' + manPages[topic] + '</div>', 'term-output');
-      else termPrint('<span class="t-err">Aucune entrée de manuel pour ' + escHtml(topic) + '</span>');
-      break;
-    }
-    case 'history': {
-      cmdHistory.forEach(function(c, i){ termPrint('  ' + String(i+1).padStart(3) + '  ' + escHtml(c), 'term-output'); });
-      break;
-    }
-    case 'systemctl': {
-      const action = args[0]; const service = args[1] || 'ssh';
+        mainTerminal.print('1: <span class="t-cmd-name">lo</span>: &lt;LOOPBACK,UP&gt; mtu 65536', 'term-output');
+        mainTerminal.print('    inet <span class="t-green">127.0.0.1/8</span> scope host lo', 'term-output');
+        mainTerminal.print('2: <span class="t-cmd-name">eth0</span>: &lt;BROADCAST,MULTICAST,UP&gt; mtu 1500', 'term-output');
+        mainTerminal.print('    inet <span class="t-green">192.168.1.42/24</span> brd 192.168.1.255 scope global eth0', 'term-output');
+      } else { mainTerminal.print('<span class="t-err">ip : objet "' + escHtml(args[0]||'') + '" inconnu</span>'); }
+    },
+    ifconfig: function() {
+      mainTerminal.print('<span class="t-cmd-name">eth0</span>: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500', 'term-output');
+      mainTerminal.print('        inet <span class="t-green">192.168.1.42</span>  netmask 255.255.255.0  broadcast 192.168.1.255', 'term-output');
+      mainTerminal.print('<span class="t-cmd-name">lo</span>: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536', 'term-output');
+      mainTerminal.print('        inet <span class="t-green">127.0.0.1</span>  netmask 255.0.0.0', 'term-output');
+    },
+    ss: function() {
+      mainTerminal.print('<span class="t-muted">Netid  State   Recv-Q  Send-Q  Local Address:Port    Peer Address:Port</span>', 'term-output');
+      mainTerminal.print('tcp    LISTEN  0       128     0.0.0.0:22           0.0.0.0:*', 'term-output');
+      mainTerminal.print('tcp    LISTEN  0       511     0.0.0.0:80           0.0.0.0:*', 'term-output');
+      mainTerminal.print('tcp    LISTEN  0       511     0.0.0.0:443          0.0.0.0:*', 'term-output');
+    },
+    netstat: function() {
+      mainTerminal.print('<span class="t-muted">Proto  Recv-Q  Send-Q  Local Address     Foreign Address     State</span>', 'term-output');
+      mainTerminal.print('tcp        0       0  0.0.0.0:22        0.0.0.0:*           LISTEN', 'term-output');
+    },
+    curl: function(args) {
+      var url = args.filter(function(a){return !a.startsWith('-');})[0];
+      if (!url) { mainTerminal.print('<span class="t-err">curl : URL manquante</span>'); return; }
+      mainTerminal.print('<span class="t-muted">  % Total    % Received % Xferd  Average Speed</span>', 'term-output');
+      mainTerminal.print('100  1024  100  1024    0     0  12345      0', 'term-output');
+      mainTerminal.print('<span class="t-green">&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;Response&lt;/title&gt;...', 'term-output');
+    },
+    wget: function(args) {
+      var url = args.filter(function(a){return !a.startsWith('-');})[0];
+      if (!url) { mainTerminal.print('<span class="t-err">wget : URL manquante</span>'); return; }
+      var fname = url.split('/').pop() || 'index.html';
+      mainTerminal.print('Résolution de ' + escHtml(url.split('/')[2]||url) + '... 142.250.74.46', 'term-output');
+      mainTerminal.print('Connexion... 200 OK', 'term-output');
+      mainTerminal.print('<span class="t-green">« ' + escHtml(fname) + ' » sauvegardé [4096/4096]</span>', 'term-output');
+    },
+    tail: function(args) {
+      var fileArg = args.filter(function(a){return !a.startsWith('-');})[0];
+      if (!fileArg) { mainTerminal.print('<span class="t-err">tail : fichier manquant</span>'); return; }
+      var t = mainTerminal.resolvePath(fileArg);
+      var _vfs = mainTerminal.getVfs();
+      if (!_vfs[t]) { mainTerminal.print('<span class="t-err">tail : ' + escHtml(fileArg) + ' : Aucun fichier</span>'); return; }
+      (_vfs[t].content||'').split('\n').slice(-10).forEach(function(l){mainTerminal.print(escHtml(l),'term-output');});
+    },
+    head: function(args) {
+      var fileArg = args.filter(function(a){return !a.startsWith('-');})[0];
+      if (!fileArg) { mainTerminal.print('<span class="t-err">head : fichier manquant</span>'); return; }
+      var t = mainTerminal.resolvePath(fileArg);
+      var _vfs = mainTerminal.getVfs();
+      if (!_vfs[t]) { mainTerminal.print('<span class="t-err">head : ' + escHtml(fileArg) + ' : Aucun fichier</span>'); return; }
+      (_vfs[t].content||'').split('\n').slice(0,10).forEach(function(l){mainTerminal.print(escHtml(l),'term-output');});
+    },
+    which: function(args) {
+      var prog = args[0]; if (!prog) return;
+      var known = {bash:'/bin/bash',ls:'/bin/ls',cat:'/bin/cat',echo:'/bin/echo',grep:'/bin/grep',python3:'/usr/bin/python3',node:'/usr/bin/node',git:'/usr/bin/git',docker:'/usr/bin/docker',chmod:'/bin/chmod',chown:'/bin/chown'};
+      if (known[prog]) mainTerminal.print(known[prog], 'term-output');
+      else mainTerminal.print('<span class="t-err">' + escHtml(prog) + ' : introuvable</span>');
+    },
+    adduser: function(args) {
+      var uname = args.filter(function(a){return !a.startsWith('-');})[0];
+      if (!uname) { mainTerminal.print('<span class="t-err">adduser : nom d\'utilisateur manquant</span>'); return; }
+      mainTerminal.print('Ajout de l\'utilisateur « ' + escHtml(uname) + ' »... <span class="t-green">Terminé.</span>', 'term-output');
+    },
+    useradd: function(args) {
+      var uname = args.filter(function(a){return !a.startsWith('-');})[0];
+      if (!uname) { mainTerminal.print('<span class="t-err">useradd : nom d\'utilisateur manquant</span>'); return; }
+      mainTerminal.print('Ajout de l\'utilisateur « ' + escHtml(uname) + ' »... <span class="t-green">Terminé.</span>', 'term-output');
+    },
+    passwd: function() {
+      mainTerminal.print('<span class="t-yellow">Entrez le nouveau mot de passe UNIX :</span>', 'term-output');
+      mainTerminal.print('<span class="t-green">passwd : mot de passe mis à jour avec succès</span>', 'term-output');
+    },
+    groups: function() { mainTerminal.print('user : user adm cdrom sudo dip plugdev lxd', 'term-output'); },
+    top: function() {
+      mainTerminal.print('<span class="t-muted">top - ' + new Date().toTimeString().slice(0,8) + ' up 2:14, 1 user, load average: 0.12, 0.08, 0.05</span>', 'term-output');
+      mainTerminal.print('<span class="t-muted">Tasks: 142 total, 1 running, 141 sleeping</span>', 'term-output');
+      mainTerminal.print('<span class="t-muted">%Cpu(s): 2.1 us, 0.5 sy, 97.1 id</span>', 'term-output');
+      mainTerminal.print('<span class="t-muted">  PID USER  PR NI    VIRT    RES    SHR S  %CPU  %MEM COMMAND</span>', 'term-output');
+      mainTerminal.print('  891 root  20  0   72300   5612   4128 S   0.0   0.3 sshd', 'term-output');
+      mainTerminal.print(' 1023 user  20  0   10596   5120   4096 S   0.3   0.3 bash', 'term-output');
+      mainTerminal.print('<span class="t-yellow">(Ctrl+C pour quitter top — simulation)</span>', 'term-output');
+    },
+    htop: function() { mainTerminal.print('<span class="t-yellow">htop non disponible en simulation. Utilisez top.</span>', 'term-output'); },
+    kill: function(args) {
+      var pid = args.filter(function(a){return !a.startsWith('-');})[0];
+      if (!pid) { mainTerminal.print('<span class="t-err">kill : PID manquant</span>'); return; }
+      mainTerminal.print('<span class="t-green">Signal envoyé au processus ' + escHtml(pid) + '.</span>', 'term-output');
+    },
+    killall: function(args) {
+      var procName = args.filter(function(a){return !a.startsWith('-');})[0];
+      if (!procName) { mainTerminal.print('<span class="t-err">killall : nom de processus manquant</span>'); return; }
+      mainTerminal.print('<span class="t-green">Signal envoyé aux processus "' + escHtml(procName) + '".</span>', 'term-output');
+    },
+    pkill: function(args) {
+      var procName = args.filter(function(a){return !a.startsWith('-');})[0];
+      if (!procName) { mainTerminal.print('<span class="t-err">pkill : nom de processus manquant</span>'); return; }
+      mainTerminal.print('<span class="t-green">Signal envoyé aux processus "' + escHtml(procName) + '".</span>', 'term-output');
+    },
+    pgrep: function(args) {
+      var pname = args.filter(function(a){return !a.startsWith('-');})[0] || '';
+      mainTerminal.print('891  # ' + escHtml(pname), 'term-output');
+    },
+    df: function() {
+      mainTerminal.print('<span class="t-muted">Filesystem      1K-blocks    Used Available Use% Mounted on</span>', 'term-output');
+      mainTerminal.print('/dev/sda1        20971520 8388608  12582912  40% /', 'term-output');
+      mainTerminal.print('tmpfs             1018976       0   1018976   0% /dev/shm', 'term-output');
+    },
+    du: function() {
+      mainTerminal.print('4\t./documents', 'term-output'); mainTerminal.print('8\t./scripts', 'term-output'); mainTerminal.print('0\t./projets', 'term-output'); mainTerminal.print('12\t.', 'term-output');
+    },
+    free: function() {
+      mainTerminal.print('<span class="t-muted">               total        used        free      shared  buff/cache   available</span>', 'term-output');
+      mainTerminal.print('Mem:         2034804      821044      759880       26504      453880     1040984', 'term-output');
+      mainTerminal.print('Swap:        2097148           0     2097148', 'term-output');
+    },
+    uptime: function() { mainTerminal.print(' ' + new Date().toTimeString().slice(0,8) + ' up 2:14, 1 user, load average: 0.12, 0.08, 0.05', 'term-output'); },
+    env: function() {
+      mainTerminal.print('USER=user', 'term-output'); mainTerminal.print('HOME=/home/user', 'term-output'); mainTerminal.print('SHELL=/bin/bash', 'term-output');
+      mainTerminal.print('PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'term-output');
+      mainTerminal.print('LANG=fr_FR.UTF-8', 'term-output'); mainTerminal.print('PWD=' + escHtml(mainTerminal.getCurrentDir()), 'term-output');
+    },
+    jobs: function() { mainTerminal.print('<span class="t-muted">(aucun job en arrière-plan)</span>', 'term-output'); },
+    bg: function() { mainTerminal.print('<span class="t-muted">Aucun job à mettre en arrière-plan.</span>', 'term-output'); },
+    fg: function() { mainTerminal.print('<span class="t-muted">Aucun job à ramener au premier plan.</span>', 'term-output'); },
+    nohup: function(args) {
+      if (args[0]) { mainTerminal.print('nohup: ignoring input and appending output to nohup.out', 'term-output'); mainTerminal.exec(args.join(' ')); }
+    },
+    traceroute: function(args) {
+      var host2 = args.filter(function(a){return !a.startsWith('-');})[0] || 'example.com';
+      mainTerminal.print('traceroute to ' + escHtml(host2) + ' (93.184.216.34), 30 hops max, 60 byte packets', 'term-output');
+      mainTerminal.print(' 1  192.168.1.1 (192.168.1.1)  1.234 ms  1.145 ms  1.087 ms', 'term-output');
+      mainTerminal.print(' 2  10.0.0.1 (10.0.0.1)  8.432 ms  8.312 ms  8.201 ms', 'term-output');
+      mainTerminal.print(' 3  ' + escHtml(host2) + ' (93.184.216.34)  22.543 ms  21.987 ms  22.123 ms', 'term-output');
+    },
+    mtr: function(args) {
+      var host2 = args.filter(function(a){return !a.startsWith('-');})[0] || 'example.com';
+      mainTerminal.print('traceroute to ' + escHtml(host2) + ' (93.184.216.34), 30 hops max, 60 byte packets', 'term-output');
+      mainTerminal.print(' 1  192.168.1.1 (192.168.1.1)  1.234 ms  1.145 ms  1.087 ms', 'term-output');
+      mainTerminal.print(' 2  10.0.0.1 (10.0.0.1)  8.432 ms  8.312 ms  8.201 ms', 'term-output');
+      mainTerminal.print(' 3  ' + escHtml(host2) + ' (93.184.216.34)  22.543 ms  21.987 ms  22.123 ms', 'term-output');
+    },
+    lsof: function() {
+      mainTerminal.print('<span class="t-muted">COMMAND   PID   USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME</span>', 'term-output');
+      mainTerminal.print('sshd      891   root   3u  IPv4   12345      0t0  TCP *:ssh (LISTEN)', 'term-output');
+      mainTerminal.print('bash     1023   user  cwd    DIR     8,1     4096    2 ' + escHtml(mainTerminal.getCurrentDir()), 'term-output');
+    },
+    'ssh-keygen': function() {
+      mainTerminal.print('Generating public/private ed25519 key pair.', 'term-output');
+      mainTerminal.print('Enter file in which to save the key (/home/user/.ssh/id_ed25519):', 'term-output');
+      mainTerminal.print('Your identification has been saved in /home/user/.ssh/id_ed25519', 'term-output');
+      mainTerminal.print('Your public key has been saved in /home/user/.ssh/id_ed25519.pub', 'term-output');
+      mainTerminal.print('<span class="t-green">Clé SSH générée avec succès (simulation).</span>', 'term-output');
+    },
+    scp: function() { mainTerminal.print('<span class="t-yellow">scp : transfert simulé. (non connecté au réseau réel)</span>', 'term-output'); },
+    nano: function() { mainTerminal.print('<span class="t-yellow">nano n\'est pas disponible dans ce terminal simulé. Utilisez touch pour créer des fichiers.</span>', 'term-output'); },
+    vim: function() { mainTerminal.print('<span class="t-yellow">vim n\'est pas disponible dans ce terminal simulé. Utilisez touch pour créer des fichiers.</span>', 'term-output'); },
+    vi: function() { mainTerminal.print('<span class="t-yellow">vi n\'est pas disponible dans ce terminal simulé. Utilisez touch pour créer des fichiers.</span>', 'term-output'); },
+    emacs: function() { mainTerminal.print('<span class="t-yellow">emacs n\'est pas disponible dans ce terminal simulé. Utilisez touch pour créer des fichiers.</span>', 'term-output'); },
+    wc: function() { mainTerminal.print('<span class="t-muted">wc : spécifiez un fichier (ex: wc -l fichier.txt)</span>', 'term-output'); },
+    sort: function() { mainTerminal.print('<span class="t-muted">sort : spécifiez un fichier à trier</span>', 'term-output'); },
+    uniq: function() { mainTerminal.print('<span class="t-muted">uniq : supprime les doublons consécutifs</span>', 'term-output'); },
+    source: function(args) { mainTerminal.print('<span class="t-yellow">Sourcing ' + escHtml(args[0]||'') + '... (simulation)</span>', 'term-output'); },
+    '.': function(args) { mainTerminal.print('<span class="t-yellow">Sourcing ' + escHtml(args[0]||'') + '... (simulation)</span>', 'term-output'); },
+    'export': function() { mainTerminal.print('<span class="t-muted">Variable exportée (simulation).</span>', 'term-output'); },
+    alias: function() { mainTerminal.print('<span class="t-muted">alias ll=\'ls -la\'\nalias gs=\'git status\'</span>', 'term-output'); },
+    dig: function(args) {
+      var domain = args.filter(function(a){return !a.startsWith('-')&&!a.startsWith('@');})[0] || 'example.com';
+      mainTerminal.print('; &lt;&lt;&gt;&gt; DiG 9.18.12 &lt;&lt;&gt;&gt; ' + escHtml(domain), 'term-output');
+      mainTerminal.print(';; ANSWER SECTION:\n' + escHtml(domain) + '.   300  IN  A  93.184.216.34', 'term-output');
+    },
+    nslookup: function(args) {
+      var domain = args[0] || 'example.com';
+      mainTerminal.print('Server:\t\t8.8.8.8\nAddress:\t8.8.8.8#53\n\nName:\t' + escHtml(domain) + '\nAddress: 93.184.216.34', 'term-output');
+    },
+    systemctl: function(args) {
+      var action = args[0]; var service = args[1] || 'ssh';
       if (action==='status') {
-        const sn = service.replace(/\.service$/,'');
-        termPrint('● <span class="t-green">' + escHtml(sn) + '.service</span>', 'term-output');
-        termPrint('   Loaded: loaded (/lib/systemd/system/' + escHtml(sn) + '.service; enabled)', 'term-output');
-        termPrint('   Active: <span class="t-green">active (running)</span> since Thu 2023-12-14 10:00:01 UTC; 1h ago', 'term-output');
-        termPrint(' Main PID: 891 (' + escHtml(sn) + ')', 'term-output');
+        var sn = service.replace(/\.service$/,'');
+        mainTerminal.print('● <span class="t-green">' + escHtml(sn) + '.service</span>', 'term-output');
+        mainTerminal.print('   Loaded: loaded (/lib/systemd/system/' + escHtml(sn) + '.service; enabled)', 'term-output');
+        mainTerminal.print('   Active: <span class="t-green">active (running)</span> since Thu 2023-12-14 10:00:01 UTC; 1h ago', 'term-output');
+        mainTerminal.print(' Main PID: 891 (' + escHtml(sn) + ')', 'term-output');
       } else if (['start','stop','restart','enable','disable'].includes(action)) {
-        if (action==='enable') termPrint('<span class="t-green">Synchronizing state of ' + escHtml(service) + ' with SysV service script...</span>', 'term-output');
-      } else { termPrint('<span class="t-err">systemctl : commande inconnue : ' + escHtml(action||'') + '</span>'); }
-      break;
-    }
-    case 'journalctl': {
-      termPrint('<span class="t-muted">-- Journal begins at Thu 2023-12-14 10:00:00 UTC --</span>', 'term-output');
-      termPrint('Dec 14 10:00:01 user-pc systemd[1]: Starting System...', 'term-output');
-      termPrint('Dec 14 10:00:03 user-pc kernel: Linux version 5.15.0-91-generic', 'term-output');
-      termPrint('Dec 14 10:00:15 user-pc sshd[891]: Server listening on 0.0.0.0 port 22', 'term-output');
-      break;
-    }
-    case 'crontab': {
+        if (action==='enable') mainTerminal.print('<span class="t-green">Synchronizing state of ' + escHtml(service) + ' with SysV service script...</span>', 'term-output');
+      } else { mainTerminal.print('<span class="t-err">systemctl : commande inconnue : ' + escHtml(action||'') + '</span>'); }
+    },
+    journalctl: function() {
+      mainTerminal.print('<span class="t-muted">-- Journal begins at Thu 2023-12-14 10:00:00 UTC --</span>', 'term-output');
+      mainTerminal.print('Dec 14 10:00:01 user-pc systemd[1]: Starting System...', 'term-output');
+      mainTerminal.print('Dec 14 10:00:03 user-pc kernel: Linux version 5.15.0-91-generic', 'term-output');
+      mainTerminal.print('Dec 14 10:00:15 user-pc sshd[891]: Server listening on 0.0.0.0 port 22', 'term-output');
+    },
+    crontab: function(args) {
       if (args.includes('-l')) {
-        termPrint('<span class="t-muted"># m h  dom mon dow   command</span>', 'term-output');
-        termPrint('0 2 * * * /home/user/scripts/backup.sh', 'term-output');
-        termPrint('*/5 * * * * /usr/bin/check_health.sh', 'term-output');
+        mainTerminal.print('<span class="t-muted"># m h  dom mon dow   command</span>', 'term-output');
+        mainTerminal.print('0 2 * * * /home/user/scripts/backup.sh', 'term-output');
+        mainTerminal.print('*/5 * * * * /usr/bin/check_health.sh', 'term-output');
       } else if (args.includes('-e')) {
-        termPrint('<span class="t-yellow">Ouverture de l\'éditeur crontab... (simulation)</span>', 'term-output');
-      } else { termPrint('<span class="t-err">crontab : utilisez -l (lister) ou -e (éditer)</span>'); }
-      break;
-    }
-    case 'apt': {
-      const aptCmd = args[0];
+        mainTerminal.print('<span class="t-yellow">Ouverture de l\'éditeur crontab... (simulation)</span>', 'term-output');
+      } else { mainTerminal.print('<span class="t-err">crontab : utilisez -l (lister) ou -e (éditer)</span>'); }
+    },
+    apt: function(args) {
+      var aptCmd = args[0];
       if (aptCmd==='update') {
-        termPrint('Réception de :1 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]', 'term-output');
-        termPrint('<span class="t-green">Lecture des listes de paquets... Fait</span>', 'term-output');
+        mainTerminal.print('Réception de :1 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]', 'term-output');
+        mainTerminal.print('<span class="t-green">Lecture des listes de paquets... Fait</span>', 'term-output');
       } else if (aptCmd==='upgrade') {
-        termPrint('<span class="t-green">0 mis à jour, 0 nouvellement installés, 0 à enlever et 0 non mis à jour.</span>', 'term-output');
+        mainTerminal.print('<span class="t-green">0 mis à jour, 0 nouvellement installés, 0 à enlever et 0 non mis à jour.</span>', 'term-output');
       } else if (aptCmd==='install') {
-        const pkg = args[1] || 'paquet';
-        termPrint('Lecture des listes de paquets... Fait', 'term-output');
-        termPrint('<span class="t-green">0 mis à jour, 1 nouvellement installés. Terminé.</span>', 'term-output');
+        mainTerminal.print('Lecture des listes de paquets... Fait', 'term-output');
+        mainTerminal.print('<span class="t-green">0 mis à jour, 1 nouvellement installés. Terminé.</span>', 'term-output');
       } else if (aptCmd==='remove') {
-        termPrint('<span class="t-green">Paquet retiré.</span>', 'term-output');
-      } else { termPrint('<span class="t-err">apt : commande inconnue : ' + escHtml(aptCmd||'') + '</span>'); }
-      break;
-    }
-    case 'sudo': {
-      if (!args[0]) { termPrint('<span class="t-err">sudo : aucune commande spécifiée</span>'); break; }
-      processTerminalCommand(args.join(' '));
-      break;
-    }
-    case 'ssh': {
-      const hostArg = args.filter(function(a){return !a.startsWith('-');})[0];
-      if (!hostArg) { termPrint('<span class="t-err">ssh : hôte manquant</span>'); break; }
-      termPrint('<span class="t-yellow">ssh : connexion à ' + escHtml(hostArg) + ' (simulation, non connecté)</span>', 'term-output');
-      break;
-    }
-    case 'dig': {
-      let domain = args.filter(function(a){return !a.startsWith('-')&&!a.startsWith('@');})[0] || 'example.com';
-      termPrint('; &lt;&lt;&gt;&gt; DiG 9.18.12 &lt;&lt;&gt;&gt; ' + escHtml(domain), 'term-output');
-      termPrint(';; ANSWER SECTION:\n' + escHtml(domain) + '.   300  IN  A  93.184.216.34', 'term-output');
-      break;
-    }
-    case 'nslookup': {
-      const domain = args[0] || 'example.com';
-      termPrint('Server:\t\t8.8.8.8\nAddress:\t8.8.8.8#53\n\nName:\t' + escHtml(domain) + '\nAddress: 93.184.216.34', 'term-output');
-      break;
-    }
-    case 'find': {
-      const searchDir = args.filter(function(a){return !a.startsWith('-');})[0] || '.';
-      const resolved2 = resolvePath(searchDir);
-      termPrint(escHtml(searchDir), 'term-output');
-      if (vfs[resolved2] && vfs[resolved2].children) {
-        vfs[resolved2].children.forEach(function(c){ termPrint(escHtml(searchDir) + '/' + escHtml(c), 'term-output'); });
-      }
-      break;
-    }
-    case 'grep': {
-      const nonFlag = args.filter(function(a){return !a.startsWith('-');});
-      if (nonFlag.length < 2) { termPrint('<span class="t-muted">(grep : spécifiez un motif et un fichier)</span>'); break; }
-      const pattern = nonFlag[0]; const file = nonFlag[1];
-      const target = resolvePath(file);
-      if (!vfs[target]||!vfs[target].content) { termPrint('<span class="t-err">grep : ' + escHtml(file) + ' : Aucun fichier de ce type</span>'); break; }
-      const lines2 = vfs[target].content.split('\n').filter(function(l){return l.toLowerCase().includes(pattern.toLowerCase());});
-      if (!lines2.length) break;
-      lines2.forEach(function(l){ termPrint(escHtml(l).replace(new RegExp(escHtml(pattern),'gi'), function(m){return '<span class="t-green">'+m+'</span>';}), 'term-output'); });
-      break;
-    }
-    case 'tail': {
-      const fileArg2 = args.filter(function(a){return !a.startsWith('-');})[0];
-      if (!fileArg2) { termPrint('<span class="t-err">tail : fichier manquant</span>'); break; }
-      const t = resolvePath(fileArg2);
-      if (!vfs[t]) { termPrint('<span class="t-err">tail : ' + escHtml(fileArg2) + ' : Aucun fichier</span>'); break; }
-      (vfs[t].content||'').split('\n').slice(-10).forEach(function(l){termPrint(escHtml(l),'term-output');});
-      break;
-    }
-    case 'head': {
-      const fileArg3 = args.filter(function(a){return !a.startsWith('-');})[0];
-      if (!fileArg3) { termPrint('<span class="t-err">head : fichier manquant</span>'); break; }
-      const t2 = resolvePath(fileArg3);
-      if (!vfs[t2]) { termPrint('<span class="t-err">head : ' + escHtml(fileArg3) + ' : Aucun fichier</span>'); break; }
-      (vfs[t2].content||'').split('\n').slice(0,10).forEach(function(l){termPrint(escHtml(l),'term-output');});
-      break;
-    }
-    case 'which': {
-      const prog = args[0];
-      if (!prog) break;
-      const known = {bash:'/bin/bash',ls:'/bin/ls',cat:'/bin/cat',echo:'/bin/echo',grep:'/bin/grep',python3:'/usr/bin/python3',node:'/usr/bin/node',git:'/usr/bin/git',docker:'/usr/bin/docker',chmod:'/bin/chmod',chown:'/bin/chown'};
-      if (known[prog]) termPrint(known[prog], 'term-output');
-      else termPrint('<span class="t-err">' + escHtml(prog) + ' : introuvable</span>');
-      break;
-    }
-    case 'adduser': case 'useradd': {
-      const uname = args.filter(function(a){return !a.startsWith('-');})[0];
-      if (!uname) { termPrint('<span class="t-err">' + escHtml(cmd) + ' : nom d\'utilisateur manquant</span>'); break; }
-      termPrint('Ajout de l\'utilisateur « ' + escHtml(uname) + ' »... <span class="t-green">Terminé.</span>', 'term-output');
-      break;
-    }
-    case 'passwd': {
-      termPrint('<span class="t-yellow">Entrez le nouveau mot de passe UNIX :</span>', 'term-output');
-      termPrint('<span class="t-green">passwd : mot de passe mis à jour avec succès</span>', 'term-output');
-      break;
-    }
-    case 'groups': termPrint('user : user adm cdrom sudo dip plugdev lxd', 'term-output'); break;
-    case 'id': termPrint('uid=1000(user) gid=1000(user) groupes=1000(user),4(adm),27(sudo)', 'term-output'); break;
-    case 'top': {
-      termPrint('<span class="t-muted">top - ' + new Date().toTimeString().slice(0,8) + ' up 2:14, 1 user, load average: 0.12, 0.08, 0.05</span>', 'term-output');
-      termPrint('<span class="t-muted">Tasks: 142 total, 1 running, 141 sleeping</span>', 'term-output');
-      termPrint('<span class="t-muted">%Cpu(s): 2.1 us, 0.5 sy, 97.1 id</span>', 'term-output');
-      termPrint('<span class="t-muted">  PID USER  PR NI    VIRT    RES    SHR S  %CPU  %MEM COMMAND</span>', 'term-output');
-      termPrint('  891 root  20  0   72300   5612   4128 S   0.0   0.3 sshd', 'term-output');
-      termPrint(' 1023 user  20  0   10596   5120   4096 S   0.3   0.3 bash', 'term-output');
-      termPrint('<span class="t-yellow">(Ctrl+C pour quitter top — simulation)</span>', 'term-output');
-      break;
-    }
-    case 'htop': { termPrint('<span class="t-yellow">htop non disponible en simulation. Utilisez top.</span>', 'term-output'); break; }
-    case 'kill': {
-      const pid = args.filter(function(a){return !a.startsWith('-');})[0];
-      if (!pid) { termPrint('<span class="t-err">kill : PID manquant</span>'); break; }
-      termPrint('<span class="t-green">Signal envoyé au processus ' + escHtml(pid) + '.</span>', 'term-output');
-      break;
-    }
-    case 'killall': case 'pkill': {
-      const procName = args.filter(function(a){return !a.startsWith('-');})[0];
-      if (!procName) { termPrint('<span class="t-err">' + escHtml(cmd) + ' : nom de processus manquant</span>'); break; }
-      termPrint('<span class="t-green">Signal envoyé aux processus "' + escHtml(procName) + '".</span>', 'term-output');
-      break;
-    }
-    case 'pgrep': {
-      const pname = args.filter(function(a){return !a.startsWith('-');})[0] || '';
-      termPrint('891  # ' + escHtml(pname), 'term-output');
-      break;
-    }
-    case 'df': {
-      termPrint('<span class="t-muted">Filesystem      1K-blocks    Used Available Use% Mounted on</span>', 'term-output');
-      termPrint('/dev/sda1        20971520 8388608  12582912  40% /', 'term-output');
-      termPrint('tmpfs             1018976       0   1018976   0% /dev/shm', 'term-output');
-      break;
-    }
-    case 'du': {
-      termPrint('4\t./documents', 'term-output'); termPrint('8\t./scripts', 'term-output'); termPrint('0\t./projets', 'term-output'); termPrint('12\t.', 'term-output');
-      break;
-    }
-    case 'free': {
-      termPrint('<span class="t-muted">               total        used        free      shared  buff/cache   available</span>', 'term-output');
-      termPrint('Mem:         2034804      821044      759880       26504      453880     1040984', 'term-output');
-      termPrint('Swap:        2097148           0     2097148', 'term-output');
-      break;
-    }
-    case 'uptime': termPrint(' ' + new Date().toTimeString().slice(0,8) + ' up 2:14, 1 user, load average: 0.12, 0.08, 0.05', 'term-output'); break;
-    case 'env': {
-      termPrint('USER=user', 'term-output'); termPrint('HOME=/home/user', 'term-output'); termPrint('SHELL=/bin/bash', 'term-output');
-      termPrint('PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'term-output');
-      termPrint('LANG=fr_FR.UTF-8', 'term-output'); termPrint('PWD=' + escHtml(currentDir), 'term-output');
-      break;
-    }
-    case 'jobs': termPrint('<span class="t-muted">(aucun job en arrière-plan)</span>', 'term-output'); break;
-    case 'bg': termPrint('<span class="t-muted">Aucun job à mettre en arrière-plan.</span>', 'term-output'); break;
-    case 'fg': termPrint('<span class="t-muted">Aucun job à ramener au premier plan.</span>', 'term-output'); break;
-    case 'nohup': {
-      if (args[0]) { termPrint('nohup: ignoring input and appending output to nohup.out', 'term-output'); processTerminalCommand(args.join(' ')); }
-      break;
-    }
-    case 'traceroute': case 'mtr': {
-      const host2 = args.filter(function(a){return !a.startsWith('-');})[0] || 'example.com';
-      termPrint('traceroute to ' + escHtml(host2) + ' (93.184.216.34), 30 hops max, 60 byte packets', 'term-output');
-      termPrint(' 1  192.168.1.1 (192.168.1.1)  1.234 ms  1.145 ms  1.087 ms', 'term-output');
-      termPrint(' 2  10.0.0.1 (10.0.0.1)  8.432 ms  8.312 ms  8.201 ms', 'term-output');
-      termPrint(' 3  ' + escHtml(host2) + ' (93.184.216.34)  22.543 ms  21.987 ms  22.123 ms', 'term-output');
-      break;
-    }
-    case 'lsof': {
-      termPrint('<span class="t-muted">COMMAND   PID   USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME</span>', 'term-output');
-      termPrint('sshd      891   root   3u  IPv4   12345      0t0  TCP *:ssh (LISTEN)', 'term-output');
-      termPrint('bash     1023   user  cwd    DIR     8,1     4096    2 ' + escHtml(currentDir), 'term-output');
-      break;
-    }
-    case 'ssh-keygen': {
-      termPrint('Generating public/private ed25519 key pair.', 'term-output');
-      termPrint('Enter file in which to save the key (/home/user/.ssh/id_ed25519):', 'term-output');
-      termPrint('Your identification has been saved in /home/user/.ssh/id_ed25519', 'term-output');
-      termPrint('Your public key has been saved in /home/user/.ssh/id_ed25519.pub', 'term-output');
-      termPrint('<span class="t-green">Clé SSH générée avec succès (simulation).</span>', 'term-output');
-      break;
-    }
-    case 'scp': { termPrint('<span class="t-yellow">scp : transfert simulé. (non connecté au réseau réel)</span>', 'term-output'); break; }
-    case 'nano': case 'vim': case 'vi': case 'emacs': {
-      termPrint('<span class="t-yellow">' + escHtml(cmd) + ' n\'est pas disponible dans ce terminal simulé. Utilisez touch pour créer des fichiers.</span>', 'term-output');
-      break;
-    }
-    case 'wc': termPrint('<span class="t-muted">wc : spécifiez un fichier (ex: wc -l fichier.txt)</span>', 'term-output'); break;
-    case 'sort': termPrint('<span class="t-muted">sort : spécifiez un fichier à trier</span>', 'term-output'); break;
-    case 'uniq': termPrint('<span class="t-muted">uniq : supprime les doublons consécutifs</span>', 'term-output'); break;
-    case 'source': case '.': { termPrint('<span class="t-yellow">Sourcing ' + escHtml(args[0]||'') + '... (simulation)</span>', 'term-output'); break; }
-    case 'export': { termPrint('<span class="t-muted">Variable exportée (simulation).</span>', 'term-output'); break; }
-    case 'alias': { termPrint('<span class="t-muted">alias ll=\'ls -la\'\nalias gs=\'git status\'</span>', 'term-output'); break; }
-    case 'git': {
-      const gitSub = args[0];
-      const gitArgs = args.slice(1);
-      if (!gitSub) { termPrint('<span class="t-err">git : sous-commande manquante. Essayez : git init, git status, git add, git commit, git log, git branch, git push, git pull</span>'); break; }
+        mainTerminal.print('<span class="t-green">Paquet retiré.</span>', 'term-output');
+      } else { mainTerminal.print('<span class="t-err">apt : commande inconnue : ' + escHtml(aptCmd||'') + '</span>'); }
+    },
+    sudo: function(args) {
+      if (!args[0]) { mainTerminal.print('<span class="t-err">sudo : aucune commande spécifiée</span>'); return; }
+      mainTerminal.exec(args.join(' '));
+    },
+    ssh: function(args) {
+      var hostArg = args.filter(function(a){return !a.startsWith('-');})[0];
+      if (!hostArg) { mainTerminal.print('<span class="t-err">ssh : hôte manquant</span>'); return; }
+      mainTerminal.print('<span class="t-yellow">ssh : connexion à ' + escHtml(hostArg) + ' (simulation, non connecté)</span>', 'term-output');
+    },
+    git: function(args) {
+      var gitSub = args[0];
+      var gitArgs = args.slice(1);
+      if (!gitSub) { mainTerminal.print('<span class="t-err">git : sous-commande manquante. Essayez : git init, git status, git add, git commit, git log, git branch, git push, git pull</span>'); return; }
       if (gitSub === 'init') {
-        vfs[currentDir + '/.git'] = { type: 'dir', children: [] };
-        termPrint('<span class="t-green">Dépôt Git vide initialisé dans ' + escHtml(currentDir) + '/.git/</span>', 'term-output');
+        vfs[mainTerminal.getCurrentDir() + '/.git'] = { type: 'dir', children: [] };
+        mainTerminal.print('<span class="t-green">Dépôt Git vide initialisé dans ' + escHtml(mainTerminal.getCurrentDir()) + '/.git/</span>', 'term-output');
       } else if (gitSub === 'status') {
-        termPrint('<span class="t-green">Sur la branche main</span>', 'term-output');
-        termPrint('', 'term-output');
-        termPrint('<span class="t-muted">Rien à valider, la copie de travail est propre.</span>', 'term-output');
+        mainTerminal.print('<span class="t-green">Sur la branche main</span>', 'term-output');
+        mainTerminal.print('', 'term-output');
+        mainTerminal.print('<span class="t-muted">Rien à valider, la copie de travail est propre.</span>', 'term-output');
       } else if (gitSub === 'add') {
-        const addArg = gitArgs[0] || '.';
-        termPrint('<span class="t-muted">git add ' + escHtml(addArg) + ' — fichiers ajoutés à l\'index (simulation)</span>', 'term-output');
+        var addArg = gitArgs[0] || '.';
+        mainTerminal.print('<span class="t-muted">git add ' + escHtml(addArg) + ' — fichiers ajoutés à l\'index (simulation)</span>', 'term-output');
       } else if (gitSub === 'commit') {
-        const msgIdx = gitArgs.indexOf('-m');
-        const commitMsg = msgIdx >= 0 && gitArgs[msgIdx+1] ? gitArgs[msgIdx+1] : 'commit';
-        termPrint('[main ' + Math.random().toString(16).slice(2,9) + '] ' + escHtml(commitMsg), 'term-output');
-        termPrint(' 1 file changed, 1 insertion(+)', 'term-output');
+        var msgIdx = gitArgs.indexOf('-m');
+        var commitMsg = msgIdx >= 0 && gitArgs[msgIdx+1] ? gitArgs[msgIdx+1] : 'commit';
+        mainTerminal.print('[main ' + Math.random().toString(16).slice(2,9) + '] ' + escHtml(commitMsg), 'term-output');
+        mainTerminal.print(' 1 file changed, 1 insertion(+)', 'term-output');
       } else if (gitSub === 'log') {
-        termPrint('<span class="t-yellow">commit 3a7f2c1b8e9d4f5a6c7b8e9d (HEAD -&gt; main)</span>', 'term-output');
-        termPrint('Author: User &lt;user@example.com&gt;', 'term-output');
-        termPrint('Date:   ' + new Date().toDateString(), 'term-output');
-        termPrint('', 'term-output');
-        termPrint('    feat: initial commit', 'term-output');
+        mainTerminal.print('<span class="t-yellow">commit 3a7f2c1b8e9d4f5a6c7b8e9d (HEAD -&gt; main)</span>', 'term-output');
+        mainTerminal.print('Author: User &lt;user@example.com&gt;', 'term-output');
+        mainTerminal.print('Date:   ' + new Date().toDateString(), 'term-output');
+        mainTerminal.print('', 'term-output');
+        mainTerminal.print('    feat: initial commit', 'term-output');
       } else if (gitSub === 'branch') {
         if (gitArgs[0] && !gitArgs[0].startsWith('-')) {
-          termPrint('<span class="t-green">Branche « ' + escHtml(gitArgs[0]) + ' » créée.</span>', 'term-output');
+          mainTerminal.print('<span class="t-green">Branche « ' + escHtml(gitArgs[0]) + ' » créée.</span>', 'term-output');
         } else {
-          termPrint('* <span class="t-green">main</span>', 'term-output');
-          termPrint('  develop', 'term-output');
+          mainTerminal.print('* <span class="t-green">main</span>', 'term-output');
+          mainTerminal.print('  develop', 'term-output');
         }
       } else if (gitSub === 'checkout') {
         if (gitArgs.includes('-b') || gitArgs.includes('-B')) {
-          const bname = gitArgs.filter(function(a){return !a.startsWith('-');})[0] || 'nouvelle-branche';
-          termPrint('Basculement sur la nouvelle branche « ' + escHtml(bname) + ' »', 'term-output');
+          var bname = gitArgs.filter(function(a){return !a.startsWith('-');})[0] || 'nouvelle-branche';
+          mainTerminal.print('Basculement sur la nouvelle branche « ' + escHtml(bname) + ' »', 'term-output');
         } else {
-          const bname2 = gitArgs[0] || 'main';
-          termPrint('Basculement sur la branche « ' + escHtml(bname2) + ' »', 'term-output');
+          var bname2 = gitArgs[0] || 'main';
+          mainTerminal.print('Basculement sur la branche « ' + escHtml(bname2) + ' »', 'term-output');
         }
       } else if (gitSub === 'switch') {
-        const switchBranch = gitArgs.filter(function(a){return !a.startsWith('-');})[0] || 'main';
-        const isCreate = gitArgs.includes('-c') || gitArgs.includes('-C');
-        if (isCreate) termPrint('Basculement sur la nouvelle branche « ' + escHtml(switchBranch) + ' »', 'term-output');
-        else termPrint('Basculement sur la branche « ' + escHtml(switchBranch) + ' »', 'term-output');
+        var switchBranch = gitArgs.filter(function(a){return !a.startsWith('-');})[0] || 'main';
+        var isCreate = gitArgs.includes('-c') || gitArgs.includes('-C');
+        if (isCreate) mainTerminal.print('Basculement sur la nouvelle branche « ' + escHtml(switchBranch) + ' »', 'term-output');
+        else mainTerminal.print('Basculement sur la branche « ' + escHtml(switchBranch) + ' »', 'term-output');
       } else if (gitSub === 'merge') {
-        const mergeBranch = gitArgs[0] || 'feature';
-        termPrint('Merge made by the \'ort\' strategy.', 'term-output');
-        termPrint('<span class="t-green"> 1 file changed, 5 insertions(+)</span>', 'term-output');
+        mainTerminal.print('Merge made by the \'ort\' strategy.', 'term-output');
+        mainTerminal.print('<span class="t-green"> 1 file changed, 5 insertions(+)</span>', 'term-output');
       } else if (gitSub === 'remote') {
         if (gitArgs[0] === 'add') {
-          termPrint('<span class="t-green">Remote « ' + escHtml(gitArgs[1]||'origin') + ' » ajouté.</span>', 'term-output');
+          mainTerminal.print('<span class="t-green">Remote « ' + escHtml(gitArgs[1]||'origin') + ' » ajouté.</span>', 'term-output');
         } else if (gitArgs[0] === '-v' || gitArgs[0] === 'show') {
-          termPrint('origin  https://github.com/user/repo.git (fetch)', 'term-output');
-          termPrint('origin  https://github.com/user/repo.git (push)', 'term-output');
+          mainTerminal.print('origin  https://github.com/user/repo.git (fetch)', 'term-output');
+          mainTerminal.print('origin  https://github.com/user/repo.git (push)', 'term-output');
         }
       } else if (gitSub === 'push') {
-        termPrint('Décompte des objets: 3, fait.', 'term-output');
-        termPrint('<span class="t-green">To https://github.com/user/repo.git</span>', 'term-output');
-        termPrint('   3a7f2c1..9b4e8f2  main -&gt; main', 'term-output');
+        mainTerminal.print('Décompte des objets: 3, fait.', 'term-output');
+        mainTerminal.print('<span class="t-green">To https://github.com/user/repo.git</span>', 'term-output');
+        mainTerminal.print('   3a7f2c1..9b4e8f2  main -&gt; main', 'term-output');
       } else if (gitSub === 'pull') {
-        termPrint('Already up to date.', 'term-output');
+        mainTerminal.print('Already up to date.', 'term-output');
       } else if (gitSub === 'fetch') {
-        termPrint('<span class="t-muted">Récupération de origin...</span>', 'term-output');
+        mainTerminal.print('<span class="t-muted">Récupération de origin...</span>', 'term-output');
       } else if (gitSub === 'stash') {
-        if (gitArgs[0] === 'pop') termPrint('<span class="t-green">Modifications restaurées depuis le stash.</span>', 'term-output');
-        else if (gitArgs[0] === 'list') termPrint('stash@{0}: WIP on main: 3a7f2c1 feat: initial commit', 'term-output');
-        else termPrint('<span class="t-green">Modifications remisées dans le stash.</span>', 'term-output');
+        if (gitArgs[0] === 'pop') mainTerminal.print('<span class="t-green">Modifications restaurées depuis le stash.</span>', 'term-output');
+        else if (gitArgs[0] === 'list') mainTerminal.print('stash@{0}: WIP on main: 3a7f2c1 feat: initial commit', 'term-output');
+        else mainTerminal.print('<span class="t-green">Modifications remisées dans le stash.</span>', 'term-output');
       } else if (gitSub === 'diff') {
-        termPrint('<span class="t-muted">diff --git a/fichier.txt b/fichier.txt</span>', 'term-output');
-        termPrint('<span class="t-green">+++ b/fichier.txt</span>', 'term-output');
-        termPrint('<span class="t-green">+nouvelle ligne ajoutée</span>', 'term-output');
+        mainTerminal.print('<span class="t-muted">diff --git a/fichier.txt b/fichier.txt</span>', 'term-output');
+        mainTerminal.print('<span class="t-green">+++ b/fichier.txt</span>', 'term-output');
+        mainTerminal.print('<span class="t-green">+nouvelle ligne ajoutée</span>', 'term-output');
       } else if (gitSub === 'rebase') {
-        termPrint('<span class="t-green">Rebase effectué avec succès (simulation).</span>', 'term-output');
+        mainTerminal.print('<span class="t-green">Rebase effectué avec succès (simulation).</span>', 'term-output');
       } else if (gitSub === 'reset') {
-        termPrint('<span class="t-yellow">Reset effectué (simulation).</span>', 'term-output');
+        mainTerminal.print('<span class="t-yellow">Reset effectué (simulation).</span>', 'term-output');
       } else if (gitSub === 'tag') {
-        const tagName = gitArgs.filter(function(a){return !a.startsWith('-');})[0] || 'v1.0.0';
-        termPrint('<span class="t-green">Tag « ' + escHtml(tagName) + ' » créé.</span>', 'term-output');
+        var tagName = gitArgs.filter(function(a){return !a.startsWith('-');})[0] || 'v1.0.0';
+        mainTerminal.print('<span class="t-green">Tag « ' + escHtml(tagName) + ' » créé.</span>', 'term-output');
       } else if (gitSub === 'clone') {
-        const cloneUrl = gitArgs[0] || 'https://github.com/user/repo.git';
-        const repoName = cloneUrl.split('/').pop().replace('.git','') || 'repo';
-        termPrint('Clonage dans « ' + escHtml(repoName) + ' »...', 'term-output');
-        termPrint('<span class="t-green">Dépôt cloné avec succès.</span>', 'term-output');
+        var cloneUrl = gitArgs[0] || 'https://github.com/user/repo.git';
+        var repoName = cloneUrl.split('/').pop().replace('.git','') || 'repo';
+        mainTerminal.print('Clonage dans « ' + escHtml(repoName) + ' »...', 'term-output');
+        mainTerminal.print('<span class="t-green">Dépôt cloné avec succès.</span>', 'term-output');
       } else if (gitSub === 'config') {
-        termPrint('<span class="t-muted">Configuration Git mise à jour (simulation).</span>', 'term-output');
+        mainTerminal.print('<span class="t-muted">Configuration Git mise à jour (simulation).</span>', 'term-output');
       } else {
-        termPrint('<span class="t-err">git: « ' + escHtml(gitSub) + ' » n\'est pas une commande git connue</span>');
+        mainTerminal.print('<span class="t-err">git: « ' + escHtml(gitSub) + ' » n\'est pas une commande git connue</span>');
       }
-      break;
-    }
-    case 'docker': {
-      const dockerSub = args[0];
-      const dockerArgs = args.slice(1);
-      if (!dockerSub) { termPrint('<span class="t-err">docker : sous-commande manquante. Essayez : docker ps, docker images, docker pull, docker run, docker stop, docker rm</span>'); break; }
+    },
+    docker: function(args) {
+      var dockerSub = args[0];
+      var dockerArgs = args.slice(1);
+      if (!dockerSub) { mainTerminal.print('<span class="t-err">docker : sous-commande manquante. Essayez : docker ps, docker images, docker pull, docker run, docker stop, docker rm</span>'); return; }
       if (dockerSub === 'version') {
-        termPrint('Client: Docker Engine - Community', 'term-output');
-        termPrint(' Version:           24.0.5', 'term-output');
-        termPrint('Server: Docker Engine - Community', 'term-output');
-        termPrint(' Engine: Version:   24.0.5', 'term-output');
+        mainTerminal.print('Client: Docker Engine - Community', 'term-output');
+        mainTerminal.print(' Version:           24.0.5', 'term-output');
+        mainTerminal.print('Server: Docker Engine - Community', 'term-output');
+        mainTerminal.print(' Engine: Version:   24.0.5', 'term-output');
       } else if (dockerSub === 'info') {
-        termPrint('Containers: 2', 'term-output');
-        termPrint(' Running: 1', 'term-output');
-        termPrint(' Stopped: 1', 'term-output');
-        termPrint('Images: 5', 'term-output');
-        termPrint('Server Version: 24.0.5', 'term-output');
-        termPrint('Storage Driver: overlay2', 'term-output');
+        mainTerminal.print('Containers: 2', 'term-output');
+        mainTerminal.print(' Running: 1', 'term-output');
+        mainTerminal.print(' Stopped: 1', 'term-output');
+        mainTerminal.print('Images: 5', 'term-output');
+        mainTerminal.print('Server Version: 24.0.5', 'term-output');
+        mainTerminal.print('Storage Driver: overlay2', 'term-output');
       } else if (dockerSub === 'ps') {
         if (dockerArgs.includes('-a')) {
-          termPrint('<span class="t-muted">CONTAINER ID   IMAGE     COMMAND   CREATED       STATUS                   NAMES</span>', 'term-output');
-          termPrint('a1b2c3d4e5f6   nginx     "nginx"   5 min ago     Up 5 minutes             webserver', 'term-output');
-          termPrint('b2c3d4e5f6a7   ubuntu    "bash"    10 min ago    Exited (0) 8 minutes ago  stoppe', 'term-output');
+          mainTerminal.print('<span class="t-muted">CONTAINER ID   IMAGE     COMMAND   CREATED       STATUS                   NAMES</span>', 'term-output');
+          mainTerminal.print('a1b2c3d4e5f6   nginx     "nginx"   5 min ago     Up 5 minutes             webserver', 'term-output');
+          mainTerminal.print('b2c3d4e5f6a7   ubuntu    "bash"    10 min ago    Exited (0) 8 minutes ago  stoppe', 'term-output');
         } else {
-          termPrint('<span class="t-muted">CONTAINER ID   IMAGE   COMMAND   CREATED      STATUS       PORTS     NAMES</span>', 'term-output');
-          termPrint('a1b2c3d4e5f6   nginx   "nginx"   5 min ago    Up 5 min     80/tcp    webserver', 'term-output');
+          mainTerminal.print('<span class="t-muted">CONTAINER ID   IMAGE   COMMAND   CREATED      STATUS       PORTS     NAMES</span>', 'term-output');
+          mainTerminal.print('a1b2c3d4e5f6   nginx   "nginx"   5 min ago    Up 5 min     80/tcp    webserver', 'term-output');
         }
       } else if (dockerSub === 'images') {
-        termPrint('<span class="t-muted">REPOSITORY   TAG       IMAGE ID       CREATED        SIZE</span>', 'term-output');
-        termPrint('ubuntu       22.04     174c8c134b2a   2 weeks ago    77.9MB', 'term-output');
-        termPrint('nginx        latest    a6bd71f48f68   3 weeks ago    187MB', 'term-output');
-        termPrint('python       3.11      8c4f3b2e9a1d   1 month ago    920MB', 'term-output');
+        mainTerminal.print('<span class="t-muted">REPOSITORY   TAG       IMAGE ID       CREATED        SIZE</span>', 'term-output');
+        mainTerminal.print('ubuntu       22.04     174c8c134b2a   2 weeks ago    77.9MB', 'term-output');
+        mainTerminal.print('nginx        latest    a6bd71f48f68   3 weeks ago    187MB', 'term-output');
+        mainTerminal.print('python       3.11      8c4f3b2e9a1d   1 month ago    920MB', 'term-output');
       } else if (dockerSub === 'pull') {
-        const pullImg = dockerArgs[0] || 'ubuntu';
-        termPrint('Pulling from library/' + escHtml(pullImg.split(':')[0]), 'term-output');
-        termPrint('<span class="t-green">Status: Downloaded newer image for ' + escHtml(pullImg) + '</span>', 'term-output');
+        var pullImg = dockerArgs[0] || 'ubuntu';
+        mainTerminal.print('Pulling from library/' + escHtml(pullImg.split(':')[0]), 'term-output');
+        mainTerminal.print('<span class="t-green">Status: Downloaded newer image for ' + escHtml(pullImg) + '</span>', 'term-output');
       } else if (dockerSub === 'run') {
-        const runImg = dockerArgs.filter(function(a){return !a.startsWith('-');})[0] || 'ubuntu';
-        const runCmd = dockerArgs.filter(function(a){return !a.startsWith('-');}).slice(1).join(' ');
+        var runImg = dockerArgs.filter(function(a){return !a.startsWith('-');})[0] || 'ubuntu';
+        var runCmd = dockerArgs.filter(function(a){return !a.startsWith('-');}).slice(1).join(' ');
         if (dockerArgs.includes('-d')) {
-          termPrint('<span class="t-green">a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0</span>', 'term-output');
+          mainTerminal.print('<span class="t-green">a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0</span>', 'term-output');
         } else if (dockerArgs.includes('-it') || (dockerArgs.includes('-i') && dockerArgs.includes('-t'))) {
-          termPrint('<span class="t-yellow">Conteneur ' + escHtml(runImg) + ' démarré en mode interactif (simulation).</span>', 'term-output');
-          termPrint('<span class="t-muted">root@a1b2c3d4:/#</span> exit', 'term-output');
+          mainTerminal.print('<span class="t-yellow">Conteneur ' + escHtml(runImg) + ' démarré en mode interactif (simulation).</span>', 'term-output');
+          mainTerminal.print('<span class="t-muted">root@a1b2c3d4:/#</span> exit', 'term-output');
         } else if (runCmd) {
-          termPrint(escHtml(runCmd), 'term-output');
+          mainTerminal.print(escHtml(runCmd), 'term-output');
         } else {
-          termPrint('<span class="t-green">Conteneur démarré depuis l\'image ' + escHtml(runImg) + '.</span>', 'term-output');
+          mainTerminal.print('<span class="t-green">Conteneur démarré depuis l\'image ' + escHtml(runImg) + '.</span>', 'term-output');
         }
       } else if (dockerSub === 'stop') {
-        const stopId = dockerArgs[0] || 'container_id';
-        termPrint(escHtml(stopId), 'term-output');
+        var stopId = dockerArgs[0] || 'container_id';
+        mainTerminal.print(escHtml(stopId), 'term-output');
       } else if (dockerSub === 'rm') {
-        const rmId = dockerArgs[0] || 'container_id';
-        termPrint(escHtml(rmId), 'term-output');
+        var rmId = dockerArgs[0] || 'container_id';
+        mainTerminal.print(escHtml(rmId), 'term-output');
       } else if (dockerSub === 'rmi') {
-        const rmiImg = dockerArgs[0] || 'image_id';
-        termPrint('<span class="t-green">Image ' + escHtml(rmiImg) + ' supprimée.</span>', 'term-output');
+        var rmiImg = dockerArgs[0] || 'image_id';
+        mainTerminal.print('<span class="t-green">Image ' + escHtml(rmiImg) + ' supprimée.</span>', 'term-output');
       } else if (dockerSub === 'build') {
-        termPrint('Step 1/4 : FROM ubuntu:22.04', 'term-output');
-        termPrint('Step 2/4 : RUN apt-get update', 'term-output');
-        termPrint('Step 3/4 : COPY . .', 'term-output');
-        termPrint('Step 4/4 : CMD ["/bin/bash"]', 'term-output');
-        termPrint('<span class="t-green">Successfully built 9f8e7d6c5b4a</span>', 'term-output');
-        const tagArg = dockerArgs.filter(function(a){return !a.startsWith('-');}).find(function(a){return !a.startsWith('.');});
-        if (tagArg) termPrint('<span class="t-green">Successfully tagged ' + escHtml(tagArg) + '</span>', 'term-output');
+        mainTerminal.print('Step 1/4 : FROM ubuntu:22.04', 'term-output');
+        mainTerminal.print('Step 2/4 : RUN apt-get update', 'term-output');
+        mainTerminal.print('Step 3/4 : COPY . .', 'term-output');
+        mainTerminal.print('Step 4/4 : CMD ["/bin/bash"]', 'term-output');
+        mainTerminal.print('<span class="t-green">Successfully built 9f8e7d6c5b4a</span>', 'term-output');
+        var tagArg = dockerArgs.filter(function(a){return !a.startsWith('-');}).find(function(a){return !a.startsWith('.');});
+        if (tagArg) mainTerminal.print('<span class="t-green">Successfully tagged ' + escHtml(tagArg) + '</span>', 'term-output');
       } else if (dockerSub === 'tag') {
-        termPrint('<span class="t-green">Image taguée avec succès.</span>', 'term-output');
+        mainTerminal.print('<span class="t-green">Image taguée avec succès.</span>', 'term-output');
       } else if (dockerSub === 'logs') {
-        const logsId = dockerArgs.filter(function(a){return !a.startsWith('-');})[0] || 'container_id';
-        termPrint('<span class="t-muted">Logs du conteneur ' + escHtml(logsId) + ' :</span>', 'term-output');
-        termPrint('2024-01-15 10:00:01 INFO  Démarrage du serveur...', 'term-output');
-        termPrint('2024-01-15 10:00:02 INFO  Écoute sur le port 80', 'term-output');
+        var logsId = dockerArgs.filter(function(a){return !a.startsWith('-');})[0] || 'container_id';
+        mainTerminal.print('<span class="t-muted">Logs du conteneur ' + escHtml(logsId) + ' :</span>', 'term-output');
+        mainTerminal.print('2024-01-15 10:00:01 INFO  Démarrage du serveur...', 'term-output');
+        mainTerminal.print('2024-01-15 10:00:02 INFO  Écoute sur le port 80', 'term-output');
       } else if (dockerSub === 'exec') {
-        termPrint('<span class="t-yellow">docker exec : exécution dans le conteneur (simulation).</span>', 'term-output');
+        mainTerminal.print('<span class="t-yellow">docker exec : exécution dans le conteneur (simulation).</span>', 'term-output');
       } else if (dockerSub === 'volume') {
-        if (dockerArgs[0] === 'create') termPrint('<span class="t-green">Volume créé : ' + escHtml(dockerArgs[1]||'myvolume') + '</span>', 'term-output');
+        if (dockerArgs[0] === 'create') mainTerminal.print('<span class="t-green">Volume créé : ' + escHtml(dockerArgs[1]||'myvolume') + '</span>', 'term-output');
         else if (dockerArgs[0] === 'ls') {
-          termPrint('<span class="t-muted">DRIVER    VOLUME NAME</span>', 'term-output');
-          termPrint('local     mydata', 'term-output');
-        } else termPrint('<span class="t-muted">docker volume : utilisez create ou ls</span>', 'term-output');
+          mainTerminal.print('<span class="t-muted">DRIVER    VOLUME NAME</span>', 'term-output');
+          mainTerminal.print('local     mydata', 'term-output');
+        } else mainTerminal.print('<span class="t-muted">docker volume : utilisez create ou ls</span>', 'term-output');
       } else if (dockerSub === 'network') {
         if (dockerArgs[0] === 'ls') {
-          termPrint('<span class="t-muted">NETWORK ID     NAME      DRIVER    SCOPE</span>', 'term-output');
-          termPrint('abc123456789   bridge    bridge    local', 'term-output');
-          termPrint('def456789012   host      host      local', 'term-output');
-          termPrint('ghi789012345   none      null      local', 'term-output');
+          mainTerminal.print('<span class="t-muted">NETWORK ID     NAME      DRIVER    SCOPE</span>', 'term-output');
+          mainTerminal.print('abc123456789   bridge    bridge    local', 'term-output');
+          mainTerminal.print('def456789012   host      host      local', 'term-output');
+          mainTerminal.print('ghi789012345   none      null      local', 'term-output');
         } else if (dockerArgs[0] === 'create') {
-          termPrint('<span class="t-green">Réseau créé : ' + escHtml(dockerArgs[1]||'monreseau') + '</span>', 'term-output');
-        } else termPrint('<span class="t-muted">docker network : utilisez ls ou create</span>', 'term-output');
+          mainTerminal.print('<span class="t-green">Réseau créé : ' + escHtml(dockerArgs[1]||'monreseau') + '</span>', 'term-output');
+        } else mainTerminal.print('<span class="t-muted">docker network : utilisez ls ou create</span>', 'term-output');
       } else if (dockerSub === 'compose') {
-        const composeSub = dockerArgs[0];
+        var composeSub = dockerArgs[0];
         if (composeSub === 'up') {
-          termPrint('Creating network "app_default" with the default driver', 'term-output');
-          termPrint('<span class="t-green">Creating app_db_1  ... done</span>', 'term-output');
-          termPrint('<span class="t-green">Creating app_web_1 ... done</span>', 'term-output');
+          mainTerminal.print('Creating network "app_default" with the default driver', 'term-output');
+          mainTerminal.print('<span class="t-green">Creating app_db_1  ... done</span>', 'term-output');
+          mainTerminal.print('<span class="t-green">Creating app_web_1 ... done</span>', 'term-output');
         } else if (composeSub === 'down') {
-          termPrint('<span class="t-green">Stopping app_web_1 ... done</span>', 'term-output');
-          termPrint('<span class="t-green">Stopping app_db_1  ... done</span>', 'term-output');
-          termPrint('<span class="t-green">Removing network app_default</span>', 'term-output');
+          mainTerminal.print('<span class="t-green">Stopping app_web_1 ... done</span>', 'term-output');
+          mainTerminal.print('<span class="t-green">Stopping app_db_1  ... done</span>', 'term-output');
+          mainTerminal.print('<span class="t-green">Removing network app_default</span>', 'term-output');
         } else if (composeSub === 'logs') {
-          termPrint('<span class="t-muted">Attaching to app_web_1, app_db_1</span>', 'term-output');
-          termPrint('web_1  | 2024-01-15 10:00:01 INFO Server started', 'term-output');
-          termPrint('db_1   | 2024-01-15 10:00:00 INFO PostgreSQL 15 ready', 'term-output');
+          mainTerminal.print('<span class="t-muted">Attaching to app_web_1, app_db_1</span>', 'term-output');
+          mainTerminal.print('web_1  | 2024-01-15 10:00:01 INFO Server started', 'term-output');
+          mainTerminal.print('db_1   | 2024-01-15 10:00:00 INFO PostgreSQL 15 ready', 'term-output');
         } else if (composeSub === 'ps') {
-          termPrint('<span class="t-muted">NAME        SERVICE   STATUS    PORTS</span>', 'term-output');
-          termPrint('app_web_1   web       running   0.0.0.0:8080->5000/tcp', 'term-output');
-          termPrint('app_db_1    db        running   5432/tcp', 'term-output');
+          mainTerminal.print('<span class="t-muted">NAME        SERVICE   STATUS    PORTS</span>', 'term-output');
+          mainTerminal.print('app_web_1   web       running   0.0.0.0:8080->5000/tcp', 'term-output');
+          mainTerminal.print('app_db_1    db        running   5432/tcp', 'term-output');
         } else {
-          termPrint('<span class="t-muted">docker compose : up, down, logs, ps, exec</span>', 'term-output');
+          mainTerminal.print('<span class="t-muted">docker compose : up, down, logs, ps, exec</span>', 'term-output');
         }
       } else {
-        termPrint('<span class="t-err">docker: « ' + escHtml(dockerSub) + ' » n\'est pas une commande Docker connue</span>');
+        mainTerminal.print('<span class="t-err">docker: « ' + escHtml(dockerSub) + ' » n\'est pas une commande Docker connue</span>');
       }
-      break;
     }
-    case 'help': {
-      termPrint('<div class="help-grid">'
-        + '<div class="help-section"><strong>Navigation</strong><br>'
-        + '<span class="t-blue">pwd</span> — répertoire courant<br>'
-        + '<span class="t-blue">ls [-la]</span> — lister fichiers<br>'
-        + '<span class="t-blue">cd [dir]</span> — changer répertoire</div>'
-        + '<div class="help-section"><strong>Fichiers</strong><br>'
-        + '<span class="t-blue">touch [f]</span> — créer fichier<br>'
-        + '<span class="t-blue">mkdir [d]</span> — créer dossier<br>'
-        + '<span class="t-blue">cat [f]</span> — afficher contenu<br>'
-        + '<span class="t-blue">rm [-r] [f]</span> — supprimer<br>'
-        + '<span class="t-blue">cp/mv src dst</span> — copier/déplacer</div>'
-        + '<div class="help-section"><strong>Système</strong><br>'
-        + '<span class="t-blue">whoami</span> — utilisateur<br>'
-        + '<span class="t-blue">uname -a</span> — infos système<br>'
-        + '<span class="t-blue">ps [aux]</span> — processus<br>'
-        + '<span class="t-blue">top</span> — moniteur système<br>'
-        + '<span class="t-blue">kill [pid]</span> — tuer processus</div>'
-        + '<div class="help-section"><strong>Réseau</strong><br>'
-        + '<span class="t-blue">ping [host]</span> — tester connectivité<br>'
-        + '<span class="t-blue">ip addr</span> — interfaces réseau<br>'
-        + '<span class="t-blue">curl/wget [url]</span> — télécharger<br>'
-        + '<span class="t-blue">ss</span> — ports ouverts</div>'
-        + '<div class="help-section"><strong>Permissions</strong><br>'
-        + '<span class="t-blue">chmod [mode] [f]</span> — permissions<br>'
-        + '<span class="t-blue">chown user [f]</span> — propriétaire</div>'
-        + '<div class="help-section"><strong>Divers</strong><br>'
-        + '<span class="t-blue">echo [texte]</span> — afficher texte<br>'
-        + '<span class="t-blue">date</span> — date/heure<br>'
-        + '<span class="t-blue">history</span> — historique<br>'
-        + '<span class="t-blue">man [cmd]</span> — aide commande<br>'
-        + '<span class="t-blue">clear</span> — vider terminal</div>'
-        + '</div>', 'term-output');
-      break;
-    }
-    default: {
-      termPrint('<span class="t-err">bash: ' + escHtml(cmd) + ': commande introuvable</span>');
-      break;
-    }
+  },
+  helpHtml: '<div class="help-grid">'
+    + '<div class="help-section"><strong>Navigation</strong><br>'
+    + '<span class="t-blue">pwd</span> — répertoire courant<br>'
+    + '<span class="t-blue">ls [-la]</span> — lister fichiers<br>'
+    + '<span class="t-blue">cd [dir]</span> — changer répertoire</div>'
+    + '<div class="help-section"><strong>Fichiers</strong><br>'
+    + '<span class="t-blue">touch [f]</span> — créer fichier<br>'
+    + '<span class="t-blue">mkdir [d]</span> — créer dossier<br>'
+    + '<span class="t-blue">cat [f]</span> — afficher contenu<br>'
+    + '<span class="t-blue">rm [-r] [f]</span> — supprimer<br>'
+    + '<span class="t-blue">cp/mv src dst</span> — copier/déplacer</div>'
+    + '<div class="help-section"><strong>Système</strong><br>'
+    + '<span class="t-blue">whoami</span> — utilisateur<br>'
+    + '<span class="t-blue">uname -a</span> — infos système<br>'
+    + '<span class="t-blue">ps [aux]</span> — processus<br>'
+    + '<span class="t-blue">top</span> — moniteur système<br>'
+    + '<span class="t-blue">kill [pid]</span> — tuer processus</div>'
+    + '<div class="help-section"><strong>Réseau</strong><br>'
+    + '<span class="t-blue">ping [host]</span> — tester connectivité<br>'
+    + '<span class="t-blue">ip addr</span> — interfaces réseau<br>'
+    + '<span class="t-blue">curl/wget [url]</span> — télécharger<br>'
+    + '<span class="t-blue">ss</span> — ports ouverts</div>'
+    + '<div class="help-section"><strong>Permissions</strong><br>'
+    + '<span class="t-blue">chmod [mode] [f]</span> — permissions<br>'
+    + '<span class="t-blue">chown user [f]</span> — propriétaire</div>'
+    + '<div class="help-section"><strong>Divers</strong><br>'
+    + '<span class="t-blue">echo [texte]</span> — afficher texte<br>'
+    + '<span class="t-blue">date</span> — date/heure<br>'
+    + '<span class="t-blue">history</span> — historique<br>'
+    + '<span class="t-blue">man [cmd]</span> — aide commande<br>'
+    + '<span class="t-blue">clear</span> — vider terminal</div>'
+    + '</div>',
+  manPages: {
+    ls:'Lister le contenu d\'un répertoire.\nUsage : ls [-l] [-a] [chemin]\n  -l  format long\n  -a  afficher fichiers cachés',
+    cd:'Changer de répertoire.\nUsage : cd [répertoire]\n  cd ~   aller dans le home\n  cd ..  répertoire parent\n  cd -   répertoire précédent',
+    cat:'Afficher le contenu d\'un fichier.\nUsage : cat <fichier>',
+    mkdir:'Créer un répertoire.\nUsage : mkdir [-p] <nom>',
+    touch:'Créer un fichier vide.\nUsage : touch <nom>',
+    rm:'Supprimer des fichiers ou répertoires.\nUsage : rm [-r] [-f] <cible>',
+    cp:'Copier des fichiers.\nUsage : cp <source> <destination>',
+    mv:'Déplacer ou renommer.\nUsage : mv <source> <destination>',
+    chmod:'Modifier les permissions.\nUsage : chmod <mode> <fichier>\nExemple : chmod 755 script.sh',
+    chown:'Changer le propriétaire.\nUsage : chown <user> <fichier>',
+    pwd:'Afficher le répertoire courant.\nUsage : pwd',
+    whoami:'Afficher le nom de l\'utilisateur courant.\nUsage : whoami',
+    echo:'Afficher un texte.\nUsage : echo <texte>',
+    find:'Rechercher des fichiers.\nUsage : find [chemin] -name <motif>',
+    grep:'Rechercher dans les fichiers.\nUsage : grep <motif> <fichier>',
+    history:'Afficher l\'historique des commandes.\nUsage : history',
+    man:'Afficher le manuel d\'une commande.\nUsage : man <commande>',
+    uname:'Afficher les informations système.\nUsage : uname [-a]',
+    ps:'Afficher les processus.\nUsage : ps [aux]',
+    ping:'Tester la connectivité réseau.\nUsage : ping <hôte>',
+    ip:'Afficher les interfaces réseau.\nUsage : ip addr',
+    clear:'Vider le terminal.\nUsage : clear',
+    date:'Afficher la date et l\'heure.\nUsage : date',
+    git:'Gestionnaire de versions.\nUsage : git <commande>\nCommandes : init, status, add, commit, log, branch, checkout, push, pull, merge, diff, stash, rebase, reset, tag, clone, config',
+    docker:'Gestion de conteneurs.\nUsage : docker <commande>\nCommandes : ps, images, pull, run, stop, rm, rmi, build, tag, logs, exec, volume, network, compose'
   }
-  updatePromptLabel();
+});
+
+/* Global wrapper functions for backward compatibility */
+function termPrint(html, cls) { mainTerminal.print(html, cls); }
+function termCommand(html) { mainTerminal.cmdEcho(html); }
+function processTerminalCommand(input) { mainTerminal.exec(input); }
+function updatePromptLabel() { mainTerminal.updatePromptLabel(); }
+
+function toggleFaq(el) {
+  var content = el.nextElementSibling;
+  if (!content) return;
+  var isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+  content.style.maxHeight = isOpen ? '0' : content.scrollHeight + 'px';
+  el.classList.toggle('active', !isOpen);
 }
 
-function handleLs(args) {
-  const longFormat = args.some(function(a){ return a.match(/^-[a-zA-Z]*l/); });
-  const showHidden = args.some(function(a){ return a.match(/^-[a-zA-Z]*a/); });
-  const fileArg = args.filter(function(a){ return !a.startsWith('-'); })[0];
-  const targetDir = fileArg ? resolvePath(fileArg) : currentDir;
-  const singleFile = fileArg && vfs[targetDir] && vfs[targetDir].type === 'file';
-
-  if (!vfs[targetDir]) {
-    termPrint('<span class="t-err">ls : impossible d\'accéder à \'' + escHtml(fileArg) + '\': Aucun fichier ou dossier de ce type</span>');
-    return;
-  }
-
-  let items = [];
-  if (singleFile) {
-    items = [{ name: fileArg.split('/').pop(), node: vfs[targetDir] }];
-  } else {
-    const children = (vfs[targetDir].children || []);
-    items = children.map(function(name) {
-      const nodePath = (targetDir === '/' ? '' : targetDir) + '/' + name;
-      return { name: name, node: vfs[nodePath] || { type: 'file' } };
-    });
-    if (showHidden) {
-      items = [{ name: '.', node: { type: 'dir' } }, { name: '..', node: { type: 'dir' } }].concat(items);
-    } else {
-      items = items.filter(function(it){ return !it.name.startsWith('.'); });
-    }
-  }
-
-  if (longFormat) {
-    termPrint('<span class="t-muted">total ' + (items.length * 4) + '</span>', 'term-output');
-    items.forEach(function(item) {
-      let isDir = item.node && item.node.type === 'dir';
-      const perm = item.node && item.node.perms ? item.node.perms : (isDir ? 'drwxr-xr-x' : '-rw-r--r--');
-      const size = isDir ? '  4096' : String((item.node && item.node.content ? item.node.content.length : 0) + 128).padStart(6);
-      const nameHtml = isDir ? '<span class="ls-dir">' + escHtml(item.name) + '/</span>'
-        : item.name.endsWith('.sh') ? '<span class="ls-exec">' + escHtml(item.name) + '</span>'
-        : item.name.startsWith('.') ? '<span class="ls-hidden">' + escHtml(item.name) + '</span>'
-        : '<span class="ls-file">' + escHtml(item.name) + '</span>';
-      termPrint(escHtml(perm) + ' 1 user user ' + size + ' Dec 15 10:23 ' + nameHtml, 'term-output ls-line');
-    });
-  } else {
-    const parts2 = items.map(function(item) {
-      const isDir = item.node && item.node.type === 'dir';
-      if (isDir) return '<span class="ls-dir">' + escHtml(item.name) + '</span>';
-      if (item.name.endsWith('.sh')) return '<span class="ls-exec">' + escHtml(item.name) + '</span>';
-      if (item.name.startsWith('.')) return '<span class="ls-hidden">' + escHtml(item.name) + '</span>';
-      return '<span class="ls-file">' + escHtml(item.name) + '</span>';
-    });
-    termPrint(parts2.join('  '), 'term-output');
-  }
+function toggleTerminal() {
+  var sect = document.getElementById('terminal-section');
+  if (!sect) return;
+  sect.classList.toggle('term-collapsed');
+  var btn = document.getElementById('toggle-term-btn');
+  if (btn) btn.textContent = sect.classList.contains('term-collapsed') ? '▶ Terminal' : '▼ Terminal';
+  if (!sect.classList.contains('term-collapsed')) focusTerminal();
 }
 
-function handleCd(args) {
-  const target = args[0];
-  if (!target || target === '~' || target === '') {
-    prevDir = currentDir; currentDir = '/home/user'; return;
+function focusTerminal() {
+  var inp = document.getElementById('terminal-input');
+  if (inp) inp.focus();
+}
+
+function initTerminal() {
+  var input = document.getElementById('terminal-input');
+  if (!input) return;
+
+  // Sur mobile : terminal minimisé par défaut avec icône
+  if (window.innerWidth <= 700) {
+    var sec = document.getElementById('terminal-section');
+    var icon = document.getElementById('term-toggle-icon');
+    if (sec) sec.classList.add('minimized');
+    if (icon) icon.textContent = '▲';
   }
-  if (target === '-') {
-    if (prevDir) { const tmp = currentDir; currentDir = prevDir; prevDir = tmp; termPrint(escHtml(currentDir), 'term-output'); }
-    return;
+
+  mainTerminal.initInput();
+  mainTerminal.print('<span class="t-green">Linux Trainer Terminal v1.0 — Tapez <strong>help</strong> pour la liste des commandes.</span>', 'term-output');
+  mainTerminal.print('<span class="t-muted">Répertoire courant : ' + escHtml(mainTerminal.getCurrentDir()) + '</span>', 'term-output');
+  mainTerminal.updatePromptLabel();
+
+  // Click-to-focus on terminal section
+  var termSection2 = document.getElementById('terminal-section');
+  if (termSection2) {
+    termSection2.addEventListener('click', function(e) {
+      if (!e.target.closest('.terminal-titlebar')) {
+        var inp = document.getElementById('terminal-input');
+        if (inp) inp.focus();
+      }
+    });
   }
-  const resolved = resolvePath(target);
-  if (!vfs[resolved]) { termPrint('<span class="t-err">bash: cd: ' + escHtml(target) + ': Aucun fichier ou dossier de ce type</span>'); return; }
-  if (vfs[resolved].type !== 'dir') { termPrint('<span class="t-err">bash: cd: ' + escHtml(target) + ': N\'est pas un répertoire</span>'); return; }
-  prevDir = currentDir;
-  currentDir = resolved;
 }
 
 /* ============================================================
    INIT
    ============================================================ */
-function initTerminal() {
-  const input = document.getElementById('terminal-input');
-  if (!input) return;
-
-  // Sur mobile : terminal minimisé par défaut avec icône ▲
-  if (window.innerWidth <= 700) {
-    const sec = document.getElementById('terminal-section');
-    const icon = document.getElementById('term-toggle-icon');
-    if (sec) sec.classList.add('minimized');
-    if (icon) icon.textContent = '▲';
-  }
-
-  termPrint('<span class="t-green">Linux Trainer Terminal v1.0 — Tapez <strong>help</strong> pour la liste des commandes.</span>', 'term-output');
-  termPrint('<span class="t-muted">Répertoire courant : ' + escHtml(currentDir) + '</span>', 'term-output');
-
-  input.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      const val = input.value.trim();
-      if (val) { processTerminalCommand(val); input.value = ''; historyIdx = cmdHistory.length; }
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      if (historyIdx > 0) { historyIdx--; input.value = cmdHistory[historyIdx] || ''; }
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (historyIdx < cmdHistory.length - 1) { historyIdx++; input.value = cmdHistory[historyIdx] || ''; }
-      else { historyIdx = cmdHistory.length; input.value = ''; }
-    } else if (e.key === 'Tab') {
-      e.preventDefault();
-      const val2 = input.value;
-      const parts = val2.split(/\s+/);
-      if (parts.length >= 2) {
-        const partial = parts[parts.length-1];
-        const node = vfs[currentDir];
-        if (node && node.children) {
-          const matches = node.children.filter(function(c){ return c.startsWith(partial); });
-          if (matches.length === 1) { parts[parts.length-1] = matches[0]; input.value = parts.join(' ') + ' '; }
-          else if (matches.length > 1) { termCommand(val2); termPrint(matches.join('  '), 'term-output'); }
-        }
-      }
-    } else if (e.key === 'l' && e.ctrlKey) {
-      e.preventDefault();
-      const out2 = document.getElementById('terminal-output');
-      if (out2) out2.innerHTML = '';
-    }
-  });
-
-  const termSection2 = document.getElementById('terminal-section');
-  if (termSection2) {
-    termSection2.addEventListener('click', function(e) {
-      if (!e.target.closest('.terminal-titlebar')) input.focus();
-    });
-  }
-}
-
 async function init() {
   // Load data files and state concurrently
   let dataOk = true;
@@ -1987,80 +2150,114 @@ function closeCTFDetail() {
   renderCTFGrid();
 }
 
-/* --- Terminal CTF isolé --- */
-let ctfVfs         = {};
-let ctfCurrentDir  = '/home/user';
-let ctfPrevDir     = null;
-let ctfCmdHistory  = [];
-let ctfHistoryIdx  = -1;
-let ctfTermInited  = false;
 
-function ctfTermOutput(html, cls) {
-  const out = document.getElementById('ctf-terminal-output');
-  if (!out) return;
-  const line = document.createElement('div');
-  line.className = 'term-line' + (cls ? ' ' + cls : '');
-  line.innerHTML = html;
-  out.appendChild(line);
-  out.scrollTop = out.scrollHeight;
-}
+/* --- Terminal CTF isolé (utilise createTerminalEngine) --- */
+var ctfVfs         = {};
+var ctfTermInited  = false;
 
-function ctfTermCmdEcho(cmd) {
-  const out = document.getElementById('ctf-terminal-output');
-  if (!out) return;
-  const line = document.createElement('div');
-  line.className = 'term-line term-cmd-echo';
-  line.innerHTML = ctfPromptStr() + ' <span class="t-input">' + escHtml(cmd) + '</span>';
-  out.appendChild(line);
-  out.scrollTop = out.scrollHeight;
-}
-
-function ctfPromptStr() {
-  const display = ctfCurrentDir.replace('/home/user', '~');
-  return '<span style="color:var(--accent-red)">ctf@challenge</span><span class="t-sep">:</span><span class="t-dir">' + display + '</span><span class="t-dollar">$</span>';
-}
-
-function updateCTFPromptLabel() {
-  const label = document.getElementById('ctf-terminal-prompt');
-  if (!label) return;
-  const display = ctfCurrentDir.replace('/home/user', '~');
-  label.innerHTML = '<span style="color:var(--accent-red)">ctf@challenge</span><span class="t-sep">:</span><span class="t-dir">' + display + '</span><span class="t-dollar">$</span>';
-}
-
-function ctfResolvePath(path) {
-  if (!path || path === '~') return '/home/user';
-  if (path === '-') return ctfPrevDir || ctfCurrentDir;
-  if (path.startsWith('~/')) return '/home/user' + path.slice(1);
-  if (!path.startsWith('/')) {
-    const base = ctfCurrentDir === '/' ? '' : ctfCurrentDir;
-    path = base + '/' + path;
+var ctfTerminal = createTerminalEngine({
+  vfs: ctfVfs,
+  outputElId: 'ctf-terminal-output',
+  inputElId: 'ctf-terminal-input',
+  promptLabelElId: 'ctf-terminal-prompt',
+  promptFn: function(dir) {
+    var display = dir.replace('/home/user', '~');
+    return '<span style="color:var(--accent-red)">ctf@challenge</span><span class="t-sep">:</span><span class="t-dir">' + display + '</span><span class="t-dollar">$</span>';
+  },
+  userInfo: { user: 'ctf', uid: '1337', gid: '1337', hostname: 'challenge-box' },
+  permCheck: true,
+  recursiveFind: true,
+  extraCommands: {
+    base64: function(args) {
+      if (args[0] === '-d' && args[1]) {
+        try {
+          var decoded = atob(args[1]);
+          ctfTerminal.print(escHtml(decoded), 'term-output');
+        } catch(e) {
+          ctfTerminal.print('<span class="t-err">base64 : données invalides</span>');
+        }
+      } else if (args[0]) {
+        var t = ctfTerminal.resolvePath(args[0]);
+        var v = ctfTerminal.getVfs();
+        if (v[t] && v[t].content) {
+          ctfTerminal.print(escHtml(btoa(v[t].content)), 'term-output');
+        } else {
+          ctfTerminal.print('<span class="t-err">base64 : ' + escHtml(args[0]) + ' : Aucun fichier</span>');
+        }
+      } else {
+        ctfTerminal.print('<span class="t-muted">Usage : base64 -d &lt;chaine_base64&gt;</span>');
+      }
+    },
+    ps: function(args) {
+      if (args.includes('aux') || args.includes('-aux') || args.includes('-ef')) {
+        ctfTerminal.print('<span class="t-muted">USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span>', 'term-output');
+        ctfTerminal.print('root           1  0.0  0.1 168380 13008 ?        Ss   10:00   0:02 /sbin/init', 'term-output');
+        ctfTerminal.print('root         891  0.0  0.0  72300  5612 ?        Ss   10:00   0:00 /usr/sbin/sshd -D', 'term-output');
+        ctfTerminal.print('ctf         1023  0.0  0.0  10596  5120 pts/0    Ss   10:02   0:00 bash', 'term-output');
+        ctfTerminal.print('root        9342  0.3  0.1  18240  7680 ?        S    14:32   0:01 /usr/local/bin/beacon --token flag{process_arguments_exposed} --interval 30', 'term-output');
+        ctfTerminal.print('ctf         9999  0.0  0.0  12940  3712 pts/0    R+   14:35   0:00 ps aux', 'term-output');
+      } else {
+        ctfTerminal.print('<span class="t-muted">  PID TTY          TIME CMD</span>', 'term-output');
+        ctfTerminal.print(' 1023 pts/0    00:00:00 bash', 'term-output');
+        ctfTerminal.print(' 9999 pts/0    00:00:00 ps', 'term-output');
+      }
+    },
+    awk: function() {
+      ctfTerminal.print('<span class="t-muted">(awk : commande disponible — utilise grep d\'abord pour isoler les lignes)</span>', 'term-output');
+    },
+    cut: function() {
+      ctfTerminal.print('<span class="t-muted">(cut : commande disponible — utilise grep d\'abord pour isoler les lignes)</span>', 'term-output');
+    }
+  },
+  helpHtml: '<div class="help-grid">'
+    + '<div class="help-section"><strong>Navigation</strong><br>'
+    + '<span class="t-blue">pwd</span> — répertoire courant<br>'
+    + '<span class="t-blue">ls [-la]</span> — lister fichiers<br>'
+    + '<span class="t-blue">cd [dir]</span> — changer répertoire</div>'
+    + '<div class="help-section"><strong>Fichiers</strong><br>'
+    + '<span class="t-blue">cat [f]</span> — afficher contenu<br>'
+    + '<span class="t-blue">find [dir] [-name]</span> — rechercher<br>'
+    + '<span class="t-blue">grep [motif] [f]</span> — filtrer</div>'
+    + '<div class="help-section"><strong>Outils CTF</strong><br>'
+    + '<span class="t-blue">base64 -d &lt;str&gt;</span> — décoder base64<br>'
+    + '<span class="t-blue">ps aux</span> — processus actifs<br>'
+    + '<span class="t-blue">man [cmd]</span> — aide</div>'
+    + '</div>',
+  manPages: {
+    ls:     'ls [-la] [dir] — lister les fichiers. -l format long, -a afficher les cachés',
+    cat:    'cat [fichier] — afficher le contenu d\'un fichier',
+    find:   'find [dir] [-name motif] — rechercher des fichiers',
+    grep:   'grep [motif] [fichier] — filtrer les lignes contenant un motif',
+    base64: 'base64 -d &lt;chaine&gt; — décoder du base64',
+    ps:     'ps aux — afficher tous les processus avec leurs arguments',
+    cut:    'cut -d [sep] -f [n] [fichier] — extraire un champ',
+    awk:    'awk \'{print $n}\' [fichier] — extraire une colonne'
   }
-  const parts = path.split('/').filter(Boolean);
-  const resolved = [];
-  for (let i = 0; i < parts.length; i++) {
-    if (parts[i] === '..') resolved.pop();
-    else if (parts[i] !== '.') resolved.push(parts[i]);
-  }
-  return '/' + resolved.join('/');
-}
+});
+
+/* Global wrapper functions for backward compatibility */
+function ctfTermOutput(html, cls) { ctfTerminal.print(html, cls); }
+function ctfTermCmdEcho(cmd) { ctfTerminal.cmdEcho(cmd); }
+function processCTFCommand(input) { ctfTerminal.exec(input); }
+function updateCTFPromptLabel() { ctfTerminal.updatePromptLabel(); }
 
 function loadCTFChallenge(id) {
-  const ch = CTF_CHALLENGES.find(function(c){ return c.id === id; });
+  var ch = CTF_CHALLENGES.find(function(c){ return c.id === id; });
   if (!ch) return;
 
   // Cloner le vfs du challenge (isolation totale)
-  ctfVfs        = JSON.parse(JSON.stringify(ch.vfs));
-  ctfCurrentDir = '/home/user';
-  ctfPrevDir    = null;
-  ctfCmdHistory = [];
-  ctfHistoryIdx = -1;
+  ctfVfs = JSON.parse(JSON.stringify(ch.vfs));
+  ctfTerminal.setVfs(ctfVfs);
+  ctfTerminal.setCurrentDir('/home/user');
+  ctfTerminal.setPrevDir(null);
+  ctfTerminal.resetHistory();
 
   // Vider et réinitialiser le terminal
-  const out = document.getElementById('ctf-terminal-output');
+  var out = document.getElementById('ctf-terminal-output');
   if (out) out.innerHTML = '';
   updateCTFPromptLabel();
 
-  const titleEl = document.getElementById('ctf-terminal-title');
+  var titleEl = document.getElementById('ctf-terminal-title');
   if (titleEl) titleEl.textContent = 'ctf@challenge:~$ — ' + ch.title;
 
   ctfTermOutput('<span style="color:var(--accent-red)">CTF Challenge : ' + escHtml(ch.title) + '</span>', 'term-output');
@@ -2073,310 +2270,33 @@ function loadCTFChallenge(id) {
     ctfTermInited = true;
   }
 
-  const input = document.getElementById('ctf-terminal-input');
+  var input = document.getElementById('ctf-terminal-input');
   if (input) { input.value = ''; input.focus(); }
 }
 
 function resetCTFTerminal() {
   if (ctfCurrentId) {
-    ctfTermInited = false; // forcer re-init propre
+    ctfTermInited = false;
     loadCTFChallenge(ctfCurrentId);
   }
 }
 
+
 function initCTFTerminalInput() {
-  const input = document.getElementById('ctf-terminal-input');
-  if (!input) return;
+  ctfTerminal.initInput();
 
-  // Supprimer les anciens listeners en clonant le nœud
-  const fresh = input.cloneNode(true);
-  input.parentNode.replaceChild(fresh, input);
-
-  fresh.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      const val = fresh.value.trim();
-      if (val) { processCTFCommand(val); fresh.value = ''; ctfHistoryIdx = ctfCmdHistory.length; }
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      if (ctfHistoryIdx > 0) { ctfHistoryIdx--; fresh.value = ctfCmdHistory[ctfHistoryIdx] || ''; }
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (ctfHistoryIdx < ctfCmdHistory.length - 1) { ctfHistoryIdx++; fresh.value = ctfCmdHistory[ctfHistoryIdx] || ''; }
-      else { ctfHistoryIdx = ctfCmdHistory.length; fresh.value = ''; }
-    } else if (e.key === 'Tab') {
-      e.preventDefault();
-      const val2  = fresh.value;
-      const parts = val2.split(/\s+/);
-      if (parts.length >= 2) {
-        const partial = parts[parts.length - 1];
-        const node    = ctfVfs[ctfCurrentDir];
-        if (node && node.children) {
-          const matches = node.children.filter(function(c){ return c.startsWith(partial); });
-          if (matches.length === 1) { parts[parts.length - 1] = matches[0]; fresh.value = parts.join(' ') + ' '; }
-          else if (matches.length > 1) { ctfTermCmdEcho(val2); ctfTermOutput(matches.join('  '), 'term-output'); }
-        }
-      }
-    } else if (e.key === 'l' && e.ctrlKey) {
-      e.preventDefault();
-      const out = document.getElementById('ctf-terminal-output');
-      if (out) out.innerHTML = '';
-    }
-  });
-
-  // Clic sur le terminal → focus input
-  const wrap = document.querySelector('.ctf-terminal-wrap');
+  // Click-to-focus on CTF terminal wrapper
+  var wrap = document.querySelector('.ctf-terminal-wrap');
   if (wrap) {
     wrap.addEventListener('click', function(e) {
-      if (!e.target.closest('.ctf-terminal-titlebar')) fresh.focus();
+      if (!e.target.closest('.ctf-terminal-titlebar')) {
+        var inp = document.getElementById('ctf-terminal-input');
+        if (inp) inp.focus();
+      }
     });
   }
 }
 
-/* --- Traitement des commandes CTF --- */
-function processCTFCommand(rawCmd) {
-  const trimmed = rawCmd.trim();
-  if (ctfCmdHistory[ctfCmdHistory.length - 1] !== trimmed) ctfCmdHistory.push(trimmed);
-  ctfHistoryIdx = ctfCmdHistory.length;
-  ctfTermCmdEcho(trimmed);
-
-  const parts = trimmed.split(/\s+/);
-  const cmd   = parts[0];
-  const args  = parts.slice(1);
-
-  switch(cmd) {
-    case 'clear': {
-      const out = document.getElementById('ctf-terminal-output');
-      if (out) out.innerHTML = '';
-      break;
-    }
-    case 'pwd': ctfTermOutput(escHtml(ctfCurrentDir), 'term-output'); break;
-    case 'whoami': ctfTermOutput('ctf', 'term-output'); break;
-    case 'id': ctfTermOutput('uid=1337(ctf) gid=1337(ctf) groupes=1337(ctf)', 'term-output'); break;
-    case 'hostname': ctfTermOutput('challenge-box', 'term-output'); break;
-    case 'ls': ctfHandleLs(args); break;
-    case 'cd': ctfHandleCd(args); break;
-    case 'cat': {
-      if (!args[0]) { ctfTermOutput('<span class="t-err">cat : aucun fichier spécifié</span>'); break; }
-      const t = ctfResolvePath(args[0]);
-      if (!ctfVfs[t]) { ctfTermOutput('<span class="t-err">cat : ' + escHtml(args[0]) + ' : Aucun fichier ou dossier de ce type</span>'); break; }
-      if (ctfVfs[t].type === 'dir') { ctfTermOutput('<span class="t-err">cat : ' + escHtml(args[0]) + ' : est un répertoire</span>'); break; }
-      if (ctfVfs[t].perms && ctfVfs[t].perms.startsWith('-r--------')) {
-        ctfTermOutput('<span class="t-err">cat : ' + escHtml(args[0]) + ' : Permission non accordée</span>'); break;
-      }
-      const lines = (ctfVfs[t].content || '').split('\n');
-      lines.forEach(function(l){ ctfTermOutput(escHtml(l), 'term-output'); });
-      break;
-    }
-    case 'echo': {
-      ctfTermOutput(escHtml(args.join(' ')), 'term-output');
-      break;
-    }
-    case 'find': {
-      // find [dir] [-name pattern]
-      const nonFlags = args.filter(function(a){ return !a.startsWith('-'); });
-      const searchRoot = ctfResolvePath(nonFlags[0] || '.');
-      const nameIdx = args.indexOf('-name');
-      const namePattern = nameIdx >= 0 ? args[nameIdx + 1] : null;
-      const results = [];
-      function ctfFindRecur(dirPath) {
-        const node = ctfVfs[dirPath];
-        if (!node) return;
-        if (!namePattern || dirPath.split('/').pop().includes(namePattern.replace(/\*/g,''))) {
-          results.push(dirPath);
-        }
-        if (node.type === 'dir' && node.children) {
-          node.children.forEach(function(child) {
-            ctfFindRecur((dirPath === '/' ? '' : dirPath) + '/' + child);
-          });
-        }
-      }
-      // Only add root if it matches or no pattern
-      if (!namePattern) results.push(searchRoot);
-      const rootNode = ctfVfs[searchRoot];
-      if (rootNode && rootNode.children) {
-        rootNode.children.forEach(function(child) {
-          ctfFindRecur((searchRoot === '/' ? '' : searchRoot) + '/' + child);
-        });
-      }
-      results.forEach(function(r){ ctfTermOutput(escHtml(r), 'term-output'); });
-      if (!results.length) ctfTermOutput('<span class="t-muted">(aucun résultat)</span>');
-      break;
-    }
-    case 'grep': {
-      const flags   = args.filter(function(a){ return a.startsWith('-'); });
-      const nonFlag = args.filter(function(a){ return !a.startsWith('-'); });
-      if (nonFlag.length < 2) { ctfTermOutput('<span class="t-muted">(grep : spécifiez un motif et un fichier)</span>'); break; }
-      const pattern = nonFlag[0];
-      const file    = nonFlag[1];
-      const t       = ctfResolvePath(file);
-      if (!ctfVfs[t] || !ctfVfs[t].content) { ctfTermOutput('<span class="t-err">grep : ' + escHtml(file) + ' : Aucun fichier de ce type</span>'); break; }
-      const ci = flags.includes('-i');
-      const lines2 = ctfVfs[t].content.split('\n').filter(function(l){
-        return ci ? l.toLowerCase().includes(pattern.toLowerCase()) : l.includes(pattern);
-      });
-      if (!lines2.length) { ctfTermOutput('<span class="t-muted">(aucune correspondance)</span>'); break; }
-      lines2.forEach(function(l){
-        const re = new RegExp(escHtml(pattern).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'), ci ? 'gi' : 'g');
-        ctfTermOutput(escHtml(l).replace(re, function(m){ return '<span class="t-green">'+m+'</span>'; }), 'term-output');
-      });
-      break;
-    }
-    case 'base64': {
-      // Simule : echo 'xxx' | base64 -d  → on accepte la syntaxe simplifiée
-      // Usage direct : base64 -d <<< 'chaine'  ou base64 fichier
-      if (args[0] === '-d' && args[1]) {
-        try {
-          const decoded = atob(args[1]);
-          ctfTermOutput(escHtml(decoded), 'term-output');
-        } catch(e) {
-          ctfTermOutput('<span class="t-err">base64 : données invalides</span>');
-        }
-      } else if (args[0]) {
-        const t = ctfResolvePath(args[0]);
-        if (ctfVfs[t] && ctfVfs[t].content) {
-          ctfTermOutput(escHtml(btoa(ctfVfs[t].content)), 'term-output');
-        } else {
-          ctfTermOutput('<span class="t-err">base64 : ' + escHtml(args[0]) + ' : Aucun fichier</span>');
-        }
-      } else {
-        ctfTermOutput('<span class="t-muted">Usage : base64 -d &lt;chaine_base64&gt;</span>');
-      }
-      break;
-    }
-    case 'ps': {
-      // Pour ctf-05 : afficher le processus fantôme avec le flag dans ses args
-      if (args.includes('aux') || args.includes('-aux') || args.includes('-ef')) {
-        ctfTermOutput('<span class="t-muted">USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span>', 'term-output');
-        ctfTermOutput('root           1  0.0  0.1 168380 13008 ?        Ss   10:00   0:02 /sbin/init', 'term-output');
-        ctfTermOutput('root         891  0.0  0.0  72300  5612 ?        Ss   10:00   0:00 /usr/sbin/sshd -D', 'term-output');
-        ctfTermOutput('ctf         1023  0.0  0.0  10596  5120 pts/0    Ss   10:02   0:00 bash', 'term-output');
-        ctfTermOutput('root        9342  0.3  0.1  18240  7680 ?        S    14:32   0:01 /usr/local/bin/beacon --token flag{process_arguments_exposed} --interval 30', 'term-output');
-        ctfTermOutput('ctf         9999  0.0  0.0  12940  3712 pts/0    R+   14:35   0:00 ps aux', 'term-output');
-      } else {
-        ctfTermOutput('<span class="t-muted">  PID TTY          TIME CMD</span>', 'term-output');
-        ctfTermOutput(' 1023 pts/0    00:00:00 bash', 'term-output');
-        ctfTermOutput(' 9999 pts/0    00:00:00 ps', 'term-output');
-      }
-      break;
-    }
-    case 'awk':
-    case 'cut': {
-      ctfTermOutput('<span class="t-muted">(' + escHtml(cmd) + ' : commande disponible — utilise grep d\'abord pour isoler les lignes)</span>', 'term-output');
-      break;
-    }
-    case 'man': {
-      const manShort = {
-        ls:     'ls [-la] [dir] — lister les fichiers. -l format long, -a afficher les cachés',
-        cat:    'cat [fichier] — afficher le contenu d\'un fichier',
-        find:   'find [dir] [-name motif] — rechercher des fichiers',
-        grep:   'grep [motif] [fichier] — filtrer les lignes contenant un motif',
-        base64: 'base64 -d &lt;chaine&gt; — décoder du base64',
-        ps:     'ps aux — afficher tous les processus avec leurs arguments',
-        cut:    'cut -d [sep] -f [n] [fichier] — extraire un champ',
-        awk:    'awk \'{print $n}\' [fichier] — extraire une colonne'
-      };
-      const topic = args[0];
-      if (!topic) { ctfTermOutput('<span class="t-err">man : quel manuel ?</span>'); break; }
-      if (manShort[topic]) ctfTermOutput('<div class="man-page"><strong>' + escHtml(topic.toUpperCase()) + '(1)</strong> — ' + manShort[topic] + '</div>', 'term-output');
-      else ctfTermOutput('<span class="t-err">Aucune entrée de manuel pour ' + escHtml(topic) + '</span>');
-      break;
-    }
-    case 'history': {
-      ctfCmdHistory.forEach(function(c, i){ ctfTermOutput('  ' + String(i+1).padStart(3) + '  ' + escHtml(c), 'term-output'); });
-      break;
-    }
-    case 'help': {
-      ctfTermOutput('<div class="help-grid">'
-        + '<div class="help-section"><strong>Navigation</strong><br>'
-        + '<span class="t-blue">pwd</span> — répertoire courant<br>'
-        + '<span class="t-blue">ls [-la]</span> — lister fichiers<br>'
-        + '<span class="t-blue">cd [dir]</span> — changer répertoire</div>'
-        + '<div class="help-section"><strong>Fichiers</strong><br>'
-        + '<span class="t-blue">cat [f]</span> — afficher contenu<br>'
-        + '<span class="t-blue">find [dir] [-name]</span> — rechercher<br>'
-        + '<span class="t-blue">grep [motif] [f]</span> — filtrer</div>'
-        + '<div class="help-section"><strong>Outils CTF</strong><br>'
-        + '<span class="t-blue">base64 -d &lt;str&gt;</span> — décoder base64<br>'
-        + '<span class="t-blue">ps aux</span> — processus actifs<br>'
-        + '<span class="t-blue">man [cmd]</span> — aide</div>'
-        + '</div>', 'term-output');
-      break;
-    }
-    default:
-      ctfTermOutput('<span class="t-err">bash: ' + escHtml(cmd) + ': commande introuvable</span>');
-  }
-  updateCTFPromptLabel();
-}
-
-function ctfHandleLs(args) {
-  const longFormat = args.some(function(a){ return a.match(/^-[a-zA-Z]*l/); });
-  const showHidden = args.some(function(a){ return a.match(/^-[a-zA-Z]*a/); });
-  const fileArg    = args.filter(function(a){ return !a.startsWith('-'); })[0];
-  const targetDir  = fileArg ? ctfResolvePath(fileArg) : ctfCurrentDir;
-
-  if (!ctfVfs[targetDir]) {
-    ctfTermOutput('<span class="t-err">ls : impossible d\'accéder à \'' + escHtml(fileArg) + '\': Aucun fichier ou dossier de ce type</span>');
-    return;
-  }
-
-  let items = [];
-  if (ctfVfs[targetDir].type === 'file') {
-    items = [{ name: (fileArg || '').split('/').pop(), node: ctfVfs[targetDir] }];
-  } else {
-    const children = ctfVfs[targetDir].children || [];
-    items = children.map(function(name) {
-      const nodePath = (targetDir === '/' ? '' : targetDir) + '/' + name;
-      return { name: name, node: ctfVfs[nodePath] || { type: 'file' } };
-    });
-    if (showHidden) {
-      items = [{ name: '.', node: { type: 'dir' } }, { name: '..', node: { type: 'dir' } }].concat(items);
-    } else {
-      items = items.filter(function(it){ return !it.name.startsWith('.'); });
-    }
-  }
-
-  if (longFormat) {
-    ctfTermOutput('<span class="t-muted">total ' + (items.length * 4) + '</span>', 'term-output');
-    items.forEach(function(item) {
-      const isDir  = item.node && item.node.type === 'dir';
-      const perm   = item.node && item.node.perms ? item.node.perms : (isDir ? 'drwxr-xr-x' : '-rw-r--r--');
-      const size   = isDir ? '  4096' : String((item.node && item.node.content ? item.node.content.length : 0) + 128).padStart(6);
-      const nameHtml = isDir
-        ? '<span class="ls-dir">' + escHtml(item.name) + '/</span>'
-        : item.name.endsWith('.sh')
-          ? '<span class="ls-exec">' + escHtml(item.name) + '</span>'
-          : item.name.startsWith('.')
-            ? '<span class="ls-hidden">' + escHtml(item.name) + '</span>'
-            : '<span class="ls-file">' + escHtml(item.name) + '</span>';
-      ctfTermOutput(escHtml(perm) + ' 1 ctf ctf ' + size + ' Mar 15 10:23 ' + nameHtml, 'term-output ls-line');
-    });
-  } else {
-    const parts2 = items.map(function(item) {
-      const isDir = item.node && item.node.type === 'dir';
-      if (isDir)                     return '<span class="ls-dir">' + escHtml(item.name) + '</span>';
-      if (item.name.endsWith('.sh')) return '<span class="ls-exec">' + escHtml(item.name) + '</span>';
-      if (item.name.startsWith('.')) return '<span class="ls-hidden">' + escHtml(item.name) + '</span>';
-      return '<span class="ls-file">' + escHtml(item.name) + '</span>';
-    });
-    ctfTermOutput(parts2.join('  '), 'term-output');
-  }
-}
-
-function ctfHandleCd(args) {
-  const target = args[0];
-  if (!target || target === '~' || target === '') {
-    ctfPrevDir = ctfCurrentDir; ctfCurrentDir = '/home/user'; return;
-  }
-  if (target === '-') {
-    if (ctfPrevDir) { const tmp = ctfCurrentDir; ctfCurrentDir = ctfPrevDir; ctfPrevDir = tmp; ctfTermOutput(escHtml(ctfCurrentDir), 'term-output'); }
-    return;
-  }
-  const resolved = ctfResolvePath(target);
-  if (!ctfVfs[resolved]) { ctfTermOutput('<span class="t-err">bash: cd: ' + escHtml(target) + ': Aucun fichier ou dossier de ce type</span>'); return; }
-  if (ctfVfs[resolved].type !== 'dir') { ctfTermOutput('<span class="t-err">bash: cd: ' + escHtml(target) + ': N\'est pas un répertoire</span>'); return; }
-  ctfPrevDir = ctfCurrentDir;
-  ctfCurrentDir = resolved;
-}
 
 /* --- Soumission du flag --- */
 async function submitCTFFlag() {
