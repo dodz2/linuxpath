@@ -2215,6 +2215,99 @@ var ctfTerminal = createTerminalEngine({
     },
     cut: function() {
       ctfTerminal.print('<span class="t-muted">(cut : commande disponible — utilise grep d\'abord pour isoler les lignes)</span>', 'term-output');
+    },
+    dig: function(args) {
+      // Simulated dig command — reads _dns from current challenge
+      var ch = CTF_CHALLENGES.find(function(c){ return c.id === ctfCurrentId; });
+      var dns = ch && ch._dns;
+      if (!dns) {
+        ctfTerminal.print('<span class="t-err">dig : serveur DNS non disponible dans ce challenge</span>');
+        return;
+      }
+      if (!args[0]) {
+        ctfTerminal.print('<span class="t-muted">Usage : dig &lt;domaine&gt; [A|CNAME|TXT]</span>');
+        return;
+      }
+      var domain = args[0];
+      var qtype = (args[1] || '').toUpperCase();
+      var record = dns[domain];
+      if (!record) {
+        ctfTerminal.print('<span class="t-muted">;; QUESTION SECTION:</span>', 'term-output');
+        ctfTerminal.print(';; ' + domain + ' IN ' + (qtype || 'A'), 'term-output');
+        ctfTerminal.print('', 'term-output');
+        ctfTerminal.print('<span class="t-muted">;; ANSWER SECTION:</span>', 'term-output');
+        ctfTerminal.print('<span class="t-err">;; NXDOMAIN — domaine introuvable</span>', 'term-output');
+        return;
+      }
+      ctfTerminal.print('<span class="t-muted">; &lt;&lt;&gt;&gt; DiG 9.18.1 &lt;&lt;&gt;&gt; ' + domain + ' ' + (qtype || 'A') + '</span>', 'term-output');
+      ctfTerminal.print('<span class="t-muted">;; QUESTION SECTION:</span>', 'term-output');
+      ctfTerminal.print(';; ' + domain + '\t\tIN\t' + (qtype || 'A'), 'term-output');
+      ctfTerminal.print('', 'term-output');
+      ctfTerminal.print('<span class="t-muted">;; ANSWER SECTION:</span>', 'term-output');
+      if (qtype === 'TXT' && record.txt) {
+        ctfTerminal.print(domain + '\t300\tIN\tTXT\t"' + record.txt + '"', 'term-output');
+      } else if (record.type === 'CNAME') {
+        ctfTerminal.print(domain + '\t300\tIN\tCNAME\t' + record.value, 'term-output');
+      } else if (record.type === 'A') {
+        ctfTerminal.print(domain + '\t300\tIN\tA\t' + record.value, 'term-output');
+        if (!qtype && record.txt) {
+          ctfTerminal.print('<span class="t-muted">;; TXT record also available — try: dig ' + domain + ' TXT</span>', 'term-output');
+        }
+      }
+      ctfTerminal.print('', 'term-output');
+      ctfTerminal.print('<span class="t-muted">;; Query time: 12 msec</span>', 'term-output');
+      ctfTerminal.print('<span class="t-muted">;; SERVER: 10.0.0.53#53</span>', 'term-output');
+    },
+    tcpdump: function(args) {
+      // Simulated tcpdump — reads capture file from VFS
+      if (args[0] === '-r' && args[1]) {
+        var path = ctfTerminal.resolvePath(args[1]);
+        var vfs = ctfTerminal.getVfs();
+        if (vfs[path] && vfs[path].content) {
+          var lines = vfs[path].content.split('\n');
+          lines.forEach(function(line) {
+            if (line.trim()) ctfTerminal.print(escHtml(line), 'term-output');
+          });
+        } else {
+          ctfTerminal.print('<span class="t-err">tcpdump : ' + escHtml(args[1]) + ' : Fichier introuvable</span>');
+        }
+      } else {
+        ctfTerminal.print('<span class="t-muted">Usage : tcpdump -r &lt;fichier.pcap&gt;</span>');
+      }
+    },
+    ss: function(args) {
+      // Simulated ss command — reads _ss from current challenge
+      var ch = CTF_CHALLENGES.find(function(c){ return c.id === ctfCurrentId; });
+      var ssData = ch && ch._ss;
+      if (!ssData) {
+        ctfTerminal.print('<span class="t-err">ss : données non disponibles dans ce challenge</span>');
+        return;
+      }
+      if (args.join('').match(/t.*l.*n.*p|tlnp|-tlnp/)) {
+        var lines = ssData.split('\n');
+        lines.forEach(function(line) {
+          if (line.trim()) ctfTerminal.print(escHtml(line), 'term-output');
+        });
+      } else {
+        ctfTerminal.print('<span class="t-muted">Usage : ss -tlnp  (TCP listen, numeric, process)</span>');
+      }
+    },
+    nft: function(args) {
+      // Simulated nft command — reads _nft from current challenge
+      var ch = CTF_CHALLENGES.find(function(c){ return c.id === ctfCurrentId; });
+      var nftData = ch && ch._nft;
+      if (!nftData) {
+        ctfTerminal.print('<span class="t-err">nft : données non disponibles dans ce challenge</span>');
+        return;
+      }
+      if (args.join(' ').match(/list\s+ruleset/)) {
+        var lines = nftData.split('\n');
+        lines.forEach(function(line) {
+          ctfTerminal.print(escHtml(line), 'term-output');
+        });
+      } else {
+        ctfTerminal.print('<span class="t-muted">Usage : nft list ruleset</span>');
+      }
     }
   },
   helpHtml: '<div class="help-grid">'
@@ -2229,6 +2322,10 @@ var ctfTerminal = createTerminalEngine({
     + '<div class="help-section"><strong>Outils CTF</strong><br>'
     + '<span class="t-blue">base64 -d &lt;str&gt;</span> — décoder base64<br>'
     + '<span class="t-blue">ps aux</span> — processus actifs<br>'
+    + '<span class="t-blue">dig &lt;domain&gt; [TXT]</span> — DNS lookup<br>'
+    + '<span class="t-blue">tcpdump -r &lt;f&gt;</span> — lire capture<br>'
+    + '<span class="t-blue">ss -tlnp</span> — ports en écoute<br>'
+    + '<span class="t-blue">nft list ruleset</span> — règles pare-feu<br>'
     + '<span class="t-blue">man [cmd]</span> — aide</div>'
     + '</div>',
   manPages: {
@@ -2239,7 +2336,11 @@ var ctfTerminal = createTerminalEngine({
     base64: 'base64 -d &lt;chaine&gt; — décoder du base64',
     ps:     'ps aux — afficher tous les processus avec leurs arguments',
     cut:    'cut -d [sep] -f [n] [fichier] — extraire un champ',
-    awk:    'awk \'{print $n}\' [fichier] — extraire une colonne'
+    awk:    'awk \'{print $n}\' [fichier] — extraire une colonne',
+    dig:    'dig &lt;domaine&gt; [A|TXT|CNAME] — interroger un serveur DNS',
+    tcpdump:'tcpdump -r &lt;fichier.pcap&gt; — lire et afficher une capture réseau',
+    ss:     'ss -tlnp — lister les ports TCP en écoute avec les processus associés',
+    nft:    'nft list ruleset — afficher les règles nftables actives'
   }
 });
 

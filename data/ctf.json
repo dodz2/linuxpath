@@ -13,23 +13,101 @@
       ],
       "flagHash": "59d5ff9249209fff453fbb628714ee3d2b7bee0d793b4cc4ada051a1b51273e7",
       "vfs": {
-        "/": { "type": "dir", "children": ["home", "bin", "etc", "var", "tmp"] },
-        "/home": { "type": "dir", "children": ["user"] },
-        "/home/user": { "type": "dir", "children": ["documents", ".bashrc", ".profile", "readme.txt", ".secret"] },
-        "/home/user/documents": { "type": "dir", "children": ["rapport.txt"] },
-        "/home/user/documents/rapport.txt": { "type": "file", "content": "Rapport d'incident du 2024-03-15\nAucune anomalie détectée... en apparence." },
-        "/home/user/.bashrc": { "type": "file", "content": "# ~/.bashrc\nexport PATH=\"$HOME/.local/bin:$PATH\"\nalias ll=\"ls -la\"" },
-        "/home/user/.profile": { "type": "file", "content": "# ~/.profile — rien à voir ici." },
-        "/home/user/readme.txt": { "type": "file", "content": "Dossier personnel de l'utilisateur.\nDernière connexion : 2024-03-15 03:42:17" },
-        "/home/user/.secret": { "type": "file", "content": "flag{hidden_in_plain_sight}" },
-        "/bin": { "type": "dir", "children": ["bash", "ls", "cat"] },
-        "/etc": { "type": "dir", "children": ["passwd", "hosts"] },
-        "/etc/passwd": { "type": "file", "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash" },
-        "/etc/hosts": { "type": "file", "content": "127.0.0.1\tlocalhost\n127.0.1.1\tworkstation" },
-        "/var": { "type": "dir", "children": ["log"] },
-        "/var/log": { "type": "dir", "children": ["syslog"] },
-        "/var/log/syslog": { "type": "file", "content": "Mar 15 03:40:01 workstation sshd[2341]: Connection from 10.0.0.42\nMar 15 03:42:17 workstation sshd[2341]: Accepted password for user" },
-        "/tmp": { "type": "dir", "children": [] }
+        "/": {
+          "type": "dir",
+          "children": [
+            "home",
+            "bin",
+            "etc",
+            "var",
+            "tmp"
+          ]
+        },
+        "/home": {
+          "type": "dir",
+          "children": [
+            "user"
+          ]
+        },
+        "/home/user": {
+          "type": "dir",
+          "children": [
+            "documents",
+            ".bashrc",
+            ".profile",
+            "readme.txt",
+            ".secret"
+          ]
+        },
+        "/home/user/documents": {
+          "type": "dir",
+          "children": [
+            "rapport.txt"
+          ]
+        },
+        "/home/user/documents/rapport.txt": {
+          "type": "file",
+          "content": "Rapport d'incident du 2024-03-15\nAucune anomalie détectée... en apparence."
+        },
+        "/home/user/.bashrc": {
+          "type": "file",
+          "content": "# ~/.bashrc\nexport PATH=\"$HOME/.local/bin:$PATH\"\nalias ll=\"ls -la\""
+        },
+        "/home/user/.profile": {
+          "type": "file",
+          "content": "# ~/.profile — rien à voir ici."
+        },
+        "/home/user/readme.txt": {
+          "type": "file",
+          "content": "Dossier personnel de l'utilisateur.\nDernière connexion : 2024-03-15 03:42:17"
+        },
+        "/home/user/.secret": {
+          "type": "file",
+          "content": "flag{hidden_in_plain_sight}"
+        },
+        "/bin": {
+          "type": "dir",
+          "children": [
+            "bash",
+            "ls",
+            "cat"
+          ]
+        },
+        "/etc": {
+          "type": "dir",
+          "children": [
+            "passwd",
+            "hosts"
+          ]
+        },
+        "/etc/passwd": {
+          "type": "file",
+          "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash"
+        },
+        "/etc/hosts": {
+          "type": "file",
+          "content": "127.0.0.1\tlocalhost\n127.0.1.1\tworkstation"
+        },
+        "/var": {
+          "type": "dir",
+          "children": [
+            "log"
+          ]
+        },
+        "/var/log": {
+          "type": "dir",
+          "children": [
+            "syslog"
+          ]
+        },
+        "/var/log/syslog": {
+          "type": "file",
+          "content": "Mar 15 03:40:01 workstation sshd[2341]: Connection from 10.0.0.42\nMar 15 03:42:17 workstation sshd[2341]: Accepted password for user"
+        },
+        "/tmp": {
+          "type": "dir",
+          "children": []
+        }
       }
     },
     {
@@ -45,22 +123,98 @@
       ],
       "flagHash": "458640adbd70c3a2a7f69ac593449bbff8bf4cc269b50928a16312dcfc13abee",
       "vfs": {
-        "/": { "type": "dir", "children": ["home", "bin", "etc", "var", "tmp"] },
-        "/home": { "type": "dir", "children": ["user"] },
-        "/home/user": { "type": "dir", "children": [".bashrc", "notes.txt"] },
-        "/home/user/.bashrc": { "type": "file", "content": "# ~/.bashrc\nexport PATH=\"$HOME/.local/bin:$PATH\"" },
-        "/home/user/notes.txt": { "type": "file", "content": "Investigation en cours.\nFichier sensible localisé dans /etc/shadow_flag — accès root requis." },
-        "/bin": { "type": "dir", "children": ["bash", "ls", "cat", "find"] },
-        "/etc": { "type": "dir", "children": ["passwd", "hosts", "shadow_flag"] },
-        "/etc/passwd": { "type": "file", "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash" },
-        "/etc/hosts": { "type": "file", "content": "127.0.0.1\tlocalhost" },
-        "/etc/shadow_flag": { "type": "file", "content": "Permission denied.", "perms": "-r--------" },
-        "/var": { "type": "dir", "children": ["log", "backups"] },
-        "/var/log": { "type": "dir", "children": ["syslog"] },
-        "/var/log/syslog": { "type": "file", "content": "Mar 16 11:00:01 srv sudo[1234]: user NOT in sudoers" },
-        "/var/backups": { "type": "dir", "children": ["flag.bak"] },
-        "/var/backups/flag.bak": { "type": "file", "content": "flag{world_readable_mistake}" },
-        "/tmp": { "type": "dir", "children": [] }
+        "/": {
+          "type": "dir",
+          "children": [
+            "home",
+            "bin",
+            "etc",
+            "var",
+            "tmp"
+          ]
+        },
+        "/home": {
+          "type": "dir",
+          "children": [
+            "user"
+          ]
+        },
+        "/home/user": {
+          "type": "dir",
+          "children": [
+            ".bashrc",
+            "notes.txt"
+          ]
+        },
+        "/home/user/.bashrc": {
+          "type": "file",
+          "content": "# ~/.bashrc\nexport PATH=\"$HOME/.local/bin:$PATH\""
+        },
+        "/home/user/notes.txt": {
+          "type": "file",
+          "content": "Investigation en cours.\nFichier sensible localisé dans /etc/shadow_flag — accès root requis."
+        },
+        "/bin": {
+          "type": "dir",
+          "children": [
+            "bash",
+            "ls",
+            "cat",
+            "find"
+          ]
+        },
+        "/etc": {
+          "type": "dir",
+          "children": [
+            "passwd",
+            "hosts",
+            "shadow_flag"
+          ]
+        },
+        "/etc/passwd": {
+          "type": "file",
+          "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash"
+        },
+        "/etc/hosts": {
+          "type": "file",
+          "content": "127.0.0.1\tlocalhost"
+        },
+        "/etc/shadow_flag": {
+          "type": "file",
+          "content": "Permission denied.",
+          "perms": "-r--------"
+        },
+        "/var": {
+          "type": "dir",
+          "children": [
+            "log",
+            "backups"
+          ]
+        },
+        "/var/log": {
+          "type": "dir",
+          "children": [
+            "syslog"
+          ]
+        },
+        "/var/log/syslog": {
+          "type": "file",
+          "content": "Mar 16 11:00:01 srv sudo[1234]: user NOT in sudoers"
+        },
+        "/var/backups": {
+          "type": "dir",
+          "children": [
+            "flag.bak"
+          ]
+        },
+        "/var/backups/flag.bak": {
+          "type": "file",
+          "content": "flag{world_readable_mistake}"
+        },
+        "/tmp": {
+          "type": "dir",
+          "children": []
+        }
       }
     },
     {
@@ -76,18 +230,77 @@
       ],
       "flagHash": "d7ba614676b457e3e6c432df3d5965368400fd07723d23b85ddbbba4e8e781c3",
       "vfs": {
-        "/": { "type": "dir", "children": ["home", "bin", "etc", "var", "tmp"] },
-        "/home": { "type": "dir", "children": ["user"] },
-        "/home/user": { "type": "dir", "children": [".bashrc"] },
-        "/home/user/.bashrc": { "type": "file", "content": "# ~/.bashrc" },
-        "/bin": { "type": "dir", "children": ["bash", "ls", "cat", "grep", "base64"] },
-        "/etc": { "type": "dir", "children": ["passwd"] },
-        "/etc/passwd": { "type": "file", "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash" },
-        "/var": { "type": "dir", "children": ["log"] },
-        "/var/log": { "type": "dir", "children": ["auth.log", "syslog"] },
-        "/var/log/syslog": { "type": "file", "content": "Mar 17 08:00:01 srv systemd[1]: Started Daily apt upgrade.\nMar 17 08:01:12 srv kernel: [12345.678] eth0: renamed from veth3a2f" },
-        "/var/log/auth.log": { "type": "file", "content": "Mar 17 02:10:01 srv sshd[4421]: Accepted publickey for deploy from 10.0.0.2 port 51234\nMar 17 02:10:03 srv sshd[4422]: pam_unix(sshd:session): session opened for user deploy\nMar 17 02:11:47 srv sudo[4501]: deploy : TTY=pts/1 ; COMMAND=/usr/bin/apt update\nMar 17 02:14:22 srv sshd[4421]: DATA: ZmxhZ3tiYXNlNjRfaXNfbm90X2VuY3J5cHRpb259\nMar 17 02:15:01 srv sshd[4422]: pam_unix(sshd:session): session closed for user deploy\nMar 17 02:16:33 srv sshd[4601]: Failed password for invalid user admin from 203.0.113.42 port 44321\nMar 17 02:16:35 srv sshd[4601]: Failed password for invalid user admin from 203.0.113.42 port 44322\nMar 17 02:16:37 srv sshd[4601]: Failed password for invalid user admin from 203.0.113.42 port 44323" },
-        "/tmp": { "type": "dir", "children": [] }
+        "/": {
+          "type": "dir",
+          "children": [
+            "home",
+            "bin",
+            "etc",
+            "var",
+            "tmp"
+          ]
+        },
+        "/home": {
+          "type": "dir",
+          "children": [
+            "user"
+          ]
+        },
+        "/home/user": {
+          "type": "dir",
+          "children": [
+            ".bashrc"
+          ]
+        },
+        "/home/user/.bashrc": {
+          "type": "file",
+          "content": "# ~/.bashrc"
+        },
+        "/bin": {
+          "type": "dir",
+          "children": [
+            "bash",
+            "ls",
+            "cat",
+            "grep",
+            "base64"
+          ]
+        },
+        "/etc": {
+          "type": "dir",
+          "children": [
+            "passwd"
+          ]
+        },
+        "/etc/passwd": {
+          "type": "file",
+          "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash"
+        },
+        "/var": {
+          "type": "dir",
+          "children": [
+            "log"
+          ]
+        },
+        "/var/log": {
+          "type": "dir",
+          "children": [
+            "auth.log",
+            "syslog"
+          ]
+        },
+        "/var/log/syslog": {
+          "type": "file",
+          "content": "Mar 17 08:00:01 srv systemd[1]: Started Daily apt upgrade.\nMar 17 08:01:12 srv kernel: [12345.678] eth0: renamed from veth3a2f"
+        },
+        "/var/log/auth.log": {
+          "type": "file",
+          "content": "Mar 17 02:10:01 srv sshd[4421]: Accepted publickey for deploy from 10.0.0.2 port 51234\nMar 17 02:10:03 srv sshd[4422]: pam_unix(sshd:session): session opened for user deploy\nMar 17 02:11:47 srv sudo[4501]: deploy : TTY=pts/1 ; COMMAND=/usr/bin/apt update\nMar 17 02:14:22 srv sshd[4421]: DATA: ZmxhZ3tiYXNlNjRfaXNfbm90X2VuY3J5cHRpb259\nMar 17 02:15:01 srv sshd[4422]: pam_unix(sshd:session): session closed for user deploy\nMar 17 02:16:33 srv sshd[4601]: Failed password for invalid user admin from 203.0.113.42 port 44321\nMar 17 02:16:35 srv sshd[4601]: Failed password for invalid user admin from 203.0.113.42 port 44322\nMar 17 02:16:37 srv sshd[4601]: Failed password for invalid user admin from 203.0.113.42 port 44323"
+        },
+        "/tmp": {
+          "type": "dir",
+          "children": []
+        }
       }
     },
     {
@@ -103,23 +316,104 @@
       ],
       "flagHash": "74016f65e6fe68016bf9da3c0890e7fe06b4eed62ead9b1ab3fc0d63d06cffb1",
       "vfs": {
-        "/": { "type": "dir", "children": ["home", "bin", "etc", "opt", "var", "tmp"] },
-        "/home": { "type": "dir", "children": ["user"] },
-        "/home/user": { "type": "dir", "children": [".bashrc", "todo.txt"] },
-        "/home/user/.bashrc": { "type": "file", "content": "# ~/.bashrc" },
-        "/home/user/todo.txt": { "type": "file", "content": "- Auditer les scripts dans /opt/\n- Vérifier les crons suspects\n- Analyser les connexions sortantes" },
-        "/bin": { "type": "dir", "children": ["bash", "ls", "cat", "grep"] },
-        "/etc": { "type": "dir", "children": ["passwd"] },
-        "/etc/passwd": { "type": "file", "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash" },
-        "/opt": { "type": "dir", "children": ["maintenance"] },
-        "/opt/maintenance": { "type": "dir", "children": ["cleanup.sh", "README"] },
-        "/opt/maintenance/README": { "type": "file", "content": "Script de nettoyage automatique.\nAuteur : admin@corp.internal\nVersion : 2.1.3" },
-        "/opt/maintenance/cleanup.sh": { "type": "file", "content": "#!/bin/bash\n# Script de nettoyage automatique — v2.1.3\n# Auteur : admin@corp.internal\n\n# Configuration\nMAX_AGE=30\nLOG_DIR=/var/log\nBACKUP_DIR=/var/backups\n\n# TODO: supprimer avant la mise en prod\n# SECRET_KEY=flag{environment_variable_leak}\n\n# Nettoyage des fichiers temporaires\nfind /tmp -mtime +$MAX_AGE -delete 2>/dev/null\n\necho \"Nettoyage terminé : $(date)\"", "perms": "-rwxr-xr-x" },
-        "/var": { "type": "dir", "children": ["log", "backups"] },
-        "/var/log": { "type": "dir", "children": ["syslog"] },
-        "/var/log/syslog": { "type": "file", "content": "Mar 18 06:30:01 srv CRON[5512]: (root) CMD (/opt/maintenance/cleanup.sh)" },
-        "/var/backups": { "type": "dir", "children": [] },
-        "/tmp": { "type": "dir", "children": [] }
+        "/": {
+          "type": "dir",
+          "children": [
+            "home",
+            "bin",
+            "etc",
+            "opt",
+            "var",
+            "tmp"
+          ]
+        },
+        "/home": {
+          "type": "dir",
+          "children": [
+            "user"
+          ]
+        },
+        "/home/user": {
+          "type": "dir",
+          "children": [
+            ".bashrc",
+            "todo.txt"
+          ]
+        },
+        "/home/user/.bashrc": {
+          "type": "file",
+          "content": "# ~/.bashrc"
+        },
+        "/home/user/todo.txt": {
+          "type": "file",
+          "content": "- Auditer les scripts dans /opt/\n- Vérifier les crons suspects\n- Analyser les connexions sortantes"
+        },
+        "/bin": {
+          "type": "dir",
+          "children": [
+            "bash",
+            "ls",
+            "cat",
+            "grep"
+          ]
+        },
+        "/etc": {
+          "type": "dir",
+          "children": [
+            "passwd"
+          ]
+        },
+        "/etc/passwd": {
+          "type": "file",
+          "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash"
+        },
+        "/opt": {
+          "type": "dir",
+          "children": [
+            "maintenance"
+          ]
+        },
+        "/opt/maintenance": {
+          "type": "dir",
+          "children": [
+            "cleanup.sh",
+            "README"
+          ]
+        },
+        "/opt/maintenance/README": {
+          "type": "file",
+          "content": "Script de nettoyage automatique.\nAuteur : admin@corp.internal\nVersion : 2.1.3"
+        },
+        "/opt/maintenance/cleanup.sh": {
+          "type": "file",
+          "content": "#!/bin/bash\n# Script de nettoyage automatique — v2.1.3\n# Auteur : admin@corp.internal\n\n# Configuration\nMAX_AGE=30\nLOG_DIR=/var/log\nBACKUP_DIR=/var/backups\n\n# TODO: supprimer avant la mise en prod\n# SECRET_KEY=flag{environment_variable_leak}\n\n# Nettoyage des fichiers temporaires\nfind /tmp -mtime +$MAX_AGE -delete 2>/dev/null\n\necho \"Nettoyage terminé : $(date)\"",
+          "perms": "-rwxr-xr-x"
+        },
+        "/var": {
+          "type": "dir",
+          "children": [
+            "log",
+            "backups"
+          ]
+        },
+        "/var/log": {
+          "type": "dir",
+          "children": [
+            "syslog"
+          ]
+        },
+        "/var/log/syslog": {
+          "type": "file",
+          "content": "Mar 18 06:30:01 srv CRON[5512]: (root) CMD (/opt/maintenance/cleanup.sh)"
+        },
+        "/var/backups": {
+          "type": "dir",
+          "children": []
+        },
+        "/tmp": {
+          "type": "dir",
+          "children": []
+        }
       }
     },
     {
@@ -135,19 +429,82 @@
       ],
       "flagHash": "15237fa1b9516ceffa324afeffe52458ce0b06252455e7941750eb270bffed6f",
       "vfs": {
-        "/": { "type": "dir", "children": ["home", "bin", "etc", "var", "proc", "tmp"] },
-        "/home": { "type": "dir", "children": ["user"] },
-        "/home/user": { "type": "dir", "children": [".bashrc", "alert.txt"] },
-        "/home/user/.bashrc": { "type": "file", "content": "# ~/.bashrc" },
-        "/home/user/alert.txt": { "type": "file", "content": "ALERTE SIEM — 2024-03-19 14:32:01\nProcessus non référencié détecté.\nPID inconnu, commande suspecte.\nInvestigation requise." },
-        "/bin": { "type": "dir", "children": ["bash", "ls", "cat", "grep", "ps"] },
-        "/etc": { "type": "dir", "children": ["passwd"] },
-        "/etc/passwd": { "type": "file", "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash" },
-        "/proc": { "type": "dir", "children": [] },
-        "/var": { "type": "dir", "children": ["log"] },
-        "/var/log": { "type": "dir", "children": ["syslog"] },
-        "/var/log/syslog": { "type": "file", "content": "Mar 19 14:31:58 srv systemd[1]: Started Session 42.\nMar 19 14:32:00 srv kernel: process spawned pid=9342" },
-        "/tmp": { "type": "dir", "children": [] }
+        "/": {
+          "type": "dir",
+          "children": [
+            "home",
+            "bin",
+            "etc",
+            "var",
+            "proc",
+            "tmp"
+          ]
+        },
+        "/home": {
+          "type": "dir",
+          "children": [
+            "user"
+          ]
+        },
+        "/home/user": {
+          "type": "dir",
+          "children": [
+            ".bashrc",
+            "alert.txt"
+          ]
+        },
+        "/home/user/.bashrc": {
+          "type": "file",
+          "content": "# ~/.bashrc"
+        },
+        "/home/user/alert.txt": {
+          "type": "file",
+          "content": "ALERTE SIEM — 2024-03-19 14:32:01\nProcessus non référencié détecté.\nPID inconnu, commande suspecte.\nInvestigation requise."
+        },
+        "/bin": {
+          "type": "dir",
+          "children": [
+            "bash",
+            "ls",
+            "cat",
+            "grep",
+            "ps"
+          ]
+        },
+        "/etc": {
+          "type": "dir",
+          "children": [
+            "passwd"
+          ]
+        },
+        "/etc/passwd": {
+          "type": "file",
+          "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash"
+        },
+        "/proc": {
+          "type": "dir",
+          "children": []
+        },
+        "/var": {
+          "type": "dir",
+          "children": [
+            "log"
+          ]
+        },
+        "/var/log": {
+          "type": "dir",
+          "children": [
+            "syslog"
+          ]
+        },
+        "/var/log/syslog": {
+          "type": "file",
+          "content": "Mar 19 14:31:58 srv systemd[1]: Started Session 42.\nMar 19 14:32:00 srv kernel: process spawned pid=9342"
+        },
+        "/tmp": {
+          "type": "dir",
+          "children": []
+        }
       }
     },
     {
@@ -163,19 +520,488 @@
       ],
       "flagHash": "75ae3ce451747291fee91aef10f2267be5de33267c5fabe7d6d07b086caefa3c",
       "vfs": {
-        "/": { "type": "dir", "children": ["home", "bin", "etc", "var", "tmp"] },
-        "/home": { "type": "dir", "children": ["user"] },
-        "/home/user": { "type": "dir", "children": [".bashrc", "ioc.txt"] },
-        "/home/user/.bashrc": { "type": "file", "content": "# ~/.bashrc" },
-        "/home/user/ioc.txt": { "type": "file", "content": "Indicateurs de compromission (IOC)\nIP suspecte : 203.0.113.99\nPremière détection : 2024-03-20 22:14:08\nProtocole : TCP/443\nDirection : outbound" },
-        "/bin": { "type": "dir", "children": ["bash", "ls", "cat", "grep", "awk", "cut"] },
-        "/etc": { "type": "dir", "children": ["passwd"] },
-        "/etc/passwd": { "type": "file", "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash" },
-        "/var": { "type": "dir", "children": ["log"] },
-        "/var/log": { "type": "dir", "children": ["syslog", "auth.log"] },
-        "/var/log/auth.log": { "type": "file", "content": "Mar 20 22:10:01 srv sshd[6001]: Accepted publickey for user from 10.0.0.1\nMar 20 22:10:03 srv sshd[6001]: pam_unix: session opened for user" },
-        "/var/log/syslog": { "type": "file", "content": "Mar 20 22:00:01 srv systemd[1]: Started Daily Cleanup.\nMar 20 22:05:14 srv kernel: eth0: link is up 1000Mbps\nMar 20 22:14:08 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=flag{\nMar 20 22:14:09 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=network_\nMar 20 22:14:10 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=exfiltration_\nMar 20 22:14:11 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=trace}\nMar 20 22:15:30 srv systemd[1]: NetworkManager[910]: connection activated\nMar 20 22:18:44 srv kernel: usb 1-1: new high-speed USB device" },
-        "/tmp": { "type": "dir", "children": [] }
+        "/": {
+          "type": "dir",
+          "children": [
+            "home",
+            "bin",
+            "etc",
+            "var",
+            "tmp"
+          ]
+        },
+        "/home": {
+          "type": "dir",
+          "children": [
+            "user"
+          ]
+        },
+        "/home/user": {
+          "type": "dir",
+          "children": [
+            ".bashrc",
+            "ioc.txt"
+          ]
+        },
+        "/home/user/.bashrc": {
+          "type": "file",
+          "content": "# ~/.bashrc"
+        },
+        "/home/user/ioc.txt": {
+          "type": "file",
+          "content": "Indicateurs de compromission (IOC)\nIP suspecte : 203.0.113.99\nPremière détection : 2024-03-20 22:14:08\nProtocole : TCP/443\nDirection : outbound"
+        },
+        "/bin": {
+          "type": "dir",
+          "children": [
+            "bash",
+            "ls",
+            "cat",
+            "grep",
+            "awk",
+            "cut"
+          ]
+        },
+        "/etc": {
+          "type": "dir",
+          "children": [
+            "passwd"
+          ]
+        },
+        "/etc/passwd": {
+          "type": "file",
+          "content": "root:x:0:0:root:/root:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash"
+        },
+        "/var": {
+          "type": "dir",
+          "children": [
+            "log"
+          ]
+        },
+        "/var/log": {
+          "type": "dir",
+          "children": [
+            "syslog",
+            "auth.log"
+          ]
+        },
+        "/var/log/auth.log": {
+          "type": "file",
+          "content": "Mar 20 22:10:01 srv sshd[6001]: Accepted publickey for user from 10.0.0.1\nMar 20 22:10:03 srv sshd[6001]: pam_unix: session opened for user"
+        },
+        "/var/log/syslog": {
+          "type": "file",
+          "content": "Mar 20 22:00:01 srv systemd[1]: Started Daily Cleanup.\nMar 20 22:05:14 srv kernel: eth0: link is up 1000Mbps\nMar 20 22:14:08 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=flag{\nMar 20 22:14:09 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=network_\nMar 20 22:14:10 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=exfiltration_\nMar 20 22:14:11 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=trace}\nMar 20 22:15:30 srv systemd[1]: NetworkManager[910]: connection activated\nMar 20 22:18:44 srv kernel: usb 1-1: new high-speed USB device"
+        },
+        "/tmp": {
+          "type": "dir",
+          "children": []
+        }
+      }
+    },
+    {
+      "id": "ctf-07",
+      "title": "DNS Treasure Hunt",
+      "difficulty": "medium",
+      "context": "Tu es pentester et tu analyses l'infrastructure DNS d'une entreprise suspecte. Un collègue t'a laissé un indice : <em>« Commence par résoudre <code>start.target.local</code>, puis suis la chaîne. »</em> Le serveur DNS de test est accessible via la commande <code>dig</code>.",
+      "objective": "Suis la chaîne d'enregistrements DNS pour reconstituer le flag caché dans un enregistrement TXT.",
+      "hints": [
+        "Commence par <code>dig start.target.local</code> pour voir vers où pointe le premier enregistrement.",
+        "Un enregistrement CNAME te redirige vers un autre domaine. Utilise <code>dig</code> sur ce nouveau domaine.",
+        "Le flag est dans un enregistrement TXT. Essaie <code>dig flag.target.local TXT</code>."
+      ],
+      "flagHash": "fb7a1eff2781e2c7e351fc675f1aa2b50b08c160551dd153cfb8d03e6c879f5e",
+      "vfs": {
+        "/": {
+          "type": "dir",
+          "children": [
+            "home",
+            "etc",
+            "var",
+            "tmp"
+          ]
+        },
+        "/home": {
+          "type": "dir",
+          "children": [
+            "user"
+          ]
+        },
+        "/home/user": {
+          "type": "dir",
+          "children": [
+            "notes.txt"
+          ]
+        },
+        "/home/user/notes.txt": {
+          "type": "file",
+          "content": "Mission DNS recon\n=================\nObjectif : trouver le flag caché dans la zone DNS de target.local\nIndice du collègue : \"dig start.target.local, puis suis la chaîne\"\n\nCommandes utiles :\n  dig <domaine>       → résoudre un enregistrement A/CNAME\n  dig <domaine> TXT   → résoudre un enregistrement TXT"
+        },
+        "/etc": {
+          "type": "dir",
+          "children": [
+            "resolv.conf"
+          ]
+        },
+        "/etc/resolv.conf": {
+          "type": "file",
+          "content": "nameserver 10.0.0.53\nsearch target.local"
+        },
+        "/var": {
+          "type": "dir",
+          "children": [
+            "log"
+          ]
+        },
+        "/var/log": {
+          "type": "dir",
+          "children": [
+            "dns-queries.log"
+          ]
+        },
+        "/var/log/dns-queries.log": {
+          "type": "file",
+          "content": "2024-04-10 09:12:01 QUERY start.target.local A\n2024-04-10 09:12:01 RESPONSE start.target.local CNAME -> chain.target.local\n2024-04-10 09:13:15 QUERY chain.target.local A\n2024-04-10 09:13:15 RESPONSE chain.target.local CNAME -> flag.target.local\n2024-04-10 09:14:02 QUERY flag.target.local TXT\n2024-04-10 09:14:02 RESPONSE flag.target.local TXT \"flag{dns_chain_resolved}\""
+        },
+        "/tmp": {
+          "type": "dir",
+          "children": []
+        }
+      },
+      "_dns": {
+        "start.target.local": {
+          "type": "CNAME",
+          "value": "chain.target.local"
+        },
+        "chain.target.local": {
+          "type": "CNAME",
+          "value": "flag.target.local"
+        },
+        "flag.target.local": {
+          "type": "A",
+          "value": "10.0.0.99",
+          "txt": "flag{dns_chain_resolved}"
+        }
+      }
+    },
+    {
+      "id": "ctf-08",
+      "title": "Capture the Leak",
+      "difficulty": "medium",
+      "context": "L'équipe SOC a capturé du trafic réseau suspect avec <code>tcpdump</code>. Un utilisateur semble avoir envoyé ses identifiants en clair via une requête HTTP non chiffrée. Analyse la capture pour retrouver les credentials exfiltrés.",
+      "objective": "Analyse la capture réseau pour identifier les credentials envoyés en clair et reconstituer le flag.",
+      "hints": [
+        "Utilise <code>tcpdump -r /var/log/capture.pcap</code> pour lire la capture réseau.",
+        "Cherche les requêtes HTTP POST — elles contiennent souvent des données sensibles.",
+        "Le flag est dans le corps d'une requête POST. Utilise <code>grep flag /var/log/capture.pcap</code> pour le trouver directement."
+      ],
+      "flagHash": "1d60cb5cc38759a5e687f8b863e0085e3354c3603637ce105b7bf02dee622411",
+      "vfs": {
+        "/": {
+          "type": "dir",
+          "children": [
+            "home",
+            "etc",
+            "var",
+            "tmp"
+          ]
+        },
+        "/home": {
+          "type": "dir",
+          "children": [
+            "user"
+          ]
+        },
+        "/home/user": {
+          "type": "dir",
+          "children": [
+            "mission.txt"
+          ]
+        },
+        "/home/user/mission.txt": {
+          "type": "file",
+          "content": "Alerte SOC #2847\n================\nUn trafic HTTP non chiffré a été détecté sur le segment interne.\nUne capture tcpdump est disponible : /var/log/capture.pcap\n\nCommandes utiles :\n  tcpdump -r <fichier>   → lire une capture réseau\n  grep <motif> <fichier> → filtrer le contenu"
+        },
+        "/etc": {
+          "type": "dir",
+          "children": [
+            "hosts"
+          ]
+        },
+        "/etc/hosts": {
+          "type": "file",
+          "content": "127.0.0.1\tlocalhost\n10.0.1.50\tinternal-app.corp\n10.0.1.100\tdb-server.corp"
+        },
+        "/var": {
+          "type": "dir",
+          "children": [
+            "log"
+          ]
+        },
+        "/var/log": {
+          "type": "dir",
+          "children": [
+            "capture.pcap",
+            "syslog"
+          ]
+        },
+        "/var/log/capture.pcap": {
+          "type": "file",
+          "content": "14:23:01.443 IP 10.0.1.12.48210 > 10.0.1.50.80: Flags [S], seq 1001, win 64240\n14:23:01.444 IP 10.0.1.50.80 > 10.0.1.12.48210: Flags [S.], seq 2001, ack 1002\n14:23:01.445 IP 10.0.1.12.48210 > 10.0.1.50.80: Flags [.], ack 2002\n14:23:01.502 IP 10.0.1.12.48210 > 10.0.1.50.80: Flags [P.], seq 1002:1247\nGET /dashboard HTTP/1.1\nHost: internal-app.corp\nUser-Agent: Mozilla/5.0\nCookie: session=abc123def456\n\n14:23:02.891 IP 10.0.1.12.48210 > 10.0.1.50.80: Flags [P.], seq 1247:1534\nPOST /api/login HTTP/1.1\nHost: internal-app.corp\nContent-Type: application/x-www-form-urlencoded\n\nusername=admin&password=flag{cleartext_credentials_leaked}\n\n14:23:03.112 IP 10.0.1.50.80 > 10.0.1.12.48210: Flags [P.], seq 2002:2150\nHTTP/1.1 200 OK\nSet-Cookie: session=xyz789\n\n14:23:15.003 IP 10.0.1.12.48210 > 10.0.1.100.3306: Flags [S], seq 5001\n14:23:15.004 IP 10.0.1.100.3306 > 10.0.1.12.48210: Flags [R.], seq 0, ack 5002"
+        },
+        "/var/log/syslog": {
+          "type": "file",
+          "content": "Mar 15 14:22:55 internal-app sshd[1201]: Accepted publickey for admin\nMar 15 14:23:01 internal-app nginx[892]: 10.0.1.12 - - \"GET /dashboard\" 200\nMar 15 14:23:02 internal-app nginx[892]: 10.0.1.12 - - \"POST /api/login\" 200\nMar 15 14:23:15 internal-app kernel: [UFW BLOCK] IN=eth0 SRC=10.0.1.12 DST=10.0.1.100 PROTO=TCP DPT=3306"
+        },
+        "/tmp": {
+          "type": "dir",
+          "children": []
+        }
+      }
+    },
+    {
+      "id": "ctf-09",
+      "title": "Firewall Escape",
+      "difficulty": "hard",
+      "context": "Tu audites la sécurité d'un serveur. L'admin prétend que son pare-feu nftables bloque tout sauf SSH (22) et HTTP (80/443). Mais tu suspectes une erreur de configuration qui laisse un port ouvert. Analyse les règles et trouve la faille.",
+      "objective": "Identifie le port non autorisé laissé ouvert par erreur dans les règles nftables, puis vérifie avec <code>ss</code> quel service l'utilise.",
+      "hints": [
+        "Commence par lire la configuration nftables : <code>cat /etc/nftables.conf</code>",
+        "Compare les ports autorisés dans les règles avec ce que <code>ss -tlnp</code> révèle comme services actifs.",
+        "Le flag est composé du port suspect et du mot 'backdoor'. Regarde le fichier dans <code>/opt</code>."
+      ],
+      "flagHash": "9317b458bf8849243bd3af089b9b31c4f3fb91ecd473c54fa9f83100b15decf5",
+      "vfs": {
+        "/": {
+          "type": "dir",
+          "children": [
+            "home",
+            "etc",
+            "var",
+            "opt",
+            "tmp"
+          ]
+        },
+        "/home": {
+          "type": "dir",
+          "children": [
+            "user"
+          ]
+        },
+        "/home/user": {
+          "type": "dir",
+          "children": [
+            "audit-notes.txt"
+          ]
+        },
+        "/home/user/audit-notes.txt": {
+          "type": "file",
+          "content": "Audit réseau — serveur prod-web-01\n===================================\nL'admin affirme : seuls SSH (22), HTTP (80) et HTTPS (443) sont ouverts.\nÀ vérifier avec les règles nftables et les ports en écoute.\n\nCommandes utiles :\n  cat /etc/nftables.conf   → voir les règles du pare-feu\n  ss -tlnp                 → lister les ports TCP en écoute\n  nft list ruleset         → afficher les règles actives"
+        },
+        "/etc": {
+          "type": "dir",
+          "children": [
+            "nftables.conf",
+            "passwd"
+          ]
+        },
+        "/etc/nftables.conf": {
+          "type": "file",
+          "content": "#!/usr/sbin/nft -f\n\ntable inet filter {\n  chain input {\n    type filter hook input priority 0; policy drop;\n\n    # Loopback\n    iif lo accept\n\n    # Connexions établies\n    ct state established,related accept\n\n    # SSH\n    tcp dport 22 accept\n\n    # HTTP / HTTPS\n    tcp dport { 80, 443 } accept\n\n    # ERREUR : règle de debug oubliée par l'admin\n    tcp dport 4444 accept\n\n    # Tout le reste est droppé\n  }\n\n  chain output {\n    type filter hook output priority 0; policy accept;\n  }\n}"
+        },
+        "/etc/passwd": {
+          "type": "file",
+          "content": "root:x:0:0:root:/root:/bin/bash\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\nuser:x:1000:1000::/home/user:/bin/bash"
+        },
+        "/var": {
+          "type": "dir",
+          "children": [
+            "log"
+          ]
+        },
+        "/var/log": {
+          "type": "dir",
+          "children": [
+            "auth.log"
+          ]
+        },
+        "/var/log/auth.log": {
+          "type": "file",
+          "content": "Apr 10 02:14:33 prod-web-01 sshd[4521]: Accepted publickey for user from 192.168.1.10\nApr 10 03:47:12 prod-web-01 sshd[4890]: Failed password for root from 45.33.12.7\nApr 10 03:47:15 prod-web-01 sshd[4890]: Failed password for root from 45.33.12.7\nApr 10 04:01:00 prod-web-01 CRON[5001]: (root) CMD (/opt/.backdoor/persist.sh)"
+        },
+        "/opt": {
+          "type": "dir",
+          "children": [
+            ".backdoor"
+          ]
+        },
+        "/opt/.backdoor": {
+          "type": "dir",
+          "children": [
+            "persist.sh",
+            "flag.txt"
+          ]
+        },
+        "/opt/.backdoor/persist.sh": {
+          "type": "file",
+          "content": "#!/bin/bash\n# Persistence script — reverse shell on port 4444\nwhile true; do\n  ncat -lvp 4444 -e /bin/bash 2>/dev/null\n  sleep 60\ndone"
+        },
+        "/opt/.backdoor/flag.txt": {
+          "type": "file",
+          "content": "flag{port_4444_open_backdoor}"
+        },
+        "/tmp": {
+          "type": "dir",
+          "children": []
+        }
+      },
+      "_ss": "State    Recv-Q   Send-Q   Local Address:Port   Peer Address:Port  Process\nLISTEN   0        128      0.0.0.0:22            0.0.0.0:*          users:((\"sshd\",pid=891,fd=3))\nLISTEN   0        511      0.0.0.0:80            0.0.0.0:*          users:((\"nginx\",pid=1024,fd=6))\nLISTEN   0        511      0.0.0.0:443           0.0.0.0:*          users:((\"nginx\",pid=1024,fd=7))\nLISTEN   0        1        0.0.0.0:4444          0.0.0.0:*          users:((\"ncat\",pid=6612,fd=3))",
+      "_nft": "table inet filter {\n  chain input {\n    type filter hook input priority 0; policy drop;\n    iif \"lo\" accept\n    ct state established,related accept\n    tcp dport 22 accept\n    tcp dport { 80, 443 } accept\n    tcp dport 4444 accept\n  }\n\n  chain output {\n    type filter hook output priority 0; policy accept;\n  }\n}"
+    },
+    {
+      "id": "ctf-10",
+      "title": "SSH Key Hunter",
+      "difficulty": "hard",
+      "context": "Un ancien admin a quitté l'entreprise en urgence. Il aurait laissé une clé SSH privée quelque part dans le système de fichiers, probablement dans un backup oublié. Retrouve cette clé et utilise-la pour déchiffrer le message secret qu'il a laissé.",
+      "objective": "Explore le système de fichiers pour retrouver la clé SSH cachée, puis déchiffre le message encodé en base64.",
+      "hints": [
+        "Utilise <code>find / -name \"*.pem\"</code> ou <code>find / -name \"id_*\"</code> pour chercher des clés SSH.",
+        "Une fois la clé trouvée, regarde s'il y a un message chiffré à proximité.",
+        "Le message est encodé en base64. Utilise <code>base64 -d &lt;chaine&gt;</code> pour le décoder."
+      ],
+      "flagHash": "58d9d053e34a9454cf88783e9205b4add49365087fe70d2205cfcd4de930d389",
+      "vfs": {
+        "/": {
+          "type": "dir",
+          "children": [
+            "home",
+            "etc",
+            "var",
+            "opt",
+            "tmp",
+            "backup"
+          ]
+        },
+        "/home": {
+          "type": "dir",
+          "children": [
+            "user",
+            "old-admin"
+          ]
+        },
+        "/home/user": {
+          "type": "dir",
+          "children": [
+            "readme.txt"
+          ]
+        },
+        "/home/user/readme.txt": {
+          "type": "file",
+          "content": "L'ancien admin (jdupont) a été viré la semaine dernière.\nIl a peut-être laissé des fichiers traîner dans le système.\nVérifie les backups et les répertoires inhabituels."
+        },
+        "/home/old-admin": {
+          "type": "dir",
+          "children": [
+            ".ssh",
+            "documents"
+          ]
+        },
+        "/home/old-admin/.ssh": {
+          "type": "dir",
+          "children": [
+            "known_hosts",
+            "authorized_keys"
+          ]
+        },
+        "/home/old-admin/.ssh/known_hosts": {
+          "type": "file",
+          "content": "192.168.1.1 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI...\n10.0.0.5 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAB..."
+        },
+        "/home/old-admin/.ssh/authorized_keys": {
+          "type": "file",
+          "content": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQ... jdupont@workstation"
+        },
+        "/home/old-admin/documents": {
+          "type": "dir",
+          "children": [
+            "todo.txt"
+          ]
+        },
+        "/home/old-admin/documents/todo.txt": {
+          "type": "file",
+          "content": "- Terminer la migration DB\n- Supprimer mes clés (FAIT ?)\n- Nettoyer /backup (oublié...)"
+        },
+        "/etc": {
+          "type": "dir",
+          "children": [
+            "passwd",
+            "ssh"
+          ]
+        },
+        "/etc/passwd": {
+          "type": "file",
+          "content": "root:x:0:0:root:/root:/bin/bash\njdupont:x:1001:1001:Jean Dupont:/home/old-admin:/bin/bash\nuser:x:1000:1000::/home/user:/bin/bash"
+        },
+        "/etc/ssh": {
+          "type": "dir",
+          "children": [
+            "sshd_config"
+          ]
+        },
+        "/etc/ssh/sshd_config": {
+          "type": "file",
+          "content": "Port 22\nPermitRootLogin no\nPubkeyAuthentication yes\nPasswordAuthentication no"
+        },
+        "/var": {
+          "type": "dir",
+          "children": [
+            "log"
+          ]
+        },
+        "/var/log": {
+          "type": "dir",
+          "children": [
+            "auth.log"
+          ]
+        },
+        "/var/log/auth.log": {
+          "type": "file",
+          "content": "Apr 05 23:58:01 srv sshd[2201]: Accepted publickey for jdupont from 192.168.1.42\nApr 05 23:59:44 srv sshd[2201]: pam_unix(sshd:session): session closed for user jdupont\nApr 06 00:01:12 srv sudo[2340]: jdupont : TTY=pts/0 ; PWD=/backup ; COMMAND=/bin/cp -r /home/old-admin/.ssh/id_rsa /backup/.old/"
+        },
+        "/opt": {
+          "type": "dir",
+          "children": []
+        },
+        "/backup": {
+          "type": "dir",
+          "children": [
+            ".old",
+            "db-dump-2024.sql.gz"
+          ]
+        },
+        "/backup/db-dump-2024.sql.gz": {
+          "type": "file",
+          "content": "[fichier binaire — dump de base de données compressé]"
+        },
+        "/backup/.old": {
+          "type": "dir",
+          "children": [
+            "id_rsa",
+            "message.b64"
+          ]
+        },
+        "/backup/.old/id_rsa": {
+          "type": "file",
+          "content": "-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAlwAAAAdzc2gtcn\nNhAAAAAwEAAQAAAYEA7j2Xf8KZp3Uf... (clé tronquée)\n-----END OPENSSH PRIVATE KEY-----"
+        },
+        "/backup/.old/message.b64": {
+          "type": "file",
+          "content": "ZmxhZ3tzc2hfa2V5X2hpZGRlbl9pbl9iYWNrdXB9"
+        },
+        "/tmp": {
+          "type": "dir",
+          "children": []
+        }
       }
     }
   ]
