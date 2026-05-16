@@ -183,9 +183,7 @@ async function loadState() {
     if (qs) state.quizScores      = JSON.parse(qs);
     if (um) state.unlockedModules = new Set(JSON.parse(um));
     state.unlockedModules.add('sandbox'); // toujours accessible
-    state.unlockedModules.add('m9');      // modules réseau indépendants, toujours accessibles
-    state.unlockedModules.add('m10');
-    state.unlockedModules.add('m11');
+    state.unlockedModules.add('m9');      // premier module réseau, toujours accessible
   } catch(e) { /* état par défaut conservé */ }
 }
 
@@ -193,7 +191,7 @@ async function resetState() {
   state.lessonsDone     = new Set();
   state.exercisesDone   = new Set();
   state.quizScores      = {};
-  state.unlockedModules = new Set(['m1', 'sandbox', 'm9', 'm10', 'm11']);
+  state.unlockedModules = new Set(['m1', 'sandbox', 'm9']);
   await saveState();
   // Réinitialiser aussi la progression CTF
   ctfState.solved = new Set();
@@ -316,7 +314,7 @@ let currentSection = 'home';
 
 function navigateTo(target) {
   // 'ctf' et 'sandbox' sont toujours accessibles sans condition de module
-  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm9', 'm10', 'm11'];
+  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm9'];
   if (!freeTargets.includes(target) && !state.unlockedModules.has(target)) {
     termPrint('error-line', `⚠ Le module "${target}" est verrouillé. Complétez le quiz du module précédent d'abord.`);
     return;
@@ -3048,16 +3046,19 @@ function renderRoadmapTimeline() {
   const el = document.getElementById('roadmap-timeline');
   if (!el) return;
 
-  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11'];
+  const linuxMods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+  const networkMods = ['m9','m10','m11'];
   let html = '';
 
-  mods.forEach((m, idx) => {
+  html += '<div class="roadmap-section-label">Modules Linux</div>';
+
+  function renderNode(m, globalIdx, modsArr, localIdx) {
     const meta   = MODULE_META[m];
     const counts = MODULE_COUNTS[m];
     const icon   = MODULE_ICONS[m];
-    const num    = String(idx + 1).padStart(2, '0');
+    const num    = String(globalIdx + 1).padStart(2, '0');
+    const isLastInSection = localIdx === modsArr.length - 1;
 
-    // Progress for this module
     const lessonsDone = [...state.lessonsDone].filter(id => id.startsWith(m + '-')).length;
     const exDone      = [...state.exercisesDone].filter(id => id.startsWith(m + '-')).length;
     const quizDone    = state.quizScores[m] !== undefined;
@@ -3068,7 +3069,6 @@ function renderRoadmapTimeline() {
                      + (quizDone ? counts.quizzes : 0);
     const pct = totalItems > 0 ? Math.round((doneItems / totalItems) * 100) : 0;
 
-    // Determine state
     const isUnlocked   = state.unlockedModules.has(m);
     const isCompleted  = lessonsDone >= counts.lessons && exDone >= counts.exercises && quizDone;
     const isActive     = isUnlocked && !isCompleted && doneItems > 0;
@@ -3105,7 +3105,7 @@ function renderRoadmapTimeline() {
           <div class="roadmap-dot ${isCompleted ? 'dot-completed' : isActive ? 'dot-active' : isStartable ? 'dot-startable' : 'dot-locked'}">
             ${isCompleted ? '✓' : isLocked ? '🔒' : icon}
           </div>
-          ${idx < mods.length - 1 ? '<div class="roadmap-line ' + (isCompleted ? 'line-done' : '') + '"></div>' : ''}
+          ${!isLastInSection ? '<div class="roadmap-line ' + (isCompleted ? 'line-done' : '') + '"></div>' : ''}
         </div>
         <div class="roadmap-node-content">
           <div class="roadmap-node-header">
@@ -3129,7 +3129,13 @@ function renderRoadmapTimeline() {
           <button class="roadmap-node-btn ${isLocked ? 'btn-locked' : ''}" ${btnDisabled} onclick="navigateTo('${m}')">${btnLabel}</button>
         </div>
       </div>`;
-  });
+  }
+
+  linuxMods.forEach((m, i) => renderNode(m, i, linuxMods, i));
+
+  html += '<div class="roadmap-section-label" style="margin-top:2.5rem;">Réseau & Services</div>';
+
+  networkMods.forEach((m, i) => renderNode(m, i + 8, networkMods, i));
 
   el.innerHTML = html;
 }

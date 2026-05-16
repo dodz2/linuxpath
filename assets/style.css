@@ -3417,6 +3417,17 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
 }
 
 /* Nœud */
+.roadmap-section-label {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--accent);
+  letter-spacing: -0.02em;
+}
+
 .roadmap-node {
   display: flex;
   gap: 20px;
