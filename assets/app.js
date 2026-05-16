@@ -1902,17 +1902,21 @@ function toggleFaq(el) {
 }
 
 function toggleTerminal() {
-  var sect = document.getElementById('terminal-section');
-  if (!sect) return;
-  sect.classList.toggle('term-collapsed');
-  var btn = document.getElementById('toggle-term-btn');
-  if (btn) btn.textContent = sect.classList.contains('term-collapsed') ? '▶ Terminal' : '▼ Terminal';
-  if (!sect.classList.contains('term-collapsed')) focusTerminal();
+  var sec = document.getElementById('terminal-section');
+  var icon = document.getElementById('term-toggle-icon');
+  if (!sec) return;
+  var isMin = sec.classList.toggle('minimized');
+  if (icon) icon.textContent = isMin ? '▲' : '▼';
 }
 
 function focusTerminal() {
+  var sec = document.getElementById('terminal-section');
+  var icon = document.getElementById('term-toggle-icon');
+  if (sec) sec.classList.remove('minimized');
+  if (icon) icon.textContent = '▼';
   var inp = document.getElementById('terminal-input');
   if (inp) inp.focus();
+  closeSidebar();
 }
 
 function initTerminal() {
