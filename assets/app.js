@@ -2695,6 +2695,11 @@ function startSandbox() {
     return;
   }
 
+  // Clear screen container for v86 canvas injection
+  screen.textContent = '';
+  screen.style.whiteSpace = '';
+  screen.style.padding = '0';
+
   _sandboxEmulator = new window.V86({
     wasm_path:     'v86/v86.wasm',
     bios:          { url: 'v86/seabios.bin' },
@@ -2704,18 +2709,21 @@ function startSandbox() {
     autostart:     true,
     memory_size:   64 * 1024 * 1024,
     vga_memory_size: 8 * 1024 * 1024,
+    disable_keyboard: false,
+    disable_mouse:    true,
   });
 
   _sandboxEmulator.add_listener('emulator-started', function() {
     if (statusTxt) statusTxt.textContent = 'Boot en cours… (30–60s)';
-  });
-
-  _sandboxEmulator.add_listener('serial0-output-char', function(char) {
-    if (status) status.style.display = 'none';
     if (screenWrap) screenWrap.style.display = '';
   });
 
-  // Entrée clavier vers le terminal série
+  _sandboxEmulator.add_listener('screen-set-size-graphical', function() {
+    if (status) status.style.display = 'none';
+  });
+
+  // VGA mode: v86 handles keyboard directly via the canvas it injects.
+  // The text input row is a fallback for sending commands via serial.
   if (input) {
     input.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') {
@@ -2727,6 +2735,14 @@ function startSandbox() {
       }
     });
     if (inputRow) inputRow.style.display = '';
+  }
+
+  // Click on screen to focus the v86 canvas for keyboard input
+  if (screen) {
+    screen.addEventListener('click', function() {
+      var canvas = screen.querySelector('canvas');
+      if (canvas) canvas.focus();
+    });
   }
 }
 
