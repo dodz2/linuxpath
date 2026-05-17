@@ -2058,7 +2058,16 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
 .tip-card span { font-size: 12px; color: var(--text-subtle); }
 
 
-/* Sandbox v86 VGA screen */
+/* Sandbox v86 screen */
+#sandbox-screen {
+  position: relative;
+  background: #000;
+  border-radius: 8px;
+  min-height: 320px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: text;
+}
 #sandbox-screen canvas {
   display: block;
   width: 100%;
@@ -2066,14 +2075,13 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   border-radius: 8px;
   image-rendering: pixelated;
 }
-#sandbox-screen div {
-  /* v86 text mode overlay */
-  position: absolute;
-  top: 0; left: 0;
-  font-family: var(--font-mono);
-  font-size: 14px;
-  white-space: pre;
-  line-height: 1.2;
+#sandbox-screen > div {
+  /* v86 text mode rendering */
+  font-family: var(--font-mono) !important;
+  font-size: 15px !important;
+  line-height: 1.25 !important;
+  padding: 12px;
+  color: #ccc;
 }
 
 @media (max-width: 700px) {

@@ -2716,10 +2716,10 @@ function startSandbox() {
   _sandboxEmulator.add_listener('emulator-started', function() {
     if (statusTxt) statusTxt.textContent = 'Boot en cours… (30–60s)';
     if (screenWrap) screenWrap.style.display = '';
-  });
-
-  _sandboxEmulator.add_listener('screen-set-size-graphical', function() {
-    if (status) status.style.display = 'none';
+    // Hide spinner after a short delay (text mode won't fire screen-set-size-graphical)
+    setTimeout(function() {
+      if (status) status.style.display = 'none';
+    }, 2000);
   });
 
   // VGA mode: v86 handles keyboard directly via the canvas it injects.
