@@ -2730,7 +2730,7 @@ function startSandbox() {
         const cmd = input.value;
         input.value = '';
         if (_sandboxEmulator) {
-          _sandboxEmulator.serial0_send(cmd + '\n');
+          _sandboxEmulator.keyboard_send_text(cmd + '\n');
         }
       }
     });
@@ -2750,7 +2750,7 @@ function startSandbox() {
 
 function sandboxSend(cmd) {
   if (_sandboxEmulator) {
-    _sandboxEmulator.serial0_send(cmd + '\n');
+    _sandboxEmulator.keyboard_send_text(cmd + '\n');
   }
 }
 
