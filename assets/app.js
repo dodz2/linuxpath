@@ -2735,6 +2735,8 @@ function startSandbox() {
       }
     });
     if (inputRow) inputRow.style.display = '';
+    var quickCmds = document.getElementById('sandbox-quick-cmds');
+    if (quickCmds) quickCmds.style.display = '';
   }
 
   // Click on screen to focus the v86 canvas for keyboard input
@@ -2743,6 +2745,12 @@ function startSandbox() {
       var canvas = screen.querySelector('canvas');
       if (canvas) canvas.focus();
     });
+  }
+}
+
+function sandboxSend(cmd) {
+  if (_sandboxEmulator) {
+    _sandboxEmulator.serial0_send(cmd + '\n');
   }
 }
 

@@ -2020,6 +2020,14 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   margin-top: 4px;
 }
 
+.sandbox-input-hint {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
 .sandbox-prompt { color: var(--accent-green); font-family: var(--font-mono); font-size: 13px; white-space: nowrap; }
 
 .sandbox-input-field {
@@ -2031,6 +2039,37 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   font-size: 13px;
   outline: none;
   caret-color: var(--accent-green);
+}
+
+.sandbox-quick-cmds {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(6, 6, 10, 0.8);
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.sandbox-quick-label {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+.sandbox-quick-btn {
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  color: var(--accent-green);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.sandbox-quick-btn:hover {
+  background: rgba(57, 211, 83, 0.1);
+  border-color: var(--accent-green);
 }
 
 .sandbox-tips { margin-top: 24px; }
@@ -2076,12 +2115,13 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   image-rendering: pixelated;
 }
 #sandbox-screen > div {
-  /* v86 text mode rendering */
+  /* v86 text mode rendering — inverted for dark theme */
   font-family: var(--font-mono) !important;
   font-size: 15px !important;
   line-height: 1.25 !important;
   padding: 12px;
   color: #ccc;
+  filter: invert(1);
 }
 
 @media (max-width: 700px) {

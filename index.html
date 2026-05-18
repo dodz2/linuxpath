@@ -711,10 +711,20 @@
           <div id="sandbox-screen-wrap" style="display:none">
             <div id="sandbox-screen" style="position:relative;background:#000;border-radius:8px;min-height:320px;overflow:hidden;border:1px solid var(--border)"></div>
             <div class="sandbox-input-row" id="sandbox-input-row" style="display:none">
-              <span class="sandbox-prompt" id="sandbox-prompt-label">’#’</span>
+              <span class="sandbox-input-hint">Entrée série :</span>
+              <span class="sandbox-prompt" id="sandbox-prompt-label">~#</span>
               <input type="text" id="sandbox-input" class="sandbox-input-field"
-                placeholder="Tapez une commande Linux..."
+                placeholder="tapez une commande puis Entrée…"
                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </div>
+            <div class="sandbox-quick-cmds" id="sandbox-quick-cmds" style="display:none">
+              <span class="sandbox-quick-label">Essayez :</span>
+              <button class="sandbox-quick-btn" onclick="sandboxSend('ls /')">ls /</button>
+              <button class="sandbox-quick-btn" onclick="sandboxSend('uname -a')">uname -a</button>
+              <button class="sandbox-quick-btn" onclick="sandboxSend('cat /etc/os-release')">cat /etc/os-release</button>
+              <button class="sandbox-quick-btn" onclick="sandboxSend('free -m')">free -m</button>
+              <button class="sandbox-quick-btn" onclick="sandboxSend('df -h')">df -h</button>
+              <button class="sandbox-quick-btn" onclick="sandboxSend('ps aux')">ps aux</button>
             </div>
           </div>
           <div class="sandbox-tips">
@@ -783,6 +793,15 @@
               <input type="text" class="ctf-terminal-input" id="ctf-terminal-input"
                 placeholder="tapez une commande..."
                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </div>
+            <div class="sandbox-quick-cmds" id="sandbox-quick-cmds" style="display:none">
+              <span class="sandbox-quick-label">Essayez :</span>
+              <button class="sandbox-quick-btn" onclick="sandboxSend('ls /')">ls /</button>
+              <button class="sandbox-quick-btn" onclick="sandboxSend('uname -a')">uname -a</button>
+              <button class="sandbox-quick-btn" onclick="sandboxSend('cat /etc/os-release')">cat /etc/os-release</button>
+              <button class="sandbox-quick-btn" onclick="sandboxSend('free -m')">free -m</button>
+              <button class="sandbox-quick-btn" onclick="sandboxSend('df -h')">df -h</button>
+              <button class="sandbox-quick-btn" onclick="sandboxSend('ps aux')">ps aux</button>
             </div>
           </div>
 
