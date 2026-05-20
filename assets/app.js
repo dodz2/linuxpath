@@ -2349,6 +2349,7 @@ function ctfTermOutput(html, cls) { ctfTerminal.print(html, cls); }
 function ctfTermCmdEcho(cmd) { ctfTerminal.cmdEcho(cmd); }
 function processCTFCommand(input) { ctfTerminal.exec(input); }
 function updateCTFPromptLabel() { ctfTerminal.updatePromptLabel(); }
+function ctfSend(cmd) { ctfTerminal.exec(cmd); }
 
 function loadCTFChallenge(id) {
   var ch = CTF_CHALLENGES.find(function(c){ return c.id === id; });

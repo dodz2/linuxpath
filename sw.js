@@ -1,6 +1,6 @@
 /* ============================================================
    Service Worker — LinuxPath
-   Version : linuxpath-v14
+   Version : linuxpath-v33
 
    Stratégies par type de ressource :
    ┌─────────────────────────────┬──────────────────────────────┐

@@ -74,6 +74,7 @@
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0a0f">
+<link rel="apple-touch-icon" href="assets/icon-192.svg">
 
 <!-- ===== FONTS & STYLES ===== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -794,14 +795,12 @@
                 placeholder="tapez une commande..."
                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
-            <div class="sandbox-quick-cmds" id="sandbox-quick-cmds" style="display:none">
+            <div class="sandbox-quick-cmds" id="ctf-quick-cmds" style="display:none">
               <span class="sandbox-quick-label">Essayez :</span>
-              <button class="sandbox-quick-btn" onclick="sandboxSend('ls /')">ls /</button>
-              <button class="sandbox-quick-btn" onclick="sandboxSend('uname -a')">uname -a</button>
-              <button class="sandbox-quick-btn" onclick="sandboxSend('cat /etc/os-release')">cat /etc/os-release</button>
-              <button class="sandbox-quick-btn" onclick="sandboxSend('free -m')">free -m</button>
-              <button class="sandbox-quick-btn" onclick="sandboxSend('df -h')">df -h</button>
-              <button class="sandbox-quick-btn" onclick="sandboxSend('ps aux')">ps aux</button>
+              <button class="sandbox-quick-btn" onclick="ctfSend('ls /')">ls /</button>
+              <button class="sandbox-quick-btn" onclick="ctfSend('ls -la')">ls -la</button>
+              <button class="sandbox-quick-btn" onclick="ctfSend('find / -name flag* 2>/dev/null')">find flag*</button>
+              <button class="sandbox-quick-btn" onclick="ctfSend('cat /etc/passwd')">cat /etc/passwd</button>
             </div>
           </div>
 
