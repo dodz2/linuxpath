@@ -80,7 +80,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/base.css">
+	<link rel="stylesheet" href="assets/terminal.css">
+	<link rel="stylesheet" href="assets/components.css">
+	<link rel="stylesheet" href="assets/responsive.css">
 </head>
 <body>
   <!-- Skip to main content — accessibilité clavier -->
@@ -1014,8 +1017,14 @@
 </div><!-- /#app -->
 
 
-<!-- v86 chargé en lazy (uniquement quand la sandbox est demandée) -->
-<script src="assets/app.js" defer></script>
+<!-- Modules JavaScript — chargés dans l'ordre de dépendance -->
+<script src="assets/utils.min.js" defer></script>
+<script src="assets/storage.min.js" defer></script>
+<script src="assets/terminal-core.min.js" defer></script>
+<script src="assets/terminal-main.min.js" defer></script>
+<script src="assets/ctf.min.js" defer></script>
+<script src="assets/render.min.js" defer></script>
+<script src="assets/app.min.js" defer></script>
 
 <!-- Enregistrement du Service Worker -->
 <script>
