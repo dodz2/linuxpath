@@ -9,7 +9,7 @@ let currentSection = 'home';
 
 function navigateTo(target) {
   // 'ctf' et 'sandbox' sont toujours accessibles sans condition de module
-  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm9'];
+  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm9', 'm12'];
   if (!freeTargets.includes(target) && !state.unlockedModules.has(target)) {
     termPrint('error-line', `⚠ Le module "${target}" est verrouillé. Complétez le quiz du module précédent d'abord.`);
     return;
@@ -141,9 +141,9 @@ function openGroupForTarget(target) {
 function updateGroupActiveHeader(target) {
   document.querySelectorAll('.sidebar-group-header').forEach(h => h.classList.remove('has-active'));
   const group = document.getElementById(
-    ['m9','m10','m11'].includes(target) ? 'group-network'
+    ['m12','m13','m14'].includes(target) ? 'group-offsec'
+    : ['m9','m10','m11'].includes(target) ? 'group-network'
     : target.startsWith('m') && target !== 'ma' ? 'group-modules'
-    : ['m12','m13','m14'].includes(target) ? 'group-offsec'
     : target === 'ctf' ? 'group-challenges'
     : target === 'sandbox' ? 'group-tools'
     : ['news','cheatsheet','glossary'].includes(target) ? 'group-resources'

@@ -36,7 +36,7 @@ let state = {
   lessonsDone:     new Set(),
   exercisesDone:   new Set(),
   quizScores:      {}, // { m1: 4, m2: 3, ... }
-  unlockedModules: new Set(['m1', 'sandbox'])
+  unlockedModules: new Set(['m1', 'sandbox', 'm9', 'm12'])
 };
 
 /* ============================================================
@@ -184,6 +184,7 @@ async function loadState() {
     if (um) state.unlockedModules = new Set(JSON.parse(um));
     state.unlockedModules.add('sandbox'); // toujours accessible
     state.unlockedModules.add('m9');      // premier module réseau, toujours accessible
+    state.unlockedModules.add('m12');     // module Audit & Durcissement, toujours accessible
   } catch(e) { /* état par défaut conservé */ }
 }
 
