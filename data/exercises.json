@@ -438,7 +438,7 @@
         "L'action 'list' permet d'afficher les règles, et 'ruleset' désigne l'ensemble complet.",
         "Tapez : sudo nft list ruleset"
       ]
-  },
+    },
     {
       "id": "m11-e2",
       "title": "Lister les ports TCP en écoute",
@@ -446,11 +446,12 @@
       "accepted": [
         "ss -tlnp",
         "sudo ss -tlnp",
-        "ss -t -l -n -p"
+        "ss -tnlp",
+        "sudo ss -tnlp"
       ],
       "hints": [
         "ss est le remplaçant moderne de netstat.",
-        "Les options : -t (TCP), -l (listen), -n (numérique), -p (processus).",
+        "Les options : -t (TCP), -l (listening), -n (numérique), -p (processus).",
         "Tapez : ss -tlnp"
       ]
     }
@@ -459,7 +460,7 @@
     {
       "id": "m12-e1",
       "title": "Lancer un audit Lynis",
-      "desc": "Lancez un audit complet du système avec <code>lynis</code> et sauvegardez le rapport.",
+      "desc": "Lancez un audit complet du système avec <code>lynis</code>.",
       "accepted": [
         "sudo lynis audit system",
         "lynis audit system"
@@ -472,45 +473,46 @@
     },
     {
       "id": "m12-e2",
-      "title": "Configurer auditd",
-      "desc": "Configurez <code>auditd</code> pour surveiller les accès au fichier <code>/etc/passwd</code>.",
+      "title": "Surveiller /etc/passwd avec auditd",
+      "desc": "Configurez <code>auditd</code> pour surveiller les accès en écriture à <code>/etc/passwd</code>.",
       "accepted": [
-        "sudo auditctl -w /etc/passwd -p rwxa -k passwd_changes",
-        "auditctl -w /etc/passwd -p rwxa -k passwd_changes"
+        "sudo auditctl -w /etc/passwd -p wa -k passwd_changes",
+        "auditctl -w /etc/passwd -p wa -k passwd_changes"
       ],
       "hints": [
         "auditctl configure les règles d'audit.",
         "L'option -w surveille un fichier, -p les permissions.",
-        "Tapez : sudo auditctl -w /etc/passwd -p rwxa -k passwd_changes"
+        "Tapez : sudo auditctl -w /etc/passwd -p wa -k passwd_changes"
       ]
     }
   ],
   "m13": [
     {
       "id": "m13-e1",
-      "title": "Scan Nmap avec scripts NSE",
-      "desc": "Lancez un scan Nmap sur le réseau <code>192.168.1.0/24</code> avec détection de version et scripts par défaut.",
+      "title": "Scan Nmap avec détection de version",
+      "desc": "Lancez un scan Nmap sur <code>192.168.1.1</code> avec détection de version et scripts NSE par défaut.",
       "accepted": [
-        "nmap -sV -sC 192.168.1.0/24",
-        "sudo nmap -sV -sC 192.168.1.0/24"
+        "nmap -sV -sC 192.168.1.1",
+        "sudo nmap -sV -sC 192.168.1.1",
+        "nmap -sC -sV 192.168.1.1"
       ],
       "hints": [
-        "Nmap est l'outil de scan réseau.",
-        "-sV détecte les versions, -sC lance les scripts NSE par défaut.",
-        "Tapez : nmap -sV -sC 192.168.1.0/24"
+        "-sV pour les versions, -sC pour les scripts NSE.",
+        "Combinez les deux options.",
+        "Tapez : nmap -sV -sC 192.168.1.1"
       ]
     },
     {
       "id": "m13-e2",
-      "title": "Utiliser Metasploit",
-      "desc": "Lancez la console Metasploit et cherchez des modules exploit pour <code>Samba</code>.",
+      "title": "Lancer Metasploit",
+      "desc": "Lancez la console Metasploit Framework.",
       "accepted": [
         "msfconsole",
         "sudo msfconsole"
       ],
       "hints": [
-        "La commande est msfconsole.",
-        "C'est le point d'entrée de Metasploit Framework.",
+        "C'est la commande de base pour lancer Metasploit.",
+        "Le nom commence par 'msf'.",
         "Tapez : msfconsole"
       ]
     }
@@ -518,15 +520,15 @@
   "m14": [
     {
       "id": "m14-e1",
-      "title": "Analyser un binaire avec strings",
-      "desc": "Extrayez les chaînes de caractères du fichier <code>malware.bin</code> et cherchez des URLs.",
+      "title": "Extraire les URLs d'un binaire",
+      "desc": "Utilisez <code>strings</code> pour extraire et filtrer les URLs HTTP d'un fichier <code>malware.bin</code>.",
       "accepted": [
         "strings malware.bin | grep -i http",
         "strings malware.bin | grep http"
       ],
       "hints": [
-        "strings extrait les chaînes lisibles d'un fichier binaire.",
-        "Utilisez grep pour filtrer les URLs (http).",
+        "strings extrait les chaînes lisibles.",
+        "Utilisez grep pour filtrer les URLs.",
         "Tapez : strings malware.bin | grep -i http"
       ]
     },
@@ -539,7 +541,7 @@
         "sudo binwalk -e firmware.bin"
       ],
       "hints": [
-        "binwalk analyse et extrait les fichiers embarqués.",
+        "binwalk analyse et extrait les fichiers.",
         "L'option -e extrait les fichiers trouvés.",
         "Tapez : binwalk -e firmware.bin"
       ]

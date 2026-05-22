@@ -227,6 +227,102 @@ function updateSandboxMobileWarning() {
 document.addEventListener('DOMContentLoaded', updateSandboxMobileWarning);
 window.addEventListener('resize', updateSandboxMobileWarning);
 
+function updateProgressUI() {
+  const modulesBadge = document.getElementById('group-modules-badge');
+  if (modulesBadge) {
+    const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
+    let totalDone = 0, totalItems = 0;
+    mods.forEach(mod => {
+      const counts = MODULE_COUNTS[mod];
+      if (!counts) return;
+      const modTotal = counts.lessons + counts.exercises + counts.quizzes;
+      const modDone = [...state.lessonsDone].filter(id => id.startsWith(mod + '-')).length
+        + [...state.exercisesDone].filter(id => id.startsWith(mod + '-')).length
+        + Object.keys(state.quizScores).filter(id => id.startsWith(mod)).length;
+      totalDone += modDone;
+      totalItems += modTotal;
+    });
+    const pct = totalItems > 0 ? Math.round(totalDone / totalItems * 100) : 0;
+    modulesBadge.textContent = pct + '%';
+  }
+
+  const networkBadge = document.getElementById('group-network-badge');
+  if (networkBadge) {
+    const netMods = ['m9', 'm10', 'm11'];
+    let netDone = 0, netTotal = 0;
+    netMods.forEach(mod => {
+      const counts = MODULE_COUNTS[mod];
+      if (!counts) return;
+      netTotal += counts.lessons + counts.exercises + counts.quizzes;
+      netDone += [...state.lessonsDone].filter(id => id.startsWith(mod + '-')).length
+        + [...state.exercisesDone].filter(id => id.startsWith(mod + '-')).length
+        + Object.keys(state.quizScores).filter(id => id.startsWith(mod)).length;
+    });
+    const netPct = netTotal > 0 ? Math.round(netDone / netTotal * 100) : 0;
+    networkBadge.textContent = netPct + '%';
+  }
+
+  const offsecBadge = document.getElementById('group-offsec-badge');
+  if (offsecBadge) {
+    const offMods = ['m12', 'm13', 'm14'];
+    let offDone = 0, offTotal = 0;
+    offMods.forEach(mod => {
+      const counts = MODULE_COUNTS[mod];
+      if (!counts) return;
+      offTotal += counts.lessons + counts.exercises + counts.quizzes;
+      offDone += [...state.lessonsDone].filter(id => id.startsWith(mod + '-')).length
+        + [...state.exercisesDone].filter(id => id.startsWith(mod + '-')).length
+        + Object.keys(state.quizScores).filter(id => id.startsWith(mod)).length;
+    });
+    const offPct = offTotal > 0 ? Math.round(offDone / offTotal * 100) : 0;
+    offsecBadge.textContent = offPct + '%';
+  }
+
+  const p = getProgress();
+  const sidebarFill = document.getElementById('sidebar-progress-fill');
+  if (sidebarFill) sidebarFill.style.width = p.pct + '%';
+  const sidebarPct = document.getElementById('sidebar-pct');
+  if (sidebarPct) sidebarPct.textContent = p.pct + '%';
+  const topbarFill = document.getElementById('topbar-progress-fill');
+  if (topbarFill) topbarFill.style.width = p.pct + '%';
+  const topbarLabel = document.getElementById('topbar-progress-label');
+  if (topbarLabel) topbarLabel.textContent = p.done + ' / ' + p.total + ' complétés';
+
+  const modules = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14'];
+  modules.forEach(mod => {
+    const mp = getModuleProgress(mod);
+    const badge = document.getElementById('nav-badge-' + mod);
+    if (badge) {
+      badge.textContent = mp.pct + '%';
+      badge.classList.toggle('done', mp.pct === 100);
+    }
+    if (LESSONS[mod]) {
+      LESSONS[mod].forEach(l => {
+        const card = document.getElementById('lesson-card-' + l.id);
+        if (card) card.classList.toggle('completed', state.lessonsDone.has(l.id));
+        const btn = document.getElementById('done-btn-' + l.id);
+        if (btn) {
+          btn.classList.toggle('done', state.lessonsDone.has(l.id));
+          btn.textContent = state.lessonsDone.has(l.id) ? '✓ Leçon terminée' : '✓ Marquer comme terminée';
+        }
+      });
+    }
+    if (EXERCISES[mod]) {
+      EXERCISES[mod].forEach(ex => {
+        const badge2 = document.getElementById('ex-badge-' + ex.id);
+        if (badge2) {
+          badge2.textContent = state.exercisesDone.has(ex.id) ? '✓ Résolu' : 'Exercice';
+          badge2.className = 'exercise-badge ' + (state.exercisesDone.has(ex.id) ? 'solved' : '');
+        }
+        const inp = document.getElementById('ex-input-' + ex.id);
+        if (inp) inp.disabled = state.exercisesDone.has(ex.id);
+        const chk = document.querySelector(`[onclick="checkExercise('${ex.id}', '${mod}')"]`);
+        if (chk) chk.disabled = state.exercisesDone.has(ex.id);
+      });
+    }
+  });
+}
+
 
 
 /* ============================================================

@@ -220,3 +220,9 @@ function getModuleProgress(mod) {
   return { done, total, pct: Math.round(done / total * 100) };
 }
 
+function getProgress() {
+  const done = state.lessonsDone.size + state.exercisesDone.size + Object.keys(state.quizScores).length;
+  const total = 88;
+  return { done, total, pct: Math.round(done / total * 100) };
+}
+
