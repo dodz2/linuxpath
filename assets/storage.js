@@ -21,6 +21,9 @@ const MODULE_META = {
   m9: { title: 'SSH &amp; accès distant', desc: 'Clés SSH, tunnels, SCP/SFTP/rsync et VPN WireGuard.' },
   m10: { title: 'Serveurs web &amp; DNS', desc: 'Nginx, DNS avec dig/nslookup et HTTPS Let\'s Encrypt.' },
   m11: { title: 'Sécurité réseau', desc: 'Pare-feu nftables et monitoring réseau (tcpdump, ss).' },
+  m12: { title: 'Audit & Durcissement', desc: 'Lynis, OpenSCAP, auditd et renforcement système.' },
+  m13: { title: 'Pentest & Outils', desc: 'Metasploit, Burp Suite, Nmap avancé et outils hacker.' },
+  m14: { title: 'Forensic & Malwares', desc: 'Analyse de malwares, investigation numérique et réponse à incident.' },
   sandbox: { title: 'Sandbox Linux', desc: 'Terminal Alpine Linux réel via WebAssembly.' }
 };
 

@@ -2,7 +2,7 @@
    LESSON RENDERING
    ============================================================ */
 function renderLessons() {
-  ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11'].forEach(mod => {
+  ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14'].forEach(mod => {
     const container = document.getElementById('lessons-' + mod);
     if (!container) return;
     container.innerHTML = '';
@@ -52,7 +52,7 @@ async function markLessonDone(id) {
    EXERCISE RENDERING
    ============================================================ */
 function renderExercises() {
-  ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11'].forEach(mod => {
+  ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14'].forEach(mod => {
     const container = document.getElementById('exercises-' + mod);
     if (!container) return;
     container.innerHTML = '';
@@ -193,7 +193,7 @@ async function checkExercise(exId, mod) {
    QUIZ RENDERING
    ============================================================ */
 function renderQuizzes() {
-  ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11'].forEach(mod => {
+  ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14'].forEach(mod => {
     const container = document.getElementById('quiz-' + mod);
     if (!container) return;
     const quiz = QUIZZES[mod];
@@ -323,7 +323,7 @@ async function showQuizResult(mod) {
 
   state.quizScores[mod] = score;
   if (pass) {
-    const modules = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11'];
+    const modules = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14'];
     const idx = modules.indexOf(mod);
     if (idx < modules.length - 1) state.unlockedModules.add(modules[idx + 1]);
     state.unlockedModules.add(mod);
@@ -354,7 +354,7 @@ async function showQuizResult(mod) {
 }
 
 function getNextMod(mod) {
-  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11'];
+  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14'];
   const idx = mods.indexOf(mod);
   return idx < mods.length - 1 ? mods[idx + 1] : mod;
 }
@@ -841,13 +841,17 @@ const MODULE_COUNTS = {
   m8: { lessons: 10, exercises: 4, quizzes: 2 },
   m9: { lessons: 3,  exercises: 2, quizzes: 1 },
   m10: { lessons: 3,  exercises: 2, quizzes: 1 },
-  m11: { lessons: 2,  exercises: 2, quizzes: 1 }
+  m11: { lessons: 2,  exercises: 2, quizzes: 1 },
+  m12: { lessons: 3,  exercises: 2, quizzes: 1 },
+  m13: { lessons: 3,  exercises: 2, quizzes: 1 },
+  m14: { lessons: 2,  exercises: 2, quizzes: 1 }
 };
 
 const MODULE_ICONS = {
   m1: '🐧', m2: '📁', m3: '👤',
   m4: '🌐', m5: '📝', m6: '⚙️',
-  m7: '🛡️', m8: '🐳', m9: '🔑', m10: '🌐', m11: '🛡️'
+  m7: '🛡️', m8: '🐳', m9: '🔑', m10: '🌐', m11: '🛡️',
+  m12: '🕵', m13: '⚔️', m14: '🧬'
 };
 
 const BONUS_SECTIONS = [
@@ -868,7 +872,7 @@ function renderRoadmapSummary() {
   const el = document.getElementById('roadmap-summary');
   if (!el) return;
 
-  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11'];
+  const mods = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14'];
 
   // Compute totals
   let totalLessons = 0, doneLessons = 0;
@@ -932,6 +936,7 @@ function renderRoadmapTimeline() {
 
   const linuxMods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
   const networkMods = ['m9','m10','m11'];
+  const offsecMods = ['m12','m13','m14'];
   let html = '';
 
   html += '<div class="roadmap-section-label">Modules Linux</div>';
@@ -1020,6 +1025,10 @@ function renderRoadmapTimeline() {
   html += '<div class="roadmap-section-label" style="margin-top:2.5rem;">Réseau & Services</div>';
 
   networkMods.forEach((m, i) => renderNode(m, i + 8, networkMods, i));
+
+  html += '<div class="roadmap-section-label" style="margin-top:2.5rem;">Sécurité offensive</div>';
+
+  offsecMods.forEach((m, i) => renderNode(m, i + 11, offsecMods, i));
 
   el.innerHTML = html;
 }

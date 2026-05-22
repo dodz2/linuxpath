@@ -438,7 +438,7 @@
         "L'action 'list' permet d'afficher les règles, et 'ruleset' désigne l'ensemble complet.",
         "Tapez : sudo nft list ruleset"
       ]
-    },
+  },
     {
       "id": "m11-e2",
       "title": "Lister les ports TCP en écoute",
@@ -446,14 +446,105 @@
       "accepted": [
         "ss -tlnp",
         "sudo ss -tlnp",
-        "ss -tnlp",
-        "sudo ss -tnlp"
+        "ss -t -l -n -p"
       ],
       "hints": [
         "ss est le remplaçant moderne de netstat.",
-        "Les options : -t (TCP), -l (listening), -n (numérique), -p (processus).",
+        "Les options : -t (TCP), -l (listen), -n (numérique), -p (processus).",
         "Tapez : ss -tlnp"
       ]
     }
+  ],
+  "m12": [
+    {
+      "id": "m12-e1",
+      "title": "Lancer un audit Lynis",
+      "desc": "Lancez un audit complet du système avec <code>lynis</code> et sauvegardez le rapport.",
+      "accepted": [
+        "sudo lynis audit system",
+        "lynis audit system"
+      ],
+      "hints": [
+        "Lynis est l'outil d'audit de sécurité.",
+        "La commande commence par 'sudo lynis'.",
+        "Tapez : sudo lynis audit system"
+      ]
+    },
+    {
+      "id": "m12-e2",
+      "title": "Configurer auditd",
+      "desc": "Configurez <code>auditd</code> pour surveiller les accès au fichier <code>/etc/passwd</code>.",
+      "accepted": [
+        "sudo auditctl -w /etc/passwd -p rwxa -k passwd_changes",
+        "auditctl -w /etc/passwd -p rwxa -k passwd_changes"
+      ],
+      "hints": [
+        "auditctl configure les règles d'audit.",
+        "L'option -w surveille un fichier, -p les permissions.",
+        "Tapez : sudo auditctl -w /etc/passwd -p rwxa -k passwd_changes"
+      ]
+    }
+  ],
+  "m13": [
+    {
+      "id": "m13-e1",
+      "title": "Scan Nmap avec scripts NSE",
+      "desc": "Lancez un scan Nmap sur le réseau <code>192.168.1.0/24</code> avec détection de version et scripts par défaut.",
+      "accepted": [
+        "nmap -sV -sC 192.168.1.0/24",
+        "sudo nmap -sV -sC 192.168.1.0/24"
+      ],
+      "hints": [
+        "Nmap est l'outil de scan réseau.",
+        "-sV détecte les versions, -sC lance les scripts NSE par défaut.",
+        "Tapez : nmap -sV -sC 192.168.1.0/24"
+      ]
+    },
+    {
+      "id": "m13-e2",
+      "title": "Utiliser Metasploit",
+      "desc": "Lancez la console Metasploit et cherchez des modules exploit pour <code>Samba</code>.",
+      "accepted": [
+        "msfconsole",
+        "sudo msfconsole"
+      ],
+      "hints": [
+        "La commande est msfconsole.",
+        "C'est le point d'entrée de Metasploit Framework.",
+        "Tapez : msfconsole"
+      ]
+    }
+  ],
+  "m14": [
+    {
+      "id": "m14-e1",
+      "title": "Analyser un binaire avec strings",
+      "desc": "Extrayez les chaînes de caractères du fichier <code>malware.bin</code> et cherchez des URLs.",
+      "accepted": [
+        "strings malware.bin | grep -i http",
+        "strings malware.bin | grep http"
+      ],
+      "hints": [
+        "strings extrait les chaînes lisibles d'un fichier binaire.",
+        "Utilisez grep pour filtrer les URLs (http).",
+        "Tapez : strings malware.bin | grep -i http"
+      ]
+    },
+    {
+      "id": "m14-e2",
+      "title": "Extraire des fichiers avec binwalk",
+      "desc": "Utilisez <code>binwalk</code> pour extraire les fichiers embarqués dans <code>firmware.bin</code>.",
+      "accepted": [
+        "binwalk -e firmware.bin",
+        "sudo binwalk -e firmware.bin"
+      ],
+      "hints": [
+        "binwalk analyse et extrait les fichiers embarqués.",
+        "L'option -e extrait les fichiers trouvés.",
+        "Tapez : binwalk -e firmware.bin"
+      ]
+    }
+  ]
+}
   ]
 }

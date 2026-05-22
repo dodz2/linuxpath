@@ -117,6 +117,7 @@ function openGroupForTarget(target) {
     m9: 'group-network',
     m10: 'group-network',
     m11: 'group-network',
+    m12: 'group-offsec', m13: 'group-offsec', m14: 'group-offsec',
     ctf: 'group-challenges',
     sandbox: 'group-tools',
     news: 'group-resources', cheatsheet: 'group-resources', glossary: 'group-resources',
@@ -142,6 +143,7 @@ function updateGroupActiveHeader(target) {
   const group = document.getElementById(
     ['m9','m10','m11'].includes(target) ? 'group-network'
     : target.startsWith('m') && target !== 'ma' ? 'group-modules'
+    : ['m12','m13','m14'].includes(target) ? 'group-offsec'
     : target === 'ctf' ? 'group-challenges'
     : target === 'sandbox' ? 'group-tools'
     : ['news','cheatsheet','glossary'].includes(target) ? 'group-resources'

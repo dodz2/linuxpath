@@ -213,7 +213,36 @@
           </button>
         </div>
       </div>
-
+      
+      <!-- ── Groupe : Sécurité offensive ── -->
+      <div class="sidebar-group" id="group-offsec">
+        <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-offsec')" aria-expanded="false" aria-controls="group-offsec-body">
+          <span class="sidebar-group-icon">🛡️</span>
+          <span class="sidebar-group-title">Sécurité offensive</span>
+          <span class="sidebar-group-badge" id="group-offsec-badge">0%</span>
+          <svg class="sidebar-group-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <polyline points="2,4 6,8 10,4"/>
+          </svg>
+        </button>
+        <div class="sidebar-group-body" id="group-offsec-body">
+          <button class="module-nav-item" data-target="m12" onclick="navigateTo('m12')" id="nav-m12">
+            <span class="module-nav-icon">🕵</span>
+            <span class="module-nav-title">Audit & Durcissement</span>
+            <span class="module-nav-badge" id="nav-badge-m12">0%</span>
+          </button>
+          <button class="module-nav-item" data-target="m13" onclick="navigateTo('m13')" id="nav-m13">
+            <span class="module-nav-icon">⚔️</span>
+            <span class="module-nav-title">Pentest & Outils</span>
+            <span class="module-nav-badge" id="nav-badge-m13">0%</span>
+          </button>
+          <button class="module-nav-item" data-target="m14" onclick="navigateTo('m14')" id="nav-m14">
+            <span class="module-nav-icon">🧬</span>
+            <span class="module-nav-title">Forensic & Malwares</span>
+            <span class="module-nav-badge" id="nav-badge-m14">0%</span>
+          </button>
+        </div>
+      </div>
+      
       <!-- ── Groupe : Challenges ── -->
       <div class="sidebar-group" id="group-challenges">
         <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-challenges')" aria-expanded="false" aria-controls="group-challenges-body">
@@ -673,8 +702,68 @@
         <div id="exercises-m11"></div>
         <h3 class="section-title">Quiz de validation</h3>
         <div id="quiz-m11"></div>
+       </section>
+      
+      <!-- ==================== MODULE 12 — Audit & Durcissement ==================== -->
+      <section id="section-m12" class="module-section">
+        <div class="module-header">
+          <div class="module-tag">Module 12</div>
+          <h2 class="module-title"><span class="prompt-prefix">$</span> Audit &amp; Durcissement</h2>
+          <p class="module-desc">Lynis, OpenSCAP, auditd et renforcement système.</p>
+          <div class="module-meta">
+            <span class="module-meta-item">📚 3 leçons</span>
+            <span class="module-meta-item">⚡ 2 exercices</span>
+            <span class="module-meta-item">❓ Quiz 5 questions</span>
+          </div>
+        </div>
+        <h3 class="section-title">Leçons</h3>
+        <div class="lessons-grid" id="lessons-m12"></div>
+        <h3 class="section-title">Exercices pratiques</h3>
+        <div id="exercises-m12"></div>
+        <h3 class="section-title">Quiz de validation</h3>
+        <div id="quiz-m12"></div>
       </section>
 
+      <!-- ==================== MODULE 13 — Pentest & Outils ==================== -->
+      <section id="section-m13" class="module-section">
+        <div class="module-header">
+          <div class="module-tag">Module 13</div>
+          <h2 class="module-title"><span class="prompt-prefix">$</span> Pentest &amp; Outils</h2>
+          <p class="module-desc">Metasploit, Burp Suite, Nmap avancé et outils hacker.</p>
+          <div class="module-meta">
+            <span class="module-meta-item">📚 3 leçons</span>
+            <span class="module-meta-item">⚡ 2 exercices</span>
+            <span class="module-meta-item">❓ Quiz 5 questions</span>
+          </div>
+        </div>
+        <h3 class="section-title">Leçons</h3>
+        <div class="lessons-grid" id="lessons-m13"></div>
+        <h3 class="section-title">Exercices pratiques</h3>
+        <div id="exercises-m13"></div>
+        <h3 class="section-title">Quiz de validation</h3>
+        <div id="quiz-m13"></div>
+      </section>
+
+      <!-- ==================== MODULE 14 — Forensic & Malwares ==================== -->
+      <section id="section-m14" class="module-section">
+        <div class="module-header">
+          <div class="module-tag">Module 14</div>
+          <h2 class="module-title"><span class="prompt-prefix">$</span> Forensic &amp; Malwares</h2>
+          <p class="module-desc">Analyse de malwares, investigation numérique et réponse à incident.</p>
+          <div class="module-meta">
+            <span class="module-meta-item">📚 2 leçons</span>
+            <span class="module-meta-item">⚡ 2 exercices</span>
+            <span class="module-meta-item">❓ Quiz 5 questions</span>
+          </div>
+        </div>
+        <h3 class="section-title">Leçons</h3>
+        <div class="lessons-grid" id="lessons-m14"></div>
+        <h3 class="section-title">Exercices pratiques</h3>
+        <div id="exercises-m14"></div>
+        <h3 class="section-title">Quiz de validation</h3>
+        <div id="quiz-m14"></div>
+      </section>
+      
       <!-- ======= SANDBOX LINUX RÉELLE ======= -->
       <section id="section-sandbox" class="module-section">
         <div class="module-header">
