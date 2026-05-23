@@ -14,9 +14,18 @@ function navigateTo(target) {
     termPrint('error-line', `⚠ Le module "${target}" est verrouillé. Complétez le quiz du module précédent d'abord.`);
     return;
   }
-  document.querySelectorAll('.module-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.module-section').forEach(s => {
+    s.classList.remove('active');
+    s.setAttribute('aria-hidden', 'true');
+  });
+  const activeSection = document.getElementById('section-' + target);
+  if (activeSection) {
+    activeSection.classList.add('active');
+    activeSection.setAttribute('aria-hidden', 'false');
+    activeSection.setAttribute('tabindex', '-1');
+    activeSection.focus();
+  }
   document.querySelectorAll('.module-nav-item').forEach(b => b.classList.remove('active'));
-  document.getElementById('section-' + target).classList.add('active');
   const btn = document.querySelector(`[data-target="${target}"]`);
   if (btn) btn.classList.add('active');
   currentSection = target;
@@ -80,6 +89,10 @@ function toggleSidebar() {
   const isOpen = sidebar.classList.toggle('open');
   overlay.classList.toggle('visible');
   if (hamburger) hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  if (isOpen) {
+    const firstNavItem = sidebar.querySelector('.module-nav-item');
+    if (firstNavItem) firstNavItem.focus();
+  }
 }
 
 function closeSidebar() {
@@ -87,6 +100,17 @@ function closeSidebar() {
   document.getElementById('sidebar-overlay').classList.remove('visible');
   const hamburger = document.querySelector('.hamburger');
   if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+}
+
+function toggleFaq(btn) {
+  const faqItem = btn.closest('.lp-faq-item');
+  if (!faqItem) return;
+  const answer = faqItem.querySelector('.lp-faq-a');
+  const icon = btn.querySelector('.lp-faq-icon');
+  const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', String(!isExpanded));
+  if (answer) answer.style.display = isExpanded ? 'none' : 'block';
+  if (icon) icon.textContent = isExpanded ? '+' : '−';
 }
 
 /* ─── Accordéons sidebar ──────────────────────────────────────────────────── */

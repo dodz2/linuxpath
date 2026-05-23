@@ -1081,7 +1081,7 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   transform: translateY(-1px);
 }
 
-.unlock-notice {
+ .unlock-notice {
   margin-top: 16px;
   padding: 10px 14px;
   background: rgba(0, 217, 126, 0.08);
@@ -1090,5 +1090,10 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   color: var(--accent-green);
   font-size: 13px;
   font-family: var(--font-mono);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-blue, #4f8ef7);
+  outline-offset: 2px;
 }
 

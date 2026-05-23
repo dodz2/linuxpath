@@ -11,7 +11,7 @@ function renderLessons() {
       card.className = 'lesson-card' + (state.lessonsDone.has(lesson.id) ? ' completed' : '');
       card.id = 'lesson-card-' + lesson.id;
       card.innerHTML = `
-        <div class="lesson-header" onclick="toggleLesson('${lesson.id}')">
+        <div class="lesson-header" onclick="toggleLesson('${lesson.id}')" aria-expanded="false">
           <span class="lesson-num">${String(i+1).padStart(2,'0')}</span>
           <span class="lesson-title">${lesson.title}</span>
           <span class="lesson-toggle">▼</span>
@@ -32,6 +32,11 @@ function toggleLesson(id) {
   const card = document.getElementById('lesson-card-' + id);
   if (!card) return;
   card.classList.toggle('open');
+  const header = card.querySelector('.lesson-header');
+  if (header) {
+    const isOpen = card.classList.contains('open');
+    header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  }
 }
 
 async function markLessonDone(id) {
@@ -80,7 +85,7 @@ function renderExercises() {
           <button class="btn-hint" onclick="showHint('${ex.id}')">💡 Indice</button>
         </div>
         <div class="hint-box" id="hint-${ex.id}"></div>
-        <div class="exercise-feedback" id="feedback-${ex.id}"></div>
+            <div class="exercise-feedback" id="feedback-${ex.id}" role="status" aria-live="polite"></div>
       `;
       container.appendChild(card);
     });
@@ -213,7 +218,7 @@ function renderQuizzes() {
           <button class="btn-start-quiz" onclick="startQuiz('${mod}')">Recommencer le quiz</button>
         </div>
         <div class="quiz-body" id="quiz-body-${mod}"></div>
-        <div class="quiz-result" id="quiz-result-${mod}"></div>
+        <div class="quiz-result" id="quiz-result-${mod}" role="status" aria-live="polite"></div>
       `;
     } else {
       card.innerHTML = `
@@ -223,7 +228,7 @@ function renderQuizzes() {
           <button class="btn-start-quiz" onclick="startQuiz('${mod}')">▶ Commencer le quiz</button>
         </div>
         <div class="quiz-body" id="quiz-body-${mod}"></div>
-        <div class="quiz-result" id="quiz-result-${mod}"></div>
+        <div class="quiz-result" id="quiz-result-${mod}" role="status" aria-live="polite"></div>
       `;
     }
     container.appendChild(card);
@@ -486,6 +491,7 @@ function renderNewsGrid(filter) {
 function filterNews(filter, btn) {
   document.querySelectorAll('#news-filters .news-filter-btn').forEach(b => {
     b.classList.remove('active', 'active-critical', 'active-high', 'active-medium', 'active-info');
+    b.setAttribute('aria-pressed', 'false');
   });
   if (btn) {
     if (filter === 'all') btn.classList.add('active');
@@ -494,6 +500,7 @@ function filterNews(filter, btn) {
     else if (filter === 'medium') btn.classList.add('active-medium');
     else if (filter === 'info') btn.classList.add('active-info');
     else btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
   }
   renderNewsGrid(filter);
 }

@@ -121,11 +121,11 @@
       <!-- ── Navigation principale ── -->
       <div class="sidebar-nav-label">Navigation</div>
 
-      <button class="module-nav-item nav-top-item active" data-target="home" onclick="navigateTo('home')">
+      <button class="module-nav-item nav-top-item active" data-target="home" onclick="navigateTo('home')" aria-label="Accueil">
         <span class="module-num">⌂</span>
         <span class="module-nav-title">Accueil</span>
       </button>
-      <button class="module-nav-item nav-top-item" data-target="roadmap" onclick="navigateTo('roadmap')" id="nav-roadmap">
+      <button class="module-nav-item nav-top-item" data-target="roadmap" onclick="navigateTo('roadmap')" id="nav-roadmap" aria-label="Ma progression">
         <span class="module-nav-icon">🗺️</span>
         <span class="module-nav-title">Ma Progression</span>
       </button>
@@ -141,42 +141,42 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-modules-body"><div>
-          <button class="module-nav-item" data-target="m1" onclick="navigateTo('m1')">
+          <button class="module-nav-item" data-target="m1" onclick="navigateTo('m1')" aria-label="Module 1 : Les bases de Linux">
             <span class="module-num">01</span>
             <span class="module-nav-title">Bases de Linux</span>
             <span class="module-nav-badge" id="nav-badge-m1">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m2" onclick="navigateTo('m2')" id="nav-m2">
+          <button class="module-nav-item" data-target="m2" onclick="navigateTo('m2')" id="nav-m2" aria-label="Module 2 : Fichiers & permissions">
             <span class="module-num">02</span>
             <span class="module-nav-title">Fichiers &amp; permissions</span>
             <span class="module-nav-badge" id="nav-badge-m2">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m3" onclick="navigateTo('m3')" id="nav-m3">
+          <button class="module-nav-item" data-target="m3" onclick="navigateTo('m3')" id="nav-m3" aria-label="Module 3 : Utilisateurs & processus">
             <span class="module-num">03</span>
             <span class="module-nav-title">Utilisateurs &amp; processus</span>
             <span class="module-nav-badge" id="nav-badge-m3">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m4" onclick="navigateTo('m4')" id="nav-m4">
+          <button class="module-nav-item" data-target="m4" onclick="navigateTo('m4')" id="nav-m4" aria-label="Module 4 : Réseau de base">
             <span class="module-num">04</span>
             <span class="module-nav-title">Réseau de base</span>
             <span class="module-nav-badge" id="nav-badge-m4">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m5" onclick="navigateTo('m5')" id="nav-m5">
+          <button class="module-nav-item" data-target="m5" onclick="navigateTo('m5')" id="nav-m5" aria-label="Module 5 : Scripting Bash">
             <span class="module-num">05</span>
             <span class="module-nav-title">Scripting Bash</span>
             <span class="module-nav-badge" id="nav-badge-m5">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m6" onclick="navigateTo('m6')" id="nav-m6">
+          <button class="module-nav-item" data-target="m6" onclick="navigateTo('m6')" id="nav-m6" aria-label="Module 6 : Administration">
             <span class="module-num">06</span>
             <span class="module-nav-title">Administration</span>
             <span class="module-nav-badge" id="nav-badge-m6">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m7" onclick="navigateTo('m7')" id="nav-m7">
+          <button class="module-nav-item" data-target="m7" onclick="navigateTo('m7')" id="nav-m7" aria-label="Module 7 : Sécurité / OSINT">
             <span class="module-nav-icon">🔍</span>
             <span class="module-nav-title">Sécurité / OSINT</span>
             <span class="module-nav-badge" id="nav-badge-m7">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m8" onclick="navigateTo('m8')" id="nav-m8">
+          <button class="module-nav-item" data-target="m8" onclick="navigateTo('m8')" id="nav-m8" aria-label="Module 8 : Git & Docker">
             <span class="module-nav-icon">🐙</span>
             <span class="module-nav-title">Git &amp; Docker</span>
             <span class="module-nav-badge" id="nav-badge-m8">0%</span>
@@ -196,17 +196,17 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-network-body">
-          <button class="module-nav-item" data-target="m9" onclick="navigateTo('m9')" id="nav-m9">
+          <button class="module-nav-item" data-target="m9" onclick="navigateTo('m9')" id="nav-m9" aria-label="Module 9 : SSH & accès distant">
             <span class="module-nav-icon">🔑</span>
             <span class="module-nav-title">SSH & accès distant</span>
             <span class="module-nav-badge" id="nav-badge-m9">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m10" onclick="navigateTo('m10')" id="nav-m10">
+          <button class="module-nav-item" data-target="m10" onclick="navigateTo('m10')" id="nav-m10" aria-label="Module 10 : Serveurs web & DNS">
             <span class="module-nav-icon">🌐</span>
             <span class="module-nav-title">Serveurs web & DNS</span>
             <span class="module-nav-badge" id="nav-badge-m10">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m11" onclick="navigateTo('m11')" id="nav-m11">
+          <button class="module-nav-item" data-target="m11" onclick="navigateTo('m11')" id="nav-m11" aria-label="Module 11 : Sécurité réseau">
             <span class="module-nav-icon">🛡️</span>
             <span class="module-nav-title">Sécurité réseau</span>
             <span class="module-nav-badge" id="nav-badge-m11">0%</span>
@@ -225,17 +225,17 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-offsec-body">
-          <button class="module-nav-item" data-target="m12" onclick="navigateTo('m12')" id="nav-m12">
+          <button class="module-nav-item" data-target="m12" onclick="navigateTo('m12')" id="nav-m12" aria-label="Module 12 : Audit & Durcissement">
             <span class="module-nav-icon">🕵</span>
             <span class="module-nav-title">Audit & Durcissement</span>
             <span class="module-nav-badge" id="nav-badge-m12">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m13" onclick="navigateTo('m13')" id="nav-m13">
+          <button class="module-nav-item" data-target="m13" onclick="navigateTo('m13')" id="nav-m13" aria-label="Module 13 : Pentest & Outils">
             <span class="module-nav-icon">⚔️</span>
             <span class="module-nav-title">Pentest & Outils</span>
             <span class="module-nav-badge" id="nav-badge-m13">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m14" onclick="navigateTo('m14')" id="nav-m14">
+          <button class="module-nav-item" data-target="m14" onclick="navigateTo('m14')" id="nav-m14" aria-label="Module 14 : Forensic & Malwares">
             <span class="module-nav-icon">🧬</span>
             <span class="module-nav-title">Forensic & Malwares</span>
             <span class="module-nav-badge" id="nav-badge-m14">0%</span>
@@ -254,7 +254,7 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-challenges-body"><div>
-          <button class="module-nav-item" data-target="ctf" onclick="navigateTo('ctf')" id="nav-ctf">
+          <button class="module-nav-item" data-target="ctf" onclick="navigateTo('ctf')" id="nav-ctf" aria-label="Challenges CTF">
             <span class="module-nav-icon">🏴</span>
             <span class="module-nav-title">Challenges CTF</span>
           </button>
@@ -272,11 +272,11 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-tools-body"><div>
-          <button class="module-nav-item" onclick="focusTerminal()">
+          <button class="module-nav-item" onclick="focusTerminal()" aria-label="Terminal simulé">
             <span class="module-num">⌨</span>
             <span class="module-nav-title">Terminal simulé</span>
           </button>
-          <button class="module-nav-item" data-target="sandbox" onclick="navigateTo('sandbox')" id="nav-sandbox">
+          <button class="module-nav-item" data-target="sandbox" onclick="navigateTo('sandbox')" id="nav-sandbox" aria-label="Sandbox Linux réelle">
             <span class="module-nav-icon">🐧</span>
             <span class="module-nav-title">Sandbox Linux réelle</span>
           </button>
@@ -294,16 +294,16 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-resources-body"><div>
-          <button class="module-nav-item" data-target="news" onclick="navigateTo('news')" id="nav-news">
+          <button class="module-nav-item" data-target="news" onclick="navigateTo('news')" id="nav-news" aria-label="Actualités Cyber">
             <span class="module-nav-icon">📰</span>
             <span class="module-nav-title">Actualités Cyber</span>
             <span class="module-nav-badge" style="background:rgba(248,81,73,0.12);color:var(--accent-red);border:1px solid rgba(248,81,73,0.2)">NEW</span>
           </button>
-          <button class="module-nav-item" data-target="cheatsheet" onclick="navigateTo('cheatsheet')" id="nav-cheatsheet">
+          <button class="module-nav-item" data-target="cheatsheet" onclick="navigateTo('cheatsheet')" id="nav-cheatsheet" aria-label="Cheatsheet Linux">
             <span class="module-nav-icon">📋</span>
             <span class="module-nav-title">Cheatsheet Linux</span>
           </button>
-          <button class="module-nav-item" data-target="glossary" onclick="navigateTo('glossary')" id="nav-glossary">
+          <button class="module-nav-item" data-target="glossary" onclick="navigateTo('glossary')" id="nav-glossary" aria-label="Glossaire">
             <span class="module-nav-icon">📖</span>
             <span class="module-nav-title">Glossaire</span>
           </button>
@@ -323,7 +323,7 @@
   <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
   <!-- ===================== MAIN ===================== -->
-  <main class="main" role="main" aria-label="Contenu principal">
+   <main class="main" role="main" aria-label="Contenu principal" id="main-content">
     <div class="top-bar">
       <button class="hamburger" onclick="toggleSidebar()" aria-label="Ouvrir le menu de navigation" aria-expanded="false" aria-controls="sidebar">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
@@ -906,7 +906,7 @@
                 onkeydown="if(event.key==='Enter') submitCTFFlag()">
               <button class="ctf-submit-btn" onclick="submitCTFFlag()">Valider</button>
             </div>
-            <div class="ctf-flag-feedback" id="ctf-flag-feedback"></div>
+            <div class="ctf-flag-feedback" id="ctf-flag-feedback" role="alert" aria-live="assertive"></div>
           </div>
 
           <!-- Indices débloquables -->
@@ -937,7 +937,7 @@
         <!-- Filtres sévérité + tags -->
         <div class="news-filters" id="news-filters">
           <div class="news-filters-group" id="news-sev-filters">
-            <button class="news-filter-btn active" data-filter="all" onclick="filterNews('all', this)">Tous</button>
+            <button class="news-filter-btn active" data-filter="all" onclick="filterNews('all', this)" aria-pressed="true">Tous</button>
             <button class="news-filter-btn" data-filter="critical" onclick="filterNews('critical', this)">🔴 Critique</button>
             <button class="news-filter-btn" data-filter="high" onclick="filterNews('high', this)">🟠 Élevé</button>
             <button class="news-filter-btn" data-filter="medium" onclick="filterNews('medium', this)">🟡 Moyen</button>
@@ -1003,17 +1003,18 @@
 
         <!-- Barre de recherche -->
         <div class="cheatsheet-search-wrap">
-          <input
-            type="text"
-            id="glossary-search"
-            class="cheatsheet-search"
-            placeholder="🔍  Rechercher un terme... (ex: kernel, CVE, permission)"
-            oninput="filterGlossary()"
-            autocomplete="off"
-            autocorrect="off"
-            autocapitalize="off"
-            spellcheck="false"
-          >
+        <input
+          type="text"
+          id="glossary-search"
+          class="cheatsheet-search"
+          placeholder="🔍  Rechercher un terme... (ex: kernel, CVE, permission)"
+          oninput="filterGlossary()"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          aria-label="Rechercher dans le glossaire"
+        >
         </div>
 
         <!-- Filtres catégories -->
@@ -1054,17 +1055,18 @@
 
         <!-- Barre de recherche -->
         <div class="cheatsheet-search-wrap">
-          <input
-            type="text"
-            id="cheatsheet-search"
-            class="cheatsheet-search"
-            placeholder="🔍  Rechercher une commande... (ex: grep, chmod, ssh)"
-            oninput="filterCheatsheet()"
-            autocomplete="off"
-            autocorrect="off"
-            autocapitalize="off"
-            spellcheck="false"
-          >
+        <input
+          type="text"
+          id="cheatsheet-search"
+          class="cheatsheet-search"
+          placeholder="🔍  Rechercher une commande... (ex: grep, chmod, ssh)"
+          oninput="filterCheatsheet()"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          aria-label="Rechercher dans la cheatsheet"
+        >
         </div>
 
         <!-- Filtres catégories -->
@@ -1096,10 +1098,10 @@
       <div class="terminal-title">Terminal simulé — user@linux:~</div>
       <div class="term-toggle-icon" id="term-toggle-icon">▼</div>
     </div>
-    <div class="terminal-output" id="terminal-output"></div>
+     <div class="terminal-output" id="terminal-output" aria-live="polite"></div>
     <div class="terminal-input-row">
       <span class="terminal-prompt-label" id="terminal-prompt-label">user@linux:~$</span>
-      <input type="text" class="terminal-input" id="terminal-input" placeholder="tapez une commande..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+       <input type="text" class="terminal-input" id="terminal-input" placeholder="tapez une commande..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Saisie de commande terminal">
     </div>
   </div>
 
@@ -1108,12 +1110,12 @@
 
 <!-- Modules JavaScript — chargés dans l'ordre de dépendance -->
 <script src="assets/utils.min.js" defer></script>
-<script src="assets/storage.min.js" defer></script>
-<script src="assets/terminal-core.min.js" defer></script>
-<script src="assets/terminal-main.min.js" defer></script>
-<script src="assets/ctf.min.js" defer></script>
-<script src="assets/render.min.js" defer></script>
-<script src="assets/app.min.js" defer></script>
+<script src="assets/storage.js" defer></script>
+<script src="assets/terminal-core.js" defer></script>
+<script src="assets/terminal-main.js" defer></script>
+<script src="assets/ctf.js" defer></script>
+<script src="assets/render.js" defer></script>
+<script src="assets/app.js" defer></script>
 
 <!-- Enregistrement du Service Worker -->
 <script>
