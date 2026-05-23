@@ -20,7 +20,7 @@
    - Mise à jour transparente : le SW s'active sans fermer l'onglet
    ============================================================ */
 
-const SW_VERSION = 'linuxpath-v33';
+const SW_VERSION = 'linuxpath-v34';
 
 /* ---- Ressources pré-cachées à l'installation -------------- */
 // On ne pre-cache plus libv86/linux.iso (chargés en lazy ou à la demande)
@@ -28,7 +28,14 @@ const PRECACHE_URLS = [
   './',
   './index.html',
   './assets/style.css',
-  './assets/app.js',
+  './assets/base.css',
+  './assets/utils.min.js',
+  './assets/storage.min.js',
+  './assets/terminal-core.min.js',
+  './assets/terminal-main.min.js',
+  './assets/ctf.min.js',
+  './assets/render.min.js',
+  './assets/app.min.js',
   './assets/favicon.svg',
   './manifest.json',
   './data/lessons.json',
