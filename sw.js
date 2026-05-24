@@ -27,7 +27,6 @@ const SW_VERSION = 'linuxpath-v34';
 const PRECACHE_URLS = [
   './',
   './index.html',
-  './assets/style.css',
   './assets/base.css',
   './assets/utils.min.js',
   './assets/storage.min.js',
