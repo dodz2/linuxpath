@@ -1,0 +1,30 @@
+name: Verify JS minification
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify-minification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install terser
+        run: sudo apt-get update && sudo apt-get install -y node-terser
+      
+      - name: Run minification
+        run: bash minify.sh
+      
+      - name: Check if .min.js files are up to date
+        run: |
+          if ! git diff --quiet -- 'assets/*.min.js'; then
+            echo "❌ Les fichiers .min.js ne sont pas à jour!"
+            echo "Veuillez lancer 'bash minify.sh' et commiter les changements."
+            git diff --stat -- 'assets/*.min.js'
+            exit 1
+          else
+            echo "✅ Les fichiers .min.js sont à jour"
+          fi
