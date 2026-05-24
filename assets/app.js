@@ -191,15 +191,21 @@ async function init() {
   // Load data files and state concurrently
   let dataOk = true;
   try {
-    const [lessonsResp, exercisesResp, quizzesResp] = await Promise.all([
+    const [lessonsResp, exercisesResp, quizzesResp, vfsResp] = await Promise.all([
       fetch('data/lessons.json'),
       fetch('data/exercises.json'),
-      fetch('data/quizzes.json')
+      fetch('data/quizzes.json'),
+      fetch('data/vfs.json')
     ]);
     if (!lessonsResp.ok || !exercisesResp.ok || !quizzesResp.ok) throw new Error('Fetch failed');
     LESSONS   = await lessonsResp.json();
     EXERCISES = await exercisesResp.json();
     QUIZZES   = await quizzesResp.json();
+    // VFS chargé et passé au terminal
+    if (vfsResp.ok) {
+      const VFS = await vfsResp.json();
+      if (typeof initMainTerminal === 'function') initMainTerminal(VFS);
+    }
     // CTF chargé séparément — ne bloque pas l'appli si absent
     try {
       const ctfResp = await fetch('data/ctf.json');

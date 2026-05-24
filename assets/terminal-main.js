@@ -1,34 +1,13 @@
 /* ============================================================
    TERMINAL PRINCIPAL — Instance du moteur unifié
    ============================================================ */
-const vfs = {
-  '/': { type: 'dir', children: ['home', 'bin', 'etc', 'var', 'tmp', 'usr'] },
-  '/home': { type: 'dir', children: ['user'] },
-  '/home/user': { type: 'dir', children: ['documents', 'scripts', 'projets', '.bashrc', '.profile', 'readme.txt'] },
-  '/home/user/documents': { type: 'dir', children: ['notes.txt', 'cours.md'] },
-  '/home/user/scripts': { type: 'dir', children: ['script.sh', 'backup.sh'] },
-  '/home/user/projets': { type: 'dir', children: [] },
-  '/home/user/.bashrc': { type: 'file', content: '# ~/.bashrc\nexport PATH="$HOME/.local/bin:$PATH"\nalias ll="ls -la"\nalias gs="git status"' },
-  '/home/user/.profile': { type: 'file', content: '# ~/.profile\n# Set environment for login shells' },
-  '/home/user/readme.txt': { type: 'file', content: 'Bienvenue dans Linux Trainer !\nExplorez les modules pour apprendre Linux.' },
-  '/home/user/documents/notes.txt': { type: 'file', content: 'Mes notes de cours Linux :\n- ls : lister les fichiers\n- cd : changer de répertoire\n- pwd : afficher le répertoire courant' },
-  '/home/user/documents/cours.md': { type: 'file', content: '# Cours Linux\n\n## Module 1 : Les bases\nLe terminal est votre meilleur ami.' },
-  '/home/user/scripts/script.sh': { type: 'file', content: '#!/bin/bash\necho "Hello, World!"\n', perms: '-rw-r--r--' },
-  '/home/user/scripts/backup.sh': { type: 'file', content: '#!/bin/bash\nrsync -avz ~/documents/ /backup/', perms: '-rwxr-xr-x' },
-  '/bin': { type: 'dir', children: ['bash', 'ls', 'cat', 'echo', 'rm', 'cp', 'mv', 'mkdir', 'chmod', 'chown'] },
-  '/etc': { type: 'dir', children: ['hosts', 'resolv.conf', 'passwd', 'shadow', 'fstab'] },
-  '/etc/hosts': { type: 'file', content: '127.0.0.1\tlocalhost\n::1\t\tlocalhost\n127.0.1.1\tuser-pc' },
-  '/etc/resolv.conf': { type: 'file', content: 'nameserver 8.8.8.8\nnameserver 8.8.4.4\nsearch home.lan' },
-  '/var': { type: 'dir', children: ['log', 'tmp', 'cache'] },
-  '/var/log': { type: 'dir', children: ['syslog', 'auth.log', 'kern.log'] },
-  '/var/log/syslog': { type: 'file', content: 'Dec 15 10:23:01 user-pc systemd[1]: Started Session.\nDec 15 10:23:05 user-pc kernel: Linux version 5.15.0-91-generic' },
-  '/var/log/auth.log': { type: 'file', content: 'Dec 15 10:20:01 user-pc sshd[1234]: Accepted publickey for user from 192.168.1.2\nDec 15 10:22:15 user-pc sudo: user : TTY=pts/0 ; COMMAND=/bin/apt update' },
-  '/tmp': { type: 'dir', children: [] },
-  '/usr': { type: 'dir', children: ['bin', 'lib', 'share', 'local'] }
-};
+let VFS = null; // Chargé depuis data/vfs.json
+let mainTerminal = null;
 
-const mainTerminal = createTerminalEngine({
-  vfs: vfs,
+function initMainTerminal(vfsData) {
+  VFS = vfsData;
+  mainTerminal = createTerminalEngine({
+  vfs: VFS,
   outputElId: 'terminal-output',
   inputElId: 'terminal-input',
   promptLabelElId: 'terminal-prompt-label',
@@ -426,7 +405,8 @@ const mainTerminal = createTerminalEngine({
       var gitArgs = args.slice(1);
       if (!gitSub) { mainTerminal.print('<span class="t-err">git : sous-commande manquante. Essayez : git init, git status, git add, git commit, git log, git branch, git push, git pull</span>'); return; }
       if (gitSub === 'init') {
-        vfs[mainTerminal.getCurrentDir() + '/.git'] = { type: 'dir', children: [] };
+        var _vfs = mainTerminal.getVfs();
+        _vfs[mainTerminal.getCurrentDir() + '/.git'] = { type: 'dir', children: [] };
         mainTerminal.print('<span class="t-green">Dépôt Git vide initialisé dans ' + escapeHtml(mainTerminal.getCurrentDir()) + '/.git/</span>', 'term-output');
       } else if (gitSub === 'status') {
         mainTerminal.print('<span class="t-green">Sur la branche main</span>', 'term-output');
@@ -623,8 +603,10 @@ const mainTerminal = createTerminalEngine({
         mainTerminal.print('<span class="t-err">docker: « ' + escapeHtml(dockerSub) + ' » n\'est pas une commande Docker connue</span>');
       }
     },
-  }
+   }
 });
+
+}
 
 /* Global wrapper functions for backward compatibility */
 function termPrint(html, cls) { mainTerminal.print(html, cls); }
@@ -659,6 +641,10 @@ function focusTerminal() {
 }
 
 function initTerminal() {
+  if (!mainTerminal) {
+    console.error('Terminal non initialisé. Appelez initMainTerminal() d\'abord.');
+    return;
+  }
   var input = document.getElementById('terminal-input');
   if (!input) return;
 
