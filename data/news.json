@@ -1,7 +1,81 @@
 {
-  "last_updated": "2026-05-25",
-  "edition": "Semaine du 25 mai 2026",
+  "last_updated": "2026-05-26",
+  "edition": "Semaine du 26 mai 2026",
   "news": [
+    {
+      "id": "news-aaab3850",
+      "date": "2026-05-26",
+      "title": "7-Eleven data breach exposes personal information of 185,000 people",
+      "summary": "The ShinyHunters extortion gang stole the personal information of over 183,000 people after hacking the systems of convenience store chain giant 7-Eleven in April, according to data breach notification service Have I Been Pwned. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/7-eleven-data-breach-exposes-personal-information-of-185-000-people/"
+    },
+    {
+      "id": "news-74169fac",
+      "date": "2026-05-26",
+      "title": "Microsoft: Domain Controller lookup may fail on Windows Server 2016",
+      "summary": "Microsoft has confirmed a new known issue affecting Windows Server 2016 systems that causes domain controller lookups to fail after installing the KB5087537 May 2026 security update. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows",
+        "Microsoft"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-domain-controller-lookup-may-fail-on-windows-server-2016/"
+    },
+    {
+      "id": "news-8defaf6f",
+      "date": "2026-05-26",
+      "title": "CISA orders feds to patch actively exploited Drupal vulnerability",
+      "summary": "CISA has given U.S. government agencies until Wednesday evening to secure their servers against an SQL injection vulnerability in the Drupal content management system (CMS) that it flagged as actively exploited. [...]",
+      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
+      "severity": "high",
+      "tags": [
+        "Patch"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-actively-exploited-drupal-vulnerability/"
+    },
+    {
+      "id": "news-9ccfd1c7",
+      "date": "2026-05-26",
+      "title": "KnowledgeDeliver LMS Flaw Exploited to Deploy Godzilla and Cobalt Strike",
+      "summary": "A now-patched high-severity security flaw affecting Digital Knowledge KnowledgeDeliver, a Learning Management System (LMS) popular in Japan, was exploited as a zero-day to deliver the Godzilla web shell and ultimately facilitate the deployment of Cobalt Strike Beacon. The vulnerability, tracked as CVE-2026-5426 (CVSS score: 7.5), stems from the use of hard-coded ASP.NET machine keys, leading to",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-5426",
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/05/knowledgedeliver-lms-flaw-exploited-to.html"
+    },
+    {
+      "id": "news-a30e7279",
+      "date": "2026-05-26",
+      "title": "Iranian Hackers Deploy MiniFast and MiniJunk V2 via Phishing and SEO Poisoning",
+      "summary": "The Iranian state-sponsored threat actor known as Nimbus Manticore (aka Screening Serpens and UNC1549) has been attributed to a fresh campaign using lures impersonating organizations in the aviation and software sectors across the U.S., Europe, and the Middle East following the joint U.S.-Israeli military campaign against the country in late February 2026. The activity, besides embracing",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/05/iranian-hackers-deploy-minifast-and.html"
+    },
     {
       "id": "news-a24681e1",
       "date": "2026-05-25",
@@ -256,193 +330,122 @@
       "source_url": "https://thehackernews.com/2026/05/npm-adds-2fa-gated-publishing-and.html"
     },
     {
-      "id": "news-44eb7d46",
+      "id": "news-ae92f899",
       "date": "2026-05-22",
-      "title": "Ubiquiti patches three max severity UniFi OS vulnerabilities",
-      "summary": "Ubiquiti has released security updates to patch three maximum severity vulnerabilities in UniFi OS that can be exploited by remote attackers without privileges. [...]",
+      "title": "Lawmakers Demand Answers as CISA Tries to Contain Data Leak",
+      "summary": "Lawmakers in both houses of Congress are demanding answers from the U.S. Cybersecurity & Infrastructure Security Agency (CISA) after KrebsOnSecurity reported this week that a CISA contractor intentionally published AWS GovCloud keys and a vast trove of other agency secrets on a public GitHub account. The inquiry comes as CISA is still struggling to contain the breach and invalidate the leaked…",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "critical",
+      "tags": [
+        "Adam Boileau",
+        "CISA",
+        "Dylan Ayrey",
+        "GitHub",
+        "James Wilson"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Krebs on Security",
+      "source_url": "https://krebsonsecurity.com/2026/05/lawmakers-demand-answers-as-cisa-tries-to-contain-data-leak/"
+    },
+    {
+      "id": "news-e1a8c0d9",
+      "date": "2026-05-22",
+      "title": "US and Canada arrest and charge suspected Kimwolf botnet admin",
+      "summary": "U.S. and Canadian authorities arrested and charged a Canadian man with operating the KimWolf distributed denial-of-service (DDoS) botnet, which infected nearly two million devices worldwide. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/us-and-canada-arrest-and-charge-suspected-kimwolf-botnet-admin/"
+    },
+    {
+      "id": "news-3c7ae9d2",
+      "date": "2026-05-22",
+      "title": "Cisco Patches CVSS 10.0 Secure Workload REST API Flaw Enabling Data Access",
+      "summary": "Cisco has rolled out updates for a maximum-severity security flaw impacting Secure Workload that could allow an unauthenticated, remote attacker to access sensitive data. Tracked as CVE-2026-20223 (CVSS score: 10.0), the vulnerability arises from insufficient validation and authentication when accessing REST API endpoints. \"An attacker could exploit this vulnerability if they are able to send",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-20223",
+      "cvss": 10.0,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/05/cisco-patches-cvss-100-secure-workload.html"
+    },
+    {
+      "id": "news-f2296dce",
+      "date": "2026-05-22",
+      "title": "CISA Adds Exploited Langflow and Trend Micro Apex One Vulnerabilities to KEV",
+      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) on Thursday added two security flaws impacting Langflow and Trend Micro Apex One to its Known Exploited Vulnerabilities (KEV) catalog, citing evidence of active exploitation. The vulnerabilities in question are listed below - CVE-2025-34291 (CVSS score: 9.4) - An origin validation error vulnerability in Langflow that could",
       "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
       "severity": "high",
       "tags": [
-        "Patch"
+        "CVE"
       ],
-      "cve": null,
+      "cve": "CVE-2025-34291",
       "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/ubiquiti-patches-three-max-severity-unifi-os-vulnerabilities/"
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/05/cisa-adds-exploited-langflow-and-trend.html"
     },
     {
-      "id": "news-0572759c",
+      "id": "news-1819dbf3",
       "date": "2026-05-22",
-      "title": "Why Chargebacks are Just One Piece of the Fraud Puzzle",
-      "summary": "Fraud losses don't stop at chargebacks. False declines, account takeovers, and abuse also damage revenue and trust. IPQS breaks down why fraud teams need broader visibility into risk and customer impact. [...]",
+      "title": "Kimwolf DDoS Botnet Operator Arrested in Canada Over DDoS-for-Hire Attacks",
+      "summary": "The U.S. Department of Justice (DoJ) on Thursday announced the arrest of a Canadian man in connection with allegedly operating a distributed denial-of-service (DDoS) botnet known as Kimwolf. In tandem, Jacob Butler (aka Dort), 23, Ottawa, Canada, has been charged with offenses related to the development and operation of the botnet. Kimwolf is assessed to be a variant of AISURU that specifically",
       "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
       "severity": "info",
       "tags": [],
       "cve": null,
       "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/why-chargebacks-are-just-one-piece-of-the-fraud-puzzle/"
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/05/kimwolf-ddos-botnet-operator-arrested.html"
     },
     {
-      "id": "news-fe2a25d1",
+      "id": "news-5c71faff",
       "date": "2026-05-22",
-      "title": "Drupal: Critical SQL injection flaw now targeted in attacks",
-      "summary": "Drupal is warning that hackers are attempting to exploit a \"highly critical\" SQL injection vulnerability announced earlier this week. [...]",
-      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/drupal-critical-sql-injection-flaw-now-targeted-in-attacks/"
-    },
-    {
-      "id": "news-e266fd57",
-      "date": "2026-05-22",
-      "title": "Trend Micro warns of Apex One zero-day exploited in the wild",
-      "summary": "Japanese cybersecurity software company Trend Micro has addressed an Apex One zero-day vulnerability exploited in attacks targeting Windows systems. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "critical",
+      "title": "Making Vulnerable Drivers Exploitable Without Hardware - The BYOVD Perspective",
+      "summary": "1 Introduction This article provides a technical analysis of how many Windows kernel mode drivers can be interacted with from user mode without the hardware they were developed for. This work was motivated by driver-oriented vulnerability research and the need to evaluate the exploitability of individual findings, which frequently affect code whose reachability is hardware-gated. The",
+      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
+      "severity": "high",
       "tags": [
-        "Windows"
+        "Linux",
+        "Windows",
+        "Noyau Linux"
       ],
       "cve": null,
       "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/trend-micro-warns-of-apex-one-zero-day-exploited-in-attacks/"
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/05/making-vulnerable-drivers-exploitable.html"
     },
     {
-      "id": "news-1093ecb3",
+      "id": "news-3ca4c13d",
       "date": "2026-05-22",
-      "title": "Former US execs plead guilty to aiding tech support scammers",
-      "summary": "Two former executives of a call-tracking and analytics company pleaded guilty to concealing a years-long tech support fraud scheme that victimized individuals worldwide. [...]",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/former-us-execs-plead-guilty-to-aiding-tech-support-scammers/"
-    },
-    {
-      "id": "news-99036dda",
-      "date": "2026-05-22",
-      "title": "Netherlands seizes 800 servers of hosting firm enabling cyberattacks",
-      "summary": "Financial crime investigators in the Netherlands (FIOD) arrested two men and seized 800 servers linked to a web hosting company that enabled cyberattacks, interference operations, and disinformation campaigns. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Legal"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/netherlands-seizes-800-servers-of-hosting-firm-enabling-cyberattacks/"
-    },
-    {
-      "id": "news-18602500",
-      "date": "2026-05-22",
-      "title": "Multiples vulnérabilités dans les produits IBM (22 mai 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans les produits IBM. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, une élévation de privilèges et un déni de service à distance.",
+      "title": "Megalodon GitHub Attack Targets 5,561 Repos with Malicious CI/CD Workflows",
+      "summary": "Cybersecurity researchers have disclosed details of a new automated campaign called Megalodon that has pushed 5,718 malicious commits to 5,561 GitHub repositories within a six-hour window. \"Using throwaway accounts and forged author identities (build-bot, auto-ci, ci-bot, pipeline-bot), the attacker injected GitHub Actions workflows containing base64-encoded bash payloads that exfiltrate CI",
       "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
       "severity": "info",
       "tags": [],
       "cve": null,
       "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0641/"
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/05/megalodon-github-attack-targets-5561.html"
     },
     {
-      "id": "news-d0ef5768",
+      "id": "news-48a06393",
       "date": "2026-05-22",
-      "title": "Multiples vulnérabilités dans le noyau Linux d'Ubuntu (22 mai 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans le noyau Linux d'Ubuntu. Elles permettent à un attaquant de provoquer une élévation de privilèges et un problème de sécurité non spécifié par l'éditeur.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
-      "severity": "info",
-      "tags": [
-        "Linux",
-        "Noyau Linux"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0638/"
-    },
-    {
-      "id": "news-3bd44f79",
-      "date": "2026-05-22",
-      "title": "Vulnérabilité dans Stormshield Network Security (22 mai 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Stormshield Network Security (SNS). Elle permet à un attaquant de provoquer un déni de service à distance.",
+      "title": "Ghostwriter Targets Ukraine Government Entities with Prometheus Phishing Malware",
+      "summary": "The Belarus-aligned threat actor known as Ghostwriter (aka UAC-0057 and UNC1151) has been observed using lures related to Prometheus, a Ukrainian online learning platform, to target government organizations in the country. The activity, per the Computer Emergency Response Team of Ukraine (CERT-UA), involves sending phishing emails to government entities using compromised accounts. It's been",
       "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
+      "severity": "high",
       "tags": [],
       "cve": null,
       "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0631/"
-    },
-    {
-      "id": "news-ce736660",
-      "date": "2026-05-22",
-      "title": "Multiples vulnérabilités dans le noyau Linux de SUSE (22 mai 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans le noyau Linux de SUSE. Elles permettent à un attaquant de provoquer un contournement de la politique de sécurité et un problème de sécurité non spécifié par l'éditeur.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
-      "severity": "info",
-      "tags": [
-        "Linux",
-        "Noyau Linux"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0639/"
-    },
-    {
-      "id": "news-ce4428c6",
-      "date": "2026-05-22",
-      "title": "Vulnérabilité dans le noyau Linux de Debian LTS (22 mai 2026)",
-      "summary": "Une vulnérabilité a été découverte dans le noyau Linux de Debian LTS. Elle permet à un attaquant de provoquer une élévation de privilèges et une atteinte à la confidentialité des données.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
-      "severity": "info",
-      "tags": [
-        "Linux",
-        "Noyau Linux"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0636/"
-    },
-    {
-      "id": "news-61b377ee",
-      "date": "2026-05-22",
-      "title": "Vulnérabilité dans les produits Microsoft (22 mai 2026)",
-      "summary": "Une vulnérabilité a été découverte dans les produits Microsoft. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance.",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "info",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0634/"
-    },
-    {
-      "id": "news-e8c1d125",
-      "date": "2026-05-22",
-      "title": "Multiples vulnérabilités dans le noyau Linux de Red Hat (22 mai 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans le noyau Linux de Red Hat. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire, une élévation de privilèges et une atteinte à la confidentialité des données.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
-      "severity": "info",
-      "tags": [
-        "Linux",
-        "Noyau Linux"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0640/"
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/05/ghostwriter-targets-ukraine-government.html"
     }
   ]
 }
