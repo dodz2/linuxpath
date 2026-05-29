@@ -1,7 +1,81 @@
 {
-  "last_updated": "2026-05-28",
-  "edition": "Semaine du 28 mai 2026",
+  "last_updated": "2026-05-29",
+  "edition": "Semaine du 29 mai 2026",
   "news": [
+    {
+      "id": "news-4821b1fa",
+      "date": "2026-05-29",
+      "title": "Charter Communications data breach affects 4.9 million accounts",
+      "summary": "The ShinyHunters extortion gang stole personal information from 4.9 million accounts after hacking the U.S. telecom giant Charter Communications in early April, according to data breach notification service Have I Been Pwned. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/charter-communications-data-breach-affects-49-million-accounts/"
+    },
+    {
+      "id": "news-d5d03633",
+      "date": "2026-05-29",
+      "title": "Kimsuky Deploys HTTPSpy, Expands Arsenal with HelloDoor and VS Code Tunnels",
+      "summary": "The North Korean state-sponsored threat actor known as Kimsuky (aka Velvet Chollima) has been attributed to a fresh set of cyber attacks targeting South Korean military and corporate entities through March and April 2026. \"Kimsuky employed a range of tailored social engineering tactics, such as spoofing security software installation pages and crafting a fake Webex meeting page that leveraged",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/05/kimsuky-deploys-httpspy-expands-arsenal.html"
+    },
+    {
+      "id": "news-96cedd7f",
+      "date": "2026-05-28",
+      "title": "BTMOB Android malware service generates custom phishing payloads",
+      "summary": "An Android remote access trojan named BTMOB is offered to cybercriminals with a builder interface for generating malware payloads tailored to phishing lures. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "Mobile"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/btmob-android-malware-service-generates-custom-phishing-payloads/"
+    },
+    {
+      "id": "news-1b2f4869",
+      "date": "2026-05-28",
+      "title": "GreyVibe hackers use ChatGPT, Gemini to power cyberattacks",
+      "summary": "A likely Russian threat cluster tracked as GreyVibe has been targeting Ukrainian entities with AI-generated lures and a rich set of custom malware tools. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "Artificial Intelligence"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/greyvibe-hackers-use-chatgpt-gemini-to-power-cyberattacks/"
+    },
+    {
+      "id": "news-3ba2c010",
+      "date": "2026-05-28",
+      "title": "Anthropic confirms Claude Mythos-class models will roll out to the public",
+      "summary": "Anthropic has confirmed that it plans to bring Mythos-class models to the general public after delaying the rollout due to security risks to public and private software. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Artificial Intelligence",
+        "Software"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-confirms-claude-mythos-class-models-will-roll-out-to-the-public/"
+    },
     {
       "id": "news-5596caa3",
       "date": "2026-05-28",
@@ -258,158 +332,86 @@
       "source_url": "https://thehackernews.com/2026/05/jinx-0164-targets-cryptocurrency-firms.html"
     },
     {
-      "id": "news-2d4cf696",
+      "id": "news-77f02704",
       "date": "2026-05-27",
-      "title": "GPU mining malware spreads via SEO poisoning, AI chatbots",
-      "summary": "Threat actors are targeting systems with high-performance computers in an ongoing cryptojacking campaign spread through a coordinated SEO poisoning operation that also manipulated AI chatbot recommendations. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/gpu-mining-malware-spreads-via-seo-poisoning-ai-chatbots/"
-    },
-    {
-      "id": "news-0ea5d1da",
-      "date": "2026-05-27",
-      "title": "Dutch police arrests suspect linked to Ajax football club hack",
-      "summary": "The Dutch National Police arrested a 35-year-old man suspected of hacking the professional football club Ajax Amsterdam (AFC Ajax) earlier this year. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/dutch-police-arrests-suspect-linked-to-ajax-football-club-hack/"
-    },
-    {
-      "id": "news-c44b0c0f",
-      "date": "2026-05-27",
-      "title": "CISA gives feds 4 days to patch actively exploited cPanel plugin flaw",
-      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) has given U.S. federal agencies four days to secure their servers against a critical vulnerability in the LiteSpeed cPanel user-end plugin, which is actively being exploited in attacks. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Patch"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/cisa-gives-feds-4-days-to-patch-actively-exploited-cpanel-plugin-flaw/"
-    },
-    {
-      "id": "news-1ad8367a",
-      "date": "2026-05-27",
-      "title": "FBI warns of in-person data theft attacks from extortion gang",
-      "summary": "The FBI warned on Tuesday that the Silent Ransom Group (SRG) extortion gang is now targeting U.S.-based law firms in in-person data theft attacks. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/fbi-warns-of-silent-ransom-group-in-person-data-theft-attacks/"
-    },
-    {
-      "id": "news-0ac59b7f",
-      "date": "2026-05-27",
-      "title": "Glassworm botnet disrupted after resilient C2 infrastructure takedown",
-      "summary": "The Glassworm botnet targeting developers in software supply-chain attacks has been disrupted after researchers took down its resilient command-and-control infrastructure relying on Solana blockchain transactions and the BitTorrent DHT network. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/glassworm-botnet-disrupted-after-resilient-c2-infrastructure-takedown/"
-    },
-    {
-      "id": "news-ef820e29",
-      "date": "2026-05-27",
-      "title": "Can you enforce strong Active Directory password rules without frustrating users?",
-      "summary": "Strong Active Directory passwords don't have to come at the expense of usability. Specops Software explains how passphrases, breached password protection, and self-service resets can improve security without frustrating users. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/can-you-enforce-strong-active-directory-password-rules-without-frustrating-users/"
-    },
-    {
-      "id": "news-1accefef",
-      "date": "2026-05-27",
-      "title": "Gitea Vulnerability Exposes Private Container Images without Authentication",
-      "summary": "Cybersecurity researchers have disclosed a security flaw in Gitea, an open-source, self-hosted platform for version control, that allows unauthenticated remote attackers to pull private container images from Gitea deployments without requiring an account, password, or other credentials. The vulnerability, tracked as CVE-2026-27771 (CVSS score: N/A), affects all versions of Gitea prior to 1.26.2",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "title": "AI Chatbot Recommendations Redirect Users to Cryptojacking Malware Sites",
+      "summary": "Microsoft has warned of an active cryptojacking campaign that makes use of artificial intelligence (AI) chatbot interactions as a mechanism for surfacing malicious download sites. \"This emerging delivery technique extends social engineering beyond conventional search results and increases the visibility of malicious software recommendations,\" Microsoft Defender Experts and the Microsoft",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
       "severity": "high",
       "tags": [
-        "CVE",
-        "Outil"
-      ],
-      "cve": "CVE-2026-27771",
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/05/gitea-vulnerability-exposes-private.html"
-    },
-    {
-      "id": "news-1ddd56bc",
-      "date": "2026-05-27",
-      "title": "3 SOC Steps that Shut Down Incident Risks Early",
-      "summary": "Most organizations still picture cyber defense as a fortress problem: build stronger walls, add more guards, buy another detection engine. But modern incidents rarely crash through the front gate. They drift in disguised as routine activity, hide inside legitimate processes, and quietly accumulate risk long before anyone labels them an \"incident.\" That changes the role of the SOC entirely. The",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Incident"
+        "Windows"
       ],
       "cve": null,
       "cvss": null,
       "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/05/3-soc-steps-that-shut-down-incident.html"
+      "source_url": "https://thehackernews.com/2026/05/ai-chatbot-recommendations-redirect.html"
     },
     {
-      "id": "news-72886982",
+      "id": "news-932af5ae",
       "date": "2026-05-27",
-      "title": "GlassWorm Malware Takedown Disrupts Developer Supply Chain Attack Infrastructure",
-      "summary": "CrowdStrike, in partnership with Google and the Shadowserver Foundation, has announced the simultaneous disruption of all command-and-control (C2) channels associated with GlassWorm, a persistent software chain campaign targeting software developers through malicious packages and extensions. \"Since at least early 2025, GlassWorm operators have systematically targeted software developers, a",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/05/glassworm-malware-takedown-disrupts.html"
-    },
-    {
-      "id": "news-a722492a",
-      "date": "2026-05-27",
-      "title": "5 Steps to Managing Shadow AI Tools Without Slowing Down Employees",
-      "summary": "When an employee installs an AI writing assistant, connects a coding copilot to their IDE, or starts summarizing meetings with a new browser tool, they are doing exactly what a productive employee should do: finding faster ways to work. Across most organizations today, employees are running three to five AI tools on any given day. Most were never reviewed by IT. A significant portion connects",
+      "title": "Grandoreiro Malware and BTMOB RAT Campaigns Target Windows and Android Users",
+      "summary": "Latin America and Europe become the target of two banking trojan campaigns that are designed to infect Windows and Android devices with Grandoreiro and BTMOB malware, respectively. That's according to new findings from WatchGuard and ESET, which have observed the two malware families being used to single out companies in Spain, Portugal, and Mexico, as well as mobile users in Brazil. The",
       "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
+      "severity": "high",
       "tags": [
-        "Outil"
+        "Windows"
       ],
       "cve": null,
       "cvss": null,
       "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/05/5-steps-to-managing-shadow-ai-tools.html"
+      "source_url": "https://thehackernews.com/2026/05/grandoreiro-malware-and-btmob-rat.html"
     },
     {
-      "id": "news-a13c7ae5",
+      "id": "news-93a32041",
       "date": "2026-05-27",
-      "title": "Malicious npm Package Stole Files From Claude AI User Directory via GitHub",
-      "summary": "Cybersecurity researchers have discovered a new malicious package on the npm registry that comes with information stealing capabilities. According to OX Security, the package, named \"mouse5212-super-formatter,\" is designed to upload files from \"/mnt/user-data,\" a dedicated directory used by Anthropic's Claude artificial intelligence (AI) tool to handle uploads and outputs in the background. The",
+      "title": "Multiples vulnérabilités dans Veeam Backup & Replication (27 mai 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Veeam Backup & Replication. Elles permettent à un attaquant de provoquer une élévation de privilèges et une atteinte à l'intégrité des données.",
       "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
       "severity": "info",
-      "tags": [
-        "Outil"
-      ],
+      "tags": [],
       "cve": null,
       "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/05/malicious-npm-package-stole-files-from.html"
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0652/"
+    },
+    {
+      "id": "news-a2b62876",
+      "date": "2026-05-27",
+      "title": "Multiples vulnérabilités dans Symfony (27 mai 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Symfony. Certaines d'entre elles permettent à un attaquant de provoquer une falsification de requêtes côté serveur (SSRF), une injection de code indirecte à distance (XSS) et un contournement de la politique de sécurité.",
+      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0653/"
+    },
+    {
+      "id": "news-f981a43a",
+      "date": "2026-05-27",
+      "title": "Multiples vulnérabilités dans les produits Check Point (27 mai 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans les produits Check Point. Certaines d'entre elles permettent à un attaquant de provoquer un déni de service à distance, une atteinte à la confidentialité des données et une atteinte à l'intégrité des données.",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0650/"
+    },
+    {
+      "id": "news-bc589c98",
+      "date": "2026-05-27",
+      "title": "Multiples vulnérabilités dans Samba (27 mai 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Samba. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, un déni de service à distance et une atteinte à l'intégrité des données.",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0651/"
     }
   ]
 }
