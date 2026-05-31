@@ -133,6 +133,32 @@ function closeCTFDetail() {
 }
 
 
+/* --- Charger un challenge dans le terminal CTF --- */
+function loadCTFChallenge(id) {
+	const ch = CTF_CHALLENGES.find(function(c){ return c.id === id; });
+	if (!ch) return;
+
+	// Charger le VFS du challenge dans le terminal CTF
+	ctfVfs = ch.vfs || {};
+	ctfTerminal.setVfs(ctfVfs);
+	ctfTerminal.setCurrentDir('/');
+	ctfCurrentId = id;
+
+	// Vider le terminal et afficher le message de départ
+	const out = document.getElementById('ctf-terminal-output');
+	if (out) out.innerHTML = '';
+	ctfTerminal.print('<span class="t-red">🚩 Challenge : ' + escapeHtml(ch.title) + '</span>', 'term-output');
+	ctfTerminal.print('<span class="t-muted">Explore le système de fichiers pour trouver le flag. Tape <strong>help</strong> pour les commandes disponibles.</span>', 'term-output');
+	ctfTerminal.updatePromptLabel();
+
+	// Initialiser l'input une seule fois (initInput clone l'élément, pas de doublon)
+	if (!ctfTermInited) {
+		ctfTerminal.initInput();
+		ctfTermInited = true;
+	}
+}
+
+
 /* --- Terminal CTF isolé (utilise createTerminalEngine) --- */
 var ctfVfs         = {};
 var ctfTermInited  = false;
