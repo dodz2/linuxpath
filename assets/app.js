@@ -7,6 +7,30 @@
    ============================================================ */
 let currentSection = 'home';
 
+/** Liste complète des cibles navigables (utilisée par parseHash). */
+const VALID_TARGETS = [
+  'home','sandbox','ctf','news','cheatsheet','glossary','roadmap',
+  'm1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14',
+];
+
+/**
+ * Lit location.hash et retourne la cible de navigation.
+ * Supporte : #m3, #ctf, #/m3, #/ctf, #m3-l2 (module+leçon).
+ * Retourne { section, lessonId } — lessonId est optionnel.
+ */
+function parseHash() {
+  const raw = location.hash.replace(/^#\/?/, '').trim();
+  if (!raw) return { section: 'home' };
+  // Format "m3-l2" → module + leçon
+  const parts = raw.split('-');
+  const section = parts[0];
+  const lessonId = parts.length > 1 ? raw : null; // "m3-l2" complet
+  if (VALID_TARGETS.includes(section)) {
+    return { section, lessonId };
+  }
+  return { section: 'home' };
+}
+
 function navigateTo(target) {
   // 'ctf' et 'sandbox' sont toujours accessibles sans condition de module
   const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm9', 'm12'];
@@ -29,6 +53,11 @@ function navigateTo(target) {
   const btn = document.querySelector(`[data-target="${target}"]`);
   if (btn) btn.classList.add('active');
   currentSection = target;
+  // Synchroniser l'URL avec la section active (deep linking)
+  const newHash = '#' + target;
+  if (location.hash !== newHash) {
+    history.pushState(null, '', newHash);
+  }
   // Ouvrir le groupe accordéon correspondant à la cible
   openGroupForTarget(target);
   updateGroupActiveHeader(target);
@@ -236,7 +265,25 @@ async function init() {
   initTerminal();
   // News chargées indépendamment — ne bloque pas l'appli si absent
   loadNews();
+
+  // Routage hash : naviguer vers la section cible si l'URL contient un hash
+  const { section: startSection, lessonId: startLesson } = parseHash();
+  if (startSection !== 'home') {
+    navigateTo(startSection);
+  }
+  // Si le hash pointe vers une leçon spécifique (ex: #m3-l2), l'ouvrir après un court délai
+  if (startLesson) {
+    setTimeout(() => scrollToLesson(startLesson), 300);
+  }
 }
+
+// Routage hash : écouter les changements de hash (bouton retour/avant du navigateur)
+window.addEventListener('hashchange', () => {
+  const { section } = parseHash();
+  if (section !== currentSection) {
+    navigateTo(section);
+  }
+});
 
 /* ============================================================
    SANDBOX — Avertissement mobile

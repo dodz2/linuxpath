@@ -18,9 +18,15 @@ function renderLessons() {
         </div>
         <div class="lesson-body">
           <div class="lesson-content">${lesson.content}</div>
-          <button class="lesson-done-btn ${state.lessonsDone.has(lesson.id) ? 'done' : ''}" id="done-btn-${lesson.id}" onclick="markLessonDone('${lesson.id}')">
-            ${state.lessonsDone.has(lesson.id) ? '✓ Leçon terminée' : '✓ Marquer comme terminée'}
-          </button>
+          <div class="lesson-actions">
+            <button class="lesson-done-btn ${state.lessonsDone.has(lesson.id) ? 'done' : ''}" id="done-btn-${lesson.id}" onclick="markLessonDone('${lesson.id}')">
+              ${state.lessonsDone.has(lesson.id) ? '✓ Leçon terminée' : '✓ Marquer comme terminée'}
+            </button>
+            ${i < LESSONS[mod].length - 1
+              ? `<button class="lesson-next-btn" onclick="scrollToLesson('${LESSONS[mod][i+1].id}')">Leçon suivante →</button>`
+              : `<button class="lesson-next-btn" onclick="document.getElementById('exercises-${mod}')?.scrollIntoView({behavior:'smooth'})">Exercices du module →</button>`
+            }
+          </div>
         </div>
       `;
       container.appendChild(card);
@@ -51,6 +57,24 @@ async function markLessonDone(id) {
     card.style.borderColor = 'var(--accent-green)';
     setTimeout(() => { card.style.borderColor = ''; }, 1500);
   }
+}
+
+/**
+ * Fait défiler la page vers une leçon et l'ouvre.
+ * Utilisée par le bouton "Leçon suivante" et le routage hash (#m3-l2).
+ * @param {string} lessonId — ex: 'm3-l2'
+ */
+function scrollToLesson(lessonId) {
+  const card = document.getElementById('lesson-card-' + lessonId);
+  if (!card) return;
+  // Ouvrir la leçon si elle ne l'est pas déjà
+  if (!card.classList.contains('open')) {
+    toggleLesson(lessonId);
+  }
+  // Petit délai pour laisser l'animation d'ouverture se lancer
+  setTimeout(() => {
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
 }
 
 /* ============================================================

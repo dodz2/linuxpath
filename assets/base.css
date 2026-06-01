@@ -624,6 +624,35 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   opacity: 0.75;
 }
 
+.lesson-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.lesson-next-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: rgba(88, 166, 255, 0.08);
+  border: 1px solid rgba(88, 166, 255, 0.25);
+  border-radius: var(--radius-sm);
+  color: var(--accent-blue);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all var(--transition);
+}
+
+.lesson-next-btn:hover {
+  background: rgba(88, 166, 255, 0.15);
+  border-color: var(--accent-blue);
+  transform: translateY(-1px);
+}
+
 /* ==========================================
    SECTION TITLES
    ========================================== */
