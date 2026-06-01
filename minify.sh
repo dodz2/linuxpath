@@ -25,7 +25,7 @@ for src in "${SOURCES[@]}"; do
   
   if [ -f "$src_path" ]; then
     echo "  ⚙️  $src → ${src%.js}.min.js"
-    terser "$src_path" -o "$min_path" --compress --mangle 2>/dev/null
+    npx terser "$src_path" -o "$min_path" --compress --mangle 2>/dev/null
     if [ $? -eq 0 ]; then
       echo "  ✅ $(basename $min_path) mis à jour"
     else
