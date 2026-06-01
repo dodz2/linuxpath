@@ -80,6 +80,68 @@ function renderCTFGrid() {
   });
 }
 
+/* --- Hints CTF --- */
+var ctfCurrentHints = [];
+var ctfHintIndex    = 0;
+
+function renderCTFHints(ch) {
+  ctfCurrentHints = ch.hints || [];
+  ctfHintIndex    = (ctfState.hints[ch.id] != null) ? ctfState.hints[ch.id] : 0;
+
+  var list = document.getElementById('ctf-hints-list');
+  var btn  = document.getElementById('ctf-hint-btn');
+  if (list) list.innerHTML = '';
+
+  for (var i = 0; i < ctfHintIndex && i < ctfCurrentHints.length; i++) {
+    var div = document.createElement('div');
+    div.className = 'ctf-hint-item';
+    div.innerHTML = '<span class="ctf-hint-num">Indice ' + (i + 1) + ' :</span> ' + ctfCurrentHints[i];
+    if (list) list.appendChild(div);
+  }
+
+  if (btn) {
+    if (ctfCurrentHints.length === 0) {
+      btn.style.display = 'none';
+    } else if (ctfHintIndex >= ctfCurrentHints.length) {
+      btn.style.display = '';
+      btn.textContent   = 'Tous les indices affichés';
+      btn.disabled      = true;
+    } else {
+      btn.style.display = '';
+      btn.disabled      = false;
+      var remaining = ctfCurrentHints.length - ctfHintIndex;
+      btn.textContent = 'Afficher un indice (' + remaining + ' restant' + (remaining > 1 ? 's' : '') + ')';
+    }
+  }
+}
+
+function showNextCTFHint() {
+  if (ctfHintIndex >= ctfCurrentHints.length) return;
+
+  var list = document.getElementById('ctf-hints-list');
+  var div  = document.createElement('div');
+  div.className = 'ctf-hint-item';
+  div.innerHTML = '<span class="ctf-hint-num">Indice ' + (ctfHintIndex + 1) + ' :</span> ' + ctfCurrentHints[ctfHintIndex];
+  if (list) list.appendChild(div);
+
+  ctfHintIndex++;
+  if (ctfCurrentId) {
+    ctfState.hints[ctfCurrentId] = ctfHintIndex;
+    saveCTFState();
+  }
+
+  var btn = document.getElementById('ctf-hint-btn');
+  if (btn) {
+    if (ctfHintIndex >= ctfCurrentHints.length) {
+      btn.textContent = 'Tous les indices affichés';
+      btn.disabled    = true;
+    } else {
+      var remaining = ctfCurrentHints.length - ctfHintIndex;
+      btn.textContent = 'Afficher un indice (' + remaining + ' restant' + (remaining > 1 ? 's' : '') + ')';
+    }
+  }
+}
+
 /* --- Ouvrir un challenge --- */
 function openCTFChallenge(id) {
   const ch = CTF_CHALLENGES.find(function(c){ return c.id === id; });
