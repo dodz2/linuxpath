@@ -252,8 +252,8 @@ def _classify_severity(text, categories):
     text_lower = text.lower()
     cat_lower = " ".join(c.lower() for c in categories)
 
-    # Check for CVSS score
-    cvss_match = re.search(r"CVSS\s*(\d+[\.\d]*)", text)
+    # Check for CVSS score — handles "CVSS 7.8", "CVSS:7.8", "CVSS score: 7.8"
+    cvss_match = re.search(r"CVSS\s*(?:score\s*)?[:\s]*(\d+[.\d]*)", text, re.IGNORECASE)
     if cvss_match:
         score = float(cvss_match.group(1))
         if score >= 9.0:
@@ -285,18 +285,22 @@ def _generate_tags(title, desc, categories, cve):
 
     if cve:
         tags.append("CVE")
-    if re.search(r"\bpatch\b", text):
+    if re.search(r"\bpatch\b|\bcorrectif\b|\bmise à jour\b|\bfix\b", text):
         tags.append("Patch")
-    if re.search(r"\bransomware\b|\bdata breach\b|\bincident\b|\bviolation\b", text):
+    if re.search(r"\bransomware\b|\bdata breach\b|\bincident\b|\bviolation\b|\bfuite\b|\bfuite de données\b|\bcompromis\b", text):
         tags.append("Incident")
-    if re.search(r"\btool\b|\bframework\b|\blogiciel\b|\brelease\b|\bversion\b", text):
+    if re.search(r"\btool\b|\bframework\b|\blogiciel\b|\brelease\b|\bversion\b|\boutil\b|\bexploit\b", text):
         tags.append("Outil")
-    if re.search(r"\blinux\b|\bkernel\b|\bubuntu\b|\bdebian\b|\bred hat\b|\bcentos\b|\bunix\b", text):
+    if re.search(r"\blinux\b|\bkernel\b|\bubuntu\b|\bdebian\b|\bred.hat\b|\bcentos\b|\bunix\b|\bsuse\b|\bcifs\b", text):
         tags.append("Linux")
     if re.search(r"\bwindows\b|\bmicrosoft\b", text):
         tags.append("Windows")
     if re.search(r"\bnoyau\b|\bkernel\b", text):
         tags.append("Noyau Linux")
+    if re.search(r"\bréseau\b|\bnetwork\b|\bbotnet\b|\bddos\b|\bvpn\b|\bdns\b|\bfirewall\b", text):
+        tags.append("Réseau")
+    if re.search(r"\bphishing\b|\barnaque\b|\bscam\b|\bvol\b|\bsteal\b|\bstolen\b", text):
+        tags.append("Fraude")
 
     # Add clean categories from feed (not already in tags)
     for cat in clean_cats:
@@ -310,13 +314,22 @@ def _generate_context(title, desc, tags):
     tag_text = " ".join(t.lower() for t in tags)
     text = (title + " " + desc).lower()
 
+    # Check tags first, then fall back to title+desc content analysis
     if "linux" in tag_text or "kernel" in tag_text or "noyau" in tag_text:
         return CONTEXT_TEMPLATES["linux"]
-    if "web" in tag_text or "xss" in text or "csrf" in text or "sql" in text:
+    if re.search(r"\blinux\b|\bkernel\b|\bnoyau\b|\bubuntu\b|\bdebian\b|\bred.hat\b|\bcentos\b|\bunix\b|\bcifs\b|\bsuse\b", text):
+        return CONTEXT_TEMPLATES["linux"]
+    if "web" in tag_text or "xss" in text or "csrf" in text or "sql" in text or "wordpress" in text:
+        return CONTEXT_TEMPLATES["web"]
+    if re.search(r"\bwordpress\b|\bwp-\b|\bplugin\b|\bweb app\b", text):
         return CONTEXT_TEMPLATES["web"]
     if "network" in tag_text or "dns" in text or "tcp" in text or "port" in text:
         return CONTEXT_TEMPLATES["network"]
+    if re.search(r"\bbotnet\b|\bddos\b|\bréseau\b|\bnetwork\b|\bvpn\b|\bvpn\b|\bauth.*bypass\b", text):
+        return CONTEXT_TEMPLATES["network"]
     if "windows" in tag_text or "microsoft" in tag_text:
+        return CONTEXT_TEMPLATES["windows"]
+    if re.search(r"\bwindows\b|\bmicrosoft\b|\bazure\b", text):
         return CONTEXT_TEMPLATES["windows"]
 
     return CONTEXT_TEMPLATES["default"]
@@ -334,19 +347,77 @@ def load_existing_news():
         return []
 
 
+def _title_words(title):
+    """Extrait les mots significatifs (>3 chars) d'un titre pour comparaison."""
+    stop = {"that", "this", "with", "from", "have", "been", "were", "their", "about",
+            "more", "into", "dans", "pour", "les", "des", "une", "the", "and", "for",
+            "2026", "2025", "29", "30", "31", "mai", "juin", "mai"}
+    words = set(re.findall(r'\w{4,}', title.lower()))
+    return words - stop
+
+
+def _is_duplicate(new_title, existing_titles, threshold=0.4):
+    """Vérifie si un titre est un doublon d'un titre existant (Jaccard)."""
+    new_words = _title_words(new_title)
+    if not new_words:
+        return False
+    for existing_title in existing_titles:
+        existing_words = _title_words(existing_title)
+        if not existing_words:
+            continue
+        overlap = new_words & existing_words
+        jaccard = len(overlap) / len(new_words | existing_words)
+        if jaccard >= threshold:
+            return True
+    return False
+
+
 def merge_articles(existing, new_articles):
-    """Fusionne les articles en évitant les doublons (basé sur l'URL)."""
+    """Fusionne les articles en évitant les doublons (URL + similarité titre)."""
     seen_urls = set()
+    seen_titles = []
     for article in existing:
         seen_urls.add(article.get("source_url", ""))
+        seen_titles.append(article.get("title", ""))
+
+    severity_order = {"critical": 0, "high": 1, "medium": 2, "info": 3}
 
     merged = list(existing)
     for article in new_articles:
         url = article.get("source_url", "")
-        if url and url not in seen_urls:
-            # Insert at beginning (newest first)
-            merged.insert(0, article)
-            seen_urls.add(url)
+        title = article.get("title", "")
+
+        # Skip if same URL already exists
+        if url and url in seen_urls:
+            continue
+
+        # Skip if similar title already exists (same story, different source)
+        if _is_duplicate(title, seen_titles):
+            # But if new article has higher severity, upgrade the existing one
+            for existing_article in merged:
+                existing_words = _title_words(existing_article.get("title", ""))
+                new_words = _title_words(title)
+                if existing_words and new_words:
+                    overlap = existing_words & new_words
+                    jaccard = len(overlap) / len(existing_words | new_words)
+                    if jaccard >= 0.4:
+                        new_sev = severity_order.get(article.get("severity", "info"), 3)
+                        old_sev = severity_order.get(existing_article.get("severity", "info"), 3)
+                        if new_sev < old_sev:
+                            existing_article["severity"] = article["severity"]
+                            # Merge tags
+                            for tag in article.get("tags", []):
+                                if tag not in existing_article.get("tags", []):
+                                    existing_article.setdefault("tags", []).append(tag)
+                            # Merge CVSS if missing
+                            if not existing_article.get("cvss") and article.get("cvss"):
+                                existing_article["cvss"] = article["cvss"]
+                        break
+            continue
+
+        merged.append(article)
+        seen_urls.add(url)
+        seen_titles.append(title)
 
     # Sort by date descending
     merged.sort(key=lambda x: x.get("date", ""), reverse=True)

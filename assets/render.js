@@ -450,9 +450,11 @@ function sevLabel(sev) {
 
 function formatNewsDate(dateStr) {
   try {
-    const d = new Date(dateStr);
+    if (!dateStr) return 'Date inconnue';
+    const d = new Date(dateStr + 'T00:00:00');
+    if (isNaN(d.getTime())) return dateStr;
     return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-  } catch(e) { return dateStr; }
+  } catch(e) { return dateStr || 'Date inconnue'; }
 }
 
 function renderNewsGrid(filter) {
@@ -481,29 +483,29 @@ function renderNewsGrid(filter) {
       ? `<span class="news-cvss ${cvssClass(n.cvss)}" title="Score CVSS">CVSS ${n.cvss.toFixed(1)}</span>`
       : '';
     const cveHtml = n.cve
-      ? `<span class="news-tag" style="color:var(--accent-orange);border-color:rgba(255,166,87,0.3)">${n.cve}</span>`
+      ? `<span class="news-tag" style="color:var(--accent-orange);border-color:rgba(255,166,87,0.3)">${escapeHtml(n.cve)}</span>`
       : '';
     const tagsHtml = n.tags
-      ? n.tags.map(t => `<span class="news-tag">${t}</span>`).join('')
+      ? n.tags.map(t => `<span class="news-tag">${escapeHtml(t)}</span>`).join('')
       : '';
     return `
-      <div class="news-card" data-severity="${n.severity}" data-id="${n.id}">
+      <div class="news-card" data-severity="${escapeHtml(n.severity)}" data-id="${escapeHtml(n.id)}">
         <div class="news-card-top">
-          <div class="news-card-title">${n.title}</div>
+          <div class="news-card-title">${escapeHtml(n.title)}</div>
           <div class="news-card-badges">
-            <span class="news-sev-badge ${n.severity}">${sevLabel(n.severity)}</span>
+            <span class="news-sev-badge ${escapeHtml(n.severity)}">${sevLabel(n.severity)}</span>
             ${cvssHtml}
           </div>
         </div>
         <div class="news-card-meta">
           <span class="news-card-date">📅 ${formatNewsDate(n.date)}</span>
-          <span class="news-card-source">⌂ ${n.source_label}</span>
+          <span class="news-card-source">⌂ ${escapeHtml(n.source_label)}</span>
         </div>
         <div class="news-tags">${cveHtml}${tagsHtml}</div>
-        <div class="news-card-summary">${n.summary}</div>
-        <div class="news-card-context">${n.context}</div>
+        <div class="news-card-summary">${escapeHtml(n.summary)}</div>
+        <div class="news-card-context">${escapeHtml(n.context)}</div>
         <div class="news-card-footer">
-          <a href="${n.source_url}" target="_blank" rel="noopener noreferrer" class="news-source-link">
+          <a href="${escapeHtml(n.source_url)}" target="_blank" rel="noopener noreferrer" class="news-source-link">
             Lire la source →
           </a>
         </div>
@@ -890,7 +892,7 @@ const BONUS_SECTIONS = [
   { target: 'ctf',        icon: '🚩', label: 'Challenges CTF',     desc: '6 challenges d\'investigation' },
   { target: 'cheatsheet', icon: '📋', label: 'Cheatsheet',         desc: '118 commandes de référence' },
   { target: 'glossary',   icon: '📖', label: 'Glossaire',          desc: '74 termes expliqués en français' },
-  { target: 'news',       icon: '📰', label: 'Actualités Cyber',   desc: 'Veille cybersécurité — mai 2026' }
+  { target: 'news',       icon: '📰', label: 'Actualités Cyber',   desc: 'Veille cybersécurité — mise à jour quotidienne' }
 ];
 
 function renderRoadmap() {

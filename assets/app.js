@@ -80,7 +80,7 @@ function navigateTo(target) {
     if (detail) detail.style.display = 'none';
     renderCTFGrid();
   } else if (target === 'news') {
-    document.querySelector('.top-bar-title').innerHTML = '<span>user@linux</span>:~/actualites-cyber$ <span style="color:var(--text-subtle);font-size:11px">Bulletin hebdomadaire</span>';
+    document.querySelector('.top-bar-title').innerHTML = '<span>user@linux</span>:~/actualites-cyber$ <span style="color:var(--text-subtle);font-size:11px">Actualités Cyber</span>';
     // Si les données sont déjà chargées, re-render immédiatement
     // Si elles ne le sont pas encore (fetch en cours ou échoué), relancer loadNews()
     if (_newsData.length > 0) {
