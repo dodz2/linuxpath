@@ -151,17 +151,13 @@ function loadCTFChallenge(id) {
 	ctfTerminal.print('<span class="t-muted">Explore le système de fichiers pour trouver le flag. Tape <strong>help</strong> pour les commandes disponibles.</span>', 'term-output');
 	ctfTerminal.updatePromptLabel();
 
-	// Initialiser l'input une seule fois (initInput clone l'élément, pas de doublon)
-	if (!ctfTermInited) {
-		ctfTerminal.initInput();
-		ctfTermInited = true;
-	}
+	// Initialiser l'input (initInput clone l'élément pour supprimer les anciens listeners)
+	ctfTerminal.initInput();
 }
 
 
 /* --- Terminal CTF isolé (utilise createTerminalEngine) --- */
 var ctfVfs         = {};
-var ctfTermInited  = false;
 
 var ctfTerminal = createTerminalEngine({
   vfs: ctfVfs,
