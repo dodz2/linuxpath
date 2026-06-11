@@ -1,7 +1,66 @@
 {
-  "last_updated": "2026-06-10",
-  "edition": "Semaine du 10 juin 2026",
+  "last_updated": "2026-06-11",
+  "edition": "Semaine du 11 juin 2026",
   "news": [
+    {
+      "id": "news-008d98fa",
+      "date": "2026-06-11",
+      "title": "GitHub to Disable npm Install Scripts by Default to Stop Supply Chain Attacks",
+      "summary": "GitHub has announced what it said are \"breaking changes\" coming to npm version 12, one of which turns off install scripts by default to combat software supply chain threats. The changes aim to combat attack techniques that abuse the \"npm install\" command to trigger the execution of malicious code using npm lifecycle hooks. \"Npm install\" is used to download and install all the necessary",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/github-to-disable-npm-install-scripts.html"
+    },
+    {
+      "id": "news-b3a6cd2a",
+      "date": "2026-06-11",
+      "title": "Microsoft fixes BitLocker recovery bug on Windows Server 2025",
+      "summary": "Microsoft has resolved a known issue causing some Windows Server 2025 devices to boot into BitLocker recovery after installing the April 2026 security update. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows",
+        "Microsoft"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-bitlocker-recovery-bug-on-windows-server-2025/"
+    },
+    {
+      "id": "news-7a283170",
+      "date": "2026-06-11",
+      "title": "Nottingham University data breach affects over 450,000 students",
+      "summary": "The University of Nottingham confirmed on Wednesday that a hacking group gained access to its student records system in a breach affecting both current students and alums. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/nottingham-university-data-breach-affects-over-450-000-students/"
+    },
+    {
+      "id": "news-ba2aeb8d",
+      "date": "2026-06-11",
+      "title": "Max severity Ivanti Sentry vulnerability now exploited in attacks",
+      "summary": "Attackers are now targeting a recently patched maximum-severity flaw in Ivanti Sentry, enabling them to execute code with root privileges on Internet-exposed secure mobile gateways. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/max-severity-ivanti-sentry-vulnerability-now-exploited-in-attacks/"
+    },
     {
       "id": "news-26e8fe47",
       "date": "2026-06-10",
@@ -314,6 +373,37 @@
       "source_url": "https://krebsonsecurity.com/2026/06/who-runs-the-ransomware-group-the-gentlemen/"
     },
     {
+      "id": "news-4291b31c",
+      "date": "2026-06-10",
+      "title": "Path traversal flaw in AI dev platform Langflow exploited in attacks",
+      "summary": "Attackers are actively exploiting CVE-2026-5027, a high-severity path traversal vulnerability in the AI development platform Langflow, to write arbitrary files on exposed servers. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "CVE",
+        "Artificial Intelligence"
+      ],
+      "cve": "CVE-2026-5027",
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/path-traversal-flaw-in-ai-dev-platform-langflow-exploited-in-attacks/"
+    },
+    {
+      "id": "news-5ba33cd3",
+      "date": "2026-06-10",
+      "title": "The ‘Miasma’ worm source code briefly leaked on GitHub",
+      "summary": "The Miasma credential-stealing attack framework, which has recently targeted open-source ecosystems through supply-chain attacks, was briefly open-sourced on GitHub. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/the-miasma-worm-source-code-briefly-leaked-on-github/"
+    },
+    {
       "id": "news-42676d37",
       "date": "2026-06-09",
       "title": "LiteLLM Flaw CVE-2026-42271 Exploited in the Wild, Chains to Unauthenticated RCE",
@@ -362,90 +452,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-check-point-flaw-exploited-by-ransomware-gangs/"
-    },
-    {
-      "id": "news-54cf8f98",
-      "date": "2026-06-09",
-      "title": "Google patches new Chrome zero-day flaw exploited in the wild",
-      "summary": "Google has released emergency updates to patch another Chrome zero-day vulnerability that has been exploited in the wild, the fifth such flaw patched since the start of the year. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Patch",
-        "Google"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/google-patches-fifth-chrome-zero-day-bug-exploited-in-attacks-this-year/"
-    },
-    {
-      "id": "news-542cef4b",
-      "date": "2026-06-09",
-      "title": "Multiples vulnérabilités dans les VPN Check Point (09 juin 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans les VPN Check Point. Elles permettent à un attaquant de provoquer un contournement de la politique de sécurité. Check Point indique que la vulnérabilité CVE-2026-50751 est activement exploitée. La vulnérabilité CVE-2026-50751 affecte les...",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "CVE",
-        "Réseau"
-      ],
-      "cve": "CVE-2026-50751",
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0711/"
-    },
-    {
-      "id": "news-60343475",
-      "date": "2026-06-09",
-      "title": "Vulnérabilité dans CPython (09 juin 2026)",
-      "summary": "Une vulnérabilité a été découverte dans CPython. Elle permet à un attaquant de provoquer un déni de service à distance.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0704/"
-    },
-    {
-      "id": "news-e7243d35",
-      "date": "2026-06-09",
-      "title": "Vulnérabilité dans strongSwan (09 juin 2026)",
-      "summary": "Une vulnérabilité a été découverte dans strongSwan. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0709/"
-    },
-    {
-      "id": "news-01d96350",
-      "date": "2026-06-09",
-      "title": "Vulnérabilité dans les produits Schneider Electric EcoStruxure IT Data Center Expert (09 juin 2026)",
-      "summary": "Une vulnérabilité a été découverte dans les produits Schneider Electric EcoStruxure IT Data Center Expert. Elle permet à un attaquant de provoquer une atteinte à la confidentialité des données.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0713/"
-    },
-    {
-      "id": "news-dfa60e92",
-      "date": "2026-06-09",
-      "title": "Vulnérabilité dans Veeam Backup & Replication (09 juin 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Veeam Backup & Replication. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0712/"
     }
   ]
 }
