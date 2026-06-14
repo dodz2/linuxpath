@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-06-13",
-  "edition": "Semaine du 13 juin 2026",
+  "last_updated": "2026-06-14",
+  "edition": "Semaine du 14 juin 2026",
   "news": [
     {
       "id": "news-c8d5a355",
@@ -75,6 +75,19 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/chinese-hackers-hijack-auth-flow-spy-on-isolated-network-for-a-decade/"
+    },
+    {
+      "id": "news-c73fa278",
+      "date": "2026-06-13",
+      "title": "Ex-school district employee jailed for hacks on former employer",
+      "summary": "A former IT employee at an Iowa school district was sentenced to 21 months in prison after conducting a prolonged cyberattack against the former employer that disrupted classroom operations, deleted accounts, and caused tens of thousands of dollars in damages. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/ex-school-district-employee-jailed-for-hacks-on-former-employer/"
     },
     {
       "id": "news-b6174679",
@@ -428,19 +441,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/max-severity-ivanti-sentry-vulnerability-now-exploited-in-attacks/"
-    },
-    {
-      "id": "news-27426fac",
-      "date": "2026-06-11",
-      "title": "Vulnérabilité dans Traefik (11 juin 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Traefik. Elle permet à un attaquant de provoquer un contournement de la politique de sécurité.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0738/"
     }
   ]
 }
