@@ -3,6 +3,23 @@
   "edition": "Semaine du 14 juin 2026",
   "news": [
     {
+      "id": "news-1970f78a",
+      "date": "2026-06-14",
+      "title": "FBI disrupts massive AI-powered phishing service using a million URLs",
+      "summary": "In a coordinated effort, the FBI, working with Google and Black Lotus Labs, has dismantled a massive Chinese phishing-as-a-service operation called Outsider Enterprise with thousands of phishing websites used to steal credit card data and passwords. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Fraude",
+        "Legal",
+        "Mobile"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/fbi-disrupts-massive-ai-powered-phishing-service-using-a-million-urls/"
+    },
+    {
       "id": "news-c8d5a355",
       "date": "2026-06-13",
       "title": "400+ Arch Linux AUR Packages Hijacked to Install Rust Credential Stealer",
@@ -428,19 +445,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/nottingham-university-data-breach-affects-over-450-000-students/"
-    },
-    {
-      "id": "news-ba2aeb8d",
-      "date": "2026-06-11",
-      "title": "Max severity Ivanti Sentry vulnerability now exploited in attacks",
-      "summary": "Attackers are now targeting a recently patched maximum-severity flaw in Ivanti Sentry, enabling them to execute code with root privileges on Internet-exposed secure mobile gateways. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/max-severity-ivanti-sentry-vulnerability-now-exploited-in-attacks/"
     }
   ]
 }
