@@ -3,6 +3,303 @@
   "edition": "Semaine du 18 juin 2026",
   "news": [
     {
+      "id": "news-d6ef06fb",
+      "date": "2026-06-18",
+      "title": "Vulnérabilité dans Synacor Zimbra Collaboration (18 juin 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Synacor Zimbra Collaboration. Elle permet à un attaquant de provoquer un déni de service à distance.",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0776/"
+    },
+    {
+      "id": "news-96e3f3aa",
+      "date": "2026-06-18",
+      "title": "Multiples vulnérabilités dans Splunk AI Toolkit (18 juin 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Splunk AI Toolkit. Elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance et un contournement de la politique de sécurité.",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0774/"
+    },
+    {
+      "id": "news-9f3a61ff",
+      "date": "2026-06-18",
+      "title": "F5 Patches Two Critical NGINX Open Source Flaws Enabling Remote Code Execution",
+      "summary": "F5 has released security updates to address two critical security flaws in NGINX Open Source that could be exploited to achieve code execution on affected systems. The vulnerabilities are listed below - CVE-2026-42530 (CVSS v4 score: 9.2) - A use-after-free vulnerability in the ngx_http_v3_module that could be triggered by a remote unauthenticated attacker when NGINX Open Source is",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-42530",
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/f5-patches-two-critical-nginx-open.html"
+    },
+    {
+      "id": "news-7667be74",
+      "date": "2026-06-18",
+      "title": "Orphaned AI Agents: How to Find Hidden Access Risks Inside Your Network",
+      "summary": "If an autonomous AI agent interacts with your company's core intellectual property today, can your security team instantly name the person who authorized it? For most enterprises, the answer is a simple no. The rush to adopt internal AI tools has left a massive trail of administrative debt: orphaned agents (AI tools left running after their creator leaves the company) and standing privileges (",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/orphaned-ai-agents-how-to-find-hidden.html"
+    },
+    {
+      "id": "news-600d7e03",
+      "date": "2026-06-18",
+      "title": "ThreatsDay Bulletin: Claude Chat Abuse, NastyC2 npm Packages, Device-Code Phishing + 25 More Stories",
+      "summary": "The internet did not break this week. It got used exactly as designed, which is worse. Searches were siphoned through shady browser add-ons. AI chat links turned into malware delivery paths. macOS attacks ran in memory and left almost nothing behind. Cloud agents looked like helpers until attackers treated them like open shells. Add exposed edge gear, poisoned packages, cash courier scams,",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/threatsday-bulletin-claude-chat-abuse.html"
+    },
+    {
+      "id": "news-b76a2070",
+      "date": "2026-06-18",
+      "title": "Microsoft Details Windows Clipper Malware Campaign Using USB LNK Worm and Tor-Based C2",
+      "summary": "Microsoft has disclosed details of a Windows-based cryptocurrency clipper campaign that has targeted users since February 2026. \"The clipper in this campaign relies on Windows Script Host and ActiveX-driven logic to launch a bundled Tor proxy and poll a hidden-service C2 [command-and-control] server,\" the Microsoft Defender Security Research Team said in an analysis published Tuesday. \"It",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "high",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/microsoft-details-windows-clipper.html"
+    },
+    {
+      "id": "news-e4e2183f",
+      "date": "2026-06-18",
+      "title": "INC Ransomware Emerges as Major RaaS Threat in 2026 with 830+ Victims Since 2023",
+      "summary": "Cybersecurity researchers have charted the evolution of INC from an nascent ransomware-as-a-service (RaaS) operation to one of the most prolific cybercrime groups in 2026, claiming no less than 830 victims since August 2023. \"The disruption of LockBit and the shutdown of BlackCat created opportunities for INC to expand as affiliates migrated to alternative ransomware operations,\" Acronis",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "critical",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/inc-ransomware-claims-830-victims-since.html"
+    },
+    {
+      "id": "news-8dc51107",
+      "date": "2026-06-18",
+      "title": "The Scripts on Your Checkout Page Are Now a PCI DSS Problem",
+      "summary": "An independent PCI assessor tested Reflectiz against the new PCI DSS rules. Here is the verdict: See the full QSA assessment here → When a customer types their card number into your checkout, their browser is running far more than your code. Analytics tags, a tag manager, a support widget, a payment iframe: a modern checkout loads dozens of third-party scripts, and any one of them can be turned",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/the-scripts-on-your-checkout-page-are.html"
+    },
+    {
+      "id": "news-77d285df",
+      "date": "2026-06-18",
+      "title": "DragonForce Hackers Abuse Microsoft Teams Relays to Hide Backdoor.Turn C2 Traffic",
+      "summary": "Threat actors associated with the DragonForce ransomware have been observed using a custom Go-based remote access trojan (RAT) called Backdoor.Turn to conceal command-and-control (C2) traffic inside Microsoft Teams relay infrastructure. According to findings from Broadcom-owned Symantec and Carbon Black, the backdoor was deployed against a major U.S. services firm. The name of the company was",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "critical",
+      "tags": [
+        "Incident",
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/dragonforce-hackers-abuse-microsoft.html"
+    },
+    {
+      "id": "news-2d618b94",
+      "date": "2026-06-18",
+      "title": "Nintendo confirms data stolen in WebMD subsidiary cyberattack",
+      "summary": "Nintendo of America has confirmed to BleepingComputer that threat actors stole survey data from the third-party TinyPulse service used internally, but its systems were not compromised. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/nintendo-confirms-data-stolen-in-webmd-subsidiary-cyberattack/"
+    },
+    {
+      "id": "news-798c1e31",
+      "date": "2026-06-18",
+      "title": "USB worm spreads crypto-stealing malware via Windows shortcut files",
+      "summary": "Threat actors targeting cryptocurrency wallets have been distributing clipboard-stealing malware with self-spreading capabilities and using the Tor network to conceal communication. [...]",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "high",
+      "tags": [
+        "Windows",
+        "Réseau",
+        "CryptoCurrency"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/usb-worm-spreads-crypto-stealing-malware-via-windows-shortcut-files/"
+    },
+    {
+      "id": "news-375fc13a",
+      "date": "2026-06-18",
+      "title": "Klue OAuth breach linked to 'Icarus' Salesforce data theft attacks",
+      "summary": "Market intelligence platform Klue suffered a OAuth breach that enabled the \"Icarus\" threat actors to steal Salesforce CRM data from multiple organizations in an ongoing extortion campaign. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/klue-oauth-breach-linked-to-icarus-salesforce-data-theft-attacks/"
+    },
+    {
+      "id": "news-29c054b3",
+      "date": "2026-06-18",
+      "title": "5 reasons Microsoft 365 backup isn’t enough for business data protection",
+      "summary": "Microsoft 365 helps keep services running, but protecting and recovering business data remains your responsibility. Acronis breaks down five gaps organizations should consider when evaluating Microsoft 365 data protection. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/5-reasons-microsoft-365-backup-isnt-enough-for-business-data-protection/"
+    },
+    {
+      "id": "news-faf3bbdb",
+      "date": "2026-06-18",
+      "title": "Police cleans nearly 15,000 SocGholish-infected sites tied to Evil Corp",
+      "summary": "International law enforcement agencies cleaned nearly 15,000 malware-infected WordPress websites and took down more than 100 servers linked to the SocGholish botnet and the Evil Corp Russian cybercrime group. [...]",
+      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
+      "severity": "high",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/law-enforcement-nukes-socgholish-malware-from-nearly-15-000-sites/"
+    },
+    {
+      "id": "news-6ab75475",
+      "date": "2026-06-18",
+      "title": "ShapedPlugin update flow hacked to infect WordPress sites",
+      "summary": "Multiple WordPress plugins from ShapedPlugin were compromised in a supply chain attack that distributed infected releases to paying customers via the vendor's official update system. [...]",
+      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/shapedplugin-update-flow-hacked-to-infect-wordpress-sites/"
+    },
+    {
+      "id": "news-2386235b",
+      "date": "2026-06-18",
+      "title": "Apple fixes Beats Studio Buds flaw that let hackers spy on conversations",
+      "summary": "Apple has released security updates to patch a high-severity flaw affecting the Beats Studio Buds wireless earbuds that could allow attackers in Bluetooth range to spy on users' conversations. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "Patch",
+        "Apple"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/apple-fixes-beats-studio-buds-flaw-that-let-hackers-spy-on-conversations/"
+    },
+    {
+      "id": "news-5944645f",
+      "date": "2026-06-18",
+      "title": "Telegram admits it couldn't police exam-leak channels, India tells court",
+      "summary": "India's government has told the Delhi High Court that Telegram was warned about two weeks before it was blocked, and that the platform admitted it could not proactively detect the channels selling leaked exam papers. Telegram says it cooperated and the ban is unlawful. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/telegram-admits-it-couldnt-police-exam-leak-channels-india-tells-court/"
+    },
+    {
+      "id": "news-7902478f",
+      "date": "2026-06-18",
+      "title": "F5 issues out-of-band patches for critical NGINX vulnerabilities",
+      "summary": "Cybersecurity company F5 has released out-of-band security updates to address multiple NGINX web server vulnerabilities, including two critical-severity flaws that could allow attackers to execute code on vulnerable systems. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/f5-issues-out-of-band-patches-for-critical-nginx-vulnerabilities/"
+    },
+    {
+      "id": "news-dec3df93",
+      "date": "2026-06-18",
+      "title": "Microsoft fixes Windows Server 2016 security update failures",
+      "summary": "Microsoft has fixed a known issue causing the June 2026 security updates to fail on Windows Server 2016 systems that weren't up to date. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows",
+        "Microsoft"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-windows-server-2016-security-update-failures/"
+    },
+    {
+      "id": "news-da548ad9",
+      "date": "2026-06-18",
+      "title": "‘Popa’ Botnet Linked to Publicly-Traded Israeli Firm",
+      "summary": "For the past four years, a sprawling Android-based botnet called Popa has forced millions of consumer TV boxes to relay Internet traffic linked to advertising fraud, account takeovers, and mass data-scraping efforts. This week, researchers from multiple security firms concluded that the Popa botnet is linked to NetNut , a “residential proxy” provider operated by the publicly-traded Israeli firm…",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "critical",
+      "tags": [
+        "Réseau",
+        "Alarum Technologies Ltd",
+        "BadBox 2.0",
+        "Black Lotus Labs",
+        "Brendan O'Connell"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Krebs on Security",
+      "source_url": "https://krebsonsecurity.com/2026/06/popa-botnet-linked-to-publicly-traded-israeli-firm/"
+    },
+    {
       "id": "news-f0a34fb0",
       "date": "2026-06-17",
       "title": "Google Vertex AI SDK Flaw Let Attackers Hijack Model Uploads via Bucket Squatting",
@@ -147,307 +444,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/06/junior-hacker-used-tailscale-and.html"
-    },
-    {
-      "id": "news-d7a9bdb2",
-      "date": "2026-06-17",
-      "title": "Adversarial Exposure Validation Turns Security Visibility into Confident Prioritization",
-      "summary": "For security teams, the findings never stop, but confidence in knowing which ones matter is becoming harder to maintain. The problem is no longer visibility. It's validation. Security teams must decide which findings warrant action while operating under constant pressure and incomplete information. Increasingly, the challenge is not discovering potential risks. It is determining which risks",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/adversarial-exposure-validation-turns.html"
-    },
-    {
-      "id": "news-2474228b",
-      "date": "2026-06-17",
-      "title": "The Top 10 Attack Surface Exposures in 2026",
-      "summary": "Breaches don't always start with a zero-day. An exposed admin panel can get brute-forced, or credentials reused from a previous attack. But when a vulnerability does drop — like MongoBleed earlier this year, which let attackers pull credentials and session tokens from server memory without authentication — anything internet-facing is immediately at risk. With time-to-exploit now down to a",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/the-top-10-attack-surface-exposures-in.html"
-    },
-    {
-      "id": "news-b129506a",
-      "date": "2026-06-17",
-      "title": "FortiBleed leak exposes Fortinet VPN credentials for 73,000 devices.",
-      "summary": "A newly discovered data leak dubbed \"FortiBleed\" has exposed what appears to be a collection of Fortinet and FortiGate VPN credentials for 73,932 firewall URLs at organizations worldwide. [...]",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/fortibleed-leak-exposes-fortinet-vpn-credentials-for-73-000-devices/"
-    },
-    {
-      "id": "news-eb755b06",
-      "date": "2026-06-17",
-      "title": "Why Account Takeovers Are Rising and How to Stop Them",
-      "summary": "Account takeovers are rising as attackers bypass traditional defenses through phishing, session hijacking, and MFA fatigue. Specops Software explores how device trust and continuous verification help reduce account takeover risk. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/why-account-takeovers-are-rising-and-how-to-stop-them/"
-    },
-    {
-      "id": "news-7fa2ffb1",
-      "date": "2026-06-17",
-      "title": "India's Telegram ban hit the UAE too. Here's how to get around it",
-      "summary": "India has banned Telegram until June 22 after the app was used to circulate leaked exam papers. CEO Pavel Durov accuses telecom Reliance of BGP hijacking that disrupted the app as far away as the UAE. Here's what happened, and how to get around the block with an MTProto proxy. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/indias-telegram-ban-hit-the-uae-too-heres-how-to-get-around-it/"
-    },
-    {
-      "id": "news-642418cb",
-      "date": "2026-06-17",
-      "title": "Microsoft confirms Office apps launch issues after June updates",
-      "summary": "Microsoft is investigating a new issue preventing third-party applications from launching Microsoft Office applications or opening documents on up-to-date Windows systems. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "info",
-      "tags": [
-        "Windows",
-        "Microsoft"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-office-apps-launch-issues-after-june-updates/"
-    },
-    {
-      "id": "news-7f5dfefd",
-      "date": "2026-06-17",
-      "title": "Leak confirms OpenAI is testing a ChatGPT for Science subscription",
-      "summary": "OpenAI appears to be testing a new subscription and experience for science use cases, but it's unclear if it'll be available to everyone regardless of their background. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Artificial Intelligence",
-        "Technology"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/leak-confirms-openai-is-testing-a-chatgpt-for-science-subscription/"
-    },
-    {
-      "id": "news-a94154c4",
-      "date": "2026-06-17",
-      "title": "Google to use UK and EU user IP addresses for ad personalization",
-      "summary": "From August 3, 2026, Google will use IP addresses from UK, EEA and Switzerland users for ad measurement and personalization. It lands as the ICO weighs new consent rules, and years after Google itself called using such signals to identify devices \"wrong.\" [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/google-to-use-uk-and-eu-user-ip-addresses-for-ad-personalization/"
-    },
-    {
-      "id": "news-4381bb96",
-      "date": "2026-06-16",
-      "title": "North Korean Hackers Are Turning Developer Tools Into Malware Delivery Channels",
-      "summary": "Cybersecurity researchers have flagged two malicious cyber campaigns that exhibit similarities with a persistent North Korean threat cluster known as Contagious Interview (aka Famous Chollima, HexagonalRodent, and Void Dokkaebi). According to a report published by Proofpoint, the threat actor has been found orchestrating phishing campaigns using developer role recruitment or code review themes",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "high",
-      "tags": [
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/north-korean-hackers-are-turning.html"
-    },
-    {
-      "id": "news-62cd7971",
-      "date": "2026-06-16",
-      "title": "Attackers Exploit Three Fortinet FortiSandbox Flaws, One Patched Last Week",
-      "summary": "Bad actors are exploiting multiple security vulnerabilities in Fortinet FortiSandbox, according to threat intelligence firm Defused Cyber. In a post shared on X, the company said it has observed exploitation of CVE-2026-39813, CVE-2026-39808, and CVE-2026-25089 over the past 24 hours. CVE-2026-39813 (CVSS score: 9.1) refers to a path traversal vulnerability in FortiSandbox JRPC API that could",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "CVE",
-        "Outil"
-      ],
-      "cve": "CVE-2026-39813",
-      "cvss": 9.1,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/attackers-exploit-three-fortinet.html"
-    },
-    {
-      "id": "news-7b4dff83",
-      "date": "2026-06-16",
-      "title": "China-Linked SprySOCKS Backdoor Expands to Windows with Driver-Based Stealth",
-      "summary": "Cybersecurity researchers have flagged two previously undocumented Windows variants of what was believed to be a Linux-only backdoor called SprySOCKS. \"The Windows variants discovered are internally marked as WIN_DRV and WIN_PLUS,\" ESET said in a report shared with The Hacker News. \"Both come with a hard-coded C&C [command-and-control] configuration and support communication over TCP, UDP,",
-      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
-      "severity": "high",
-      "tags": [
-        "Linux",
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/china-linked-sprysocks-backdoor-expands.html"
-    },
-    {
-      "id": "news-1f54efc8",
-      "date": "2026-06-16",
-      "title": "Fake Microsoft Alerts Used to Deploy North Korean NarwhalRAT Malware",
-      "summary": "The North Korean state-sponsored hacking group known as ScarCruft (aka APT37) has been observed using spear-phishing messages impersonating Microsoft Account security notifications to deliver malware called NarwhalRAT. \"The attack email contained a message impersonating an MS account security alert,\" the Genians Security Center (GSC) said. \"It was designed to create concern over possible",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "high",
-      "tags": [
-        "Windows",
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/fake-microsoft-alerts-used-to-deploy.html"
-    },
-    {
-      "id": "news-2fae2824",
-      "date": "2026-06-16",
-      "title": "Cisco Releases Security Updates for Actively Exploited SD-WAN Manager Flaw",
-      "summary": "Cisco has released security updates for a medium-severity security flaw in Catalyst SD-WAN Manager that has come under active exploitation in the wild. The vulnerability, tracked as CVE-2026-20262, carries a CVSS score of 6.5 out of 10.0. \"A vulnerability in the web UI of Cisco Catalyst SD-WAN Manager, formerly SD-WAN vManage, could allow an authenticated, remote attacker to create a file or",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-20262",
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/cisco-releases-security-updates-for.html"
-    },
-    {
-      "id": "news-c9bbfee6",
-      "date": "2026-06-16",
-      "title": "CISA Flags LiteSpeed cPanel Plugin Flaw Exploited for Root Privilege Escalation",
-      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) has added a security flaw impacting LiteSpeed cPanel Plugin to its Known Exploited Vulnerabilities (KEV) catalog, requiring Federal Civilian Executive Branch (FCEB) agencies to apply the fixes by June 18, 2026. The vulnerability in question is CVE-2026-54420 (CVSS score: 8.5), which has been described as a case of privilege",
-      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
-      "severity": "high",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-54420",
-      "cvss": 8.5,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/cisa-flags-litespeed-cpanel-plugin-flaw.html"
-    },
-    {
-      "id": "news-2d9d5b12",
-      "date": "2026-06-16",
-      "title": "Chinese Hackers Abused Google Workspace Rules to Steal Research and Defense Emails",
-      "summary": "A China-linked espionage group hid inside North American medical, academic, and military research networks for more than a year, quietly stealing sensitive research and defense email. The way in was a backdoor on their REDCap research servers that stole login credentials. The exfiltration was the unusual part: the attackers rewired the victims' own Google Workspace rules to copy any message",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/chinese-hackers-abused-google-workspace.html"
-    },
-    {
-      "id": "news-777cd610",
-      "date": "2026-06-16",
-      "title": "CISA warns of another cPanel plugin flaw exploited in attacks",
-      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) has given U.S. government agencies three days to secure their servers against an actively exploited vulnerability (CVE-2026-54420) in the LiteSpeed cPanel user-end plugin. [...]",
-      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
-      "severity": "high",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-54420",
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/cisa-warns-of-another-actively-exploited-cpanel-plugin-flaw/"
-    },
-    {
-      "id": "news-07a016fb",
-      "date": "2026-06-16",
-      "title": "Ransomware gang abuses Microsoft Teams relays to hide malicious traffic",
-      "summary": "DragonForce ransomware used a custom malware named 'Backdoor.Turn' to hide command-and-control traffic inside Microsoft Teams relay infrastructure. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "critical",
-      "tags": [
-        "Incident",
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/ransomware-gang-abuses-microsoft-teams-relays-to-hide-malicious-traffic/"
-    },
-    {
-      "id": "news-f6c0a9ae",
-      "date": "2026-06-16",
-      "title": "Critical Fortinet FortiSandbox flaws now exploited in attacks",
-      "summary": "Attackers are now exploiting several critical vulnerabilities in Fortinet's FortiSandbox cyber threat detection platform, according to threat intelligence company Defused. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/critical-fortinet-fortisandbox-flaws-now-exploited-in-attacks/"
-    },
-    {
-      "id": "news-8e569e0c",
-      "date": "2026-06-16",
-      "title": "Windows version of SprySOCKS Linux malware used to attack govt orgs",
-      "summary": "Windows variants for the SprySOCKS Linux malware have been used in attacks targeting government organizations in at least four countries. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
-      "severity": "high",
-      "tags": [
-        "Outil",
-        "Linux",
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/windows-version-of-sprysocks-linux-malware-used-to-attack-govt-orgs/"
-    },
-    {
-      "id": "news-3b99b4e9",
-      "date": "2026-06-16",
-      "title": "iRhythm discloses data breach, says hackers stole patient info",
-      "summary": "Digital healthcare company iRhythm Holdings has disclosed a data breach after hackers stole patients' personal and health information stored on third-party-hosted business applications. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Incident",
-        "Healthcare"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/irhythm-discloses-data-breach-says-hackers-stole-patient-info/"
     }
   ]
 }
