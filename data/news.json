@@ -1,7 +1,66 @@
 {
-  "last_updated": "2026-06-18",
-  "edition": "Semaine du 18 juin 2026",
+  "last_updated": "2026-06-19",
+  "edition": "Semaine du 19 juin 2026",
   "news": [
+    {
+      "id": "news-2fa480ca",
+      "date": "2026-06-19",
+      "title": "Salesforce Disables Klue App Integration After OAuth Token Abuse Exposes Customer Data",
+      "summary": "Salesforce has revealed that it disabled the Klue Battlecards app integration within its platform in response to a security incident impacting the competitive intelligence company on June 11, 2026. To that end, organizations will be unable to connect to Salesforce via the app until further notice, the American cloud-based software company noted in an alert published this week. \"Salesforce took",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/salesforce-disables-klue-app.html"
+    },
+    {
+      "id": "news-50bdd773",
+      "date": "2026-06-19",
+      "title": "Apple Patches Beats Studio Buds Flaw Letting Nearby Attackers Spy via Microphone",
+      "summary": "Apple has updated its Beats Studio Buds wireless earbuds to patch a high-severity vulnerability that could be exploited by nearby hackers to eavesdrop on users. The vulnerability, tracked as CVE-2025-20701 (CVSS score: 8.8), refers to a case of incorrect authorization impacting the Airoha Bluetooth audio SDK that makes it possible to pair a Bluetooth audio device without user consent.",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "CVE",
+        "Patch"
+      ],
+      "cve": "CVE-2025-20701",
+      "cvss": 8.8,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/apple-patches-beats-studio-buds-flaw.html"
+    },
+    {
+      "id": "news-65fc0001",
+      "date": "2026-06-19",
+      "title": "NY man charged after harassing college student with AI-generated nudes",
+      "summary": "A New York man faces cyberstalking charges after allegedly sharing AI-generated nude images and fabricated racist messages using fake social media profiles to harass a Georgia college student. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/new-york-man-faces-cyberstalking-charge-after-sharing-ai-generated-nudes-online/"
+    },
+    {
+      "id": "news-5fae8f00",
+      "date": "2026-06-19",
+      "title": "CISA warns Fortinet users to secure devices after FortiBleed leak",
+      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) urged Fortinet customers to secure their devices after nearly 74,000 firewall and VPN credentials were exposed in a data leak dubbed \"FortiBleed.\" [...]",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/cisa-warns-fortinet-users-to-secure-devices-after-fortibleed-leak/"
+    },
     {
       "id": "news-d6ef06fb",
       "date": "2026-06-18",
@@ -300,6 +359,36 @@
       "source_url": "https://krebsonsecurity.com/2026/06/popa-botnet-linked-to-publicly-traded-israeli-firm/"
     },
     {
+      "id": "news-34a1b423",
+      "date": "2026-06-18",
+      "title": "Gentlemen ransomware uses multiple EDR killers to disable defenses",
+      "summary": "The Gentlemen ransomware-as-a-service (RaaS) is actively developing and maintaining a suite of endpoint detection and response (EDR) killers to help affiliates evade detection in attacks. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/gentlemen-ransomware-uses-multiple-edr-killers-to-disable-defenses/"
+    },
+    {
+      "id": "news-b129506a",
+      "date": "2026-06-18",
+      "title": "FortiBleed leak exposes Fortinet VPN credentials for 73,000 devices.",
+      "summary": "A newly discovered data leak dubbed \"FortiBleed\" has exposed what appears to be a collection of Fortinet and FortiGate VPN credentials for 73,932 firewall URLs at organizations worldwide. [...]",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/fortibleed-leak-exposes-fortinet-vpn-credentials-for-73-000-devices/"
+    },
+    {
       "id": "news-f0a34fb0",
       "date": "2026-06-17",
       "title": "Google Vertex AI SDK Flaw Let Attackers Hijack Model Uploads via Bucket Squatting",
@@ -356,94 +445,6 @@
       "cvss": 10.0,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/06/cisa-warns-of-actively-exploited-joomla.html"
-    },
-    {
-      "id": "news-8facd5bc",
-      "date": "2026-06-17",
-      "title": "CISA orders feds to patch max severity Joomla plugin flaw by Friday",
-      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) has ordered federal agencies to patch a maximum-severity flaw in the Widget Factory Joomla Content Editor (JCE) plugin that is being actively exploited in the wild. [...]",
-      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
-      "severity": "high",
-      "tags": [
-        "Patch"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-max-severity-joomla-plugin-flaw-by-friday/"
-    },
-    {
-      "id": "news-e1b045b6",
-      "date": "2026-06-17",
-      "title": "Microsoft working on Defender patch for RoguePlanet zero-day",
-      "summary": "Microsoft confirmed that it's working on a security patch for a Defender zero-day vulnerability named \"RoguePlanet,\" disclosed one week ago. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "critical",
-      "tags": [
-        "Patch",
-        "Windows",
-        "Microsoft"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-working-on-defender-patch-for-rogueplanet-zero-day/"
-    },
-    {
-      "id": "news-bf2d969a",
-      "date": "2026-06-17",
-      "title": "Kodak confirms data breach claimed by ShinyHunters extortion gang",
-      "summary": "Kodak has confirmed that it's working with external cybersecurity experts to investigate a security breach after hackers gained access to some of the company's data. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Incident"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/kodak-confirms-data-breach-claimed-by-shinyhunters-extortion-gang/"
-    },
-    {
-      "id": "news-33e187ce",
-      "date": "2026-06-17",
-      "title": "Multiples vulnérabilités dans Oracle MySQL (17 juin 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Oracle MySQL. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, un déni de service à distance et une atteinte à la confidentialité des données.",
-      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0765/"
-    },
-    {
-      "id": "news-db50125b",
-      "date": "2026-06-17",
-      "title": "Crypto Clipper Campaign Abuses Fake Reviews, AI Narrators, and VirusTotal Comments",
-      "summary": "An unknown threat actor has been observed leveraging paid or promoted posts on legitimate news websites to drum up buzz for their warez, according to new findings from Check Point Research. The threat actor also has at their disposal a dedicated WordPress phishing page that acts as the central hub, alongside GitHub and SourceForge projects promoted by fake accounts, a YouTube channel, and a",
-      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
-      "severity": "info",
-      "tags": [
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/crypto-clipper-campaign-abuses-fake.html"
-    },
-    {
-      "id": "news-6caf62ee",
-      "date": "2026-06-17",
-      "title": "Junior Hacker Used Tailscale and OpenSSH to Keep Access After His C2 Went Offline",
-      "summary": "A French-speaking attacker broke into a small French automotive business, planted a keylogger, and stole banking and email credentials. Ordinary stuff, until one move near the end. Before his command-and-control server went dark, he installed OpenSSH and Tailscale on a victim's machine, building a way back in that did not run through the C2 at all. When the Havoc server went offline the next",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/junior-hacker-used-tailscale-and.html"
     }
   ]
 }
