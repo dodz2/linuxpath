@@ -3,6 +3,21 @@
   "edition": "Semaine du 21 juin 2026",
   "news": [
     {
+      "id": "news-744fc08f",
+      "date": "2026-06-21",
+      "title": "AryStinger botnet infected thousands of D-Link routers worldwide",
+      "summary": "A previously undocumented malware botnet named AryStinger has compromised more than 4,000 outdated routers to turn them into proxies for malicious traffic. [...]",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "high",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/arystinger-botnet-infected-thousands-of-d-link-routers-worldwide/"
+    },
+    {
       "id": "news-1b968dbc",
       "date": "2026-06-20",
       "title": "Unpatchable 'usbliter8' Exploit Breaks Apple A12 and A13 SecureROM Boot Chain",
@@ -426,19 +441,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/06/inc-ransomware-claims-830-victims-since.html"
-    },
-    {
-      "id": "news-8dc51107",
-      "date": "2026-06-18",
-      "title": "The Scripts on Your Checkout Page Are Now a PCI DSS Problem",
-      "summary": "An independent PCI assessor tested Reflectiz against the new PCI DSS rules. Here is the verdict: See the full QSA assessment here → When a customer types their card number into your checkout, their browser is running far more than your code. Analytics tags, a tag manager, a support widget, a payment iframe: a modern checkout loads dozens of third-party scripts, and any one of them can be turned",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/the-scripts-on-your-checkout-page-are.html"
     }
   ]
 }
