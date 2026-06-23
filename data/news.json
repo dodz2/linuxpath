@@ -34,6 +34,156 @@
       "source_url": "https://thehackernews.com/2026/06/openai-expands-daybreak-with-gpt-55.html"
     },
     {
+      "id": "news-40fda575",
+      "date": "2026-06-23",
+      "title": "Fake AI Agent Skill Passed Security Scans and Reportedly Reached 26,000 Agents",
+      "summary": "Security firm AIR built a fake AI agent skill, pushed it through a popular skill marketplace and an Instagram ad, and says it reached roughly 26,000 agents, including some on corporate accounts. Every skill security scanner the firm tested it against marked it safe. The payload was harmless by design: it collected the user's email address and did nothing else. The point was to show",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/fake-ai-agent-skill-passed-security.html"
+    },
+    {
+      "id": "news-af1845c8",
+      "date": "2026-06-23",
+      "title": "Trump Order Sets 2030 Deadline for Federal Post-Quantum Crypto Migration",
+      "summary": "President Trump signed an executive order on June 22 setting hard deadlines for federal agencies to move high-value assets and high-impact systems to post-quantum cryptography. Key establishment must move by December 31, 2030; digital signatures by December 31, 2031. EO 14409 leaves national security systems on a separate track. The deadlines matter because of a threat that does not",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/trump-order-sets-2030-deadline-for.html"
+    },
+    {
+      "id": "news-77cdf613",
+      "date": "2026-06-23",
+      "title": "GitHub Updates actions/checkout to Block Common Pwn Request Attack Patterns",
+      "summary": "GitHub is moving to strengthen software supply chain security by updating \"actions/checkout\" to block pwn request attacks that exploit the risky use of the \"pull_request_target workflow\" trigger to run malicious code with the workflow's full privileges. Effective June 18, 2026, the latest version of \"actions/checkout,\" the official GitHub action for checking out a repository into the",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/github-updates-actionscheckout-to-block.html"
+    },
+    {
+      "id": "news-25303e2f",
+      "date": "2026-06-23",
+      "title": "Agentic AI: The Weapon That No Longer Needs a Warrior",
+      "summary": "Every weapon begins as an extension of the hand that holds it. The spear lengthened the reach of the arm. The bow sent the point flying without the throw. The rifle placed a man's death a quarter mile beyond his sight, and the aircraft carried that death across oceans. At each turn, the distance between the warrior and the wound grew wider, and yet one thing never moved: a human chose the target",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/agentic-ai-weapon-that-no-longer-needs.html"
+    },
+    {
+      "id": "news-a0e3edfd",
+      "date": "2026-06-23",
+      "title": "Malicious npm Packages Pose as PostCSS Tools to Deliver Windows RAT",
+      "summary": "Cybersecurity researchers have discovered a set of malicious npm packages that are designed to deliver a Windows-based remote access trojan (RAT). The list of identified packages, is below - aes-decode-runner-pro (145 downloads) postcss-minify-selector (256 downloads) postcss-minify-selector-parser (615 downloads) All the packages were published over the past month by an npm user named",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/malicious-npm-packages-pose-as-postcss.html"
+    },
+    {
+      "id": "news-4f15283e",
+      "date": "2026-06-23",
+      "title": "New macOS ClickFix attack silently mounts DMGs to push infostealer",
+      "summary": "A new macOS ClickFix campaign is using Terminal commands to silently download, mount, and launch info-stealing malware from malicious disk image (DMG) files. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "Apple"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/new-macos-clickfix-attack-silently-mounts-dmgs-to-push-infostealer/"
+    },
+    {
+      "id": "news-480b6fff",
+      "date": "2026-06-23",
+      "title": "Scattered Spider members plead guilty to hacking Transport for London",
+      "summary": "Two members of the 'Scattered Spider' cybercrime group pleaded guilty to hacking the Transport for London (TfL) systems in 2024. [...]",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "critical",
+      "tags": [
+        "Legal",
+        "Réseau",
+        "Ne'er-Do-Well News",
+        "Ransomware",
+        "BBC",
+        "Everlynn"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/scattered-spider-members-plead-guilty-to-hacking-transport-for-london/"
+    },
+    {
+      "id": "news-a68894e5",
+      "date": "2026-06-23",
+      "title": "The Exploit Doesn't Exist. You Can Still Prove It Works Against You",
+      "summary": "Attackers can now weaponize newly disclosed vulnerabilities far faster than most organizations can patch them. Picus Security explains how security teams can validate exploitability before a public exploit even exists. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "Patch",
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/the-exploit-doesnt-exist-you-can-still-prove-it-works-against-you/"
+    },
+    {
+      "id": "news-f8e7d847",
+      "date": "2026-06-23",
+      "title": "LastPass confirms data breach in Klue supply chain attack",
+      "summary": "LastPass announced that hackers accessed customer data from its Salesforce environment after stealing the company's OAuth tokens in the Klue supply chain attack earlier this month. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/lastpass-confirms-data-breach-in-klue-supply-chain-attack/"
+    },
+    {
+      "id": "news-92d30eae",
+      "date": "2026-06-23",
+      "title": "Webinar: Why email security teams are drowning in alerts",
+      "summary": "Phishing, BEC, and account takeover attacks continue to overwhelm security teams with alerts and investigations. This webinar explores how behavioral AI can help automate detection and response workflows, reducing alert fatigue and improving operational efficiency. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/webinar-why-email-security-teams-are-drowning-in-alerts/"
+    },
+    {
       "id": "news-c57b6975",
       "date": "2026-06-22",
       "title": "Canada’s Spy Agency Used First-of-Its-Kind Warrant to Clean Botnet-Infected Devices",
@@ -294,157 +444,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/whatsapp-phishing-attack-uses-fake-business-docs-to-hack-pcs/"
-    },
-    {
-      "id": "news-3e65e98f",
-      "date": "2026-06-22",
-      "title": "JaredFromSubway MEV bot hacked in $15 million crypto theft",
-      "summary": "The JaredFromSubway Ethereum MEV (Maximal Extractable Value) bot suffered a $15 million loss after an attacker manipulated the opportunity-detection logic by creating fake cryptocurrency trading opportunities. [...]",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "CryptoCurrency"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/jaredfromsubway-mev-bot-hacked-in-15-million-crypto-theft/"
-    },
-    {
-      "id": "news-3e2ca05b",
-      "date": "2026-06-22",
-      "title": "FFmpeg fixes PixelSmash flaw in widely used video decoder",
-      "summary": "A newly disclosed FFmpeg flaw dubbed 'PixelSmash' could be exploited for remote code execution on Jellyfin servers under certain conditions, and can also trigger a denial-of-service condition in applications like Kodi, Emby, Nextcloud, PhotoPrism, and OBS Studio. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/ffmpeg-fixes-pixelsmash-flaw-in-widely-used-video-decoder/"
-    },
-    {
-      "id": "news-744fc08f",
-      "date": "2026-06-21",
-      "title": "AryStinger botnet infected thousands of D-Link routers worldwide",
-      "summary": "A previously undocumented malware botnet named AryStinger has compromised more than 4,000 outdated routers to turn them into proxies for malicious traffic. [...]",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "high",
-      "tags": [
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/arystinger-botnet-infected-thousands-of-d-link-routers-worldwide/"
-    },
-    {
-      "id": "news-1b968dbc",
-      "date": "2026-06-20",
-      "title": "Unpatchable 'usbliter8' Exploit Breaks Apple A12 and A13 SecureROM Boot Chain",
-      "summary": "Security researchers at Paradigm Shift have published a working exploit, dubbed usbliter8, that achieves arbitrary code execution inside the SecureROM of Apple's A12 and A13 chips. That code is burned into the silicon at manufacture. No software update can reach it. Affected devices will carry this flaw for as long as they stay in use. This is not a remote attack. It requires",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/unpatchable-usbliter8-exploit-breaks.html"
-    },
-    {
-      "id": "news-23d90e32",
-      "date": "2026-06-20",
-      "title": "The Gentlemen RaaS Uses GentleKiller EDR Framework Targeting 400 Security Processes",
-      "summary": "The Gentlemen ransomware-as-a-service (RaaS) operation is actively developing and maintaining a suite of endpoint detection and response (EDR) killers that it hands out to affiliates for impairing system defenses before deploying the encryptor. This mature portfolio of EDR-terminating tools is centered around a framework that's known as GentleKiller. \"They also incorporate third-party or",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "critical",
-      "tags": [
-        "Incident",
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/the-gentlemen-raas-uses-gentlekiller.html"
-    },
-    {
-      "id": "news-11b33f9c",
-      "date": "2026-06-20",
-      "title": "New Prinz Eugen ransomware prioritizes recent files for encryption",
-      "summary": "A new ransomware operation named 'Prinz Eugen' prioritizes recently modified files for encryption and leaves no ransom note on the system. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Incident"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/new-prinz-eugen-ransomware-prioritizes-recent-files-for-encryption/"
-    },
-    {
-      "id": "news-d92979d0",
-      "date": "2026-06-20",
-      "title": "Microsoft links Mastra AI supply chain attack to North Korean hackers",
-      "summary": "Microsoft has attributed a recent Mastra AI supply chain attack that compromised more than 140 npm packages to the North Korean hacking group Sapphire Sleet, also known as BlueNoroff. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "info",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/microsoft-links-mastra-ai-supply-chain-attack-to-north-korean-hackers/"
-    },
-    {
-      "id": "news-84f6afd5",
-      "date": "2026-06-20",
-      "title": "Hackers Exploit Gravity SMTP WordPress Plugin Bug to Expose API Keys",
-      "summary": "Threat actors are exploiting a recently patched security flaw impacting Gravity SMTP, a WordPress plugin that's installed on about 100,000 sites. The vulnerability, tracked as CVE-2026-4020 (CVSS score: 5.3), is a medium-severity information disclosure flaw that can allow unauthenticated attackers to extract sensitive data, such as configuration data, API keys, secrets, and OAuth tokens",
-      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
-      "severity": "high",
-      "tags": [
-        "CVE",
-        "Outil"
-      ],
-      "cve": "CVE-2026-4020",
-      "cvss": 5.3,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/hackers-exploit-gravity-smtp-wordpress.html"
-    },
-    {
-      "id": "news-2fa480ca",
-      "date": "2026-06-19",
-      "title": "Salesforce Disables Klue App Integration After OAuth Token Abuse Exposes Customer Data",
-      "summary": "Salesforce has revealed that it disabled the Klue Battlecards app integration within its platform in response to a security incident impacting the competitive intelligence company on June 11, 2026. To that end, organizations will be unable to connect to Salesforce via the app until further notice, the American cloud-based software company noted in an alert published this week. \"Salesforce took",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Incident"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/salesforce-disables-klue-app.html"
-    },
-    {
-      "id": "news-50bdd773",
-      "date": "2026-06-19",
-      "title": "Apple Patches Beats Studio Buds Flaw Letting Nearby Attackers Spy via Microphone",
-      "summary": "Apple has updated its Beats Studio Buds wireless earbuds to patch a high-severity vulnerability that could be exploited by nearby hackers to eavesdrop on users. The vulnerability, tracked as CVE-2025-20701 (CVSS score: 8.8), refers to a case of incorrect authorization impacting the Airoha Bluetooth audio SDK that makes it possible to pair a Bluetooth audio device without user consent.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "CVE",
-        "Patch"
-      ],
-      "cve": "CVE-2025-20701",
-      "cvss": 8.8,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/apple-patches-beats-studio-buds-flaw.html"
     }
   ]
 }
