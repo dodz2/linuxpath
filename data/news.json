@@ -1,7 +1,38 @@
 {
-  "last_updated": "2026-06-22",
-  "edition": "Semaine du 22 juin 2026",
+  "last_updated": "2026-06-23",
+  "edition": "Semaine du 23 juin 2026",
   "news": [
+    {
+      "id": "news-eebfae92",
+      "date": "2026-06-23",
+      "title": "WhatsApp VBScript Campaign Uses Fake Documents to Install ManageEngine RMM Tool",
+      "summary": "Direct messages sent via WhatsApp are being used to distribute malicious Visual Basic Script (VBScript) files that lead to the installation of legitimate Remote Monitoring and Management (RMM) software. Per findings from Kaspersky, the active campaign is targeting users of WhatsApp Desktop and WhatsApp Web across Malaysia, Brazil, India, Mexico, Singapore, the U.K., Spain, Taiwan, Australia,",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/whatsapp-vbscript-campaign-uses-fake.html"
+    },
+    {
+      "id": "news-9e65e74f",
+      "date": "2026-06-23",
+      "title": "OpenAI Expands Daybreak With GPT-5.5-Cyber to Help Defenders Patch Security Flaws",
+      "summary": "OpenAI on Monday said it's releasing an improved version of its GPT‑5.5‑Cyber model to trusted defenders as part of the Daybreak initiative the artificial intelligence (AI) company announced last month. Calling GPT‑5.5‑Cyber its \"strongest model yet for finding and helping patch software vulnerabilities,\" OpenAI said the model can \"sustain deeper analysis across large codebases\" to",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "Patch",
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/openai-expands-daybreak-with-gpt-55.html"
+    },
     {
       "id": "news-c57b6975",
       "date": "2026-06-22",
@@ -250,6 +281,49 @@
       "source_url": "https://www.bleepingcomputer.com/news/security/a-glimpse-into-the-search-your-target-market-for-stolen-credentials/"
     },
     {
+      "id": "news-90e8a3f0",
+      "date": "2026-06-22",
+      "title": "WhatsApp phishing attack uses fake business docs to hack PCs",
+      "summary": "An ongoing malware campaign is targeting WhatsApp users in multiple countries with deceptive messages that push VBScript files, leading to remote system access. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/whatsapp-phishing-attack-uses-fake-business-docs-to-hack-pcs/"
+    },
+    {
+      "id": "news-3e65e98f",
+      "date": "2026-06-22",
+      "title": "JaredFromSubway MEV bot hacked in $15 million crypto theft",
+      "summary": "The JaredFromSubway Ethereum MEV (Maximal Extractable Value) bot suffered a $15 million loss after an attacker manipulated the opportunity-detection logic by creating fake cryptocurrency trading opportunities. [...]",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [
+        "CryptoCurrency"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/jaredfromsubway-mev-bot-hacked-in-15-million-crypto-theft/"
+    },
+    {
+      "id": "news-3e2ca05b",
+      "date": "2026-06-22",
+      "title": "FFmpeg fixes PixelSmash flaw in widely used video decoder",
+      "summary": "A newly disclosed FFmpeg flaw dubbed 'PixelSmash' could be exploited for remote code execution on Jellyfin servers under certain conditions, and can also trigger a denial-of-service condition in applications like Kodi, Emby, Nextcloud, PhotoPrism, and OBS Studio. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/ffmpeg-fixes-pixelsmash-flaw-in-widely-used-video-decoder/"
+    },
+    {
       "id": "news-744fc08f",
       "date": "2026-06-21",
       "title": "AryStinger botnet infected thousands of D-Link routers worldwide",
@@ -326,6 +400,22 @@
       "source_url": "https://www.bleepingcomputer.com/news/security/microsoft-links-mastra-ai-supply-chain-attack-to-north-korean-hackers/"
     },
     {
+      "id": "news-84f6afd5",
+      "date": "2026-06-20",
+      "title": "Hackers Exploit Gravity SMTP WordPress Plugin Bug to Expose API Keys",
+      "summary": "Threat actors are exploiting a recently patched security flaw impacting Gravity SMTP, a WordPress plugin that's installed on about 100,000 sites. The vulnerability, tracked as CVE-2026-4020 (CVSS score: 5.3), is a medium-severity information disclosure flaw that can allow unauthenticated attackers to extract sensitive data, such as configuration data, API keys, secrets, and OAuth tokens",
+      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
+      "severity": "high",
+      "tags": [
+        "CVE",
+        "Outil"
+      ],
+      "cve": "CVE-2026-4020",
+      "cvss": 5.3,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/hackers-exploit-gravity-smtp-wordpress.html"
+    },
+    {
       "id": "news-2fa480ca",
       "date": "2026-06-19",
       "title": "Salesforce Disables Klue App Integration After OAuth Token Abuse Exposes Customer Data",
@@ -355,92 +445,6 @@
       "cvss": 8.8,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/06/apple-patches-beats-studio-buds-flaw.html"
-    },
-    {
-      "id": "news-65fc0001",
-      "date": "2026-06-19",
-      "title": "NY man charged after harassing college student with AI-generated nudes",
-      "summary": "A New York man faces cyberstalking charges after allegedly sharing AI-generated nude images and fabricated racist messages using fake social media profiles to harass a Georgia college student. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/new-york-man-faces-cyberstalking-charge-after-sharing-ai-generated-nudes-online/"
-    },
-    {
-      "id": "news-5fae8f00",
-      "date": "2026-06-19",
-      "title": "CISA warns Fortinet users to secure devices after FortiBleed leak",
-      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) urged Fortinet customers to secure their devices after nearly 74,000 firewall and VPN credentials were exposed in a data leak dubbed \"FortiBleed.\" [...]",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/cisa-warns-fortinet-users-to-secure-devices-after-fortibleed-leak/"
-    },
-    {
-      "id": "news-aafbb3a2",
-      "date": "2026-06-19",
-      "title": "Multiples vulnérabilités dans le noyau Linux de Debian LTS (19 juin 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans le noyau Linux de Debian LTS. Elles permettent à un attaquant de provoquer un problème de sécurité non spécifié par l'éditeur.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
-      "severity": "info",
-      "tags": [
-        "Linux",
-        "Noyau Linux"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0784/"
-    },
-    {
-      "id": "news-d2684198",
-      "date": "2026-06-19",
-      "title": "Vulnérabilité dans Apereo CAS (19 juin 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Apereo CAS. Elle permet à un attaquant de provoquer un problème de sécurité non spécifié par l'éditeur.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0780/"
-    },
-    {
-      "id": "news-81d57c1b",
-      "date": "2026-06-19",
-      "title": "Vulnérabilité dans Traefik (19 juin 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Traefik. Elle permet à un attaquant de provoquer un contournement de la politique de sécurité.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0785/"
-    },
-    {
-      "id": "news-c0b7870a",
-      "date": "2026-06-19",
-      "title": "AutoJack Attack Lets One Web Page Hijack AI Agent for Host Code Execution",
-      "summary": "Microsoft researchers have detailed an exploit chain, named AutoJack, that turns an AI browsing agent into a delivery vehicle for remote code execution. Steer the agent to load an attacker's web page, and that page's JavaScript can reach a privileged local service on the same machine and spawn a process on the host. No credentials, no sign-in screen, and no further user interaction once",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "critical",
-      "tags": [
-        "Outil",
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/autojack-attack-lets-one-web-page.html"
     }
   ]
 }
