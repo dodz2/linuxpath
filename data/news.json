@@ -1,7 +1,22 @@
 {
-  "last_updated": "2026-06-24",
-  "edition": "Semaine du 24 juin 2026",
+  "last_updated": "2026-06-25",
+  "edition": "Semaine du 25 juin 2026",
   "news": [
+    {
+      "id": "news-c31e6b80",
+      "date": "2026-06-25",
+      "title": "Cisco Catalyst SD-WAN Zero-Day CVE-2026-20245 Exploited to Gain Root Access",
+      "summary": "An unknown threat actor exploited a recently disclosed high-severity security flaw impacting Cisco Catalyst SD-WAN as a zero-day at least two months before it was publicly disclosed, according to new findings from Google-owned Mandiant. The vulnerability, tracked as CVE-2026-20245 (CVSS score: 7.8), allows an authenticated, local attacker to execute arbitrary commands with elevated privileges",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-20245",
+      "cvss": 7.8,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/cisco-catalyst-sd-wan-zero-day-cve-2026.html"
+    },
     {
       "id": "news-84e537df",
       "date": "2026-06-24",
@@ -178,6 +193,68 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/stealthy-mistic-backdoor-linked-to-ransomware-access-broker-kongtuke/"
+    },
+    {
+      "id": "news-c43d4f40",
+      "date": "2026-06-24",
+      "title": "Google releases new privacy controls for activity history, personalization",
+      "summary": "Google is rolling out new privacy controls for Search services and Google Play, giving you more control over saved history and personalized recommendations. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Google",
+        "Software"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/google/google-releases-new-privacy-controls-for-activity-history-personalization/"
+    },
+    {
+      "id": "news-2dea846e",
+      "date": "2026-06-24",
+      "title": "DraftKings hacker 'Snoopy' sentenced to 18 months in prison",
+      "summary": "A 21-year-old using the alias \"Snoopy\" was sentenced to 18 months in prison for his role in hacking DraftKings accounts in the November 2022 cyberattack. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Legal"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/draftkings-hacker-snoopy-sentenced-to-18-months-in-prison/"
+    },
+    {
+      "id": "news-00f3c60b",
+      "date": "2026-06-24",
+      "title": "Mandiant reveals how Cisco SD-WAN zero-day attacks gained root access",
+      "summary": "New details have been revealed on how hackers exploited a Cisco Catalyst SD-WAN vulnerability tracked as CVE-2026-20245 in zero-day attacks to create rogue root accounts on targeted devices. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-20245",
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/mandiant-reveals-how-cisco-sd-wan-zero-day-attacks-gained-root-access/"
+    },
+    {
+      "id": "news-119d739c",
+      "date": "2026-06-24",
+      "title": "Malicious Edge extension abuses Native Messaging as bridge to malware",
+      "summary": "A malicious Microsoft Edge extension dubbed 'Edgecution' has been used in a ransomware attack to escape the browser sandbox and deploy a Python-based backdoor. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "critical",
+      "tags": [
+        "Incident",
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/malicious-edge-extension-abuses-native-messaging-as-bridge-to-malware/"
     },
     {
       "id": "news-eebfae92",
@@ -372,84 +449,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/06/fortibleed-targeted-fortigate-firewalls.html"
-    },
-    {
-      "id": "news-50002a78",
-      "date": "2026-06-23",
-      "title": "Cisco Unified CM flaw CVE-2026-20230 now exploited in attacks",
-      "summary": "A high-severity SSRF vulnerability, tracked as CVE-2026-20230, in Cisco Unified Communications Manager Server is now being exploited in attacks. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-20230",
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/cisco-unified-cm-sme-flaw-cve-2026-20230-now-exploited-in-attacks/"
-    },
-    {
-      "id": "news-539b1b41",
-      "date": "2026-06-23",
-      "title": "Tata Electronics confirms cyberattack as hackers leak data",
-      "summary": "Tata Electronics has confirmed in a statement to BleepingComputer that it was the target of a cyberattack that impacted parts of its IT infrastructure. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/tata-electronics-confirms-cyberattack-as-hackers-leak-data/"
-    },
-    {
-      "id": "news-2dee4d0c",
-      "date": "2026-06-23",
-      "title": "Windows 11 KB5095093 update rolls out new Point-in-Time restore feature",
-      "summary": "​​Microsoft has released the KB5095093 preview cumulative update for Windows 11 24H2 and 25H2, which fixes numerous bugs and begins rolling out new features, including the new Point-in-Time restore feature. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "info",
-      "tags": [
-        "Windows",
-        "Microsoft"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/microsoft/windows-11-kb5095093-update-rolls-out-new-point-in-time-restore-feature/"
-    },
-    {
-      "id": "news-ef7810de",
-      "date": "2026-06-23",
-      "title": "Healthtech firm Xolis suffers data breach impacting 1.4 million people",
-      "summary": "Healthcare technology company Xsolis says that sensitive data belonging to nearly 1.4 million individuals was compromised in a phishing attack that gave attackers access to its network. [...]",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "critical",
-      "tags": [
-        "Incident",
-        "Réseau",
-        "Fraude",
-        "Healthcare"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/healthtech-firm-xolis-suffers-data-breach-impacting-14-million-people/"
-    },
-    {
-      "id": "news-c57b6975",
-      "date": "2026-06-22",
-      "title": "Canada’s Spy Agency Used First-of-Its-Kind Warrant to Clean Botnet-Infected Devices",
-      "summary": "Canada's spy service got a judge's permission to reach into infected servers, home routers, and IoT gear sitting on Canadian soil and neutralize two foreign-run botnets. The Federal Court released a public version of the ruling on June 15. It is the first time the Canadian Security Intelligence Service has used its threat reduction warrant powers this way. The warrant let CSIS alter,",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "Outil",
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/canadas-spy-agency-used-first-of-its.html"
     }
   ]
 }
