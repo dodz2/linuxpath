@@ -1,7 +1,22 @@
 {
-  "last_updated": "2026-06-26",
-  "edition": "Semaine du 26 juin 2026",
+  "last_updated": "2026-06-27",
+  "edition": "Semaine du 27 juin 2026",
   "news": [
+    {
+      "id": "news-3759fc33",
+      "date": "2026-06-27",
+      "title": "FBI Warns Russian Intelligence Hackers Target Signal Backup Recovery Keys",
+      "summary": "The FBI and CISA have updated their March warning about Russian intelligence phishing Signal accounts, and the operators have added a step: they now coax targets into handing over their Signal Backup Recovery Key. Hand it over once, and the attacker can restore the account's backup, read the private and group message history, and take over the account. Worse, the key keeps working.",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/fbi-warns-russian-intelligence-hackers.html"
+    },
     {
       "id": "news-fef58e78",
       "date": "2026-06-26",
@@ -206,6 +221,21 @@
       "source_url": "https://www.bleepingcomputer.com/news/security/your-first-grc-agent-a-red-teamers-walkthrough/"
     },
     {
+      "id": "news-48da92c2",
+      "date": "2026-06-26",
+      "title": "CISA sets urgent deadline to fix Cisco flaw exploited in attacks",
+      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) is giving federal agencies until Sunday to patch a vulnerability in Cisco Unified Communications Manager Server that is being actively exploited. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "Patch"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/cisa-sets-urgent-deadline-to-fix-cisco-flaw-exploited-in-attacks/"
+    },
+    {
       "id": "news-c31e6b80",
       "date": "2026-06-25",
       "title": "Cisco Catalyst SD-WAN Zero-Day CVE-2026-20245 Exploited to Gain Root Access",
@@ -406,38 +436,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/poland-busts-sim-swapping-gang-tied-to-millions-in-crypto-theft/"
-    },
-    {
-      "id": "news-cec41d27",
-      "date": "2026-06-25",
-      "title": "Order-tracking app Shop abused to push callback phishing attacks",
-      "summary": "Threat actors are increasingly abusing Shop, the order-tracking app from Shopify, by adding fake purchase receipts in users' order histories to trick them into providing sensitive data or installing remote access software. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Fraude",
-        "Mobile"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/order-tracking-app-shop-abused-to-push-callback-phishing-attacks/"
-    },
-    {
-      "id": "news-84e537df",
-      "date": "2026-06-24",
-      "title": "Cisco Unified CM Flaw Exploited After PoC Reveals File-Write Path to Root",
-      "summary": "Threat actors have begun to exploit a recently disclosed critical security flaw impacting Cisco Unified Communications Manager (Unified CM) and Unified Communications Manager Session Management Edition (Unified CM SME). The vulnerability, tracked as CVE-2026-20230 (CVSS score: 8.6), is a case of improper input validation for specific HTTP requests that could allow an unauthenticated, remote",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "CVE",
-        "Outil"
-      ],
-      "cve": "CVE-2026-20230",
-      "cvss": 8.6,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/06/cisco-unified-cm-flaw-exploited-after.html"
     }
   ]
 }
