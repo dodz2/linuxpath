@@ -18,6 +18,49 @@
       "source_url": "https://thehackernews.com/2026/06/fbi-warns-russian-intelligence-hackers.html"
     },
     {
+      "id": "news-13c98640",
+      "date": "2026-06-27",
+      "title": "Ukraine Says Russian Intelligence Used Fake Support Texts to Steal Messaging Credentials",
+      "summary": "The Security Service of Ukraine (SSU) said it, together with the U.S. Federal Bureau of Investigation (FBI), uncovered a long-running campaign orchestrated by Russian intelligence services to break into the messaging accounts of government officials, military personnel, politicians, and activists in Ukraine, Europe, and the U.S. The systematic cyber attacks aimed at stealing sensitive",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/ukraine-says-russian-intelligence-used.html"
+    },
+    {
+      "id": "news-fa31dc7c",
+      "date": "2026-06-27",
+      "title": "OpenAI Previews GPT-5.6 Sol With Restricted Access and Stronger Cyber Safeguards",
+      "summary": "OpenAI on Friday released three versions of GPT-5.6, called Sol, Terra, and Luna, as a limited preview to a small number of companies as part of an ongoing engagement with the U.S. government. While Sol is the latest flagship model and the most powerful, Terra strikes a balance between efficiency and power, and Luna is fine-tuned for speed and affordability. \"GPT‑5.6 Sol launches with our most",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/06/openai-limits-gpt-56-rollout-as-sol.html"
+    },
+    {
+      "id": "news-8ea4e4e0",
+      "date": "2026-06-27",
+      "title": "Clean GitHub repo tricks AI coding agents into running malware",
+      "summary": "An agentic coding tool tasked with cloning and setting up a seemingly benign GitHub repository could execute a malicious payload that remains invisible to security scanners, AI agents, and human reviewers. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/clean-github-repo-tricks-ai-coding-agents-into-running-malware/"
+    },
+    {
       "id": "news-fef58e78",
       "date": "2026-06-26",
       "title": "Google Details Turla's New STOCKSTAY Backdoor Used in Ukraine Espionage Attacks",
@@ -392,50 +435,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/the-four-elevations-of-effective-fraud-prevention/"
-    },
-    {
-      "id": "news-e8243e7b",
-      "date": "2026-06-25",
-      "title": "Webinar: Why account takeovers remain one of the hardest threats to stop",
-      "summary": "Account takeover attacks continue to challenge security teams because attackers often operate through legitimate accounts and trusted services. This webinar explores how behavioral AI can help organizations identify compromised accounts faster and automate response workflows. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/webinar-why-account-takeovers-remain-one-of-the-hardest-threats-to-stop/"
-    },
-    {
-      "id": "news-01870735",
-      "date": "2026-06-25",
-      "title": "Anthropic is testing desktop-like Claude Cowork for mobile",
-      "summary": "Anthropic appears to be testing Claude Cowork support on mobile, allowing you to manage long-running Claude tasks from your phone. [...]",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "Artificial Intelligence",
-        "Software"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-is-testing-desktop-like-claude-cowork-for-mobile/"
-    },
-    {
-      "id": "news-5fd6d633",
-      "date": "2026-06-25",
-      "title": "Poland busts SIM-swapping gang tied to millions in crypto theft",
-      "summary": "Authorities in Poland have arrested four members of an organized cybercrime group accused of breaching telecommunications partners and hijacking email accounts to carry out SIM-swapping attacks. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Legal"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/poland-busts-sim-swapping-gang-tied-to-millions-in-crypto-theft/"
     }
   ]
 }
