@@ -3,6 +3,21 @@
   "edition": "Semaine du 28 juin 2026",
   "news": [
     {
+      "id": "news-9f249f3e",
+      "date": "2026-06-28",
+      "title": "Data breach exposes up to 14.2 million email logins at six ISPs",
+      "summary": "Japanese telecommunications operator KDDI Corporation disclosed a data breach where threat actors gained access to one of its email systems used by five other internet service providers (ISPs) in the country. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/data-breach-exposes-up-to-142-million-email-logins-at-six-isps/"
+    },
+    {
       "id": "news-3759fc33",
       "date": "2026-06-27",
       "title": "FBI Warns Russian Intelligence Hackers Target Signal Backup Recovery Keys",
@@ -422,19 +437,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/bluekit-phishing-kit-adopts-browser-in-the-middle-for-login-theft/"
-    },
-    {
-      "id": "news-c975ae34",
-      "date": "2026-06-25",
-      "title": "The Four Elevations of Effective Fraud Prevention",
-      "summary": "Fraudsters don't attack just one transaction. They target accounts, platforms, and entire ecosystems. IPQS explains the four elevations of fraud prevention and why broader visibility improves fraud detection. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/the-four-elevations-of-effective-fraud-prevention/"
     }
   ]
 }
