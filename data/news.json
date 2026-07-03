@@ -1,7 +1,53 @@
 {
-  "last_updated": "2026-07-02",
-  "edition": "Semaine du 2 juillet 2026",
+  "last_updated": "2026-07-03",
+  "edition": "Semaine du 3 juillet 2026",
   "news": [
+    {
+      "id": "news-4bfca1ee",
+      "date": "2026-07-03",
+      "title": "PamStealer Uses Fake Maccy Sites and PAM Checks to Steal Mac Login Passwords",
+      "summary": "Cybersecurity researchers have flagged a new macOS information stealer called PamStealer that employs a series of clever tricks to infect systems and siphon sensitive data. The stealer, discovered by Jamf Threat Labs, is distributed as a compiled AppleScript (.scpt) file impersonating Maccy, a legitimate open-source clipboard manager. It has been codenamed PamStealer owing to its ability to",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/pamstealer-uses-fake-maccy-sites-and.html"
+    },
+    {
+      "id": "news-70164836",
+      "date": "2026-07-03",
+      "title": "Google Disrupts NetNut Residential Proxy Network Spanning 2 Million Home Devices",
+      "summary": "Google has significantly degraded NetNut, one of the biggest networks that turns home devices into rented relays for other people's traffic. Working with the FBI, Lumen, and others, Google's Threat Intelligence Group (GTIG) said this week it had reduced the network's pool of usable devices by millions. Google identifies NetNut, also tracked as Popa, as a network spread across home",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/google-disrupts-netnut-residential.html"
+    },
+    {
+      "id": "news-7534c03c",
+      "date": "2026-07-03",
+      "title": "Ransomware Groups Turn to Citrix Bleed 2, BYOVD, and Supply Chain Credentials",
+      "summary": "Threat actors associated with the Anubis ransomware operation have been observed exploiting the Citrix Bleed 2 (CVE-2025-5777) vulnerability to obtain initial access. \"Although tactics differ between affiliates, common patterns emerged in tradecraft through use of legitimate Remote Management and Monitoring (RMM) tooling, credential access, and hands-on-keyboard procedures used for lateral",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "CVE",
+        "Incident"
+      ],
+      "cve": "CVE-2025-5777",
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/ransomware-groups-turn-to-citrix-bleed.html"
+    },
     {
       "id": "news-67504988",
       "date": "2026-07-02",
@@ -243,6 +289,74 @@
       "source_url": "https://www.bleepingcomputer.com/news/security/alleged-scattered-spider-hacker-extradited-to-the-united-states/"
     },
     {
+      "id": "news-ea500af3",
+      "date": "2026-07-02",
+      "title": "FortiBleed Credential Theft Linked to INC and Lynx Ransomware Operations",
+      "summary": "The recently discovered financially-motivated FortiBleed campaign has been attributed to INC and Lynx ransomware operations, indicating that the verified, stolen credentials were intended for follow-on intrusions. \"An operator tied to FortiBleed's infrastructure was found actively working negotiation panels for both groups, tying mass FortiGate credential theft directly to ransomware deployment",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Incident",
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/fortibleed-credential-theft-linked-to.html"
+    },
+    {
+      "id": "news-39cee42c",
+      "date": "2026-07-02",
+      "title": "Claude Fable 5 isn’t permanently leaving subscriptions, Anthropic says",
+      "summary": "Anthropic says Claude Fable 5 won't be accessible via Claude subscriptions after July 7, but it's not a permanent change, and the company expects the model to return outside the usage-based plan soon. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Artificial Intelligence",
+        "Software"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/claude-fable-5-isnt-permanently-leaving-subscriptions-anthropic-says/"
+    },
+    {
+      "id": "news-50ef8540",
+      "date": "2026-07-02",
+      "title": "Claude Fable relaunch disappoints users with nerfed performance",
+      "summary": "Claude Fable, the company's most powerful model, is now available to all users, but early impressions are disappointing, as it appears to be nowhere near the original release. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Outil",
+        "Artificial Intelligence",
+        "Technology"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/claude-fable-relaunch-disappoints-users-with-nerfed-performance/"
+    },
+    {
+      "id": "news-c1ea5dac",
+      "date": "2026-07-02",
+      "title": "FBI Seizes NetNut Proxy Platform, Popa Botnet",
+      "summary": "The Federal Bureau of Investigation (FBI) said today it worked with industry partners to seize hundreds of domains associated with NetNut , a sprawling residential proxy service operated by the publicly-traded Israeli company Alarum Technologies [NASDAQ: ALAR]. The action comes roughly two weeks after KrebsOnSecurity published findings from multiple security firms connecting NetNut to the Popa…",
+      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
+      "severity": "high",
+      "tags": [
+        "Réseau",
+        "Ne'er-Do-Well News",
+        "Web Fraud 2.0",
+        "Alarum Technologies Ltd",
+        "Benjamin Brundage"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Krebs on Security",
+      "source_url": "https://krebsonsecurity.com/2026/07/fbi-seizes-netnut-proxy-platform-popa-botnet/"
+    },
+    {
       "id": "news-b8b4cea7",
       "date": "2026-07-01",
       "title": "Phantom Squatting Uses AI-Hallucinated Domains for Phishing and Malware",
@@ -340,112 +454,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0820/"
-    },
-    {
-      "id": "news-16d542ba",
-      "date": "2026-07-01",
-      "title": "Multiples vulnérabilités dans Adobe ColdFusion (01 juillet 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Adobe ColdFusion. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, une élévation de privilèges et une atteinte à la confidentialité des données.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0821/"
-    },
-    {
-      "id": "news-9a1a9e15",
-      "date": "2026-07-01",
-      "title": "SEO-Poisoned Software Sites Abuse ScreenConnect to Deploy AsyncRAT",
-      "summary": "Unknown threat actors are leveraging the ScreenConnect remote access tool as a way to deploy and execute AsyncRAT. Kaspersky said the activity is part of a \"massive, multi-domain, multi-language\" campaign that distributes malicious installer archives hosted on spoofed websites. These installers masquerade as popular software like OBS Studio, DNS Jumper, DS4Windows, and Bandicam, among others.",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "Outil",
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/seo-poisoned-software-sites-abuse.html"
-    },
-    {
-      "id": "news-eb9dd870",
-      "date": "2026-07-01",
-      "title": "VEIL#DROP Malware Chain Uses Blogger Platform to Deliver PureLogs Stealer",
-      "summary": "Cybersecurity researchers have flagged a new multi-stage malware delivery attack chain that uses social engineering and Blogger pages to deliver an information stealer called PureLogs. The activity has been codenamed VEIL#DROP by Securonix. It's suspected that the initial payloads are distributed either via spear-phishing or a drive-by compromise, which occurs when an unsuspecting user lands on",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/veildrop-malware-chain-uses-blogger.html"
-    },
-    {
-      "id": "news-f5db6fb3",
-      "date": "2026-07-01",
-      "title": "Ousaban Banking Trojan Targets Iberian Bank Users with Fake PDF Lures",
-      "summary": "A Brazilian banking trojan called Ousaban is going after Windows users who bank in Spain and Portugal. Fortinet's FortiGuard Labs identified the campaign in May 2026. It opens with a phishing PDF disguised as a corrupted file, checks that the visitor is really in Spain or Portugal, and hides its real payload inside an image. The goal is the usual one: steal banking logins and take",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "Windows",
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/ousaban-banking-trojan-targets-iberian.html"
-    },
-    {
-      "id": "news-2af5e6c4",
-      "date": "2026-07-01",
-      "title": "Critical Cursor Flaws Could Let Prompt Injection Escape Sandbox and Run Commands",
-      "summary": "Two flaws in Cursor, an AI code editor, could let a single, ordinary-looking prompt break out of the editor's safety sandbox and run any command on a developer's computer. There is no click to fall for and no approval box to ignore. Cato AI Labs found the pair and named them DuneSlide. They are tracked as CVE-2026-50548 and CVE-2026-50549, both rated 9.8 out of 10 (or 9.3",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-50548",
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/critical-cursor-flaws-could-let-prompt.html"
-    },
-    {
-      "id": "news-d43aeb21",
-      "date": "2026-07-01",
-      "title": "Progress Kemp LoadMaster Pre-Auth RCE Flaw Faces Active Exploitation Attempts",
-      "summary": "A recently disclosed critical security flaw impacting Progress Kemp LoadMaster is seeing active exploitation attempts, according to an advisory from eSentire's Threat Response Unit (TRU). The Canadian cybersecurity company said it identified exploitation attempts targeting CVE-2026-8037 (CVSS score: 9.6), an operating system (OS) command injection flaw that could be exploited to achieve",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-8037",
-      "cvss": 9.6,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/latest-progress-kemp-loadmaster-pre.html"
-    },
-    {
-      "id": "news-738d135e",
-      "date": "2026-07-01",
-      "title": "AI-Generated Browser Ransomware Abuses Chromium API on Windows and Android",
-      "summary": "Cybersecurity researchers have flagged a new malware artifact generated using DeepSeek that constructed a novel attack path combining \"unrealistic browser-malware concepts with a real browser capability\" to turn it into a working ransomware technique that runs entirely inside the browser on both Windows and Android devices. \"This is the first documented case where a frontier AI model",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "critical",
-      "tags": [
-        "Incident",
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/ai-generated-browser-ransomware-abuses.html"
     }
   ]
 }
