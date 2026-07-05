@@ -3,6 +3,19 @@
   "edition": "Semaine du 5 juillet 2026",
   "news": [
     {
+      "id": "news-da8aae8c",
+      "date": "2026-07-05",
+      "title": "Flipper Zero firmware development continues with community help",
+      "summary": "Flipper Devices says development of the Flipper Zero firmware will continue, albeit with a smaller internal team and greater reliance on community contributions. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/flipper-zero-firmware-development-continues-with-community-help/"
+    },
+    {
       "id": "news-92aa143c",
       "date": "2026-07-04",
       "title": "Unpatched Flaws Disclosed in Filesystem Bundled Into Millions of Embedded Devices",
@@ -437,22 +450,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/alleged-scattered-spider-hacker-extradited-to-the-united-states/"
-    },
-    {
-      "id": "news-ea500af3",
-      "date": "2026-07-02",
-      "title": "FortiBleed Credential Theft Linked to INC and Lynx Ransomware Operations",
-      "summary": "The recently discovered financially-motivated FortiBleed campaign has been attributed to INC and Lynx ransomware operations, indicating that the verified, stolen credentials were intended for follow-on intrusions. \"An operator tied to FortiBleed's infrastructure was found actively working negotiation panels for both groups, tying mass FortiGate credential theft directly to ransomware deployment",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Incident",
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/fortibleed-credential-theft-linked-to.html"
     }
   ]
 }
