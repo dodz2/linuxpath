@@ -1,7 +1,22 @@
 {
-  "last_updated": "2026-07-13",
-  "edition": "Semaine du 13 juillet 2026",
+  "last_updated": "2026-07-14",
+  "edition": "Semaine du 14 juillet 2026",
   "news": [
+    {
+      "id": "news-036d8039",
+      "date": "2026-07-14",
+      "title": "Microsoft Maps Year-Long ShinyHunters-Linked Salesforce Data Theft Across Three Paths",
+      "summary": "Attackers whose methods line up with the data-extortion group ShinyHunters have spent the past year walking into corporate Salesforce environments without exploiting a single flaw in the platform. The way in has been the trust the organization had already extended, usually through the OAuth connections that tie Salesforce to the apps and third-party vendors around it. In",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/microsoft-maps-year-long-shinyhunters.html"
+    },
     {
       "id": "news-26f3e6c3",
       "date": "2026-07-13",
@@ -283,6 +298,34 @@
       "source_url": "https://krebsonsecurity.com/2026/07/lessons-learned-from-cisas-recent-github-leak/"
     },
     {
+      "id": "news-5a1366d8",
+      "date": "2026-07-13",
+      "title": "Japan's largest taxi operator shuts systems after cyberattack",
+      "summary": "Japan's largest taxi operator, Nihon Kotsu, announced that its systems were compromised in a cyberattack, forcing the company to shut down part of its infrastructure. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/japans-largest-taxi-operator-shuts-systems-after-cyberattack/"
+    },
+    {
+      "id": "news-3689fea7",
+      "date": "2026-07-13",
+      "title": "Hackers backdoor Jscrambler npm package with infostealer malware",
+      "summary": "The Jscrambler client-side web security company disclosed that a threat actor published a malicious version of its npm package that has been downloaded almost 1,500 times. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-backdoor-jscrambler-npm-package-with-infostealer-malware/"
+    },
+    {
       "id": "news-6f48c299",
       "date": "2026-07-12",
       "title": "RedHook Android malware now uses Wireless ADB for shell access",
@@ -400,47 +443,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/07/hackers-weaponize-balochistan-police.html"
-    },
-    {
-      "id": "news-9a8f846e",
-      "date": "2026-07-10",
-      "title": "Dormant GitHub Accounts Help Attackers Blend In While Mapping Corporate Orgs",
-      "summary": "Datadog Security Labs is warning of \"several overlapping campaigns\" that are systematically enumerating corporate GitHub organizations, repositories, and user accounts through the GitHub API. \"Operators rely on automated scraping tooling with custom or legitimate-sounding user agents, leveraging GitHub 'ghost' accounts that are often years old, or compromised OAuth tokens and personal",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/dormant-github-accounts-help-attackers.html"
-    },
-    {
-      "id": "news-592993e1",
-      "date": "2026-07-10",
-      "title": "Former ransomware negotiator gets 4 years for BlackCat attacks",
-      "summary": "A former employee of cybersecurity incident response company DigitalMint was sentenced to 70 months in prison for targeting U.S. companies in BlackCat (ALPHV) ransomware attacks. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Incident"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/us-ransomware-negotiator-gets-4-years-in-prison-for-blackcat-attacks/"
-    },
-    {
-      "id": "news-56a419cd",
-      "date": "2026-07-10",
-      "title": "Vulnérabilité dans NetApp ONTAP 9 (10 juillet 2026)",
-      "summary": "Une vulnérabilité a été découverte dans NetApp ONTAP 9. Elle permet à un attaquant de provoquer un déni de service à distance et une atteinte à l'intégrité des données.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0857/"
     }
   ]
 }
