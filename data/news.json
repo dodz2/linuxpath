@@ -3,6 +3,22 @@
   "edition": "Semaine du 15 juillet 2026",
   "news": [
     {
+      "id": "news-61c780b5",
+      "date": "2026-07-16",
+      "title": "TuxBot v3 Evolution Shows Signs of LLM-Assisted IoT Botnet Development",
+      "summary": "Cybersecurity researchers have disclosed details of a previously unreported Internet-of-Things (IoT) botnet framework dubbed TuxBot v3 Evolution that shows signs of being developed with assistance from a large language model (LLM), albeit with not so successful results. \"While the AI complied with their request to generate botnet code, it included a safety disclaimer that the developer failed",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [
+        "Outil",
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/tuxbot-v3-evolution-shows-signs-of-llm.html"
+    },
+    {
       "id": "news-6559b67c",
       "date": "2026-07-15",
       "title": "Two SonicWall SMA 1000 Zero-Days Exploited, One Could Enable Admin Commands",
@@ -50,6 +66,255 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/us-charges-alleged-russian-bulletproof-hosting-service-operators/"
+    },
+    {
+      "id": "news-ebba15c4",
+      "date": "2026-07-15",
+      "title": "Vulnérabilité dans Schneider Electric EcoStruxure (15 juillet 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Schneider Electric EcoStruxure. Elle permet à un attaquant de provoquer un contournement de la politique de sécurité.",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0881/"
+    },
+    {
+      "id": "news-ba84d66f",
+      "date": "2026-07-15",
+      "title": "Multiples vulnérabilités dans Sonicwall Secure Mobile Access 1000 (15 juillet 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Sonicwall Secure Mobile Access 1000. Elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance et une falsification de requêtes côté serveur (SSRF). L'éditeur indique que les vulnérabilités CVE-2026-15409 et...",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-15409",
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0875/"
+    },
+    {
+      "id": "news-21a5e9f0",
+      "date": "2026-07-15",
+      "title": "Vulnérabilité dans Veeam Backup & Replication (15 juillet 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Veeam Backup & Replication. Elle permet à un attaquant de provoquer une élévation de privilèges.",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0878/"
+    },
+    {
+      "id": "news-688cec94",
+      "date": "2026-07-15",
+      "title": "Vulnérabilité dans Tenable Nessus Agent (15 juillet 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Tenable Nessus Agent. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance et un contournement de la politique de sécurité.",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0886/"
+    },
+    {
+      "id": "news-742b0011",
+      "date": "2026-07-15",
+      "title": "Vulnérabilité dans ESET Inspect Connector (15 juillet 2026)",
+      "summary": "Une vulnérabilité a été découverte dans ESET Inspect Connector. Elle permet à un attaquant de provoquer une élévation de privilèges.",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0882/"
+    },
+    {
+      "id": "news-4ddcd818",
+      "date": "2026-07-15",
+      "title": "OkoBot Malware Framework Injects Seed Phrase Phishing Into Ledger and Trezor Apps",
+      "summary": "A malware framework called OkoBot has been running on Windows machines since April 2025, and one of its modules is built to con hardware wallet owners out of their recovery phrase. On an infected PC, the request comes from inside the wallet's own desktop software. Sometimes it waits until you plug the device in first. The page is malicious. The app around it is the real one you installed, and",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "high",
+      "tags": [
+        "Outil",
+        "Windows",
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/okobot-malware-framework-injects-seed.html"
+    },
+    {
+      "id": "news-a12ed63b",
+      "date": "2026-07-15",
+      "title": "Firefox, Chrome, Adobe, and VMware Updates Fix Multiple Critical Security Flaws",
+      "summary": "Mozilla has released updates to address two critical flaws in Firefox for which it warned that exploit code has been published. The vulnerabilities are listed below - CVE-2026-15718, an invalid pointer in the JavaScript: WebAssembly component CVE-2026-15719, a site isolation in the DOM: Navigation component \"We are aware that exploit code for this is public, however we are not aware of",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil"
+      ],
+      "cve": "CVE-2026-15718",
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/firefox-chrome-adobe-and-vmware-updates.html"
+    },
+    {
+      "id": "news-cb3f0e24",
+      "date": "2026-07-15",
+      "title": "SASE Has An AI Blind Spot. Inspecting Packets Is No Longer Enough.",
+      "summary": "For years, routing traffic through cloud proxies was good enough. Then work moved to the browser, AI entered the workflow, and the inspection model stopped keeping up. Enterprise workflows now live across SaaS applications, browsers, and an expanding ecosystem of generative AI tools, unsanctioned browser extensions, and autonomous agents. Employees routinely paste intellectual property into",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/sase-has-ai-blind-spot-inspecting.html"
+    },
+    {
+      "id": "news-a1f1a355",
+      "date": "2026-07-15",
+      "title": "Researcher Drops New Windows Zero-Day PoC Hours After Microsoft Patch Tuesday",
+      "summary": "Security researcher Chaotic Eclipse (aka Nightmare-Eclipse) has released a new proof-of-concept (PoC) exploit called LegacyHive. It has been described as a Windows User Profile Service arbitrary hive load elevation of privileges vulnerability. The Windows User Profile Service, also referred to as ProfSvc, is a core system component that manages user accounts and environments. \"The PoC requires",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "critical",
+      "tags": [
+        "Patch",
+        "Outil",
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/researcher-drops-new-windows-zero-day.html"
+    },
+    {
+      "id": "news-3ab3bb92",
+      "date": "2026-07-15",
+      "title": "New Webinar: Closing the Approval Gap in AI-Era Ad Tech",
+      "summary": "A single approved marketing tag can quietly load fourth-party code your security team has never seen, granting full access to your forms, customer data, and checkout pages. This on-demand webinar reveals how this Approval Gap forms, and gives your team the blueprint to close it before an auditor, regulator, or attacker finds it first. The Reality of the Approval Gap It's a pattern every",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/new-webinar-closing-approval-gap-in-ai.html"
+    },
+    {
+      "id": "news-52e400fd",
+      "date": "2026-07-15",
+      "title": "Cursor Flaw Lets Malicious Cloned Repositories Trigger Windows Code Execution",
+      "summary": "Open a repository in Cursor on Windows and, if a file named git.exe is sitting in the project root, Cursor runs it. No click, no approval dialog, no warning that anything in the folder is about to execute. Whatever that binary does, it does as you, with your source, your SSH keys and your cloud tokens. Cursor keeps re-running it for as long as the project stays open. No prompt",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "critical",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/cursor-flaw-lets-malicious-cloned.html"
+    },
+    {
+      "id": "news-7f4de9cf",
+      "date": "2026-07-15",
+      "title": "Compromised AsyncAPI npm Packages Deliver Multi-Stage Botnet Malware",
+      "summary": "Four compromised npm packages in the @asyncapi namespace have been observed distributing a multi-stage botnet loader, according to findings from OX Security, SafeDep, Socket, and StepSecurity. The affected packages are listed below - @asyncapi/generator-helpers@1.1.1 @asyncapi/generator-components@0.7.1 @asyncapi/generator@3.3.1 @asyncapi/specs(v6.11.2, v6.11.2-alpha.1) \"The",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "high",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/compromised-asyncapi-npm-packages.html"
+    },
+    {
+      "id": "news-3335795f",
+      "date": "2026-07-15",
+      "title": "Google Gemini CLI abused as a hacking agent, malware botnet operator",
+      "summary": "A Russian-speaking threat actor known as \"bandcampro\" used Google's open-source Gemini CLI AI tool as a hacking agent and to operate a small-scale botnet. [...]",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "high",
+      "tags": [
+        "Outil",
+        "Réseau",
+        "Artificial Intelligence"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/google-gemini-cli-abused-as-a-hacking-agent-malware-botnet-operator/"
+    },
+    {
+      "id": "news-bbf79483",
+      "date": "2026-07-15",
+      "title": "AsyncAPI npm packages infected with credential-stealing malware",
+      "summary": "Five malicious versions of AsyncAPI packages were published to the Node Package Manager (npm) in a supply-chain attack that delivered a remote access trojan with info-stealing capabilities. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/-asyncapi-npm-packages-infected-with-credential-stealing-malware/"
+    },
+    {
+      "id": "news-b09f9577",
+      "date": "2026-07-15",
+      "title": "We built a vulnerability vending machine: AI tokens in, zero-days out",
+      "summary": "Intruder built an AI-powered \"vulnerability vending machine\" that combines code slicing with LLMs to automatically discover complex software vulnerabilities. The company explains how the system found and exploited a previously unknown WordPress plugin zero-day, with additional discoveries already under responsible disclosure. [...]",
+      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/we-built-a-vulnerability-vending-machine-ai-tokens-in-zero-days-out/"
+    },
+    {
+      "id": "news-a8c58792",
+      "date": "2026-07-15",
+      "title": "CISA warns admins to patch actively exploited SharePoint flaws",
+      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) warned Tuesday that attackers are actively exploiting three vulnerabilities to hack Internet-exposed on-premises SharePoint Server instances. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "high",
+      "tags": [
+        "Patch",
+        "Microsoft"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/cisa-warns-admins-to-patch-actively-exploited-sharepoint-flaws/"
+    },
+    {
+      "id": "news-71aa771b",
+      "date": "2026-07-15",
+      "title": "Microsoft: Some Dell PCs shut down after recent Windows updates",
+      "summary": "Microsoft is blocking this month's Windows 11 security updates on some Dell devices because they are causing shutdowns and performance issues. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows",
+        "Microsoft"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-some-dell-devices-shut-down-after-windows-update/"
     },
     {
       "id": "news-036d8039",
@@ -182,287 +447,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/07/us-sanctions-first-vpn-service-and.html"
-    },
-    {
-      "id": "news-56de78fb",
-      "date": "2026-07-14",
-      "title": "148 npm Packages Disguised as Student Proxies Turned Browsers Into a DDoS Botnet",
-      "summary": "A campaign of 148 npm packages disguised as student web proxies turned visitors' browsers into a distributed denial-of-service botnet for roughly two weeks in May, according to new research from JFrog. The packages did not go after the developers who might install them. The operators used the registry as free hosting for a booby-trapped proxy site and let the students who came to dodge",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/148-npm-packages-disguised-as-student.html"
-    },
-    {
-      "id": "news-72e28072",
-      "date": "2026-07-14",
-      "title": "Microsoft releases Windows 10 KB5099539 extended security update",
-      "summary": "Microsoft has released the Windows 10 KB5099539 extended security update, which includes the July 2026 Patch Tuesday security updates for 570 vulnerabilities, along with additional security fixes. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "high",
-      "tags": [
-        "Patch",
-        "Windows",
-        "Microsoft"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-releases-windows-10-kb5099539-extended-security-update/"
-    },
-    {
-      "id": "news-1a165347",
-      "date": "2026-07-14",
-      "title": "Microsoft July 2026 Patch Tuesday fixes massive 570 flaws, 3 zero-days",
-      "summary": "Today is Microsoft's July 2026 Patch Tuesday, and with it comes security updates for a record-breaking 570 flaws, including two zero-day vulnerabilities exploited in attacks and one publicly disclosed. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "critical",
-      "tags": [
-        "Patch",
-        "Windows",
-        "Microsoft"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-july-2026-patch-tuesday-fixes-massive-570-flaws-3-zero-days/"
-    },
-    {
-      "id": "news-ed021119",
-      "date": "2026-07-14",
-      "title": "Windows 11 KB5101650 & KB5099414 cumulative updates released",
-      "summary": "Microsoft has released Windows 11 KB5101650 and KB5099414 cumulative updates for versions 25H2/24H2 and 23H2 to fix security vulnerabilities, bugs, and add new features. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "info",
-      "tags": [
-        "Patch",
-        "Windows",
-        "Microsoft",
-        "Software"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/microsoft/windows-11-kb5101650-and-kb5099414-cumulative-updates-released/"
-    },
-    {
-      "id": "news-003cc284",
-      "date": "2026-07-14",
-      "title": "Progress confirms ShareFile zero-day flaw behind Storage Zone shutdown",
-      "summary": "Progress Software has confirmed that a high-severity zero-day vulnerability is behind the emergency shutdown of ShareFile Storage Zone Controllers last week and has released security updates to patch the flaw. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Patch"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/progress-confirms-sharefile-zero-day-flaw-behind-storage-zone-shutdown/"
-    },
-    {
-      "id": "news-848a1b7e",
-      "date": "2026-07-14",
-      "title": "LastPass, Bitwarden users targeted with fake security alerts",
-      "summary": "LastPass is warning users about an ongoing phishing campaign that is using fake security notices to direct them to fraudulent websites. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/lastpass-bitwarden-users-targeted-with-fake-security-alerts/"
-    },
-    {
-      "id": "news-ef2eae0d",
-      "date": "2026-07-14",
-      "title": "You Don't Have to Run an Exploit to Know If You're Vulnerable",
-      "summary": "Many vulnerabilities cannot be safely validated with live exploits, either because no exploit exists or the affected systems are too critical to test. Picus explains how TTP chaining helps organizations determine exploitability by validating the attack techniques an exploit depends on, without launching the exploit itself. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/you-dont-have-to-run-an-exploit-to-know-if-youre-vulnerable/"
-    },
-    {
-      "id": "news-3efa3717",
-      "date": "2026-07-14",
-      "title": "Microsoft Entra ID gets passkeys default authentication starting September",
-      "summary": "Microsoft has announced that passkeys will become the default authentication method for the Entra ID enterprise identity service starting September 2026. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "info",
-      "tags": [
-        "Windows",
-        "Microsoft"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-entra-id-gets-passkeys-default-authentication-starting-september/"
-    },
-    {
-      "id": "news-5f655a32",
-      "date": "2026-07-14",
-      "title": "New phishing kits target Microsoft 365 accounts, evade MFA",
-      "summary": "Two new phishing kits, Jalisco and OmegaLord, have been discovered in attacks targeting Microsoft 365 accounts, using techniques that defeat multi-factor authentication (MFA). [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "info",
-      "tags": [
-        "Windows",
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/new-phishing-kits-target-microsoft-365-accounts-evade-mfa/"
-    },
-    {
-      "id": "news-897428c4",
-      "date": "2026-07-14",
-      "title": "SAP warns of critical flaws in NetWeaver and Commerce Cloud",
-      "summary": "SAP has addressed 16 vulnerabilities across multiple products as part of its July 2026 security updates, including three critical flaws in NetWeaver, Commerce Cloud, and AppRouter. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/sap-warns-of-critical-flaws-in-netweaver-and-commerce-cloud/"
-    },
-    {
-      "id": "news-62f7daae",
-      "date": "2026-07-14",
-      "title": "Microsoft starts testing cleaner Windows Search without ads",
-      "summary": "Microsoft is now testing a cleaner and faster version of Windows Search that should prioritize relevant results over ads and promotional content. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "info",
-      "tags": [
-        "Outil",
-        "Windows",
-        "Microsoft"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-starts-testing-cleaner-windows-search-without-ads/"
-    },
-    {
-      "id": "news-8208347d",
-      "date": "2026-07-14",
-      "title": "US sanctions VPN, malware providers for enabling ransomware attacks",
-      "summary": "The U.S. Treasury Department's Office of Foreign Assets Control (OFAC) sanctioned two individuals and one entity for enabling ransomware attacks against U.S. organizations. [...]",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "critical",
-      "tags": [
-        "Incident",
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/us-sanctions-vpn-malware-providers-linked-to-ransomware-gangs/"
-    },
-    {
-      "id": "news-c29048e9",
-      "date": "2026-07-14",
-      "title": "SAP Patches CVSS 9.9 NetWeaver ABAP Flaw That Could Expose or Modify Data",
-      "summary": "SAP has rolled out updates to address multiple vulnerabilities as part of its July 2026 security updates, including a critical flaw in SAP NetWeaver Application Server ABAP. The vulnerability in question is CVE-2026-44747 (CVSS score: 9.9), an out-of-bounds write flaw that allows an authenticated attacker to leverage logical errors in memory management to cause a memory corruption that could",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-44747",
-      "cvss": 9.9,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/sap-patches-cvss-99-netweaver-abap-flaw.html"
-    },
-    {
-      "id": "news-bd0faaf3",
-      "date": "2026-07-14",
-      "title": "Researchers Say Claude for Chrome Flaw Lets Rogue Extensions Trigger Gmail Reads",
-      "summary": "Any other browser extension that can run a script on claude.ai can still trigger Claude for Chrome tasks aimed at your Gmail, your latest Google Doc and its comments, and your Calendar. Both this and ClaudeBleed need a rogue extension that can already run a script on claude.ai; the difference is scope. Anthropic restricted the arbitrary-prompt path in May as part of its response to the",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/claude-for-chrome-flaw-lets-other.html"
-    },
-    {
-      "id": "news-fdeb5ae0",
-      "date": "2026-07-14",
-      "title": "SonicWall warns of SMA1000 flaws exploited in zero-day attacks, patch now",
-      "summary": "SonicWall warns that threat actors have been exploiting two SMA1000 vulnerabilities, tracked as CVE-2026-15409 and CVE-2026-15410, in zero-day attacks and urges customers to install the newly released security updates. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "CVE",
-        "Patch"
-      ],
-      "cve": "CVE-2026-15409",
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/sonicwall-warns-of-sma1000-flaws-exploited-in-zero-day-attacks-patch-now/"
-    },
-    {
-      "id": "news-9dc95d52",
-      "date": "2026-07-14",
-      "title": "Spanish Police take down €140 million cyber fraud ring, arrest four",
-      "summary": "The Spanish Police dismantled a cybercrime and money-laundering organization that made €140 million ($160 million) from investment fraud and business email compromise (BEC) attacks. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Legal"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/spanish-police-take-down-140-million-cyber-fraud-ring-arrest-four/"
-    },
-    {
-      "id": "news-ce8b3440",
-      "date": "2026-07-14",
-      "title": "Nearly 300 GitHub repos pose as legit software to push malware",
-      "summary": "A threat actor has published hundreds of fake GitHub repositories impersonating legitimate software and security projects to distribute infostealer malware. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/nearly-300-github-repos-pose-as-legit-software-to-push-malware/"
-    },
-    {
-      "id": "news-61f052ed",
-      "date": "2026-07-14",
-      "title": "Microsoft Patches a Record 570 Security Flaws",
-      "summary": "Microsoft Corp. today released software updates to plug at least 570 security holes in its Windows operating systems and other software, almost triple the number of vulnerabilities the software giant fixed in its record-smashing Patch Tuesday release last month. Microsoft attributed the burgeoning patch counts to vulnerability discoveries aided by artificial intelligence. Nearly 60 of the bugs…",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "critical",
-      "tags": [
-        "CVE",
-        "Patch",
-        "Outil",
-        "Windows",
-        "Security Tools"
-      ],
-      "cve": "CVE-2026-56155",
-      "cvss": null,
-      "source_label": "Krebs on Security",
-      "source_url": "https://krebsonsecurity.com/2026/07/microsoft-patches-a-record-570-security-flaws/"
     }
   ]
 }
