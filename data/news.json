@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-07-18",
-  "edition": "Semaine du 18 juillet 2026",
+  "last_updated": "2026-07-19",
+  "edition": "Semaine du 19 juillet 2026",
   "news": [
     {
       "id": "news-fdba4ced",
@@ -71,6 +71,22 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/the-future-of-age-verification-your-face-never-leaves-your-device/"
+    },
+    {
+      "id": "news-771a5a2a",
+      "date": "2026-07-18",
+      "title": "Update now: 7-Zip fixes RCE flaw exploitable with malicious archives",
+      "summary": "7-Zip version 26.02 was released to fix a remote code execution vulnerability that could allow attackers to execute malicious code by convincing users to open specially crafted compressed files. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Patch",
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/update-now-7-zip-fixes-rce-flaw-exploitable-with-malicious-archives/"
     },
     {
       "id": "news-d800a3f4",
@@ -418,21 +434,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/07/20-hijacked-government-websites.html"
-    },
-    {
-      "id": "news-c41a9e5a",
-      "date": "2026-07-16",
-      "title": "New Agent Data Injection Attack Can Make AI Agents Misclick or Run Attacker Commands",
-      "summary": "Ask an AI agent to summarize the reviews on a product page, and a single planted review can make it click \"Buy Now\" instead. Ask a coding assistant to apply a maintainer's fix from a GitHub thread, and a fake comment can make it run a stranger's command on your computer. Neither trick hijacks the agent's task. Each one just corrupts the facts it trusts and lets it carry on with the job you",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Patch"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/new-agent-data-injection-attack-can.html"
     }
   ]
 }
