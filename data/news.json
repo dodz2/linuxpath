@@ -3,6 +3,50 @@
   "edition": "Semaine du 19 juillet 2026",
   "news": [
     {
+      "id": "news-99240584",
+      "date": "2026-07-19",
+      "title": "UAC-0145 Uses ClickFix CAPTCHAs to Infect Ukrainian Devices wih Malware",
+      "summary": "Russian state-sponsored threat actors have been observed leveraging the infamous ClickFix strategy to trick Ukrainian targets into infecting their own machines with data-stealing malware. According to the Computer Emergency Response Team of Ukraine (CERT-UA), the activity has been attributed to UAC-0145, a sub-cluster within Sandworm, an advanced hacking unit affiliated with GRU, Russia's",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/uac-0145-uses-clickfix-captchas-to.html"
+    },
+    {
+      "id": "news-19f26644",
+      "date": "2026-07-19",
+      "title": "SonicWall SMA Zero-Days Exploited Before Disclosure to Gain Root Access",
+      "summary": "A previously undocumented threat actor has been attributed to the exploitation of recently disclosed SonicWall Secure Mobile Access (SMA) 1000 series VPN appliances as zero-days prior their public disclosure since June 22, 2026. Cybersecurity company Volexity is tracking the activity under the moniker UTA0533. The discovery was made following an incident response investigation earlier this",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "critical",
+      "tags": [
+        "Incident",
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/sonicwall-sma-zero-days-exploited.html"
+    },
+    {
+      "id": "news-f89c792a",
+      "date": "2026-07-19",
+      "title": "Hackers abuse ViPNet software to target Russian govt agencies",
+      "summary": "An advanced threat actor is abusing the update mechanism for the ViPNet private networking product suite to target Russian organizations, including government agencies. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Government"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-abuse-vipnet-software-to-target-russian-govt-agencies/"
+    },
+    {
       "id": "news-fdba4ced",
       "date": "2026-07-18",
       "title": "New wp2shell WordPress Core Flaw Lets Unauthenticated Attackers Run Code",
@@ -393,47 +437,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/07/n8n-token-exchange-flaw-could-let.html"
-    },
-    {
-      "id": "news-31a507d6",
-      "date": "2026-07-16",
-      "title": "New TELEPUZ Malware Spreads via ClickFix to Steal Data and Run Commands",
-      "summary": "Cybersecurity researchers have called attention to a new modular malware called TELEPUZ that's been spreading via websites infected with ClickFix lures since late April 2026. \"The malware is full-featured, lightweight, and modular,\" Elastic Security Labs researcher Cyril François said in a technical report. \"While the number of C2 [command-and-control] domains is currently small, the daily",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "high",
-      "tags": [
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/new-telepuz-malware-spreads-via.html"
-    },
-    {
-      "id": "news-a4ceb587",
-      "date": "2026-07-16",
-      "title": "New ClickLock macOS Stealer Kills Apps Every 210ms Until Victims Type Their Password",
-      "summary": "ClickLock Stealer, a new macOS infostealer, answers a victim's refusal by killing their apps on a loop until they hand over the login password. It arrives as a command pasted into Terminal, asks for the password behind a fake system dialog, and when the victim cancels, installs two LaunchAgents and quietly exits. At the next login, Finder, the Dock, Spotlight, Terminal, Activity Monitor, and",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/new-clicklock-macos-stealer-kills-apps.html"
-    },
-    {
-      "id": "news-c5114972",
-      "date": "2026-07-16",
-      "title": "20+ Hijacked Government Websites Became an Attack Channel",
-      "summary": "More than 20 Brazilian government websites were hijacked and turned into malware delivery channels in an active PhantomEnigma campaign uncovered by ANY.RUN, a leading provider of interactive malware analysis and threat intelligence solutions. The investigation revealed previously undocumented backdoor behavior, hidden infrastructure relationships, and multiple attack arms behind a campaign",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/20-hijacked-government-websites.html"
     }
   ]
 }
