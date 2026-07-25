@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-07-24",
-  "edition": "Semaine du 24 juillet 2026",
+  "last_updated": "2026-07-25",
+  "edition": "Semaine du 25 juillet 2026",
   "news": [
     {
       "id": "news-844693f2",
@@ -278,6 +278,35 @@
       "source_url": "https://www.bleepingcomputer.com/news/security/man-gets-six-years-for-hacking-750-womens-snapchat-accounts/"
     },
     {
+      "id": "news-0e8854f5",
+      "date": "2026-07-24",
+      "title": "OnTrac notifies customers of data breach after network hack",
+      "summary": "OnTrac parcel delivery company is informing that hackers breached its corporate network and may have accessed personal details belonging to its customers. [...]",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "critical",
+      "tags": [
+        "Incident",
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/ontrac-notifies-customers-of-data-breach-after-network-hack/"
+    },
+    {
+      "id": "news-1b21cb3b",
+      "date": "2026-07-24",
+      "title": "Hermes AI agent used to automate attack on Thai Finance Ministry",
+      "summary": "A threat actor used the open-source Hermes AI agent in unattended \"YOLO\" mode to automate post-exploitation activity during an alleged breach of Thailand's Ministry of Finance. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/hermes-ai-agent-used-to-automate-attack-on-thai-finance-ministry/"
+    },
+    {
       "id": "news-9d0048cf",
       "date": "2026-07-23",
       "title": "Check Point Patches Exploited SmartConsole Flaw Allowing Full Admin Access",
@@ -421,35 +450,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/07/nine-year-old-refluxfs-linux-flaw-gives.html"
-    },
-    {
-      "id": "news-120a0138",
-      "date": "2026-07-23",
-      "title": "Russian hackers exploit Zimbra zero-click flaw for email theft",
-      "summary": "CISA is warning that the Russian state-sponsored hacking group Laundry Bear, also known as Void Blizzard, is targeting organizations using Zimbra Collaboration email servers by combining phishing attacks with the exploitation of a now-patched Zimbra vulnerability. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "Outil",
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/russian-hackers-exploit-zimbra-zero-click-flaw-for-email-theft/"
-    },
-    {
-      "id": "news-cff1e304",
-      "date": "2026-07-23",
-      "title": "Hackers abuse Notepad++ plugins to stealthily install malware",
-      "summary": "Ukraine's CERT has uncovered attacks distributing an archive containing the legitimate Notepad++ application and a malicious utility called LunchPoke disguised as a plugin to establish persistence. [...]",
-      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
-      "severity": "high",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-abuse-notepad-plus-plus-plugins-to-stealthily-install-malware/"
     }
   ]
 }
