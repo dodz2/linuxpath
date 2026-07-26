@@ -18,6 +18,21 @@
       "source_url": "https://thehackernews.com/2026/07/malvertising-sends-malware-in-pieces.html"
     },
     {
+      "id": "news-ce93352b",
+      "date": "2026-07-26",
+      "title": "GitHub, PyPI add time-absed defenses against supply chain attacks",
+      "summary": "GitHub and PyPI (Python Package Index) have introduced a time-based mechanism in the Dependabot dependency management tool to protect against supply-chain attacks and to limit their impact. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/github-pypi-add-time-absed-defenses-against-supply-chain-attacks/"
+    },
+    {
       "id": "news-4eaed4a6",
       "date": "2026-07-25",
       "title": "Fastjson 1.x RCE Vulnerability Targeted in Attacks With No Patched Available",
@@ -439,19 +454,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/ontrac-notifies-customers-of-data-breach-after-network-hack/"
-    },
-    {
-      "id": "news-1b21cb3b",
-      "date": "2026-07-24",
-      "title": "Hermes AI agent used to automate attack on Thai Finance Ministry",
-      "summary": "A threat actor used the open-source Hermes AI agent in unattended \"YOLO\" mode to automate post-exploitation activity during an alleged breach of Thailand's Ministry of Finance. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/hermes-ai-agent-used-to-automate-attack-on-thai-finance-ministry/"
     }
   ]
 }
