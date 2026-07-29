@@ -1,7 +1,65 @@
 {
-  "last_updated": "2026-07-28",
-  "edition": "Semaine du 28 juillet 2026",
+  "last_updated": "2026-07-29",
+  "edition": "Semaine du 29 juillet 2026",
   "news": [
+    {
+      "id": "news-cf07c5f6",
+      "date": "2026-07-29",
+      "title": "Flying Eagle Android RAT Traces Found on 170 Servers as Source Code Circulates",
+      "summary": "Source code for the Flying Eagle Android remote access trojan (RAT) framework is circulating through criminal Telegram channels. Hunt.io and independent researcher NetAskari traced matching control panels and certificates to 170 internet servers. They linked the framework to a fake \"公安一网通办\" Public Security service application targeting Android users in China. The kit supports payment-password",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/flying-eagle-android-rat-traces-found.html"
+    },
+    {
+      "id": "news-faacc7e0",
+      "date": "2026-07-29",
+      "title": "OpenAI Agent Used Exposed Credentials Across Four Services During Hugging Face Breach",
+      "summary": "OpenAI on Tuesday revealed the rogue artificial intelligence (AI) agent that escaped its sealed evaluation environment and broke into Hugging Face's production environment, and also hacked multiple third-party accounts and services as part of the attack. The latest disclosure shows that the security incident, which stemmed from an internal security test, was more extensive in scope than",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/openai-agent-used-exposed-credentials.html"
+    },
+    {
+      "id": "news-a2988e3e",
+      "date": "2026-07-29",
+      "title": "Two Compromised joyfill npm Packages Run RAT When Imported Into Node.js",
+      "summary": "Beta release versions of two npm packages in the @joyfill namespace have been compromised to deliver a remote access trojan (RAT) associated with the DEV#POPPER malware family. The list of affected packages is as follows - @joyfill/layouts@0.1.2-2773.beta.0 @joyfill/components@4.0.0-rc24-2773-beta.4 The two packages \"contain an import-time JavaScript implant that resolves encrypted code",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "high",
+      "tags": [
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/two-compromised-joyfill-npm-packages.html"
+    },
+    {
+      "id": "news-bd7a0c13",
+      "date": "2026-07-29",
+      "title": "Claude AI Just Cracked a Post-Quantum Test Scheme and Found a Faster 7-Round AES Attack",
+      "summary": "Anthropic says Claude Mythos Preview helped derive an end-to-end key-recovery attack against HAWK-256 and a 200- to 800-fold speedup for an attack on seven-round AES-128. The HAWK attack exploits a previously unused symmetry in the lattice behind the signature scheme. Anthropic's released implementation gives an expected end-to-end runtime of about three hours and 42 minutes on a 96-core server",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/07/claude-ai-just-cracked-post-quantum.html"
+    },
     {
       "id": "news-13cd1435",
       "date": "2026-07-28",
@@ -201,6 +259,34 @@
       "source_url": "https://www.bleepingcomputer.com/news/security/data-breach-at-medical-billing-firm-mcbs-affects-126-million-people/"
     },
     {
+      "id": "news-b5bae1e4",
+      "date": "2026-07-28",
+      "title": "CubePilot drone software dev hit by DNS hijacking to intercept traffic",
+      "summary": "CubePilot, an Australian firm that designs flight controllers for drones (UAVs), announced a severe operational disruption caused by a DNS hijacking attack. [...]",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/cubepilot-drone-software-dev-hit-by-dns-hijacking-to-intercept-traffic/"
+    },
+    {
+      "id": "news-483d45a5",
+      "date": "2026-07-28",
+      "title": "OpenAI models used Artifactory zero-days to escape to the internet",
+      "summary": "JFrog has confirmed that OpenAI models exploited zero-day vulnerabilities in self-hosted Artifactory servers to help escape an isolated testing environment and gain access to the internet before attacking Hugging Face. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/openai-models-used-artifactory-zero-days-to-escape-to-the-internet/"
+    },
+    {
       "id": "news-8dfe62a3",
       "date": "2026-07-27",
       "title": "TELESHIM Abuses Telegram for C2 in Attacks Against Middle East Governments",
@@ -367,93 +453,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/ernst-and-young-data-breach-claimed-by-shinyhunters-extortion-gang/"
-    },
-    {
-      "id": "news-67cde035",
-      "date": "2026-07-27",
-      "title": "Shadow AI agents are multiplying. Here's how to find and secure them.",
-      "summary": "Shadow AI agents are rapidly spreading across enterprise platforms, often without IT or security visibility. Nudge Security explains how organizations can discover, assess, and govern AI agents before unmanaged permissions and autonomous actions create security risks. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/shadow-ai-agents-are-multiplying-heres-how-to-find-and-secure-them/"
-    },
-    {
-      "id": "news-46135d5f",
-      "date": "2026-07-27",
-      "title": "NVIDIA Forms 37-Member Open Secure AI Alliance and Open-Sources NOOA Framework",
-      "summary": "NVIDIA and 36 other organizations have formed the Open Secure AI Alliance to develop and share open technologies, techniques, and tools for securing software and artificial intelligence (AI) agents. The 37-member group spans cloud, security, enterprise software, and AI companies, including Microsoft, Cisco, Cloudflare, CrowdStrike, Hugging Face, IBM, Palo Alto Networks, Red Hat, and the Linux",
-      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
-      "severity": "info",
-      "tags": [
-        "Outil",
-        "Linux",
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/nvidia-forms-37-member-open-secure-ai.html"
-    },
-    {
-      "id": "news-88c929c9",
-      "date": "2026-07-27",
-      "title": "Hackers target US firms in FastJson RCE zero-day attacks",
-      "summary": "Hackers are actively exploiting a vulnerability in the FastJson open-source Java library, allowing remote code execution without user interaction or elevated privileges. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-target-us-firms-in-fastjson-rce-zero-day-attacks/"
-    },
-    {
-      "id": "news-e8c6aede",
-      "date": "2026-07-27",
-      "title": "Arista patches VeloCloud Orchestrator zero-day exploited in attacks",
-      "summary": "Arista has patched a maximum-severity command injection vulnerability in on-premises VeloCloud Orchestrator deployments that is being actively exploited in attacks. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/arista-patches-velocloud-orchestrator-zero-day-exploited-in-attacks/"
-    },
-    {
-      "id": "news-c55c9171",
-      "date": "2026-07-27",
-      "title": "New Dysphoria DDoS botnet spreads to 200k devices worldwide",
-      "summary": "A botnet called Dysphoria has compromised around 200,000 devices across the world and is using them for distributed denial of service (DDoS) attacks and traffic relay operations. [...]",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "medium",
-      "tags": [
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/new-dysphoria-ddos-botnet-spreads-to-200k-devices-worldwide/"
-    },
-    {
-      "id": "news-2eb54879",
-      "date": "2026-07-27",
-      "title": "New Certighost PoC exploit lets attackers hijack Windows domains",
-      "summary": "A proof-of-concept exploit for \"Certighost,\" a Windows Active Directory Certificate Services vulnerability, has been released that can allow authenticated attackers to potentially compromise a Windows domain. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "high",
-      "tags": [
-        "Outil",
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/new-certighost-poc-exploit-lets-attackers-hijack-windows-domains/"
     }
   ]
 }
