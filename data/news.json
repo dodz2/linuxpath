@@ -1,7 +1,52 @@
 {
-  "last_updated": "2026-08-02",
-  "edition": "Semaine du 2 août 2026",
+  "last_updated": "2026-08-03",
+  "edition": "Semaine du 3 août 2026",
   "news": [
+    {
+      "id": "news-3506b329",
+      "date": "2026-08-03",
+      "title": "Thermo Fisher Patches Flaw That Could Make DNA File Tampering Nearly Undetectable",
+      "summary": "Thermo Fisher Scientific has patched a flaw in select Applied Biosystems human identification software that could allow data files to be altered before analysis software loads them. The vendor's July 31 security bulletin says nearly undetectable changes to .fsa and .hid outputs could occur if laboratory controls are circumvented. Thermo Fisher tracks the issue as CVE-2026-17583 and rates it",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-17583",
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/thermo-fisher-patches-flaw-that-could.html"
+    },
+    {
+      "id": "news-78b3ff52",
+      "date": "2026-08-03",
+      "title": "N-able Says Attackers Take Over N-central Servers After Initial Fix Proves Incomplete",
+      "summary": "N-able said attackers exploited an authentication bypass in N-central to gain remote administrative access and reach the customer systems managed through those servers. Its first fix was incomplete. CVE-2026-18577 affects N-central builds prior to 2026.3.1.7. N-able shipped build 2026.3.1.7 on August 2 as the first unaffected version. N-central is the remote monitoring and management platform",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil"
+      ],
+      "cve": "CVE-2026-18577",
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/n-able-says-attackers-take-over-n.html"
+    },
+    {
+      "id": "news-c878fdab",
+      "date": "2026-08-03",
+      "title": "Hugging Face Diffusers Flaws Could Let Model Repositories Execute Arbitrary Code",
+      "summary": "Three high-severity security flaws have been disclosed in Hugging Face's Diffusers library that could allow crafted model repositories to stealthily execute arbitrary code on machines that load it, opening the artificial intelligence (AI) supply chain to security risk. \"These vulnerabilities are bypassing trust_remote_code, the safeguard designed to stop unreviewed code from running in the",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/hugging-face-diffusers-flaws-could-let.html"
+    },
     {
       "id": "news-3521cfcd",
       "date": "2026-08-02",
@@ -16,6 +61,23 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/google/google-chrome-may-soon-block-new-tab-hijacker-extensions-by-default/"
+    },
+    {
+      "id": "news-40db1d81",
+      "date": "2026-08-02",
+      "title": "OpenAI teases Astra, its next major AI model, after it solves 10 long-standing math problems",
+      "summary": "OpenAI has revealed Astra, an unreleased model designed to tackle complex, long-running tasks, after an internal version produced ten significant advances in mathematics and theoretical computer science. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Outil",
+        "Artificial Intelligence",
+        "Technology"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-teases-astra-its-next-major-ai-model-after-it-solves-10-long-standing-math-problems/"
     },
     {
       "id": "news-8c0eb421",
@@ -66,8 +128,11 @@
       "title": "Coldcard Hardware Wallet Flaw Linked to $70 Million Bitcoin Theft in 41 Minutes",
       "summary": "An attacker drained 1,196 Bitcoin addresses in 41 minutes on July 30, taking 1,082.65 BTC worth about $70.2 million at the time. Galaxy Research mapped the sweep and tied it to a firmware flaw in Coldcard, the Bitcoin-only hardware wallet made by Canadian firm Coinkite. A March 2021 firmware integration error routed seed generation to a deterministic software pseudorandom number generator (PRNG",
       "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
+      "severity": "high",
+      "tags": [
+        "Fraude",
+        "CryptoCurrency"
+      ],
       "cve": null,
       "cvss": null,
       "source_label": "The Hacker News",
@@ -384,68 +449,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0948/"
-    },
-    {
-      "id": "news-ccca6f8e",
-      "date": "2026-07-30",
-      "title": "Vulnérabilité dans Cisco Firewall Management Center (30 juillet 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Cisco Firewall Management Center. Elle permet à un attaquant de provoquer une atteinte à la confidentialité des données et un contournement de la politique de sécurité. Cisco indique que la vulnérabilité CVE-2026-20316 est activement exploitée.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "CVE",
-        "Réseau"
-      ],
-      "cve": "CVE-2026-20316",
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0950/"
-    },
-    {
-      "id": "news-f8c817c9",
-      "date": "2026-07-30",
-      "title": "ThreatsDay: AI-Powered Hacking, 370 Chrome Flaws, SonicWall Attacks, DNS Hijacking + 22 More Stories",
-      "summary": "A lot of security still comes down to trusting the wrong screen. This week, that screen might be a login page, an install guide, a recruiter call, or a familiar service behaving slightly wrong. Behind it: reused credentials, exposed systems, quiet loaders, abused trust, and exploit paths that should have been harder. Some defenses improved. The loose parts still got found first. Anyway,",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "high",
-      "tags": [
-        "Outil",
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/threatsday-ai-powered-hacking-370.html"
-    },
-    {
-      "id": "news-14a27709",
-      "date": "2026-07-30",
-      "title": "Azure Cosmos DB Flaw Exposed Platform-Wide Key That Could Access Any Database",
-      "summary": "A now-patched vulnerability in Azure Cosmos DB could have let an attacker escape the service's Gremlin query sandbox and obtain full read and write access to databases across customer tenants, according to Wiz. Wiz, which codenamed the chain CosmosEscape, said the exploit chain began with a crafted query against a Gremlin database controlled by the attacker. From there, code execution on a",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "high",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/azure-cosmos-db-flaw-exposed-platform.html"
-    },
-    {
-      "id": "news-b9b76252",
-      "date": "2026-07-30",
-      "title": "Microsoft Copilot for Word Can Copy Hidden Prompts Into New Documents",
-      "summary": "Hidden instructions in a Word document can make Microsoft 365 Copilot rewrite figures in a report, then copy the same instructions into the finished file. Håkon Måløy disclosed the technique on July 28, 144 days after reporting it to Microsoft. In his proof of concept, the internally generated file triggered the same behavior when it was used in a second Copilot drafting session. Måløy's",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/microsoft-copilot-for-word-can-copy.html"
     }
   ]
 }
