@@ -33,6 +33,171 @@
       "source_url": "https://thehackernews.com/2026/08/cisa-adds-exploited-n-able-n-central.html"
     },
     {
+      "id": "news-056537ad",
+      "date": "2026-08-04",
+      "title": "Vulnérabilité dans les produits Check Point (04 août 2026)",
+      "summary": "Une vulnérabilité a été découverte dans les produits Check Point. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance et un contournement de la politique de sécurité.",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0965/"
+    },
+    {
+      "id": "news-778d3b77",
+      "date": "2026-08-04",
+      "title": "Greatness PhaaS Adds Device Code Phishing to Bypass MFA and Steal Tokens",
+      "summary": "The commercial phishing-as-a-service (PhaaS) toolkit known as Greatness has become the latest crimeware solution to add support for device code phishing, a rapidly growing cyber threat that abuses the legitimate OAuth 2.0 Device Authorization Grant to bypass Multi-Factor Authentication (MFA) and seize control of user accounts. \"Greatness supports AiTM [adversary-in-the-middle] credential and",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/greatness-phaas-adds-device-code.html"
+    },
+    {
+      "id": "news-7d50972d",
+      "date": "2026-08-04",
+      "title": "Keyv-Linked npm Worm Poisons Hundreds of Packages, Plants Claude Code and VS Code Hooks",
+      "summary": "A credential-stealing npm worm that first appeared in keyv@6.0.0 spread beyond the Keyv and Cacheable namespaces into hundreds of packages across multiple organizations on August 4, 2026. SafeDep verified 353 poisoned versions across 79 package names in the npm registry. Its monitoring put the wider footprint at 442 versions across 353 names, while Aikido later reported at least 868 packages",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/keyv-linked-npm-worm-poisons-hundreds.html"
+    },
+    {
+      "id": "news-630d358a",
+      "date": "2026-08-04",
+      "title": "Fake Adobe and Zoom Updates Install ScreenConnect for Persistent Remote Access",
+      "summary": "Cybersecurity researchers have disclosed details of an active, multi-wave campaign that employs social engineering lures themed around Adobe and Zoom software updates, business document reviews, and system maintenance utilities to stealthily deploy Remote Monitoring and Management (RMM) programs like ConnectWise ScreenConnect. The campaign has been codenamed SMOKE#SCREEN by Securonix Threat",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/fake-adobe-and-zoom-updates-install.html"
+    },
+    {
+      "id": "news-4b8037c7",
+      "date": "2026-08-04",
+      "title": "When Vibe Hacking Turns AI into the Junior Hacker Every Adversary Always Wanted",
+      "summary": "The cybersecurity industry has spent decades assuming that offensive capability scales with technical expertise. That assumption is starting to break. Security teams have long estimated risk by ranking attacker sophistication. Nation-state actors sat at one end. Organized criminal groups followed. Inexperienced attackers, dismissed as \"script kiddies,\" sat at the other end, running public",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/when-vibe-hacking-turns-ai-into-junior.html"
+    },
+    {
+      "id": "news-84fff5ed",
+      "date": "2026-08-04",
+      "title": "Google Deletes 3 ADK AI Workflows After Malicious GitHub Issue Could Trigger Privileged Agent",
+      "summary": "Google deleted three AI agent workflows from its Agent Development Kit (ADK) Python repository. Pillar Security showed that a public GitHub issue could manipulate a triage agent into triggering a privileged code-fixing agent. The researchers said the public agent could be prompt-injected into posting /adk-issue-fix as adk-bot. They identified the bot as a collaborator, so that comment satisfied",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Patch"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/google-deletes-3-adk-ai-workflows-after.html"
+    },
+    {
+      "id": "news-f98f1e5a",
+      "date": "2026-08-04",
+      "title": "New cPanel Critical Flaw Could Let Hosting Customers Run SQL as Database Root",
+      "summary": "cPanel has patched a flaw that let an authenticated hosting customer execute SQL in the database's root context, crossing the privilege boundary between a cPanel account and the server's administrative database identity. It shipped in a targeted security release that closes two other routes past account boundaries. The database bug is tracked as CVE-2026-58048 (CVSS 4.0 score: 9.4) and affects",
+      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
+      "severity": "medium",
+      "tags": [
+        "CVE",
+        "Outil"
+      ],
+      "cve": "CVE-2026-58048",
+      "cvss": 4.0,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/new-cpanel-critical-flaw-could-let.html"
+    },
+    {
+      "id": "news-6d0399fb",
+      "date": "2026-08-04",
+      "title": "DOUBLECUP Uses ClickFix and Cached PNGs to Deliver CountLoader and DeviceManager RAT",
+      "summary": "A new Russian loader-as-a-service (LaaS) codenamed DOUBLECUP has been using ClickFix lures as a way to stage malware-laced PNG images in victims' browser cache and ultimately deliver CountLoader and a previously undocumented remote access trojan called DeviceManager. \"The first stage drops a steganographic PNG image into the browser's cache, retrieves its hidden content, and executes the second",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/doublecup-uses-clickfix-and-cached-pngs.html"
+    },
+    {
+      "id": "news-6b814cf2",
+      "date": "2026-08-04",
+      "title": "New XCSSET variant targets macOS devs via compromised Xcode projects",
+      "summary": "A new version of the XCSSET malware is targeting thousands of macOS users through compromised Xcode projects and GitHub repositories. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/new-xcsset-variant-targets-macos-devs-via-compromised-xcode-projects/"
+    },
+    {
+      "id": "news-6ba560b5",
+      "date": "2026-08-04",
+      "title": "77 Open VSX extensions found harvesting developer info",
+      "summary": "77 extensions on the Open VSX marketplace impersonated legitimate developer tools while transmitting information about the systems and development environments where they were installed. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "medium",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/77-open-vsx-extensions-found-harvesting-developer-info/"
+    },
+    {
+      "id": "news-55123f60",
+      "date": "2026-08-04",
+      "title": "Massive ChainDrop npm supply-chain attack infects hundreds of packages",
+      "summary": "Self-propagating malware named 'ChainDrop' has compromised more than 1,300 packages with a combined 2 billion monthly downloads on the Node Package Manager (npm) registry. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/massive-chaindrop-npm-supply-chain-attack-infects-hundreds-of-packages/"
+    },
+    {
+      "id": "news-47c8303f",
+      "date": "2026-08-04",
+      "title": "Varonis Agent IBAC keeps AI agents within their intended boundaries",
+      "summary": "AI agents need broad access to be useful, but traditional access controls cannot determine whether an action aligns with a user's intent. Varonis explains how Agent IBAC detects intent drift and enforces real-time guardrails to keep agents within their intended boundaries. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/varonis-agent-ibac-keeps-ai-agents-within-their-intended-boundaries/"
+    },
+    {
       "id": "news-3506b329",
       "date": "2026-08-03",
       "title": "Thermo Fisher Patches Flaw That Could Make DNA File Tampering Nearly Undetectable",
@@ -266,188 +431,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/new-pass-ta-key-attacks-let-malware-hijack-google-synced-passkeys/"
-    },
-    {
-      "id": "news-ca1cd0f5",
-      "date": "2026-08-03",
-      "title": "New DOUBLECUP ClickFix service hides malware in browser cache images",
-      "summary": "A new Russian loader-as-a-service named DOUBLECUP uses ClickFix attacks to hide malicious code in PNG images cached by victims' browsers, ultimately delivering CountLoader to Windows and macOS devices and a new remote access trojan named DeviceManager to Windows systems. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "high",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/new-doublecup-clickfix-service-hides-malware-in-browser-cache-images/"
-    },
-    {
-      "id": "news-92154ecc",
-      "date": "2026-08-03",
-      "title": "Fake Roblox Xeno script launcher pushes infostealer, RAT malware",
-      "summary": "Fake Xeno Executor installers are infecting unsuspecting Roblox players with malware that provides remote access and steals sensitive information. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "Gaming"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/fake-roblox-xeno-script-launcher-pushes-infostealer-rat-malware/"
-    },
-    {
-      "id": "news-3521cfcd",
-      "date": "2026-08-02",
-      "title": "Google Chrome may soon block New Tab hijacker extensions by default",
-      "summary": "Google is preparing a new Chrome security feature that would block policy-installed extensions from hijacking the New Tab page or changing the default search engine. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Google"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/google/google-chrome-may-soon-block-new-tab-hijacker-extensions-by-default/"
-    },
-    {
-      "id": "news-40db1d81",
-      "date": "2026-08-02",
-      "title": "OpenAI teases Astra, its next major AI model, after it solves 10 long-standing math problems",
-      "summary": "OpenAI has revealed Astra, an unreleased model designed to tackle complex, long-running tasks, after an internal version produced ten significant advances in mathematics and theoretical computer science. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Outil",
-        "Artificial Intelligence",
-        "Technology"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-teases-astra-its-next-major-ai-model-after-it-solves-10-long-standing-math-problems/"
-    },
-    {
-      "id": "news-8c0eb421",
-      "date": "2026-08-01",
-      "title": "Adobe Campaign Classic CVSS 10.0 Flaw Could Run Code Without User Interaction",
-      "summary": "Adobe has released security updates to address a maximum-severity security flaw in Campaign Classic (ACC), its enterprise-focused marketing automation platform, that could result in arbitrary code execution. The vulnerability, tracked as CVE-2026-48449, carries a severity score of 10.0 on the CVSS scoring system. It has been described as a case of incorrect authorization that could result in",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-48449",
-      "cvss": 10.0,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/adobe-campaign-classic-cvss-100-flaw.html"
-    },
-    {
-      "id": "news-26dae549",
-      "date": "2026-08-01",
-      "title": "Hijacked Hotel Wi-Fi Pushes Fake Updates to Deliver Surveillance Malware",
-      "summary": "A fake browser update served over hijacked hotel Wi-Fi has been used to deliver CornFlake, a remote access trojan (RAT) that can capture webcam images, microphone audio, and keystrokes, Microsoft said in its latest report. Researchers track the operation as CaptiveCrunch and attribute it to Storm-2945. It assesses Storm-2945 to be an operational sub-cluster of Midnight Blizzard, also known as",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "high",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/hijacked-hotel-wi-fi-pushes-fake.html"
-    },
-    {
-      "id": "news-c657e127",
-      "date": "2026-08-01",
-      "title": "Suspected Chinese-Speaking Hackers Target Central Asian Governments With OctLurk and SilkLurk",
-      "summary": "A Chinese-speaking threat actor is suspected to be behind a fresh wave of cyber attacks targeting government organizations mainly located in Central Asia, including Afghanistan, Kyrgyzstan, Tajikistan, Uzbekistan, Kazakhstan, and the Syrian Arab Republic, since January 2025. These targeted organizations operate across several sectors, such as healthcare, research, government offices,",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/suspected-chinese-speaking-hackers.html"
-    },
-    {
-      "id": "news-42a84a6f",
-      "date": "2026-08-01",
-      "title": "Coldcard Hardware Wallet Flaw Linked to $70 Million Bitcoin Theft in 41 Minutes",
-      "summary": "An attacker drained 1,196 Bitcoin addresses in 41 minutes on July 30, taking 1,082.65 BTC worth about $70.2 million at the time. Galaxy Research mapped the sweep and tied it to a firmware flaw in Coldcard, the Bitcoin-only hardware wallet made by Canadian firm Coinkite. A March 2021 firmware integration error routed seed generation to a deterministic software pseudorandom number generator (PRNG",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "Fraude",
-        "CryptoCurrency"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/coldcard-hardware-wallet-flaw-linked-to.html"
-    },
-    {
-      "id": "news-ba989077",
-      "date": "2026-08-01",
-      "title": "Hackers Poison Adform Script to Swap Crypto Wallet Addresses Across Customer Sites",
-      "summary": "Attackers modified a JavaScript file served by advertising technology company Adform, turning it into a browser-side tool that rewrites cryptocurrency wallet addresses. Adform detected the incident on July 27, 2026, removed the malicious code, notified affected clients, and reported it to authorities. Anyone who visited a site carrying the affected script on July 27 and copied a Bitcoin,",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "Incident",
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/hackers-poison-adform-script-to-swap.html"
-    },
-    {
-      "id": "news-25c219df",
-      "date": "2026-08-01",
-      "title": "Rails patches critical Active Storage flaw with RCE potential",
-      "summary": "A critical vulnerability in the Active Storage framework can allow an unauthenticated attacker to read arbitrary files from a Rails application, and potentially escalate to remote code execution (RCE). [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/rails-patches-critical-active-storage-flaw-with-rce-potential/"
-    },
-    {
-      "id": "news-5812959f",
-      "date": "2026-07-31",
-      "title": "HollowFrame Loader Deploys Matryoshka Backdoor in Spear-Phishing Attack on Law Firm",
-      "summary": "Cybersecurity researchers have shed light on a previously undocumented Go-based loader framework called HollowFrame and a Rust-based malware family tracked as Matryoshka. According to Blackpoint Cyber, the intrusion sequence begins with a spear-phishing message containing a link to an encrypted archive, which holds a Windows Shortcut (LNK). Executing the file triggers a multi-stage chain that",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "high",
-      "tags": [
-        "Outil",
-        "Windows",
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/hollowframe-loader-deploys-matryoshka.html"
-    },
-    {
-      "id": "news-168f8151",
-      "date": "2026-07-31",
-      "title": "Cheap Android TV Boxes Pose as Phones and Turn Owners’ Broadband Into Proxies",
-      "summary": "Bitsight says some cheap Android TV boxes have shipped with apps that rewrite their hardware identity to mimic Samsung, Huawei, Xiaomi, or Vivo phones, then click ads on websites run by the same operators. Researchers named the operation Fuyao and attributed it to Zhejiang Fengwo IoT Technology Co., Ltd., a mainland China company founded in 2019. The same apps have a second job. When a box",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/07/cheap-android-tv-boxes-pose-as-phones.html"
     }
   ]
 }
