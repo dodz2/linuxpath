@@ -47,6 +47,276 @@
       "source_url": "https://thehackernews.com/2026/08/snowflake-hacker-pleads-guilty-over.html"
     },
     {
+      "id": "news-12e053d1",
+      "date": "2026-08-06",
+      "title": "Vulnérabilité dans Sonicwall SonicOS (06 août 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Sonicwall SonicOS. Elle permet à un attaquant de provoquer un contournement de la politique de sécurité.",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0972/"
+    },
+    {
+      "id": "news-a5e0ff78",
+      "date": "2026-08-06",
+      "title": "New Zapscape KVM Flaw Could Let Privileged L1 Guest Code Escape to Linux Hosts",
+      "summary": "Zapscape, a new Linux kernel vulnerability, could allow an attacker with kernel privileges inside an L1 guest virtual machine (VM) to escape KVM isolation and execute code on the host. The risk applies when nested virtualization is exposed to untrusted guests. The flaw is tracked as CVE-2026-64561 and affects KVM/x86's shadow memory management unit (MMU), which manages shadow page",
+      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
+      "severity": "high",
+      "tags": [
+        "CVE",
+        "Linux",
+        "Noyau Linux"
+      ],
+      "cve": "CVE-2026-64561",
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/new-zapscape-kvm-flaw-could-let.html"
+    },
+    {
+      "id": "news-b0c32a40",
+      "date": "2026-08-06",
+      "title": "Cisco Patches 12 SD-WAN and IOS XE Flaws, Including Three 9.8 CVSS Score Bugs",
+      "summary": "Cisco has rolled out updates to address multiple critical security vulnerabilities impacting Catalyst SD-WAN and IOS XE Software as part of a comprehensive internal security review. The security issues affect Cisco Catalyst SD-WAN Software, regardless of device configuration, and Cisco IOS XE Software when it is running in autonomous or controller mode. \"These vulnerabilities were found",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/cisco-patches-12-sd-wan-and-ios-xe.html"
+    },
+    {
+      "id": "news-4190efb1",
+      "date": "2026-08-06",
+      "title": "New Interrupt Injection Attack Can Bypass Spectre v2 Defenses on Intel and AMD CPUs",
+      "summary": "An unprivileged Linux program can time a hardware interrupt to land in the gap between a processor sanitizing its branch predictor and the kernel using it, re-poisoning the predictor after the defense has run. MIT CSAIL researchers Daniël Trujillo and Mengjia Yan named the technique INTERRUPT INJECTION. On an AMD Zen 2 machine running Linux 6.14 with every default Spectre v2 mitigation on,",
+      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
+      "severity": "info",
+      "tags": [
+        "Linux",
+        "Noyau Linux"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/new-interrupt-injection-attack-can.html"
+    },
+    {
+      "id": "news-2dde4d4f",
+      "date": "2026-08-06",
+      "title": "ThreatsDay: Odysseus RCE, Samsung One-Click Takeover, iCloud Backdoor Fight + 27 More Stories",
+      "summary": "Apparently, opening the thing is now enough. A repo can run before the first prompt, a package can hide among hundreds, and a harmless-looking PDF can finish the job. This week runs on cheap leverage: exposed servers, recycled bugs, poisoned agent instructions, remote-access tools dressed as support software, and trusted defaults doing attackers a favor. Nothing here is especially mystical.",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "high",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/threatsday-odysseus-rce-samsung-one.html"
+    },
+    {
+      "id": "news-6ab4d470",
+      "date": "2026-08-06",
+      "title": "Over 4,400 Rockwell PLCs Exposed Online, 22 Found in Water Attack Cities",
+      "summary": "Forescout found 22 internet-facing Rockwell Automation programmable logic controllers (PLCs) in cities hit by recent cyberattacks on US water utilities. Nineteen used the same mobile carrier network. Its August 3 scan counted 4,407 exposed Rockwell controllers worldwide, including 2,844 in the United States, but Forescout could not confirm any were compromised. That figure counts exposed",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/over-4400-rockwell-plcs-exposed-online.html"
+    },
+    {
+      "id": "news-582c8ee5",
+      "date": "2026-08-06",
+      "title": "CryptoJS Weak RNG Behind $5.7 Million in Drains Affects Five Crypto Wallet Apps",
+      "summary": "Coinspect has identified CryptoJS.lib.WordArray.random() as the weak random number generator behind the Ill Bloom wallet drains. Introduced in the JavaScript cryptography library 12 years ago, the function supplied weak entropy that affected wallet apps used to generate recovery phrases. Coinspect's on-chain analysis puts the measured theft across two sweeps since late May at a lower bound of",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/cryptojs-weak-rng-behind-57-million-in.html"
+    },
+    {
+      "id": "news-f67a560a",
+      "date": "2026-08-06",
+      "title": "Apple iCloud Private Relay Can Expose Real IPs Through WebKit Proxy Bypasses",
+      "summary": "Cybersecurity researchers have disclosed a security issue with Apple's iCloud Private Relay tool that can expose a user's real IP address. Introduced with iOS 15, iCloud Private Relay employs a dual-hop architecture to ensure users' privacy by routing their Safari web traffic through two relays so that no single third-party, including Apple, can determine where the request is originating from",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/webkit-proxy-bypasses-can-expose-real.html"
+    },
+    {
+      "id": "news-13392654",
+      "date": "2026-08-06",
+      "title": "AI Recommendation Poisoning: How \"Ask AI\" Buttons Silently Alter LLM Memory",
+      "summary": "A new class of prompt injection is spreading across commercial websites. It requires no malware, no stolen credentials, and no zero-day exploit. It abuses a standard feature built into almost every major AI assistant: pre-filled deep links. We observed production websites embedding hidden prompt injection payloads inside \"Ask AI\" buttons on marketing and competitor comparison pages. When a user",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Outil",
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/ai-recommendation-poisoning-how-ask-ai.html"
+    },
+    {
+      "id": "news-11880ab7",
+      "date": "2026-08-06",
+      "title": "Attackers Compile khunt Inside Oracle to Turn SQL Injection Into Windows SYSTEM Access",
+      "summary": "Attackers broke into an organization's Oracle database through a SQL injection flaw in a public-facing web application, then installed a post-exploitation toolkit without writing an executable to disk. They fed Java source code to the database, let Oracle compile it into stored schema objects, and ran commands from inside the database engine. Huntress, which tracks the toolkit as khunt,",
+      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
+      "severity": "high",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/attackers-compile-khunt-inside-oracle.html"
+    },
+    {
+      "id": "news-26234813",
+      "date": "2026-08-06",
+      "title": "AWS, Google, and Vercel Agent Flaws Let Attackers Trigger Tools Without Running the Model",
+      "summary": "Security flaws in agent infrastructure from Amazon Web Services (AWS), Google, and Vercel let untrusted or forged instructions reach an agent's tools with no check that a model turn had authorized them. In several of the attack paths, the model never ran at all, so system prompts, content filters, and model-level guardrails never got a chance to intervene. The affected products include Amazon",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/aws-google-and-vercel-patch-agent-flaws.html"
+    },
+    {
+      "id": "news-fd111f39",
+      "date": "2026-08-06",
+      "title": "Chinese-Made Zbtlink Routers Ship With Backdoor That Opens Unauthenticated Root Shells",
+      "summary": "Cybersecurity researchers have disclosed details of a \"factory-shipped backdoor\" implanted in at least 20 Chinese router models from Zbtlink. According to a new report from VulnCheck, the implant appears in all 21 firmware images currently available from Zbtlink that span more than 2 years. The backdoors are designed such that they start automatically and attempt to beacon to Chinese",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/chinese-made-zbtlink-routers-ship-with.html"
+    },
+    {
+      "id": "news-d46f2a42",
+      "date": "2026-08-06",
+      "title": "CISA Flags TeamCity CVE-2026-63077 RCE Flaw Under Active Exploitation in the Wild",
+      "summary": "A newly patched security flaw impacting on-premise versions of JetBrains TeamCity has come under active exploitation in the wild, according to the U.S. Cybersecurity and Infrastructure Security Agency (CISA). The vulnerability in question is CVE-2026-63077 (CVSS score: 9.8), a case of deserialization of untrusted data that could allow an unauthenticated attacker with access to a TeamCity server",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-63077",
+      "cvss": 9.8,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/cisa-flags-teamcity-cve-2026-63077-rce.html"
+    },
+    {
+      "id": "news-01bed7fe",
+      "date": "2026-08-06",
+      "title": "ClickFix attack pushes macOS infostealer for crypto theft attacks",
+      "summary": "A Go-based malware delivered in ClickFix attacks targeting macOS users is stealing cryptocurrency assets, browser-stored passwords, Apple Keychain data, and cached credentials. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/clickfix-attack-pushes-macos-infostealer-for-crypto-theft-attacks/"
+    },
+    {
+      "id": "news-1d2f2701",
+      "date": "2026-08-06",
+      "title": "Hedge fund cyberattacks tied to BlackFile-linked UNC6671 extortion group",
+      "summary": "A recent wave of cyberattacks targeting hedge funds, private-equity firms, and other financial organizations has been linked to UNC6671, an extortion group reportedly associated with the BlackFile threat actors. [...]",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/hedge-fund-cyberattacks-tied-to-blackfile-linked-unc6671-extortion-group/"
+    },
+    {
+      "id": "news-5c614940",
+      "date": "2026-08-06",
+      "title": "Swiss government SharePoint breach compromised 200 accounts",
+      "summary": "Switzerland's federal IT office says hackers exploited vulnerabilities to breach its Microsoft SharePoint servers and compromised approximately 200 accounts. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/swiss-government-sharepoint-breach-compromised-200-accounts/"
+    },
+    {
+      "id": "news-fec7a88a",
+      "date": "2026-08-06",
+      "title": "New TONTOU CPU attack bypasses Spectre v2 fixes, leaks Linux password hashes",
+      "summary": "Researchers found a way to bypass recent mitigations for Spectre v2 speculative execution side-channel attacks and developed an exploit to leak secrets from Linux machines. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
+      "severity": "high",
+      "tags": [
+        "Outil",
+        "Linux"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/new-tontou-cpu-attack-bypasses-spectre-v2-fixes-leaks-linux-password-hashes/"
+    },
+    {
+      "id": "news-184f3a16",
+      "date": "2026-08-06",
+      "title": "Meta AI model hacked a company during misconfigured cyber test",
+      "summary": "Meta has become the latest AI company to confirm that one of its models hacked a real organization during cybersecurity testing, as similar incidents continue to emerge following OpenAI'sOpenAI's initial disclosure that its agents breached Hugging Face. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/meta-ai-model-hacked-a-company-during-misconfigured-cyber-test/"
+    },
+    {
+      "id": "news-6c957369",
+      "date": "2026-08-06",
+      "title": "How AI Exposed a Browser Security Gap that Enterprises Cannot Ignore",
+      "summary": "AI did not create a new browser security problem. It exposed one that enterprises have long been able to ignore. Skyhigh Security explains why browsers have become a critical control point for governing data movement, AI interactions, and modern work. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/how-ai-exposed-a-browser-security-gap-that-enterprises-cannot-ignore/"
+    },
+    {
       "id": "news-bc2ec5b4",
       "date": "2026-08-05",
       "title": "QuickFox Supply Chain Attack Delivers FDMTP Backdoor via Trojanized Windows Installer",
@@ -162,277 +432,6 @@
       "cvss": 7.8,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/new-ovswrap-linux-kernel-flaw-lets.html"
-    },
-    {
-      "id": "news-fe527c3a",
-      "date": "2026-08-05",
-      "title": "Kali365 Weaponizes Microsoft Authentication Against US Companies: New Enterprise Risk",
-      "summary": "Kali365 is turning a legitimate Microsoft login into a gateway to corporate data. The phishing kit targets US organizations with attacker-controlled device codes that victims approve on Microsoft's real authentication page. Once access and refresh tokens are issued, attackers may retain access to email, documents, and cloud resources, creating a direct path to data exposure, financial fraud,",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "info",
-      "tags": [
-        "Windows",
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/kali365-weaponizes-microsoft.html"
-    },
-    {
-      "id": "news-422e4867",
-      "date": "2026-08-05",
-      "title": "Critical Gitea Flaw Let Unauthenticated Attackers Read Server Files via Org-Mode Markup",
-      "summary": "An unauthenticated attacker can read any file the service account can access on Gitea, the self-hosted Git platform, in versions 1.22.1 through 1.27.0. No login, no repository write access. A public repository and crafted Org-mode markup are enough. The flaw is fixed in Gitea 1.27.1. The file-read flaw is tracked as CVE-2026-59774, rated Critical with a CVSS score of 9.8, and received its",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-59774",
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/critical-gitea-flaw-let-unauthenticated.html"
-    },
-    {
-      "id": "news-a214f997",
-      "date": "2026-08-05",
-      "title": "Leaked n8n API Tokens Exposed Live Instances to Credential Theft",
-      "summary": "GitGuardian researchers found 321 n8n instances accepting API tokens exposed in public GitHub commits and demonstrated four ways attackers could use them to access sensitive data and downstream credentials without exploiting a software vulnerability. We scanned public GitHub commits for exposed n8n API tokens and identified 4,576 unique credentials associated with 1,255 hostnames. Of the 896",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/leaked-n8n-api-tokens-exposed-live.html"
-    },
-    {
-      "id": "news-850807ec",
-      "date": "2026-08-05",
-      "title": "Open VSX Removes 77 Malicious Evil Twin Extensions Exfiltrating Developer Data",
-      "summary": "A cluster of 77 extensions on the Open VSX marketplace has been found to impersonate legitimate developer tools while transmitting information about the systems and development environments on which they were installed. The \"evil twin\" extensions were uploaded to the repository between July 26 and August 1, 2026, according to Manifold Security. The packages have been removed from Open VSX as of",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/open-vsx-removes-77-malicious-evil-twin.html"
-    },
-    {
-      "id": "news-0f3c2196",
-      "date": "2026-08-05",
-      "title": "Claude Mythos 5 Tried to Backdoor a Real Open-Source Project in Testing, Then Vouched for Itself",
-      "summary": "An agent running Anthropic's Claude Mythos 5 spent 34 hours trying to get a malware dropper merged into a real open-source project during a cyber evaluation by the UK's AI Security Institute. When a bystander publicly warned that the code was malicious, the agent denied it, force-pushed a rewritten branch history to erase the evidence, and posted from a second account it controlled to vouch for",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/claude-mythos-5-tried-to-backdoor-real.html"
-    },
-    {
-      "id": "news-ec5b22a1",
-      "date": "2026-08-05",
-      "title": "CISA Flags Langflow RCE, Tomcat, and N-central Flaws as Actively Exploited",
-      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA), on August 5, 2026, added three flaws to its Known Exploited Vulnerabilities (KEV) catalog, citing evidence of active exploitation in the wild. The list of vulnerabilities is as follows - CVE-2026-9198 (CVSS score: 9.8) - A code injection vulnerability in Langflow that allows unauthenticated attackers to achieve full remote",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-9198",
-      "cvss": 9.8,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/cisa-flags-langflow-rce-tomcat-and-n.html"
-    },
-    {
-      "id": "news-d70fb883",
-      "date": "2026-08-05",
-      "title": "COLDCARD security audit phishing attack installs remote access tool",
-      "summary": "A phishing campaign is exploiting fears surrounding the recently disclosed COLDCARD wallet vulnerability and suspected $88.6 million Bitcoin theft to trick users into installing ScreenConnect remote access software. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "Outil",
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/coldcard-security-audit-phishing-attack-installs-remote-access-tool/"
-    },
-    {
-      "id": "news-2022889c",
-      "date": "2026-08-05",
-      "title": "Google Blogger locks hundreds of blogs in malware false positive",
-      "summary": "Google has locked hundreds of Blogger websites after a false positive claimed they violated its \"Malware and Similar Malicious Content\" policy, with some sites deleted from the platform. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "Google"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/google/google-blogger-locks-hundreds-of-blogs-in-malware-false-positive/"
-    },
-    {
-      "id": "news-4412dbaf",
-      "date": "2026-08-05",
-      "title": "How AI-powered phishing killed blocklists for good",
-      "summary": "AI is helping attackers create disposable phishing infrastructure and rapidly evolving toolkits that blocklists cannot track fast enough. Push Security explains why browser-level, technique-based detection offers a more durable defense than relying on domains, signatures, and other known-bad indicators. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/how-ai-powered-phishing-killed-blocklists-for-good/"
-    },
-    {
-      "id": "news-45fb1235",
-      "date": "2026-08-05",
-      "title": "Ransom Cartel ransomware creator sentenced to 16 years in prison",
-      "summary": "Maksim Silnikau, the creator and administrator of the Ransom Cartel ransomware operation, was sentenced to 16 years in prison for his role in ransomware attacks against at least 18 companies worldwide. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Incident"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/ransom-cartel-ransomware-creator-sentenced-to-16-years-in-prison/"
-    },
-    {
-      "id": "news-41fcc243",
-      "date": "2026-08-05",
-      "title": "Canadian pleads guilty to Snowflake cloud data-theft attacks",
-      "summary": "A Canadian man pleaded guilty today to his role in accessing company accounts at cloud storage provider Snowflake and stealing data from at least 165 organizations in a scheme to extort millions of dollars from victims. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/canadian-pleads-guilty-to-snowflake-cloud-data-theft-attacks/"
-    },
-    {
-      "id": "news-8263d294",
-      "date": "2026-08-05",
-      "title": "Hackers run khunt post-exploitation toolkit from Oracle database",
-      "summary": "Hackers exploited a SQL injection vulnerability to install a post-exploitation toolkit directly inside an Oracle database that was used to breach a corporate network. [...]",
-      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
-      "severity": "high",
-      "tags": [
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-run-khunt-post-exploitation-toolkit-from-oracle-database/"
-    },
-    {
-      "id": "news-61cf2f03",
-      "date": "2026-08-04",
-      "title": "18 Malicious npm Packages Deliver Cross-Platform RAT to Alibaba Tool Users",
-      "summary": "Cybersecurity researchers have discovered a new set of malicious npm packages that target users of Alibaba developer tools with a cross-platform remote access trojan (RAT) as part of a sophisticated, targeted software supply chain attack targeting Chinese-speaking environments. One of the packages in question is \"lib-mtop,\" an unscoped package with the same name as a private Alibaba package",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/18-malicious-npm-packages-deliver-cross.html"
-    },
-    {
-      "id": "news-6686254f",
-      "date": "2026-08-04",
-      "title": "CISA Adds Exploited N-able N-central Flaw to KEV After Customer Compromises",
-      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) on Monday added a high-severity security flaw impacting N-able N-central to its Known Exploited Vulnerabilities (KEV) catalog following reports of active exploitation in the wild. The vulnerability, tracked as CVE-2026-18577 (CVSS score: 8.2), is a case of incomplete patching for CVE-2026-18556 (CVSS score: 8.2) that allows",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "high",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-18577",
-      "cvss": 8.2,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/cisa-adds-exploited-n-able-n-central.html"
-    },
-    {
-      "id": "news-056537ad",
-      "date": "2026-08-04",
-      "title": "Vulnérabilité dans les produits Check Point (04 août 2026)",
-      "summary": "Une vulnérabilité a été découverte dans les produits Check Point. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance et un contournement de la politique de sécurité.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-0965/"
-    },
-    {
-      "id": "news-778d3b77",
-      "date": "2026-08-04",
-      "title": "Greatness PhaaS Adds Device Code Phishing to Bypass MFA and Steal Tokens",
-      "summary": "The commercial phishing-as-a-service (PhaaS) toolkit known as Greatness has become the latest crimeware solution to add support for device code phishing, a rapidly growing cyber threat that abuses the legitimate OAuth 2.0 Device Authorization Grant to bypass Multi-Factor Authentication (MFA) and seize control of user accounts. \"Greatness supports AiTM [adversary-in-the-middle] credential and",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/greatness-phaas-adds-device-code.html"
-    },
-    {
-      "id": "news-7d50972d",
-      "date": "2026-08-04",
-      "title": "Keyv-Linked npm Worm Poisons Hundreds of Packages, Plants Claude Code and VS Code Hooks",
-      "summary": "A credential-stealing npm worm that first appeared in keyv@6.0.0 spread beyond the Keyv and Cacheable namespaces into hundreds of packages across multiple organizations on August 4, 2026. SafeDep verified 353 poisoned versions across 79 package names in the npm registry. Its monitoring put the wider footprint at 442 versions across 353 names, while Aikido later reported at least 868 packages",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/keyv-linked-npm-worm-poisons-hundreds.html"
-    },
-    {
-      "id": "news-630d358a",
-      "date": "2026-08-04",
-      "title": "Fake Adobe and Zoom Updates Install ScreenConnect for Persistent Remote Access",
-      "summary": "Cybersecurity researchers have disclosed details of an active, multi-wave campaign that employs social engineering lures themed around Adobe and Zoom software updates, business document reviews, and system maintenance utilities to stealthily deploy Remote Monitoring and Management (RMM) programs like ConnectWise ScreenConnect. The campaign has been codenamed SMOKE#SCREEN by Securonix Threat",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/fake-adobe-and-zoom-updates-install.html"
-    },
-    {
-      "id": "news-4b8037c7",
-      "date": "2026-08-04",
-      "title": "When Vibe Hacking Turns AI into the Junior Hacker Every Adversary Always Wanted",
-      "summary": "The cybersecurity industry has spent decades assuming that offensive capability scales with technical expertise. That assumption is starting to break. Security teams have long estimated risk by ranking attacker sophistication. Nation-state actors sat at one end. Organized criminal groups followed. Inexperienced attackers, dismissed as \"script kiddies,\" sat at the other end, running public",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/when-vibe-hacking-turns-ai-into-junior.html"
     }
   ]
 }
