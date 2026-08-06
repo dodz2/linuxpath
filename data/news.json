@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-08-05",
-  "edition": "Semaine du 5 août 2026",
+  "last_updated": "2026-08-06",
+  "edition": "Semaine du 6 août 2026",
   "news": [
     {
       "id": "news-ddfdad41",
@@ -32,6 +32,19 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/openai-disrupts-poipet-scam-network.html"
+    },
+    {
+      "id": "news-94dc7f90",
+      "date": "2026-08-06",
+      "title": "Snowflake Hacker Pleads Guilty Over Breaches Affecting at Least 100 Million People",
+      "summary": "Connor Riley Moucka pleaded guilty in Seattle federal court on Wednesday to computer fraud, wire fraud, aggravated identity theft and a related conspiracy over the 2024 breaches of Snowflake customer accounts. The intrusions reached at least 165 organizations and exposed records belonging to at least 100 million people. Moucka, 26, of Kitchener, Ontario, personally took at least $495,000 from",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/snowflake-hacker-pleads-guilty-over.html"
     },
     {
       "id": "news-bc2ec5b4",
@@ -282,6 +295,49 @@
       "source_url": "https://www.bleepingcomputer.com/news/security/how-ai-powered-phishing-killed-blocklists-for-good/"
     },
     {
+      "id": "news-45fb1235",
+      "date": "2026-08-05",
+      "title": "Ransom Cartel ransomware creator sentenced to 16 years in prison",
+      "summary": "Maksim Silnikau, the creator and administrator of the Ransom Cartel ransomware operation, was sentenced to 16 years in prison for his role in ransomware attacks against at least 18 companies worldwide. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/ransom-cartel-ransomware-creator-sentenced-to-16-years-in-prison/"
+    },
+    {
+      "id": "news-41fcc243",
+      "date": "2026-08-05",
+      "title": "Canadian pleads guilty to Snowflake cloud data-theft attacks",
+      "summary": "A Canadian man pleaded guilty today to his role in accessing company accounts at cloud storage provider Snowflake and stealing data from at least 165 organizations in a scheme to extort millions of dollars from victims. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/canadian-pleads-guilty-to-snowflake-cloud-data-theft-attacks/"
+    },
+    {
+      "id": "news-8263d294",
+      "date": "2026-08-05",
+      "title": "Hackers run khunt post-exploitation toolkit from Oracle database",
+      "summary": "Hackers exploited a SQL injection vulnerability to install a post-exploitation toolkit directly inside an Oracle database that was used to breach a corporate network. [...]",
+      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
+      "severity": "high",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-run-khunt-post-exploitation-toolkit-from-oracle-database/"
+    },
+    {
       "id": "news-61cf2f03",
       "date": "2026-08-04",
       "title": "18 Malicious npm Packages Deliver Cross-Platform RAT to Alibaba Tool Users",
@@ -377,65 +433,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/when-vibe-hacking-turns-ai-into-junior.html"
-    },
-    {
-      "id": "news-84fff5ed",
-      "date": "2026-08-04",
-      "title": "Google Deletes 3 ADK AI Workflows After Malicious GitHub Issue Could Trigger Privileged Agent",
-      "summary": "Google deleted three AI agent workflows from its Agent Development Kit (ADK) Python repository. Pillar Security showed that a public GitHub issue could manipulate a triage agent into triggering a privileged code-fixing agent. The researchers said the public agent could be prompt-injected into posting /adk-issue-fix as adk-bot. They identified the bot as a collaborator, so that comment satisfied",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Patch"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/google-deletes-3-adk-ai-workflows-after.html"
-    },
-    {
-      "id": "news-f98f1e5a",
-      "date": "2026-08-04",
-      "title": "New cPanel Critical Flaw Could Let Hosting Customers Run SQL as Database Root",
-      "summary": "cPanel has patched a flaw that let an authenticated hosting customer execute SQL in the database's root context, crossing the privilege boundary between a cPanel account and the server's administrative database identity. It shipped in a targeted security release that closes two other routes past account boundaries. The database bug is tracked as CVE-2026-58048 (CVSS 4.0 score: 9.4) and affects",
-      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
-      "severity": "medium",
-      "tags": [
-        "CVE",
-        "Outil"
-      ],
-      "cve": "CVE-2026-58048",
-      "cvss": 4.0,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/new-cpanel-critical-flaw-could-let.html"
-    },
-    {
-      "id": "news-6d0399fb",
-      "date": "2026-08-04",
-      "title": "DOUBLECUP Uses ClickFix and Cached PNGs to Deliver CountLoader and DeviceManager RAT",
-      "summary": "A new Russian loader-as-a-service (LaaS) codenamed DOUBLECUP has been using ClickFix lures as a way to stage malware-laced PNG images in victims' browser cache and ultimately deliver CountLoader and a previously undocumented remote access trojan called DeviceManager. \"The first stage drops a steganographic PNG image into the browser's cache, retrieves its hidden content, and executes the second",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/doublecup-uses-clickfix-and-cached-pngs.html"
-    },
-    {
-      "id": "news-6b814cf2",
-      "date": "2026-08-04",
-      "title": "New XCSSET variant targets macOS devs via compromised Xcode projects",
-      "summary": "A new version of the XCSSET malware is targeting thousands of macOS users through compromised Xcode projects and GitHub repositories. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/new-xcsset-variant-targets-macos-devs-via-compromised-xcode-projects/"
     }
   ]
 }
