@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-08-14",
-  "edition": "Semaine du 14 août 2026",
+  "last_updated": "2026-08-15",
+  "edition": "Semaine du 15 août 2026",
   "news": [
     {
       "id": "news-23380164",
@@ -122,6 +122,22 @@
       "cvss": null,
       "source_label": "Krebs on Security",
       "source_url": "https://krebsonsecurity.com/2026/08/whos-tracking-you-use-this-new-service-to-find-out/"
+    },
+    {
+      "id": "news-f5839c84",
+      "date": "2026-08-14",
+      "title": "How Anthropic plans to watermark Claude's AI-generated text",
+      "summary": "It could soon become easier to identify AI-generated content, even if it's not the usual \"It's Not X, it's Y\" type of post you'd come across on LinkedIn and other socials. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Artificial Intelligence",
+        "Software"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/how-anthropic-plans-to-watermark-claudes-ai-generated-text/"
     },
     {
       "id": "news-0331835e",
@@ -435,19 +451,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/openai-anthropic-google-api-flaw-let.html"
-    },
-    {
-      "id": "news-876f041f",
-      "date": "2026-08-12",
-      "title": "Enterprise Defenses Recovered at the Edge and Collapsed Inside",
-      "summary": "Enterprise defenses are tuned to catch the attacks that make noise. This year's data shows attackers winning by making none. According to Picus Labs' new Blue Report 2026, which measured more than 338 million real attack simulations across actual client production environments in the first half of 2026, defenses are having one of their strongest years yet. Average prevention effectiveness",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/enterprise-defenses-recovered-at-edge.html"
     }
   ]
 }
