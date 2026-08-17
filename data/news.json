@@ -3,6 +3,164 @@
   "edition": "Semaine du 17 août 2026",
   "news": [
     {
+      "id": "news-97d3cffc",
+      "date": "2026-08-17",
+      "title": "⚡ Weekly Recap: VMware Exploits, Windows 0-Day, MCP Attacks, Browser Hijacks and More",
+      "summary": "The expensive attacks are not always the clever ones. This week had plenty of proof. Exposed services got hit, old bugs found fresh use, browser sessions became attack paths, and supply-chain problems kept spreading farther than the original compromise. A lot of it came down to access that was already there and defenses that assumed nobody would look too closely. So, nothing magical. Just a",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/weekly-recap-vmware-exploits-windows-0.html"
+    },
+    {
+      "id": "news-aaf5ccee",
+      "date": "2026-08-17",
+      "title": "How MCP Servers Can Expose Enterprise Secrets",
+      "summary": "MCP servers can expose enterprise secrets through plaintext configuration files, over-permissioned access and prompt injection, often before security teams even know the server is running. As more organizations adopt AI agents into their systems, that exposure can silently become a major gap in MCP server security. The Model Context Protocol (MCP) allows AI agents to reach the tools and data,",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/how-mcp-servers-can-expose-enterprise.html"
+    },
+    {
+      "id": "news-78e30920",
+      "date": "2026-08-17",
+      "title": "Unisoc VoLTE Video Call Exploit Chain Can Give Attackers Full Android Kernel Access",
+      "summary": "Security researchers at SSD Secure Disclosure have published a two-stage exploit chain that achieves full Android kernel access on devices running Unisoc modem firmware through a VoLTE video call, with no fix from the chipset maker. The advisory, published August 17, 2026, is the second stage of a chain that began in March 2026, when SSD disclosed remote code execution in the",
+      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
+      "severity": "critical",
+      "tags": [
+        "Patch",
+        "Outil",
+        "Linux",
+        "Noyau Linux"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/unisoc-volte-video-call-exploit-chain.html"
+    },
+    {
+      "id": "news-30a1ca05",
+      "date": "2026-08-17",
+      "title": "Evooo1Bot Linux Botnet Exploits Known Flaws to Turn Edge Devices Into SOCKS5 Proxies",
+      "summary": "Cybersecurity researchers have flagged a previously undocumented Linux botnet family dubbed Evooo1Bot that derives its core functionality from the Mirai botnet source code and is equipped to turn internet-facing devices into SOCKS proxies. \"While the malware reuses the DDoS engine from the publicly leaked Mirai source code, it extends the original framework with numerous capabilities, including",
+      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
+      "severity": "high",
+      "tags": [
+        "Outil",
+        "Linux",
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/evooo1bot-linux-botnet-exploits-known.html"
+    },
+    {
+      "id": "news-20f97859",
+      "date": "2026-08-17",
+      "title": "Suspected China-Nexus Actor Exploits VMware vCenter Flaw, Deploys Babuk-Derived Ransomware",
+      "summary": "Cybersecurity researchers have attributed the exploitation of a newly patched security flaw in Broadcom VMware vCenter to a suspected China-nexus advanced persistent threat (APT). The attacks involve the exploitation of CVE-2026-59310 (CVSS score: 9.8), a severe directory-traversal vulnerability in the VMware vCenter server that could be weaponized by a malicious actor to execute arbitrary code",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "CVE",
+        "Incident"
+      ],
+      "cve": "CVE-2026-59310",
+      "cvss": 9.8,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/suspected-china-nexus-actor-exploits.html"
+    },
+    {
+      "id": "news-4db3859a",
+      "date": "2026-08-17",
+      "title": "Microsoft confirms GitHub is down worldwide",
+      "summary": "GitHub is down for some users as a widespread outage is causing errors across the website, API, Actions, Pull Requests, and several other services. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows",
+        "Microsoft",
+        "Software"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-confirms-github-is-down-worldwide/"
+    },
+    {
+      "id": "news-9695a6ae",
+      "date": "2026-08-17",
+      "title": "Certighost and the Privilege Hiding in Your Certificate Authority",
+      "summary": "CVE-2026-54121 lets a standard domain user turn your Enterprise CA into a Domain Controller. The patch is the easy part. The lesson is standing privilege, implicit trust, and treating PKI as the Tier 0 identity infrastructure it has always been. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "CVE",
+        "Patch"
+      ],
+      "cve": "CVE-2026-54121",
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/certighost-and-the-privilege-hiding-in-your-certificate-authority/"
+    },
+    {
+      "id": "news-24693b2a",
+      "date": "2026-08-17",
+      "title": "Windows Server 2022 reaches end of mainstream support in 60 days",
+      "summary": "Microsoft has reminded IT administrators that Windows Server 2022 is rapidly approaching its mainstream end date of October 2026, when it will switch to extended support. [...]",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [
+        "Windows",
+        "Microsoft"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/microsoft/windows-server-2022-reaches-end-of-mainstream-support-in-60-days/"
+    },
+    {
+      "id": "news-69c83912",
+      "date": "2026-08-17",
+      "title": "Philips and GE investigating Clop ransomware data theft claims",
+      "summary": "Tech giants General Electric (GE) and Philips have also confirmed they're investigating claims that the Clop ransomware gang breached their systems and stole data. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/philips-and-ge-investigating-clop-ransomware-data-theft-claims/"
+    },
+    {
+      "id": "news-5795af3d",
+      "date": "2026-08-17",
+      "title": "French tax authority data breach affects 678,000 individuals",
+      "summary": "The French Ministry of the Economy and Finance has disclosed a data breach after an attacker accessed the General Directorate of Public Finances (DGFiP) systems and stole data belonging to 678,000 individuals. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/french-tax-authority-data-breach-affects-678-000-individuals/"
+    },
+    {
       "id": "news-719fb9b0",
       "date": "2026-08-16",
       "title": "Large-scale DDoS attacks disrupted Threema secure messaging service",
@@ -79,6 +237,37 @@
       "source_url": "https://www.bleepingcomputer.com/news/security/new-evooo1bot-linux-botnet-turns-routers-into-traffic-relay-nodes/"
     },
     {
+      "id": "news-a20d15f4",
+      "date": "2026-08-15",
+      "title": "SAP Commerce Cloud CVE-2026-58231 Targeted in Exploitation Attempts Days After Patch",
+      "summary": "A maximum-severity security vulnerability impacting SAP Commerce Cloud is witnessing active exploitation efforts. The vulnerability, tracked as CVE-2026-58231, is rated 10.0 on the CVSS scoring system. It relates to an instance of insufficient authorization checks and input validation. \"SAP Commerce Cloud allows an unauthenticated attacker to abuse a default authentication client and submit",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "CVE",
+        "Patch"
+      ],
+      "cve": "CVE-2026-58231",
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/sap-commerce-cloud-cve-2026-58231.html"
+    },
+    {
+      "id": "news-ba67c8db",
+      "date": "2026-08-15",
+      "title": "Hackers Spend Nearly $7 Million on Expired Domains to Redirect Traffic to Scams and Malware",
+      "summary": "Threat actors are acquiring expired domains to inherit website traffic and reputation to redirect victims to scams and malware on a large scale. DNS threat intelligence firm Infoblox has given the name dropcatch domains to those that get a second chance, where an expired domain becomes available for registration and is then snapped up by another party. During the first half of 2026, 50,400",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "high",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/hackers-spend-nearly-7-million-on.html"
+    },
+    {
       "id": "news-23380164",
       "date": "2026-08-14",
       "title": "Hackers arrested over €30M bank fraud exploiting service provider flaw",
@@ -99,13 +288,15 @@
       "title": "Hackers exploit macOS Screen Sharing flaw to deploy Monero miner",
       "summary": "The Netherlands' National Cyber Security Centre (NCSC) is warning that hackers are actively exploiting a macOS authentication bypass vulnerability after public exploit code emerged. [...]",
       "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "high",
+      "severity": "critical",
       "tags": [
         "Outil",
-        "Apple"
+        "Apple",
+        "CVE",
+        "Réseau"
       ],
       "cve": null,
-      "cvss": null,
+      "cvss": 9.8,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/hackers-exploit-macos-screen-sharing-flaw-to-deploy-monero-miner/"
     },
@@ -216,244 +407,67 @@
       "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/how-anthropic-plans-to-watermark-claudes-ai-generated-text/"
     },
     {
-      "id": "news-0331835e",
-      "date": "2026-08-13",
-      "title": "Attackers Exploit SharePoint Authentication Bypass After Public PoC Release",
-      "summary": "Threat actors have begun to exploit a newly disclosed Microsoft SharePoint vulnerability following the release of a proof-of-concept (PoC) code. The vulnerability in question is CVE-2026-55040 (CVSS score: 9.1), which refers to a critical security feature bypass that stems from weak authentication. It was patched by Microsoft as part of its July 2026 Patch Tuesday updates. \"The authentication",
+      "id": "news-1978f2a6",
+      "date": "2026-08-14",
+      "title": "Multiples vulnérabilités dans Stormshield Network Security (14 août 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Stormshield Network Security. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, un déni de service à distance et une atteinte à la confidentialité des données.",
       "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "critical",
-      "tags": [
-        "CVE",
-        "Patch",
-        "Outil",
-        "Windows"
-      ],
-      "cve": "CVE-2026-55040",
-      "cvss": 9.1,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/attackers-exploit-sharepoint.html"
-    },
-    {
-      "id": "news-329047e7",
-      "date": "2026-08-13",
-      "title": "Hackers breach govt webmail while running parallel crypto fraud",
-      "summary": "The Jewelbug hacker group has been carrying out espionage operations targeting governments and militaries while also engaging in cryptocurrency fraud. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-breach-govt-webmail-while-running-parallel-crypto-fraud/"
-    },
-    {
-      "id": "news-238f3fcf",
-      "date": "2026-08-13",
-      "title": "Microsoft patches LegacyHive Windows zero-day vulnerability",
-      "summary": "Microsoft has released security patches to address a Windows zero-day vulnerability known as \"LegacyHive,\" disclosed after the July 2026 Patch Tuesday. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "critical",
-      "tags": [
-        "Patch",
-        "Windows",
-        "Microsoft"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-patches-legacyhive-windows-zero-day-vulnerability/"
-    },
-    {
-      "id": "news-1dc9a3fc",
-      "date": "2026-08-13",
-      "title": "AI 'watermark removers' flood the web. Almost none can prove they work.",
-      "summary": "Multiple 'watermark removers' have surfaced days after Anthropic began watermarking text generated by Claude, including an open source project with over 4,500 GitHub stars and paid AI detection evasion services. None of the tools' claims about defeating the text watermark can be verified, as Anthropic has not released a detector. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/ai-watermark-removers-flood-the-web-almost-none-can-prove-they-work/"
-    },
-    {
-      "id": "news-13380195",
-      "date": "2026-08-13",
-      "title": "Critical VMware vCenter RCE flaw exploited for reverse SSH access",
-      "summary": "A recently patched critical vulnerability (CVE-2026-59310) in VMware vCenter Syslog Server is being exploited in an active campaign to deploy a reverse SSH tool for persistence and remote access. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "CVE",
-        "Outil"
-      ],
-      "cve": "CVE-2026-59310",
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/critical-vmware-vcenter-rce-flaw-exploited-for-reverse-ssh-access/"
-    },
-    {
-      "id": "news-5bcc2115",
-      "date": "2026-08-13",
-      "title": "Trezor discloses data breach affecting nearly 14,000 customers",
-      "summary": "Hardware wallet manufacturer Trezor disclosed a data breach affecting nearly 14,000 of its customers after ShipMonk, its shipping and logistics provider, was hacked [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Incident"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/trezor-discloses-data-breach-affecting-nearly-14-000-customers/"
-    },
-    {
-      "id": "news-19708fe0",
-      "date": "2026-08-13",
-      "title": "Who Vets AI’s Code? The Scale Challenge Facing Open Source Ingestion",
-      "summary": "AI coding tools can introduce unvetted or hallucinated open source dependencies faster than traditional security reviews can keep pace. ActiveState explains why organizations should govern packages at the point of selection, before they enter the development pipeline. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/who-vets-ais-code-the-scale-challenge-facing-open-source-ingestion/"
-    },
-    {
-      "id": "news-e8c30c5d",
-      "date": "2026-08-13",
-      "title": "White House taps security firms for offensive hack-back operations",
-      "summary": "A new White House memo signed by U.S. President Donald Trump instructs the National Coordination Center (NCC) to establish a program that would allow private security companies to apply for approval to hack foreign cybercrime organizations. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/white-house-taps-security-firms-for-offensive-hack-back-operations/"
-    },
-    {
-      "id": "news-166d8f8c",
-      "date": "2026-08-13",
-      "title": "WhatsApp rolls out new feature that flags potential scam messages",
-      "summary": "WhatsApp has begun rolling out a new optional \"Scam Alert\" feature, which uses a local machine learning model to warn users when scammers are targeting them. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
       "severity": "info",
       "tags": [
-        "Fraude"
+        "Réseau"
       ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/whatsapp-rolls-out-new-feature-that-flags-potential-scam-messages/"
-    },
-    {
-      "id": "news-5345b68a",
-      "date": "2026-08-13",
-      "title": "Apple sends new ‘Threat Notification’ alerts over mercenary spyware attacks",
-      "summary": "You're not alone if you just received an \"Apple Threat Notification\" saying it detected a \"mercenary spyware attack targeted at your iPhone.\" [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Apple"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/apple/apple-sends-new-threat-notification-alerts-over-mercenary-spyware-attacks/"
-    },
-    {
-      "id": "news-c594dc41",
-      "date": "2026-08-13",
-      "title": "Ukraine shuts down 94 fraudulent call centers, seize millions in cash",
-      "summary": "Authorities in Ukraine shut down 94 fraudulent call centers across the country that lured people into investment scams or tried to obtain access to bank accounts. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/ukraine-shuts-down-94-fraudulent-call-centers-seize-millions-in-cash/"
-    },
-    {
-      "id": "news-4f2fbb50",
-      "date": "2026-08-13",
-      "title": "Akira hackers disable EDR with Safe Mode, steal data but fail to encrypt",
-      "summary": "An Akira ransomware affiliate disabled the endpoint detection and response (EDR) solution on a compromised system by restarting the machine into Safe Mode with Networking. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Incident",
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/akira-hackers-disable-edr-with-safe-mode-steal-data-but-fail-to-encrypt/"
-    },
-    {
-      "id": "news-e646b4ea",
-      "date": "2026-08-13",
-      "title": "Multiples vulnérabilités dans les produits Palo Alto Networks (13 août 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans les produits Palo Alto Networks. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, une élévation de privilèges et un déni de service à distance.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
       "cve": null,
       "cvss": null,
       "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1014/"
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1021/"
     },
     {
-      "id": "news-05070cd5",
-      "date": "2026-08-12",
-      "title": "Microsoft Patches 398 Flaws Including a Windows Driver Zero-Day Under Active Attack",
-      "summary": "Microsoft released its monthly security updates on Tuesday, and one of the flaws it closed is already being used in attacks. The bug sits in a core Windows kernel driver that handles network socket operations. An attacker with code already running on a machine can use it to escalate to SYSTEM. That patch goes out first. The flaw is tracked as CVE-2026-68820 (CVSS score: 7.0) and is the only",
+      "id": "news-f0e38cb2",
+      "date": "2026-08-14",
+      "title": "Multiples vulnérabilités dans le noyau Linux d'Ubuntu (14 août 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans le noyau Linux d'Ubuntu. Certaines d'entre elles permettent à un attaquant de provoquer une élévation de privilèges, un déni de service à distance et un problème de sécurité non spécifié par l'éditeur.",
+      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
+      "severity": "info",
+      "tags": [
+        "Linux",
+        "Noyau Linux"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1027/"
+    },
+    {
+      "id": "news-2707770e",
+      "date": "2026-08-14",
+      "title": "IAM Compliance Requirements and Best Practices",
+      "summary": "IAM compliance is the practice of demonstrating that identity and access controls are not only documented but actually enforced across users, applications, infrastructure, and non-human identities. This guide explains what IAM compliance requires, which regulations matter, and how organizations move from periodic access reviews toward continuous, evidence-backed verification that auditors can",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/iam-compliance-requirements-and-best.html"
+    },
+    {
+      "id": "news-6280c9fe",
+      "date": "2026-08-14",
+      "title": "Mustang Panda Adds Signed Windows Rootkit to CoolClient Backdoor for Stealth",
+      "summary": "The threat actor known as HoneyMyte (aka Mustang Panda) has been observed deploying an updated version of the CoolClient backdoor with a signed Windows kernel-mode rootkit that can hide and protect malicious processes, files, registry objects, and command-and-control (C2) network information. Russian cybersecurity vendor Kaspersky said it identified victims in Myanmar, Mongolia, Pakistan,",
       "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
       "severity": "high",
       "tags": [
-        "CVE",
-        "Patch",
+        "Outil",
         "Linux",
         "Windows",
-        "Noyau Linux"
-      ],
-      "cve": "CVE-2026-68820",
-      "cvss": 7.0,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/microsoft-patches-398-flaws-including.html"
-    },
-    {
-      "id": "news-9343b280",
-      "date": "2026-08-12",
-      "title": "Kimwolf v7 Android Botnet Makes HTTP/2 DDoS Traffic Look Like Legitimate Browsing",
-      "summary": "Cybersecurity researchers have discovered a new version of the Kimwolf/AISURU Android and Internet of Things (IoT) botnet that comes with significant improvements to improve its operational resilience and conduct distributed denial-of-service (DDoS) attacks. The new version, tracked as Kimwolf v7, was discovered by Palo Alto Networks Unit 42 in February 2026. \"Kimwolf v7 adds an HTTP/2-based",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "Outil",
+        "Noyau Linux",
         "Réseau"
       ],
       "cve": null,
       "cvss": null,
       "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/kimwolf-v7-android-botnet-makes-http2.html"
-    },
-    {
-      "id": "news-faac45a4",
-      "date": "2026-08-12",
-      "title": "Zoom Annotation Flaws Could Let a Meeting Participant Hijack Another Attendee's Client",
-      "summary": "Anyone sharing their screen on a Zoom call could have taken over the computers of everyone watching, and anyone watching could have taken over the presenter's. The flaw sat in the annotation tool, the feature that lets participants draw and type on a shared screen, and it asked nothing of the victim beyond being in the meeting. No click, no download, no prompt, and nothing on screen to show it",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/zoom-annotation-flaws-could-let-meeting.html"
+      "source_url": "https://thehackernews.com/2026/08/mustang-panda-adds-signed-windows.html"
     }
   ]
 }
