@@ -31,6 +31,188 @@
       "source_url": "https://thehackernews.com/2026/08/snowflake-github-actions-flaw-lets_0330881554.html"
     },
     {
+      "id": "news-82675a20",
+      "date": "2026-08-18",
+      "title": "AI \"Mind Viruses\" Can Spread Between Agents Through Persistent Prompt Files",
+      "summary": "Security researchers at Anthropic and Switzerland's EPFL have demonstrated that self-propagating payloads can spread from one artificial intelligence (AI) agent to the next through the editable system prompt files that autonomous agent harnesses use to carry state between sessions. The work, released as a preprint on August 10, 2026, tests the technique in a simulated six-agent coding",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/ai-mind-viruses-can-spread-between.html"
+    },
+    {
+      "id": "news-a4933080",
+      "date": "2026-08-18",
+      "title": "TWINLOOT Abuses SharePoint and Teams to Steal Credentials and Move Across Networks",
+      "summary": "Cybersecurity researchers have disclosed details of a previously undocumented Python implant framework dubbed TWINLOOT. \"TWINLOOT is a modular, PyArmor-hardened Python implant designed to operate its entire command-and-control infrastructure inside trusted Microsoft services,\" Ontinue said in a technical report shared with The Hacker News. \"Tasking flows through SharePoint Online file",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [
+        "Outil",
+        "Windows",
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/twinloot-abuses-sharepoint-and-teams-to.html"
+    },
+    {
+      "id": "news-1a5531bc",
+      "date": "2026-08-18",
+      "title": "One Attacker Has Scraped Both Salesforce and ServiceNow Portals Since 2025",
+      "summary": "A single piece of infrastructure has been pulling records out of Salesforce and ServiceNow customer portals across multiple industries for more than a year, according to research published this week by agent security platform Reco. The activity, which Reco has named the City Forum campaign after a domain tied to the attacker's IP address, traces back to one server: 158.220.87.79, hosted on a",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/one-attacker-has-scraped-both.html"
+    },
+    {
+      "id": "news-bf4344e4",
+      "date": "2026-08-18",
+      "title": "16 Typosquatted RubyGems Packages Steal Browser Credentials and Crypto Wallets",
+      "summary": "Cybersecurity researchers have flagged a new typosquatting campaign targeting RubyGems users with a Windows-based information stealer. OpenSourceMalware, which discovered the activity on August 15, 2026, is tracking the threat under the moniker StubMaker. The complete list of packages published as part of the campaign is below - ubnuler ubnlder ri18nr reaker rakier orakw joxn",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows",
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/16-typosquatted-rubygems-packages-steal.html"
+    },
+    {
+      "id": "news-ba8baf6f",
+      "date": "2026-08-18",
+      "title": "SafePal Hardware Wallet Maker Says Flaw Exposed Data of Nearly 40,000 Customers",
+      "summary": "SafePal has disclosed that an authorization flaw in an order-tracking plug-in exposed the names, email addresses, shipping addresses, phone numbers, and purchase details of approximately 39,798 customers. The hardware wallet maker said all affected customers were notified individually by email on August 16 from security@safepal.com, with the subject line \"[Important] Your SafePal Order",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "high",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/safepal-hardware-wallet-maker-says-flaw.html"
+    },
+    {
+      "id": "news-cd5fcd93",
+      "date": "2026-08-18",
+      "title": "CISA Flags Actively Exploited Ray Flaw That Can Trigger Browser-Based RCE",
+      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) on Monday added a critical flaw impacting Ray to its Known Exploited Vulnerabilities (KEV) catalog, citing evidence of active exploitation. Ray is an open-source, Python-native distributed computing framework designed to scale artificial intelligence and machine learning workloads. As of writing, the GitHub project has more than",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/cisa-flags-actively-exploited-ray-flaw.html"
+    },
+    {
+      "id": "news-ff7abfe0",
+      "date": "2026-08-18",
+      "title": "Clop created custom web shell for Windchill data theft attacks",
+      "summary": "A custom Java web shell likely linked to the Clop ransomware gang was designed specifically for PTC Windchill and FlexPLM servers, with built-in features to decrypt credentials, enumerate file repositories, and steal files. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Incident",
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/clop-created-custom-web-shell-for-windchill-data-theft-attacks/"
+    },
+    {
+      "id": "news-86dab9bc",
+      "date": "2026-08-18",
+      "title": "Your Controls Block Known Attacks. What About the Behavior?",
+      "summary": "Security controls can block a familiar attack method while missing quieter ways to achieve the same objective. Picus Security's Blue Report 2026 shows how prevention rates can vary dramatically by technique and why behavioral testing is needed to uncover those gaps. [...]",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/your-controls-block-known-attacks-what-about-the-behavior/"
+    },
+    {
+      "id": "news-051651a1",
+      "date": "2026-08-18",
+      "title": "Microsoft tests faster Windows File Explorer, new context menu",
+      "summary": "Microsoft has started testing a faster File Explorer and a less cluttered and more customizable context menu in Windows 11 preview builds rolling out to Insiders this week. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows",
+        "Microsoft"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-tests-faster-windows-explorer-customizable-context-menu/"
+    },
+    {
+      "id": "news-d23c27dc",
+      "date": "2026-08-18",
+      "title": "CISA: Windows Task Host flaw now exploited by ransomware gangs",
+      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) has confirmed that ransomware gangs are also exploiting a high-severity Windows Task Host vulnerability that was flagged as actively exploited in April. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "critical",
+      "tags": [
+        "Incident",
+        "Windows",
+        "Microsoft"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/cisa-windows-task-host-flaw-now-exploited-by-ransomware-gangs/"
+    },
+    {
+      "id": "news-3e3c01d1",
+      "date": "2026-08-18",
+      "title": "Microsoft confirms outage affecting search in Microsoft 365 apps",
+      "summary": "Microsoft says some users are experiencing issues searching in Microsoft 365 apps, including Outlook on the web, Outlook desktop, SharePoint Online, and OneDrive. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows",
+        "Microsoft"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-working-to-fix-bug-behind-microsoft-365-search-issues/"
+    },
+    {
+      "id": "news-05c2759c",
+      "date": "2026-08-18",
+      "title": "Microsoft starts removing WMIC tool used by cybercriminals",
+      "summary": "Microsoft announced that it removed the Windows Management Instrumentation Command-line (WMIC) tool from Windows 11 24H2 and 25H2, as well as from Windows 11 beta builds released this week. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Outil",
+        "Windows",
+        "Microsoft"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-removes-wmic-lolbin-tool-in-windows-11-beta-builds/"
+    },
+    {
       "id": "news-97d3cffc",
       "date": "2026-08-17",
       "title": "⚡ Weekly Recap: VMware Exploits, Windows 0-Day, MCP Attacks, Browser Hijacks and More",
@@ -277,189 +459,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/new-amnesiastealer-macos-malware-hijacks-browser-sessions-via-remote-control/"
-    },
-    {
-      "id": "news-2b386a77",
-      "date": "2026-08-16",
-      "title": "SafePal data breach impacts 39,798 customers, stolen info for sale",
-      "summary": "Cryptocurrency hardware wallet provider SafePal is warning of a data breach affecting about 39,798 customers after a flaw was exploited to steal customer order information, and a threat actor is now claiming to be selling the stolen data. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Incident",
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/safepal-data-breach-impacts-39-798-customers-stolen-info-for-sale/"
-    },
-    {
-      "id": "news-4edea58d",
-      "date": "2026-08-16",
-      "title": "Anthropic confirms Claude is down in major outage affecting multiple services",
-      "summary": "Claude is experiencing a major outage, with users reporting login problems and degraded performance across several Anthropic services. [...]",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "Artificial Intelligence",
-        "Technology"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-confirms-claude-is-down-in-major-outage-affecting-multiple-services/"
-    },
-    {
-      "id": "news-1cabfadb",
-      "date": "2026-08-15",
-      "title": "New Evooo1Bot Linux botnet turns routers into traffic relay nodes",
-      "summary": "A new Mirai-based modular Linux botnet malware called Evooo1Bot has been targeting internet-facing gateway devices, turning them into SOCKS5 traffic relay nodes. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
-      "severity": "high",
-      "tags": [
-        "Linux",
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/new-evooo1bot-linux-botnet-turns-routers-into-traffic-relay-nodes/"
-    },
-    {
-      "id": "news-a20d15f4",
-      "date": "2026-08-15",
-      "title": "SAP Commerce Cloud CVE-2026-58231 Targeted in Exploitation Attempts Days After Patch",
-      "summary": "A maximum-severity security vulnerability impacting SAP Commerce Cloud is witnessing active exploitation efforts. The vulnerability, tracked as CVE-2026-58231, is rated 10.0 on the CVSS scoring system. It relates to an instance of insufficient authorization checks and input validation. \"SAP Commerce Cloud allows an unauthenticated attacker to abuse a default authentication client and submit",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "CVE",
-        "Patch"
-      ],
-      "cve": "CVE-2026-58231",
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/sap-commerce-cloud-cve-2026-58231.html"
-    },
-    {
-      "id": "news-ba67c8db",
-      "date": "2026-08-15",
-      "title": "Hackers Spend Nearly $7 Million on Expired Domains to Redirect Traffic to Scams and Malware",
-      "summary": "Threat actors are acquiring expired domains to inherit website traffic and reputation to redirect victims to scams and malware on a large scale. DNS threat intelligence firm Infoblox has given the name dropcatch domains to those that get a second chance, where an expired domain becomes available for registration and is then snapped up by another party. During the first half of 2026, 50,400",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "high",
-      "tags": [
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/hackers-spend-nearly-7-million-on.html"
-    },
-    {
-      "id": "news-23380164",
-      "date": "2026-08-14",
-      "title": "Hackers arrested over €30M bank fraud exploiting service provider flaw",
-      "summary": "Four cybercriminals were arrested in Brazil, and three others were charged in Europe over allegations that they exploited a vulnerability at a service provider, allowing them to withdraw funds from Commerzbank customers' bank accounts. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "Legal"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-arrested-over-30m-bank-fraud-exploiting-service-provider-flaw/"
-    },
-    {
-      "id": "news-280e3199",
-      "date": "2026-08-14",
-      "title": "Hackers exploit macOS Screen Sharing flaw to deploy Monero miner",
-      "summary": "The Netherlands' National Cyber Security Centre (NCSC) is warning that hackers are actively exploiting a macOS authentication bypass vulnerability after public exploit code emerged. [...]",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "critical",
-      "tags": [
-        "Outil",
-        "Apple",
-        "CVE",
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": 9.8,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-exploit-macos-screen-sharing-flaw-to-deploy-monero-miner/"
-    },
-    {
-      "id": "news-defdada9",
-      "date": "2026-08-14",
-      "title": "The Modern Attack Chain: Rethinking Google Workspace Security in the Age of AI",
-      "summary": "Google Workspace attacks do not always begin with phishing. Stolen OAuth tokens can provide another path into Gmail, Drive, and connected systems. Material Security explains why organizations need defenses that cover the entire Workspace attack chain. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/the-modern-attack-chain-rethinking-google-workspace-security-in-the-age-of-ai/"
-    },
-    {
-      "id": "news-a2eca747",
-      "date": "2026-08-14",
-      "title": "Max severity SAP Commerce Cloud flaw now targeted in attacks",
-      "summary": "A maximum-severity SAP Commerce Cloud remote code execution vulnerability patched three days ago is already being targeted in attacks, according to threat intelligence company Defused. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/max-severity-sap-commerce-cloud-flaw-now-targeted-in-attacks/"
-    },
-    {
-      "id": "news-91be00c6",
-      "date": "2026-08-14",
-      "title": "Shell investigates 'potential incident' after Clop data theft claims",
-      "summary": "Oil giant Shell has confirmed it is investigating a potential security incident after the Clop ransomware gang claimed it stole 89GB of data. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Incident"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/shell-investigates-potential-incident-after-clop-data-theft-claims/"
-    },
-    {
-      "id": "news-b914b705",
-      "date": "2026-08-14",
-      "title": "RingCentral data breach exposed info of 1.6 million accounts",
-      "summary": "The ShinyHunters extortion group stole personal information from 1.6 million RingCentral accounts after hacking the company in July, according to the data breach notification service Have I Been Pwned. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [
-        "Incident"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/ringcentral-data-breach-exposed-info-of-16-million-accounts/"
-    },
-    {
-      "id": "news-509d19b6",
-      "date": "2026-08-14",
-      "title": "Data analyst sent to prison for stealing data, extorting employer",
-      "summary": "A former data analyst contractor for Brightly Software has been sentenced to two years in prison for targeting his employer in a $2.5 million extortion scheme. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/data-analyst-sent-to-prison-for-stealing-data-extorting-employer/"
     }
   ]
 }
