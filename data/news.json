@@ -29,6 +29,265 @@
       "source_url": "https://thehackernews.com/2026/08/suspected-russian-hackers-abuse-google.html"
     },
     {
+      "id": "news-e9b2901b",
+      "date": "2026-08-21",
+      "title": "Vulnérabilité dans Microsoft Office (21 août 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Microsoft Office. Elle permet à un attaquant de provoquer une atteinte à la confidentialité des données.",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1072/"
+    },
+    {
+      "id": "news-6e97c5fa",
+      "date": "2026-08-21",
+      "title": "Multiples vulnérabilités dans le noyau Linux de SUSE (21 août 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans le noyau Linux de SUSE. Certaines d'entre elles permettent à un attaquant de provoquer une élévation de privilèges, une atteinte à la confidentialité des données et une atteinte à l'intégrité des données.",
+      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
+      "severity": "info",
+      "tags": [
+        "Linux",
+        "Noyau Linux"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1064/"
+    },
+    {
+      "id": "news-8c1e20a6",
+      "date": "2026-08-21",
+      "title": "Microsoft Defender's Own Driver Can Be Weaponized to Delete Security Software at Boot",
+      "summary": "Check Point Research has disclosed a technique that uses Microsoft Defender's own legitimately signed boot-time remediation driver to perform arbitrary kernel-level file and registry operations on Windows systems ranging from Windows 7 through Windows 11 25H2, with no software flaw exploited and no driver imported from outside the machine. The driver, BTR.sys (Boot Time Removal Tool), is a",
+      "context": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
+      "severity": "info",
+      "tags": [
+        "Outil",
+        "Linux",
+        "Windows",
+        "Noyau Linux"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/microsoft-defenders-own-driver-can-be.html"
+    },
+    {
+      "id": "news-90495c23",
+      "date": "2026-08-21",
+      "title": "Android Car Malware Spreads Through Built-In Updaters for Ad Fraud, Proxy Botnet",
+      "summary": "Cybersecurity researchers have flagged a new malware family that's specifically designed to infect Android-based vehicle head unit firmware developed by DoFun. Kaspersky, which discovered the threat in June 2026, said the end goal of the malware is to serve a multi-stage downloader to enable ad fraud and creation of a proxy botnet. \"The malware spread through the built-in updaters of",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "high",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/android-car-malware-spreads-through.html"
+    },
+    {
+      "id": "news-e3d8c590",
+      "date": "2026-08-21",
+      "title": "Wazuh and AI For Enhanced SOC Workflows",
+      "summary": "Artificial Intelligence (AI) has become one of this decade's defining technologies. From healthcare and finance to manufacturing and education, organizations increasingly rely on AI to automate repetitive tasks, uncover patterns hidden within large datasets, and support faster decision-making. Cybersecurity has experienced a similar transformation. While attackers employ AI to automate",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/wazuh-and-ai-for-enhanced-soc-workflows.html"
+    },
+    {
+      "id": "news-55490a11",
+      "date": "2026-08-21",
+      "title": "Cisco Patches Nine Crosswork and Secure Workload Flaws, Five Scoring CVSS 10.0",
+      "summary": "Cisco has published another round of security updates for Crosswork platforms and Secure Workload Software as part of a continued comprehensive internal security review. Four of the security vulnerabilities affect Crosswork Data Gateway, Crosswork Network Controller, and Crosswork Planning, regardless of the device configuration. A brief description of each of the flaws is below -",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "critical",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": 10.0,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/cisco-patches-nine-crosswork-and-secure.html"
+    },
+    {
+      "id": "news-466c1e7a",
+      "date": "2026-08-21",
+      "title": "GitLab CVE-2026-19478 Comes Under Active Exploitation Within Days of Disclosure",
+      "summary": "A newly disclosed security flaw in GitLab has come under active exploitation within days of public disclosure, according to watchTowr. The vulnerability in question is CVE-2026-19478 (CVSS score: 9.4), a case of code injection that allows an unauthenticated attacker to modify or delete publicly accessible GitLab projects and rewrite their data under certain conditions without requiring",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-19478",
+      "cvss": 9.4,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/gitlab-cve-2026-19478-comes-under.html"
+    },
+    {
+      "id": "news-6215f6c5",
+      "date": "2026-08-21",
+      "title": "Microsoft Patches Severe Entra ID Flaw (CVSS 10.0) Allowing Remote Code Execution",
+      "summary": "Update: The story was updated after publication to note that the vulnerability has not been exploited. Although the security bulletin originally marked the \"Exploited\" field under the Exploitability Assessment table as \"Yes,\" on August 21, 2026, Microsoft corrected the \"Exploited\" status to \"No\" after The Hacker News contacted the company for comment. It also noted, \"this vulnerability was not",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "critical",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": 10.0,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/microsoft-entra-id-flaw-cvss-100.html"
+    },
+    {
+      "id": "news-9930cd64",
+      "date": "2026-08-21",
+      "title": "New SynkLoader malware pushed in Microsoft Teams phishing campaign",
+      "summary": "A previously unknown malware family dubbed SynkLoader is being distributed in Microsoft Teams phishing campaigns to steal credentials via a fake lock screen. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "high",
+      "tags": [
+        "Windows",
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/new-synkloader-malware-pushed-in-microsoft-teams-phishing-campaign/"
+    },
+    {
+      "id": "news-cea07919",
+      "date": "2026-08-21",
+      "title": "Hundreds of leaked AWS keys give full control over corporate accounts",
+      "summary": "More than 9,300 Amazon Web Services (AWS) access keys publicly exposed between August 2022 and August 2026 are still active and valid. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [
+        "Cloud"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/hundreds-of-leaked-aws-keys-give-full-control-over-corporate-accounts/"
+    },
+    {
+      "id": "news-bbc21c67",
+      "date": "2026-08-21",
+      "title": "Microsoft blames Windows gaming issues on RGB lighting devices",
+      "summary": "Microsoft says ongoing issues causing games to crash or fail to launch after installing the August 2026 Windows updates may be caused by peripherals with RGB lighting. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows",
+        "Microsoft"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-blames-windows-gaming-issues-on-rgb-lighting-devices/"
+    },
+    {
+      "id": "news-2d2f8994",
+      "date": "2026-08-21",
+      "title": "Is Online Privacy Possible? How Digital Identities Can Help",
+      "summary": "Using the same email, phone number, payment method, and other identifiers makes it easier for data brokers and attackers to profile your activity. Anonyome Labs explains how separate digital personas can reduce correlation and limit the impact of breaches, spam, and identity theft. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/is-online-privacy-possible-how-digital-identities-can-help/"
+    },
+    {
+      "id": "news-c915f4d2",
+      "date": "2026-08-21",
+      "title": "Microsoft rolls out Classic Outlook theme for New Outlook users",
+      "summary": "Microsoft has started rolling out a Classic Outlook theme for users of Outlook on the web and the New Outlook for Windows. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows",
+        "Microsoft"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-rolls-out-classic-outlook-theme-for-new-outlook-users/"
+    },
+    {
+      "id": "news-aadef9e6",
+      "date": "2026-08-21",
+      "title": "CISA orders feds to patch actively exploited TrueConf Server flaws",
+      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) ordered U.S. federal agencies to prioritize patching two actively exploited vulnerabilities in the TrueConf Server self-hosted communications platform. [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "high",
+      "tags": [
+        "Patch"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-actively-exploited-trueconf-server-flaws/"
+    },
+    {
+      "id": "news-e3f183fa",
+      "date": "2026-08-21",
+      "title": "Microsoft warns of max severity Entra ID flaw exploited in attacks",
+      "summary": "Microsoft has patched a maximum-severity vulnerability in the Entra ID identity and access management (IAM) platform that has been exploited in attacks. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "high",
+      "tags": [
+        "Windows",
+        "Microsoft"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-warns-of-max-severity-entra-id-flaw-exploited-in-attacks/"
+    },
+    {
+      "id": "news-e49c890f",
+      "date": "2026-08-21",
+      "title": "Hackers abuse FTP server banners to deliver new Windows malware",
+      "summary": "Threat actors are abusing FTP banners to hide commands that deliver two previously undocumented remote access trojans named E4del and PINHOLE. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "high",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-abuse-ftp-server-banners-to-deliver-new-windows-malware/"
+    },
+    {
+      "id": "news-96ddd723",
+      "date": "2026-08-21",
+      "title": "SickKids data breach exposes employee and job applicant info",
+      "summary": "Toronto's Hospital for Sick Children (SickKids) says a cybersecurity incident exposed the personal information of some current and former employees and job applicants, stemming from a flaw in third-party software. Clinical systems and patient records were not affected. (264) [...]",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "critical",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/sickkids-data-breach-exposes-employee-and-job-applicant-info/"
+    },
+    {
       "id": "news-3d2de49a",
       "date": "2026-08-20",
       "title": "Elementor Pro Flaw Could Let Unauthenticated Attackers Upload PHP and Execute Code",
@@ -183,247 +442,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/manic-android-malware-exfiltrates-data.html"
-    },
-    {
-      "id": "news-e9a9b4bc",
-      "date": "2026-08-20",
-      "title": "NASA AIT-GUI Flaws Could Let Unauthenticated Attackers Issue Spacecraft Commands",
-      "summary": "Security researchers at Cycode have disclosed a chain of flaws in AIT-GUI, the browser-based operator console for NASA/JPL's open-source AMMOS Instrument Toolkit, that allow an unauthenticated attacker to issue arbitrary commands to the software's spacecraft and instrument command bus. The chain, tracked as GHSA-p9r8-2q67-fp86 and rated 9.4 on the CVSS v3.1 scoring system, impacts AIT-GUI",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/nasa-ait-gui-flaws-could-let.html"
-    },
-    {
-      "id": "news-edbf6e95",
-      "date": "2026-08-20",
-      "title": "ToxicPanda 2.0 and GoldDigger Expand Android Banking Attacks with On-Device Fraud",
-      "summary": "Cybersecurity researchers have shed light on an updated version of ToxicPanda (aka TgToxic) that comes with \"significant enhancements,\" including a set of 167 remote commands and expands its targeting footprint globally. Zimperium zLabs, in a Wednesday report, said the Android malware also features a PIN harvesting workflow targeting more than 140 banking and cryptocurrency applications.",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "high",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/toxicpanda-20-and-golddigger-expand.html"
-    },
-    {
-      "id": "news-81e9e008",
-      "date": "2026-08-20",
-      "title": "40 Malicious Firefox Extensions Pose as Web3 Products to Steal Wallet Secrets",
-      "summary": "A set of 40 Mozilla Firefox extensions has been found to engage in cryptocurrency wallet theft by masquerading as OKX, Rabby Wallet, TronLink, and other Web3 products. According to the Socket Threat Research team, the extensions are part of a broader set of 77 browser add-ons that share source code and infrastructure overlaps. The campaign, dubbed Offside Wallet Theft Factory, is believed to",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/40-malicious-firefox-extensions-pose-as.html"
-    },
-    {
-      "id": "news-c5146546",
-      "date": "2026-08-20",
-      "title": "Hackers poison arrayref Rust crate to push infostealer malware",
-      "summary": "Hackers compromised the maintainer account behind the widely used Rust crate arrayref to introduce malware that executed on developers' systems during compilation. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-poison-arrayref-rust-crate-to-push-infostealer-malware/"
-    },
-    {
-      "id": "news-9223b05a",
-      "date": "2026-08-20",
-      "title": "Critical Elementor Pro bug exposes WordPress sites to RCE attacks",
-      "summary": "A critical vulnerability in the Elementor Pro WordPress plugin could allow attackers to upload executable files for remote code execution on the server. [...]",
-      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/critical-elementor-pro-bug-exposes-wordpress-sites-to-rce-attacks/"
-    },
-    {
-      "id": "news-ad408630",
-      "date": "2026-08-20",
-      "title": "How MSPs can catch phishing attacks email filters miss",
-      "summary": "AI is making phishing attacks more personalized, convincing, and difficult for traditional email filters to detect. Kaseya explains how MSPs can monitor identity, email, and endpoint activity to detect and contain attacks that make it past the inbox. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/how-msps-can-catch-phishing-attacks-email-filters-miss/"
-    },
-    {
-      "id": "news-928042e7",
-      "date": "2026-08-20",
-      "title": "Citrix urges admins to patch new NetScaler flaws as soon as possible",
-      "summary": "Citrix has warned customers to immediately secure their systems against two vulnerabilities affecting NetScaler Gateway secure remote access solutions and NetScaler ADC networking appliances. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "Patch"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/citrix-urges-admins-to-patch-new-netscaler-flaws-as-soon-as-possible/"
-    },
-    {
-      "id": "news-451b6899",
-      "date": "2026-08-20",
-      "title": "CISA warns of hackers exploiting critical MLflow vulnerability",
-      "summary": "The Cybersecurity and Infrastructure Security Agency (CISA) warned federal agencies that threat actors are now exploiting a critical vulnerability in the MLflow open-source AI engineering platform. [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/cisa-warns-of-hackers-exploiting-critical-mlflow-vulnerability/"
-    },
-    {
-      "id": "news-06c88842",
-      "date": "2026-08-20",
-      "title": "Microsoft says August Windows updates may cause gaming issues",
-      "summary": "Microsoft is investigating a potential issue with the August 2026 updates that may prevent some games from launching or cause them to crash on affected Windows 11 systems. [...]",
-      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-      "severity": "info",
-      "tags": [
-        "Windows",
-        "Microsoft",
-        "Gaming"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-august-windows-updates-may-cause-gaming-issues-reboots/"
-    },
-    {
-      "id": "news-e1be2fd9",
-      "date": "2026-08-20",
-      "title": "ThreatsDay: Gogs 10.0 RCE, n8n Workflow-to-RCE, $10M Reward, GLM-5.3 AI Exploit, and More",
-      "summary": "A lot of this week’s trouble starts with something trusted doing exactly what it was allowed to do. Signed drivers get turned against defenses. Legitimate apps help malware blend in. A weak header check opens a path to code execution. Elsewhere, exposed systems, old bugs, odd hiding tricks, and AI-assisted exploit research keep lowering the effort needed to cause damage. Nothing here needs",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "high",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/threatsday-gogs-100-rce-n8n-workflow-to.html"
-    },
-    {
-      "id": "news-01e67b8c",
-      "date": "2026-08-20",
-      "title": "Critical Zimbra RCE flaw now actively exploited in attacks",
-      "summary": "CERT Polska, the Polish Computer Emergency Response Team (CERT), warned that attackers have begun exploiting a critical vulnerability in Zimbra Collaboration Suite (ZCS). [...]",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/critical-zimbra-rce-flaw-now-actively-exploited-in-attacks/"
-    },
-    {
-      "id": "news-bb115894",
-      "date": "2026-08-19",
-      "title": "Multiples vulnérabilités dans Oracle Database Server (19 août 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Oracle Database Server. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, un déni de service à distance et une atteinte à la confidentialité des données.",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1047/"
-    },
-    {
-      "id": "news-8328ed53",
-      "date": "2026-08-19",
-      "title": "Multiples vulnérabilités dans Synacor Zimbra Collaboration (19 août 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Synacor Zimbra Collaboration. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, une falsification de requêtes côté serveur (SSRF) et une injection de code indirecte à distance (XSS)....",
-      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1041/"
-    },
-    {
-      "id": "news-a1f88838",
-      "date": "2026-08-19",
-      "title": "SilkParasite Espionage Campaign Targets Central Asian Governments with Five New RATs",
-      "summary": "A previously unreported cyber espionage operation dubbed SilkParasite has been observed targeting government bodies in Central Asia. The intrusion set makes use of seven remote access tool (RAT) families, five of which have never been previously documented: DriveSilkRAT, CookiETagRAT, NomadRAT, GoginRAT, and NodeEdgeRAT. SilkParasite, first discovered in late 2025, is assessed to be a",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/silkparasite-espionage-campaign-targets.html"
-    },
-    {
-      "id": "news-f3c96d85",
-      "date": "2026-08-19",
-      "title": "Hackers Compromised 14,500+ Dahua Devices Using Credential Attacks, Auth Bypasses, and P2P",
-      "summary": "Cybersecurity researchers at Hunt.io have disclosed details of a campaign that they say compromised more than 14,530 Dahua devices between June 17 and July 22, 2026, using credential attacks, two authentication-bypass flaws, and a peer-to-peer (P2P) relay technique. The activity, codenamed Operation CameraSwarm, was reconstructed from a 407 MB exposed working directory containing 2,616 files",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/hackers-compromised-14500-dahua-devices.html"
-    },
-    {
-      "id": "news-00c9585b",
-      "date": "2026-08-19",
-      "title": "Phishing 3.0: The Fight Moves to Agent Versus Agent",
-      "summary": "Most email defenses still do the job they did a decade ago. Scan the message, look for something malicious, block it. That worked when the danger sat in the payload, a bad link or an attachment. It stopped working when the danger moved into the message's intent, and it is failing now that the sender is no longer a person. From Bad Content to Bad Intent to AI on Both Sides Phishing 1.0 was bad",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/phishing-30-fight-moves-to-agent-versus.html"
-    },
-    {
-      "id": "news-9abfa725",
-      "date": "2026-08-19",
-      "title": "StopAndProtect Uses Nearly 2,000 Hacked WordPress Sites to Spread Malware and Steal Data",
-      "summary": "Cybersecurity researchers have flagged a global cybercrime operation that abuses thousands of hacked WordPress websites as infrastructure to disseminate malware, commandeer infected hosts, store stolen documents, screenshots, and activity logs created to track the status of the activity. \"The operation doesn't rely on a single piece of malware, but on a whole toolkit of criminal software",
-      "context": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
-      "severity": "high",
-      "tags": [
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/stopandprotect-uses-nearly-2000-hacked.html"
     }
   ]
 }
