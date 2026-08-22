@@ -18,6 +18,50 @@
       "source_url": "https://thehackernews.com/2026/08/14-trojanized-npm-packages-drop-redc2.html"
     },
     {
+      "id": "news-73f825cd",
+      "date": "2026-08-22",
+      "title": "TikTok Agrees to $400 Million Settlement in U.S. Child Privacy Lawsuit",
+      "summary": "The U.S. Department of Justice (DoJ) announced on Friday that ByteDance-owned TikTok will pay $400 million to settle a 2024 lawsuit accusing the company of violating child privacy laws in the country. As part of the settlement, the social media platform will pay $300 million immediately, and an additional $100 million \"upon entry of an order vacating a prior consent decree entered against",
+      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/tiktok-agrees-to-400-million-settlement.html"
+    },
+    {
+      "id": "news-8e9be0b0",
+      "date": "2026-08-22",
+      "title": "Hackers infect Android car head units with proxy botnet malware",
+      "summary": "A supply-chain attack targeting Android-based car head units is using a legitimate device-update app to spread malware that enlists compromised devices in a proxy botnet or uses them for ad fraud. [...]",
+      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
+      "severity": "high",
+      "tags": [
+        "Réseau",
+        "Hardware"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-infect-android-car-head-units-with-proxy-botnet-malware/"
+    },
+    {
+      "id": "news-71ced706",
+      "date": "2026-08-22",
+      "title": "Named Pipes Under Attack: Securing Windows Interprocess Communication",
+      "summary": "Windows named pipes provide fast interprocess communication, but weak access controls can expose privileged services to untrusted processes. ThreatLocker explains how endpoint verification, command authorization, strict input validation, and narrowly scoped privileges can help secure named-pipe communication. [...]",
+      "context": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
+      "severity": "info",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/named-pipes-under-attack-securing-windows-interprocess-communication/"
+    },
+    {
       "id": "news-a31ccb0c",
       "date": "2026-08-21",
       "title": "Rust Supply Chain Attack Puts Build-Time Malware in Crates with 245 Million Downloads",
@@ -401,49 +445,6 @@
       "cvss": 8.9,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/attackers-exploit-zimbra-snmp-flaw-for.html"
-    },
-    {
-      "id": "news-743ece16",
-      "date": "2026-08-20",
-      "title": "Zombie Card Attack Can Revive Expired Visa Cards for Contactless Payments",
-      "summary": "Researchers at the University of Massachusetts Amherst have demonstrated an attack that revives expired Visa contactless credit cards for real in-store purchases by rewriting the expiration date a point-of-sale (POS) terminal reads over near-field communication (NFC), without breaking any of the card's cryptography. The attack, which the researchers named \"Zombie Card,\" requires physical",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/zombie-card-attack-can-revive-expired.html"
-    },
-    {
-      "id": "news-ab0af84f",
-      "date": "2026-08-20",
-      "title": "Why \"Shady AI\" is Security's Next Big Governance Problem",
-      "summary": "In March 2026, an internal AI agent at Meta triggered a “Sev 1” incident after sensitive company and user data was exposed to employees who weren’t authorized to access it. The incident began when a Meta employee posted a technical question on an internal forum. An engineer used an approved AI agent to analyze it, but the agent posted its response publicly without approval. The employee",
-      "context": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux.",
-      "severity": "info",
-      "tags": [
-        "Incident"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/why-shady-ai-is-securitys-next-big.html"
-    },
-    {
-      "id": "news-a359296d",
-      "date": "2026-08-20",
-      "title": "CDN Tsunami Attack Abuses HTTP/3 Translation for Up to 350x DoS Amplification",
-      "summary": "Cybersecurity researchers have disclosed two denial-of-service (DoS) attacks that exploit how major content delivery networks (CDNs) convert client-facing HTTP/3 traffic into HTTP/1.1 requests to the websites they front, amplifying a low-bandwidth request stream by up to 350x against the origin server. The attacks, collectively named \"CDN Tsunami,\" were evaluated against Alibaba, Baidu,",
-      "context": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-      "severity": "high",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/cdn-tsunami-attack-abuses-http3.html"
     }
   ]
 }
