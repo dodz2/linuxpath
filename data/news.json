@@ -3,6 +3,272 @@
   "edition": "Semaine du 25 août 2026",
   "news": [
     {
+      "id": "news-2c9614d6",
+      "date": "2026-08-25",
+      "title": "A Malicious Webpage Could Poison Your Local AI Model Behind NVIDIA NemoClaw",
+      "summary": "Oasis Security has disclosed a weakness in NVIDIA NemoClaw that could let an attacker-controlled webpage take unauthenticated control of the local Ollama instance serving an AI agent and plant hidden instructions inside the model itself. The findings were shared with The Hacker News ahead of publication, and the report says Oasis Security reported them to NVIDIA's Product Security Incident",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/a-malicious-webpage-could-poison-your.html"
+    },
+    {
+      "id": "news-2fe56c7c",
+      "date": "2026-08-25",
+      "title": "WhatsApp Adds Multiple Passkeys for Phishing-Resistant Sign-Ins Across iOS and Android",
+      "summary": "Meta on Tuesday announced a set of WhatsApp account security features, including support for multiple passkeys to a single account to help users with both iOS and Android devices sign into their accounts using the phishing-resistant method. The tech giant said more than 1 billion people use a passkey to log into WhatsApp. Support for passkeys was first introduced in Android in October 2023,",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/whatsapp-adds-multiple-passkeys-for.html"
+    },
+    {
+      "id": "news-d9c6cf65",
+      "date": "2026-08-25",
+      "title": "Marimo Notebook Flaw Could Run MCP Commands Before Cells Execute in Edit Mode",
+      "summary": "Marimo has addressed a high-severity security flaw in its notebook software that allowed an attacker to execute an attacker-supplied Model Context Protocol (MCP) command in a specially crafted notebook, according to VulnCheck's CVE Numbering Authority (CNA) record. The CNA record says the command can run as a local subprocess when the notebook is opened in edit mode. The vulnerability, tracked",
+      "context": "Implique des concepts réseau fondamentaux.",
+      "related_modules": [
+        "m4"
+      ],
+      "severity": "high",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/marimo-notebook-flaw-could-run-mcp.html"
+    },
+    {
+      "id": "news-e11fd736",
+      "date": "2026-08-25",
+      "title": "Mirage2FA Surge Hits 4,500 US and EU Companies, Abusing Microsoft 365 Login Flows",
+      "summary": "Thousands of companies have been affected by the Mirage2FA campaign from 2024 to 2026. The commercial phishing-as-a-service toolkit targets Microsoft 365 accounts by abusing legitimate login flows and bypassing two-factor authentication. According to ANY.RUN research, 48% of targeted email addresses were potentially compromised. Most of the affected companies are US-based. Mirage2FA Campaign",
+      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [
+        "Windows",
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/mirage2fa-surge-hits-4500-us-and-eu.html"
+    },
+    {
+      "id": "news-3f1d883c",
+      "date": "2026-08-25",
+      "title": "24 npm Packages Abuse unpkg Mirrors to Host Fake Cloudflare CAPTCHA Pages",
+      "summary": "Cybersecurity researchers have disclosed details of a new campaign that uses a cluster of 24 npm packages as free phishing infrastructure for redirecting to ClickFix-style fake CAPTCHA pages. \"While the malware is simply a single HTML page inside the npm package, and while downloading it wouldn't do harm, the threat actor’s use of npm isn't to infect developers who install it, but to use the",
+      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
+      "related_modules": [
+        "m14"
+      ],
+      "severity": "high",
+      "tags": [
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/24-npm-packages-abuse-unpkg-mirrors-to.html"
+    },
+    {
+      "id": "news-11daeb77",
+      "date": "2026-08-25",
+      "title": "E4del and PINHOLE RATs Turn FTP Banners Into Dead Drops for Malware Commands",
+      "summary": "Cybersecurity researchers are calling attention to a new campaign that employs FTP banners as dead drop resolvers (DDRs) to deliver two previously unreported remote access trojans (RATs) tracked as E4del and PINHOLE. While threat actors are known to abuse legitimate services to point to additional command-and-control (C2) infrastructure and blend in with regular network traffic, the development",
+      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
+      "related_modules": [
+        "m14"
+      ],
+      "severity": "high",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/e4del-and-pinhole-rats-turn-ftp-banners.html"
+    },
+    {
+      "id": "news-85be4ee7",
+      "date": "2026-08-25",
+      "title": "Frontier AI: Vulnerability Management's Systemic Revolution",
+      "summary": "Vulnerability management has been a staple of security programs since the dawn of the cybersecurity discipline. The symbiotic relationship between vulnerability and patch management teams has also existed for that time and has gone through waves of contention and thankfulness. While this relationship required thoughtful care and feeding from both sides, both sides were aiming to work toward a",
+      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
+      "related_modules": [
+        "m6"
+      ],
+      "severity": "high",
+      "tags": [
+        "Patch"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/frontier-ai-vulnerability-managements.html"
+    },
+    {
+      "id": "news-00a5bb8c",
+      "date": "2026-08-25",
+      "title": "Attackers Target miniOrange SAML Flaws That Can Grant WordPress Admin Access",
+      "summary": "Bad actors are attempting to exploit two severe unauthenticated authentication bypasses in the Xecurify miniOrange SAML 2.0 Single Sign On plugin that make it possible for an attacker to sign in as any WordPress user, including administrators. The vulnerabilities, as disclosed by Patchstack, are listed below - CVE-2026-61979 (CVSS score: 8.1) - An unauthenticated privilege escalation",
+      "context": "En lien avec la gestion des droits et des accès système.",
+      "related_modules": [
+        "m3",
+        "m10",
+        "m11"
+      ],
+      "severity": "high",
+      "tags": [
+        "CVE",
+        "Outil"
+      ],
+      "cve": "CVE-2026-61979",
+      "cvss": 8.1,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/attackers-target-miniorange-saml-flaws.html"
+    },
+    {
+      "id": "news-580380b7",
+      "date": "2026-08-25",
+      "title": "Actively Exploited Oracle WebLogic Flaw Lets Unauthenticated Attackers Access Critical Data",
+      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) on Monday added a maximum-severity security flaw impacting Oracle HTTP Server and Oracle WebLogic Server to its Known Exploited Vulnerabilities (KEV) catalog, citing evidence of active exploitation. The vulnerability, tracked as CVE-2026-21962 (CVSS score: 10.0), allows an unauthenticated attacker with network access via HTTP to",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "critical",
+      "tags": [
+        "CVE",
+        "Réseau"
+      ],
+      "cve": "CVE-2026-21962",
+      "cvss": 10.0,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/actively-exploited-oracle-weblogic-flaw.html"
+    },
+    {
+      "id": "news-14f19b5d",
+      "date": "2026-08-25",
+      "title": "Massive DDoS attack disrupts Norway’s government digital services",
+      "summary": "A large distributed denial-of-service (DDoS) attack has disrupted Norway's shared government digital infrastructure since Monday, affecting services used by the public sector. [...]",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/massive-ddos-attack-disrupts-norways-government-digital-services/"
+    },
+    {
+      "id": "news-ebdb0af3",
+      "date": "2026-08-25",
+      "title": "Hospital operator Nutex Health says data stolen in cyberattack",
+      "summary": "Healthcare and services provider Nutex is investigating a data breach incident where an unauthorized third party exfiltrated information from company servers. [...]",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "critical",
+      "tags": [
+        "Incident",
+        "Fraude",
+        "Healthcare"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/hospital-operator-nutex-health-says-data-stolen-in-cyberattack/"
+    },
+    {
+      "id": "news-1126d86f",
+      "date": "2026-08-25",
+      "title": "From Fake Workers to Account Recovery: The Growing Identity Verification Risk",
+      "summary": "Attackers are increasingly targeting the processes used to establish or recover identity rather than attacking the login itself. Specops explains how stronger identity verification can help organizations prevent fake workers and social engineering attacks from gaining legitimate access. [...]",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/from-fake-workers-to-account-recovery-the-growing-identity-verification-risk/"
+    },
+    {
+      "id": "news-0fe7e064",
+      "date": "2026-08-25",
+      "title": "Microsoft PowerToys adds Alt+Tab-style switching for an app's windows",
+      "summary": "Microsoft updated its Windows PowerToys toolset with a new utility dubbed \"Window Hopper\" that lets users switch between an app's windows more quickly. [...]",
+      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [
+        "Windows",
+        "Microsoft"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-powertoys-adds-alt-plustab-style-switching-for-an-apps-windows/"
+    },
+    {
+      "id": "news-6ac3f6d1",
+      "date": "2026-08-25",
+      "title": "WhatsApp adds stronger two-step verification, multiple passkeys",
+      "summary": "WhatsApp has started rolling out several new account security features, including support for multiple passkeys and stronger two-step verification. [...]",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/whatsapp-adds-stronger-two-step-verification-multiple-passkeys/"
+    },
+    {
+      "id": "news-a56aefce",
+      "date": "2026-08-25",
+      "title": "Hackers breached over 270 Zimbra servers in ongoing attacks",
+      "summary": "Threat actors have already compromised over 270 Zimbra instances in remote code execution attacks targeting a high-severity Zimbra Collaboration Suite (ZCS) vulnerability. [...]",
+      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
+      "related_modules": [
+        "m14"
+      ],
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-breached-over-270-zimbra-servers-in-ongoing-attacks/"
+    },
+    {
+      "id": "news-b9cac061",
+      "date": "2026-08-25",
+      "title": "Police arrests dozens of suspects in global cybercrime crackdown",
+      "summary": "Law enforcement agencies from 22 countries helped identify 263 suspects and arrested 58 individuals linked to cybercrime networks coordinated by African crime groups. [...]",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/police-arrests-dozens-of-suspects-in-global-cybercrime-crackdown/"
+    },
+    {
       "id": "news-e0eca4a3",
       "date": "2026-08-24",
       "title": "Bulletin d'actualité CERTFR-2026-ACT-036 (24 août 2026)",
@@ -236,290 +502,6 @@
       "related_modules": [
         "m6"
       ]
-    },
-    {
-      "id": "news-267a5fde",
-      "date": "2026-08-24",
-      "title": "Weedhack Malware Spreads via Fake Minecraft Clients and SEO Poisoning",
-      "summary": "Cybersecurity researchers have found that several websites are still actively distributing a malware family known as Weedhack to gamers by masquerading as Minecraft clients. McAfee Labs said it detected and blocked more than 6,300 attempts to access malicious sites, adding that it found lookalike gaming websites designed to mimic legitimate projects, including branding, feature lists, FAQs,",
-      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
-      "severity": "high",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/weedhack-malware-spreads-via-fake.html",
-      "related_modules": [
-        "m14"
-      ]
-    },
-    {
-      "id": "news-35675371",
-      "date": "2026-08-24",
-      "title": "Unpatched Calix flaw lets hackers bypass NAT to expose internal devices",
-      "summary": "An unpatched vulnerability in Calix GS7 XGS (GS5239XG) residential routers used by multiple U.S. broadband providers allows remote, unauthenticated attackers to create port-forwarding rules that can expose local network devices to the public internet. [...]",
-      "context": "Renforce ta culture de cybersécurité.",
-      "severity": "high",
-      "tags": [
-        "Réseau",
-        "Hardware"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/unpatched-calix-flaw-lets-hackers-bypass-nat-to-expose-internal-devices/",
-      "related_modules": []
-    },
-    {
-      "id": "news-6ec41d3e",
-      "date": "2026-08-24",
-      "title": "Hackers target WordPress sites in miniOrange auth bypass attacks",
-      "summary": "Hackers are attempting to exploit two critical authentication bypass vulnerabilities in the miniOrange SAML 2.0 Single Sign On plugin for WordPress that can be used to forge SAML responses and log in as administrators. [...]",
-      "context": "Concerne la sécurité des applications et services web.",
-      "severity": "critical",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-target-wordpress-sites-in-miniorange-auth-bypass-attacks/",
-      "related_modules": [
-        "m10",
-        "m11",
-        "m14"
-      ]
-    },
-    {
-      "id": "news-cff67273",
-      "date": "2026-08-24",
-      "title": "Microsoft shares temporary fix for Windows 11 gaming issues",
-      "summary": "Microsoft has shared a temporary fix for ongoing gaming issues caused by Windows 11 updates released during the August 2026 Patch Tuesday. [...]",
-      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
-      "severity": "high",
-      "tags": [
-        "Patch",
-        "Windows",
-        "Microsoft"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-shares-temporary-fix-for-windows-11-gaming-issues/",
-      "related_modules": [
-        "m6"
-      ]
-    },
-    {
-      "id": "news-c0f92197",
-      "date": "2026-08-23",
-      "title": "ToxicPanda Android malware uses VPN permissions to block Google Play",
-      "summary": "The ToxicPanda Android malware has evolved with new malicious functionality, expanding its targeting to 349 applications and adding support for 167 remote commands. [...]",
-      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
-      "severity": "high",
-      "tags": [
-        "Réseau",
-        "Mobile"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/toxicpanda-android-malware-uses-vpn-permissions-to-block-google-play/",
-      "related_modules": [
-        "m14"
-      ]
-    },
-    {
-      "id": "news-6330190d",
-      "date": "2026-08-22",
-      "title": "14 Trojanized npm Packages Drop RedC2 4.0 Linux Backdoor With AI-Assisted C2",
-      "summary": "Cybersecurity researchers have discovered a set of trojanized npm packages that masquerade as working calendar and streak utilities but are engineered to stealthily deliver an artificial intelligence (AI)-powered Linux implant dubbed RedC2 4.0. \"When the module loads, it locates the bundled binary, marks it executable, and launches it as a detached background process,\" TrendAI, Trend Micro's",
-      "context": "Touche directement les systèmes Linux que tu apprends à administrer.",
-      "severity": "high",
-      "tags": [
-        "Linux"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/14-trojanized-npm-packages-drop-redc2.html",
-      "related_modules": [
-        "m1",
-        "m14"
-      ]
-    },
-    {
-      "id": "news-73f825cd",
-      "date": "2026-08-22",
-      "title": "TikTok Agrees to $400 Million Settlement in U.S. Child Privacy Lawsuit",
-      "summary": "The U.S. Department of Justice (DoJ) announced on Friday that ByteDance-owned TikTok will pay $400 million to settle a 2024 lawsuit accusing the company of violating child privacy laws in the country. As part of the settlement, the social media platform will pay $300 million immediately, and an additional $100 million \"upon entry of an order vacating a prior consent decree entered against",
-      "context": "Renforce ta culture de cybersécurité.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/tiktok-agrees-to-400-million-settlement.html",
-      "related_modules": []
-    },
-    {
-      "id": "news-8e9be0b0",
-      "date": "2026-08-22",
-      "title": "Hackers infect Android car head units with proxy botnet malware",
-      "summary": "A supply-chain attack targeting Android-based car head units is using a legitimate device-update app to spread malware that enlists compromised devices in a proxy botnet or uses them for ad fraud. [...]",
-      "context": "Concerne la sécurité des communications et des réseaux.",
-      "severity": "high",
-      "tags": [
-        "Réseau",
-        "Hardware"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-infect-android-car-head-units-with-proxy-botnet-malware/",
-      "related_modules": [
-        "m8",
-        "m11",
-        "m14"
-      ]
-    },
-    {
-      "id": "news-71ced706",
-      "date": "2026-08-22",
-      "title": "Named Pipes Under Attack: Securing Windows Interprocess Communication",
-      "summary": "Windows named pipes provide fast interprocess communication, but weak access controls can expose privileged services to untrusted processes. ThreatLocker explains how endpoint verification, command authorization, strict input validation, and narrowly scoped privileges can help secure named-pipe communication. [...]",
-      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
-      "severity": "info",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/named-pipes-under-attack-securing-windows-interprocess-communication/",
-      "related_modules": []
-    },
-    {
-      "id": "news-a31ccb0c",
-      "date": "2026-08-21",
-      "title": "Rust Supply Chain Attack Puts Build-Time Malware in Crates with 245 Million Downloads",
-      "summary": "The Rust Project has deleted malicious versions of three widely used Rust crates from crates.io after a compromised maintainer account published releases that added a typosquatted dependency whose build script downloaded and executed a remote payload during compilation. The affected releases are arrayref 0.3.10, internment 0.8.7, and append-only-vec 0.1.9, all published from the same owner",
-      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
-      "severity": "high",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/rust-supply-chain-attack-puts-build.html",
-      "related_modules": [
-        "m8",
-        "m14"
-      ]
-    },
-    {
-      "id": "news-e9f6842a",
-      "date": "2026-08-21",
-      "title": "Suspected Russian Hackers Abuse Google OAuth and WhatsApp Linking to Hijack Accounts",
-      "summary": "Three distinct suspected Russian cyber espionage threat clusters have been observed leveraging legitimate authentication flows to single out individuals working in academia, aerospace and defense, governments, and think tanks across Europe, as well as academia and think tanks within the U.S. These clusters include UNC6293, UNC7005, and UNC5976. \"These clusters engage in persistent, adaptive",
-      "context": "Renforce ta culture de cybersécurité.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/suspected-russian-hackers-abuse-google.html",
-      "related_modules": []
-    },
-    {
-      "id": "news-e9b2901b",
-      "date": "2026-08-21",
-      "title": "Vulnérabilité dans Microsoft Office (21 août 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Microsoft Office. Elle permet à un attaquant de provoquer une atteinte à la confidentialité des données.",
-      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
-      "severity": "info",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1072/",
-      "related_modules": []
-    },
-    {
-      "id": "news-6e97c5fa",
-      "date": "2026-08-21",
-      "title": "Multiples vulnérabilités dans le noyau Linux de SUSE (21 août 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans le noyau Linux de SUSE. Certaines d'entre elles permettent à un attaquant de provoquer une élévation de privilèges, une atteinte à la confidentialité des données et une atteinte à l'intégrité des données.",
-      "context": "Touche directement les systèmes Linux que tu apprends à administrer.",
-      "severity": "info",
-      "tags": [
-        "Linux",
-        "Noyau Linux"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1064/",
-      "related_modules": [
-        "m1",
-        "m8"
-      ]
-    },
-    {
-      "id": "news-8c1e20a6",
-      "date": "2026-08-21",
-      "title": "Microsoft Defender's Own Driver Can Be Weaponized to Delete Security Software at Boot",
-      "summary": "Check Point Research has disclosed a technique that uses Microsoft Defender's own legitimately signed boot-time remediation driver to perform arbitrary kernel-level file and registry operations on Windows systems ranging from Windows 7 through Windows 11 25H2, with no software flaw exploited and no driver imported from outside the machine. The driver, BTR.sys (Boot Time Removal Tool), is a",
-      "context": "Touche directement les systèmes Linux que tu apprends à administrer.",
-      "severity": "info",
-      "tags": [
-        "Outil",
-        "Linux",
-        "Windows",
-        "Noyau Linux"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/microsoft-defenders-own-driver-can-be.html",
-      "related_modules": [
-        "m1",
-        "m8"
-      ]
-    },
-    {
-      "id": "news-90495c23",
-      "date": "2026-08-21",
-      "title": "Android Car Malware Spreads Through Built-In Updaters for Ad Fraud, Proxy Botnet",
-      "summary": "Cybersecurity researchers have flagged a new malware family that's specifically designed to infect Android-based vehicle head unit firmware developed by DoFun. Kaspersky, which discovered the threat in June 2026, said the end goal of the malware is to serve a multi-stage downloader to enable ad fraud and creation of a proxy botnet. \"The malware spread through the built-in updaters of",
-      "context": "Concerne la sécurité des communications et des réseaux.",
-      "severity": "high",
-      "tags": [
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/android-car-malware-spreads-through.html",
-      "related_modules": [
-        "m11",
-        "m14"
-      ]
-    },
-    {
-      "id": "news-e3d8c590",
-      "date": "2026-08-21",
-      "title": "Wazuh and AI For Enhanced SOC Workflows",
-      "summary": "Artificial Intelligence (AI) has become one of this decade's defining technologies. From healthcare and finance to manufacturing and education, organizations increasingly rely on AI to automate repetitive tasks, uncover patterns hidden within large datasets, and support faster decision-making. Cybersecurity has experienced a similar transformation. While attackers employ AI to automate",
-      "context": "Renforce ta culture de cybersécurité.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/wazuh-and-ai-for-enhanced-soc-workflows.html",
-      "related_modules": []
     }
   ]
 }
