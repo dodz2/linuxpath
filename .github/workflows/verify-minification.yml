@@ -2,7 +2,7 @@ name: Verify JS minification
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, codex/ci-terminal-bundle ]
   pull_request:
     branches: [ main ]
 
