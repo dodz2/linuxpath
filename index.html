@@ -313,6 +313,16 @@
     </nav>
 
     <div class="sidebar-footer">
+      <div class="progress-actions">
+        <button class="btn-export" onclick="exportProgress()" aria-label="Exporter la progression">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 2v9M4.5 7.5 8 11l3.5-3.5M3 14h10"/></svg>
+          Exporter
+        </button>
+        <button class="btn-import" onclick="importProgress()" aria-label="Importer la progression">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 11V2M4.5 5.5 8 2l3.5 3.5M3 14h10"/></svg>
+          Importer
+        </button>
+      </div>
       <button class="btn-reset" onclick="confirmReset()" aria-label="Réinitialiser toute la progression">
         <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         Réinitialiser la progression
@@ -387,43 +397,30 @@
         
           </div>
 
-          <!-- ===== TESTIMONIALS ===== -->
+          <!-- ===== POURQUOI LINUXPATH ===== -->
           <div class="lp-section-block">
-            <div class="lp-section-label">// retours</div>
-            <div class="lp-section-title">Ce qu'ils en pensent</div>
-            <div class="lp-testimonials">
-              <div class="lp-testi">
-                <div class="lp-testi-stars">★★★★★</div>
-                <div class="lp-testi-text">"J'avais déjà essayé trois autres ressources en ligne. Je bloquais toujours sur les permissions. Le module 2 ici, avec les exercices dans le terminal, ça a cliqué en 20 minutes."</div>
-                <div class="lp-testi-footer">
-                  <div class="lp-testi-avatar">T</div>
-                  <div>
-                    <div class="lp-testi-author">Thomas R.</div>
-                    <div class="lp-testi-role">Dev backend, reconversion depuis la compta</div>
-                  </div>
-                </div>
+            <div class="lp-section-label">// pourquoi linuxpath</div>
+            <div class="lp-section-title">Un projet open-source, pensé pour apprendre</div>
+            <div class="lp-why-grid">
+              <div class="lp-why-card">
+                <div class="lp-why-icon">🔓</div>
+                <div class="lp-why-title">100% gratuit et open-source</div>
+                <div class="lp-why-desc">Tout le code est sur GitHub. Pas de compte, pas de pub, pas de paywall. Vous apprenez, point.</div>
               </div>
-              <div class="lp-testi">
-                <div class="lp-testi-stars">★★★★☆</div>
-                <div class="lp-testi-text">"Le quiz du module scripting est costaud — j'ai raté deux fois avant de le passer. Mais du coup je m'en souviens vraiment. Manque juste un dark mode plus contrasté sur mobile."</div>
-                <div class="lp-testi-footer">
-                  <div class="lp-testi-avatar" style="background:rgba(157,122,255,0.2);color:var(--accent-purple)">L</div>
-                  <div>
-                    <div class="lp-testi-author">Léa M.</div>
-                    <div class="lp-testi-role">Étudiante en licence informatique</div>
-                  </div>
-                </div>
+              <div class="lp-why-card">
+                <div class="lp-why-icon">🧪</div>
+                <div class="lp-why-title">Pratique avant tout</div>
+                <div class="lp-why-desc">Chaque concept est suivi d'exercices dans un vrai terminal. La sandbox WebAssembly vous donne un Linux réel sans rien installer.</div>
               </div>
-              <div class="lp-testi">
-                <div class="lp-testi-stars">★★★★★</div>
-                <div class="lp-testi-text">"Je prépare le passage sysadmin dans ma boîte. J'utilise la cheatsheet tous les matins pour réviser avant de bosser. Simple, rapide, sans pub."</div>
-                <div class="lp-testi-footer">
-                  <div class="lp-testi-avatar" style="background:rgba(88,166,255,0.2);color:var(--accent-blue)">M</div>
-                  <div>
-                    <div class="lp-testi-author">Mehdi K.</div>
-                    <div class="lp-testi-role">Technicien réseau, 3 ans d'expérience</div>
-                  </div>
-                </div>
+              <div class="lp-why-card">
+                <div class="lp-why-icon">🇫🇷</div>
+                <div class="lp-why-title">En français, de A à Z</div>
+                <div class="lp-why-desc">Leçons, exercices, glossaire et actualités — tout est rédigé en français, avec les termes techniques expliqués.</div>
+              </div>
+              <div class="lp-why-card">
+                <div class="lp-why-icon">📈</div>
+                <div class="lp-why-title">Progression mesurable</div>
+                <div class="lp-why-desc">Quiz de validation, système de déverrouillage des modules et suivi de progression pour savoir où vous en êtes.</div>
               </div>
             </div>
           </div>
@@ -1120,7 +1117,7 @@
 <script src="assets/ctf.min.js" defer></script>
 <script src="assets/render.min.js" defer></script>
 <script src="assets/app.min.js" defer></script>
-<script src="assets/site-patches.js" defer></script>
+<script src="assets/site-patches.min.js" defer></script>
 
 <!-- Enregistrement du Service Worker -->
 <script>

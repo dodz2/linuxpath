@@ -23,6 +23,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Minify JS
+        run: |
+          npm install -g terser
+          for src in assets/utils.js assets/storage.js assets/terminal-core.js assets/terminal-main.js assets/ctf.js assets/render.js assets/app.js assets/site-patches.js; do
+            out="${src%.js}.min.js"
+            echo "Minifying $src → $out"
+            terser "$src" --compress --mangle --output "$out"
+          done
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

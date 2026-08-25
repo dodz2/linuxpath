@@ -64,12 +64,23 @@ SEVERITY_KEYWORDS = {
     ]
 }
 
-CONTEXT_TEMPLATES = {
-    "linux": "Pourquoi ça compte pour toi : Cette actualité touche directement Linux — les techniques et vulnérabilités abordées sont applicables aux systèmes que tu apprends à sécuriser dans ce parcours.",
-    "windows": "Pourquoi ça compte pour toi : Même sous Linux, comprendre les écosystèmes mixtes Windows/Linux est essentiel pour la gestion de correctifs en entreprise.",
-    "web": "Pourquoi ça compte pour toi : La sécurisation des applications web est une compétence clé — les failles présentées ici sont celles que les administrateurs Linux doivent savoir anticiper.",
-    "network": "Pourquoi ça compte pour toi : Les attaques réseau et les techniques de détection abordées ici complètent directement tes compétences en sécurité réseau (modules 9-11).",
-    "default": "Pourquoi ça compte pour toi : Cette actualité t'aide à développer une culture de cybersécurité essentielle pour tout administrateur Linux."
+CONTEXT_MESSAGES = {
+    "linux_system": "Touche directement les systèmes Linux que tu apprends à administrer.",
+    "filesystem":   "Concerne la gestion des fichiers et permissions Unix.",
+    "permissions":  "En lien avec la gestion des droits et des accès système.",
+    "processes":    "Concerne les processus et services système.",
+    "network":      "Implique des concepts réseau fondamentaux.",
+    "scripting":    "Technique liée au scripting et à l'automatisation.",
+    "admin":        "Concerne l'administration et le maintien sécurisé des systèmes.",
+    "services":     "Touche les services réseau et leur sécurisation.",
+    "firewall":     "En rapport avec le filtrage réseau et la protection périmétrique.",
+    "net_security": "Concerne la sécurité des communications et des réseaux.",
+    "recon":        "Illustre des techniques de reconnaissance et d'énumération.",
+    "vulnerability":"Alerte sur des vulnérabilités à connaître et analyser.",
+    "exploit":      "Montre des techniques d'exploitation ou de post-exploitation.",
+    "web":          "Concerne la sécurité des applications et services web.",
+    "windows":      "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
+    "default":      "Renforce ta culture de cybersécurité."
 }
 
 
@@ -123,8 +134,8 @@ def parse_rss(xml_data, feed):
         # Generate tags
         tags = _generate_tags(title, desc, categories, cve)
 
-        # Generate context
-        context = _generate_context(title, desc, tags)
+        # Generate context + related modules
+        context, related_modules = _generate_context(title, desc, tags)
 
         articles.append({
             "id": "news-" + md5((title + link).encode()).hexdigest()[:8],
@@ -132,6 +143,7 @@ def parse_rss(xml_data, feed):
             "title": _clean_title(title),
             "summary": summary,
             "context": context,
+            "related_modules": related_modules,
             "severity": severity,
             "tags": tags,
             "cve": cve,
@@ -186,7 +198,7 @@ def parse_nvd_xml(xml_data):
         short_summary = _truncate(clean_summary, 300)
 
         tags = ["CVE", "Vulnérabilité"]
-        context = _generate_context(title, clean_summary, tags)
+        context, related_modules = _generate_context(title, clean_summary, tags)
 
         articles.append({
             "id": "news-cve-" + cve_id.lower().replace("-", ""),
@@ -194,6 +206,7 @@ def parse_nvd_xml(xml_data):
             "title": f"{cve_id} — {_truncate(clean_summary, 120)}",
             "summary": short_summary,
             "context": context,
+            "related_modules": related_modules,
             "severity": severity,
             "tags": tags,
             "cve": cve_id,
@@ -311,28 +324,149 @@ def _generate_tags(title, desc, categories, cve):
 
 
 def _generate_context(title, desc, tags):
+    """Génère un contexte court et identifie les modules LinuxPath liés."""
     tag_text = " ".join(t.lower() for t in tags)
     text = (title + " " + desc).lower()
+    combined = tag_text + " " + text
 
-    # Check tags first, then fall back to title+desc content analysis
-    if "linux" in tag_text or "kernel" in tag_text or "noyau" in tag_text:
-        return CONTEXT_TEMPLATES["linux"]
-    if re.search(r"\blinux\b|\bkernel\b|\bnoyau\b|\bubuntu\b|\bdebian\b|\bred.hat\b|\bcentos\b|\bunix\b|\bcifs\b|\bsuse\b", text):
-        return CONTEXT_TEMPLATES["linux"]
-    if "web" in tag_text or "xss" in text or "csrf" in text or "sql" in text or "wordpress" in text:
-        return CONTEXT_TEMPLATES["web"]
-    if re.search(r"\bwordpress\b|\bwp-\b|\bplugin\b|\bweb app\b", text):
-        return CONTEXT_TEMPLATES["web"]
-    if "network" in tag_text or "dns" in text or "tcp" in text or "port" in text:
-        return CONTEXT_TEMPLATES["network"]
-    if re.search(r"\bbotnet\b|\bddos\b|\bréseau\b|\bnetwork\b|\bvpn\b|\bvpn\b|\bauth.*bypass\b", text):
-        return CONTEXT_TEMPLATES["network"]
-    if "windows" in tag_text or "microsoft" in tag_text:
-        return CONTEXT_TEMPLATES["windows"]
-    if re.search(r"\bwindows\b|\bmicrosoft\b|\bazure\b", text):
-        return CONTEXT_TEMPLATES["windows"]
+    related = set()
+    context_type = "default"
 
-    return CONTEXT_TEMPLATES["default"]
+    # --- Détection par mots-clés → modules et catégorie de contexte ---
+
+    # Linux / kernel → m1 (bases), m8 (admin)
+    if re.search(r"\bkernel\b|\bnoyau\b", combined):
+        related.update(["m1", "m8"])
+        context_type = "linux_system"
+    if re.search(r"\blinux\b|\bubuntu\b|\bdebian\b|\bred.?hat\b|\bcentos\b|\bsuse\b|\bfedora\b|\balma\b|\brocky\b|\bunix\b", combined):
+        related.add("m1")
+        if context_type == "default":
+            context_type = "linux_system"
+
+    # Fichiers & permissions → m2
+    if re.search(r"\bchmod\b|\bchown\b|\bsetuid\b|\bsuid\b|\bsetgid\b|\bsgid\b", combined):
+        related.add("m2")
+        if context_type == "default":
+            context_type = "filesystem"
+
+    # Utilisateurs, droits, auth → m3, m9
+    if re.search(r"\bprivilege\b|\bescalation\b|\bsudo\b|\broot access\b|\bPAM\b|\baccess.?control\b", combined):
+        related.update(["m3", "m14"])
+        if context_type == "default":
+            context_type = "permissions"
+    if re.search(r"\bSSH\b|\bcredential\b|\bpassword\b|\bbrute.?force\b|\bauthenticat\b", combined):
+        related.update(["m3", "m9"])
+        if context_type == "default":
+            context_type = "permissions"
+
+    # Réseau fondamental → m4
+    if re.search(r"\bDNS\b|\bTCP\b|\bUDP\b|\broutage\b|\brouting\b|\bprotocol[e]?\b", combined):
+        related.add("m4")
+        if context_type == "default":
+            context_type = "network"
+
+    # Scripting → m5
+    if re.search(r"\bbash\b|\bshell\b|\bcommand.?injection\b", combined):
+        related.add("m5")
+        if context_type == "default":
+            context_type = "scripting"
+
+    # Administration → m6
+    if re.search(r"\bsystemd\b|\bcron\b|\bdaemon\b|\bcontainer\b|\bdocker\b|\bkubernetes\b", combined):
+        related.add("m6")
+        if context_type == "default":
+            context_type = "admin"
+    if re.search(r"\bpatch\b|\bmise à jour\b|\bhardening\b|\baudit\b|\bcompliance\b", combined):
+        related.add("m6")
+        if context_type == "default":
+            context_type = "admin"
+
+    # Sécurité & OSINT → m7
+    if re.search(r"\bOSINT\b|\breconnaissance\b|\bfootprint\b|\bnmap\b|\bshodan\b|\bdiscovery\b|\bscan\b", combined):
+        related.add("m7")
+        if context_type == "default":
+            context_type = "recon"
+
+    # Git & Docker → m8
+    if re.search(r"\bgit\b|\bsupply.?chain\b|\bdocker\b|\bcontainer\b", combined):
+        related.add("m8")
+
+    # SSH & accès distant → m9
+    if re.search(r"\bSSH\b|\btunnel\b|\bSCP\b|\bSFTP\b|\brsync\b|\bVPN\b|\bWireGuard\b", combined):
+        related.add("m9")
+        if context_type == "default":
+            context_type = "services"
+
+    # Serveurs web & DNS → m10
+    if re.search(r"\bApache\b|\bNginx\b|\bHTTPS?\b|\bTLS\b|\bSSL\b|\bcertificat\b|\bweb.?server\b|\bserveur web\b", combined):
+        related.add("m10")
+        if context_type == "default":
+            context_type = "services"
+    if re.search(r"\bwordpress\b|\bCMS\b|\bweb.?app\b|\bPHP\b", combined):
+        related.update(["m10", "m11"])
+        if context_type == "default":
+            context_type = "web"
+
+    # Sécurité réseau → m11
+    if re.search(r"\bfirewall\b|\bpare.?feu\b|\biptables\b|\bnftables\b|\bWAF\b|\bIDS\b|\bIPS\b", combined):
+        related.add("m11")
+        if context_type == "default":
+            context_type = "firewall"
+    if re.search(r"\bchiffrement\b|\bencrypt\b|\bMITM\b|\bman.?in.?the.?middle\b|\binterception\b", combined):
+        related.add("m11")
+        if context_type == "default":
+            context_type = "net_security"
+    if re.search(r"\bDDoS\b|\bDoS\b|\bbotnet\b|\btcpdump\b", combined):
+        related.add("m11")
+        if context_type == "default":
+            context_type = "net_security"
+    if re.search(r"\bXSS\b|\bCSRF\b|\bSQL.?injection\b|\binjection\b", combined):
+        related.update(["m11", "m13"])
+        if context_type == "default":
+            context_type = "web"
+
+    # Audit & Durcissement → m12
+    if re.search(r"\baudit[de]?\b|\blynis\b|\bopenscap\b|\bdurcissement\b|\bharden\b|\bcis.?bench\b", combined):
+        related.add("m12")
+        if context_type == "default":
+            context_type = "admin"
+
+    # Pentest & Outils → m13
+    if re.search(r"\bvulnerab\b|\bvulnérab\b|\bCVE\b|\bCVSS\b|\bfaille\b|\b0.?day\b|\bzero.?day\b", combined):
+        related.add("m13")
+        if context_type == "default":
+            context_type = "vulnerability"
+    if re.search(r"\bmetasploit\b|\bburp\b|\bpentest\b", combined):
+        related.add("m13")
+        if context_type == "default":
+            context_type = "exploit"
+
+    # Forensic & Malwares → m14
+    if re.search(r"\bexploit\b|\bRCE\b|\bremote.?code\b|\barbitrary.?code\b|\bshellcode\b", combined):
+        related.add("m14")
+        if context_type == "default":
+            context_type = "exploit"
+    if re.search(r"\bbackdoor\b|\btrojan\b|\bmalware\b|\bransomware\b|\bRAT\b|\bc[2&]c?\b|\bcommand.?and.?control\b", combined):
+        related.add("m14")
+        if context_type == "default":
+            context_type = "exploit"
+    if re.search(r"\bforensic\b|\binvestigation\b|\bincident.?response\b|\bIOC\b|\bindicator\b", combined):
+        related.add("m14")
+        if context_type == "default":
+            context_type = "exploit"
+
+    # Windows (pas de module directement lié)
+    if re.search(r"\bwindows\b|\bmicrosoft\b|\bazure\b", combined):
+        if context_type == "default":
+            context_type = "windows"
+
+    # Texte du contexte
+    context = CONTEXT_MESSAGES.get(context_type, CONTEXT_MESSAGES["default"])
+
+    # Trier les modules par ordre numérique, limiter à 3
+    sorted_modules = sorted(related, key=lambda m: int(m[1:]))[:3]
+
+    return context, sorted_modules
 
 
 def load_existing_news():

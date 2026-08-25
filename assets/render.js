@@ -503,7 +503,14 @@ function renderNewsGrid(filter) {
         </div>
         <div class="news-tags">${cveHtml}${tagsHtml}</div>
         <div class="news-card-summary">${escapeHtml(n.summary)}</div>
-        <div class="news-card-context">${escapeHtml(n.context)}</div>
+        <div class="news-card-context">
+          <span class="news-context-text">${escapeHtml(n.context)}</span>
+          ${(n.related_modules && n.related_modules.length) ? '<div class="news-modules">' + n.related_modules.map(function(m) {
+            var meta = typeof MODULE_META !== 'undefined' && MODULE_META[m];
+            var label = meta ? meta.title : m.toUpperCase();
+            return '<a href="#" class="news-module-link" onclick="navigateTo(\'' + m + '\');return false">→ ' + escapeHtml(label) + '</a>';
+          }).join('') + '</div>' : ''}
+        </div>
         <div class="news-card-footer">
           <a href="${escapeHtml(n.source_url)}" target="_blank" rel="noopener noreferrer" class="news-source-link">
             Lire la source →
@@ -872,12 +879,12 @@ const MODULE_COUNTS = {
   m6: { lessons: 5,  exercises: 2, quizzes: 2 },
   m7: { lessons: 5,  exercises: 3, quizzes: 2 },
   m8: { lessons: 10, exercises: 4, quizzes: 2 },
-  m9: { lessons: 3,  exercises: 2, quizzes: 1 },
-  m10: { lessons: 3,  exercises: 2, quizzes: 1 },
-  m11: { lessons: 2,  exercises: 2, quizzes: 1 },
-  m12: { lessons: 3,  exercises: 2, quizzes: 1 },
-  m13: { lessons: 3,  exercises: 2, quizzes: 1 },
-  m14: { lessons: 2,  exercises: 2, quizzes: 1 }
+  m9: { lessons: 5,  exercises: 3, quizzes: 1 },
+  m10: { lessons: 5,  exercises: 3, quizzes: 1 },
+  m11: { lessons: 5,  exercises: 3, quizzes: 1 },
+  m12: { lessons: 5,  exercises: 3, quizzes: 1 },
+  m13: { lessons: 5,  exercises: 3, quizzes: 1 },
+  m14: { lessons: 5,  exercises: 3, quizzes: 1 }
 };
 
 const MODULE_ICONS = {

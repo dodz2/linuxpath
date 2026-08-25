@@ -1,6 +1,6 @@
 /* ============================================================
    Service Worker — LinuxPath
-   Version : linuxpath-v35
+   Version : linuxpath-v36
 
    Stratégies par type de ressource :
    ┌─────────────────────────────┬──────────────────────────────┐
@@ -20,7 +20,7 @@
    - Mise à jour transparente : le SW s'active sans fermer l'onglet
    ============================================================ */
 
-const SW_VERSION = 'linuxpath-v35';
+const SW_VERSION = 'linuxpath-v36';
 
 /* ---- Ressources pré-cachées à l'installation -------------- */
 // On ne pre-cache plus libv86/linux.iso (chargés en lazy ou à la demande)
@@ -31,7 +31,7 @@ const PRECACHE_URLS = [
   './assets/terminal.css',
   './assets/components.css',
   './assets/responsive.css',
-  './assets/site-patches.js',
+  './assets/site-patches.min.js',
   './assets/utils.min.js',
   './assets/storage.min.js',
   './assets/terminal-core.min.js',

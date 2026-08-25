@@ -1,0 +1,10 @@
+# Fichiers minifiés — générés automatiquement par le workflow CI
+assets/*.min.js
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~

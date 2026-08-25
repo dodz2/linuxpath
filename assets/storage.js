@@ -222,7 +222,92 @@ function getModuleProgress(mod) {
 
 function getProgress() {
   const done = state.lessonsDone.size + state.exercisesDone.size + Object.keys(state.quizScores).length;
-  const total = 88;
+  const total = 125;
   return { done, total, pct: Math.round(done / total * 100) };
+}
+
+/* ============================================================
+   EXPORT / IMPORT de la progression
+   ============================================================ */
+
+/**
+ * Exporte toute la progression (état + CTF) dans un fichier JSON.
+ */
+function exportProgress() {
+  var data = {
+    _format: 'linuxpath-progress-v1',
+    exportDate: new Date().toISOString(),
+    lessonsDone: Array.from(state.lessonsDone),
+    exercisesDone: Array.from(state.exercisesDone),
+    quizScores: state.quizScores,
+    unlockedModules: Array.from(state.unlockedModules),
+    ctfSolved: typeof ctfState !== 'undefined' ? Array.from(ctfState.solved) : [],
+    ctfHints: typeof ctfState !== 'undefined' ? ctfState.hints : {}
+  };
+
+  var json = JSON.stringify(data, null, 2);
+  var blob = new Blob([json], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'linuxpath-progress-' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/**
+ * Importe la progression depuis un fichier JSON sélectionné par l'utilisateur.
+ */
+function importProgress() {
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = async function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    try {
+      var text = await file.text();
+      var data = JSON.parse(text);
+
+      // Validation du format
+      if (data._format !== 'linuxpath-progress-v1') {
+        alert('Fichier invalide : ce n\'est pas un export LinuxPath.');
+        return;
+      }
+
+      if (!confirm('Importer cette sauvegarde remplacera votre progression actuelle. Continuer ?')) {
+        return;
+      }
+
+      // Restauration de l'état principal
+      if (Array.isArray(data.lessonsDone))     state.lessonsDone     = new Set(data.lessonsDone);
+      if (Array.isArray(data.exercisesDone))   state.exercisesDone   = new Set(data.exercisesDone);
+      if (data.quizScores && typeof data.quizScores === 'object') state.quizScores = data.quizScores;
+      if (Array.isArray(data.unlockedModules)) state.unlockedModules = new Set(data.unlockedModules);
+
+      // Toujours garder les modules de base accessibles
+      state.unlockedModules.add('m1');
+      state.unlockedModules.add('sandbox');
+      state.unlockedModules.add('m9');
+      state.unlockedModules.add('m12');
+
+      await saveState();
+
+      // Restauration CTF si disponible
+      if (typeof ctfState !== 'undefined') {
+        if (Array.isArray(data.ctfSolved)) ctfState.solved = new Set(data.ctfSolved);
+        if (data.ctfHints && typeof data.ctfHints === 'object') ctfState.hints = data.ctfHints;
+        await saveCTFState();
+      }
+
+      alert('Progression importée avec succès !');
+      location.reload();
+    } catch (err) {
+      alert('Erreur lors de l\'import : ' + err.message);
+    }
+  };
+  input.click();
 }
 

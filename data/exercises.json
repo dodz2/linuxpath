@@ -387,6 +387,22 @@
         "La syntaxe est : rsync [options] source destination.",
         "Tapez : rsync -avz projet/ user@serveur:/backup/"
       ]
+    },
+    {
+      "id": "m9-e3",
+      "title": "Créer un tunnel SSH (port forwarding)",
+      "desc": "Créez un tunnel SSH local qui redirige le port <code>8080</code> de votre machine vers le port <code>80</code> du serveur <code>webserver</code>.",
+      "accepted": [
+        "ssh -L 8080:localhost:80 webserver",
+        "ssh -L 8080:127.0.0.1:80 webserver",
+        "ssh -L 8080:localhost:80 user@webserver",
+        "ssh -N -L 8080:localhost:80 webserver"
+      ],
+      "hints": [
+        "L'option -L permet de créer un tunnel local (Local port forwarding).",
+        "La syntaxe est : ssh -L port_local:hôte_distant:port_distant serveur",
+        "Tapez : ssh -L 8080:localhost:80 webserver"
+      ]
     }
   ],
   "m10": [
@@ -419,6 +435,22 @@
         "Certbot s'utilise avec l'option --nginx pour configurer automatiquement Nginx.",
         "L'option -d spécifie le domaine.",
         "Tapez : sudo certbot --nginx -d monsite.com"
+      ]
+    },
+    {
+      "id": "m10-e3",
+      "title": "Vérifier l'expiration d'un certificat SSL",
+      "desc": "Affichez la date d'expiration du certificat SSL de <code>example.com</code> en utilisant <code>openssl</code>.",
+      "accepted": [
+        "echo | openssl s_client -connect example.com:443 2>/dev/null | openssl x509 -noout -dates",
+        "echo | openssl s_client -connect example.com:443 2>/dev/null | openssl x509 -noout -enddate",
+        "openssl s_client -connect example.com:443 </dev/null 2>/dev/null | openssl x509 -noout -dates",
+        "openssl s_client -connect example.com:443 </dev/null 2>/dev/null | openssl x509 -noout -enddate"
+      ],
+      "hints": [
+        "openssl s_client se connecte à un serveur SSL/TLS.",
+        "openssl x509 -noout -dates affiche les dates de validité d'un certificat.",
+        "Tapez : echo | openssl s_client -connect example.com:443 2>/dev/null | openssl x509 -noout -dates"
       ]
     }
   ],
@@ -454,6 +486,20 @@
         "Les options : -t (TCP), -l (listening), -n (numérique), -p (processus).",
         "Tapez : ss -tlnp"
       ]
+    },
+    {
+      "id": "m11-e3",
+      "title": "Bloquer une IP avec nftables",
+      "desc": "Ajoutez une règle nftables pour bloquer tout trafic entrant depuis l'IP <code>203.0.113.42</code> dans la table <code>inet filter</code>, chaîne <code>input</code>.",
+      "accepted": [
+        "sudo nft add rule inet filter input ip saddr 203.0.113.42 drop",
+        "nft add rule inet filter input ip saddr 203.0.113.42 drop"
+      ],
+      "hints": [
+        "La commande nft add rule permet d'ajouter une règle de filtrage.",
+        "ip saddr permet de filtrer par adresse IP source.",
+        "Tapez : sudo nft add rule inet filter input ip saddr 203.0.113.42 drop"
+      ]
     }
   ],
   "m12": [
@@ -483,6 +529,22 @@
         "auditctl configure les règles d'audit.",
         "L'option -w surveille un fichier, -p les permissions.",
         "Tapez : sudo auditctl -w /etc/passwd -p wa -k passwd_changes"
+      ]
+    },
+    {
+      "id": "m12-e3",
+      "title": "Lancer un audit système avec Lynis",
+      "desc": "Lancez un audit système complet avec <code>lynis</code> en mode non-interactif.",
+      "accepted": [
+        "sudo lynis audit system",
+        "lynis audit system",
+        "sudo lynis audit system --quick",
+        "sudo lynis audit system -Q"
+      ],
+      "hints": [
+        "La commande lynis permet d'auditer la sécurité du système.",
+        "L'action 'audit system' lance un audit complet.",
+        "Tapez : sudo lynis audit system"
       ]
     }
   ],
@@ -515,6 +577,20 @@
         "Le nom commence par 'msf'.",
         "Tapez : msfconsole"
       ]
+    },
+    {
+      "id": "m13-e3",
+      "title": "Énumérer les répertoires d'un serveur web",
+      "desc": "Utilisez <code>gobuster</code> pour énumérer les répertoires de <code>http://cible.com</code> avec la wordlist <code>/usr/share/wordlists/dirb/common.txt</code>.",
+      "accepted": [
+        "gobuster dir -u http://cible.com -w /usr/share/wordlists/dirb/common.txt",
+        "gobuster dir -u http://cible.com/ -w /usr/share/wordlists/dirb/common.txt"
+      ],
+      "hints": [
+        "Gobuster utilise le mode 'dir' pour l'énumération de répertoires.",
+        "L'option -u spécifie l'URL cible, -w la wordlist.",
+        "Tapez : gobuster dir -u http://cible.com -w /usr/share/wordlists/dirb/common.txt"
+      ]
     }
   ],
   "m14": [
@@ -544,6 +620,22 @@
         "binwalk analyse et extrait les fichiers.",
         "L'option -e extrait les fichiers trouvés.",
         "Tapez : binwalk -e firmware.bin"
+      ]
+    },
+    {
+      "id": "m14-e3",
+      "title": "Créer une image disque forensique",
+      "desc": "Créez une image bit-à-bit de <code>/dev/sdb</code> vers <code>/mnt/evidence/disk.img</code> avec <code>dd</code>, en utilisant un bloc de 4 Mo.",
+      "accepted": [
+        "sudo dd if=/dev/sdb of=/mnt/evidence/disk.img bs=4M",
+        "dd if=/dev/sdb of=/mnt/evidence/disk.img bs=4M",
+        "sudo dd if=/dev/sdb of=/mnt/evidence/disk.img bs=4M status=progress",
+        "dd if=/dev/sdb of=/mnt/evidence/disk.img bs=4M status=progress"
+      ],
+      "hints": [
+        "dd copie des données bloc par bloc. if= spécifie la source, of= la destination.",
+        "bs=4M définit la taille de bloc à 4 mégaoctets pour accélérer la copie.",
+        "Tapez : sudo dd if=/dev/sdb of=/mnt/evidence/disk.img bs=4M"
       ]
     }
   ]

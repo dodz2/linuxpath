@@ -285,6 +285,37 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   flex-shrink: 0;
 }
 
+.progress-actions {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.btn-export, .btn-import {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  padding: 6px 10px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-subtle);
+  font-size: 11px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all var(--transition);
+}
+.btn-export:hover {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+  background: rgba(0, 217, 126, 0.06);
+}
+.btn-import:hover {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  background: rgba(89, 156, 255, 0.06);
+}
+
 .btn-reset {
   display: flex;
   align-items: center;
