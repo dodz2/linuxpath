@@ -4,79 +4,151 @@
 
   <url>
     <loc>https://dodz2.github.io/linuxpath/</loc>
-    <lastmod>2026-05-15</lastmod>
+    <lastmod>2026-08-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="fr" href="https://dodz2.github.io/linuxpath/"/>
   </url>
 
-  <!-- Modules -->
+  <!-- Parcours pédagogiques -->
   <url>
     <loc>https://dodz2.github.io/linuxpath/#m1</loc>
-    <lastmod>2026-05-15</lastmod>
+    <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+
   <url>
     <loc>https://dodz2.github.io/linuxpath/#m2</loc>
-    <lastmod>2026-05-15</lastmod>
+    <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+
   <url>
     <loc>https://dodz2.github.io/linuxpath/#m3</loc>
-    <lastmod>2026-05-15</lastmod>
+    <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+
   <url>
     <loc>https://dodz2.github.io/linuxpath/#m4</loc>
-    <lastmod>2026-05-15</lastmod>
+    <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
+
   <url>
     <loc>https://dodz2.github.io/linuxpath/#m5</loc>
-    <lastmod>2026-05-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://dodz2.github.io/linuxpath/#m6</loc>
-    <lastmod>2026-05-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://dodz2.github.io/linuxpath/#m7</loc>
-    <lastmod>2026-05-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://dodz2.github.io/linuxpath/#m8</loc>
-    <lastmod>2026-05-15</lastmod>
+    <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Sections spéciales -->
   <url>
-    <loc>https://dodz2.github.io/linuxpath/#sandbox</loc>
-    <lastmod>2026-05-15</lastmod>
+    <loc>https://dodz2.github.io/linuxpath/#m6</loc>
+    <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+
   <url>
-    <loc>https://dodz2.github.io/linuxpath/#ctf</loc>
-    <lastmod>2026-05-15</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://dodz2.github.io/linuxpath/#m7</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <url>
+    <loc>https://dodz2.github.io/linuxpath/#m8</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://dodz2.github.io/linuxpath/#m9</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://dodz2.github.io/linuxpath/#m10</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://dodz2.github.io/linuxpath/#m11</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://dodz2.github.io/linuxpath/#m12</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://dodz2.github.io/linuxpath/#m13</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://dodz2.github.io/linuxpath/#m14</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Sections complémentaires -->
+  <url>
+    <loc>https://dodz2.github.io/linuxpath/#roadmap</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://dodz2.github.io/linuxpath/#sandbox</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://dodz2.github.io/linuxpath/#ctf</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <url>
     <loc>https://dodz2.github.io/linuxpath/#news</loc>
-    <lastmod>2026-05-15</lastmod>
+    <lastmod>2026-08-25</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://dodz2.github.io/linuxpath/#cheatsheet</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://dodz2.github.io/linuxpath/#glossary</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 

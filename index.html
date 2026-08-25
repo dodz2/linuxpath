@@ -56,7 +56,7 @@
       "@type": "Course",
       "@id": "https://dodz2.github.io/linuxpath/#course",
       "name": "Formation Linux & Cybersécurité — LinuxPath",
-      "description": "11 modules progressifs pour maîtriser Linux : bases, fichiers, permissions, réseau, scripting, sécurité, Docker, Git, SSH, serveurs web et sécurité réseau.",
+      "description": "14 modules progressifs répartis en trois parcours : Linux, Réseau & Services et Sécurité offensive.",
       "url": "https://dodz2.github.io/linuxpath/",
       "inLanguage": "fr-FR",
       "isAccessibleForFree": true,
@@ -94,15 +94,15 @@
   <aside class="sidebar" id="sidebar" aria-label="Navigation principale">
     <div class="sidebar-logo">
       <!-- SVG Logo -->
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" role="img" aria-label="Logo Linux Trainer">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" role="img" aria-label="Logo LinuxPath">
         <rect width="32" height="32" rx="6" fill="#161b22" stroke="#30363d" stroke-width="1"/>
         <rect x="5" y="5" width="22" height="14" rx="2" stroke="#39d353" stroke-width="1.5"/>
         <line x1="11" y1="22" x2="21" y2="22" stroke="#39d353" stroke-width="1.5" stroke-linecap="round"/>
         <text x="7" y="15" font-family="monospace" font-size="6.5" fill="#39d353">$ _</text>
       </svg>
       <div>
-        <div class="sidebar-logo-text">linux<span style="color:#58a6ff">trainer</span></div>
-        <div class="sidebar-logo-sub">Autoformation terminal</div>
+        <div class="sidebar-logo-text">linux<span style="color:#58a6ff">path</span></div>
+        <div class="sidebar-logo-sub">Formation Linux & cybersécurité</div>
       </div>
     </div>
 
@@ -248,7 +248,7 @@
         <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-challenges')" aria-expanded="false" aria-controls="group-challenges-body">
           <span class="sidebar-group-icon">🚩</span>
           <span class="sidebar-group-title">Challenges</span>
-          <span class="sidebar-group-badge" id="nav-badge-ctf" style="background:rgba(248,81,73,0.12);color:var(--accent-red);border:1px solid rgba(248,81,73,0.2)">0/6</span>
+          <span class="sidebar-group-badge" id="nav-badge-ctf" style="background:rgba(248,81,73,0.12);color:var(--accent-red);border:1px solid rgba(248,81,73,0.2)">0/10</span>
           <svg class="sidebar-group-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
             <polyline points="2,4 6,8 10,4"/>
           </svg>
@@ -376,7 +376,7 @@
               <div class="lp-feature">
                 <div class="lp-feature-icon">🚩</div>
                 <div class="lp-feature-title">Challenges CTF</div>
-                <div class="lp-feature-desc">6 challenges d'investigation réels : trouve le flag caché dans un système compromis.</div>
+                <div class="lp-feature-desc">10 challenges d'investigation réels : trouve le flag caché dans un système compromis.</div>
               </div>
               <div class="lp-feature">
                 <div class="lp-feature-icon">📱</div>
@@ -844,10 +844,10 @@
           <h2 class="module-title"><span class="prompt-prefix" style="color:var(--accent-red)">$</span> Challenges CTF</h2>
           <p class="module-desc">Missions d'investigation réelles : explore un système de fichiers compromis, trouve le flag caché et soumets-le. Format : <code>flag{...}</code></p>
           <div class="module-meta">
-            <span class="module-meta-item">🚩 6 challenges</span>
+            <span class="module-meta-item">🚩 10 challenges</span>
             <span class="module-meta-item">🟢 2 faciles</span>
-            <span class="module-meta-item">🟡 2 moyens</span>
-            <span class="module-meta-item">🔴 2 difficiles</span>
+            <span class="module-meta-item">🟡 4 moyens</span>
+            <span class="module-meta-item">🔴 4 difficiles</span>
           </div>
         </div>
 
@@ -963,7 +963,7 @@
 
         <!-- Note de bas de page -->
         <div class="news-footer-note">
-          <strong>Sources :</strong> CERT-FR, ANSSI, NVD/NIST, Krebs on Security, The Hacker News — Sélection et résumés par LinuxPath. Les actualités sont vérifiées manuellement avant publication.
+          <strong>Sources :</strong> CERT-FR, ANSSI, NVD/NIST, Krebs on Security, The Hacker News — Sélection et résumés par LinuxPath. Les actualités sont collectées automatiquement deux fois par jour et leurs sources sont affichées sur chaque fiche.
         </div>
       </section>
 
@@ -972,7 +972,7 @@
         <div class="module-header">
           <div class="module-tag" style="background:rgba(88,166,255,0.12);color:var(--accent-blue)">Progression</div>
           <h2 class="module-title"><span class="prompt-prefix" style="color:var(--accent-blue)">$</span> Ma progression</h2>
-          <p class="module-desc">Vue d'ensemble de ton parcours LinuxPath — modules complétés, en cours et à venir.</p>
+          <p class="module-desc">Vue d'ensemble de ton parcours LinuxPath : Linux (M1–M8), Réseau & Services (M9–M11) et Sécurité offensive (M12–M14).</p>
         </div>
 
         <!-- Récap global -->
@@ -1120,6 +1120,7 @@
 <script src="assets/ctf.min.js" defer></script>
 <script src="assets/render.min.js" defer></script>
 <script src="assets/app.min.js" defer></script>
+<script src="assets/site-patches.js" defer></script>
 
 <!-- Enregistrement du Service Worker -->
 <script>

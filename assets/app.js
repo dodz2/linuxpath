@@ -107,7 +107,7 @@ function navigateTo(target) {
     }
   } else {
     const meta = MODULE_META[target];
-    document.querySelector('.top-bar-title').innerHTML = `<span>user@linux</span>:~/linux-trainer/${target}$ <span style="color:var(--text-subtle);font-size:11px">${meta.title}</span>`;
+    document.querySelector('.top-bar-title').innerHTML = `<span>user@linux</span>:~/linuxpath/${target}$ <span style="color:var(--text-subtle);font-size:11px">${meta.title}</span>`;
   }
 }
 

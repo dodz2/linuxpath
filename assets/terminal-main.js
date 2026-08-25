@@ -657,7 +657,7 @@ function initTerminal() {
   }
 
   mainTerminal.initInput();
-  mainTerminal.print('<span class="t-green">Linux Trainer Terminal v1.0 — Tapez <strong>help</strong> pour la liste des commandes.</span>', 'term-output');
+  mainTerminal.print('<span class="t-green">LinuxPath Terminal v1.0 — Tapez <strong>help</strong> pour la liste des commandes.</span>', 'term-output');
   mainTerminal.print('<span class="t-muted">Répertoire courant : ' + escapeHtml(mainTerminal.getCurrentDir()) + '</span>', 'term-output');
   mainTerminal.updatePromptLabel();
 
