@@ -34,3 +34,11 @@ jobs:
           else
             echo "✅ Les fichiers .min.js sont à jour"
           fi
+
+      - name: Export generated terminal bundle (diagnostic)
+        if: always()
+        run: |
+          echo "LINUXPATH_TERMINAL_MIN_BEGIN"
+          base64 -w0 assets/terminal-main.min.js
+          echo
+          echo "LINUXPATH_TERMINAL_MIN_END"
