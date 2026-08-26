@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-08-25",
-  "edition": "Semaine du 25 août 2026",
+  "last_updated": "2026-08-26",
+  "edition": "Semaine du 26 août 2026",
   "news": [
     {
       "id": "news-2c9614d6",
@@ -269,6 +269,70 @@
       "source_url": "https://www.bleepingcomputer.com/news/security/police-arrests-dozens-of-suspects-in-global-cybercrime-crackdown/"
     },
     {
+      "id": "news-42a96635",
+      "date": "2026-08-25",
+      "title": "U.S. Sanctions Iran-Linked Hackers Behind Critical Infrastructure Breaches",
+      "summary": "The U.S. Department of the Treasury has announced fresh sanctions on Iranian cyber actors as part of what it called an \"unprecedented, whole-of-government, economic campaign\" against the nation and its enablers. \"We are launching an economic onslaught against Iran's financial connections around the globe. Our objective is to sever every economic lifeline that sustains this tyrannical regime",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/us-sanctions-iran-linked-hackers-behind.html"
+    },
+    {
+      "id": "news-6d0b937b",
+      "date": "2026-08-25",
+      "title": "LACMA data breach last year exposed social security and medical data",
+      "summary": "The Los Angeles County Museum of Art (LACMA) has announced that a breach last year exposed customer and employee information. [...]",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "critical",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/lacma-data-breach-last-year-exposed-social-security-and-medical-data/"
+    },
+    {
+      "id": "news-08155bf8",
+      "date": "2026-08-25",
+      "title": "Hackers abuse npm mirrors to host phishing redirect pages",
+      "summary": "Threat actors are abusing npm and its mirrors to host malicious HTML pages that impersonate Cloudflare CAPTCHAs to redirect visitors to attacker-controlled websites. [...]",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [
+        "Fraude"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/hackers-abuse-npm-mirrors-to-host-phishing-redirect-pages/"
+    },
+    {
+      "id": "news-fd1fe299",
+      "date": "2026-08-25",
+      "title": "AnonyMousKIT PhaaS uses voice AI agents to phish iPhone passcodes",
+      "summary": "A newly uncovered phishing-as-a-service (PhaaS) platform called AnonyMousKIT automates the retrieval of codes used to unlock stolen Apple devices and disable the Activation Lock feature. [...]",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [
+        "Fraude",
+        "Apple",
+        "Artificial Intelligence"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/anonymouskit-phaas-uses-voice-ai-agents-to-phish-iphone-passcodes/"
+    },
+    {
       "id": "news-e0eca4a3",
       "date": "2026-08-24",
       "title": "Bulletin d'actualité CERTFR-2026-ACT-036 (24 août 2026)",
@@ -433,75 +497,6 @@
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/reliaquest-confirms-failed-data-theft-attack-after-shinyhunters-breach/",
       "related_modules": []
-    },
-    {
-      "id": "news-3940afa9",
-      "date": "2026-08-24",
-      "title": "Microsoft Teams now lets admins block external bots from meetings",
-      "summary": "Microsoft is rolling out a new Teams meeting protection policy that allows administrators to automatically block all identified external bots from joining Teams meetings. [...]",
-      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
-      "severity": "info",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/microsoft-teams-now-lets-admins-block-external-bots-from-meetings/",
-      "related_modules": []
-    },
-    {
-      "id": "news-4c845a32",
-      "date": "2026-08-24",
-      "title": "South Korean startup platform breach exposes key management failures",
-      "summary": "A breach at South Korea's government-backed startup platform exposed encrypted personal data after an encryption key was included in an API. Penta Security explains why encryption keys must be securely managed and kept separate from the data they protect. [...]",
-      "context": "Renforce ta culture de cybersécurité.",
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/south-korean-startup-platform-breach-exposes-key-management-failures/",
-      "related_modules": []
-    },
-    {
-      "id": "news-7738737c",
-      "date": "2026-08-24",
-      "title": "Microsoft: August updates break printing, PDF export in WPF apps",
-      "summary": "Microsoft has confirmed that .NET Framework updates released as part of the August 2026 Patch Tuesday are breaking printing and PDF export in WPF applications. [...]",
-      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
-      "severity": "high",
-      "tags": [
-        "Patch",
-        "Outil",
-        "Windows",
-        "Microsoft"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-august-updates-break-printing-pdf-export-in-wpf-apps/",
-      "related_modules": [
-        "m6"
-      ]
-    },
-    {
-      "id": "news-10bb3817",
-      "date": "2026-08-24",
-      "title": "CISA orders urgent patching of actively exploited Zimbra flaw",
-      "summary": "The Cybersecurity and Infrastructure Security Agency (CISA) has ordered U.S. government agencies to patch an actively exploited vulnerability in Zimbra Collaboration Suite (ZCS) within three days. [...]",
-      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
-      "severity": "high",
-      "tags": [
-        "Patch"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/cisa-orders-urgent-patching-of-actively-exploited-zimbra-flaw/",
-      "related_modules": [
-        "m6"
-      ]
     }
   ]
 }
