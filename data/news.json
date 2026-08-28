@@ -22,6 +22,223 @@
       "source_url": "https://thehackernews.com/2026/08/openai-says-reward-hacking-drove-ai.html"
     },
     {
+      "id": "news-1cda956d",
+      "date": "2026-08-28",
+      "title": "19 Chrome and Edge Extensions Found With Wallet-Stealing and Crypto-Draining Code",
+      "summary": "Cybersecurity researchers have discovered a cluster of 18 Google Chrome and one Microsoft Edge extensions that were published over the last six months and harbored wallet secret stealing and cryptocurrency draining capabilities. The extensions, per Socket security researcher Karlo Zanki, share similarities in code and tradecraft, with evidence indicating that the campaign may have been active",
+      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/19-chrome-and-edge-extensions-found.html"
+    },
+    {
+      "id": "news-be16a59a",
+      "date": "2026-08-28",
+      "title": "Two Unitree G1 EDU Humanoid Robot Flaws Enable Root RCE, One Starts Over Bluetooth",
+      "summary": "Security researcher Olivier Laflamme has disclosed two independent root remote code execution (RCE) chains affecting the Unitree G1 EDU, including a Bluetooth Low Energy (BLE) path that can reach root on the robot's Locomotion PC. The flaws are tracked as CVE-2026-76639 and CVE-2026-76640, with the first involving a network-adjacent path through chat_go and bashrunner and the",
+      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
+      "related_modules": [
+        "m14"
+      ],
+      "severity": "critical",
+      "tags": [
+        "CVE",
+        "Réseau"
+      ],
+      "cve": "CVE-2026-76639",
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/two-unitree-g1-edu-humanoid-robot-flaws.html"
+    },
+    {
+      "id": "news-441d9ed0",
+      "date": "2026-08-28",
+      "title": "Key Reasons Why Identity Fabric Matters in 2026",
+      "summary": "An Identity Fabric knits fragmented identity systems into a coherent layer that observes how identities behave across applications, APIs, and infrastructure. As enterprise access spans more cloud services and automated workloads, identity security depends less on static configuration and more on runtime visibility. This article covers the architecture, the risks of unmanaged identities, and",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/key-reasons-why-identity-fabric-matters.html"
+    },
+    {
+      "id": "news-6a79c2bf",
+      "date": "2026-08-28",
+      "title": "Three CVSS 10.0 ServiceNow Flaws Could Let Unauthenticated Attackers Execute Code and SQL",
+      "summary": "ServiceNow has released patches for four security flaws impacting the ServiceNow AI Platform, three of them rated 10.0 on the CVSS scoring system and exploitable, in certain circumstances, by an unauthenticated attacker. The company said it deployed a security update to hosted instances and provided the update to its partners and self-hosted customers, which leaves organizations that run their",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": 10.0,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/three-cvss-100-servicenow-flaws-could.html"
+    },
+    {
+      "id": "news-49a92043",
+      "date": "2026-08-28",
+      "title": "China-Made ZBT Routers Ship With Two Implants Giving Unauthenticated Attackers Root Access",
+      "summary": "VulnCheck has disclosed two previously undocumented factory implants in firmware for routers built by Shenzhen Zhibotong Electronics (ZBT), each of which gives an unauthenticated remote attacker the ability to run commands as root on affected devices. The implants, named SPEAKINGSTONE and DARKLANTERN by the company's zero-day research team, are tracked as CVE-2026-74232 and CVE-2026-74233.",
+      "context": "En lien avec la gestion des droits et des accès système.",
+      "related_modules": [
+        "m3",
+        "m13",
+        "m14"
+      ],
+      "severity": "critical",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-74232",
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/china-made-zbt-routers-ship-with-two.html"
+    },
+    {
+      "id": "news-c8466e4a",
+      "date": "2026-08-28",
+      "title": "Critical cPanel Flaw Could Let One Hosting Customer Take Root Control of a Whole Server",
+      "summary": "cPanel has released patches for a security flaw affecting domain parking and addon domain functionality in cPanel and WebHost Manager (WHM), which could allow code execution as the root user. The vulnerability, assigned the CVE identifier CVE-2026-65643, impacts all supported versions of cPanel & WHM. cPanel described the issue as a critical security vulnerability and said that an",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "critical",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-65643",
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/critical-cpanel-flaw-could-let-one.html"
+    },
+    {
+      "id": "news-b08bcfed",
+      "date": "2026-08-28",
+      "title": "APT28-Linked HOOKEDGE Backdoor Targets European Government and Diplomatic Organizations",
+      "summary": "Cybersecurity researchers have flagged a fresh set of campaigns targeting government and diplomatic organizations in Romania, Spain, and Türkiye between late September 2025 and early April 2026. These campaigns, per Recorded Future Insikt Group, have led to the deployment of a previously undocumented backdoor dubbed HOOKEDGE, a lightweight Windows batch script that's distributed via",
+      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
+      "related_modules": [
+        "m14"
+      ],
+      "severity": "high",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/apt28-linked-hookedge-backdoor-targets.html"
+    },
+    {
+      "id": "news-65933e7c",
+      "date": "2026-08-28",
+      "title": "68-year-old imprisoned after making $1.3 million by pirating IPTV services",
+      "summary": "A 68-year-old has been sentenced in the U.K. to more than six years in prison for operating an illegal IPTV (Internet Protocol Television) service that generated £980,812 ($1.3 million) over three years. [...]",
+      "context": "Implique des concepts réseau fondamentaux.",
+      "related_modules": [
+        "m4"
+      ],
+      "severity": "info",
+      "tags": [
+        "Legal"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/68-year-old-imprisoned-after-making-13-million-by-pirating-iptv-services/"
+    },
+    {
+      "id": "news-cb53c020",
+      "date": "2026-08-28",
+      "title": "AI Is Accelerating Vulnerability Discovery. Can Defenders Keep Up?",
+      "summary": "AI is accelerating vulnerability discovery, putting pressure on systems built to enrich, prioritize, and remediate flaws at a slower pace. Action1 explains why defenders increasingly need to correlate multiple intelligence sources and turn vulnerability data into faster remediation. [...]",
+      "context": "Illustre des techniques de reconnaissance et d'énumération.",
+      "related_modules": [
+        "m7"
+      ],
+      "severity": "high",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/ai-is-accelerating-vulnerability-discovery-can-defenders-keep-up/"
+    },
+    {
+      "id": "news-23d8a332",
+      "date": "2026-08-28",
+      "title": "Over 8,300 Gitea servers vulnerable to code execution attacks",
+      "summary": "Over 8,300 Internet-exposed Gitea instances are still unpatched against a critical security flaw exploited in ongoing remote code execution attacks, according to cybersecurity watchdog Shadowserver. [...]",
+      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
+      "related_modules": [
+        "m14"
+      ],
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/over-8-300-gitea-servers-vulnerable-to-code-execution-attacks/"
+    },
+    {
+      "id": "news-d3526dde",
+      "date": "2026-08-28",
+      "title": "Toy-making giant Hasbro disclose data breach affecting employees",
+      "summary": "Hasbro, one of the world's largest toy and game companies, has disclosed that attackers have accessed the personal and financial information of an undisclosed number of employees. [...]",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "critical",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/toy-making-giant-hasbro-disclose-data-breach-affecting-employees/"
+    },
+    {
+      "id": "news-2097c213",
+      "date": "2026-08-28",
+      "title": "ServiceNow warns of three max severity security vulnerabilities",
+      "summary": "ServiceNow released security patches for three new maximum-severity AI Platform vulnerabilities that can be exploited in code injection, SQL injection, and privilege escalation attacks. [...]",
+      "context": "En lien avec la gestion des droits et des accès système.",
+      "related_modules": [
+        "m3",
+        "m11",
+        "m13"
+      ],
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/servicenow-warns-of-three-max-severity-security-vulnerabilities/"
+    },
+    {
+      "id": "news-3c331cab",
+      "date": "2026-08-28",
+      "title": "Windows 11 KB5120998 update released with 35 changes and fixes",
+      "summary": "Microsoft released the KB5120998 preview cumulative update for Windows 11 versions 25H2 and 24H2, which comes with 35 changes, including improvements to the Start menu, taskbar, and Windows search. [...]",
+      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/windows-11-kb5120998-update-released-with-35-changes-and-fixes/"
+    },
+    {
       "id": "news-14077168",
       "date": "2026-08-27",
       "title": "Next.js Patches Critical AVIF and Windows Flaws Enabling Unauthenticated RCE",
@@ -298,228 +515,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/carhartt-data-breach-exposes-information-of-129-million-accounts/"
-    },
-    {
-      "id": "news-80c7ca5e",
-      "date": "2026-08-27",
-      "title": "CISA orders feds to patch Citrix NetScaler RCE flaw by Saturday",
-      "summary": "CISA has ordered U.S. government agencies to patch their Citrix NetScaler appliances against an actively exploited remote code execution vulnerability by Saturday. [...]",
-      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
-      "related_modules": [
-        "m6",
-        "m14"
-      ],
-      "severity": "critical",
-      "tags": [
-        "Patch"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/cisa-hackers-now-exploiting-citrix-netscaler-rce-flaw-in-attacks/"
-    },
-    {
-      "id": "news-4d86333c",
-      "date": "2026-08-27",
-      "title": "ATF confirms “major incident” after recent Qilin breach claims",
-      "summary": "ATF, the regulatory agency that enforces federal laws governing firearms and explosives in the United States, has confirmed that one of its systems was compromised after breach claims made by the Qilin ransomware gang. [...]",
-      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
-      "related_modules": [
-        "m14"
-      ],
-      "severity": "critical",
-      "tags": [
-        "Incident"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/atf-confirms-major-incident-after-recent-qilin-breach-claims/"
-    },
-    {
-      "id": "news-6630b7b3",
-      "date": "2026-08-27",
-      "title": "Two Alleged ‘TeamPCP’ Hackers Arrested in Australia",
-      "summary": "Authorities in Australia have arrested two men believed to be members of TeamPCP , a prolific cybercrime and data extortion group blamed for perpetrating the longest running spree of software supply chain attacks ever. In a statement released today, the Australian Federal Police (AFP) said two men from Western Australia, aged 21 and 23, were arrested in connection with a “sophisticated cybercrime…",
-      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
-      "related_modules": [
-        "m8",
-        "m14"
-      ],
-      "severity": "critical",
-      "tags": [
-        "Breadcrumbs",
-        "Ne'er-Do-Well News",
-        "Ransomware",
-        "Aikido Security",
-        "BulkDMT"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Krebs on Security",
-      "source_url": "https://krebsonsecurity.com/2026/08/two-alleged-teampcp-hackers-arrested-in-australia/"
-    },
-    {
-      "id": "news-b5ef7e20",
-      "date": "2026-08-27",
-      "title": "New GPUThor Rowhammer Defeats ECC on NVIDIA RTX A6000 to Gain Host Root Access",
-      "summary": "Academic researchers have disclosed a Rowhammer attack impacting NVIDIA workstation GPUs with GDDR6 memory that defeats error correction codes (ECC), the mitigation NVIDIA recommends against GPU Rowhammer, and enables denial-of-service (DoS) and privilege escalation to a root shell. Dubbed GPUThor, the attack was developed by researchers at the University of Toronto, who hammered four DRAM",
-      "context": "En lien avec la gestion des droits et des accès système.",
-      "related_modules": [
-        "m3",
-        "m5",
-        "m14"
-      ],
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/gputhor-rowhammer-defeats-ecc-on-nvidia.html"
-    },
-    {
-      "id": "news-0ef099fe",
-      "date": "2026-08-27",
-      "title": "Nearly 700 rogue AI agents coordinated in the Hugging Face attack",
-      "summary": "New details about the July attack on Hugging Face reveal that hundreds of AI agents driven by OpenAI's internal IM1 model coordinated the compromise through an unauthorized message board. [...]",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "info",
-      "tags": [
-        "Artificial Intelligence"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/nearly-700-rogue-ai-agents-coordinated-in-the-hugging-face-attack/"
-    },
-    {
-      "id": "news-3f5d0b5a",
-      "date": "2026-08-26",
-      "title": "FBI Disrupts China-Linked QTFY Infrastructure Used to Steal Data From U.S. Organizations",
-      "summary": "The U.S. Department of Justice (DoJ) on Wednesday announced the disruption of two hacking platforms named QScan and QTRouter operated by Chinese threat actors to target critical infrastructure and other sensitive networks in the country. The activity has been attributed to a Chinese state-sponsored group known as QTFY, employed by Nanjing Xinjiuwei Network Technology Company (南京鑫玖维网络科技有限公司).&",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "critical",
-      "tags": [
-        "Réseau",
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/fbi-disrupts-china-linked-qtfy.html"
-    },
-    {
-      "id": "news-22f1e2fd",
-      "date": "2026-08-26",
-      "title": "Nimbus Manticore Expands Toolset With TWOSTROKE-Like Backdoor and SSH Tunneler",
-      "summary": "Cybersecurity researchers have discovered additional infrastructure and previously undocumented malware associated with Nimbus Manticore, an Iranian state-sponsored hacking group affiliated with the Islamic Revolutionary Guard Corps (IRGC). Group-IB, in a new analysis published today, described the cyber espionage actor as among the most active Iranian APT groups in 2026. Nimbus Manticore (aka",
-      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
-      "related_modules": [
-        "m14"
-      ],
-      "severity": "high",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/nimbus-manticore-expands-toolset-with.html"
-    },
-    {
-      "id": "news-d8180f6e",
-      "date": "2026-08-26",
-      "title": "NovaCookies Campaigns Abuse Genuine Docusign Notifications to Steal Microsoft 365 Sessions",
-      "summary": "Cybersecurity researchers have disclosed details of a new adversary-in-the-middle (AitM) phishing toolkit called NovaCookies that's used as a proxy to redirect Microsoft 365 sign-ins, while capturing authenticated sessions in the process. In a report shared with The Hacker News ahead of publication, Island characterized the $320/month service as a subscription-based phishing platform that",
-      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
-      "related_modules": [],
-      "severity": "info",
-      "tags": [
-        "Windows",
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/novacookies-campaigns-abuse-genuine.html"
-    },
-    {
-      "id": "news-b521e945",
-      "date": "2026-08-26",
-      "title": "CISA Red Team Compromised Two Critical Infrastructure Orgs, One Detected Nothing",
-      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) has published the results of two red team assessments it conducted simultaneously against two critical infrastructure organizations, using what it described as similar tradecraft while recording sharply different defensive outcomes. Both organizations were fully compromised at the domain level, and in both, the red team also",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/cisa-red-team-compromised-two-critical.html"
-    },
-    {
-      "id": "news-0a9a3d0e",
-      "date": "2026-08-26",
-      "title": "Unpatched Kaltura mwEmbed Flaws Could Let Remote Attackers Read Files and Run Code",
-      "summary": "The CERT Coordination Center (CERT/CC) has disclosed two unpatched vulnerabilities in Kaltura's HTML5 video player library that allow a remote, unauthenticated attacker to read arbitrary files from a server and execute code on it. The flaws, tracked as CVE-2026-19913 and CVE-2026-19912, both stem from the same unsafe deserialization in the mwEmbedLoader.php endpoint of the mwEmbed player",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "info",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-19913",
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/unpatched-kaltura-mwembed-flaws-could.html"
-    },
-    {
-      "id": "news-0bb8ccac",
-      "date": "2026-08-26",
-      "title": "Imagine the SOC Without a Queue: From Alert Backlog to AI Hypothesis Engine",
-      "summary": "The SOC we've always known was built around a model that guarantees most of the alert queue will never receive analyst review. There's never time. In a traditional SOC, the typical progression follows a well-known pattern: an alert arrives; a detection engine assigns a severity score. The issue then waits for a human to decide if it should escalate to an investigation. Given the volume of",
-      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
-      "related_modules": [
-        "m14"
-      ],
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/imagine-soc-without-queue-from-alert.html"
-    },
-    {
-      "id": "news-b21d69f2",
-      "date": "2026-08-26",
-      "title": "Claude Opus 4.6 Bypasses Gym Booking Limit, Cancels Other Users' Reservations in Tests",
-      "summary": "Aikido Security has published research that recreates the Australian gym-booking incident in a synthetic environment, finding that Claude Opus 4.6, running on the OpenClaw agent harness, exploited a client-side-only booking restriction in 9 of 10 runs. The original incident was first reported by ABC News on August 10, based on chat logs and screenshots the user supplied. He had asked an",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "info",
-      "tags": [
-        "Incident"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/claude-opus-46-bypasses-gym-booking.html"
-    },
-    {
-      "id": "news-f250014a",
-      "date": "2026-08-26",
-      "title": "OpenAI Bans Russian ChatGPT Accounts Used to Run Influence Operation",
-      "summary": "OpenAI on Tuesday said it banned a cluster of Russian ChatGPT accounts that used VPNs to bypass access restrictions and run an influence operation, which relied on its artificial intelligence (AI) tool to generate social media posts and comments that were shared on Substack, Telegram, X, Facebook and LinkedIn. The accounts \"were being used to promote the International Burke Institute (IBI), a",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "info",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/openai-bans-russian-chatgpt-accounts.html"
     }
   ]
 }
