@@ -35,6 +35,43 @@
       "source_url": "https://thehackernews.com/2026/08/cosmos-evm-flaw-exploited-after-cosmos.html"
     },
     {
+      "id": "news-a9d2f59d",
+      "date": "2026-08-29",
+      "title": "Five Critical WordPress Plugin and Theme Flaws Enable Site Takeover or RCE",
+      "summary": "Multiple critical security flaws have been disclosed in WordPress plugins and themes, including WPMU DEV Dashboard, Avada, TranslatePress, Pods, and GiveWP, that could lead to authentication bypass, account takeover, and arbitrary code execution. The vulnerabilities, according to Wordfence and Patchstack, are listed below - CVE-2026-76581 (CVSS score: 9.8) - An authentication bypass flaw in",
+      "context": "Concerne la sécurité des applications et services web.",
+      "related_modules": [
+        "m10",
+        "m11",
+        "m14"
+      ],
+      "severity": "critical",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-76581",
+      "cvss": 9.8,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/five-critical-wordpress-plugin-and.html"
+    },
+    {
+      "id": "news-54f632b6",
+      "date": "2026-08-29",
+      "title": "Brave browser adds email aliases to help users evade tracking",
+      "summary": "The latest version of the Brave browser, 1.94, introduces a feature called 'Email Aliases' that allows users to generate disposable email addresses when signing up to a new service. [...]",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [
+        "Outil",
+        "Software"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/brave-browser-adds-email-aliases-to-help-users-evade-tracking/"
+    },
+    {
       "id": "news-a8ca9fe0",
       "date": "2026-08-28",
       "title": "OpenAI Says Reward Hacking Drove AI Agents to Exploit Zero-Days and Breach Hugging Face",
@@ -488,36 +525,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/alleged-teampcp-hackers-charged-in.html"
-    },
-    {
-      "id": "news-c63cbfd0",
-      "date": "2026-08-27",
-      "title": "What the Data Says About AI in Security Operations in 2026",
-      "summary": "AI is officially mainstream in security operations. According to Prophet Security's State of AI in Security Operations 2026 report (produced from ViB’s survey of 250+ cybersecurity pros), 40% of security teams now use AI daily. Another 56% are currently testing it out, and only 4% have no plans to adopt it. For the teams already using AI, what is actually changing? Here are the ten biggest",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/what-data-says-about-ai-in-security.html"
-    },
-    {
-      "id": "news-dcb09063",
-      "date": "2026-08-27",
-      "title": "Spark RAT Targets Cambodia, Abuses Vulnerable OPSWAT Driver to Disable Security Tools",
-      "summary": "Individuals and organizations in Cambodia have emerged as the target of a new campaign that delivers an open-source remote access trojan (RAT) called Spark RAT. \"The samples employ diverse lure themes, suggesting an effort to appeal to a broad range of potential victims. These include government notices, public health materials, real estate-related content, and other topics,\" Acronis Threat",
-      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
-      "related_modules": [
-        "m14"
-      ],
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/spark-rat-targets-cambodia-abuses.html"
     }
   ]
 }
