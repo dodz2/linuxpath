@@ -1,7 +1,39 @@
 {
-  "last_updated": "2026-08-28",
-  "edition": "Semaine du 28 août 2026",
+  "last_updated": "2026-08-29",
+  "edition": "Semaine du 29 août 2026",
   "news": [
+    {
+      "id": "news-08f4a57f",
+      "date": "2026-08-29",
+      "title": "Berlin Refuses to Pay Hackers Who Stole Data From the City's State Network",
+      "summary": "Berlin's state government has confirmed that it is the target of an extortion attempt following the August compromise of the city's state administrative network, and said it will not meet the extortionists' demands. The same statement disclosed that forensic work had found further data outflows in the portfolio of the Senate Department for Mobility, Transport, Climate Protection and Environment",
+      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
+      "related_modules": [
+        "m14"
+      ],
+      "severity": "info",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/berlin-refuses-to-pay-hackers-who-stole.html"
+    },
+    {
+      "id": "news-4e84432a",
+      "date": "2026-08-29",
+      "title": "Cosmos EVM Flaw Exploited After Cosmos Labs Knew Every Blockchain Running It Was Vulnerable",
+      "summary": "Cosmos Labs has warned that a critical balance-handling flaw in the shared Cosmos EVM module was exploited to drain funds from six blockchains between August 20 and August 25, 2026. The vulnerability, designated GHSA-7g4w-cg88-2cq2, is rated Critical by Cosmos Labs and was published without a CVE identifier, a weakness classification, or a CVSS score. Affected versions are < 0.6.2 and >=",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "critical",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/cosmos-evm-flaw-exploited-after-cosmos.html"
+    },
     {
       "id": "news-a8ca9fe0",
       "date": "2026-08-28",
@@ -239,6 +271,110 @@
       "source_url": "https://www.bleepingcomputer.com/news/security/windows-11-kb5120998-update-released-with-35-changes-and-fixes/"
     },
     {
+      "id": "news-b31aec37",
+      "date": "2026-08-28",
+      "title": "Attackers Chain Two PaperCut Flaws to Execute Code Without Authentication",
+      "summary": "Malicious actors are exploiting a newly patched security flaw in PaperCut NG and MF to execute arbitrary code on susceptible instances, as the company released a fresh emergency fix with additional hardening. \"This vulnerability gives an unauthenticated attacker remote control over PaperCut's trusted configuration, which could be used to execute arbitrary Java code inside the application's",
+      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
+      "related_modules": [
+        "m6",
+        "m14"
+      ],
+      "severity": "critical",
+      "tags": [
+        "Patch"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/attackers-chain-two-papercut-flaws-to.html"
+    },
+    {
+      "id": "news-5fa8bba1",
+      "date": "2026-08-28",
+      "title": "Android 17 Adds OS-Wide ECH to Hide Website Visits From Network Providers",
+      "summary": "Google on Thursday announced new network security protections in Android 17 to bolster connection privacy, address cellular vulnerabilities, and safeguard the privacy of users' home networks. Topping the list is support for Encrypted Client Hello (ECH), a privacy standard that prevents networks from eavesdropping on which websites a user is visiting. \"This new privacy standard works in tandem",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/android-17-adds-os-wide-ech-to-hide.html"
+    },
+    {
+      "id": "news-1debfa20",
+      "date": "2026-08-28",
+      "title": "ownCloud Flaw Exploited to Steal Nuclear Records From Philippine Research Body",
+      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) on Thursday added a critical security flaw impacting ownCloud to its Known Exploited Vulnerabilities (KEV) catalog following reports that a Chinese-speaking threat actor weaponized the vulnerability to target a nuclear research body in the Philippines. The vulnerability, tracked as CVE-2023-49105 (CVSS score: 9.8), is a case of",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "critical",
+      "tags": [
+        "CVE",
+        "Fraude"
+      ],
+      "cve": "CVE-2023-49105",
+      "cvss": 9.8,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/snowflake-github-actions-flaw-lets.html"
+    },
+    {
+      "id": "news-2fb24448",
+      "date": "2026-08-28",
+      "title": "McKesson discloses breach after ShinyHunters claims patient data theft",
+      "summary": "Healthcare and pharmaceutical distribution giant McKesson has disclosed a cybersecurity incident involving unauthorized access to third-party applications and data theft, with the ShinyHunters extortion group claiming it stole 284 million patient data records. [...]",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "info",
+      "tags": [
+        "Incident",
+        "Healthcare"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/mckesson-discloses-breach-after-shinyhunters-claims-patient-data-theft/"
+    },
+    {
+      "id": "news-e89c27ea",
+      "date": "2026-08-28",
+      "title": "PaperCut releases second emergency patch for exploited flaws",
+      "summary": "PaperCut has released a second emergency security update for two actively exploited vulnerabilities in its PaperCut NG and MF print management software after researchers discovered multiple ways to bypass the initial fixes. [...]",
+      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
+      "related_modules": [
+        "m6"
+      ],
+      "severity": "high",
+      "tags": [
+        "Patch"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/papercut-releases-second-emergency-patch-for-exploited-flaws/"
+    },
+    {
+      "id": "news-ae9f4f65",
+      "date": "2026-08-28",
+      "title": "GiveWP WordPress donation plugin flaw lets hackers execute server commands",
+      "summary": "A maximum-severity vulnerability in the GiveWP plugin for WordPress allows an unauthenticated attacker to execute arbitrary commands on the hosting server. [...]",
+      "context": "Concerne la sécurité des applications et services web.",
+      "related_modules": [
+        "m10",
+        "m11"
+      ],
+      "severity": "high",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "Bleeping Computer",
+      "source_url": "https://www.bleepingcomputer.com/news/security/givewp-wordpress-donation-plugin-flaw-lets-hackers-execute-server-commands/"
+    },
+    {
       "id": "news-14077168",
       "date": "2026-08-27",
       "title": "Next.js Patches Critical AVIF and Windows Flaws Enabling Unauthenticated RCE",
@@ -382,139 +518,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/gocaracal-malware-uses-ethereum-smart.html"
-    },
-    {
-      "id": "news-c158eacd",
-      "date": "2026-08-27",
-      "title": "CISA Adds Six Exploited Flaws to KEV, Including NetScaler, Linux, and SQL Server Bugs",
-      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) on Wednesday added six flaws to its Known Exploited Vulnerabilities (KEV) catalog, including a high-severity security vulnerability impacting Citrix NetScaler ADC and NetScaler Gateway, citing evidence of active exploitation. The vulnerabilities are listed below - CVE-2019-1068 - A remote code execution vulnerability in",
-      "context": "Touche directement les systèmes Linux que tu apprends à administrer.",
-      "related_modules": [
-        "m1",
-        "m14"
-      ],
-      "severity": "critical",
-      "tags": [
-        "CVE",
-        "Linux"
-      ],
-      "cve": "CVE-2019-1068",
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/cisa-adds-six-exploited-flaws-to-kev.html"
-    },
-    {
-      "id": "news-89a58ca4",
-      "date": "2026-08-27",
-      "title": "PaperCut warns of NG, MF flaw exploited in zero-day attacks",
-      "summary": "PaperCut is warning that hackers are actively exploiting a vulnerability in all versions of its PaperCut NG and PaperCut MF print management software in zero-day attacks. [...]",
-      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
-      "related_modules": [
-        "m13"
-      ],
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/papercut-warns-of-ng-mf-flaw-exploited-in-zero-day-attacks/"
-    },
-    {
-      "id": "news-58d6f518",
-      "date": "2026-08-27",
-      "title": "Manchester Airports Group says hackers stole travelers' data",
-      "summary": "The Manchester Airports Group (MAG) disclosed that hackers breached its systems and stole customer data, including Wi-Fi sign-ups from Manchester, Stansted, and East Midlands airports. [...]",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/manchester-airports-group-says-hackers-stole-travelers-data/"
-    },
-    {
-      "id": "news-a08b390c",
-      "date": "2026-08-27",
-      "title": "How Threat Research and MDR Help SMBs Build a Defensive Edge",
-      "summary": "Threat research gives security teams insight into how attackers operate, while MDR turns that intelligence into faster detection and response. ESET explains how combining threat intelligence, continuous monitoring, and human expertise can help SMBs strengthen their defenses. [...]",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "info",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/how-threat-research-and-mdr-help-smbs-build-a-defensive-edge/"
-    },
-    {
-      "id": "news-7697100f",
-      "date": "2026-08-27",
-      "title": "Android 17 adds ECH support to make web browsing harder to track",
-      "summary": "Google is introducing new network security protections in Android 17 to strengthen connection privacy, address cellular vulnerabilities, and protect the privacy of users' home networks. [...]",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "info",
-      "tags": [
-        "Réseau",
-        "Google",
-        "Mobile"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/android-17-adds-ech-support-to-make-web-browsing-harder-to-track/"
-    },
-    {
-      "id": "news-acab3f6d",
-      "date": "2026-08-27",
-      "title": "Microsoft rolls out fix for Windows 11 crashes, gaming issues",
-      "summary": "Microsoft has started rolling out a permanent fix for a known issue that causes system crashes and gaming issues on Windows 11 devices. [...]",
-      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
-      "related_modules": [
-        "m6"
-      ],
-      "severity": "info",
-      "tags": [
-        "Patch",
-        "Windows",
-        "Microsoft"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-rolls-out-fix-for-windows-11-crashes-gaming-issues/"
-    },
-    {
-      "id": "news-09f430a7",
-      "date": "2026-08-27",
-      "title": "Webinar: How Google Workspace breaches happen and what to do next",
-      "summary": "Google Workspace breaches can begin with social engineering or forgotten third-party integrations rather than sophisticated exploits. This webinar examines real-world breaches, what happens during the critical first hours, and the security controls that can make the greatest difference. [...]",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/webinar-how-google-workspace-breaches-happen-and-what-to-do-next/"
-    },
-    {
-      "id": "news-1c32791b",
-      "date": "2026-08-27",
-      "title": "Carhartt data breach exposes information of 12.9 million accounts",
-      "summary": "The ShinyHunters extortion group has published sensitive data from nearly 13 million accounts stolen from clothing retailer giant Carhartt earlier this month, according to data breach notification service Have I Been Pwned. [...]",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "critical",
-      "tags": [
-        "Incident",
-        "Fraude"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/carhartt-data-breach-exposes-information-of-129-million-accounts/"
     }
   ]
 }
