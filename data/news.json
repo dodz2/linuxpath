@@ -375,6 +375,25 @@
       "source_url": "https://www.bleepingcomputer.com/news/security/givewp-wordpress-donation-plugin-flaw-lets-hackers-execute-server-commands/"
     },
     {
+      "id": "news-a368d083",
+      "date": "2026-08-28",
+      "title": "PaperCut Zero-Day Exploited in Attacks, Affecting All NG and MF Versions",
+      "summary": "PaperCut has alerted customers that bad actors are actively exploiting a vulnerability impacting all versions of its PaperCut NG and PaperCut MF print management software in zero-day attacks. The company has released an emergency patch for v25 and v26 to address the issue. It said it's \"aware of confirmed customer incidents and is treating this matter with the highest priority.\" An",
+      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
+      "related_modules": [
+        "m6",
+        "m13"
+      ],
+      "severity": "critical",
+      "tags": [
+        "Patch"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/papercut-zero-day-exploited-in-attacks.html"
+    },
+    {
       "id": "news-14077168",
       "date": "2026-08-27",
       "title": "Next.js Patches Critical AVIF and Windows Flaws Enabling Unauthenticated RCE",
@@ -499,25 +518,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/spark-rat-targets-cambodia-abuses.html"
-    },
-    {
-      "id": "news-69913762",
-      "date": "2026-08-27",
-      "title": "GoCaracal Malware Uses Ethereum Smart Contract to Fetch Replacement C2 Address",
-      "summary": "Threat actors linked by Arctic Wolf to Dark Caracal with medium confidence deployed a previously undocumented Go-based malware framework, GoCaracal, during a June 2026 intrusion at an unnamed communications organization in Venezuela. GoCaracal provides operators with remote shell access and payload execution, while the extended profile adds browser data theft, keylogging, remote desktop control",
-      "context": "Technique liée au scripting et à l'automatisation.",
-      "related_modules": [
-        "m5",
-        "m14"
-      ],
-      "severity": "high",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/gocaracal-malware-uses-ethereum-smart.html"
     }
   ]
 }
