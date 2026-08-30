@@ -61,12 +61,11 @@ jobs:
           url="https://dodz2.github.io/linuxpath/"
           ok=0
           for _ in $(seq 1 12); do
-            # $( ) capture la réponse complète : contrairement à un pipe direct,
-            # grep -q ne ferme pas le canal d'écriture de curl (évite curl 23).
+            # $( ) capture la réponse complète : aucun pipe alimenté par celui
+            # qui pourrait être fermé prématurément (curl 23 / SIGPIPE avec grep -q).
             html="$(curl -fsSL --max-time 20 "$url" 2>/dev/null || true)"
             sw="$(curl -fsSL --max-time 20 "${url}sw.js" 2>/dev/null || true)"
-            if printf '%s' "$html" | grep -q 'linuxpath' \
-              && printf '%s' "$sw" | grep -q 'linuxpath-v'; then
+            if [[ "$html" == *linuxpath* && "$sw" == *linuxpath-v* ]]; then
               ok=1
               break
             fi
