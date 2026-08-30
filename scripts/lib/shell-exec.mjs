@@ -47,7 +47,9 @@ export function tokenize(input) {
 }
 
 export function parseCommandLine(input) {
-  const trimmed = String(input || '').trim().replace(/\s+2>\s*\/dev\/null/g, '');
+  const trimmed = String(input || '').trim()
+    .replace(/\s+2>\s*\/dev\/null/g, '')
+    .replace(/\s*<\/dev\/null/g, '');
   if (!trimmed) return { ok: true, stages: [], exitCode: 0, stderr: [] };
   if (/(&&|\|\||;|`|\$\(|<\(|>>|>|<)/.test(trimmed)) {
     return {
@@ -128,7 +130,7 @@ function runCommand(ctx, name, args, stdin) {
 
   if (name === 'cd') {
     const target = args[0];
-    if (!target || target === '~') {
+    if (!target || target === '~' || target === '~/') {
       ctx.prevDir = ctx.cwd;
       ctx.cwd = '/home/user';
       return { exitCode: 0, stdout: [], stderr: [], stateChanges: [] };
@@ -193,7 +195,7 @@ function runCommand(ctx, name, args, stdin) {
       if (!vfs[target] || vfs[target].type !== 'file') return fail(`grep : ${file} : Aucun fichier de ce type`, 'enoent');
       lines = String(vfs[target].content || '').split('\n');
     }
-    const ci = flags.includes('-i');
+    const ci = flags.includes('-i') || flags.includes('--ignore-case');
     const matched = lines.filter((line) => (ci ? line.toLowerCase().includes(pattern.toLowerCase()) : line.includes(pattern)));
     return { exitCode: matched.length ? 0 : 1, stdout: matched, stderr: [], stateChanges: [], errorCode: matched.length ? undefined : 'no-match' };
   }

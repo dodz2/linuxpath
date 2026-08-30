@@ -114,7 +114,13 @@ function initMainTerminal(vfsData) {
       delete _vfs[src];
     },
     ping: function(args) {
-      var host = args.filter(function(a){return !a.startsWith('-');})[0];
+      var host = null;
+      for (var i = 0; i < args.length; i++) {
+        if (args[i].charAt(0) === '-') continue;
+        if (i > 0 && args[i - 1] === '-c') continue;
+        host = args[i];
+        break;
+      }
       if (!host) { mainTerminal.print('<span class="t-err">ping : hôte manquant</span>'); return; }
       var count = 4;
       if (args.includes('-c')) count = parseInt(args[args.indexOf('-c')+1]) || 4;
@@ -294,7 +300,10 @@ function initMainTerminal(vfsData) {
     'export': function() { mainTerminal.print('<span class="t-muted">Variable exportée (simulation).</span>', 'term-output'); },
     alias: function() { mainTerminal.print('<span class="t-muted">alias ll=\'ls -la\'\nalias gs=\'git status\'</span>', 'term-output'); },
     dig: function(args) {
-      var domain = args.filter(function(a){return !a.startsWith('-')&&!a.startsWith('@');})[0] || 'example.com';
+      var types = { a:1, aaaa:1, mx:1, ns:1, txt:1, cname:1, soa:1, ptr:1, any:1, type255:1 };
+      var domain = args.filter(function(a){
+        return !a.startsWith('-') && !a.startsWith('+') && !a.startsWith('@') && !types[a.toLowerCase()];
+      })[0] || 'example.com';
       mainTerminal.print('; &lt;&lt;&gt;&gt; DiG 9.18.12 &lt;&lt;&gt;&gt; ' + escapeHtml(domain), 'term-output');
       mainTerminal.print(';; ANSWER SECTION:\n' + escapeHtml(domain) + '.   300  IN  A  93.184.216.34', 'term-output');
     },

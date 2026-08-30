@@ -55,11 +55,13 @@ function evaluateValidator(validator, ctx) {
       return { ok: true };
     }
     case 'any': {
+      var failures = [];
       for (var j = 0; j < (validator.of || []).length; j++) {
         var alt = evaluateValidator(validator.of[j], ctx);
         if (alt.ok) return alt;
+        failures.push(alt.reason);
       }
-      return { ok: false, reason: "Aucune condition alternative n'est remplie." };
+      return { ok: false, reason: failures[0] || "Aucune condition alternative n'est remplie." };
     }
     default:
       return { ok: false, reason: 'Validateur inconnu : ' + validator.type };

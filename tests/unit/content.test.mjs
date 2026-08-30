@@ -78,3 +78,30 @@ test('site-patches runtime layer is gone from the product tree', async () => {
   assert.equal(sw.includes('site-patches'), false);
   await assert.rejects(() => access('assets/site-patches.js', constants.F_OK), { code: 'ENOENT' });
 });
+
+test('the static module headers in index.html match the real data counts', async () => {
+  const [html, lessons, exercises, quizzes] = await Promise.all([
+    readFile('index.html', 'utf8'),
+    loadJson('data/lessons.json'),
+    loadJson('data/exercises.json'),
+    loadJson('data/quizzes.json'),
+  ]);
+  const sections = [...html.matchAll(/<section id="section-(m\d+|hw\d+)"([\s\S]*?)(?=<section id="section-|<!-- =====|<\/main>)/g)];
+  const failures = [];
+  for (const [, moduleId, body] of sections) {
+    const items = [...body.matchAll(/module-meta-item">([^<]+)<\/span>/g)].map((match) => match[1]);
+    const text = items.join(' | ');
+    const expected = {
+      leçons: (lessons[moduleId] || []).length,
+      exercices: (exercises[moduleId] || []).length,
+      questions: ((quizzes[moduleId] || {}).questions || []).length,
+    };
+    const ok = (
+      text.includes(`📚 ${expected.leçons} leçon`) &&
+      text.includes(`⚡ ${expected.exercices} exercice`) &&
+      text.includes(`Quiz ${expected.questions} question`)
+    );
+    if (!ok) failures.push({ moduleId, html: text, expected });
+  }
+  assert.deepEqual(failures, []);
+});

@@ -419,7 +419,7 @@
         "hw4"
       ],
       "estimatedHours": 10,
-      "prerequisites": "Aucun blocage — Linux de base recommandé.",
+      "prerequisites": "Entrée libre via HW1 (Anatomie d'un PC). Les modules HW2, HW3 et HW4 se débloquent en validant le quiz du module précédent.",
       "objectives": [
         "Comprendre et choisir les composants d'un PC",
         "Assembler, booter et administrer Linux sur du matériel réel",

@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { loadJson } from '../../scripts/lib/content-validation.mjs';
 import { masteryLabel } from '../../scripts/lib/progress-model.mjs';
 
@@ -53,4 +54,19 @@ test('mastery labels distinguish helped, autonomous and mastered', () => {
   assert.equal(masteryLabel({ passed: true, bestScore: 4, withHelp: false }), 'autonomous');
   assert.equal(masteryLabel({ passed: true, bestScore: 3, withHelp: true }), 'helped');
   assert.equal(masteryLabel({ passed: false, bestScore: 2, withHelp: false }), 'attempted');
+});
+
+test('the hardware track does not promise an unlocked path when hw2-hw4 are gated', async () => {
+  const catalogue = await loadJson('data/modules.json');
+  const track = catalogue.tracks.find((entry) => entry.id === 'hardware');
+  assert.equal(/Aucun blocage/i.test(track.prerequisites), false, track.prerequisites);
+  assert.match(track.prerequisites, /HW1|hw1|premier module|entrée/i);
+  assert.notEqual(track.prerequisites, 'Aucun blocage — Linux de base recommandé.');
+});
+
+test('the README does not claim Lab & Tinker modules are still in preparation', async () => {
+  const readme = await readFile('README.md', 'utf8');
+  assert.equal(/en préparation/i.test(readme), false, 'README still says HW2-HW4 are in preparation');
+  const sync = await readFile('scripts/lib/sync-readme.mjs', 'utf8');
+  assert.equal(/en préparation/i.test(sync), false, 'sync-readme rewrites the stale claim at build time');
 });

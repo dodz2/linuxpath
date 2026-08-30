@@ -273,7 +273,7 @@ function createTerminalEngine(config) {
   }
 
   function parseLine(input) {
-    var trimmed = String(input || '').trim().replace(/\s+2>\s*\/dev\/null/g, '');
+    var trimmed = String(input || '').trim().replace(/\s+2>\s*\/dev\/null/g, '').replace(/\s*<\/dev\/null/g, '');
     if (!trimmed) return { ok: true, stages: [] };
     if (/(&&|\|\||;|`|\$\(|<\(|>>|>|<)/.test(trimmed)) {
       return { ok: false, exitCode: 2, stderr: ['bash: syntaxe non supportée'], errorCode: 'unsupported-syntax' };
@@ -321,7 +321,7 @@ function createTerminalEngine(config) {
     if (name === 'hostname') return { exitCode: 0, stdout: [userInfo.hostname || 'user-pc'], stderr: [], stateChanges: [] };
     if (name === 'cd') {
       var target = args[0];
-      if (!target || target === '~') { prevDir = currentDir; currentDir = '/home/user'; ctx.cwd = currentDir; return { exitCode: 0, stdout: [], stderr: [], stateChanges: [] }; }
+      if (!target || target === '~' || target === '~/') { prevDir = currentDir; currentDir = '/home/user'; ctx.cwd = currentDir; return { exitCode: 0, stdout: [], stderr: [], stateChanges: [] }; }
       var resolved = resolvePath(target);
       if (!vfs[resolved]) return failResult('bash: cd: ' + target + ': Aucun fichier ou dossier de ce type', 'enoent');
       if (vfs[resolved].type !== 'dir') return failResult('bash: cd: ' + target + ': N\'est pas un répertoire', 'not-a-directory');
@@ -378,7 +378,7 @@ function createTerminalEngine(config) {
         if (!vfs[gt] || vfs[gt].type !== 'file') return failResult('grep : ' + file + ' : Aucun fichier de ce type', 'enoent');
         lines = String(vfs[gt].content || '').split('\n');
       }
-      var ci = flags.indexOf('-i') >= 0;
+      var ci = flags.indexOf('-i') >= 0 || flags.indexOf('--ignore-case') >= 0;
       var matched = lines.filter(function (line) {
         return ci ? line.toLowerCase().indexOf(pattern.toLowerCase()) >= 0 : line.indexOf(pattern) >= 0;
       });

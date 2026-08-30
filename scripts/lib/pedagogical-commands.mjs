@@ -13,7 +13,11 @@ export const pedagogicalCommands = {
     'user        1023  0.1  0.0  10596  5120 pts/0    Ss   10:02   0:00 bash',
   ]),
   ping: (args) => {
-    const host = args.filter((a) => !a.startsWith('-'))[0] || 'host';
+    const host = args.find((a, i) => {
+      if (a.startsWith('-')) return false;
+      if (i > 0 && args[i - 1] === '-c') return false;
+      return true;
+    }) || 'host';
     return ok([`PING ${host} (142.250.74.46) 56(84) bytes of data.`, `64 bytes from ${host}: icmp_seq=1 ttl=119 time=21 ms`]);
   },
   ip: () => ok(['1: lo: <LOOPBACK,UP> mtu 65536', '2: eth0: <BROADCAST,UP> inet 192.168.1.10/24']),
@@ -21,7 +25,11 @@ export const pedagogicalCommands = {
   systemctl: (args) => ok([`● ${args[1] || 'ssh'}.service - OpenBSD Secure Shell server`, '     Active: active (running)']),
   service: (args) => ok([`${args[0] || 'ssh'} is running.`]),
   crontab: () => ok(['0 2 * * * /usr/local/bin/backup.sh']),
-  dig: (args) => ok([`; <<>> DiG 9.18.1 <<>> ${args[0] || 'example.com'}`, `${args[0] || 'example.com'}. 300 IN A 93.184.216.34`]),
+  dig: (args) => {
+    const types = new Set(['a', 'aaaa', 'mx', 'ns', 'txt', 'cname', 'soa', 'ptr', 'any', 'type255']);
+    const host = args.find((a) => !a.startsWith('+') && !types.has(a.toLowerCase())) || 'example.com';
+    return ok([`; <<>> DiG 9.18.1 <<>> ${host}`, `${host}. 300 IN A 93.184.216.34`]);
+  },
   git: (args, ctx) => {
     if (args[0] === 'init') {
       const gitDir = childPath(ctx.cwd, '.git');

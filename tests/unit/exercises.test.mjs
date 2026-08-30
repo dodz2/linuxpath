@@ -13,15 +13,6 @@ function allExercises(exercises) {
   return Object.entries(exercises).flatMap(([moduleId, list]) => list.map((exercise) => ({ moduleId, exercise })));
 }
 
-function runCanonical(vfsSource, command) {
-  return runShell({
-    vfs: clone(vfsSource),
-    cwd: '/home/user',
-    command,
-    extraCommands: pedagogicalCommands,
-  });
-}
-
 test('every exercise has a declarative validator and a canonical answer', async () => {
   const exercises = await loadJson('data/exercises.json');
   const rows = allExercises(exercises);
@@ -35,19 +26,24 @@ test('every exercise has a declarative validator and a canonical answer', async 
   }
 });
 
-test('the 46 canonical answers produce exit 0 and satisfy their effect oracle', async () => {
+test('every accepted answer produces exit 0 and satisfies its effect oracle', async () => {
   const [exercises, vfs] = await Promise.all([loadJson('data/exercises.json'), loadJson('data/vfs.json')]);
   const failures = [];
   for (const { exercise } of allExercises(exercises)) {
-    const result = runCanonical(vfs, exercise.accepted[0]);
-    const verdict = evaluateValidator(exercise.validator, { ...result, vfs: result.cwd ? result : result });
-    const ctx = { ...result, vfs: runShell({ vfs: clone(vfs), cwd: '/home/user', command: exercise.accepted[0], extraCommands: pedagogicalCommands }).cwd ? null : null };
-    void ctx;
-    const isolatedVfs = clone(vfs);
-    const isolated = runShell({ vfs: isolatedVfs, cwd: '/home/user', command: exercise.accepted[0], extraCommands: pedagogicalCommands });
-    const ok = evaluateValidator(exercise.validator, { ...isolated, vfs: isolatedVfs, raw: exercise.accepted[0] });
-    if (isolated.exitCode !== 0 || !ok.ok) {
-      failures.push({ id: exercise.id, command: exercise.accepted[0], exitCode: isolated.exitCode, stderr: isolated.stderr, reason: ok.reason, stdout: isolated.stdout });
+    for (const command of exercise.accepted) {
+      const isolatedVfs = clone(vfs);
+      const isolated = runShell({ vfs: isolatedVfs, cwd: '/home/user', command, extraCommands: pedagogicalCommands });
+      const ok = evaluateValidator(exercise.validator, { ...isolated, vfs: isolatedVfs, raw: command });
+      if (isolated.exitCode !== 0 || !ok.ok) {
+        failures.push({
+          id: exercise.id,
+          command,
+          exitCode: isolated.exitCode,
+          stderr: isolated.stderr,
+          reason: ok.reason,
+          stdout: isolated.stdout,
+        });
+      }
     }
   }
   assert.deepEqual(failures, []);
@@ -98,6 +94,10 @@ test('exercises that require arguments reject the bare pedagogical stub', async 
     ['m12-e1', 'lynis'],
     ['m13-e3', 'gobuster'],
     ['m10-e2', 'certbot'],
+    ['m4-e2', 'ip'],
+    ['m6-e1', 'systemctl'],
+    ['m6-e2', 'crontab'],
+    ['m11-e2', 'ss'],
   ];
   const byId = Object.fromEntries(allExercises(exercises).map(({ exercise }) => [exercise.id, exercise]));
   const failures = [];

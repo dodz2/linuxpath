@@ -305,15 +305,33 @@
             "type": "exit_zero"
           },
           {
-            "type": "command",
-            "names": [
-              "ip",
-              "ifconfig"
+            "type": "any",
+            "of": [
+              {
+                "type": "command",
+                "names": [
+                  "ifconfig"
+                ]
+              },
+              {
+                "type": "args_include",
+                "tokens": [
+                  "a"
+                ]
+              },
+              {
+                "type": "args_include",
+                "tokens": [
+                  "addr"
+                ]
+              },
+              {
+                "type": "args_include",
+                "tokens": [
+                  "address"
+                ]
+              }
             ]
-          },
-          {
-            "type": "stdout_includes",
-            "text": "inet"
           }
         ]
       }
@@ -409,15 +427,39 @@
             "type": "exit_zero"
           },
           {
-            "type": "command",
-            "names": [
-              "systemctl",
-              "service"
+            "type": "any",
+            "of": [
+              {
+                "type": "command",
+                "names": [
+                  "service"
+                ]
+              },
+              {
+                "type": "args_include",
+                "tokens": [
+                  "status"
+                ]
+              },
+              {
+                "type": "args_include",
+                "tokens": [
+                  "ssh"
+                ]
+              },
+              {
+                "type": "args_include",
+                "tokens": [
+                  "sshd"
+                ]
+              },
+              {
+                "type": "args_include",
+                "tokens": [
+                  "is-active"
+                ]
+              }
             ]
-          },
-          {
-            "type": "stdout_includes",
-            "text": "ssh"
           }
         ]
       }
@@ -443,12 +485,21 @@
             "type": "exit_zero"
           },
           {
-            "type": "command",
-            "name": "crontab"
-          },
-          {
-            "type": "stdout_includes",
-            "text": "backup"
+            "type": "any",
+            "of": [
+              {
+                "type": "args_include",
+                "tokens": [
+                  "-l"
+                ]
+              },
+              {
+                "type": "args_include",
+                "tokens": [
+                  "-lu"
+                ]
+              }
+            ]
           }
         ]
       }
@@ -1029,12 +1080,45 @@
             "type": "exit_zero"
           },
           {
-            "type": "command",
-            "name": "ss"
-          },
-          {
-            "type": "stdout_includes",
-            "text": "LISTEN"
+            "type": "any",
+            "of": [
+              {
+                "type": "args_include",
+                "tokens": [
+                  "-tlnp"
+                ]
+              },
+              {
+                "type": "args_include",
+                "tokens": [
+                  "-tnlp"
+                ]
+              },
+              {
+                "type": "args_include",
+                "tokens": [
+                  "-t"
+                ]
+              },
+              {
+                "type": "args_include",
+                "tokens": [
+                  "-l"
+                ]
+              },
+              {
+                "type": "args_include",
+                "tokens": [
+                  "-n"
+                ]
+              },
+              {
+                "type": "args_include",
+                "tokens": [
+                  "-p"
+                ]
+              }
+            ]
           }
         ]
       }
@@ -1156,7 +1240,6 @@
       "desc": "Affichez les avertissements du rapport <code>/var/log/lynis.log</code>.",
       "accepted": [
         "grep -i warning /var/log/lynis.log",
-        "grep warning /var/log/lynis.log",
         "grep -i \"warning\" /var/log/lynis.log",
         "grep -i 'warning' /var/log/lynis.log"
       ],
