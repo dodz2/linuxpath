@@ -175,5 +175,11 @@ export function nextModuleId(moduleId, modules) {
   const published = modules.filter((entry) => entry.status === 'published').sort((a, b) => a.displayOrder - b.displayOrder);
   const index = published.findIndex((entry) => entry.id === moduleId);
   if (index < 0 || index === published.length - 1) return null;
-  return published[index + 1].id;
+  const current = published[index];
+  const next = published[index + 1];
+  // La chaîne principale (linux → network → offsec) se termine à m14 : on ne
+  // propose jamais un module de la track hardware comme « suivant » depuis
+  // la chaîne principale (la section Lab & Tinker a sa propre entrée).
+  if (current.track !== 'hardware' && next.track === 'hardware') return null;
+  return next.id;
 }

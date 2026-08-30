@@ -52,7 +52,7 @@ test('priority lessons contain the corrected teaching', async () => {
 test('every lesson has a documented review status', async () => {
   const lessons = await loadJson('data/lessons.json');
   const rows = Object.values(lessons).flat();
-  assert.equal(rows.length, 73);
+  assert.equal(rows.length, 93);
   const incomplete = rows.filter((lesson) => lesson.reviewStatus !== 'reviewed' || !lesson.reviewedAt || !lesson.distro);
   assert.deepEqual(incomplete.map((lesson) => lesson.id), []);
 });

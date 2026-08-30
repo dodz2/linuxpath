@@ -271,6 +271,78 @@
         "Décrire une réponse à incident étape par étape"
       ],
       "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "hw1",
+      "displayOrder": 15,
+      "track": "hardware",
+      "title": "Anatomie d'un PC",
+      "description": "Composants, flux de données, CPU, RAM, stockage, alimentation et compatibilité Linux.",
+      "icon": "🧰",
+      "prerequisites": [],
+      "estimatedMinutes": 55,
+      "status": "published",
+      "objectives": [
+        "Identifier chaque composant d'un PC et son rôle",
+        "Choisir du matériel compatible Linux en connaissance de cause"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "hw2",
+      "displayOrder": 16,
+      "track": "hardware",
+      "title": "Assembler & booter",
+      "description": "Montage pas à pas, POST/BIOS/UEFI, installer Linux et premiers diagnostics.",
+      "icon": "🔩",
+      "prerequisites": [
+        "hw1"
+      ],
+      "estimatedMinutes": 70,
+      "status": "published",
+      "objectives": [
+        "Monter un PC complet en respectant les connecteurs",
+        "Démarrer, installer Linux et diagnostiquer avec le terminal"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "hw3",
+      "displayOrder": 17,
+      "track": "hardware",
+      "title": "Piloter le matériel",
+      "description": "GPIO, breadboard, capteurs, USB et sérielle pilotés depuis Linux.",
+      "icon": "💡",
+      "prerequisites": [
+        "hw2"
+      ],
+      "estimatedMinutes": 65,
+      "status": "published",
+      "objectives": [
+        "Brancher et piloter une LED et un capteur depuis Python",
+        "Lire le bus USB et la sérielle avec les outils Linux"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "hw4",
+      "displayOrder": 18,
+      "track": "hardware",
+      "title": "Gadgets & hack",
+      "description": "Capstone : construire un petit gadget personnel et le piloter en terminal.",
+      "icon": "🛠️",
+      "prerequisites": [
+        "hw1",
+        "hw2",
+        "hw3"
+      ],
+      "estimatedMinutes": 80,
+      "status": "published",
+      "objectives": [
+        "Concevoir un gadget simple sur son propre matériel",
+        "Le flasher et l'administrer depuis un shell Linux"
+      ],
+      "successCriteria": "Leçons cochées, exercices et capstone du module réussis, quiz ≥ 3/5."
     }
   ],
   "tracks": [
@@ -335,6 +407,27 @@
       ],
       "capstone": "Mini-projet : audit Lynis + analyse d'un artefact pédagogique + rapport d'incident.",
       "entryModule": "m12"
+    },
+    {
+      "id": "hardware",
+      "title": "Lab & Tinker",
+      "level": "Débutant / Intermédiaire",
+      "modules": [
+        "hw1",
+        "hw2",
+        "hw3",
+        "hw4"
+      ],
+      "estimatedHours": 10,
+      "prerequisites": "Aucun blocage — Linux de base recommandé.",
+      "objectives": [
+        "Comprendre et choisir les composants d'un PC",
+        "Assembler, booter et administrer Linux sur du matériel réel",
+        "Piloter le hardware (GPIO, USB, capteurs) depuis le terminal",
+        "Construire un petit gadget qui se contrôle en ligne de commande"
+      ],
+      "capstone": "Mini-projet : un gadget USB/série (ex. badge ou mini-serveur) assemblé, flashé et piloté depuis un shell Linux.",
+      "entryModule": "hw1"
     }
   ]
 }

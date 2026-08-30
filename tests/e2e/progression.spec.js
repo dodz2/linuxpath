@@ -118,15 +118,17 @@ test('a fully completed curriculum reports 100 percent from real data totals', a
       linuxBadge: document.querySelector('#group-modules-badge')?.textContent.trim(),
       networkBadge: document.querySelector('#group-network-badge')?.textContent.trim(),
       securityBadge: document.querySelector('#group-offsec-badge')?.textContent.trim(),
+      hardwareBadge: document.querySelector('#group-hardware-badge')?.textContent.trim(),
     };
   });
-  expect(result.progress.done).toBe(125);
-  expect(result.progress.total).toBe(125);
+  expect(result.progress.done).toBe(157);
+  expect(result.progress.total).toBe(157);
   expect(result.progress.pct).toBe(100);
-  expect(result.topbar).toBe('125 / 125 complétés');
+  expect(result.topbar).toBe('157 / 157 complétés');
   expect(result.linuxBadge).toBe('100%');
   expect(result.networkBadge).toBe('100%');
   expect(result.securityBadge).toBe('100%');
+  expect(result.hardwareBadge).toBe('100%');
 });
 
 test('a later worse quiz keeps the best score and the pass', async ({ page }) => {

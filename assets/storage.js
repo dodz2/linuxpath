@@ -311,7 +311,18 @@ function nextModuleId(mod) {
   const mods = getPublishedModuleIds();
   const idx = mods.indexOf(mod);
   if (idx < 0 || idx === mods.length - 1) return null;
-  return mods[idx + 1];
+  const next = mods[idx + 1];
+  const trackOf = function (id) {
+    for (const track of TRACKS) if (track.modules.includes(id)) return track.id;
+    return null;
+  };
+  const modTrack = trackOf(mod);
+  const nextTrack = trackOf(next);
+  // La chaîne principale (linux → network → offsec) se termine à m14 : on ne
+  // propose jamais un module de la track hardware comme « suivant » depuis
+  // la chaîne principale (la section Lab & Tinker a sa propre entrée).
+  if (modTrack && modTrack !== 'hardware' && nextTrack === 'hardware') return null;
+  return next;
 }
 
 function applyImportedProgress(data) {

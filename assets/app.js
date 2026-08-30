@@ -11,6 +11,7 @@ let currentSection = 'home';
 const VALID_TARGETS = [
   'home','sandbox','ctf','news','cheatsheet','glossary','roadmap',
   'm1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14',
+  'hw1','hw2','hw3','hw4',
 ];
 
 /**
@@ -219,6 +220,7 @@ function openGroupForTarget(target) {
     m10: 'group-network',
     m11: 'group-network',
     m12: 'group-offsec', m13: 'group-offsec', m14: 'group-offsec',
+    hw1: 'group-hardware', hw2: 'group-hardware', hw3: 'group-hardware', hw4: 'group-hardware',
     ctf: 'group-challenges',
     sandbox: 'group-tools',
     news: 'group-resources', cheatsheet: 'group-resources', glossary: 'group-resources',
@@ -244,6 +246,7 @@ function updateGroupActiveHeader(target) {
   const group = document.getElementById(
     ['m12','m13','m14'].includes(target) ? 'group-offsec'
     : ['m9','m10','m11'].includes(target) ? 'group-network'
+    : target.startsWith('hw') ? 'group-hardware'
     : target.startsWith('m') && target !== 'ma' ? 'group-modules'
     : target === 'ctf' ? 'group-challenges'
     : target === 'sandbox' ? 'group-tools'
@@ -361,6 +364,9 @@ function updateProgressUI() {
 
   const offsecBadge = document.getElementById('group-offsec-badge');
   if (offsecBadge) offsecBadge.textContent = getTrackProgress('offsec').pct + '%';
+
+  const hardwareBadge = document.getElementById('group-hardware-badge');
+  if (hardwareBadge) hardwareBadge.textContent = getTrackProgress('hardware').pct + '%';
 
   const p = getProgress();
   const sidebarFill = document.getElementById('sidebar-progress-fill');

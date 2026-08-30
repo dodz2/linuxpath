@@ -2,6 +2,9 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 export const MODULE_IDS = Array.from({ length: 14 }, (_, index) => `m${index + 1}`);
+export const HW_MODULE_IDS = ['hw1', 'hw2', 'hw3', 'hw4'];
+export const ALL_MODULE_IDS = [...MODULE_IDS, ...HW_MODULE_IDS];
+export const TRACK_IDS = ['linux', 'network', 'offsec', 'hardware'];
 export const DATA_FILES = ['cheatsheet.json', 'ctf.json', 'exercises.json', 'glossary.json', 'lessons.json', 'modules.json', 'news.json', 'quizzes.json', 'vfs.json'];
 export async function loadJson(relativePath, root = process.cwd()) {
   return JSON.parse(await readFile(path.join(root, relativePath), 'utf8'));
@@ -22,37 +25,40 @@ export async function validateContent(root = process.cwd()) {
   const lessons = data['lessons.json']; const exercises = data['exercises.json']; const quizzes = data['quizzes.json'];
   const challenges = data['ctf.json'].challenges; const terms = data['glossary.json'].terms;
   const catalogue = data['modules.json'];
-  if (!catalogue || !Array.isArray(catalogue.modules) || catalogue.modules.length !== MODULE_IDS.length) {
-    errors.push(issue('invalid-modules', 'modules.json must list exactly m1 through m14', 'data/modules.json'));
+  if (!catalogue || !Array.isArray(catalogue.modules) || catalogue.modules.length !== ALL_MODULE_IDS.length) {
+    errors.push(issue('invalid-modules', 'modules.json must list exactly m1 through m14 plus hw1 through hw4', 'data/modules.json'));
   } else {
     const ids = catalogue.modules.map((entry) => entry.id);
-    if (JSON.stringify(ids) !== JSON.stringify(MODULE_IDS)) errors.push(issue('module-coverage', 'modules.json must define exactly m1 through m14 in order', 'data/modules.json'));
+    if (JSON.stringify(ids) !== JSON.stringify(ALL_MODULE_IDS)) errors.push(issue('module-coverage', 'modules.json must define exactly m1 through m14 plus hw1 through hw4 in order', 'data/modules.json'));
     for (const entry of catalogue.modules) {
-      if (!entry.title || !['linux', 'network', 'offsec'].includes(entry.track) || entry.status !== 'published' || !Array.isArray(entry.prerequisites) || typeof entry.displayOrder !== 'number' || !Array.isArray(entry.objectives) || entry.objectives.length < 2 || !Number.isFinite(entry.estimatedMinutes) || typeof entry.successCriteria !== 'string') {
+      if (!entry.title || !TRACK_IDS.includes(entry.track) || !['published', 'draft'].includes(entry.status) || !Array.isArray(entry.prerequisites) || typeof entry.displayOrder !== 'number' || !Array.isArray(entry.objectives) || entry.objectives.length < 2 || !Number.isFinite(entry.estimatedMinutes) || typeof entry.successCriteria !== 'string') {
         errors.push(issue('invalid-module', `Malformed module ${entry.id ?? '(missing id)'}`, 'data/modules.json'));
       }
     }
     const tracks = catalogue.tracks;
-    if (!Array.isArray(tracks) || tracks.length !== 3) {
-      errors.push(issue('invalid-tracks', 'modules.json must define exactly three tracks', 'data/modules.json'));
+    if (!Array.isArray(tracks) || tracks.length !== TRACK_IDS.length || JSON.stringify(tracks.map((track) => track.id)) !== JSON.stringify(TRACK_IDS)) {
+      errors.push(issue('invalid-tracks', 'modules.json must define exactly four tracks (linux, network, offsec, hardware)', 'data/modules.json'));
     }
   }
+  const publishedIds = (catalogue?.modules || []).filter((entry) => entry.status === 'published').map((entry) => entry.id);
+  const publishedIdsSorted = [...ALL_MODULE_IDS].filter((id) => publishedIds.includes(id));
   const categories = data['cheatsheet.json'].categories; const news = data['news.json'].news;
+  const sortByCanonical = (a, b) => ALL_MODULE_IDS.indexOf(a) - ALL_MODULE_IDS.indexOf(b);
   for (const [name, groups] of Object.entries({ lessons, exercises, quizzes })) {
-    const keys = Object.keys(groups).sort((a, b) => Number(a.slice(1)) - Number(b.slice(1)));
-    if (JSON.stringify(keys) !== JSON.stringify(MODULE_IDS)) errors.push(issue('module-coverage', `${name} must define exactly m1 through m14`, `data/${name}.json`));
+    const keys = Object.keys(groups).sort(sortByCanonical);
+    if (JSON.stringify(keys) !== JSON.stringify(publishedIdsSorted)) errors.push(issue('module-coverage', `${name} must define exactly the published modules`, `data/${name}.json`));
   }
   const lessonIds = Object.values(lessons).flat().map((entry) => entry.id);
   const exerciseIds = Object.values(exercises).flat().map((entry) => entry.id);
   // The current quiz schema has no persisted question id. Use stable, positional
   // validation keys instead of inventing a production requirement in the harness.
-  const questionIds = MODULE_IDS.flatMap((moduleId) => (quizzes[moduleId]?.questions || []).map((_, index) => `${moduleId}-q${index + 1}`));
+  const questionIds = publishedIdsSorted.flatMap((moduleId) => (quizzes[moduleId]?.questions || []).map((_, index) => `${moduleId}-q${index + 1}`));
   const challengeIds = challenges.map((entry) => entry.id); const termIds = terms.map((entry) => entry.id);
   for (const [label, values] of Object.entries({ lesson: lessonIds, exercise: exerciseIds, question: questionIds, challenge: challengeIds, term: termIds })) {
     for (const duplicate of duplicateValues(values)) errors.push(issue('duplicate-id', `Duplicate ${label} id: ${duplicate}`, 'data/'));
     if (values.some((value) => typeof value !== 'string' || value.length === 0)) errors.push(issue('invalid-id', `${label} ids must be non-empty strings`, 'data/'));
   }
-  for (const moduleId of MODULE_IDS) {
+  for (const moduleId of publishedIdsSorted) {
     for (const lesson of lessons[moduleId] || []) if (!lesson.id.startsWith(`${moduleId}-l`) || !lesson.title || !lesson.content || lesson.reviewStatus !== 'reviewed' || !lesson.reviewedAt || !lesson.distro) errors.push(issue('invalid-lesson', `Malformed lesson ${lesson.id ?? '(missing id)'}`, `data/lessons.json#${moduleId}`));
     for (const exercise of exercises[moduleId] || []) if (!exercise.id.startsWith(`${moduleId}-e`) || !exercise.title || !exercise.desc || !Array.isArray(exercise.accepted) || exercise.accepted.length === 0 || !Array.isArray(exercise.hints) || !exercise.validator || typeof exercise.validator !== 'object' || !exercise.validator.type) errors.push(issue('invalid-exercise', `Malformed exercise ${exercise.id ?? '(missing id)'}`, `data/exercises.json#${moduleId}`));
     const quiz = quizzes[moduleId];
@@ -63,8 +69,8 @@ export async function validateContent(root = process.cwd()) {
   if (!Array.isArray(categories) || categories.some((category) => !category.id || !category.label || !Array.isArray(category.commands))) errors.push(issue('invalid-cheatsheet', 'Cheatsheet categories are malformed', 'data/cheatsheet.json'));
   if (!Array.isArray(terms) || terms.some((term) => !term.id || !term.term || !term.definition)) errors.push(issue('invalid-glossary', 'Glossary terms are malformed', 'data/glossary.json'));
   if (!Array.isArray(news) || news.some((entry) => !entry.id || !entry.title || !entry.source_url)) errors.push(issue('invalid-news', 'News entries are malformed', 'data/news.json'));
-  const counts = { modules: MODULE_IDS.length, lessons: lessonIds.length, exercises: exerciseIds.length, quizQuestions: questionIds.length, quizzes: Object.keys(quizzes).length, ctfChallenges: challengeIds.length, cheatsheetCommands: categories.reduce((total, category) => total + category.commands.length, 0), glossaryTerms: termIds.length, news: news.length };
-  const expected = { modules: 14, lessons: 73, exercises: 38, quizQuestions: 70, quizzes: 14, ctfChallenges: 10, cheatsheetCommands: 118, glossaryTerms: 74 };
+  const counts = { modules: ALL_MODULE_IDS.length, lessons: lessonIds.length, exercises: exerciseIds.length, quizQuestions: questionIds.length, quizzes: Object.keys(quizzes).length, ctfChallenges: challengeIds.length, cheatsheetCommands: categories.reduce((total, category) => total + category.commands.length, 0), glossaryTerms: termIds.length, news: news.length };
+  const expected = { modules: 18, lessons: 93, exercises: 46, quizQuestions: 90, quizzes: 18, ctfChallenges: 10, cheatsheetCommands: 118, glossaryTerms: 74 };
   for (const [name, value] of Object.entries(expected)) if (counts[name] !== value) errors.push(issue('unexpected-count', `${name}: expected ${value}, found ${counts[name]}`, 'data/'));
   return { errors, warnings, counts, data };
 }

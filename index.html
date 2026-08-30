@@ -55,7 +55,7 @@
       "@type": "Course",
       "@id": "https://dodz2.github.io/linuxpath/#course",
       "name": "Formation Linux & Cybersécurité — LinuxPath",
-      "description": "14 modules progressifs répartis en trois parcours : Fondamentaux Linux, Réseau & services et Sécurité, Pentest & DFIR.",
+      "description": "18 modules progressifs répartis en quatre parcours : Fondamentaux Linux, Réseau & services, Sécurité, Pentest & DFIR et Lab & Tinker (matériel).",
       "url": "https://dodz2.github.io/linuxpath/",
       "inLanguage": "fr-FR",
       "isAccessibleForFree": true,
@@ -238,6 +238,40 @@
           </button>
         </div>
       </div>
+
+      <!-- ── Groupe : Lab & Tinker ── -->
+      <div class="sidebar-group" id="group-hardware">
+        <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-hardware')" aria-expanded="false" aria-controls="group-hardware-body">
+          <span class="sidebar-group-icon">🧰</span>
+          <span class="sidebar-group-title">Lab &amp; Tinker</span>
+          <span class="sidebar-group-badge" id="group-hardware-badge">0%</span>
+          <svg class="sidebar-group-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <polyline points="2,4 6,8 10,4"/>
+          </svg>
+        </button>
+        <div class="sidebar-group-body" id="group-hardware-body">
+          <button class="module-nav-item" data-target="hw1" onclick="navigateTo('hw1')" id="nav-hw1" aria-label="Module HW1 : Anatomie d'un PC">
+            <span class="module-nav-icon">🧰</span>
+            <span class="module-nav-title">Anatomie d'un PC</span>
+            <span class="module-nav-badge" id="nav-badge-hw1">0%</span>
+          </button>
+        </div>
+                <button class="module-nav-item" data-target="hw2" onclick="navigateTo('hw2')" id="nav-hw2" aria-label="Module HW2 : Assembler &amp; booter">
+            <span class="module-nav-icon">🔩</span>
+            <span class="module-nav-title">Assembler &amp; booter</span>
+            <span class="module-nav-badge" id="nav-badge-hw2">0%</span>
+          </button>
+          <button class="module-nav-item" data-target="hw3" onclick="navigateTo('hw3')" id="nav-hw3" aria-label="Module HW3 : Piloter le matériel">
+            <span class="module-nav-icon">💡</span>
+            <span class="module-nav-title">Piloter le matériel</span>
+            <span class="module-nav-badge" id="nav-badge-hw3">0%</span>
+          </button>
+          <button class="module-nav-item" data-target="hw4" onclick="navigateTo('hw4')" id="nav-hw4" aria-label="Module HW4 : Gadgets &amp; hack">
+            <span class="module-nav-icon">🛠️</span>
+            <span class="module-nav-title">Gadgets &amp; hack</span>
+            <span class="module-nav-badge" id="nav-badge-hw4">0%</span>
+          </button>
+</div>
       
       <!-- ── Groupe : Challenges ── -->
       <div class="sidebar-group" id="group-challenges">
@@ -387,7 +421,7 @@
 
           <div class="lp-section-block" id="track-picker">
             <div class="lp-section-label">// parcours</div>
-            <div class="lp-section-title">Trois chemins, sans verrou brutal</div>
+            <div class="lp-section-title">Quatre chemins, sans verrou brutal</div>
             <div class="track-grid">
               <article class="track-card" data-track="linux">
                 <div class="track-level">Débutant</div>
@@ -425,12 +459,24 @@
                 <p class="track-capstone">Mini-projet : audit + artefact pédagogique + rapport d'incident.</p>
                 <button type="button" class="lp-cta-secondary" id="track-offsec-enter" onclick="enterTrack('offsec')">Diagnostic : entrer en sécurité</button>
               </article>
+              <article class="track-card" data-track="hardware">
+                <div class="track-level">Débutant / Intermédiaire</div>
+                <h3>Lab &amp; Tinker</h3>
+                <p>HW1 à HW4 · ~10 h · Linux de base recommandé</p>
+                <ul class="track-objectives">
+                  <li>Composants et choix matériel</li>
+                  <li>Assemblage, boot, Linux réel</li>
+                  <li>GPIO, capteurs, gadgets éthiques</li>
+                </ul>
+                <p class="track-capstone">Mini-projet : un gadget USB/série assemblé, flashé et piloté depuis un shell.</p>
+                <button type="button" class="lp-cta-secondary" id="track-hardware-enter" onclick="enterTrack('hardware')">Faire mumuse avec des vis</button>
+              </article>
             </div>
           </div>
 
           <div class="lp-section-block">
             <div id="lp-modules" class="lp-section-label">// programme</div>
-            <div class="lp-section-title">Les 14 modules</div>
+            <div class="lp-section-title">Les 18 modules</div>
             <div class="modules-overview-grid" id="modules-overview-grid"></div>
           </div>
           <div class="lp-section-block">
@@ -803,11 +849,104 @@
         <h3 class="section-title">Exercices pratiques</h3>
         <div id="exercises-m14"></div>
         <h3 class="section-title">Quiz de validation</h3>
-        <div id="quiz-m14"></div>
+                <div id="quiz-m14"></div>
+              </section>
+
+              <!-- ==================== LAB & TINKER — HW1 ==================== -->
+              <section id="section-hw1" class="module-section">
+                <div class="module-header">
+                  <div class="module-tag">Lab &amp; Tinker</div>
+                  <h2 class="module-title"><span class="prompt-prefix">$</span> Anatomie d'un PC</h2>
+                  <p class="module-desc">Composants, flux de données, CPU, RAM, stockage, alimentation et compatibilité Linux.</p>
+                  <div class="module-meta">
+                    <span class="module-meta-item">📚 5 leçons</span>
+                    <span class="module-meta-item">⚡ 2 exercices</span>
+                    <span class="module-meta-item">❓ Quiz 5 questions</span>
+                  </div>
+                </div>
+
+                <h3 class="section-title">Leçons</h3>
+                <div class="lessons-grid" id="lessons-hw1"></div>
+
+                <h3 class="section-title">Exercices pratiques</h3>
+                <div id="exercises-hw1"></div>
+
+                <h3 class="section-title">Quiz de validation</h3>
+                <div id="quiz-hw1"></div>
+              </section>
+
+              
+      <!-- ==================== LAB & TINKER — HW2 ==================== -->
+      <section id="section-hw2" class="module-section">
+        <div class="module-header">
+          <div class="module-tag">Lab &amp; Tinker</div>
+          <h2 class="module-title"><span class="prompt-prefix">$</span> Assembler &amp; booter</h2>
+          <p class="module-desc">Montage pas à pas, POST/BIOS/UEFI, installer Linux et premiers diagnostics.</p>
+          <div class="module-meta">
+            <span class="module-meta-item">📚 5 leçons</span>
+            <span class="module-meta-item">⚡ 2 exercices</span>
+            <span class="module-meta-item">❓ Quiz 5 questions</span>
+          </div>
+        </div>
+
+        <h3 class="section-title">Leçons</h3>
+        <div class="lessons-grid" id="lessons-hw2"></div>
+
+        <h3 class="section-title">Exercices pratiques</h3>
+        <div id="exercises-hw2"></div>
+
+        <h3 class="section-title">Quiz de validation</h3>
+        <div id="quiz-hw2"></div>
       </section>
-      
-      <!-- ======= SANDBOX LINUX RÉELLE ======= -->
-      <section id="section-sandbox" class="module-section">
+
+      <!-- ==================== LAB & TINKER — HW3 ==================== -->
+      <section id="section-hw3" class="module-section">
+        <div class="module-header">
+          <div class="module-tag">Lab &amp; Tinker</div>
+          <h2 class="module-title"><span class="prompt-prefix">$</span> Piloter le matériel</h2>
+          <p class="module-desc">GPIO, breadboard, capteurs, USB et sérielle pilotés depuis Linux.</p>
+          <div class="module-meta">
+            <span class="module-meta-item">📚 5 leçons</span>
+            <span class="module-meta-item">⚡ 2 exercices</span>
+            <span class="module-meta-item">❓ Quiz 5 questions</span>
+          </div>
+        </div>
+
+        <h3 class="section-title">Leçons</h3>
+        <div class="lessons-grid" id="lessons-hw3"></div>
+
+        <h3 class="section-title">Exercices pratiques</h3>
+        <div id="exercises-hw3"></div>
+
+        <h3 class="section-title">Quiz de validation</h3>
+        <div id="quiz-hw3"></div>
+      </section>
+
+      <!-- ==================== LAB & TINKER — HW4 ==================== -->
+      <section id="section-hw4" class="module-section">
+        <div class="module-header">
+          <div class="module-tag">Lab &amp; Tinker</div>
+          <h2 class="module-title"><span class="prompt-prefix">$</span> Gadgets &amp; hack</h2>
+          <p class="module-desc">Capstone : construire un petit gadget personnel et le piloter en terminal.</p>
+          <div class="module-meta">
+            <span class="module-meta-item">📚 5 leçons</span>
+            <span class="module-meta-item">⚡ 2 exercices</span>
+            <span class="module-meta-item">❓ Quiz 5 questions</span>
+          </div>
+        </div>
+
+        <h3 class="section-title">Leçons</h3>
+        <div class="lessons-grid" id="lessons-hw4"></div>
+
+        <h3 class="section-title">Exercices pratiques</h3>
+        <div id="exercises-hw4"></div>
+
+        <h3 class="section-title">Quiz de validation</h3>
+        <div id="quiz-hw4"></div>
+      </section>
+
+<!-- ==================== SANDBOX ==================== -->
+              <section id="section-sandbox" class="module-section">
         <div class="module-header">
           <div class="module-tag" style="background:rgba(188,140,255,0.15);color:var(--accent-purple)">Sandbox</div>
           <h2 class="module-title"><span class="prompt-prefix" style="color:var(--accent-purple)">$</span> Linux réel dans le navigateur</h2>

@@ -6,11 +6,11 @@ import { constants } from 'node:fs';
 import { validateContent, loadJson } from '../../scripts/lib/content-validation.mjs';
 
 const EXPECTED_COUNTS = {
-  modules: 14,
-  lessons: 73,
-  exercises: 38,
-  quizQuestions: 70,
-  quizzes: 14,
+  modules: 18,
+  lessons: 93,
+  exercises: 46,
+  quizQuestions: 90,
+  quizzes: 18,
   ctfChallenges: 10,
   cheatsheetCommands: 118,
   glossaryTerms: 74,
@@ -58,14 +58,14 @@ test('rendering sources contain no legacy hard-coded product totals', async () =
 test('modules.json is the unique published-module catalogue', async () => {
   const catalogue = await loadJson('data/modules.json');
   const modules = catalogue.modules;
-  assert.equal(modules.length, 14);
+  assert.equal(modules.length, 18);
   const ids = modules.map((entry) => entry.id);
-  assert.deepEqual(ids, Array.from({ length: 14 }, (_, index) => `m${index + 1}`));
+  assert.deepEqual(ids, [...Array.from({ length: 14 }, (_, index) => `m${index + 1}`), 'hw1', 'hw2', 'hw3', 'hw4']);
   for (const entry of modules) {
     assert.equal(typeof entry.title, 'string');
     assert.ok(entry.title.length > 0, entry.id);
-    assert.ok(['linux', 'network', 'offsec'].includes(entry.track), entry.id);
-    assert.equal(entry.status, 'published');
+    assert.ok(['linux', 'network', 'offsec', 'hardware'].includes(entry.track), entry.id);
+    assert.ok(['published', 'draft'].includes(entry.status), entry.id);
     assert.ok(Array.isArray(entry.prerequisites));
     assert.equal(typeof entry.displayOrder, 'number');
   }

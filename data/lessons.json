@@ -893,5 +893,193 @@
         "Ubuntu 22.04 documentation"
       ]
     }
+  ],
+  "hw1": [
+    {
+      "id": "hw1-l1",
+      "title": "L'unité centrale et le flux de données",
+      "content": "\n        <h3>Une machine, plusieurs organes</h3>\n        <p>Un ordinateur n'est pas un bloc magique : c'est un ensemble de composants qui échangent des données à très grande vitesse. Les quatre familles principales sont le <strong>processeur (CPU)</strong>, la <strong>mémoire vive (RAM)</strong>, le <strong>stockage</strong> (disque ou SSD) et la <strong>carte mère</strong> qui relie tout.</p>\n        <p>Le flux de base est toujours le même : le CPU demande une instruction, la RAM la fournit en quelques nanosecondes, le CPU la traite, puis le résultat repart vers la RAM ou le stockage. C'est pour cela qu'on parle de <em>goulot d'étranglement</em> : si un seul maillon est lent, toute la machine attend.</p>\n        <h3>La carte mère, colonne vertébrale</h3>\n        <p>La carte mère distribue l'énergie et les données entre les composants. On y trouve le <strong>chipset</strong> (qui gère les périphériques), les <strong>slots</strong> (RAM, PCIe), les <strong>connecteurs SATA et M.2</strong> pour le stockage, et le <strong>firmware</strong> : le BIOS ou l'UEFI, le tout premier programme qui s'exécute au démarrage.</p>\n        <p>Sous Linux, beaucoup de ces informations se lisent directement : <code>lscpu</code> pour le processeur, <code>lsblk</code> pour les disques, <code>lspci</code> pour les périphériques sur le bus PCIe, <code>lsusb</code> pour le bus USB. Le matériel n'est pas une boîte noire : le système expose ses composants.</p>\n        <h3>Ce qu'il faut retenir</h3>\n        <p>Comprendre le flux CPU → RAM → stockage explique déjà la plupart des choix d'achat : plus la RAM est proche du CPU (dual channel), plus le stockage est rapide (NVMe devant SATA), plus la machine est réactive. On n'achète pas « plus de GHz » : on achète un système équilibré.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw1-l2",
+      "title": "CPU & mémoire vive",
+      "content": "\n        <h3>Le processeur</h3>\n        <p>Le CPU exécute les instructions. Ses caractéristiques principales : le <strong>nombre de cœurs</strong> (le nombre de tâches en parallèle), le <strong>multithreading</strong> (chaque cœur peut traiter deux files), la <strong>fréquence</strong> (cycles par seconde, en GHz) et le <strong>cache</strong> (mémoire ultra-rapide intégrée au processeur).</p>\n        <p>Il se monte sur un <strong>socket</strong> précis : un processeur Intel Core ne va pas dans une carte mère prévue pour AMD Ryzen. La compatibilité socket / chipset est la première vérification avant tout achat. Le <strong>TDP</strong> (en watts) indique la chaleur à évacuer : il conditionne le choix du refroidisseur.</p>\n        <p>Sous Linux, <code>lscpu</code> affiche cœurs, threads, fréquence et cache. <code>cat /proc/cpuinfo</code> liste chaque cœur avec ses caractéristiques.</p>\n        <h3>La mémoire vive</h3>\n        <p>La RAM stocke temporairement les données en cours d'utilisation. Une machine moderne en demande de 8 Go (bureautique légère) à 32 Go ou plus (virtualisation, montage). La <strong>fréquence</strong> (DDR4-3200, DDR5-5600) et le <strong>dual channel</strong> (deux barrettes identiques) améliorent le débit.</p>\n        <p>Contrairement au stockage, la RAM est <strong>volatile</strong> : tout s'efface à l'arrêt. Linux la gère avec la pagination : quand la RAM est pleine, le système utilise une partie du disque (le <em>swap</em>), beaucoup plus lentement. Un système qui « rame » manque souvent de RAM, pas de CPU.</p>\n        <h3>Repérer son matériel</h3>\n        <p>Deux commandes essentielles : <code>lscpu</code> (processeur) et <code>free -h</code> (mémoire). Ces commandes fonctionnent sur tout Linux récent sans rien installer — c'est le premier réflexe d'un administrateur : connaître sa machine avant de la faire travailler.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw1-l3",
+      "title": "Stockage et bus",
+      "content": "\n        <h3>Disques, SSD et NVMe</h3>\n        <p>Le stockage conserve les données <em>à froid</em>, même éteint. Trois grandes familles : le <strong>HDD</strong> (plateaux magnétiques, bon marché, lent), le <strong>SSD SATA</strong> (flash, rapide, compatible partout) et le <strong>SSD NVMe</strong> (flash branché sur le bus PCIe, beaucoup plus rapide, format M.2).</p>\n        <p>Le <strong>bus</strong> est le canal de communication : PCIe pour les cartes graphiques et NVMe, SATA pour les disques classiques, USB pour les périphériques. Les générations PCIe (3.0, 4.0, 5.0) doublent le débit à chaque étape.</p>\n        <h3>Comment Linux voit les disques</h3>\n        <p>Sous Linux, chaque disque reçoit un nom de périphérique : <code>/dev/sda</code>, <code>/dev/sdb</code> pour les disques SATA/USB, <code>/dev/nvme0n1</code> pour un SSD NVMe. Les partitions portent un numéro : <code>/dev/sda1</code>. Rien n'est « C:\\ » : tout est un fichier dans <code>/dev</code>.</p>\n        <p><code>lsblk</code> montre l'arborescence disque → partitions → points de montage. <code>df -h</code> montre l'espace utilisé par les systèmes de fichiers montés. <code>blkid</code> affiche les identifiants des partitions (UUID), utilisés par le système pour les monter de façon fiable.</p>\n        <h3>Partitions et montage</h3>\n        <p>Un disque se découpe en partitions (table GPT recommandée), chacune contenant un système de fichiers (ext4, btrfs, XFS, FAT/exFAT pour l'échange). Le <strong>montage</strong> rattache une partition à un répertoire : <code>mount /dev/sdb1 /mnt/data</code>. Le fichier <code>/etc/fstab</code> déclare les montages automatiques au démarrage.</p>\n        <p>Le matériel et le logiciel se rejoignent ici : choisir un NVMe et savoir lire <code>lsblk</code>, c'est contrôler réellement où vivent ses données.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw1-l4",
+      "title": "Alimentation, refroidissement, boîtier",
+      "content": "\n        <h3>L'alimentation (PSU)</h3>\n        <p>L'alimentation convertit le courant secteur en tensions basses (3,3 V, 5 V, 12 V) et les distribue via les connecteurs : 24 broches pour la carte mère, 4/8 broches pour le CPU, PCIe 6/8 broches pour les cartes graphiques, SATA pour les disques.</p>\n        <p>Sa puissance se choisit en fonction de la consommation totale (CPU + GPU + reste), avec une marge de sécurité (20 à 30 %). Un label <strong>80 Plus</strong> (Bronze, Gold, Platinum) indique un bon rendement : moins de chaleur, moins de gaspillage. Ne jamais ouvrir une alimentation : les condensateurs peuvent rester chargés dangereusement.</p>\n        <h3>Refroidissement</h3>\n        <p>Tout composant dissipe de la chaleur. Le CPU est refroidi par un bloc (ventirad) ou un watercooling ; la pâte thermique assure le contact entre le processeur et le bloc. Un bon flux d'air dans le boîtier (entrée avant, sortie arrière/haut) compte autant que le ventirad.</p>\n        <p>Surveiller les températures est un réflexe Linux : <code>sensors</code> (lm-sensors) affiche les températures CPU/carte mère, <code>s-tui</code> ou <code>watch -n 2 sensors</code> permettent de suivre l'évolution en charge. La surchauffe ralentit le CPU (throttling) puis l'éteint brutalement.</p>\n        <h3>Boîtier et formats</h3>\n        <p>Les formats de carte mère : <strong>ATX</strong> (grand, extensible), <strong>micro-ATX</strong> (équilibré) et <strong>mini-ITX</strong> (compact). Le boîtier doit être compatible avec la carte mère, l'alimentation et la hauteur du ventirad. Un boîtier bien aéré et silencieux change l'expérience de tous les jours.</p>\n        <h3>Sécurité de manipulation</h3>\n        <p>Trois règles : débrancher avant d'intervenir, se décharger de l'électricité statique (bracelet ou toucher une partie métallique), et ne jamais forcer un connecteur. Le matériel, c'est robuste, mais ça se respecte.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw1-l5",
+      "title": "Compatibilité Linux & choix de pièces",
+      "content": "\n        <h3>Le noyau et les pilotes</h3>\n        <p>Linux fonctionne grâce à des pilotes intégrés au noyau. La plupart du matériel standard est supporté « out of the box » : stockage, réseau filaire, processeurs Intel/AMD, chipsets. Les points d'attention classiques : les <strong>cartes Wi-Fi</strong> (préférer Intel ou MediaTek, éviter certains chips Realtek capricieux), les <strong>GPU NVIDIA</strong> (pilotes propriétaires ou open source selon les besoins) et certains <strong>imprimantes/scanners</strong>.</p>\n        <p>Les pilotes graphiques open source — <code>amdgpu</code> pour AMD, <code>i915</code> pour Intel — sont excellents pour le bureau ; NVIDIA propose son pilote propriétaire pour le jeu et le calcul. Vérifier avant d'acheter : une recherche « [modèle] + linux » donne vite la réponse.</p>\n        <h3>Comment choisir éclairé</h3>\n        <p>Pour un poste Linux fixe : une carte mère à chipset milieu de gamme, 16 Go de RAM en dual channel, un SSD NVMe de 512 Go minimum, une alimentation 80 Plus de puissance adaptée, et un CPU dont le TDP correspond au refroidisseur choisi. Le Wi-Fi se remplace facilement par une carte PCIe ou un adaptateur USB Intel — c'est le composant le plus facile à corriger après coup.</p>\n        <p>Pour la revente ou l'occasion : les ThinkPad d'occasion et les mini-PC sont d'excellents candidats Linux ; vérifier juste que le Wi-Fi est supporté.</p>\n        <h3>Vérifier sur sa propre machine</h3>\n        <p>Une fois Linux installé, le diagnostic complet tient en quelques commandes : <code>lscpu</code>, <code>lsblk</code>, <code>lspci</code>, <code>lsusb</code>, <code>free -h</code>, <code>sensors</code>. C'est exactement ce que fera le module suivant : assembler, démarrer et interroger la machine qu'on vient de construire.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel."
+    }
+  ],
+  "hw2": [
+    {
+      "id": "hw2-l1",
+      "title": "Préparation et sécurité (ESD)",
+      "content": "\n        <h3>Avant de toucher : le plan</h3>\n        <p>Monter un PC se prépare. On pose une nappe, on débranche l'alimentation, on réunit son matériel (tournevis, pâte thermique, composants, manuel de la carte mère). On se libère de l'électricité statique : bracelet antistatique ou au minimum toucher une partie métallique mise à la terre avant chaque manipulation. L'électricité statique (ESD) est l'ennemi n°1 des composants électroniques : une décharge invisible peut les endommager.</p>\n        <h3>Les règles d'or</h3>\n        <p>1) Ne jamais brancher un composant sur une carte mère sous tension. 2) Tenir les cartes par les bords. 3) Ne pas forcer : un connecteur bien orienté s'enfonce sans effort. 4) Vérifier l'orientation des encoches (RAM, M.2, PCIe, connecteurs ATX). 5) Garder les vis dans un récipient pour ne rien perdre dans le boîtier.</p>\n        <p>Ces règles ne sont pas de la prudence décorative : elles évitent les pannes les plus frustrantes (composant mal enfoncé, vis qui tombe sur la carte mère).</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw2-l2",
+      "title": "Montage pas à pas",
+      "content": "\n        <h3>L'ordre classique de montage</h3>\n        <p>1) Installer le processeur sur la carte mère (socket ouvert, repère d'angle, fermeture du levier). 2) Poser la pâte thermique (petit point central) et fixer le refroidisseur. 3) Insérer la RAM dans les slots (dual channel : deux barrettes dans les slots A2/B2). 4) Fixer la carte mère dans le boîtier sur les entretoises. 5) Brancher l'alimentation : ATX 24 broches, CPU 4/8 broches, puis stockage. 6) Poser le SSD NVMe dans son slot M.2 (vis). 7) Brancher les câbles du boîtier (USB, audio, boutons).</p>\n        <h3>Les pièges classiques</h3>\n        <p>Le connecteur CPU 8 broches et l'ATX 24 broches ne sont pas interchangeables : vérifier les formes des broches. La pâte thermique se met en couche fine — une surdose se répand et isole. Les câbles SATA ont un clip fragile. Un SSD M.2 se visse légèrement incliné, jamais forcé.</p>\n        <p>Une fois le montage fini, on fait un test à nu (carte mère sur le carton de la boîte) avant de tout refermer : moins de vingt minutes pour détecter une erreur, bien plus rapide que de tout démonter après coup.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw2-l3",
+      "title": "Premier démarrage : POST, BIOS/UEFI",
+      "content": "\n        <h3>Ce qui se passe à l'allumage</h3>\n        <p>En appuyant sur le bouton, l'alimentation s'active, puis le firmware (BIOS ou UEFI) effectue le POST (Power-On Self-Test) : il vérifie la présence et la santé des composants essentiels. Un seul bip court = tout va bien. Des bips répétés ou un code LED = un composant pose problème (souvent la RAM, parfois le GPU).</p>\n        <p>Sur les machines récentes, c'est l'<strong>UEFI</strong> qui pilote : il lit les disques au format GPT, gère le Secure Boot et un mode de compatibilité (CSM) pour les vieux systèmes. On y accède avec une touche au démarrage (Suppr, F2, F10... selon la carte mère).</p>\n        <h3>Les réglages utiles avant d'installer</h3>\n        <p>Mettre à jour le firmware (via USB, selon le manuel), activer XMP/EXPO pour profiter de la fréquence de la RAM, choisir le mode de démarrage UEFI, et désactiver le Secure Boot si l'installeur Linux le refuse (rare, mais connu). Tous ces réglages sont réversibles : on peut toujours revenir aux valeurs par défaut.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw2-l4",
+      "title": "Installer Linux",
+      "content": "\n        <h3>Préparer le support d'installation</h3>\n        <p>On télécharge l'ISO d'une distribution (Ubuntu, Debian, Fedora...) et on la grave sur une clé USB avec un outil d'écriture (balenaEtcher, dd ou Ventoy). On vérifie l'intégrité : une somme SHA-256 publiée par la distribution doit correspondre à celle du fichier téléchargé.</p>\n        <h3>L'installation guidée</h3>\n        <p>Depuis le support, on lance « Installer ». L'installeur propose souvent un partitionnement automatique (disque entier) ou manuel. En automatique, tout se passe seul : créations des partitions (EFI, root), système de fichiers, identifiants utilisateur, fuseau horaire. L'installation dure 10 à 30 minutes selon le disque.</p>\n        <p>Pour un premier PC, l'installation automatique est recommandée. Le partitionnement manuel (GPT, swap, /home séparé) viendra plus tard : l'important est de démarrer, pas de tout optimiser dès la première heure.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw2-l5",
+      "title": "Premiers diagnostics",
+      "content": "\n        <h3>Interroger sa machine</h3>\n        <p>Une fois Linux installé, le système expose le matériel. <code>lscpu</code> : processeur (cœurs, threads, fréquence). <code>free -h</code> : mémoire utilisée/disponible. <code>lsblk</code> : disques, partitions, points de montage. <code>dmidecode</code> : informations DMI du firmware (mémoire, BIOS, fabricant) — nécessite souvent sudo. <code>dmesg</code> : messages du noyau, dont les pilotes chargés au boot.</p>\n        <h3>Diagnostiquer simplement</h3>\n        <p>La RAM est le premier suspect quand un PC plante : lancer <code>memtest86+</code> au boot pour un test complet. Les disques : <code>smartctl -a /dev/sda</code> (package smartmontools) donne les attributs SMART (heures de fonctionnement, secteurs réalloués). Les températures : <code>sensors</code> (lm-sensors).</p>\n        <p>Le réflexe d'administrateur : noter ses valeurs de référence (température au repos, RAM installée) pour repérer plus tard une anomalie. Un PC qu'on connaît se diagnostique en cinq minutes.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    }
+  ],
+  "hw3": [
+    {
+      "id": "hw3-l1",
+      "title": "Électricité minimale et breadboard",
+      "content": "\n        <h3>Les trois grandeurs à connaître</h3>\n        <p>La <strong>tension</strong> (V) : la « pression » électrique (3,3 V ou 5 V sur les GPIO, 12 V sur les rails d'alimentation). Le <strong>courant</strong> (A) : le débit. La <strong>résistance</strong> (Ω) : ce qui limite le courant. La loi d'Ohm (U = R × I) explique tout : plus la résistance est grande, moins le courant passe pour une tension donnée.</p>\n        <h3>La breadboard</h3>\n        <p>La plaque d'essai permet de connecter des composants sans souder : les lignes du centre sont reliées en colonnes de 5, les rails latéraux (rouge/bleu) distribuent l'alimentation. Une LED se branche avec une résistance en série (environ 220 Ω sur 3,3 V) pour limiter le courant.</p>\n        <h3>Règles de sécurité minimales</h3>\n        <p>Ne jamais brancher le secteur (230 V) sur une breadboard ni sur un GPIO. Vérifier la polarité d'une LED (patte longue = anode +) et d'un condensateur. Si un composant chauffe, débrancher immédiatement. À 3,3 V et quelques milliampères, le risque est faible : c'est justement pour ça que le matériel de lab est un excellent terrain d'apprentissage.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw3-l2",
+      "title": "GPIO avec Python sur Linux",
+      "content": "\n        <h3>Les GPIO, des broches programmables</h3>\n        <p>Les General Purpose Input/Output sont des broches du SoC (Raspberry Pi, Orange Pi...) que Linux expose comme des fichiers. Mettre une broche à l'état haut allume une LED ; la lire indique si un bouton est enfoncé. Tout se pilote depuis le terminal via l'interface sysfs ou les bibliothèques Python.</p>\n        <h3>Un exemple minimal en Python</h3>\n        <p>Avec la bibliothèque <code>gpiozero</code> : <code>from gpiozero import LED</code> puis <code>led = LED(17)</code> et <code>led.on()</code> / <code>led.off()</code>. En quelques lignes, une LED clignote, un bouton déclenche une action. C'est le même schéma que piloter un service : on écrit du code, il parle au matériel.</p>\n        <h3>Pourquoi c'est du Linux</h3>\n        <p>Les GPIO sont représentés par des fichiers dans <code>/sys/class/gpio/</code> ou gérés par le noyau via des devices. <code>ls /sys/class/gpio/</code> montre les broches exposées. Le matériel devient une question de chemins et de fichiers : le langage du système, déjà vu dans les phases précédentes.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw3-l3",
+      "title": "i2c/spi et capteurs",
+      "content": "\n        <h3>Deux bus pour des capteurs</h3>\n        <p>Le bus <strong>I2C</strong> connecte plusieurs capteurs sur deux fils (SDA, SCL) avec une adresse par appareil. Le bus <strong>SPI</strong> est plus rapide mais demande plus de fils. Ce sont les standards des capteurs : température, humidité, accéléromètre, écran OLED, baromètre.</p>\n        <h3>Lire un capteur sous Linux</h3>\n        <p>Sous Linux, un capteur I2C devient un appareil : <code>i2cdetect -y 1</code> liste les adresses présentes sur le bus. Puis on lit les registres via <code>i2cget</code> ou, plus simplement, via une bibliothèque Python qui fait le travail (<code>smbus2</code>, <code>Adafruit CircuitPython</code>).</p>\n        <h3>Le capteur comme donnée</h3>\n        <p>Une fois la valeur lue, c'est un nombre comme un autre : on peut l'afficher, l'envoyer dans un fichier, déclencher un script, alimenter un graphe. Le capteur est un périphérique d'entrée de plus — exactement comme un clavier, mais avec une interface bien plus simple à programmer.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw3-l4",
+      "title": "USB, sérielle, outils",
+      "content": "\n        <h3>Voir le bus USB</h3>\n        <p><code>lsusb</code> liste les périphériques USB avec leur fabricant et leur identifiant (VendorID:ProductID). <code>dmesg</code> montre les messages du noyau à l'insertion (pilote chargé, numéro de device). Un câble série USB-UART (CP2102, CH340) transforme la machine en terminal série pour dialoguer avec un microcontrôleur.</p>\n        <h3>La console série</h3>\n        <p>Beaucoup de cartes (Raspberry Pi, ESP32, routeurs) exposent une console série : <code>screen /dev/ttyUSB0 115200</code> ouvre le port à 115200 bauds. On y voit les messages de boot et on peut s'y connecter comme sur un terminal. <code>stty</code> configure le port ; <code>cu</code> et <code>minicom</code> sont des alternatives.</p>\n        <h3>Le lien avec le reste du cours</h3>\n        <p>La sérielle, c'est le terminal dans sa forme la plus brute : 8 bits, un débit, des octets. Les commandes vues aux modules précédents (<code>ls</code>, <code>cat</code>, <code>grep</code>) s'appliquent aussi aux ports : <code>cat /dev/ttyUSB0</code> affiche ce qui arrive. Le matériel se fond dans le système de fichiers.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw3-l5",
+      "title": "Sécurité matérielle et bonnes pratiques",
+      "content": "\n        <h3>Protéger le matériel</h3>\n        <p>Vérifier les tensions avant de brancher (beaucoup de capteurs sont en 3,3 V, pas 5 V), utiliser des résistances de protection, couper l'alimentation avant de modifier le câblage. Un montage stable (breadboard sur un support) évite les courts-circuits dus aux fils qui bougent.</p>\n        <h3>Ne pas transmettre inutilement</h3>\n        <p>Éviter les tensions secteur, ne pas ouvrir une alimentation (condensateurs dangereux), ne pas connecter des périphériques inconnus trouvés par terre (une clé USB « magique » peut contenir du malveillant : la tester dans un environnement isolé). Ce sont les mêmes règles que les modules sécurité, appliquées au monde physique.</p>\n        <h3>Documenter</h3>\n        <p>Noter son schéma de câblage (broche → composant) et les commandes utilisées. Un lab documenté se débogue en minutes ; un lab non documenté se recommence. Même un simple fichier texte <code>mon_lab.md</code> dans un dossier versionné suffit.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    }
+  ],
+  "hw4": [
+    {
+      "id": "hw4-l1",
+      "title": "Choisir son gadget",
+      "content": "\n        <h3>Un gadget, une fonction</h3>\n        <p>Le capstone de la section : construire un petit objet qui fait une chose utile ou amusante, et se pilote depuis Linux. Trois exemples accessibles : un <strong>badge USB</strong> (clavier macro qui envoie des raccourcis), un <strong>mini-serveur</strong> sur Raspberry Pi (site local, domotique), une <strong>station météo</strong> avec un capteur et un écran.</p>\n        <h3>Critères de choix</h3>\n        <p>Coût raisonnable (souvent moins de 40 €), composants faciles à trouver, objectif clair. Le meilleur premier projet est celui qu'on peut terminer en un week-end : un objet simple, documenté, qui fonctionne, vaut mieux qu'un projet ambitieux à moitié fini.</p>\n        <h3>Le cadre éthique</h3>\n        <p>Tout se fait sur son propre matériel, chez soi. Pas de gadget pour espionner autrui, pas de clé USB « cadeau » piégée, pas d'accès à un réseau qui n'est pas le sien. La règle tient en une phrase : la bidouille, c'est sur ses affaires, et pour apprendre.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw4-l2",
+      "title": "Raspberry Pi / SBC : premier boot et SSH",
+      "content": "\n        <h3>Une carte, un système</h3>\n        <p>Un SBC (Single Board Computer) comme le Raspberry Pi embarque CPU, RAM et GPIO sur une seule carte. On installe le système en écrivant l'image (Raspberry Pi OS, Debian ARM) sur une carte SD, puis on branche : la carte boote en quelques secondes.</p>\n        <h3>Le passage au sans-écran</h3>\n        <p>Le réflexe du lab : activer SSH (fichier <code>ssh</code> vide sur la partition boot), puis se connecter depuis son poste : <code>ssh user@192.168.1.42</code>. Le SBC devient une machine headless : aucun écran, on l'administre au terminal, exactement comme un serveur.</p>\n        <h3>Premières manœuvres</h3>\n        <p><code>ssh</code> : connexion. <code>sudo apt update && sudo apt upgrade</code> : mise à jour (sur son propre matériel, avec les précautions habituelles). <code>hostnamectl</code> : changer le nom. <code>systemctl</code> : gérer les services. Un SBC est le banc de test idéal : si on le casse, on réécrit la carte SD.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw4-l3",
+      "title": "Flasher un microcontrôleur",
+      "content": "\n        <h3>Microcontrôleur vs SBC</h3>\n        <p>Un microcontrôleur (Arduino, ESP32, RP2040) exécute un programme simple sans système d'exploitation : il lit des broches, pilote des sorties, communique. L'<strong>ESP32</strong> ajoute le Wi-Fi : c'est le cœur de beaucoup de gadgets.</p>\n        <h3>Flasher en toute sécurité</h3>\n        <p>On écrit le firmware avec les outils officiels (esptool pour ESP32, arduino-cli, MicroPython via esptool). Toujours alimenter la carte en 3,3 V, couper l'alimentation avant de rebrancher les fils, et vérifier que le bon port série est visé (<code>esptool --port /dev/ttyUSB0</code>).</p>\n        <h3>Le pont avec Linux</h3>\n        <p>Le même terminal qui a servi aux modules précédents sert ici : <code>lsusb</code> pour voir la carte, <code>screen</code> pour la console, <code>esptool</code> pour flasher, <code>minicom</code> pour dialoguer. Le firmware devient un fichier qu'on pousse sur le matériel — encore une opération de fichiers.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw4-l4",
+      "title": "Gadget ↔ Linux : systemd, script, journalctl",
+      "content": "\n        <h3>Faire de son gadget un service</h3>\n        <p>Une fois le gadget branché (série, USB, GPIO), on lui donne un comportement système : un service systemd qui démarre au boot, un script Python qui tourne en arrière-plan. Un service minimal : <code>[Unit]</code>, <code>[Service] ExecStart=...</code>, <code>[Install] WantedBy=multi-user.target</code>, puis <code>systemctl enable mon-gadget</code>.</p>\n        <h3>Lire ce qu'il fait</h3>\n        <p><code>journalctl -u mon-gadget</code> affiche les logs du service ; <code>systemctl status</code> montre son état ; <code>systemctl restart</code> le relance après une modif. Le gadget devient une partie du système : il apparaît dans <code>ps</code>, ses logs dans le journal, et on l'administre comme un service.</p>\n        <h3>La boucle est bouclée</h3>\n        <p>Le module 1 montrait les pièces, le module 2 assemblait et bootait, le module 3 pilotait les broches, et ici le gadget est devenu un citoyen de Linux : fichier, service, logs. C'est la synthèse de tout le parcours.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    },
+    {
+      "id": "hw4-l5",
+      "title": "Documenter et présenter son projet",
+      "content": "\n        <h3>Le livrable final n'est pas l'objet</h3>\n        <p>Un gadget qui marche est la moitié du travail ; la documentation est l'autre moitié. Un bon README de projet contient : le but, la liste du matériel, le schéma de câblage, le code, les commandes d'installation et d'utilisation, et une photo du résultat.</p>\n        <h3>Un format simple</h3>\n        <p>Un fichier <code>README.md</code> dans un dépôt git local suffit. Les commandes réelles utilisées (<code>lsusb</code>, <code>screen</code>, <code>systemctl</code>) sont les meilleures preuves : on les copie depuis le terminal, on ne les invente pas.</p>\n        <h3>Et après ?</h3>\n        <p>Le capstone terminé, la section Lab & Tinker est bouclée : des composants au gadget contrôlé en ligne de commande. La suite logique est de choisir un deuxième projet plus ambitieux, en réutilisant exactement la même méthode : objectif simple, matériel personnel, documentation dès le début.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-30",
+      "distro": "Multi-distribution (matériel)",
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+    }
   ]
 }

@@ -25,7 +25,7 @@ function runCanonical(vfsSource, command) {
 test('every exercise has a declarative validator and a canonical answer', async () => {
   const exercises = await loadJson('data/exercises.json');
   const rows = allExercises(exercises);
-  assert.equal(rows.length, 38);
+  assert.equal(rows.length, 46);
   for (const { exercise } of rows) {
     assert.ok(exercise.validator && exercise.validator.type, `${exercise.id} missing validator`);
     assert.ok(Array.isArray(exercise.accepted) && exercise.accepted[0], `${exercise.id} missing accepted[0]`);
@@ -35,7 +35,7 @@ test('every exercise has a declarative validator and a canonical answer', async 
   }
 });
 
-test('the 38 canonical answers produce exit 0 and satisfy their effect oracle', async () => {
+test('the 46 canonical answers produce exit 0 and satisfy their effect oracle', async () => {
   const [exercises, vfs] = await Promise.all([loadJson('data/exercises.json'), loadJson('data/vfs.json')]);
   const failures = [];
   for (const { exercise } of allExercises(exercises)) {

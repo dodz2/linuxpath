@@ -1259,5 +1259,255 @@
         ]
       }
     }
+  ],
+  "hw1": [
+    {
+      "id": "hw1-e1",
+      "title": "Créer un espace de travail système",
+      "desc": "Créez un répertoire nommé <code>systeme</code> dans votre répertoire courant. C'est l'équivalent virtuel d'un tiroir où ranger les notes de votre future machine.",
+      "accepted": [
+        "mkdir systeme",
+        "mkdir ./systeme",
+        "mkdir -p systeme",
+        "mkdir -v systeme",
+        "mkdir -pv systeme"
+      ],
+      "hints": [
+        "La commande pour créer un dossier commence par 'mk'.",
+        "Tapez : mkdir systeme"
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "mkdir"
+          },
+          {
+            "type": "path_exists",
+            "path": "/home/user/systeme",
+            "kind": "directory"
+          }
+        ]
+      }
+    },
+    {
+      "id": "hw1-e2",
+      "title": "Lister la racine du système de fichiers",
+      "desc": "Affichez le contenu du répertoire racine <code>/</code> pour constater que tout part de là (comme la carte mère relie tous les composants).",
+      "accepted": [
+        "ls /",
+        "ls -l /",
+        "ls -la /"
+      ],
+      "hints": [
+        "La commande listant les fichiers est 'ls'.",
+        "Indiquez le chemin absolu : ls /"
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "ls"
+          }
+        ]
+      }
+    }
+  ],
+  "hw2": [
+    {
+      "id": "hw2-e1",
+      "title": "Préparer un dossier d'installation",
+      "desc": "Créez un répertoire <code>installation</code> : c'est là que vous rangerez vos notes de montage (comme le plan avant de monter).",
+      "accepted": [
+        "mkdir installation",
+        "mkdir -p installation",
+        "mkdir -v installation"
+      ],
+      "hints": [
+        "La commande pour créer un dossier est 'mkdir'.",
+        "Tapez : mkdir installation"
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "mkdir"
+          },
+          {
+            "type": "path_exists",
+            "path": "/home/user/installation",
+            "kind": "directory"
+          }
+        ]
+      }
+    },
+    {
+      "id": "hw2-e2",
+      "title": "Vérifier le mode de démarrage",
+      "desc": "Affichez le texte <code>UEFI</code> pour vous rappeler le mode recommandé lors de l'installation.",
+      "accepted": [
+        "echo UEFI",
+        "echo \"UEFI\"",
+        "echo UEFI "
+      ],
+      "hints": [
+        "La commande qui affiche du texte est 'echo'.",
+        "Tapez : echo UEFI"
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "echo"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "UEFI"
+          }
+        ]
+      }
+    }
+  ],
+  "hw3": [
+    {
+      "id": "hw3-e1",
+      "title": "Créer le dossier de son lab",
+      "desc": "Créez un répertoire <code>lab</code> : il accueillera vos schémas et scripts de pilotage.",
+      "accepted": [
+        "mkdir lab",
+        "mkdir -p lab",
+        "mkdir -v lab"
+      ],
+      "hints": [
+        "La commande pour créer un dossier est 'mkdir'.",
+        "Tapez : mkdir lab"
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "mkdir"
+          },
+          {
+            "type": "path_exists",
+            "path": "/home/user/lab",
+            "kind": "directory"
+          }
+        ]
+      }
+    },
+    {
+      "id": "hw3-e2",
+      "title": "Afficher l'outil du bus",
+      "desc": "Affichez <code>lsusb</code> : la commande qui liste les périphériques USB.",
+      "accepted": [
+        "echo lsusb",
+        "echo \"lsusb\"",
+        "echo lsusb "
+      ],
+      "hints": [
+        "La commande qui affiche du texte est 'echo'.",
+        "Tapez : echo lsusb"
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "echo"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "lsusb"
+          }
+        ]
+      }
+    }
+  ],
+  "hw4": [
+    {
+      "id": "hw4-e1",
+      "title": "Créer le dossier du projet",
+      "desc": "Créez un répertoire <code>mon-gadget</code> : le futur dépôt de votre projet.",
+      "accepted": [
+        "mkdir mon-gadget",
+        "mkdir -p mon-gadget",
+        "mkdir -v mon-gadget"
+      ],
+      "hints": [
+        "La commande pour créer un dossier est 'mkdir'.",
+        "Tapez : mkdir mon-gadget"
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "mkdir"
+          },
+          {
+            "type": "path_exists",
+            "path": "/home/user/mon-gadget",
+            "kind": "directory"
+          }
+        ]
+      }
+    },
+    {
+      "id": "hw4-e2",
+      "title": "Préparer le fichier d'objectif",
+      "desc": "Affichez <code>README</code> : le nom du fichier qui documentera votre gadget.",
+      "accepted": [
+        "echo README",
+        "echo \"README\"",
+        "echo README "
+      ],
+      "hints": [
+        "La commande qui affiche du texte est 'echo'.",
+        "Tapez : echo README"
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "echo"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "README"
+          }
+        ]
+      }
+    }
   ]
 }

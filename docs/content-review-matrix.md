@@ -47,6 +47,26 @@ Revue du 2026-08-29 — environnement de référence : Ubuntu 22.04 LTS.
 | m8-l8 | Dockerfile | m8 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m8-l9 | Volumes et réseau Docker | m8 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m8-l10 | Docker Compose | m8 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
+| hw1-l1 | L'unité centrale et le flux de données | hw1 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel. |
+| hw1-l2 | CPU & mémoire vive | hw1 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel. |
+| hw1-l3 | Stockage et bus | hw1 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel. |
+| hw1-l4 | Alimentation, refroidissement, boîtier | hw1 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel. |
+| hw2-l1 | Préparation et sécurité (ESD) | hw2 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw2-l2 | Montage pas à pas | hw2 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw2-l3 | Premier démarrage : POST, BIOS/UEFI | hw2 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw2-l4 | Installer Linux | hw2 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw3-l1 | Électricité minimale et breadboard | hw3 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw3-l2 | GPIO avec Python sur Linux | hw3 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw3-l3 | i2c/spi et capteurs | hw3 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw3-l4 | USB, sérielle, outils | hw3 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw4-l1 | Choisir son gadget | hw4 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw4-l2 | Raspberry Pi / SBC : premier boot et SSH | hw4 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw4-l3 | Flasher un microcontrôleur | hw4 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw4-l4 | Gadget ↔ Linux : systemd, script, journalctl | hw4 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw4-l5 | Documenter et présenter son projet | hw4 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw3-l5 | Sécurité matérielle et bonnes pratiques | hw3 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw2-l5 | Premiers diagnostics | hw2 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel. |
+| hw1-l5 | Compatibilité Linux & choix de pièces | hw1 | reviewed | Multi-distribution (matériel) | Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel. |
 | m9-l1 | SSH avancé — clés, tunnels & config | m9 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m9-l2 | WireGuard — VPN moderne sous Linux | m9 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m9-l3 | Transferts de fichiers — SCP, SFTP & rsync | m9 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |

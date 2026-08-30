@@ -6,15 +6,18 @@ import { masteryLabel } from '../../scripts/lib/progress-model.mjs';
 test('three learning tracks are explicit and the third is not labelled offensive', async () => {
   const catalogue = await loadJson('data/modules.json');
   const tracks = catalogue.tracks;
-  assert.equal(tracks.length, 3);
-  assert.deepEqual(tracks.map((track) => track.id), ['linux', 'network', 'offsec']);
+  assert.equal(tracks.length, 4);
+  assert.deepEqual(tracks.map((track) => track.id), ['linux', 'network', 'offsec', 'hardware']);
   assert.equal(tracks[0].title, 'Fondamentaux Linux');
   assert.equal(tracks[1].title, 'Réseau & services');
   assert.match(tracks[2].title, /Sécurité.*DFIR|Pentest.*DFIR/i);
   assert.equal(/offensive/i.test(tracks[2].title), false);
+  assert.equal(tracks[3].title, 'Lab & Tinker');
   assert.deepEqual(tracks[0].modules, ['m1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8']);
   assert.deepEqual(tracks[1].modules, ['m9', 'm10', 'm11']);
   assert.deepEqual(tracks[2].modules, ['m12', 'm13', 'm14']);
+  assert.deepEqual(tracks[3].modules, ['hw1', 'hw2', 'hw3', 'hw4']);
+  assert.equal(tracks[3].entryModule, 'hw1');
   for (const track of tracks) {
     assert.ok(track.level);
     assert.ok(track.prerequisites);

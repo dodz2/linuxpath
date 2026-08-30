@@ -838,5 +838,245 @@
         "expl": "<code>dd</code> crée une copie bit-à-bit d'un disque. Utilisez toujours <code>if=</code> (input file) et <code>of=</code> (output file)."
       }
     ]
+  },
+  "hw1": {
+    "title": "Quiz — Anatomie d'un PC",
+    "questions": [
+      {
+        "q": "Quel est le rôle principal de la carte mère ?",
+        "options": [
+          "Relier et faire communiquer tous les composants",
+          "Stocker les fichiers à long terme",
+          "Exécuter les calculs du processeur",
+          "Alimenter le secteur en électricité"
+        ],
+        "correct": 0,
+        "expl": "La carte mère est la colonne vertébrale : elle distribue l'énergie et les données entre le CPU, la RAM, le stockage et les périphériques."
+      },
+      {
+        "q": "Quelle commande Linux affiche les caractéristiques du processeur ?",
+        "options": [
+          "free -h",
+          "lscpu",
+          "blkid",
+          "df -h"
+        ],
+        "correct": 1,
+        "expl": "<code>lscpu</code> affiche cœurs, threads, fréquence et cache du processeur. <code>free -h</code> concerne la mémoire."
+      },
+      {
+        "q": "Quelle est la différence principale entre un SSD NVMe et un SSD SATA ?",
+        "options": [
+          "Le NVMe est plus rapide car branché sur le bus PCIe",
+          "Le SATA est toujours plus rapide",
+          "Le NVMe ne peut pas contenir de partitions",
+          "Les deux sont identiques, seul le prix change"
+        ],
+        "correct": 0,
+        "expl": "Le NVMe passe par le bus PCIe, beaucoup plus rapide que le bus SATA. C'est le format M.2 que Linux voit sous <code>/dev/nvme0n1</code>."
+      },
+      {
+        "q": "Où Linux voit-il un SSD NVMe ?",
+        "options": [
+          "/dev/nvme0n1",
+          "/dev/sda",
+          "C:\\",
+          "/mnt/nvme"
+        ],
+        "correct": 0,
+        "expl": "Les périphériques NVMe apparaissent sous <code>/dev/nvme0n1</code> (premier disque), tandis que les disques SATA/USB portent des noms <code>/dev/sdX</code>."
+      },
+      {
+        "q": "Quelle précaution est la plus importante avant d'intervenir dans un PC ?",
+        "options": [
+          "Débrancher l'alimentation et se décharger de l'électricité statique",
+          "Installer Windows d'abord",
+          "Laisser le PC allumé pour tester",
+          "Aucune précaution particulière"
+        ],
+        "correct": 0,
+        "expl": "Débrancher l'alimentation évite tout risque électrique et se décharger de l'électricité statique (bracelet ou contact métallique) protège les composants sensibles."
+      }
+    ]
+  },
+  "hw2": {
+    "title": "Quiz — Assembler & booter",
+    "questions": [
+      {
+        "q": "Quel programme s'exécute en premier au démarrage d'un PC ?",
+        "options": [
+          "Le gestionnaire de fenêtres",
+          "Linux",
+          "Le BIOS/UEFI",
+          "Le navigateur"
+        ],
+        "correct": 2,
+        "expl": "Le firmware (BIOS/UEFI) démarre en premier : il teste le matériel (POST) puis charge le système."
+      },
+      {
+        "q": "Quelle précaution protège les composants de l'électricité statique ?",
+        "options": [
+          "Souffler sur les composants",
+          "Toucher une partie métallique mise à la terre",
+          "Laisser le PC allumé",
+          "Utiliser des gants en laine"
+        ],
+        "correct": 1,
+        "expl": "Se décharger (bracelet ou contact métallique) avant de manipuler évite les décharges ESD qui endommagent l'électronique."
+      },
+      {
+        "q": "Où applique-t-on la pâte thermique ?",
+        "options": [
+          "Dans les connecteurs ATX",
+          "Entre le processeur et le refroidisseur",
+          "Sur les disques",
+          "Sur la RAM"
+        ],
+        "correct": 1,
+        "expl": "La pâte assure le contact thermique entre le CPU et le ventirad ; une couche fine suffit."
+      },
+      {
+        "q": "Quelle commande affiche la mémoire utilisée et disponible ?",
+        "options": [
+          "dmidecode",
+          "free -h",
+          "lspci",
+          "blkid"
+        ],
+        "correct": 1,
+        "expl": "<code>free -h</code> montre la RAM en unités lisibles. <code>lspci</code> liste les périphériques PCIe."
+      },
+      {
+        "q": "Où Linux déclare-t-il les montages automatiques au démarrage ?",
+        "options": [
+          "/etc/fstab",
+          "/home",
+          "/boot",
+          "C:\\Windows"
+        ],
+        "correct": 0,
+        "expl": "Le fichier <code>/etc/fstab</code> définit les systèmes de fichiers montés automatiquement au boot."
+      }
+    ]
+  },
+  "hw3": {
+    "title": "Quiz — Piloter le matériel",
+    "questions": [
+      {
+        "q": "Quelle interface permet d'allumer une LED depuis un SoC ?",
+        "options": [
+          "La prise secteur",
+          "Une broche GPIO",
+          "Le connecteur SATA",
+          "Le port VGA"
+        ],
+        "correct": 1,
+        "expl": "Les broches GPIO sont programmables : l'état haut allume une LED, l'état bas l'éteint."
+      },
+      {
+        "q": "Quelle commande liste les périphériques USB ?",
+        "options": [
+          "lscpu",
+          "lsusb",
+          "free -h",
+          "blkid"
+        ],
+        "correct": 1,
+        "expl": "<code>lsusb</code> affiche les périphériques USB avec leurs identifiants fabricant/produit."
+      },
+      {
+        "q": "Pourquoi met-on une résistance en série avec une LED ?",
+        "options": [
+          "Limiter le courant pour protéger la LED",
+          "Augmenter la tension",
+          "La faire clignoter",
+          "Ajouter de la chaleur"
+        ],
+        "correct": 0,
+        "expl": "Sans résistance, le courant est trop fort et la LED grille (ou le GPIO est endommagé)."
+      },
+      {
+        "q": "Quel bus connecte plusieurs capteurs sur seulement deux fils ?",
+        "options": [
+          "VGA",
+          "I2C",
+          "SATA",
+          "PCIe"
+        ],
+        "correct": 1,
+        "expl": "Le bus I2C utilise SDA + SCL et adresse chaque appareil ; c'est le standard des capteurs."
+      },
+      {
+        "q": "Quelle commande ouvre une console série sur un port USB-UART ?",
+        "options": [
+          "i2cdetect -y 1",
+          "lsusb",
+          "smartctl -a",
+          "screen /dev/ttyUSB0 115200"
+        ],
+        "correct": 3,
+        "expl": "<code>screen /dev/ttyUSB0 115200</code> se connecte au port série à 115200 bauds."
+      }
+    ]
+  },
+  "hw4": {
+    "title": "Quiz — Gadgets & hack",
+    "questions": [
+      {
+        "q": "Quel élément distingue un microcontrôleur comme l'ESP32 d'un SBC comme le Raspberry Pi ?",
+        "options": [
+          "Le Raspberry Pi n'a pas de GPIO",
+          "Il n'y a aucune différence",
+          "L'ESP32 n'exécute pas de système d'exploitation complet",
+          "L'ESP32 ne peut pas communiquer en série"
+        ],
+        "correct": 2,
+        "expl": "Un microcontrôleur exécute un programme direct (firmware), sans OS complet ; un SBC fait tourner Linux."
+      },
+      {
+        "q": "Comment activer SSH sur un Raspberry Pi headless ?",
+        "options": [
+          "Envoyer un mail à la carte",
+          "Installer un navigateur",
+          "Créer un fichier vide nommé ssh sur la partition boot",
+          "Le brancher à un écran 4K"
+        ],
+        "correct": 2,
+        "expl": "Un fichier <code>ssh</code> sur la partition boot active le serveur SSH au premier démarrage."
+      },
+      {
+        "q": "Quelle commande affiche les journaux d'un service systemd ?",
+        "options": [
+          "journalctl -u nom-service",
+          "dmesg -u",
+          "lsusb",
+          "free -h"
+        ],
+        "correct": 0,
+        "expl": "<code>journalctl -u</code> filtre le journal par unité systemd : les logs du gadget y sont visibles."
+      },
+      {
+        "q": "Quel outil permet de flasher un firmware ESP32 depuis Linux ?",
+        "options": [
+          "smartctl",
+          "esptool",
+          "memtest86+",
+          "i2cdetect"
+        ],
+        "correct": 1,
+        "expl": "<code>esptool</code> est l'outil officiel pour écrire le firmware des puces Espressif (ESP32)."
+      },
+      {
+        "q": "Quelle est la règle d'or du capstone Lab & Tinker ?",
+        "options": [
+          "Cacher son projet",
+          "Toujours utiliser du 230 V",
+          "Ne jamais documenter",
+          "Bidouiller sur son propre matériel, jamais sur celui d'autrui"
+        ],
+        "correct": 3,
+        "expl": "Toutes les manipulations se font chez soi, sur ses affaires : c'est la condition pour apprendre sans nuire."
+      }
+    ]
   }
 }
