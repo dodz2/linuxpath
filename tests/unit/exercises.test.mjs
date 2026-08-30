@@ -110,3 +110,31 @@ test('exercises that require arguments reject the bare pedagogical stub', async 
   }
   assert.deepEqual(failures, []);
 });
+
+test('exercises reject an unrelated command that happens to carry the expected token', async () => {
+  // Régression de c55b0cb : remplacer la contrainte `command` par un `any` de
+  // `args_include` laissait passer n'importe quelle commande portant le bon
+  // token (« ls -l » validait l'exercice sur `ss`). Les stubs nus ci-dessus ne
+  // couvrent pas ce cas : ils testent la bonne commande sans ses arguments.
+  const [exercises, vfs] = await Promise.all([loadJson('data/exercises.json'), loadJson('data/vfs.json')]);
+  const cases = [
+    ['m11-e2', 'ls -l'],
+    ['m6-e2', 'ls -l'],
+    ['m4-e2', 'echo addr'],
+    ['m4-e2', 'echo a'],
+    ['m6-e1', 'echo ssh'],
+    ['m6-e1', 'echo status'],
+    ['m11-e2', 'echo -tlnp'],
+    ['m6-e2', 'echo -l'],
+  ];
+  const byId = Object.fromEntries(allExercises(exercises).map(({ exercise }) => [exercise.id, exercise]));
+  const failures = [];
+  for (const [id, wrong] of cases) {
+    const exercise = byId[id];
+    const isolatedVfs = clone(vfs);
+    const isolated = runShell({ vfs: isolatedVfs, cwd: '/home/user', command: wrong, extraCommands: pedagogicalCommands });
+    const verdict = evaluateValidator(exercise.validator, { ...isolated, vfs: isolatedVfs, raw: wrong });
+    if (verdict.ok) failures.push({ id, wrong, reason: 'accepted an unrelated command' });
+  }
+  assert.deepEqual(failures, []);
+});

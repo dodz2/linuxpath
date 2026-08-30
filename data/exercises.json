@@ -305,6 +305,17 @@
             "type": "exit_zero"
           },
           {
+            "type": "command",
+            "names": [
+              "ip",
+              "ifconfig"
+            ]
+          },
+          {
+            "type": "stdout_includes",
+            "text": "inet"
+          },
+          {
             "type": "any",
             "of": [
               {
@@ -427,6 +438,17 @@
             "type": "exit_zero"
           },
           {
+            "type": "command",
+            "names": [
+              "systemctl",
+              "service"
+            ]
+          },
+          {
+            "type": "stdout_includes",
+            "text": "ssh"
+          },
+          {
             "type": "any",
             "of": [
               {
@@ -483,6 +505,14 @@
         "of": [
           {
             "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "crontab"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "backup"
           },
           {
             "type": "any",
@@ -1080,6 +1110,14 @@
             "type": "exit_zero"
           },
           {
+            "type": "command",
+            "name": "ss"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "LISTEN"
+          },
+          {
             "type": "any",
             "of": [
               {
@@ -1092,30 +1130,6 @@
                 "type": "args_include",
                 "tokens": [
                   "-tnlp"
-                ]
-              },
-              {
-                "type": "args_include",
-                "tokens": [
-                  "-t"
-                ]
-              },
-              {
-                "type": "args_include",
-                "tokens": [
-                  "-l"
-                ]
-              },
-              {
-                "type": "args_include",
-                "tokens": [
-                  "-n"
-                ]
-              },
-              {
-                "type": "args_include",
-                "tokens": [
-                  "-p"
                 ]
               }
             ]
