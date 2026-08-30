@@ -1119,9 +1119,9 @@ function renderRoadmapBonus() {
 /* ============================================================
    HERO TERMINAL — démonstration interactive de la page d'accueil
    ============================================================ */
-const HERO_TYPING_MS = 38;
-const HERO_PAUSE_MS = 260;
-const HERO_BATCH_MS = 850;
+const HERO_TYPING_MS = 78;
+const HERO_PAUSE_MS = 1000;
+const HERO_BATCH_MS = 1600;
 
 const HERO_SCRIPT = [
   { cmd: 'whoami', out: ['visiteur'] },

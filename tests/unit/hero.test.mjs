@@ -43,9 +43,14 @@ test('the demo timing constants are bounded and a cleanup hook exists', async ()
   const pause = src.match(/const HERO_PAUSE_MS\s*=\s*(\d+)/);
   const batch = src.match(/const HERO_BATCH_MS\s*=\s*(\d+)/);
   assert.ok(typing && pause && batch, 'timing constants missing (HERO_TYPING_MS/HERO_PAUSE_MS/HERO_BATCH_MS)');
+  // Bornes hautes : la démo ne doit jamais devenir pénible.
   assert.ok(Number(typing[1]) <= 1000, 'typing per char must stay ≤ 1000ms');
   assert.ok(Number(pause[1]) <= 3000, 'pause must stay ≤ 3000ms');
   assert.ok(Number(batch[1]) <= 3000, 'batch pause must stay ≤ 3000ms');
+  // Bornes basses : le texte doit rester lisible (pas de défilement trop rapide).
+  assert.ok(Number(typing[1]) >= 60, `typing per char must be ≥ 60ms for readability (got ${typing[1]})`);
+  assert.ok(Number(pause[1]) >= 800, `pause after output must be ≥ 800ms (got ${pause[1]})`);
+  assert.ok(Number(batch[1]) >= 1200, `batch gap must be ≥ 1200ms (got ${batch[1]})`);
   assert.match(src, /function cleanHeroTimers\(\)/, 'cleanHeroTimers() hook is missing');
 });
 

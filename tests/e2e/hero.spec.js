@@ -6,8 +6,8 @@ test('the hero displays a demo terminal with a typing boot sequence', async ({ p
   const term = page.locator('[data-hero-terminal]');
   await expect(term).toBeVisible();
   await expect(term).toHaveAttribute('aria-label', /démonstration|demo/i);
-  // the first demo command appears after a short typing delay
-  await expect(page.locator('[data-hero-screen]')).toContainText(/whoami|visiteur@linuxpath/, { timeout: 8000 });
+  // the first demo command appears after a short typing delay (slower pacing)
+  await expect(page.locator('[data-hero-screen]')).toContainText(/whoami|visiteur@linuxpath/, { timeout: 12000 });
 });
 
 test('the demo script eventually prints its first output line', async ({ page }) => {
@@ -18,7 +18,7 @@ test('the demo script eventually prints its first output line', async ({ page })
     if (!screen) return false;
     const outs = screen.querySelectorAll('.hero-term-out');
     return outs.length >= 1 && outs[0].textContent.trim() === 'visiteur';
-  }, undefined, { timeout: 12000 });
+  }, undefined, { timeout: 20000 });
   await expect(screen.locator('.hero-term-out').first()).toHaveText('visiteur');
 });
 
