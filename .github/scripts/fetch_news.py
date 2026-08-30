@@ -476,6 +476,7 @@ def write_news(articles):
 
     with open(NEWS_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
+        f.write("\n")  # newline final (convention POSIX/JSON propre)
 
     print(f"  ✓ {len(articles)} articles écrits dans {NEWS_FILE}")
 
