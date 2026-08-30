@@ -59,6 +59,29 @@ test('the mobile menu closes with Escape and restores focus', async ({ page }) =
   await expect(hamburger).toBeFocused();
 });
 
+test('on mobile, sidebar groups stay clipped and the arrow toggles them', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await openApp(page);
+  await page.locator('.hamburger').click();
+  await expect(page.locator('#sidebar')).toHaveClass(/open/);
+  // le groupe est initialement fermé : ses items masqués (pas cliquables)
+  const group = page.locator('#group-hardware');
+  await expect(group).not.toHaveClass(/open/);
+  await expect(page.locator('[data-target="hw1"]')).toBeHidden();
+  // on ouvre le groupe via son header (la flèche)
+  await page.locator('#group-hardware .sidebar-group-header').click();
+  await expect(group).toHaveClass(/open/);
+  await expect(page.locator('[data-target="hw1"]')).toBeVisible();
+  // la flèche referme : les items redeviennent masqués et non cliquables
+  await page.locator('#group-hardware .sidebar-group-header').click();
+  await expect(group).not.toHaveClass(/open/);
+  await expect(page.locator('[data-target="hw1"]')).toBeHidden();
+  // la flèche rouvre : les items redeviennent cliquables
+  await page.locator('#group-hardware .sidebar-group-header').click();
+  await expect(group).toHaveClass(/open/);
+  await expect(page.locator('[data-target="hw1"]')).toBeVisible();
+});
+
 test('locked modules expose aria-disabled and a prerequisite label', async ({ page }) => {
   await openApp(page);
   const locked = page.locator('[data-target="m2"]');

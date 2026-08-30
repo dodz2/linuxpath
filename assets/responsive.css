@@ -993,11 +993,21 @@ textarea:focus-visible {
 .sidebar-group-body {
   max-height: 0;
   overflow: hidden;
+  visibility: hidden;
   transition: max-height 0.3s ease;
 }
 
 .sidebar-group.open .sidebar-group-body {
   max-height: 500px; /* assez grand pour 8 items */
+  visibility: visible;
+}
+
+/* Les enfants d'un groupe fermé ne doivent JAMAIS intercepter les clics
+   destinés au header ou aux autres groupes (les module-nav-item ont un
+   position:relative qui les sort du clip du parent). */
+.sidebar-group:not(.open) .sidebar-group-body,
+.sidebar-group:not(.open) .sidebar-group-body * {
+  visibility: hidden;
 }
 
 /* Les items à l'intérieur d'un groupe sont légèrement indentés */

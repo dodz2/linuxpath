@@ -3,6 +3,8 @@ import { openApp } from './helpers.js';
 
 test('news lives in a secondary resources group without a NEW badge', async ({ page }) => {
   await openApp(page);
+  // ouvrir le groupe ressources comme le ferait un utilisateur (il est fermé par défaut)
+  await page.locator('#group-resources .sidebar-group-header').click();
   const news = page.locator('#nav-news');
   await expect(news).toBeVisible();
   await expect(news).not.toContainText(/NEW/);
