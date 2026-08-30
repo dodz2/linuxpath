@@ -32,6 +32,9 @@ function parseHash() {
 }
 
 function navigateTo(target) {
+  // Le terminal héros est en démonstration sur la home : arrêter ses timers
+  // dès qu'on navigue ailleurs (pas de fuite de setTimeout entre sections).
+  if (typeof cleanHeroTimers === 'function') cleanHeroTimers();
   // 'ctf' et 'sandbox' sont toujours accessibles sans condition de module
   const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm9', 'm12'];
   if (!freeTargets.includes(target) && !state.unlockedModules.has(target)) {

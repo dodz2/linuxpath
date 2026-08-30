@@ -353,11 +353,34 @@
           <!-- ===== HERO — rendu dynamique par JS (renderHome) ; le contenu statique sert de fallback sans JS ===== -->
           <div id="home-hero">
             <div class="lp-hero">
-              <div class="lp-badge">$ open-source · gratuit · 100% français</div>
-              <h1 class="lp-headline">Apprenez <em>Linux</em> de zéro à l'administration.</h1>
-              <p class="lp-sub">Des modules progressifs, des exercices guidés, des quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
-              <div class="lp-cta-row">
-                <a class="lp-cta-primary" href="https://github.com/dodz2/linuxpath" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;cursor:pointer">▶ Activer JavaScript pour démarrer, ou explorer le code</a>
+              <div class="lp-hero-main">
+                <div class="lp-badge">$ open-source · gratuit · 100% français</div>
+                <h1 class="lp-headline">Apprenez <em>Linux</em> de zéro à l'administration.</h1>
+                <p class="lp-sub">Des modules progressifs, des exercices guidés, des quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
+                <div class="lp-cta-row">
+                  <a class="lp-cta-primary" href="https://github.com/dodz2/linuxpath" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;cursor:pointer">▶ Activer JavaScript pour démarrer, ou explorer le code</a>
+                </div>
+              </div>
+              <div class="hero-terminal-host">
+                <div class="hero-terminal" role="group" aria-label="Terminal de démonstration LinuxPath">
+                  <div class="hero-terminal-bar">
+                    <span class="hero-terminal-dot hero-terminal-dot-red"></span>
+                    <span class="hero-terminal-dot hero-terminal-dot-yellow"></span>
+                    <span class="hero-terminal-dot hero-terminal-dot-green"></span>
+                    <span class="hero-terminal-title">visiteur@linuxpath: ~</span>
+                  </div>
+                  <div class="hero-terminal-screen" aria-hidden="true">
+                    <div class="hero-term-line"><span class="hero-term-prompt">visiteur@linuxpath:~$</span><span class="hero-term-cmd">whoami</span></div>
+                    <div class="hero-term-line hero-term-out">visiteur</div>
+                    <div class="hero-term-line"><span class="hero-term-prompt">visiteur@linuxpath:~$</span><span class="hero-term-cmd">ls</span></div>
+                    <div class="hero-term-line hero-term-out">README.md   motivation.txt   parcours/   quiz/</div>
+                    <div class="hero-term-line"><span class="hero-term-prompt">visiteur@linuxpath:~$</span><span class="hero-term-cursor">&nbsp;</span></div>
+                  </div>
+                  <div class="hero-terminal-inputrow">
+                    <span class="hero-terminal-prompt">visiteur@linuxpath:~$</span>
+                    <span class="hero-term-note">Activez JavaScript pour taper vos commandes.</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

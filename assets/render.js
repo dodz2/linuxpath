@@ -1116,6 +1116,207 @@ function renderRoadmapBonus() {
    HOME — Hero dynamique (retour vs nouveau)
    ============================================================ */
 
+/* ============================================================
+   HERO TERMINAL — démonstration interactive de la page d'accueil
+   ============================================================ */
+const HERO_TYPING_MS = 38;
+const HERO_PAUSE_MS = 260;
+const HERO_BATCH_MS = 850;
+
+const HERO_SCRIPT = [
+  { cmd: 'whoami', out: ['visiteur'] },
+  { cmd: 'pwd', out: ['/home/visiteur'] },
+  { cmd: 'ls', out: ['README.md   motivation.txt   parcours/   quiz/'] },
+  { cmd: 'cat motivation.txt', out: ['"Le terminal, ça se dompte pas en vidéo."', 'signé LinuxPath'] },
+];
+
+let heroTimers = [];
+let heroInteractive = false;
+
+function heroSchedule(fn, ms) {
+  const id = setTimeout(fn, ms);
+  heroTimers.push(id);
+  return id;
+}
+
+function cleanHeroTimers() {
+  heroTimers.forEach(function (id) { clearTimeout(id); });
+  heroTimers = [];
+}
+
+function renderHeroTerminal() {
+  const host = document.querySelector('[data-hero-terminal-host]');
+  if (!host) return;
+  const input = host.querySelector('[data-hero-input]');
+  if (!host.dataset.heroBuilt) {
+    host.dataset.heroBuilt = 'true';
+    host.innerHTML = `
+      <div class="hero-terminal" data-hero-terminal role="group" aria-label="Terminal de démonstration LinuxPath">
+        <div class="hero-terminal-bar">
+          <span class="hero-terminal-dot hero-terminal-dot-red"></span>
+          <span class="hero-terminal-dot hero-terminal-dot-yellow"></span>
+          <span class="hero-terminal-dot hero-terminal-dot-green"></span>
+          <span class="hero-terminal-title">visiteur@linuxpath: ~</span>
+          <span class="hero-terminal-badge">démo</span>
+        </div>
+        <div class="hero-terminal-screen" data-hero-screen aria-hidden="true"></div>
+        <div class="hero-terminal-inputrow">
+          <span class="hero-terminal-prompt" data-hero-prompt>visiteur@linuxpath:~$</span>
+          <input class="hero-terminal-input" data-hero-input aria-label="Taper une commande de démonstration" autocomplete="off" spellcheck="false" />
+        </div>
+      </div>`;
+    const inputEl = host.querySelector('[data-hero-input]');
+    const term = host.querySelector('[data-hero-terminal]');
+    if (inputEl) {
+      inputEl.addEventListener('keydown', function (e) {
+        if (!heroInteractive) heroSwitchToInteractive();
+        if (e.key === 'Enter') {
+          const cmd = inputEl.value;
+          inputEl.value = '';
+          heroRunCommand(cmd);
+        }
+      });
+    }
+    if (term) {
+      term.addEventListener('click', function (e) {
+        const inputEl = host.querySelector('[data-hero-input]');
+        if (inputEl && e.target !== inputEl) inputEl.focus();
+      });
+    }
+  } else if (input) {
+    input.value = '';
+  }
+  heroInteractive = false;
+  const screen = host.querySelector('[data-hero-screen]');
+  if (screen) {
+    screen.setAttribute('aria-hidden', 'true');
+    screen.removeAttribute('aria-live');
+  }
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    heroRenderInstant();
+  } else {
+    startHeroDemo();
+  }
+}
+
+function heroAppendLine(html) {
+  const screen = document.querySelector('[data-hero-screen]');
+  if (!screen) return;
+  const line = document.createElement('div');
+  line.className = 'hero-term-line';
+  line.innerHTML = html;
+  screen.appendChild(line);
+  screen.scrollTop = screen.scrollHeight;
+}
+
+function heroAppendOut(lines) {
+  const screen = document.querySelector('[data-hero-screen]');
+  if (!screen) return;
+  lines.forEach(function (line) {
+    const out = document.createElement('div');
+    out.className = 'hero-term-line hero-term-out';
+    out.textContent = line;
+    screen.appendChild(out);
+  });
+  screen.scrollTop = screen.scrollHeight;
+}
+
+function heroTypeText(text, onDone) {
+  const screen = document.querySelector('[data-hero-screen]');
+  if (!screen) return;
+  const lineEl = document.createElement('div');
+  lineEl.className = 'hero-term-line';
+  lineEl.innerHTML = '<span class="hero-term-prompt">visiteur@linuxpath:~$</span><span class="hero-term-cmd"></span><span class="hero-term-cursor">&nbsp;</span>';
+  screen.appendChild(lineEl);
+  const cmdEl = lineEl.querySelector('.hero-term-cmd');
+  const cursorEl = lineEl.querySelector('.hero-term-cursor');
+  let i = 0;
+  function tick() {
+    if (heroInteractive) { if (onDone) onDone(); return; }
+    if (i < text.length) {
+      cmdEl.textContent += text[i];
+      i += 1;
+      heroSchedule(tick, HERO_TYPING_MS);
+    } else {
+      if (cursorEl && cursorEl.parentNode) cursorEl.parentNode.removeChild(cursorEl);
+      if (onDone) onDone();
+    }
+  }
+  tick();
+}
+
+function heroRenderInstant() {
+  cleanHeroTimers();
+  const screen = document.querySelector('[data-hero-screen]');
+  if (!screen) return;
+  screen.innerHTML = '';
+  HERO_SCRIPT.forEach(function (entry) {
+    const line = document.createElement('div');
+    line.className = 'hero-term-line';
+    line.innerHTML = '<span class="hero-term-prompt">visiteur@linuxpath:~$</span><span class="hero-term-cmd">' + escapeHtml(entry.cmd) + '</span>';
+    screen.appendChild(line);
+    entry.out.forEach(function (outText) {
+      const out = document.createElement('div');
+      out.className = 'hero-term-line hero-term-out';
+      out.textContent = outText;
+      screen.appendChild(out);
+    });
+  });
+  screen.scrollTop = screen.scrollHeight;
+}
+
+function startHeroDemo() {
+  cleanHeroTimers();
+  const screen = document.querySelector('[data-hero-screen]');
+  if (!screen) return;
+  screen.innerHTML = '';
+  let index = 0;
+  function nextCommand() {
+    if (heroInteractive) return;
+    const entry = HERO_SCRIPT[index % HERO_SCRIPT.length];
+    index += 1;
+    heroTypeText(entry.cmd, function () {
+      heroAppendOut(entry.out);
+      heroSchedule(function () {
+        if (heroInteractive) return;
+        heroSchedule(nextCommand, HERO_BATCH_MS);
+      }, HERO_PAUSE_MS);
+    });
+  }
+  nextCommand();
+}
+
+function heroSwitchToInteractive() {
+  heroInteractive = true;
+  cleanHeroTimers();
+  const screen = document.querySelector('[data-hero-screen]');
+  if (screen) {
+    screen.setAttribute('aria-hidden', 'false');
+    screen.setAttribute('aria-live', 'polite');
+    heroAppendLine('<span class="hero-term-cmd hero-term-note">Mode interactif — commandes démo : echo, whoami, help. Le vrai terminal vous attend dans les modules.</span>');
+  }
+}
+
+function heroRunCommand(rawCmd) {
+  const screen = document.querySelector('[data-hero-screen]');
+  if (!screen) return;
+  const cmd = (rawCmd || '').trim();
+  heroAppendLine('<span class="hero-term-prompt">visiteur@linuxpath:~$</span><span class="hero-term-cmd">' + escapeHtml(cmd) + '</span>');
+  if (!cmd) return;
+  const base = cmd.split(/\s+/)[0];
+  if (base === 'echo') {
+    heroAppendOut([cmd.slice(4).trim()]);
+  } else if (base === 'whoami') {
+    heroAppendOut(['visiteur']);
+  } else if (base === 'help') {
+    heroAppendOut(['Commandes démo : echo, whoami, help.', 'Le vrai terminal s\'utilise dans les modules.']);
+  } else if (base === 'clear') {
+    screen.innerHTML = '';
+  } else {
+    heroAppendOut(['Commande "' + base + '" indisponible en démo — essayez : help.']);
+  }
+}
+
 function renderHome() {
   const el = document.getElementById('home-hero');
   if (!el) return;
@@ -1152,68 +1353,75 @@ function renderHome() {
     // ---- RETURNING USER ----
     el.innerHTML = `
       <div class="lp-hero lp-hero-returning">
-        <div class="lp-hero-returning-top">
-          <div class="lp-return-badge">
-            <span class="lp-return-dot"></span>
-            Bon retour sur LinuxPath
+        <div class="lp-hero-main">
+          <div class="lp-hero-returning-top">
+            <div class="lp-return-badge">
+              <span class="lp-return-dot"></span>
+              Bon retour sur LinuxPath
+            </div>
+            <div class="lp-return-stats">
+              <div class="lp-return-stat">
+                <div class="lp-return-stat-num" style="color:var(--accent-green)">${pct}%</div>
+                <div class="lp-return-stat-label">Accompli</div>
+              </div>
+              <div class="lp-return-stat">
+                <div class="lp-return-stat-num" style="color:var(--accent-blue)">${completedMods}/${mods.length}</div>
+                <div class="lp-return-stat-label">Modules</div>
+              </div>
+              <div class="lp-return-stat">
+                <div class="lp-return-stat-num" style="color:var(--accent-purple)">${doneItems}</div>
+                <div class="lp-return-stat-label">Éléments faits</div>
+              </div>
+            </div>
           </div>
-          <div class="lp-return-stats">
-            <div class="lp-return-stat">
-              <div class="lp-return-stat-num" style="color:var(--accent-green)">${pct}%</div>
-              <div class="lp-return-stat-label">Accompli</div>
+
+          <div class="lp-return-progress-wrap">
+            <div class="lp-return-progress-bar">
+              <div class="lp-return-progress-fill" style="width:${pct}%"></div>
             </div>
-            <div class="lp-return-stat">
-              <div class="lp-return-stat-num" style="color:var(--accent-blue)">${completedMods}/${mods.length}</div>
-              <div class="lp-return-stat-label">Modules</div>
-            </div>
-            <div class="lp-return-stat">
-              <div class="lp-return-stat-num" style="color:var(--accent-purple)">${doneItems}</div>
-              <div class="lp-return-stat-label">Éléments faits</div>
-            </div>
+            <span class="lp-return-progress-label">${pct}% du parcours complété</span>
+          </div>
+
+          <h1 class="lp-headline" style="margin-top:28px">
+            ${pct === 100
+              ? 'Félicitations, parcours <em>terminé</em> !'
+              : pct >= 50
+                ? 'Tu es à <em>mi-chemin</em>. Continue !'
+                : 'Tu progresses bien.<br>La suite t\'attend.'}
+          </h1>
+
+          <div class="lp-cta-row" style="margin-top:24px">
+            <button class="lp-cta-primary" onclick="navigateTo('${resumeTarget}')">
+              ▶ Reprendre — ${escapeHtml(resumeLabel)}
+            </button>
+            <button class="lp-cta-roadmap" onclick="navigateTo('roadmap')">🗺️ Ma progression</button>
+            <button class="lp-cta-secondary" onclick="document.getElementById('lp-modules').scrollIntoView({behavior:'smooth'})">Voir les modules</button>
           </div>
         </div>
-
-        <div class="lp-return-progress-wrap">
-          <div class="lp-return-progress-bar">
-            <div class="lp-return-progress-fill" style="width:${pct}%"></div>
-          </div>
-          <span class="lp-return-progress-label">${pct}% du parcours complété</span>
-        </div>
-
-        <h1 class="lp-headline" style="margin-top:28px">
-          ${pct === 100
-            ? 'Félicitations, parcours <em>terminé</em> !'
-            : pct >= 50
-              ? 'Tu es à <em>mi-chemin</em>. Continue !'
-              : 'Tu progresses bien.<br>La suite t\'attend.'}
-        </h1>
-
-        <div class="lp-cta-row" style="margin-top:24px">
-          <button class="lp-cta-primary" onclick="navigateTo('${resumeTarget}')">
-            ▶ Reprendre — ${escapeHtml(resumeLabel)}
-          </button>
-          <button class="lp-cta-roadmap" onclick="navigateTo('roadmap')">🗺️ Ma progression</button>
-          <button class="lp-cta-secondary" onclick="document.getElementById('lp-modules').scrollIntoView({behavior:'smooth'})">Voir les modules</button>
-        </div>
+        <div class="hero-terminal-host" data-hero-terminal-host></div>
       </div>`;
   } else {
     // ---- NEW USER ----
     el.innerHTML = `
       <div class="lp-hero">
-        <div class="lp-badge">$ open-source · gratuit · 100% français</div>
-        <h1 class="lp-headline">Apprenez <em>Linux</em><br>de zéro à l'administration.</h1>
-        <p class="lp-sub">${stats.modules} modules, exercices pratiques, quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
-        <div class="lp-cta-row">
-          <button class="lp-cta-primary" onclick="document.getElementById('track-picker').scrollIntoView({behavior:'smooth'})">Choisir mon parcours</button>
-          <button class="lp-cta-secondary" onclick="document.getElementById('lp-modules').scrollIntoView({behavior:'smooth'})">Voir les modules</button>
+        <div class="lp-hero-main">
+          <div class="lp-badge">$ open-source · gratuit · 100% français</div>
+          <h1 class="lp-headline">Apprenez <em>Linux</em><br>de zéro à l'administration.</h1>
+          <p class="lp-sub">${stats.modules} modules, exercices pratiques, quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
+          <div class="lp-cta-row">
+            <button class="lp-cta-primary" onclick="document.getElementById('track-picker').scrollIntoView({behavior:'smooth'})">Choisir mon parcours</button>
+            <button class="lp-cta-secondary" onclick="document.getElementById('lp-modules').scrollIntoView({behavior:'smooth'})">Voir les modules</button>
+          </div>
+          <div class="lp-hero-stats">
+            <div><div class="lp-stat-num">${stats.modules}</div><div class="lp-stat-label">Modules</div></div>
+            <div><div class="lp-stat-num">${stats.lessons}</div><div class="lp-stat-label">Leçons</div></div>
+            <div><div class="lp-stat-num">${stats.exercises}</div><div class="lp-stat-label">Exercices</div></div>
+            <div><div class="lp-stat-num">${stats.questions}</div><div class="lp-stat-label">Questions QCM</div></div>
+            <div><div class="lp-stat-num">${stats.challenges}</div><div class="lp-stat-label">Challenges CTF</div></div>
+          </div>
         </div>
-        <div class="lp-hero-stats">
-          <div><div class="lp-stat-num">${stats.modules}</div><div class="lp-stat-label">Modules</div></div>
-          <div><div class="lp-stat-num">${stats.lessons}</div><div class="lp-stat-label">Leçons</div></div>
-          <div><div class="lp-stat-num">${stats.exercises}</div><div class="lp-stat-label">Exercices</div></div>
-          <div><div class="lp-stat-num">${stats.questions}</div><div class="lp-stat-label">Questions QCM</div></div>
-          <div><div class="lp-stat-num">${stats.challenges}</div><div class="lp-stat-label">Challenges CTF</div></div>
-        </div>
+        <div class="hero-terminal-host" data-hero-terminal-host></div>
       </div>`;
   }
+  renderHeroTerminal();
 }
