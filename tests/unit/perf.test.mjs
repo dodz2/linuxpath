@@ -10,13 +10,9 @@ test('the document does not load third-party webfonts', async () => {
   assert.equal(/JetBrains Mono|Plus Jakarta Sans/.test(css), false);
 });
 
-test('Lighthouse CI budgets encode the phase 12 thresholds', async () => {
-  const config = JSON.parse(await readFile('lighthouserc.json', 'utf8'));
-  const assertions = config.ci.assert.assertions;
-  assert.equal(assertions['categories:performance'][1].minScore, 0.85);
-  assert.equal(assertions['categories:accessibility'][1].minScore, 1);
-  assert.equal(assertions['categories:best-practices'][1].minScore, 1);
-  assert.equal(assertions['categories:seo'][1].minScore, 0.95);
-  assert.equal(assertions['largest-contentful-paint'][1].maxNumericValue, 2500);
-  assert.equal(assertions['cumulative-layout-shift'][1].maxNumericValue, 0.1);
+test('no workflow pretends to run Lighthouse budgets', async () => {
+  const pkg = await readFile('package.json', 'utf8');
+  const ci = await readFile('.github/workflows/ci.yml', 'utf8');
+  const deploy = await readFile('.github/workflows/deploy-pages.yml', 'utf8');
+  assert.equal(/lighthouse/i.test(pkg + ci + deploy), false);
 });

@@ -177,6 +177,7 @@ async function checkExercise(exId, mod) {
     ...result,
     vfs: mainTerminal.getVfs(),
     cwd: mainTerminal.getCurrentDir(),
+    raw: command,
   });
 
   if (result.exitCode === 0 && verdict.ok) {
@@ -245,13 +246,27 @@ const quizState = {}; // { m1: { currentQ: 0, score: 0, answered: [], questions:
 
 const renderedModules = new Set();
 
+function renderModuleMeta(mod) {
+  const header = document.querySelector('#section-' + mod + ' .module-header .module-meta');
+  if (!header) return;
+  const counts = getModuleCounts(mod);
+  const questions = counts.questions;
+  const items = header.querySelectorAll('.module-meta-item');
+  if (items[0]) items[0].textContent = '📚 ' + counts.lessons + ' leçon' + (counts.lessons > 1 ? 's' : '');
+  if (items[1]) items[1].textContent = '⚡ ' + counts.exercises + ' exercice' + (counts.exercises > 1 ? 's' : '');
+  if (items[2]) items[2].textContent = '❓ Quiz ' + questions + ' question' + (questions > 1 ? 's' : '');
+}
+
 function ensureModuleRendered(mod) {
-  if (!mod || renderedModules.has(mod)) return;
+  if (!mod) return;
   if (!LESSONS[mod] && !EXERCISES[mod] && !QUIZZES[mod]) return;
-  renderLessons(mod);
-  renderExercises(mod);
-  renderQuizzes(mod);
-  renderedModules.add(mod);
+  if (!renderedModules.has(mod)) {
+    renderLessons(mod);
+    renderExercises(mod);
+    renderQuizzes(mod);
+    renderedModules.add(mod);
+  }
+  renderModuleMeta(mod);
 }
 
 function shuffleQuestion(question, rng) {
@@ -1323,6 +1338,8 @@ function renderHome() {
 
   const stats = getCurriculumStats();
   const mods = getPublishedModuleIds();
+  const homeModulesTitle = document.getElementById('home-modules-title');
+  if (homeModulesTitle) homeModulesTitle.textContent = 'Les ' + mods.length + ' modules';
   let totalItems = 0, doneItems = 0, completedMods = 0;
 
   mods.forEach(m => {

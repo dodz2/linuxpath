@@ -38,6 +38,15 @@ function evaluateValidator(validator, ctx) {
       return stdout.toLowerCase().indexOf(String(validator.text).toLowerCase()) >= 0
         ? { ok: true }
         : { ok: false, reason: 'La sortie ne contient pas le résultat attendu.' };
+    case 'args_include': {
+      var raw = String(ctx.raw || '');
+      var tokens = raw.trim() ? raw.trim().split(/\s+/) : [];
+      var needed = validator.tokens || [];
+      var missing = needed.filter(function (token) { return tokens.indexOf(token) < 0; });
+      return missing.length === 0
+        ? { ok: true }
+        : { ok: false, reason: "La commande n'utilise pas les arguments attendus." };
+    }
     case 'all': {
       for (var i = 0; i < (validator.of || []).length; i++) {
         var child = evaluateValidator(validator.of[i], ctx);

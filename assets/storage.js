@@ -69,10 +69,12 @@ function getCurriculumStats() {
 }
 
 function getModuleCounts(mod) {
+  var quiz = typeof QUIZZES !== 'undefined' ? QUIZZES[mod] : null;
   return {
     lessons: (LESSONS[mod] || []).length,
     exercises: (EXERCISES[mod] || []).length,
-    quizzes: QUIZZES[mod] ? 1 : 0
+    quizzes: quiz ? 1 : 0,
+    questions: quiz && Array.isArray(quiz.questions) ? quiz.questions.length : 0
   };
 }
 

@@ -55,6 +55,20 @@ test('ls and cat describe the same filesystem', () => {
   assert.ok(missing.errorCode);
 });
 
+test('ls -l prints VFS permission bits instead of bare names', () => {
+  const listed = exec('ls -l /home/user/scripts/script.sh');
+  assert.equal(listed.exitCode, 0);
+  const text = listed.stdout.join('\n');
+  assert.match(text, /-rw-r--r--/);
+  assert.match(text, /script\.sh/);
+  const longDir = exec('ls -l /home/user/scripts');
+  assert.match(longDir.stdout.join('\n'), /-rwxr-xr-x/);
+  assert.match(longDir.stdout.join('\n'), /backup\.sh/);
+  const plain = exec('ls /home/user/scripts');
+  assert.ok(plain.stdout.includes('script.sh'));
+  assert.equal(plain.stdout.some((line) => line.includes('-rw')), false);
+});
+
 test('mkdir cd chmod find grep echo report structured errors', () => {
   const vfsCopy = cloneVfs();
   const made = runShell({ vfs: vfsCopy, cwd: '/home/user', command: 'mkdir -v tmpdir' });

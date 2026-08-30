@@ -144,14 +144,28 @@ function runCommand(ctx, name, args, stdin) {
   if (name === 'ls') {
     const fileArg = args.filter((a) => !a.startsWith('-'))[0];
     const showHidden = args.some((a) => /^-[a-zA-Z]*a/.test(a));
+    const longFormat = args.some((a) => /^-[a-zA-Z]*l/.test(a));
     const target = fileArg ? resolvePath(ctx.cwd, fileArg, ctx.prevDir) : ctx.cwd;
     if (!vfs[target]) return fail(`ls : impossible d'accéder à '${fileArg}': Aucun fichier ou dossier de ce type`, 'enoent');
-    let names;
-    if (vfs[target].type === 'file') names = [target.split('/').pop()];
-    else {
-      names = (vfs[target].children || []).filter((item) => showHidden || !item.startsWith('.'));
+    const user = userInfo.user || 'user';
+    const formatLong = (entryName, node) => {
+      const isDir = node && node.type === 'dir';
+      const perm = node && node.perms ? node.perms : (isDir ? 'drwxr-xr-x' : '-rw-r--r--');
+      const size = isDir ? 4096 : ((node && node.content) ? String(node.content).length : 0);
+      return perm + ' 1 ' + user + ' ' + user + ' ' + String(size).padStart(6) + ' Dec 15 10:23 ' + entryName;
+    };
+    if (vfs[target].type === 'file') {
+      const entryName = target.split('/').pop();
+      return { exitCode: 0, stdout: longFormat ? [formatLong(entryName, vfs[target])] : [entryName], stderr: [], stateChanges: [] };
     }
-    return { exitCode: 0, stdout: names, stderr: [], stateChanges: [] };
+    const names = (vfs[target].children || []).filter((item) => showHidden || !item.startsWith('.'));
+    if (!longFormat) return { exitCode: 0, stdout: names, stderr: [], stateChanges: [] };
+    const lines = ['total ' + (names.length * 4)];
+    names.forEach((entryName) => {
+      const child = target === '/' ? '/' + entryName : target + '/' + entryName;
+      lines.push(formatLong(entryName, vfs[child] || { type: 'file' }));
+    });
+    return { exitCode: 0, stdout: lines, stderr: [], stateChanges: [] };
   }
 
   if (name === 'cat') {

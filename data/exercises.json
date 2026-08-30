@@ -270,6 +270,12 @@
           {
             "type": "stdout_includes",
             "text": "google.com"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "google.com"
+            ]
           }
         ]
       }
@@ -507,6 +513,12 @@
           {
             "type": "stdout_includes",
             "text": "index"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "add"
+            ]
           }
         ]
       }
@@ -539,6 +551,12 @@
           {
             "type": "stdout_includes",
             "text": "ubuntu"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "pull"
+            ]
           }
         ]
       }
@@ -575,6 +593,13 @@
           {
             "type": "stdout_includes",
             "text": "interactif"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "run",
+              "ubuntu"
+            ]
           }
         ]
       }
@@ -613,6 +638,15 @@
           {
             "type": "stdout_includes",
             "text": "passwd"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "/",
+              "-perm",
+              "-type",
+              "f"
+            ]
           }
         ]
       }
@@ -647,6 +681,12 @@
           {
             "type": "stdout_includes",
             "text": "error"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "/var/log/syslog"
+            ]
           }
         ]
       }
@@ -681,6 +721,12 @@
           {
             "type": "stdout_includes",
             "text": "example.com"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "example.com"
+            ]
           }
         ]
       }
@@ -746,6 +792,13 @@
           {
             "type": "stdout_includes",
             "text": "sent"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "-avz",
+              "user@serveur:/backup/"
+            ]
           }
         ]
       }
@@ -778,6 +831,12 @@
           {
             "type": "stdout_includes",
             "text": "simulation"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "-L"
+            ]
           }
         ]
       }
@@ -812,6 +871,13 @@
           {
             "type": "stdout_includes",
             "text": "linux.org"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "linux.org",
+              "+short"
+            ]
           }
         ]
       }
@@ -843,6 +909,14 @@
           {
             "type": "stdout_includes",
             "text": "certificate"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "--nginx",
+              "-d",
+              "monsite.com"
+            ]
           }
         ]
       }
@@ -875,6 +949,19 @@
           {
             "type": "stdout_includes",
             "text": "notAfter"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "openssl",
+              "s_client",
+              "-connect",
+              "example.com:443",
+              "2>/dev/null",
+              "openssl",
+              "x509",
+              "-noout"
+            ]
           }
         ]
       }
@@ -909,6 +996,13 @@
           {
             "type": "stdout_includes",
             "text": "table"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "list",
+              "ruleset"
+            ]
           }
         ]
       }
@@ -1004,6 +1098,13 @@
           {
             "type": "stdout_includes",
             "text": "Lynis"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "audit",
+              "system"
+            ]
           }
         ]
       }
@@ -1034,6 +1135,17 @@
           {
             "type": "stdout_includes",
             "text": "passwd"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "-w",
+              "/etc/passwd",
+              "-p",
+              "wa",
+              "-k",
+              "passwd_changes"
+            ]
           }
         ]
       }
@@ -1066,6 +1178,12 @@
           {
             "type": "stdout_includes",
             "text": "warning"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "/var/log/lynis.log"
+            ]
           }
         ]
       }
@@ -1099,6 +1217,14 @@
           {
             "type": "stdout_includes",
             "text": "Nmap"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "-sV",
+              "-sC",
+              "192.168.1.1"
+            ]
           }
         ]
       }
@@ -1159,6 +1285,15 @@
           {
             "type": "stdout_includes",
             "text": "admin"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "dir",
+              "-u",
+              "-w",
+              "/usr/share/wordlists/dirb/common.txt"
+            ]
           }
         ]
       }
@@ -1191,6 +1326,14 @@
           {
             "type": "stdout_includes",
             "text": "http"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "malware.bin",
+              "grep",
+              "http"
+            ]
           }
         ]
       }
@@ -1316,6 +1459,12 @@
           {
             "type": "command",
             "name": "ls"
+          },
+          {
+            "type": "args_include",
+            "tokens": [
+              "/"
+            ]
           }
         ]
       }

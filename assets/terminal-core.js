@@ -333,12 +333,28 @@ function createTerminalEngine(config) {
     if (name === 'ls') {
       var fileArg = args.filter(function (a) { return !a.startsWith('-'); })[0];
       var showHidden = args.some(function (a) { return /^-[a-zA-Z]*a/.test(a); });
+      var longFormat = args.some(function (a) { return /^-[a-zA-Z]*l/.test(a); });
       var targetLs = fileArg ? resolvePath(fileArg) : currentDir;
       if (!vfs[targetLs]) return failResult('ls : impossible d\'accéder à \'' + fileArg + '\': Aucun fichier ou dossier de ce type', 'enoent');
-      var names;
-      if (vfs[targetLs].type === 'file') names = [targetLs.split('/').pop()];
-      else names = (vfs[targetLs].children || []).filter(function (item) { return showHidden || item.charAt(0) !== '.'; });
-      return { exitCode: 0, stdout: names, stderr: [], stateChanges: [] };
+      var lsUser = (userInfo && userInfo.user) ? userInfo.user : 'user';
+      function formatLong(entryName, node) {
+        var isDir = node && node.type === 'dir';
+        var perm = node && node.perms ? node.perms : (isDir ? 'drwxr-xr-x' : '-rw-r--r--');
+        var size = isDir ? 4096 : ((node && node.content) ? String(node.content).length : 0);
+        return perm + ' 1 ' + lsUser + ' ' + lsUser + ' ' + String(size).padStart(6) + ' Dec 15 10:23 ' + entryName;
+      }
+      if (vfs[targetLs].type === 'file') {
+        var fileName = targetLs.split('/').pop();
+        return { exitCode: 0, stdout: longFormat ? [formatLong(fileName, vfs[targetLs])] : [fileName], stderr: [], stateChanges: [] };
+      }
+      var names = (vfs[targetLs].children || []).filter(function (item) { return showHidden || item.charAt(0) !== '.'; });
+      if (!longFormat) return { exitCode: 0, stdout: names, stderr: [], stateChanges: [] };
+      var lines = ['total ' + (names.length * 4)];
+      names.forEach(function (entryName) {
+        var child = targetLs === '/' ? '/' + entryName : targetLs + '/' + entryName;
+        lines.push(formatLong(entryName, vfs[child] || { type: 'file' }));
+      });
+      return { exitCode: 0, stdout: lines, stderr: [], stateChanges: [] };
     }
     if (name === 'cat') {
       if (args[0]) {

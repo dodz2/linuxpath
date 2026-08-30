@@ -45,7 +45,7 @@ test('the 46 canonical answers produce exit 0 and satisfy their effect oracle', 
     void ctx;
     const isolatedVfs = clone(vfs);
     const isolated = runShell({ vfs: isolatedVfs, cwd: '/home/user', command: exercise.accepted[0], extraCommands: pedagogicalCommands });
-    const ok = evaluateValidator(exercise.validator, { ...isolated, vfs: isolatedVfs });
+    const ok = evaluateValidator(exercise.validator, { ...isolated, vfs: isolatedVfs, raw: exercise.accepted[0] });
     if (isolated.exitCode !== 0 || !ok.ok) {
       failures.push({ id: exercise.id, command: exercise.accepted[0], exitCode: isolated.exitCode, stderr: isolated.stderr, reason: ok.reason, stdout: isolated.stdout });
     }
@@ -88,4 +88,25 @@ test('mkdir -v projets satisfies the m1-e1 effect oracle', async () => {
   const verdict = evaluateValidator(exercise.validator, { ...isolated, vfs: isolatedVfs });
   assert.equal(isolated.exitCode, 0);
   assert.equal(verdict.ok, true, verdict.reason);
+});
+
+test('exercises that require arguments reject the bare pedagogical stub', async () => {
+  const [exercises, vfs] = await Promise.all([loadJson('data/exercises.json'), loadJson('data/vfs.json')]);
+  const cases = [
+    ['hw1-e2', 'ls /tmp'],
+    ['m13-e1', 'nmap'],
+    ['m12-e1', 'lynis'],
+    ['m13-e3', 'gobuster'],
+    ['m10-e2', 'certbot'],
+  ];
+  const byId = Object.fromEntries(allExercises(exercises).map(({ exercise }) => [exercise.id, exercise]));
+  const failures = [];
+  for (const [id, wrong] of cases) {
+    const exercise = byId[id];
+    const isolatedVfs = clone(vfs);
+    const isolated = runShell({ vfs: isolatedVfs, cwd: '/home/user', command: wrong, extraCommands: pedagogicalCommands });
+    const verdict = evaluateValidator(exercise.validator, { ...isolated, vfs: isolatedVfs, raw: wrong });
+    if (verdict.ok) failures.push({ id, wrong, reason: 'accepted a stub' });
+  }
+  assert.deepEqual(failures, []);
 });

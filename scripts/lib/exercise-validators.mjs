@@ -43,6 +43,15 @@ export function evaluateValidator(validator, ctx) {
       return stdout.toLowerCase().includes(String(validator.text).toLowerCase())
         ? { ok: true }
         : { ok: false, reason: 'La sortie ne contient pas le résultat attendu.' };
+    case 'args_include': {
+      const raw = String(ctx.raw || '');
+      const tokens = raw.trim() ? raw.trim().split(/\s+/) : [];
+      const needed = validator.tokens || [];
+      const missing = needed.filter((token) => !tokens.includes(token));
+      return missing.length === 0
+        ? { ok: true }
+        : { ok: false, reason: 'La commande n\'utilise pas les arguments attendus.' };
+    }
     case 'all': {
       for (const child of validator.of || []) {
         const result = evaluateValidator(child, ctx);

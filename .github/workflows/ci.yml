@@ -28,5 +28,8 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
-      - name: Static verify
-        run: npm run verify:static
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify
+        run: npm run verify

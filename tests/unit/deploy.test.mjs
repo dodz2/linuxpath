@@ -43,6 +43,9 @@ test('GitHub Pages deploys a single tested dist artifact with pinned local Terse
   if (!/path:\s*['"]dist['"]/.test(deploy)) issues.push('deploy must upload dist/');
   if (!/npm ci/.test(deploy) || !/npm ci/.test(ci)) issues.push('workflows must install from the lockfile via npm ci');
   if (!/npm run verify/.test(deploy)) issues.push('Pages deploy must run npm run verify before upload');
+  if (!/npm run verify/.test(ci) || /verify:static/.test(ci)) {
+    issues.push('CI must run npm run verify on pull requests, not verify:static only');
+  }
   if (/sudo apt-get install -y node-terser/.test(ci + deploy + minify)) {
     issues.push('a workflow uses distro Terser instead of the lockfile');
   }
