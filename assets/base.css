@@ -471,6 +471,24 @@ h1, h2, h3, h4 { font-family: var(--font-heading); }
   color: var(--accent-green);
 }
 
+/* ---- Modificateurs utilitaires (éviter les style="" inline) ---- */
+.logo-accent { color: #58a6ff; }
+.tag-sandbox   { background: rgba(188,140,255,0.15); color: var(--accent-purple); border-color: rgba(188,140,255,0.25); }
+.tag-ctf       { background: rgba(248,81,73,0.12);  color: var(--accent-red);    border-color: rgba(248,81,73,0.25); }
+.tag-progress  { background: rgba(88,166,255,0.12); color: var(--accent-blue);   border-color: rgba(88,166,255,0.25); }
+.tag-reference { background: rgba(157,122,255,0.12); color: var(--accent-purple); border-color: rgba(157,122,255,0.25); }
+.tag-rapide    { background: rgba(0,217,126,0.12);  color: var(--accent-green);  border-color: rgba(0,217,126,0.25); }
+.prompt-sandbox   { color: var(--accent-purple); }
+.prompt-ctf       { color: var(--accent-red); }
+.prompt-progress  { color: var(--accent-blue); }
+.prompt-reference { color: var(--accent-purple); }
+.cta-inline { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; cursor: pointer; }
+.cta-row-center { justify-content: center; }
+.news-desc-margin { margin-top: 10px; }
+.is-hidden { display: none; }
+.badge-ctf-accent { background: rgba(248,81,73,0.12); color: var(--accent-red); border: 1px solid rgba(248,81,73,0.2); }
+.sandbox-screen-box { position: relative; background: #000; border-radius: 8px; min-height: 320px; overflow: hidden; border: 1px solid var(--border); }
+
 .module-desc {
   color: var(--text-secondary);
   font-size: 15px;

@@ -45,8 +45,9 @@ export function evaluateValidator(validator, ctx) {
         : { ok: false, reason: 'La sortie ne contient pas le résultat attendu.' };
     case 'args_include': {
       const raw = String(ctx.raw || '');
-      const tokens = raw.trim() ? raw.trim().split(/\s+/) : [];
-      const needed = validator.tokens || [];
+      const normalize = (token) => token.replace(/^["']|["']$/g, '');
+      const tokens = raw.trim() ? raw.trim().split(/\s+/).map(normalize) : [];
+      const needed = (validator.tokens || []).map(normalize);
       const missing = needed.filter((token) => !tokens.includes(token));
       return missing.length === 0
         ? { ok: true }

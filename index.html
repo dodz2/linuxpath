@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ===== SEO PRIMARY ===== -->
-<title>LinuxPath — Apprends Linux &amp; Cybersécurité gratuitement en français</title>
+<title>LinuxPath — Apprends Linux &amp; Cybersécurité gratuitement</title>
 <meta name="description" content="LinuxPath est une plateforme d&#39;autoformation interactive en français pour apprendre Linux, la ligne de commande et la cybersécurité. Modules progressifs, sandbox réel, challenges CTF et actualités cyber.">
 <meta name="author" content="LinuxPath">
 <meta name="robots" content="index, follow">
@@ -97,8 +97,8 @@
         <text x="7" y="15" font-family="monospace" font-size="6.5" fill="#39d353">$ _</text>
       </svg>
       <div>
-        <div class="sidebar-logo-text">linux<span style="color:#58a6ff">path</span></div>
-        <div class="sidebar-logo-sub">Formation Linux & cybersécurité</div>
+        <div class="sidebar-logo-text">linux<span class="logo-accent">path</span></div>
+        <div class="sidebar-logo-sub">Formation Linux &amp; cybersécurité</div>
       </div>
     </div>
 
@@ -117,18 +117,18 @@
       <!-- ── Navigation principale ── -->
       <div class="sidebar-nav-label">Navigation</div>
 
-      <button class="module-nav-item nav-top-item active" data-target="home" onclick="navigateTo('home')" aria-label="Accueil">
+      <button type="button" class="module-nav-item nav-top-item active" data-target="home" onclick="navigateTo('home')" aria-label="Accueil">
         <span class="module-num">⌂</span>
         <span class="module-nav-title">Accueil</span>
       </button>
-      <button class="module-nav-item nav-top-item" data-target="roadmap" onclick="navigateTo('roadmap')" id="nav-roadmap" aria-label="Ma progression">
+      <button type="button" class="module-nav-item nav-top-item" data-target="roadmap" onclick="navigateTo('roadmap')" id="nav-roadmap" aria-label="Ma progression">
         <span class="module-nav-icon">🗺️</span>
         <span class="module-nav-title">Ma Progression</span>
       </button>
 
       <!-- ── Groupe : Modules ── -->
       <div class="sidebar-group" id="group-modules">
-        <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-modules')" aria-expanded="false" aria-controls="group-modules-body">
+        <button type="button" class="sidebar-group-header" onclick="toggleSidebarGroup('group-modules')" aria-expanded="false" aria-controls="group-modules-body">
           <span class="sidebar-group-icon">📚</span>
           <span class="sidebar-group-title">Modules Linux</span>
           <span class="sidebar-group-badge" id="group-modules-badge">0%</span>
@@ -137,53 +137,53 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-modules-body"><div>
-          <button class="module-nav-item" data-target="m1" onclick="navigateTo('m1')" aria-label="Module 1 : Les bases de Linux">
+          <button type="button" class="module-nav-item" data-target="m1" onclick="navigateTo('m1')" aria-label="Module 1 : Les bases de Linux">
             <span class="module-num">01</span>
             <span class="module-nav-title">Bases de Linux</span>
             <span class="module-nav-badge" id="nav-badge-m1">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m2" onclick="navigateTo('m2')" id="nav-m2" aria-label="Module 2 : Fichiers & permissions">
+          <button type="button" class="module-nav-item" data-target="m2" onclick="navigateTo('m2')" id="nav-m2" aria-label="Module 2 : Fichiers & permissions">
             <span class="module-num">02</span>
             <span class="module-nav-title">Fichiers &amp; permissions</span>
             <span class="module-nav-badge" id="nav-badge-m2">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m3" onclick="navigateTo('m3')" id="nav-m3" aria-label="Module 3 : Utilisateurs & processus">
+          <button type="button" class="module-nav-item" data-target="m3" onclick="navigateTo('m3')" id="nav-m3" aria-label="Module 3 : Utilisateurs & processus">
             <span class="module-num">03</span>
             <span class="module-nav-title">Utilisateurs &amp; processus</span>
             <span class="module-nav-badge" id="nav-badge-m3">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m4" onclick="navigateTo('m4')" id="nav-m4" aria-label="Module 4 : Réseau de base">
+          <button type="button" class="module-nav-item" data-target="m4" onclick="navigateTo('m4')" id="nav-m4" aria-label="Module 4 : Réseau de base">
             <span class="module-num">04</span>
             <span class="module-nav-title">Réseau de base</span>
             <span class="module-nav-badge" id="nav-badge-m4">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m5" onclick="navigateTo('m5')" id="nav-m5" aria-label="Module 5 : Scripting Bash">
+          <button type="button" class="module-nav-item" data-target="m5" onclick="navigateTo('m5')" id="nav-m5" aria-label="Module 5 : Scripting Bash">
             <span class="module-num">05</span>
             <span class="module-nav-title">Scripting Bash</span>
             <span class="module-nav-badge" id="nav-badge-m5">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m6" onclick="navigateTo('m6')" id="nav-m6" aria-label="Module 6 : Administration">
+          <button type="button" class="module-nav-item" data-target="m6" onclick="navigateTo('m6')" id="nav-m6" aria-label="Module 6 : Administration">
             <span class="module-num">06</span>
             <span class="module-nav-title">Administration</span>
             <span class="module-nav-badge" id="nav-badge-m6">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m7" onclick="navigateTo('m7')" id="nav-m7" aria-label="Module 7 : Sécurité / OSINT">
+          <button type="button" class="module-nav-item" data-target="m7" onclick="navigateTo('m7')" id="nav-m7" aria-label="Module 7 : Sécurité / OSINT">
             <span class="module-nav-icon">🔍</span>
             <span class="module-nav-title">Sécurité / OSINT</span>
             <span class="module-nav-badge" id="nav-badge-m7">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m8" onclick="navigateTo('m8')" id="nav-m8" aria-label="Module 8 : Git & Docker">
+          <button type="button" class="module-nav-item" data-target="m8" onclick="navigateTo('m8')" id="nav-m8" aria-label="Module 8 : Git & Docker">
             <span class="module-nav-icon">🐙</span>
             <span class="module-nav-title">Git &amp; Docker</span>
             <span class="module-nav-badge" id="nav-badge-m8">0%</span>
           </button>
         </div></div>
-        
+
       </div>
 
       <!-- ── Groupe : Réseau & Services ── -->
       <div class="sidebar-group" id="group-network">
-        <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-network')" aria-expanded="false" aria-controls="group-network-body">
+        <button type="button" class="sidebar-group-header" onclick="toggleSidebarGroup('group-network')" aria-expanded="false" aria-controls="group-network-body">
           <span class="sidebar-group-icon">🌐</span>
           <span class="sidebar-group-title">Réseau &amp; Services</span>
           <span class="sidebar-group-badge" id="group-network-badge">0%</span>
@@ -192,27 +192,27 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-network-body">
-          <button class="module-nav-item" data-target="m9" onclick="navigateTo('m9')" id="nav-m9" aria-label="Module 9 : SSH & accès distant">
+          <button type="button" class="module-nav-item" data-target="m9" onclick="navigateTo('m9')" id="nav-m9" aria-label="Module 9 : SSH &amp; accès distant">
             <span class="module-nav-icon">🔑</span>
-            <span class="module-nav-title">SSH & accès distant</span>
+            <span class="module-nav-title">SSH &amp; accès distant</span>
             <span class="module-nav-badge" id="nav-badge-m9">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m10" onclick="navigateTo('m10')" id="nav-m10" aria-label="Module 10 : Serveurs web & DNS">
+          <button type="button" class="module-nav-item" data-target="m10" onclick="navigateTo('m10')" id="nav-m10" aria-label="Module 10 : Serveurs web &amp; DNS">
             <span class="module-nav-icon">🌐</span>
-            <span class="module-nav-title">Serveurs web & DNS</span>
+            <span class="module-nav-title">Serveurs web &amp; DNS</span>
             <span class="module-nav-badge" id="nav-badge-m10">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m11" onclick="navigateTo('m11')" id="nav-m11" aria-label="Module 11 : Sécurité réseau">
+          <button type="button" class="module-nav-item" data-target="m11" onclick="navigateTo('m11')" id="nav-m11" aria-label="Module 11 : Sécurité réseau">
             <span class="module-nav-icon">🛡️</span>
             <span class="module-nav-title">Sécurité réseau</span>
             <span class="module-nav-badge" id="nav-badge-m11">0%</span>
           </button>
         </div>
       </div>
-      
+
       <!-- ── Groupe : Sécurité, Pentest & DFIR ── -->
       <div class="sidebar-group" id="group-offsec">
-        <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-offsec')" aria-expanded="false" aria-controls="group-offsec-body">
+        <button type="button" class="sidebar-group-header" onclick="toggleSidebarGroup('group-offsec')" aria-expanded="false" aria-controls="group-offsec-body">
           <span class="sidebar-group-icon">🛡️</span>
           <span class="sidebar-group-title">Sécurité, Pentest &amp; DFIR</span>
           <span class="sidebar-group-badge" id="group-offsec-badge">0%</span>
@@ -221,19 +221,19 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-offsec-body">
-          <button class="module-nav-item" data-target="m12" onclick="navigateTo('m12')" id="nav-m12" aria-label="Module 12 : Audit & Durcissement">
+          <button type="button" class="module-nav-item" data-target="m12" onclick="navigateTo('m12')" id="nav-m12" aria-label="Module 12 : Audit &amp; Durcissement">
             <span class="module-nav-icon">🕵</span>
-            <span class="module-nav-title">Audit & Durcissement</span>
+            <span class="module-nav-title">Audit &amp; Durcissement</span>
             <span class="module-nav-badge" id="nav-badge-m12">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m13" onclick="navigateTo('m13')" id="nav-m13" aria-label="Module 13 : Pentest & Outils">
+          <button type="button" class="module-nav-item" data-target="m13" onclick="navigateTo('m13')" id="nav-m13" aria-label="Module 13 : Pentest &amp; Outils">
             <span class="module-nav-icon">⚔️</span>
-            <span class="module-nav-title">Pentest & Outils</span>
+            <span class="module-nav-title">Pentest &amp; Outils</span>
             <span class="module-nav-badge" id="nav-badge-m13">0%</span>
           </button>
-          <button class="module-nav-item" data-target="m14" onclick="navigateTo('m14')" id="nav-m14" aria-label="Module 14 : Forensic & Malwares">
+          <button type="button" class="module-nav-item" data-target="m14" onclick="navigateTo('m14')" id="nav-m14" aria-label="Module 14 : Forensic &amp; Malwares">
             <span class="module-nav-icon">🧬</span>
-            <span class="module-nav-title">Forensic & Malwares</span>
+            <span class="module-nav-title">Forensic &amp; Malwares</span>
             <span class="module-nav-badge" id="nav-badge-m14">0%</span>
           </button>
         </div>
@@ -241,7 +241,7 @@
 
       <!-- ── Groupe : Lab & Tinker ── -->
       <div class="sidebar-group" id="group-hardware">
-        <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-hardware')" aria-expanded="false" aria-controls="group-hardware-body">
+        <button type="button" class="sidebar-group-header" onclick="toggleSidebarGroup('group-hardware')" aria-expanded="false" aria-controls="group-hardware-body">
           <span class="sidebar-group-icon">🧰</span>
           <span class="sidebar-group-title">Lab &amp; Tinker</span>
           <span class="sidebar-group-badge" id="group-hardware-badge">0%</span>
@@ -250,51 +250,51 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-hardware-body">
-          <button class="module-nav-item" data-target="hw1" onclick="navigateTo('hw1')" id="nav-hw1" aria-label="Module HW1 : Anatomie d'un PC">
+          <button type="button" class="module-nav-item" data-target="hw1" onclick="navigateTo('hw1')" id="nav-hw1" aria-label="Module HW1 : Anatomie d'un PC">
             <span class="module-nav-icon">🧰</span>
             <span class="module-nav-title">Anatomie d'un PC</span>
             <span class="module-nav-badge" id="nav-badge-hw1">0%</span>
           </button>
         </div>
-                <button class="module-nav-item" data-target="hw2" onclick="navigateTo('hw2')" id="nav-hw2" aria-label="Module HW2 : Assembler &amp; booter">
+                <button type="button" class="module-nav-item" data-target="hw2" onclick="navigateTo('hw2')" id="nav-hw2" aria-label="Module HW2 : Assembler &amp; booter">
             <span class="module-nav-icon">🔩</span>
             <span class="module-nav-title">Assembler &amp; booter</span>
             <span class="module-nav-badge" id="nav-badge-hw2">0%</span>
           </button>
-          <button class="module-nav-item" data-target="hw3" onclick="navigateTo('hw3')" id="nav-hw3" aria-label="Module HW3 : Piloter le matériel">
+          <button type="button" class="module-nav-item" data-target="hw3" onclick="navigateTo('hw3')" id="nav-hw3" aria-label="Module HW3 : Piloter le matériel">
             <span class="module-nav-icon">💡</span>
             <span class="module-nav-title">Piloter le matériel</span>
             <span class="module-nav-badge" id="nav-badge-hw3">0%</span>
           </button>
-          <button class="module-nav-item" data-target="hw4" onclick="navigateTo('hw4')" id="nav-hw4" aria-label="Module HW4 : Gadgets &amp; hack">
+          <button type="button" class="module-nav-item" data-target="hw4" onclick="navigateTo('hw4')" id="nav-hw4" aria-label="Module HW4 : Gadgets &amp; hack">
             <span class="module-nav-icon">🛠️</span>
             <span class="module-nav-title">Gadgets &amp; hack</span>
             <span class="module-nav-badge" id="nav-badge-hw4">0%</span>
           </button>
 </div>
-      
+
       <!-- ── Groupe : Challenges ── -->
       <div class="sidebar-group" id="group-challenges">
-        <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-challenges')" aria-expanded="false" aria-controls="group-challenges-body">
+        <button type="button" class="sidebar-group-header" onclick="toggleSidebarGroup('group-challenges')" aria-expanded="false" aria-controls="group-challenges-body">
           <span class="sidebar-group-icon">🚩</span>
           <span class="sidebar-group-title">Challenges</span>
-          <span class="sidebar-group-badge" id="nav-badge-ctf" style="background:rgba(248,81,73,0.12);color:var(--accent-red);border:1px solid rgba(248,81,73,0.2)">0/10</span>
+          <span class="sidebar-group-badge badge-ctf-accent" id="nav-badge-ctf">0/10</span>
           <svg class="sidebar-group-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
             <polyline points="2,4 6,8 10,4"/>
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-challenges-body"><div>
-          <button class="module-nav-item" data-target="ctf" onclick="navigateTo('ctf')" id="nav-ctf" aria-label="Challenges CTF">
+          <button type="button" class="module-nav-item" data-target="ctf" onclick="navigateTo('ctf')" id="nav-ctf" aria-label="Challenges CTF">
             <span class="module-nav-icon">🏴</span>
             <span class="module-nav-title">Challenges CTF</span>
           </button>
         </div></div>
-        
+
       </div>
 
       <!-- ── Groupe : Outils ── -->
       <div class="sidebar-group" id="group-tools">
-        <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-tools')" aria-expanded="false" aria-controls="group-tools-body">
+        <button type="button" class="sidebar-group-header" onclick="toggleSidebarGroup('group-tools')" aria-expanded="false" aria-controls="group-tools-body">
           <span class="sidebar-group-icon">⚙️</span>
           <span class="sidebar-group-title">Outils</span>
           <svg class="sidebar-group-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
@@ -302,21 +302,21 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-tools-body"><div>
-          <button class="module-nav-item" onclick="focusTerminal()" aria-label="Terminal simulé">
+          <button type="button" class="module-nav-item" onclick="focusTerminal()" aria-label="Terminal simulé">
             <span class="module-num">⌨</span>
             <span class="module-nav-title">Terminal simulé</span>
           </button>
-          <button class="module-nav-item" data-target="sandbox" onclick="navigateTo('sandbox')" id="nav-sandbox" aria-label="Sandbox Linux réelle">
+          <button type="button" class="module-nav-item" data-target="sandbox" onclick="navigateTo('sandbox')" id="nav-sandbox" aria-label="Sandbox Linux réelle">
             <span class="module-nav-icon">🐧</span>
             <span class="module-nav-title">Sandbox Linux réelle</span>
           </button>
         </div></div>
-        
+
       </div>
 
       <!-- ── Groupe : Ressources ── -->
       <div class="sidebar-group" id="group-resources">
-        <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-resources')" aria-expanded="false" aria-controls="group-resources-body">
+        <button type="button" class="sidebar-group-header" onclick="toggleSidebarGroup('group-resources')" aria-expanded="false" aria-controls="group-resources-body">
           <span class="sidebar-group-icon">📖</span>
           <span class="sidebar-group-title">Ressources</span>
           <svg class="sidebar-group-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
@@ -324,15 +324,15 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-resources-body"><div>
-          <button class="module-nav-item" data-target="cheatsheet" onclick="navigateTo('cheatsheet')" id="nav-cheatsheet" aria-label="Cheatsheet Linux">
+          <button type="button" class="module-nav-item" data-target="cheatsheet" onclick="navigateTo('cheatsheet')" id="nav-cheatsheet" aria-label="Cheatsheet Linux">
             <span class="module-nav-icon">📋</span>
             <span class="module-nav-title">Cheatsheet Linux</span>
           </button>
-          <button class="module-nav-item" data-target="glossary" onclick="navigateTo('glossary')" id="nav-glossary" aria-label="Glossaire">
+          <button type="button" class="module-nav-item" data-target="glossary" onclick="navigateTo('glossary')" id="nav-glossary" aria-label="Glossaire">
             <span class="module-nav-icon">📖</span>
             <span class="module-nav-title">Glossaire</span>
           </button>
-          <button class="module-nav-item" data-target="news" onclick="navigateTo('news')" id="nav-news" aria-label="Actualités Cyber">
+          <button type="button" class="module-nav-item" data-target="news" onclick="navigateTo('news')" id="nav-news" aria-label="Actualités Cyber">
             <span class="module-nav-icon">📰</span>
             <span class="module-nav-title">Actualités Cyber</span>
           </button>
@@ -343,16 +343,16 @@
 
     <div class="sidebar-footer">
       <div class="progress-actions">
-        <button class="btn-export" onclick="exportProgress()" aria-label="Exporter la progression">
+        <button type="button" class="btn-export" onclick="exportProgress()" aria-label="Exporter la progression">
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 2v9M4.5 7.5 8 11l3.5-3.5M3 14h10"/></svg>
           Exporter
         </button>
-        <button class="btn-import" onclick="importProgress()" aria-label="Importer la progression">
+        <button type="button" class="btn-import" onclick="importProgress()" aria-label="Importer la progression">
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 11V2M4.5 5.5 8 2l3.5 3.5M3 14h10"/></svg>
           Importer
         </button>
       </div>
-      <button class="btn-reset" onclick="confirmReset()" aria-label="Réinitialiser toute la progression">
+      <button type="button" class="btn-reset" onclick="confirmReset()" aria-label="Réinitialiser toute la progression">
         <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         Réinitialiser la progression
       </button>
@@ -362,9 +362,9 @@
   <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
   <!-- ===================== MAIN ===================== -->
-   <main class="main" role="main" aria-label="Contenu principal" id="main-content">
+   <main class="main" aria-label="Contenu principal" id="main-content">
     <div class="top-bar">
-      <button class="hamburger" onclick="toggleSidebar()" aria-label="Ouvrir le menu de navigation" aria-expanded="false" aria-controls="sidebar">
+      <button type="button" class="hamburger" onclick="toggleSidebar()" aria-label="Ouvrir le menu de navigation" aria-expanded="false" aria-controls="sidebar">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
           <line x1="3" y1="6" x2="17" y2="6"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="14" x2="17" y2="14"/>
         </svg>
@@ -392,7 +392,7 @@
                 <h1 class="lp-headline">Apprenez <em>Linux</em> de zéro à l'administration.</h1>
                 <p class="lp-sub">Des modules progressifs, des exercices guidés, des quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
                 <div class="lp-cta-row">
-                  <a class="lp-cta-primary" href="https://github.com/dodz2/linuxpath" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;cursor:pointer">▶ Activer JavaScript pour démarrer, ou explorer le code</a>
+                  <a class="lp-cta-primary cta-inline" href="https://github.com/dodz2/linuxpath">▶ Activer JavaScript pour démarrer, ou explorer le code</a>
                 </div>
               </div>
               <div class="hero-terminal-host">
@@ -531,23 +531,23 @@
             <div class="lp-section-title">Questions fréquentes</div>
             <div class="lp-faq">
               <div class="lp-faq-item">
-                <button class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Faut-il installer quelque chose ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
+                <button type="button" class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Faut-il installer quelque chose ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
                 <div class="lp-faq-a">Non. LinuxPath fonctionne entièrement dans le navigateur. La sandbox émule un vrai Linux via WebAssembly — aucun téléchargement, aucun risque pour votre machine.</div>
               </div>
               <div class="lp-faq-item">
-                <button class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Pour quel niveau est conçu ce cours ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
+                <button type="button" class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Pour quel niveau est conçu ce cours ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
                 <div class="lp-faq-a">Le module 1 part de zéro — aucun prérequis. Les modules 5 à 7 (scripting, administration, sécurité) sont plus avancés et conviennent à un niveau intermédiaire.</div>
               </div>
               <div class="lp-faq-item">
-                <button class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Ma progression est-elle sauvegardée ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
+                <button type="button" class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Ma progression est-elle sauvegardée ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
                 <div class="lp-faq-a">Oui, localement dans votre navigateur via localStorage. Si vous changez d'appareil ou videz les données du site, la progression repart à zéro. Exportez une sauvegarde JSON si vous voulez la conserver.</div>
               </div>
               <div class="lp-faq-item">
-                <button class="lp-faq-q" onclick="toggleFaq(this)">Le contenu est-il vraiment gratuit ? <span class="lp-faq-icon">+</span></button>
+                <button type="button" class="lp-faq-q" onclick="toggleFaq(this)">Le contenu est-il vraiment gratuit ? <span class="lp-faq-icon">+</span></button>
                 <div class="lp-faq-a">Oui, tous les modules, la sandbox et les challenges CTF sont entièrement gratuits et open-source.</div>
               </div>
               <div class="lp-faq-item">
-                <button class="lp-faq-q" onclick="toggleFaq(this)">Quelles certifications prépare ce cours ? <span class="lp-faq-icon">+</span></button>
+                <button type="button" class="lp-faq-q" onclick="toggleFaq(this)">Quelles certifications prépare ce cours ? <span class="lp-faq-icon">+</span></button>
                 <div class="lp-faq-a">LinuxPath pose les bases pour CompTIA Linux+, LPIC-1 et contribue à la préparation du CEH et de l'OSCP pour la partie Linux et administration système.</div>
               </div>
             </div>
@@ -559,9 +559,9 @@
               <div class="lp-final-cta-badge">$ sudo apt install knowledge</div>
               <h2 class="lp-final-cta-title">Prêt à maîtriser Linux ?</h2>
               <p class="lp-final-cta-sub">Rejoignez les apprenants qui progressent chaque jour.<br>C'est gratuit, c'est en français, ça commence maintenant.</p>
-              <div class="lp-cta-row" style="justify-content:center">
-                <button class="lp-cta-primary" onclick="document.getElementById('track-picker').scrollIntoView({behavior:'smooth'})">Choisir un parcours</button>
-                <button class="lp-cta-roadmap" onclick="navigateTo('roadmap')">🗺️ Voir ma progression</button>
+              <div class="lp-cta-row cta-row-center">
+                <button type="button" class="lp-cta-primary" onclick="document.getElementById('track-picker').scrollIntoView({behavior:'smooth'})">Choisir un parcours</button>
+                <button type="button" class="lp-cta-roadmap" onclick="navigateTo('roadmap')">🗺️ Voir ma progression</button>
               </div>
             </div>
           </div>
@@ -732,7 +732,7 @@
       </section>
 
             <!-- ======= MODULE 9 ======= -->
-      <!-- ==================== MODULE 9 — SSH & accès distant ==================== -->
+      <!-- ==================== MODULE 9 — SSH &amp; accès distant ==================== -->
       <section id="section-m9" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 09</div>
@@ -752,7 +752,7 @@
         <div id="quiz-m9"></div>
       </section>
 
-      <!-- ==================== MODULE 10 — Serveurs web & DNS ==================== -->
+      <!-- ==================== MODULE 10 — Serveurs web &amp; DNS ==================== -->
       <section id="section-m10" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 10</div>
@@ -791,8 +791,8 @@
         <h3 class="section-title">Quiz de validation</h3>
         <div id="quiz-m11"></div>
        </section>
-      
-      <!-- ==================== MODULE 12 — Audit & Durcissement ==================== -->
+
+      <!-- ==================== MODULE 12 — Audit &amp; Durcissement ==================== -->
       <section id="section-m12" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 12</div>
@@ -812,7 +812,7 @@
         <div id="quiz-m12"></div>
       </section>
 
-      <!-- ==================== MODULE 13 — Pentest & Outils ==================== -->
+      <!-- ==================== MODULE 13 — Pentest &amp; Outils ==================== -->
       <section id="section-m13" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 13</div>
@@ -832,7 +832,7 @@
         <div id="quiz-m13"></div>
       </section>
 
-      <!-- ==================== MODULE 14 — Forensic & Malwares ==================== -->
+      <!-- ==================== MODULE 14 — Forensic &amp; Malwares ==================== -->
       <section id="section-m14" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 14</div>
@@ -875,7 +875,7 @@
                 <div id="quiz-hw1"></div>
               </section>
 
-              
+
       <!-- ==================== LAB & TINKER — HW2 ==================== -->
       <section id="section-hw2" class="module-section">
         <div class="module-header">
@@ -948,13 +948,13 @@
 <!-- ==================== SANDBOX ==================== -->
               <section id="section-sandbox" class="module-section">
         <div class="module-header">
-          <div class="module-tag" style="background:rgba(188,140,255,0.15);color:var(--accent-purple)">Sandbox</div>
-          <h2 class="module-title"><span class="prompt-prefix" style="color:var(--accent-purple)">$</span> Linux réel dans le navigateur</h2>
+          <div class="module-tag tag-sandbox">Sandbox</div>
+          <h2 class="module-title"><span class="prompt-prefix prompt-sandbox">$</span> Linux réel dans le navigateur</h2>
           <p class="module-desc">Un vrai noyau Linux (image de démonstration v86) exécuté en WebAssembly — aucune installation requise.</p>
         </div>
         <div id="sandbox-container">
           <!-- Avertissement mobile — affiché uniquement sur petits écrans via JS -->
-          <div id="sandbox-mobile-warning" class="sandbox-mobile-warning" style="display:none" role="alert" aria-live="polite">
+          <div id="sandbox-mobile-warning" class="sandbox-mobile-warning" role="alert" aria-live="polite" data-runtime-hide style="display:none">
             <span class="sandbox-mobile-warning__icon">⚠️</span>
             <div class="sandbox-mobile-warning__body">
               <strong>Performances limitées sur mobile</strong>
@@ -969,8 +969,8 @@
               <span class="sbadge sbadge-purple">🔒 Isolé dans votre navigateur</span>
             </div>
             <div class="sandbox-actions">
-              <button class="btn-sandbox" id="btn-start-sandbox" onclick="startSandbox()">▶ Démarrer la sandbox</button>
-              <button class="btn-sandbox btn-sandbox-reset" id="btn-reset-sandbox" onclick="resetSandbox()" style="display:none">↺ Redémarrer</button>
+              <button type="button" class="btn-sandbox" id="btn-start-sandbox" onclick="startSandbox()">▶ Démarrer la sandbox</button>
+              <button type="button" class="btn-sandbox btn-sandbox-reset " id="btn-reset-sandbox" onclick="resetSandbox()" data-runtime-hide style="display:none">↺ Redémarrer</button>
             </div>
           </div>
           <div class="sandbox-note">
@@ -978,27 +978,27 @@
             <strong>🔒 Sécurité :</strong> Tout s’exécute localement dans votre navigateur via WebAssembly. Aucune donnée n’est envoyée à un serveur.<br>
             <strong>📱 Mobile :</strong> le site (leçons, quiz, CTF) est utilisable sur téléphone. La sandbox est <strong>recommandée sur desktop</strong>.
           </div>
-          <div id="sandbox-status" class="sandbox-status" style="display:none">
+          <div id="sandbox-status" class="sandbox-status" data-runtime-hide style="display:none">
             <div class="sandbox-spinner"></div>
             <span id="sandbox-status-text">Initialisation...</span>
           </div>
-          <div id="sandbox-screen-wrap" style="display:none">
-            <div id="sandbox-screen" style="position:relative;background:#000;border-radius:8px;min-height:320px;overflow:hidden;border:1px solid var(--border)"></div>
-            <div class="sandbox-input-row" id="sandbox-input-row" style="display:none">
+          <div id="sandbox-screen-wrap" class="" data-runtime-hide style="display:none">
+            <div id="sandbox-screen" class="sandbox-screen-box"></div>
+            <div class="sandbox-input-row " id="sandbox-input-row" data-runtime-hide style="display:none">
               <span class="sandbox-input-hint">Entrée série :</span>
               <span class="sandbox-prompt" id="sandbox-prompt-label">~#</span>
               <input type="text" id="sandbox-input" class="sandbox-input-field"
                 placeholder="tapez une commande puis Entrée…"
                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
-            <div class="sandbox-quick-cmds" id="sandbox-quick-cmds" style="display:none">
+            <div class="sandbox-quick-cmds " id="sandbox-quick-cmds" data-runtime-hide style="display:none">
               <span class="sandbox-quick-label">Essayez :</span>
-              <button class="sandbox-quick-btn" onclick="sandboxSend('ls /')">ls /</button>
-              <button class="sandbox-quick-btn" onclick="sandboxSend('uname -a')">uname -a</button>
-              <button class="sandbox-quick-btn" onclick="sandboxSend('cat /etc/os-release')">cat /etc/os-release</button>
-              <button class="sandbox-quick-btn" onclick="sandboxSend('free -m')">free -m</button>
-              <button class="sandbox-quick-btn" onclick="sandboxSend('df -h')">df -h</button>
-              <button class="sandbox-quick-btn" onclick="sandboxSend('ps aux')">ps aux</button>
+              <button type="button" class="sandbox-quick-btn" onclick="sandboxSend('ls /')">ls /</button>
+              <button type="button" class="sandbox-quick-btn" onclick="sandboxSend('uname -a')">uname -a</button>
+              <button type="button" class="sandbox-quick-btn" onclick="sandboxSend('cat /etc/os-release')">cat /etc/os-release</button>
+              <button type="button" class="sandbox-quick-btn" onclick="sandboxSend('free -m')">free -m</button>
+              <button type="button" class="sandbox-quick-btn" onclick="sandboxSend('df -h')">df -h</button>
+              <button type="button" class="sandbox-quick-btn" onclick="sandboxSend('ps aux')">ps aux</button>
             </div>
           </div>
           <div class="sandbox-tips">
@@ -1021,8 +1021,8 @@
       <!-- ======= CHALLENGES CTF ======= -->
       <section id="section-ctf" class="module-section">
         <div class="module-header">
-          <div class="module-tag" style="background:rgba(248,81,73,0.12);color:var(--accent-red)">Challenges CTF</div>
-          <h2 class="module-title"><span class="prompt-prefix" style="color:var(--accent-red)">$</span> Challenges CTF</h2>
+          <div class="module-tag tag-ctf">Challenges CTF</div>
+          <h2 class="module-title"><span class="prompt-prefix prompt-ctf">$</span> Challenges CTF</h2>
           <p class="module-desc">Missions d'investigation réelles : explore un système de fichiers compromis, trouve le flag caché et soumets-le. Format : <code>flag{...}</code></p>
           <div class="module-meta">
             <span class="module-meta-item">🚩 10 challenges</span>
@@ -1038,9 +1038,9 @@
         </div>
 
         <!-- Vue détaillée d'un challenge -->
-        <div class="ctf-detail" id="ctf-detail" style="display:none">
+        <div class="ctf-detail " id="ctf-detail" data-runtime-hide style="display:none">
           <div class="ctf-detail-header">
-            <button class="ctf-back-btn" onclick="closeCTFDetail()">← Retour aux challenges</button>
+            <button type="button" class="ctf-back-btn" onclick="closeCTFDetail()">← Retour aux challenges</button>
             <div class="ctf-detail-meta">
               <span class="ctf-detail-title" id="ctf-detail-title"></span>
               <span class="ctf-difficulty-badge" id="ctf-detail-diff"></span>
@@ -1059,7 +1059,7 @@
                 <div class="term-dot dot-green"></div>
               </div>
               <div class="ctf-terminal-title" id="ctf-terminal-title">ctf@challenge:~$</div>
-              <button class="ctf-reset-term-btn" onclick="resetCTFTerminal()" title="Réinitialiser le terminal">↺</button>
+              <button type="button" class="ctf-reset-term-btn" onclick="resetCTFTerminal()" title="Réinitialiser le terminal">↺</button>
             </div>
             <div class="ctf-terminal-output" id="ctf-terminal-output"></div>
             <div class="ctf-terminal-input-row">
@@ -1068,12 +1068,12 @@
                 placeholder="tapez une commande..."
                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
-            <div class="sandbox-quick-cmds" id="ctf-quick-cmds" style="display:none">
+            <div class="sandbox-quick-cmds " id="ctf-quick-cmds" data-runtime-hide style="display:none">
               <span class="sandbox-quick-label">Essayez :</span>
-              <button class="sandbox-quick-btn" onclick="ctfSend('ls /')">ls /</button>
-              <button class="sandbox-quick-btn" onclick="ctfSend('ls -la')">ls -la</button>
-              <button class="sandbox-quick-btn" onclick="ctfSend('find / -name flag* 2>/dev/null')">find flag*</button>
-              <button class="sandbox-quick-btn" onclick="ctfSend('cat /etc/passwd')">cat /etc/passwd</button>
+              <button type="button" class="sandbox-quick-btn" onclick="ctfSend('ls /')">ls /</button>
+              <button type="button" class="sandbox-quick-btn" onclick="ctfSend('ls -la')">ls -la</button>
+              <button type="button" class="sandbox-quick-btn" onclick="ctfSend('find / -name flag* 2>/dev/null')">find flag*</button>
+              <button type="button" class="sandbox-quick-btn" onclick="ctfSend('cat /etc/passwd')">cat /etc/passwd</button>
             </div>
           </div>
 
@@ -1085,7 +1085,7 @@
                 placeholder="flag{...}"
                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                 onkeydown="if(event.key==='Enter') submitCTFFlag()">
-              <button class="ctf-submit-btn" onclick="submitCTFFlag()">Valider</button>
+              <button type="button" class="ctf-submit-btn" onclick="submitCTFFlag()">Valider</button>
             </div>
             <div class="ctf-flag-feedback" id="ctf-flag-feedback" role="alert" aria-live="assertive"></div>
           </div>
@@ -1094,7 +1094,7 @@
           <div class="ctf-hints-section">
             <h3 class="ctf-section-label">💡 Indices</h3>
             <div class="ctf-hints-list" id="ctf-hints-list"></div>
-            <button class="ctf-hint-btn" id="ctf-hint-btn" onclick="showNextCTFHint()">Afficher un indice</button>
+            <button type="button" class="ctf-hint-btn" id="ctf-hint-btn" onclick="showNextCTFHint()">Afficher un indice</button>
           </div>
         </div>
       </section>
@@ -1112,29 +1112,29 @@
             <span class="news-date-label" id="news-last-updated">Chargement...</span>
             <span class="news-verified-badge">Collecte automatique 2×/jour — sévérité seulement si CVSS source</span>
           </div>
-          <p class="news-desc" style="margin-top:10px">Ressource secondaire. Interface en français. Titres et résumés dans la langue de la source (CERT-FR, CISA, NVD). La sévérité n'est affichée que lorsqu'un score CVSS est publié.</p>
+          <p class="news-desc news-desc-margin">Ressource secondaire. Interface en français. Titres et résumés dans la langue de la source (CERT-FR, CISA, NVD). La sévérité n'est affichée que lorsqu'un score CVSS est publié.</p>
         </div>
 
         <!-- Filtres sévérité + tags -->
         <div class="news-filters" id="news-filters">
           <div class="news-filters-group" id="news-sev-filters">
-            <button class="news-filter-btn active" data-filter="all" onclick="filterNews('all', this)" aria-pressed="true">Tous</button>
-            <button class="news-filter-btn" data-filter="critical" onclick="filterNews('critical', this)">🔴 Critique</button>
-            <button class="news-filter-btn" data-filter="high" onclick="filterNews('high', this)">🟠 Élevé</button>
-            <button class="news-filter-btn" data-filter="medium" onclick="filterNews('medium', this)">🟡 Moyen</button>
-            <button class="news-filter-btn" data-filter="info" onclick="filterNews('info', this)">🔵 Info</button>
-            <button class="news-filter-btn" data-filter="unevaluated" onclick="filterNews('unevaluated', this)">⚪ Non évaluée</button>
+            <button type="button" class="news-filter-btn active" data-filter="all" onclick="filterNews('all', this)" aria-pressed="true">Tous</button>
+            <button type="button" class="news-filter-btn" data-filter="critical" onclick="filterNews('critical', this)">🔴 Critique</button>
+            <button type="button" class="news-filter-btn" data-filter="high" onclick="filterNews('high', this)">🟠 Élevé</button>
+            <button type="button" class="news-filter-btn" data-filter="medium" onclick="filterNews('medium', this)">🟡 Moyen</button>
+            <button type="button" class="news-filter-btn" data-filter="info" onclick="filterNews('info', this)">🔵 Info</button>
+            <button type="button" class="news-filter-btn" data-filter="unevaluated" onclick="filterNews('unevaluated', this)">⚪ Non évaluée</button>
           </div>
           <div class="news-filters-sep"></div>
           <div class="news-filters-group" id="news-tag-filters">
-            <button class="news-filter-btn" data-filter="tag:CVE" onclick="filterNews('tag:CVE', this)">CVE</button>
-            <button class="news-filter-btn" data-filter="tag:Patch" onclick="filterNews('tag:Patch', this)">Patch</button>
-            <button class="news-filter-btn" data-filter="tag:Incident" onclick="filterNews('tag:Incident', this)">Incident</button>
-            <button class="news-filter-btn" data-filter="tag:Outil" onclick="filterNews('tag:Outil', this)">Outil</button>
-            <button class="news-filter-btn" data-filter="tag:Linux" onclick="filterNews('tag:Linux', this)">Linux</button>
-            <button class="news-filter-btn" data-filter="tag:Réseau" onclick="filterNews('tag:Réseau', this)">Réseau</button>
-            <button class="news-filter-btn" data-filter="tag:Windows" onclick="filterNews('tag:Windows', this)">Windows</button>
-            <button class="news-filter-btn" data-filter="tag:Fraude" onclick="filterNews('tag:Fraude', this)">Fraude</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:CVE" onclick="filterNews('tag:CVE', this)">CVE</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:Patch" onclick="filterNews('tag:Patch', this)">Patch</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:Incident" onclick="filterNews('tag:Incident', this)">Incident</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:Outil" onclick="filterNews('tag:Outil', this)">Outil</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:Linux" onclick="filterNews('tag:Linux', this)">Linux</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:Réseau" onclick="filterNews('tag:Réseau', this)">Réseau</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:Windows" onclick="filterNews('tag:Windows', this)">Windows</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:Fraude" onclick="filterNews('tag:Fraude', this)">Fraude</button>
           </div>
         </div>
 
@@ -1152,8 +1152,8 @@
       <!-- ======= ROADMAP / PROGRESSION ======= -->
       <section id="section-roadmap" class="module-section">
         <div class="module-header">
-          <div class="module-tag" style="background:rgba(88,166,255,0.12);color:var(--accent-blue)">Progression</div>
-          <h2 class="module-title"><span class="prompt-prefix" style="color:var(--accent-blue)">$</span> Ma progression</h2>
+          <div class="module-tag tag-progress">Progression</div>
+          <h2 class="module-title"><span class="prompt-prefix prompt-progress">$</span> Ma progression</h2>
           <p class="module-desc">Vue d'ensemble : Fondamentaux Linux (M1–M8), Réseau &amp; services (M9–M11) et Sécurité, Pentest &amp; DFIR (M12–M14).</p>
         </div>
 
@@ -1177,8 +1177,8 @@
       <!-- ======= GLOSSAIRE ======= -->
       <section id="section-glossary" class="module-section">
         <div class="module-header">
-          <div class="module-tag" style="background:rgba(157,122,255,0.12);color:var(--accent-purple)">Référence</div>
-          <h2 class="module-title"><span class="prompt-prefix" style="color:var(--accent-purple)">$</span> Glossaire Linux &amp; Cybersécurité</h2>
+          <div class="module-tag tag-reference">Référence</div>
+          <h2 class="module-title"><span class="prompt-prefix prompt-reference">$</span> Glossaire Linux &amp; Cybersécurité</h2>
           <p class="module-desc">74 termes essentiels expliqués en français, avec exemples concrets. Du vocabulaire que tu rencontres dans les modules, les CTF et les actualités.</p>
           <div class="module-meta">
             <span class="module-meta-item">📖 74 termes</span>
@@ -1205,14 +1205,14 @@
 
         <!-- Filtres catégories -->
         <div class="cheatsheet-filters" id="glossary-cat-filters">
-          <button class="cheatsheet-filter-btn active" data-cat="all" onclick="filterGlossaryCat('all', this)">Tout</button>
-          <button class="cheatsheet-filter-btn" data-cat="securite" onclick="filterGlossaryCat('securite', this)">🛡️ Sécurité</button>
-          <button class="cheatsheet-filter-btn" data-cat="systeme" onclick="filterGlossaryCat('systeme', this)">🖥️ Système</button>
-          <button class="cheatsheet-filter-btn" data-cat="shell" onclick="filterGlossaryCat('shell', this)">📝 Shell</button>
-          <button class="cheatsheet-filter-btn" data-cat="reseau" onclick="filterGlossaryCat('reseau', this)">🌐 Réseau</button>
-          <button class="cheatsheet-filter-btn" data-cat="permissions" onclick="filterGlossaryCat('permissions', this)">🔐 Permissions</button>
-          <button class="cheatsheet-filter-btn" data-cat="developpement" onclick="filterGlossaryCat('developpement', this)">⚙️ Dev</button>
-          <button class="cheatsheet-filter-btn" data-cat="virtualisation" onclick="filterGlossaryCat('virtualisation', this)">📦 Virtualisation</button>
+          <button type="button" class="cheatsheet-filter-btn active" data-cat="all" onclick="filterGlossaryCat('all', this)">Tout</button>
+          <button type="button" class="cheatsheet-filter-btn" data-cat="securite" onclick="filterGlossaryCat('securite', this)">🛡️ Sécurité</button>
+          <button type="button" class="cheatsheet-filter-btn" data-cat="systeme" onclick="filterGlossaryCat('systeme', this)">🖥️ Système</button>
+          <button type="button" class="cheatsheet-filter-btn" data-cat="shell" onclick="filterGlossaryCat('shell', this)">📝 Shell</button>
+          <button type="button" class="cheatsheet-filter-btn" data-cat="reseau" onclick="filterGlossaryCat('reseau', this)">🌐 Réseau</button>
+          <button type="button" class="cheatsheet-filter-btn" data-cat="permissions" onclick="filterGlossaryCat('permissions', this)">🔐 Permissions</button>
+          <button type="button" class="cheatsheet-filter-btn" data-cat="developpement" onclick="filterGlossaryCat('developpement', this)">⚙️ Dev</button>
+          <button type="button" class="cheatsheet-filter-btn" data-cat="virtualisation" onclick="filterGlossaryCat('virtualisation', this)">📦 Virtualisation</button>
         </div>
 
         <!-- Nav alphabétique -->
@@ -1229,7 +1229,7 @@
       <!-- ======= CHEATSHEET LINUX ======= -->
       <section id="section-cheatsheet" class="module-section">
         <div class="module-header">
-          <div class="module-tag" style="background:rgba(0,217,126,0.12);color:var(--accent-green)">Référence rapide</div>
+          <div class="module-tag tag-rapide">Référence rapide</div>
           <h2 class="module-title"><span class="prompt-prefix">$</span> Cheatsheet Linux</h2>
           <p class="module-desc">118 commandes essentielles organisées par thème. Clique sur une commande pour la copier directement.</p>
           <div class="module-meta">
@@ -1257,7 +1257,7 @@
 
         <!-- Filtres catégories -->
         <div class="cheatsheet-filters" id="cheatsheet-filters">
-          <button class="cheatsheet-filter-btn active" data-cat="all" onclick="filterCheatsheetCat('all', this)">Tout</button>
+          <button type="button" class="cheatsheet-filter-btn active" data-cat="all" onclick="filterCheatsheetCat('all', this)">Tout</button>
           <!-- Rempli dynamiquement par JS -->
         </div>
 

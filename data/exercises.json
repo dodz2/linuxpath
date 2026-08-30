@@ -408,6 +408,19 @@
           {
             "type": "stdout_includes",
             "text": "/home/user"
+          },
+          {
+            "type": "any",
+            "of": [
+              {
+                "type": "args_include",
+                "tokens": ["$HOME"]
+              },
+              {
+                "type": "args_include",
+                "tokens": ["${HOME}"]
+              }
+            ]
           }
         ]
       }

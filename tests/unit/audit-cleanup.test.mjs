@@ -28,6 +28,22 @@ test('known-failures.json no longer lists resolved defects as expected failures'
   assert.equal(data.source.length, 0, `expected failures remain: ${data.source.join(', ')}`);
 });
 
+test('the build drops unminified sources from the dist asset bundle', async () => {
+  const { spawn } = await import('node:child_process');
+  const { readdir } = await import('node:fs/promises');
+  const result = await new Promise((resolve) => {
+    const child = spawn('npm', ['run', 'build'], { cwd: process.cwd(), stdio: 'pipe' });
+    let out = '';
+    child.stdout.on('data', (chunk) => { out += chunk; });
+    child.stderr.on('data', (chunk) => { out += chunk; });
+    child.on('close', (code) => resolve({ code, out }));
+  });
+  assert.equal(result.code, 0, `build failed:\n${result.out}`);
+  const files = await readdir('dist/assets');
+  const unminified = files.filter((name) => name.endsWith('.js') && !name.endsWith('.min.js'));
+  assert.deepEqual(unminified, [], `dist/assets still ships unminified sources: ${unminified.join(', ')}`);
+});
+
 test('the harness suite verifies and cleans up its self-marker', async () => {
   const { rm, readdir } = await import('node:fs/promises');
   // clean any leftover marker from previous runs

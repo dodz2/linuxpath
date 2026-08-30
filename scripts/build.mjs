@@ -14,6 +14,14 @@ await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
 for (const file of rootFiles) await cp(path.join(root, file), path.join(dist, file));
 for (const directory of directories) await cp(path.join(root, directory), path.join(dist, directory), { recursive: true });
+// L'utilisateur final ne doit recevoir que les artéfacts minifiés : les sources
+// .js copiées ci-dessus sont des entrées de build, pas des ressources servies.
+const assetEntries = await readdir(path.join(dist, 'assets'));
+for (const name of assetEntries) {
+  if (name.endsWith('.js') && !name.endsWith('.min.js')) {
+    await rm(path.join(dist, 'assets', name), { force: true });
+  }
+}
 const sourceScripts = (await readdir(path.join(root, 'assets')))
   .filter((name) => name.endsWith('.js') && !name.endsWith('.min.js'))
   .sort();

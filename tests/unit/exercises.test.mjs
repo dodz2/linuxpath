@@ -126,6 +126,7 @@ test('exercises reject an unrelated command that happens to carry the expected t
     ['m6-e1', 'echo status'],
     ['m11-e2', 'echo -tlnp'],
     ['m6-e2', 'echo -l'],
+    ['m5-e2', 'echo /home/user'],
   ];
   const byId = Object.fromEntries(allExercises(exercises).map(({ exercise }) => [exercise.id, exercise]));
   const failures = [];

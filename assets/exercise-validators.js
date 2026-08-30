@@ -40,8 +40,9 @@ function evaluateValidator(validator, ctx) {
         : { ok: false, reason: 'La sortie ne contient pas le résultat attendu.' };
     case 'args_include': {
       var raw = String(ctx.raw || '');
-      var tokens = raw.trim() ? raw.trim().split(/\s+/) : [];
-      var needed = validator.tokens || [];
+      function normalize(token) { return token.replace(/^["']|["']$/g, ''); }
+      var tokens = raw.trim() ? raw.trim().split(/\s+/).map(normalize) : [];
+      var needed = (validator.tokens || []).map(normalize);
       var missing = needed.filter(function (token) { return tokens.indexOf(token) < 0; });
       return missing.length === 0
         ? { ok: true }
