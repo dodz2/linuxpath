@@ -83,43 +83,8 @@ function initMainTerminal(vfsData) {
         mainTerminal.print(' 1847 pts/0    00:00:00 ps', 'term-output');
       }
     },
-    mkdir: function(args) {
-      var opts = args.filter(function(a){return a.startsWith('-');});
-      var dirs = args.filter(function(a){return !a.startsWith('-');});
-      if (!dirs[0]) { mainTerminal.print('<span class="t-err">mkdir : nom de répertoire manquant</span>'); return; }
-      var target = mainTerminal.resolvePath(dirs[0]);
-      var _vfs = mainTerminal.getVfs();
-      if (_vfs[target]) { mainTerminal.print('<span class="t-err">mkdir : impossible de créer le répertoire « ' + escapeHtml(dirs[0]) + ' » : Le fichier existe</span>'); return; }
-      var parentPath = target.lastIndexOf('/') > 0 ? target.substring(0, target.lastIndexOf('/')) : '/';
-      var dirName = target.split('/').pop();
-      if (!_vfs[parentPath] && !opts.includes('-p')) { mainTerminal.print('<span class="t-err">mkdir : impossible de créer le répertoire : chemin parent inexistant (utilisez -p)</span>'); return; }
-      if (opts.includes('-p') && !_vfs[parentPath]) _vfs[parentPath] = { type: 'dir', children: [] };
-      _vfs[target] = { type: 'dir', children: [] };
-      if (_vfs[parentPath] && !_vfs[parentPath].children.includes(dirName)) _vfs[parentPath].children.push(dirName);
-    },
-    touch: function(args) {
-      if (!args[0]) { mainTerminal.print('<span class="t-err">touch : nom de fichier manquant</span>'); return; }
-      var target = mainTerminal.resolvePath(args[0]);
-      var _vfs = mainTerminal.getVfs();
-      if (!_vfs[target]) {
-        var parentPath = target.lastIndexOf('/') > 0 ? target.substring(0, target.lastIndexOf('/')) : '/';
-        var fname = target.split('/').pop();
-        _vfs[target] = { type: 'file', content: '' };
-        if (_vfs[parentPath] && !_vfs[parentPath].children.includes(fname)) _vfs[parentPath].children.push(fname);
-      }
-    },
-    rm: function(args) {
-      var recursive = args.some(function(a){return a==='-r'||a==='-rf'||a==='-fr';});
-      var fileArgs = args.filter(function(a){return !a.startsWith('-');});
-      if (!fileArgs[0]) { mainTerminal.print('<span class="t-err">rm : aucun fichier spécifié</span>'); return; }
-      var target = mainTerminal.resolvePath(fileArgs[0]);
-      var _vfs = mainTerminal.getVfs();
-      if (!_vfs[target]) { mainTerminal.print('<span class="t-err">rm : impossible de supprimer « ' + escapeHtml(fileArgs[0]) + ' » : Aucun fichier ou dossier de ce type</span>'); return; }
-      if (_vfs[target].type === 'dir' && !recursive) { mainTerminal.print('<span class="t-err">rm : impossible de supprimer « ' + escapeHtml(fileArgs[0]) + ' » : est un répertoire (utilisez -r)</span>'); return; }
-      var parentPath2 = target.lastIndexOf('/') > 0 ? target.substring(0, target.lastIndexOf('/')) : '/';
-      var name = target.split('/').pop();
-      if (_vfs[parentPath2]) _vfs[parentPath2].children = _vfs[parentPath2].children.filter(function(c){return c!==name;});
-      delete _vfs[target];
+    chown: function(args) {
+      if (args.length < 2) { mainTerminal.print('<span class="t-err">chown : opérandes manquantes</span>'); return; }
     },
     cp: function(args) {
       var fileArgs2 = args.filter(function(a){return !a.startsWith('-');});
@@ -147,19 +112,6 @@ function initMainTerminal(vfsData) {
       var srcName = src.split('/').pop();
       if (_vfs[srcParent]) _vfs[srcParent].children = _vfs[srcParent].children.filter(function(c){return c!==srcName;});
       delete _vfs[src];
-    },
-    chmod: function(args) {
-      if (args.length < 2) { mainTerminal.print('<span class="t-err">chmod : opérandes manquantes</span>'); return; }
-      var fileArg = args[args.length-1];
-      var target = mainTerminal.resolvePath(fileArg);
-      var _vfs = mainTerminal.getVfs();
-      if (!_vfs[target]) { mainTerminal.print('<span class="t-err">chmod : impossible d\'accéder à « ' + escapeHtml(fileArg) + ' » : Aucun fichier ou dossier de ce type</span>'); return; }
-      var perm = args[0];
-      var permMap = {'+x':'rwxr-xr-x','a+x':'rwxr-xr-x','u+x':'rwxr-xr-x','755':'rwxr-xr-x','644':'rw-r--r--','600':'rw-------','777':'rwxrwxrwx','700':'rwx------','400':'r--------'};
-      if (permMap[perm]) _vfs[target].perms = '-' + permMap[perm];
-    },
-    chown: function(args) {
-      if (args.length < 2) { mainTerminal.print('<span class="t-err">chown : opérandes manquantes</span>'); return; }
     },
     ping: function(args) {
       var host = args.filter(function(a){return !a.startsWith('-');})[0];
@@ -603,6 +555,105 @@ function initMainTerminal(vfsData) {
         mainTerminal.print('<span class="t-err">docker: « ' + escapeHtml(dockerSub) + ' » n\'est pas une commande Docker connue</span>');
       }
     },
+    'ssh-keygen': function(args) {
+      var vfs = mainTerminal.getVfs();
+      var keyDir = '/home/user/.ssh';
+      vfs[keyDir] = vfs[keyDir] || { type: 'dir', children: [] };
+      vfs[keyDir + '/id_ed25519'] = { type: 'file', content: '-----BEGIN OPENSSH PRIVATE KEY-----\nsim\n' };
+      vfs[keyDir + '/id_ed25519.pub'] = { type: 'file', content: 'ssh-ed25519 AAAAC3Nza sim' };
+      ['id_ed25519', 'id_ed25519.pub'].forEach(function (name) {
+        if (vfs[keyDir].children.indexOf(name) < 0) vfs[keyDir].children.push(name);
+      });
+      var parent = vfs['/home/user'];
+      if (parent && parent.children.indexOf('.ssh') < 0) parent.children.push('.ssh');
+      mainTerminal.print('Generating public/private ed25519 key pair.', 'term-output');
+      mainTerminal.print('Your identification has been saved in /home/user/.ssh/id_ed25519', 'term-output');
+    },
+    rsync: function() {
+      mainTerminal.print('sending incremental file list', 'term-output');
+      mainTerminal.print('projet/', 'term-output');
+      mainTerminal.print('sent 1,234 bytes  received 42 bytes', 'term-output');
+    },
+    certbot: function() {
+      mainTerminal.print('Requesting a certificate for monsite.com', 'term-output');
+      mainTerminal.print('Successfully received certificate.', 'term-output');
+    },
+    openssl: function(args) {
+      if (args[0] === 's_client') {
+        mainTerminal.print('-----BEGIN CERTIFICATE-----', 'term-output');
+        mainTerminal.print('MIIFsim', 'term-output');
+        mainTerminal.print('-----END CERTIFICATE-----', 'term-output');
+        return { exitCode: 0, stdout: ['-----BEGIN CERTIFICATE-----', 'MIIFsim', '-----END CERTIFICATE-----'], stderr: [], stateChanges: [] };
+      }
+      if (args[0] === 'x509') {
+        var lines = ['notBefore=Jan  1 00:00:00 2026 GMT', 'notAfter=Jan  1 00:00:00 2027 GMT'];
+        return { exitCode: 0, stdout: lines, stderr: [], stateChanges: [] };
+      }
+      return { exitCode: 0, stdout: [], stderr: [], stateChanges: [] };
+    },
+    nft: function(args) {
+      if (args[0] === 'list') {
+        mainTerminal.print('table inet filter {', 'term-output');
+        mainTerminal.print('  chain input { type filter hook input priority 0; }', 'term-output');
+        mainTerminal.print('}', 'term-output');
+      } else if (args[0] === 'add') {
+        var vfs = mainTerminal.getVfs();
+        vfs['/etc/nftables.applied'] = { type: 'file', content: args.join(' ') };
+        var etc = vfs['/etc'];
+        if (etc && etc.children.indexOf('nftables.applied') < 0) etc.children.push('nftables.applied');
+        mainTerminal.print('nft: règle ajoutée (simulation)', 'term-output');
+      }
+    },
+    lynis: function() {
+      mainTerminal.print('[ Lynis 3.0 ]', 'term-output');
+      mainTerminal.print('Hardening index : 66', 'term-output');
+      mainTerminal.print('Warning: SSH permit root login', 'term-output');
+    },
+    auditctl: function() {
+      mainTerminal.print('auditctl: watch installed on /etc/passwd', 'term-output');
+    },
+    nmap: function(args) {
+      var host = args[args.length - 1] || 'host';
+      mainTerminal.print('Starting Nmap 7.94 ( https://nmap.org )', 'term-output');
+      mainTerminal.print('Nmap scan report for ' + host, 'term-output');
+      mainTerminal.print('22/tcp open ssh', 'term-output');
+    },
+    msfconsole: function() {
+      mainTerminal.print('Metasploit Framework', 'term-output');
+      mainTerminal.print('msf6 >', 'term-output');
+    },
+    gobuster: function() {
+      mainTerminal.print('===============================================================', 'term-output');
+      mainTerminal.print('/admin                (Status: 301)', 'term-output');
+    },
+    strings: function(args, engine, stdin) {
+      var file = (args || []).filter(function (a) { return a.charAt(0) !== '-'; })[0];
+      var vfs = mainTerminal.getVfs();
+      var target = file ? mainTerminal.resolvePath(file) : null;
+      var lines = target && vfs[target] ? String(vfs[target].content || '').split('\n') : (stdin || []);
+      return { exitCode: 0, stdout: lines, stderr: [], stateChanges: [] };
+    },
+    binwalk: function(args) {
+      var file = (args || []).filter(function (a) { return a.charAt(0) !== '-'; })[0] || 'firmware.bin';
+      var outDir = '/home/user/_' + file + '.extracted';
+      var vfs = mainTerminal.getVfs();
+      vfs[outDir] = { type: 'dir', children: [] };
+      var parent = vfs['/home/user'];
+      var name = outDir.split('/').pop();
+      if (parent && parent.children.indexOf(name) < 0) parent.children.push(name);
+      mainTerminal.print('DECIMAL  HEX  DESCRIPTION', 'term-output');
+      mainTerminal.print('0        0x0  extracted to ' + outDir, 'term-output');
+    },
+    dd: function(args) {
+      var of = ((args || []).find(function (a) { return a.indexOf('of=') === 0; }) || 'of=/mnt/evidence/disk.img').slice(3);
+      var vfs = mainTerminal.getVfs();
+      vfs[of] = { type: 'file', content: 'DISKIMAGE' };
+      var parent = of.slice(0, of.lastIndexOf('/')) || '/';
+      var name = of.split('/').pop();
+      if (vfs[parent] && vfs[parent].children.indexOf(name) < 0) vfs[parent].children.push(name);
+      mainTerminal.print('123+0 records in', 'term-output');
+      mainTerminal.print('123+0 records out', 'term-output');
+    }
    }
 });
 
@@ -622,19 +673,22 @@ function toggleFaq(el) {
   el.classList.toggle('active', !isOpen);
 }
 
-function toggleTerminal() {
+function setTerminalMinimized(minimized) {
   var sec = document.getElementById('terminal-section');
   var icon = document.getElementById('term-toggle-icon');
   if (!sec) return;
-  var isMin = sec.classList.toggle('minimized');
-  if (icon) icon.textContent = isMin ? '▲' : '▼';
+  sec.classList.toggle('minimized', !!minimized);
+  if (icon) icon.textContent = minimized ? '▲' : '▼';
+}
+
+function toggleTerminal() {
+  var sec = document.getElementById('terminal-section');
+  if (!sec) return;
+  setTerminalMinimized(!sec.classList.contains('minimized'));
 }
 
 function focusTerminal() {
-  var sec = document.getElementById('terminal-section');
-  var icon = document.getElementById('term-toggle-icon');
-  if (sec) sec.classList.remove('minimized');
-  if (icon) icon.textContent = '▼';
+  setTerminalMinimized(false);
   var inp = document.getElementById('terminal-input');
   if (inp) inp.focus();
   closeSidebar();
@@ -648,13 +702,7 @@ function initTerminal() {
   var input = document.getElementById('terminal-input');
   if (!input) return;
 
-  // Sur mobile : terminal minimisé par défaut avec icône
-  if (window.innerWidth <= 700) {
-    var sec = document.getElementById('terminal-section');
-    var icon = document.getElementById('term-toggle-icon');
-    if (sec) sec.classList.add('minimized');
-    if (icon) icon.textContent = '▲';
-  }
+  setTerminalMinimized(true);
 
   mainTerminal.initInput();
   mainTerminal.print('<span class="t-green">LinuxPath Terminal v1.0 — Tapez <strong>help</strong> pour la liste des commandes.</span>', 'term-output');

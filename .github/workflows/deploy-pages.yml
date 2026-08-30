@@ -2,7 +2,7 @@ name: Deploy LinuxPath
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -15,35 +15,57 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: '20'
+          node-version: '22'
+          cache: npm
 
-      - name: Minify JS
-        run: |
-          npm install -g terser
-          for src in assets/utils.js assets/storage.js assets/terminal-core.js assets/terminal-main.js assets/ctf.js assets/render.js assets/app.js assets/site-patches.js; do
-            out="${src%.js}.min.js"
-            echo "Minifying $src → $out"
-            terser "$src" --compress --mangle --output "$out"
-          done
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify then build
+        run: npm run verify
 
       - name: Configure Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - name: Upload dist artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
-          path: '.'
+          path: 'dist'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
+
+      - name: Smoke live Pages
+        run: |
+          set -euo pipefail
+          url="https://dodz2.github.io/linuxpath/"
+          ok=0
+          for _ in 1 2 3 4 5 6; do
+            if curl -fsS "$url" | grep -q 'linuxpath' \
+              && curl -fsS "${url}sw.js" | grep -q 'linuxpath-v'; then
+              ok=1
+              break
+            fi
+            sleep 10
+          done
+          test "$ok" -eq 1

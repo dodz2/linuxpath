@@ -1,0 +1,98 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { findDanglingVfsReferences } from '../../scripts/lib/content-validation.mjs';
+import { parseCommandLine, runShell, tokenize } from '../../scripts/lib/shell-exec.mjs';
+
+const vfs = JSON.parse(await readFile('data/vfs.json', 'utf8'));
+
+function cloneVfs() {
+  return structuredClone(vfs);
+}
+
+function exec(command, options = {}) {
+  return runShell({
+    vfs: options.vfs || cloneVfs(),
+    cwd: options.cwd || '/home/user',
+    command,
+    permCheck: options.permCheck === true,
+    recursiveFind: options.recursiveFind !== false,
+  });
+}
+
+test('tokenize keeps quoted arguments and splits pipes', () => {
+  assert.deepEqual(tokenize('grep "#" /tmp/a'), ['grep', '#', '/tmp/a']);
+  assert.deepEqual(tokenize("echo 'abc' | base64 -d"), ['echo', 'abc', '|', 'base64', '-d']);
+});
+
+test('unsupported shell syntax is rejected with a structured error', () => {
+  const result = parseCommandLine('ls && cat readme.txt');
+  assert.equal(result.ok, false);
+  assert.equal(result.exitCode > 0, true);
+  assert.ok(result.stderr[0]);
+});
+
+test('exec returns the documented contract', () => {
+  const result = exec('pwd');
+  assert.equal(result.exitCode, 0);
+  assert.ok(Array.isArray(result.stdout));
+  assert.ok(Array.isArray(result.stderr));
+  assert.equal(result.cwd, '/home/user');
+  assert.ok(Array.isArray(result.stateChanges));
+  assert.deepEqual(result.stdout, ['/home/user']);
+});
+
+test('ls and cat describe the same filesystem', () => {
+  const listed = exec('ls /home/user/documents');
+  assert.equal(listed.exitCode, 0);
+  assert.ok(listed.stdout.includes('notes.txt'));
+  const cat = exec('cat /home/user/documents/notes.txt');
+  assert.equal(cat.exitCode, 0);
+  assert.ok(cat.stdout.join('\n').includes('ls : lister'));
+  const missing = exec('cat /home/user/documents/missing.txt');
+  assert.notEqual(missing.exitCode, 0);
+  assert.ok(missing.stderr.length > 0);
+  assert.ok(missing.errorCode);
+});
+
+test('mkdir cd chmod find grep echo report structured errors', () => {
+  const vfsCopy = cloneVfs();
+  const made = runShell({ vfs: vfsCopy, cwd: '/home/user', command: 'mkdir -v tmpdir' });
+  assert.equal(made.exitCode, 0);
+  assert.ok(made.stdout.some((line) => line.includes('tmpdir')));
+  const exists = runShell({ vfs: vfsCopy, cwd: '/home/user', command: 'mkdir tmpdir' });
+  assert.notEqual(exists.exitCode, 0);
+  const cd = exec('cd /no/such');
+  assert.notEqual(cd.exitCode, 0);
+  const chmod = exec('chmod +x missing.sh');
+  assert.notEqual(chmod.exitCode, 0);
+  const grep = exec('grep nowhere /home/user/readme.txt');
+  assert.equal(grep.exitCode, 1);
+  const echo = exec('echo hello');
+  assert.deepEqual(echo.stdout, ['hello']);
+  const find = exec('find /home/user/scripts -name script.sh', { recursiveFind: true });
+  assert.ok(find.stdout.some((line) => line.endsWith('script.sh')));
+});
+
+test('echo pipes into base64 -d and grep pipes into cut and awk', () => {
+  const decoded = exec("echo 'ZmxhZw==' | base64 -d");
+  assert.equal(decoded.exitCode, 0);
+  assert.equal(decoded.stdout.join(''), 'flag');
+  const cut = exec('grep Session /var/log/syslog | cut -d " " -f 1');
+  assert.equal(cut.exitCode, 0);
+  assert.ok(cut.stdout.length > 0);
+  const awk = exec('grep Session /var/log/syslog | awk \'{print $1}\'');
+  assert.equal(awk.exitCode, 0);
+  assert.ok(awk.stdout.length > 0);
+});
+
+test('an unknown command returns a non-zero exit code', () => {
+  const result = exec('definitely-not-a-command');
+  assert.notEqual(result.exitCode, 0);
+  assert.equal(result.exitCode, 127);
+  assert.match(result.stderr.join('\n'), /commande introuvable/);
+});
+
+test('the published VFS graph is closed', () => {
+  assert.equal(findDanglingVfsReferences(vfs).length, 0);
+});

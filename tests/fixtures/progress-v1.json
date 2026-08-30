@@ -1,0 +1,10 @@
+{
+  "_format": "linuxpath-progress-v1",
+  "exportDate": "2026-08-29T00:00:00.000Z",
+  "lessonsDone": ["m1-l1"],
+  "exercisesDone": ["m1-e1"],
+  "quizScores": { "m1": 3 },
+  "unlockedModules": ["m1", "m2", "m9", "m12", "sandbox"],
+  "ctfSolved": ["ctf-01"],
+  "ctfHints": { "ctf-01": 1 }
+}

@@ -1,0 +1,8 @@
+{
+  "elements": ["html5"],
+  "rules": {
+    "close-order": "error",
+    "element-permitted-content": "error",
+    "no-dup-id": "error"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "_format": "linuxpath-progress-v1",
+  "exportDate": "2026-08-29T00:00:00.000Z",
+  "lessonsDone": [],
+  "exercisesDone": [],
+  "quizScores": {
+    "m1": "<img src=x onerror=\"document.documentElement.dataset.linuxpathXss='executed'\">"
+  },
+  "unlockedModules": ["m1"],
+  "ctfSolved": [],
+  "ctfHints": {}
+}

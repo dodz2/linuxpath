@@ -4,28 +4,77 @@
 let LESSONS   = {};
 let EXERCISES = {};
 let QUIZZES   = {};
-
-
-/* ============================================================
-   MODULE META
-   ============================================================ */
-const MODULE_META = {
-  m1: { title: 'Les bases de Linux', desc: 'Histoire, distributions, terminal et commandes fondamentales.' },
-  m2: { title: 'Fichiers & permissions', desc: 'Permissions Unix, chmod, chown, redirections et wildcards.' },
-  m3: { title: 'Utilisateurs & processus', desc: 'sudo, gestion des utilisateurs, ps, kill, jobs.' },
-  m4: { title: 'Réseau de base', desc: 'Interfaces réseau, ping, curl, ports ouverts et DNS.' },
-  m5: { title: 'Scripting Bash', desc: 'Variables, conditions, boucles, fonctions et scripts.' },
-  m6: { title: 'Administration intermédiaire', desc: 'apt, systemctl, cron jobs, logs et SSH.' },
-  m7: { title: 'Sécurité &amp; OSINT', desc: 'nmap, netcat, grep forensique, SUID/SGID et reconnaissance.' },
-  m8: { title: 'Git &amp; Docker', desc: 'Gestion de versions avec Git et conteneurisation avec Docker.' },
-  m9: { title: 'SSH &amp; accès distant', desc: 'Clés SSH, tunnels, SCP/SFTP/rsync et VPN WireGuard.' },
-  m10: { title: 'Serveurs web &amp; DNS', desc: 'Nginx, DNS avec dig/nslookup et HTTPS Let\'s Encrypt.' },
-  m11: { title: 'Sécurité réseau', desc: 'Pare-feu nftables et monitoring réseau (tcpdump, ss).' },
-  m12: { title: 'Audit & Durcissement', desc: 'Lynis, OpenSCAP, auditd et renforcement système.' },
-  m13: { title: 'Pentest & Outils', desc: 'Metasploit, Burp Suite, Nmap avancé et outils hacker.' },
-  m14: { title: 'Forensic & Malwares', desc: 'Analyse de malwares, investigation numérique et réponse à incident.' },
-  sandbox: { title: 'Sandbox Linux', desc: 'Terminal Alpine Linux réel via WebAssembly.' }
+let MODULES   = [];
+let PASS_SCORE = 3;
+let MODULE_META = {
+  sandbox: { title: 'Sandbox Linux', desc: 'Terminal Linux réel (image de démonstration v86) via WebAssembly.' }
 };
+
+let TRACKS = [];
+function applyModules(list, options) {
+  if (options && Number.isFinite(options.passScore)) PASS_SCORE = options.passScore;
+  TRACKS = options && Array.isArray(options.tracks) ? options.tracks : [];
+  MODULES = Array.isArray(list) ? list.slice().sort((a, b) => a.displayOrder - b.displayOrder) : [];
+  MODULE_META = {
+    sandbox: { title: 'Sandbox Linux', desc: 'Terminal Linux réel (image de démonstration v86) via WebAssembly.' }
+  };
+  MODULES.forEach(function (entry) {
+    MODULE_META[entry.id] = {
+      title: entry.title,
+      desc: entry.description,
+      track: entry.track,
+      icon: entry.icon || '',
+      displayOrder: entry.displayOrder,
+      prerequisites: entry.prerequisites || [],
+      objectives: entry.objectives || [],
+      estimatedMinutes: entry.estimatedMinutes,
+      successCriteria: entry.successCriteria || '',
+      chapters: entry.chapters || []
+    };
+  });
+}
+
+function getPublishedModuleIds() {
+  return MODULES.filter(function (entry) { return entry.status === 'published'; }).map(function (entry) { return entry.id; });
+}
+
+function getTrackModuleIds(track) {
+  return MODULES.filter(function (entry) { return entry.track === track && entry.status === 'published'; }).map(function (entry) { return entry.id; });
+}
+
+function getCurriculumStats() {
+  function count(source) {
+    return Object.keys(source).reduce(function (total, key) {
+      return total + (Array.isArray(source[key]) ? source[key].length : 0);
+    }, 0);
+  }
+  var quizzes = typeof QUIZZES !== 'undefined' ? QUIZZES : {};
+  var challenges = typeof CTF_CHALLENGES !== 'undefined' && Array.isArray(CTF_CHALLENGES) ? CTF_CHALLENGES : [];
+  var difficulty = { easy: 0, medium: 0, hard: 0 };
+  challenges.forEach(function (challenge) {
+    if (Object.prototype.hasOwnProperty.call(difficulty, challenge.difficulty)) difficulty[challenge.difficulty] += 1;
+  });
+  return {
+    modules: Object.keys(typeof LESSONS !== 'undefined' ? LESSONS : {}).length,
+    lessons: count(typeof LESSONS !== 'undefined' ? LESSONS : {}),
+    exercises: count(typeof EXERCISES !== 'undefined' ? EXERCISES : {}),
+    quizzes: Object.keys(quizzes).length,
+    questions: Object.keys(quizzes).reduce(function (total, moduleId) {
+      var quiz = quizzes[moduleId];
+      return total + (quiz && Array.isArray(quiz.questions) ? quiz.questions.length : 0);
+    }, 0),
+    challenges: challenges.length,
+    difficulty: difficulty
+  };
+}
+
+function getModuleCounts(mod) {
+  return {
+    lessons: (LESSONS[mod] || []).length,
+    exercises: (EXERCISES[mod] || []).length,
+    quizzes: QUIZZES[mod] ? 1 : 0
+  };
+}
 
 /* ============================================================
    STATE & STORAGE
@@ -40,10 +89,9 @@ let state = {
 };
 
 /* ============================================================
-   STORAGE — IndexedDB avec fallback localStorage
+   STORAGE — localStorage only (progress is tiny)
    ============================================================ */
 
-// Clés de stockage (identiques à l'ancienne implémentation localStorage)
 const STORAGE_KEYS = {
   lessonsDone:     'lt_lessonsDone',
   exercisesDone:   'lt_exercisesDone',
@@ -51,60 +99,7 @@ const STORAGE_KEYS = {
   unlockedModules: 'lt_unlockedModules'
 };
 
-// --- Abstraction storage : get(key) et set(key, value) retournent des Promises ---
-
-let _db = null; // handle IndexedDB, null si indisponible
-
-/**
- * Ouvre (ou crée) la base IndexedDB "linuxpath-db".
- * Résout avec l'objet IDBDatabase, ou null si IndexedDB est indisponible.
- */
-function _openDB() {
-  return new Promise((resolve) => {
-    if (!window.indexedDB) { resolve(null); return; }
-    const req = indexedDB.open('linuxpath-db', 1);
-    req.onupgradeneeded = (e) => {
-      // Crée le store si nécessaire (première ouverture)
-      const db = e.target.result;
-      if (!db.objectStoreNames.contains('kv')) {
-        db.createObjectStore('kv');
-      }
-    };
-    req.onsuccess = (e) => resolve(e.target.result);
-    req.onerror   = ()  => resolve(null); // fallback si erreur ouverture
-  });
-}
-
-/**
- * Lit une valeur depuis IndexedDB.
- * Retourne une Promise<string|null>.
- */
-function _idbGet(key) {
-  return new Promise((resolve) => {
-    if (!_db) { resolve(null); return; }
-    const tx  = _db.transaction('kv', 'readonly');
-    const req = tx.objectStore('kv').get(key);
-    req.onsuccess = () => resolve(req.result ?? null);
-    req.onerror   = () => resolve(null);
-  });
-}
-
-/**
- * Écrit une valeur dans IndexedDB.
- * Retourne une Promise<void>.
- */
-function _idbSet(key, value) {
-  return new Promise((resolve) => {
-    if (!_db) { resolve(); return; }
-    const tx  = _db.transaction('kv', 'readwrite');
-    const req = tx.objectStore('kv').put(value, key);
-    req.onsuccess = () => resolve();
-    req.onerror   = () => resolve();
-  });
-}
-
-// --- Fallback localStorage (si IndexedDB indisponible) ---
-const _lsStore  = {}; // fallback mémoire si localStorage aussi indisponible
+const _lsStore  = {};
 const _lsRaw    = (() => { try { return window.localStorage; } catch(_) { return null; } })();
 
 function _lsFallbackGet(key) {
@@ -116,47 +111,18 @@ function _lsFallbackSet(key, value) {
   catch(_) { _lsStore[key] = value; }
 }
 
-// --- API publique : storage.get / storage.set ---
 const storage = {
-  /** Retourne une Promise<string|null> */
   get(key) {
-    if (_db) return _idbGet(key);
     return Promise.resolve(_lsFallbackGet(key));
   },
-  /** Retourne une Promise<void> */
   set(key, value) {
-    if (_db) return _idbSet(key, value);
     _lsFallbackSet(key, value);
     return Promise.resolve();
   }
 };
 
-// --- Migration automatique depuis localStorage vers IndexedDB ---
-/**
- * Si des données existent dans localStorage mais pas encore dans IndexedDB,
- * les migre automatiquement. Ne supprime PAS les données localStorage
- * (permettant un retour arrière propre).
- */
-async function _migrateFromLocalStorage() {
-  for (const key of Object.values(STORAGE_KEYS)) {
-    const existing = await _idbGet(key);
-    if (existing !== null) continue; // déjà migré
-    // Tenter de lire depuis localStorage
-    const lsVal = _lsFallbackGet(key);
-    if (lsVal !== null) {
-      await _idbSet(key, lsVal); // migration sans suppression
-    }
-  }
-}
-
-// --- Initialisation du storage (appelée avant tout le reste dans init()) ---
 async function initStorage() {
-  _db = await _openDB();
-  if (_db) {
-    // IndexedDB disponible : migrer les données localStorage existantes
-    await _migrateFromLocalStorage();
-  }
-  // Si _db est null, on utilisera le fallback localStorage/mémoire automatiquement
+  return undefined;
 }
 
 // --- Fonctions de persistance de l'état ---
@@ -180,11 +146,9 @@ async function loadState() {
     ]);
     if (ld) state.lessonsDone     = new Set(JSON.parse(ld));
     if (ed) state.exercisesDone   = new Set(JSON.parse(ed));
-    if (qs) state.quizScores      = JSON.parse(qs);
+    if (qs) state.quizScores = migrateProgress({ _format: 'linuxpath-progress-v2', quiz: JSON.parse(qs) }).quiz;
     if (um) state.unlockedModules = new Set(JSON.parse(um));
-    state.unlockedModules.add('sandbox'); // toujours accessible
-    state.unlockedModules.add('m9');      // premier module réseau, toujours accessible
-    state.unlockedModules.add('m12');     // module Audit & Durcissement, toujours accessible
+    refreshUnlocks();
   } catch(e) { /* état par défaut conservé */ }
 }
 
@@ -209,21 +173,192 @@ async function confirmReset() {
 
 
 
+function activityBelongsToModule(id, moduleId) {
+  return typeof id === 'string' && typeof moduleId === 'string' && (id === moduleId || id.startsWith(moduleId + '-'));
+}
+
+function normalizeQuizRecord(value, passScore) {
+  if (passScore === undefined) passScore = PASS_SCORE;
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    const score = Math.max(0, Math.round(value));
+    return { attempts: 1, bestScore: score, lastScore: score, passed: score >= passScore };
+  }
+  if (!value || typeof value !== 'object') return null;
+  const lastScore = Number.isFinite(value.lastScore) ? Math.max(0, Math.round(value.lastScore)) : null;
+  const bestScore = Number.isFinite(value.bestScore) ? Math.max(0, Math.round(value.bestScore)) : lastScore;
+  const attempts = Number.isFinite(value.attempts) ? Math.max(1, Math.round(value.attempts)) : 1;
+  if (lastScore === null && bestScore === null) return null;
+  const last = lastScore === null ? bestScore : lastScore;
+  const best = Math.max(bestScore || 0, last);
+  return {
+    attempts: attempts,
+    bestScore: best,
+    lastScore: last,
+    passed: value.passed === true || best >= passScore
+  };
+}
+
+function recordQuizAttempt(existing, score, passScore) {
+  if (passScore === undefined) passScore = PASS_SCORE;
+  const previous = normalizeQuizRecord(existing, passScore);
+  const lastScore = Math.max(0, Math.round(score));
+  const bestScore = Math.max(previous ? previous.bestScore : 0, lastScore);
+  return {
+    attempts: (previous ? previous.attempts : 0) + 1,
+    bestScore: bestScore,
+    lastScore: lastScore,
+    passed: Boolean(previous && previous.passed) || lastScore >= passScore
+  };
+}
+
+function getQuizRecord(mod) {
+  return normalizeQuizRecord(state.quizScores[mod]);
+}
+
+function isQuizPassed(mod) {
+  const record = getQuizRecord(mod);
+  return Boolean(record && record.passed);
+}
+
+function migrateProgress(data) {
+  if (!data || typeof data !== 'object') return null;
+  const format = data._format;
+  if (format !== 'linuxpath-progress-v1' && format !== 'linuxpath-progress-v2') return null;
+  const sourceQuiz = data.quiz && typeof data.quiz === 'object' ? data.quiz : data.quizScores;
+  const quiz = {};
+  if (sourceQuiz && typeof sourceQuiz === 'object') {
+    Object.keys(sourceQuiz).forEach(function (moduleId) {
+      const record = normalizeQuizRecord(sourceQuiz[moduleId]);
+      if (record) quiz[moduleId] = record;
+    });
+  }
+  return {
+    _format: 'linuxpath-progress-v2',
+    lessonsDone: Array.isArray(data.lessonsDone) ? data.lessonsDone.filter(function (id) { return typeof id === 'string'; }) : [],
+    exercisesDone: Array.isArray(data.exercisesDone) ? data.exercisesDone.filter(function (id) { return typeof id === 'string'; }) : [],
+    quiz: quiz,
+    unlockedModules: Array.isArray(data.unlockedModules) ? data.unlockedModules.filter(function (id) { return typeof id === 'string'; }) : [],
+    ctfSolved: Array.isArray(data.ctfSolved) ? data.ctfSolved.filter(function (id) { return typeof id === 'string'; }) : [],
+    ctfHints: data.ctfHints && typeof data.ctfHints === 'object' ? data.ctfHints : {},
+    ctfHow: data.ctfHow && typeof data.ctfHow === 'object' ? data.ctfHow : {}
+  };
+}
+
+function countOwned(set, mod) {
+  var n = 0;
+  set.forEach(function (id) { if (activityBelongsToModule(id, mod)) n += 1; });
+  return n;
+}
+
 function getModuleProgress(mod) {
   const lessons = LESSONS[mod] || [];
   const exercises = EXERCISES[mod] || [];
-  const lessonsDone = lessons.filter(l => state.lessonsDone.has(l.id)).length;
-  const exercisesDone = exercises.filter(e => state.exercisesDone.has(e.id)).length;
-  const quizDone = state.quizScores[mod] !== undefined ? 1 : 0;
+  const lessonsDone = lessons.filter(function (lesson) { return state.lessonsDone.has(lesson.id); }).length;
+  const exercisesDone = exercises.filter(function (exercise) { return state.exercisesDone.has(exercise.id); }).length;
+  const record = getQuizRecord(mod);
+  const quizDone = record && record.passed ? 1 : 0;
   const total = lessons.length + exercises.length + 1;
   const done = lessonsDone + exercisesDone + quizDone;
-  return { done, total, pct: Math.round(done / total * 100) };
+  const questionCount = (QUIZZES[mod] && QUIZZES[mod].questions) ? QUIZZES[mod].questions.length : 5;
+  let status = 'locked';
+  if (state.unlockedModules.has(mod)) {
+    if (quizDone && lessonsDone >= lessons.length && exercisesDone >= exercises.length) {
+      status = record && record.bestScore >= questionCount ? 'mastered' : 'passed';
+    } else if (lessonsDone + exercisesDone + (record ? 1 : 0) > 0) {
+      status = 'in_progress';
+    } else {
+      status = 'available';
+    }
+  }
+  return { done: done, total: total, pct: total ? Math.round(done / total * 100) : 0, state: status, quiz: record };
+}
+
+function getTrackProgress(track) {
+  const mods = getTrackModuleIds(track);
+  let done = 0;
+  let total = 0;
+  mods.forEach(function (mod) {
+    const progress = getModuleProgress(mod);
+    done += progress.done;
+    total += progress.total;
+  });
+  return { done: done, total: total, pct: total ? Math.round(done / total * 100) : 0 };
 }
 
 function getProgress() {
-  const done = state.lessonsDone.size + state.exercisesDone.size + Object.keys(state.quizScores).length;
-  const total = 125;
-  return { done, total, pct: Math.round(done / total * 100) };
+  const stats = getCurriculumStats();
+  let passedQuizzes = 0;
+  Object.keys(state.quizScores).forEach(function (mod) {
+    if (isQuizPassed(mod)) passedQuizzes += 1;
+  });
+  const done = state.lessonsDone.size + state.exercisesDone.size + passedQuizzes;
+  const total = stats.lessons + stats.exercises + stats.quizzes;
+  return { done: done, total: total, pct: total ? Math.round(done / total * 100) : 0 };
+}
+
+function refreshUnlocks() {
+  state.unlockedModules.add('m1');
+  state.unlockedModules.add('sandbox');
+  MODULES.forEach(function (entry) {
+    const prereqs = entry.prerequisites || [];
+    if (prereqs.every(function (id) { return isQuizPassed(id); })) {
+      state.unlockedModules.add(entry.id);
+    }
+  });
+}
+
+function nextModuleId(mod) {
+  const mods = getPublishedModuleIds();
+  const idx = mods.indexOf(mod);
+  if (idx < 0 || idx === mods.length - 1) return null;
+  return mods[idx + 1];
+}
+
+function applyImportedProgress(data) {
+  const migrated = data && data._format === 'linuxpath-progress-v2' && Array.isArray(data.lessonsDone)
+    ? {
+        _format: 'linuxpath-progress-v2',
+        lessonsDone: data.lessonsDone.slice(),
+        exercisesDone: Array.isArray(data.exercisesDone) ? data.exercisesDone.slice() : [],
+        quiz: data.quiz && typeof data.quiz === 'object' ? Object.assign({}, data.quiz) : {},
+        unlockedModules: Array.isArray(data.unlockedModules) ? data.unlockedModules.slice() : [],
+        ctfSolved: Array.isArray(data.ctfSolved) ? data.ctfSolved.slice() : [],
+        ctfHints: data.ctfHints && typeof data.ctfHints === 'object' ? Object.assign({}, data.ctfHints) : {},
+        ctfHow: data.ctfHow && typeof data.ctfHow === 'object' ? Object.assign({}, data.ctfHow) : {}
+      }
+    : migrateProgress(data);
+  if (!migrated) throw new Error('invalid-progress-format');
+  state.lessonsDone = new Set(migrated.lessonsDone);
+  state.exercisesDone = new Set(migrated.exercisesDone);
+  state.quizScores = migrated.quiz;
+  state.unlockedModules = new Set(migrated.unlockedModules);
+  refreshUnlocks();
+  if (typeof ctfState !== 'undefined') {
+    ctfState.solved = new Set(migrated.ctfSolved);
+    ctfState.hints = migrated.ctfHints;
+    ctfState.how = migrated.ctfHow && typeof migrated.ctfHow === 'object' ? migrated.ctfHow : {};
+  }
+  return migrated;
+}
+
+function exportProgressData() {
+  return {
+    _format: 'linuxpath-progress-v2',
+    exportDate: new Date().toISOString(),
+    lessonsDone: Array.from(state.lessonsDone),
+    exercisesDone: Array.from(state.exercisesDone),
+    quiz: state.quizScores,
+    unlockedModules: Array.from(state.unlockedModules),
+    ctfSolved: typeof ctfState !== 'undefined' ? Array.from(ctfState.solved) : [],
+    ctfHints: typeof ctfState !== 'undefined' ? ctfState.hints : {},
+    ctfHow: typeof ctfState !== 'undefined' ? (ctfState.how || {}) : {}
+  };
+}
+
+function resetModuleProgress(mod) {
+  (LESSONS[mod] || []).forEach(function (lesson) { state.lessonsDone.delete(lesson.id); });
+  (EXERCISES[mod] || []).forEach(function (exercise) { state.exercisesDone.delete(exercise.id); });
+  delete state.quizScores[mod];
 }
 
 /* ============================================================
@@ -234,16 +369,7 @@ function getProgress() {
  * Exporte toute la progression (état + CTF) dans un fichier JSON.
  */
 function exportProgress() {
-  var data = {
-    _format: 'linuxpath-progress-v1',
-    exportDate: new Date().toISOString(),
-    lessonsDone: Array.from(state.lessonsDone),
-    exercisesDone: Array.from(state.exercisesDone),
-    quizScores: state.quizScores,
-    unlockedModules: Array.from(state.unlockedModules),
-    ctfSolved: typeof ctfState !== 'undefined' ? Array.from(ctfState.solved) : [],
-    ctfHints: typeof ctfState !== 'undefined' ? ctfState.hints : {}
-  };
+  var data = exportProgressData();
 
   var json = JSON.stringify(data, null, 2);
   var blob = new Blob([json], { type: 'application/json' });
@@ -260,6 +386,64 @@ function exportProgress() {
 /**
  * Importe la progression depuis un fichier JSON sélectionné par l'utilisateur.
  */
+function importCatalog() {
+  return {
+    lessonIds: Object.values(LESSONS || {}).flat().map(function (entry) { return entry.id; }),
+    exerciseIds: Object.values(EXERCISES || {}).flat().map(function (entry) { return entry.id; }),
+    moduleIds: (typeof getPublishedModuleIds === 'function' ? getPublishedModuleIds() : Object.keys(LESSONS || {})).concat(['sandbox']),
+    ctfIds: (typeof CTF_CHALLENGES !== 'undefined' ? CTF_CHALLENGES : []).map(function (entry) { return entry.id; })
+  };
+}
+
+function hasDangerousKey(value) {
+  if (!value || typeof value !== 'object') return false;
+  if (Object.prototype.hasOwnProperty.call(value, '__proto__') || Object.prototype.hasOwnProperty.call(value, 'constructor') || Object.prototype.hasOwnProperty.call(value, 'prototype')) return true;
+  for (const key of Object.keys(value)) {
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') return true;
+    if (hasDangerousKey(value[key])) return true;
+  }
+  return false;
+}
+
+function validateProgressImport(raw, catalog) {
+  if (typeof raw !== 'string') return { ok: false, reason: 'payload' };
+  if (new TextEncoder().encode(raw).length > 100000) return { ok: false, reason: 'oversized' };
+  let parsed;
+  try { parsed = JSON.parse(raw); } catch (err) { return { ok: false, reason: 'json' }; }
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed) || hasDangerousKey(parsed)) return { ok: false, reason: 'prototype' };
+  const sourceQuiz = parsed.quiz && typeof parsed.quiz === 'object' ? parsed.quiz : parsed.quizScores;
+  if (sourceQuiz && typeof sourceQuiz === 'object') {
+    if (hasDangerousKey(sourceQuiz)) return { ok: false, reason: 'prototype' };
+    for (const moduleId of Object.keys(sourceQuiz)) {
+      if (catalog.moduleIds.indexOf(moduleId) < 0) return { ok: false, reason: 'unknown-id' };
+      const value = sourceQuiz[moduleId];
+      if (typeof value === 'number') {
+        if (!Number.isInteger(value) || value < 0 || value > 5) return { ok: false, reason: 'score' };
+      } else if (!value || typeof value !== 'object') {
+        return { ok: false, reason: 'score' };
+      } else {
+        for (const field of ['lastScore', 'bestScore']) {
+          if (value[field] !== undefined && (!Number.isInteger(value[field]) || value[field] < 0 || value[field] > 5)) return { ok: false, reason: 'score' };
+        }
+      }
+    }
+  }
+  const migrated = migrateProgress(parsed);
+  if (!migrated) return { ok: false, reason: 'format' };
+  const unknown = migrated.lessonsDone.some(function (id) { return catalog.lessonIds.indexOf(id) < 0; })
+    || migrated.exercisesDone.some(function (id) { return catalog.exerciseIds.indexOf(id) < 0; })
+    || migrated.unlockedModules.some(function (id) { return id !== 'sandbox' && catalog.moduleIds.indexOf(id) < 0; })
+    || migrated.ctfSolved.some(function (id) { return catalog.ctfIds.indexOf(id) < 0; });
+  if (unknown) return { ok: false, reason: 'unknown-id' };
+  const preview = [
+    migrated.lessonsDone.length + ' leçon' + (migrated.lessonsDone.length === 1 ? '' : 's'),
+    migrated.exercisesDone.length + ' exercice' + (migrated.exercisesDone.length === 1 ? '' : 's'),
+    Object.keys(migrated.quiz).length + ' quiz',
+    migrated.ctfSolved.length + ' CTF'
+  ].join(', ');
+  return { ok: true, data: migrated, preview: preview };
+}
+
 function importProgress() {
   var input = document.createElement('input');
   input.type = 'file';
@@ -268,40 +452,22 @@ function importProgress() {
     var file = e.target.files[0];
     if (!file) return;
     try {
+      if (file.size > 100000) {
+        alert('Fichier trop volumineux.');
+        return;
+      }
       var text = await file.text();
-      var data = JSON.parse(text);
-
-      // Validation du format
-      if (data._format !== 'linuxpath-progress-v1') {
-        alert('Fichier invalide : ce n\'est pas un export LinuxPath.');
+      var result = validateProgressImport(text, importCatalog());
+      if (!result.ok) {
+        alert('Import refusé (' + result.reason + '). Aucune donnée n\'a été appliquée.');
         return;
       }
-
-      if (!confirm('Importer cette sauvegarde remplacera votre progression actuelle. Continuer ?')) {
+      if (!confirm('Importer cette sauvegarde (' + result.preview + ') remplacera votre progression actuelle. Continuer ?')) {
         return;
       }
-
-      // Restauration de l'état principal
-      if (Array.isArray(data.lessonsDone))     state.lessonsDone     = new Set(data.lessonsDone);
-      if (Array.isArray(data.exercisesDone))   state.exercisesDone   = new Set(data.exercisesDone);
-      if (data.quizScores && typeof data.quizScores === 'object') state.quizScores = data.quizScores;
-      if (Array.isArray(data.unlockedModules)) state.unlockedModules = new Set(data.unlockedModules);
-
-      // Toujours garder les modules de base accessibles
-      state.unlockedModules.add('m1');
-      state.unlockedModules.add('sandbox');
-      state.unlockedModules.add('m9');
-      state.unlockedModules.add('m12');
-
+      applyImportedProgress(result.data);
       await saveState();
-
-      // Restauration CTF si disponible
-      if (typeof ctfState !== 'undefined') {
-        if (Array.isArray(data.ctfSolved)) ctfState.solved = new Set(data.ctfSolved);
-        if (data.ctfHints && typeof data.ctfHints === 'object') ctfState.hints = data.ctfHints;
-        await saveCTFState();
-      }
-
+      if (typeof saveCTFState === 'function') await saveCTFState();
       alert('Progression importée avec succès !');
       location.reload();
     } catch (err) {

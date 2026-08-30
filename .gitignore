@@ -1,6 +1,15 @@
 # Fichiers minifiés — générés automatiquement par le workflow CI
 assets/*.min.js
 
+# Phase 0 — generated validation/build artifacts
+# GitHub Pages publishes dist/ via Actions, never the repository root.
+node_modules/
+dist/
+test-results/
+playwright-report/
+blob-report/
+.hermes/
+
 # OS / IDE
 .DS_Store
 Thumbs.db
@@ -8,3 +17,7 @@ Thumbs.db
 .idea/
 *.swp
 *~
+
+# Python bytecode
+__pycache__/
+*.pyc

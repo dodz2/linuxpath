@@ -241,34 +241,324 @@ function createTerminalEngine(config) {
     help: function() { print(helpHtml, 'term-output'); }
   };
 
+  function tokenizeCmd(input) {
+    var tokens = [];
+    var current = '';
+    var quote = null;
+    var text = String(input || '');
+    for (var i = 0; i < text.length; i++) {
+      var ch = text[i];
+      if (quote) {
+        if (ch === '\\' && quote === '"' && i + 1 < text.length) { current += text[++i]; continue; }
+        if (ch === quote) quote = null;
+        else current += ch;
+        continue;
+      }
+      if (ch === '\\' && i + 1 < text.length) { current += text[++i]; continue; }
+      if (ch === "'" || ch === '"') { quote = ch; continue; }
+      if (ch === '|') {
+        if (current) { tokens.push(current); current = ''; }
+        tokens.push('|');
+        continue;
+      }
+      if (/\s/.test(ch)) {
+        if (current) { tokens.push(current); current = ''; }
+        continue;
+      }
+      current += ch;
+    }
+    if (quote) return { error: 'unclosed-quote' };
+    if (current) tokens.push(current);
+    return tokens;
+  }
+
+  function parseLine(input) {
+    var trimmed = String(input || '').trim().replace(/\s+2>\s*\/dev\/null/g, '');
+    if (!trimmed) return { ok: true, stages: [] };
+    if (/(&&|\|\||;|`|\$\(|<\(|>>|>|<)/.test(trimmed)) {
+      return { ok: false, exitCode: 2, stderr: ['bash: syntaxe non supportée'], errorCode: 'unsupported-syntax' };
+    }
+    var tokens = tokenizeCmd(trimmed);
+    if (tokens.error) return { ok: false, exitCode: 2, stderr: ['bash: guillemet non fermé'], errorCode: tokens.error };
+    var stages = [];
+    var stage = [];
+    tokens.forEach(function (token) {
+      if (token === '|') { stages.push(stage); stage = []; }
+      else stage.push(token);
+    });
+    stages.push(stage);
+    if (stages.some(function (parts) { return parts.length === 0; })) {
+      return { ok: false, exitCode: 2, stderr: ['bash: pipeline vide'], errorCode: 'empty-pipeline' };
+    }
+    if (stages[0][0] === 'sudo') {
+      stages[0] = stages[0].slice(1);
+      if (!stages[0].length) return { ok: false, exitCode: 1, stderr: ['sudo : aucune commande spécifiée'], errorCode: 'usage' };
+    }
+    return { ok: true, stages: stages };
+  }
+
+  function childPath(parent, name) {
+    return parent === '/' ? '/' + name : parent.replace(/\/$/, '') + '/' + name;
+  }
+
+  function failResult(message, errorCode, exitCode) {
+    return { exitCode: exitCode || 1, stdout: [], stderr: [message], errorCode: errorCode, stateChanges: [] };
+  }
+
+  function runOne(name, args, stdin, ctx) {
+    if (name === 'pwd') return { exitCode: 0, stdout: [ctx.cwd], stderr: [], stateChanges: [] };
+    if (name === 'echo') {
+      var text = args.join(' ')
+        .replace(/\$\{HOME\}/g, '/home/user')
+        .replace(/\$HOME/g, '/home/user')
+        .replace(/\$\{USER\}/g, userInfo.user)
+        .replace(/\$USER/g, userInfo.user)
+        .replace(/\$\{PWD\}/g, ctx.cwd)
+        .replace(/\$PWD/g, ctx.cwd);
+      return { exitCode: 0, stdout: [text], stderr: [], stateChanges: [] };
+    }
+    if (name === 'whoami') return { exitCode: 0, stdout: [userInfo.user], stderr: [], stateChanges: [] };
+    if (name === 'hostname') return { exitCode: 0, stdout: [userInfo.hostname || 'user-pc'], stderr: [], stateChanges: [] };
+    if (name === 'cd') {
+      var target = args[0];
+      if (!target || target === '~') { prevDir = currentDir; currentDir = '/home/user'; ctx.cwd = currentDir; return { exitCode: 0, stdout: [], stderr: [], stateChanges: [] }; }
+      var resolved = resolvePath(target);
+      if (!vfs[resolved]) return failResult('bash: cd: ' + target + ': Aucun fichier ou dossier de ce type', 'enoent');
+      if (vfs[resolved].type !== 'dir') return failResult('bash: cd: ' + target + ': N\'est pas un répertoire', 'not-a-directory');
+      prevDir = currentDir;
+      currentDir = resolved;
+      ctx.cwd = currentDir;
+      return { exitCode: 0, stdout: [], stderr: [], stateChanges: [] };
+    }
+    if (name === 'ls') {
+      var fileArg = args.filter(function (a) { return !a.startsWith('-'); })[0];
+      var showHidden = args.some(function (a) { return /^-[a-zA-Z]*a/.test(a); });
+      var targetLs = fileArg ? resolvePath(fileArg) : currentDir;
+      if (!vfs[targetLs]) return failResult('ls : impossible d\'accéder à \'' + fileArg + '\': Aucun fichier ou dossier de ce type', 'enoent');
+      var names;
+      if (vfs[targetLs].type === 'file') names = [targetLs.split('/').pop()];
+      else names = (vfs[targetLs].children || []).filter(function (item) { return showHidden || item.charAt(0) !== '.'; });
+      return { exitCode: 0, stdout: names, stderr: [], stateChanges: [] };
+    }
+    if (name === 'cat') {
+      if (args[0]) {
+        var t = resolvePath(args[0]);
+        if (!vfs[t]) return failResult('cat : ' + args[0] + ' : Aucun fichier ou dossier de ce type', 'enoent');
+        if (vfs[t].type === 'dir') return failResult('cat : ' + args[0] + ' : est un répertoire', 'eisdir');
+        if (permCheck && vfs[t].perms && vfs[t].perms.indexOf('-r--------') === 0) return failResult('cat : ' + args[0] + ' : Permission non accordée', 'eacces');
+        return { exitCode: 0, stdout: String(vfs[t].content || '').split('\n'), stderr: [], stateChanges: [] };
+      }
+      return { exitCode: 0, stdout: stdin.slice(), stderr: [], stateChanges: [] };
+    }
+    if (name === 'grep') {
+      var flags = args.filter(function (a) { return a.charAt(0) === '-'; });
+      var nonFlag = args.filter(function (a) { return a.charAt(0) !== '-'; });
+      var pattern = nonFlag[0];
+      var file = nonFlag[1];
+      if (!pattern) return failResult('grep : spécifiez un motif', 'usage', 2);
+      var lines = stdin.slice();
+      if (file) {
+        var gt = resolvePath(file);
+        if (!vfs[gt] || vfs[gt].type !== 'file') return failResult('grep : ' + file + ' : Aucun fichier de ce type', 'enoent');
+        lines = String(vfs[gt].content || '').split('\n');
+      }
+      var ci = flags.indexOf('-i') >= 0;
+      var matched = lines.filter(function (line) {
+        return ci ? line.toLowerCase().indexOf(pattern.toLowerCase()) >= 0 : line.indexOf(pattern) >= 0;
+      });
+      return { exitCode: matched.length ? 0 : 1, stdout: matched, stderr: [], stateChanges: [], errorCode: matched.length ? undefined : 'no-match' };
+    }
+    if (name === 'cut') {
+      var delimiter = '\t';
+      var field = 1;
+      for (var ci2 = 0; ci2 < args.length; ci2++) {
+        if (args[ci2] === '-d' && args[ci2 + 1] !== undefined) { delimiter = args[++ci2]; }
+        else if (args[ci2] === '-f' && args[ci2 + 1] !== undefined) { field = Number(args[++ci2]) || 1; }
+      }
+      return { exitCode: 0, stdout: stdin.map(function (line) { var parts = line.split(delimiter); return parts[field - 1] || ''; }), stderr: [], stateChanges: [] };
+    }
+    if (name === 'awk') {
+      var program = args[0] || '';
+      var fieldMatch = program.match(/\{print\s+\$(\d+|NF)\}/);
+      return {
+        exitCode: 0,
+        stdout: stdin.map(function (line) {
+          var parts = line.trim().split(/\s+/);
+          if (!fieldMatch) return line;
+          if (fieldMatch[1] === 'NF') return parts[parts.length - 1] || '';
+          return parts[Number(fieldMatch[1]) - 1] || '';
+        }),
+        stderr: [],
+        stateChanges: []
+      };
+    }
+    if (name === 'base64') {
+      var decode = args.indexOf('-d') >= 0;
+      var payload = args.filter(function (a) { return a !== '-d'; })[0];
+      if (payload === undefined) payload = stdin.join('');
+      try {
+        var out = decode ? atob(payload) : btoa(payload);
+        return { exitCode: 0, stdout: [out], stderr: [], stateChanges: [] };
+      } catch (err) {
+        return failResult('base64 : données invalides', 'invalid-base64');
+      }
+    }
+    if (name === 'find') {
+      var nonFlags = args.filter(function (a) { return a.charAt(0) !== '-'; });
+      var nameIdx = args.indexOf('-name');
+      var permIdx = args.indexOf('-perm');
+      var patternFind = nameIdx >= 0 ? args[nameIdx + 1] : null;
+      var permFind = permIdx >= 0 ? args[permIdx + 1] : null;
+      var needle = String(patternFind || '').replace(/\*/g, '');
+      var root = resolvePath(nonFlags[0] || '.');
+      var results = [];
+      function visit(dirPath) {
+        var node = vfs[dirPath];
+        if (!node) return;
+        var nameOk = !patternFind || dirPath.split('/').pop().indexOf(needle) >= 0;
+        var permOk = !permFind || (node.perms || '').indexOf('s') >= 0 || (node.perms || '').indexOf('4000') >= 0;
+        if (nameOk && permOk) results.push(dirPath);
+        if (node.type === 'dir') (node.children || []).forEach(function (child) { visit(childPath(dirPath, child)); });
+      }
+      visit(root);
+      return { exitCode: 0, stdout: results, stderr: [], stateChanges: [] };
+    }
+    if (name === 'mkdir') {
+      var opts = args.filter(function (a) { return a.charAt(0) === '-'; });
+      var dirs = args.filter(function (a) { return a.charAt(0) !== '-'; });
+      if (!dirs[0]) return failResult('mkdir : nom de répertoire manquant', 'usage');
+      var verbose = opts.some(function (a) { return a.indexOf('v') >= 0; });
+      var parents = opts.some(function (a) { return a.indexOf('p') >= 0; });
+      var targetMk = resolvePath(dirs[0]);
+      if (vfs[targetMk]) return failResult('mkdir : impossible de créer le répertoire « ' + dirs[0] + ' » : Le fichier existe', 'eexist');
+      var parentPath = targetMk.lastIndexOf('/') > 0 ? targetMk.substring(0, targetMk.lastIndexOf('/')) : '/';
+      var dirName = targetMk.split('/').pop();
+      if (!vfs[parentPath] && !parents) return failResult('mkdir : impossible de créer le répertoire : chemin parent inexistant (utilisez -p)', 'enoent');
+      if (parents && !vfs[parentPath]) vfs[parentPath] = { type: 'dir', children: [] };
+      vfs[targetMk] = { type: 'dir', children: [] };
+      if (vfs[parentPath] && vfs[parentPath].children.indexOf(dirName) < 0) vfs[parentPath].children.push(dirName);
+      return { exitCode: 0, stdout: verbose ? ['mkdir: répertoire « ' + dirs[0] + ' » créé'] : [], stderr: [], stateChanges: [{ op: 'mkdir', path: targetMk }] };
+    }
+    if (name === 'chmod') {
+      if (args.length < 2) return failResult('chmod : opérandes manquantes', 'usage');
+      var fileArg = args[args.length - 1];
+      var targetCh = resolvePath(fileArg);
+      if (!vfs[targetCh]) return failResult('chmod : impossible d\'accéder à « ' + fileArg + ' » : Aucun fichier ou dossier de ce type', 'enoent');
+      var perm = args[0];
+      var permMap = { '+x': 'rwxr-xr-x', 'a+x': 'rwxr-xr-x', 'u+x': 'rwxr-xr-x', '755': 'rwxr-xr-x', '0755': 'rwxr-xr-x', '644': 'rw-r--r--', '600': 'rw-------' };
+      if (permMap[perm]) vfs[targetCh].perms = '-' + permMap[perm];
+      return { exitCode: 0, stdout: [], stderr: [], stateChanges: [{ op: 'chmod', path: targetCh }] };
+    }
+    if (name === 'touch') {
+      if (!args[0]) return failResult('touch : nom de fichier manquant', 'usage');
+      var targetTo = resolvePath(args[0]);
+      if (!vfs[targetTo]) {
+        var parentTo = targetTo.lastIndexOf('/') > 0 ? targetTo.substring(0, targetTo.lastIndexOf('/')) : '/';
+        var fname = targetTo.split('/').pop();
+        vfs[targetTo] = { type: 'file', content: '' };
+        if (vfs[parentTo] && vfs[parentTo].children.indexOf(fname) < 0) vfs[parentTo].children.push(fname);
+      }
+      return { exitCode: 0, stdout: [], stderr: [], stateChanges: [{ op: 'touch', path: targetTo }] };
+    }
+    if (name === 'rm') {
+      var recursive = args.some(function (a) { return a === '-r' || a === '-rf' || a === '-fr'; });
+      var fileArgs = args.filter(function (a) { return a.charAt(0) !== '-'; });
+      if (!fileArgs[0]) return failResult('rm : aucun fichier spécifié', 'usage');
+      var targetRm = resolvePath(fileArgs[0]);
+      if (!vfs[targetRm]) return failResult('rm : impossible de supprimer « ' + fileArgs[0] + ' » : Aucun fichier ou dossier de ce type', 'enoent');
+      if (vfs[targetRm].type === 'dir' && !recursive) return failResult('rm : impossible de supprimer « ' + fileArgs[0] + ' » : est un répertoire (utilisez -r)', 'eisdir');
+      var parentRm = targetRm.lastIndexOf('/') > 0 ? targetRm.substring(0, targetRm.lastIndexOf('/')) : '/';
+      var nameRm = targetRm.split('/').pop();
+      if (vfs[parentRm]) vfs[parentRm].children = vfs[parentRm].children.filter(function (c) { return c !== nameRm; });
+      delete vfs[targetRm];
+      return { exitCode: 0, stdout: [], stderr: [], stateChanges: [{ op: 'rm', path: targetRm }] };
+    }
+    if (name === 'clear') {
+      var out = document.getElementById(config.outputElId);
+      if (out) out.innerHTML = '';
+      return { exitCode: 0, stdout: [], stderr: [], stateChanges: [], silent: true };
+    }
+    if (name === 'help') return { exitCode: 0, stdout: [], stderr: [], stateChanges: [], html: helpHtml };
+    if (name === 'man') {
+      if (!args[0]) return failResult('man : quel manuel voulez-vous ?', 'usage');
+      if (manPages[args[0]]) return { exitCode: 0, stdout: [], stderr: [], stateChanges: [], html: '<div class="man-page">' + manPages[args[0]] + '</div>' };
+      return failResult('Aucune entrée de manuel pour ' + args[0], 'enoent');
+    }
+    if (name === 'history') {
+      return { exitCode: 0, stdout: cmdHistory.map(function (c, i) { return '  ' + String(i + 1).padStart(3) + '  ' + c; }), stderr: [], stateChanges: [] };
+    }
+    if (name === 'id') {
+      return { exitCode: 0, stdout: ['uid=' + userInfo.uid + '(' + userInfo.user + ') gid=' + userInfo.gid + '(' + userInfo.user + ') groupes=' + userInfo.gid + '(' + userInfo.user + ')' + (userInfo.extraGroups || '')], stderr: [], stateChanges: [] };
+    }
+    return failResult('bash: ' + name + ': commande introuvable', 'enoent', 127);
+  }
+
+  function harvestFrom(fromCount) {
+    var out = document.getElementById(config.outputElId);
+    if (!out) return [];
+    return [].slice.call(out.children, fromCount).map(function (node) { return node.textContent; });
+  }
+
+  function runExtra(name, args, stdin) {
+    var out = document.getElementById(config.outputElId);
+    var from = out ? out.childElementCount : 0;
+    var ret = extraCmds[name](args, engine, stdin);
+    if (ret && typeof ret.exitCode === 'number') return ret;
+    return { exitCode: 0, stdout: harvestFrom(from), stderr: [], stateChanges: [] };
+  }
+
+  function runStructured(rawCmd) {
+    var parsed = parseLine(rawCmd);
+    if (!parsed.ok) {
+      return { exitCode: parsed.exitCode, stdout: [], stderr: parsed.stderr, cwd: currentDir, stateChanges: [], errorCode: parsed.errorCode, command: null, commands: [] };
+    }
+    if (!parsed.stages.length) return { exitCode: 0, stdout: [], stderr: [], cwd: currentDir, stateChanges: [], command: null, commands: [] };
+    var ctx = { cwd: currentDir };
+    var stdin = [];
+    var last = { exitCode: 0, stdout: [], stderr: [], stateChanges: [] };
+    var stateChanges = [];
+    for (var s = 0; s < parsed.stages.length; s++) {
+      var parts = parsed.stages[s];
+      if (extraCmds[parts[0]]) last = runExtra(parts[0], parts.slice(1), stdin);
+      else last = runOne(parts[0], parts.slice(1), stdin, ctx);
+      stateChanges = stateChanges.concat(last.stateChanges || []);
+      stdin = last.stdout || [];
+      if (last.exitCode === 127) break;
+    }
+    return {
+      exitCode: last.exitCode,
+      stdout: last.stdout || [],
+      stderr: last.stderr || [],
+      cwd: currentDir,
+      stateChanges: stateChanges,
+      errorCode: last.errorCode,
+      html: last.html,
+      silent: last.silent,
+      command: parsed.stages[0][0],
+      commands: parsed.stages.map(function (stage) { return stage[0]; })
+    };
+  }
+
   /* --- Command dispatcher --- */
   function exec(rawCmd) {
-    if (!rawCmd || !rawCmd.trim()) return;
+    if (!rawCmd || !rawCmd.trim()) return { exitCode: 0, stdout: [], stderr: [], cwd: currentDir, stateChanges: [], command: null, commands: [] };
     var trimmed = rawCmd.trim();
     if (cmdHistory[cmdHistory.length - 1] !== trimmed) cmdHistory.push(trimmed);
     historyIdx = cmdHistory.length;
     cmdEcho(trimmed);
 
-    var parts = trimmed.split(/\s+/);
-    var cmd   = parts[0];
-    var args  = parts.slice(1);
-
-    // Extra commands have priority (allows overriding builtins like ps)
-    if (extraCmds[cmd]) {
-      extraCmds[cmd](args, engine);
-      updatePromptLabel();
-      return;
+    var result = runStructured(trimmed);
+    if (!result.silent) {
+      if (result.html) print(result.html, 'term-output');
+      if (!result.commands || !result.commands.some(function (name) { return extraCmds[name]; })) {
+        (result.stdout || []).forEach(function (line) { print(escapeHtml(line), 'term-output'); });
+      } else if (result.commands.length > 1) {
+        (result.stdout || []).forEach(function (line) { print(escapeHtml(line), 'term-output'); });
+      }
+      (result.stderr || []).forEach(function (line) { print('<span class="t-err">' + escapeHtml(line) + '</span>'); });
     }
-
-    if (builtinCommands[cmd]) {
-      builtinCommands[cmd](args);
-      updatePromptLabel();
-      return;
-    }
-
-    // Unknown command
-    print('<span class="t-err">bash: ' + escapeHtml(cmd) + ': commande introuvable</span>');
     updatePromptLabel();
+    return result;
   }
 
   /* --- Input listener --- */

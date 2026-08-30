@@ -1,6 +1,6 @@
 /* ============================================================
    Service Worker — LinuxPath
-   Version : linuxpath-v36
+   Version : linuxpath-v50
 
    Stratégies par type de ressource :
    ┌─────────────────────────────┬──────────────────────────────┐
@@ -20,7 +20,8 @@
    - Mise à jour transparente : le SW s'active sans fermer l'onglet
    ============================================================ */
 
-const SW_VERSION = 'linuxpath-v36';
+const CACHE_PREFIX = 'linuxpath-';
+const SW_VERSION = 'linuxpath-v50';
 
 /* ---- Ressources pré-cachées à l'installation -------------- */
 // On ne pre-cache plus libv86/linux.iso (chargés en lazy ou à la demande)
@@ -31,12 +32,12 @@ const PRECACHE_URLS = [
   './assets/terminal.css',
   './assets/components.css',
   './assets/responsive.css',
-  './assets/site-patches.min.js',
   './assets/utils.min.js',
   './assets/storage.min.js',
   './assets/terminal-core.min.js',
   './assets/terminal-main.min.js',
   './assets/ctf.min.js',
+  './assets/exercise-validators.min.js',
   './assets/render.min.js',
   './assets/app.min.js',
   './assets/favicon.svg',
@@ -44,6 +45,7 @@ const PRECACHE_URLS = [
   './data/lessons.json',
   './data/exercises.json',
   './data/quizzes.json',
+  './data/modules.json',
   './data/ctf.json',
   './data/news.json',
   './data/cheatsheet.json',
@@ -60,36 +62,26 @@ const ASSET_PATTERN  = /\/(assets|manifest\.json|sitemap|robots|favicon)/; // SW
    Installation — pré-cache des ressources essentielles
    ============================================================ */
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(SW_VERSION).then((cache) =>
-      cache.addAll(PRECACHE_URLS).catch((err) => {
-        // Ne pas bloquer l'install si un fichier optionnel manque
-        console.warn('[SW] Pre-cache partiel:', err);
-      })
-    )
-  );
-  // Activation immédiate sans attendre la fermeture des onglets
-  self.skipWaiting();
+  event.waitUntil((async () => {
+    const cache = await caches.open(SW_VERSION);
+    await Promise.all(PRECACHE_URLS.map((url) => cache.add(url)));
+    await self.skipWaiting();
+  })());
 });
 
 /* ============================================================
    Activation — nettoyage des anciens caches
    ============================================================ */
 self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys
-          .filter((k) => k !== SW_VERSION)
-          .map((k) => {
-            console.log('[SW] Suppression ancien cache:', k);
-            return caches.delete(k);
-          })
-      )
-    )
-  );
-  // Prise de contrôle immédiate des onglets déjà ouverts
-  self.clients.claim();
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(
+      keys
+        .filter((k) => k.startsWith(CACHE_PREFIX) && k !== SW_VERSION)
+        .map((k) => caches.delete(k))
+    );
+    await self.clients.claim();
+  })());
 });
 
 /* ============================================================
@@ -137,16 +129,21 @@ self.addEventListener('fetch', (event) => {
    Tente le réseau, fallback cache si hors-ligne.
    Utilisé pour : data/*.json (news, lessons, etc.)
    ============================================================ */
+async function matchOwn(request) {
+  const cache = await caches.open(SW_VERSION);
+  return cache.match(request);
+}
+
 async function networkFirst(request) {
+  const cache = await caches.open(SW_VERSION);
   try {
     const response = await fetch(request.clone());
     if (response.ok) {
-      const cache = await caches.open(SW_VERSION);
-      cache.put(request, response.clone());
+      await cache.put(request, response.clone());
     }
     return response;
   } catch (_) {
-    const cached = await caches.match(request);
+    const cached = await cache.match(request);
     if (cached) return cached;
     return new Response(
       JSON.stringify({ error: 'Contenu non disponible hors-ligne.' }),
@@ -155,42 +152,30 @@ async function networkFirst(request) {
   }
 }
 
-/* ============================================================
-   Stratégie : Stale-While-Revalidate
-   Sert immédiatement depuis le cache, met à jour en arrière-plan.
-   L'utilisateur voit toujours une réponse rapide.
-   Utilisé pour : HTML, CSS, JS, manifest
-   ============================================================ */
 async function staleWhileRevalidate(request) {
   const cache = await caches.open(SW_VERSION);
   const cached = await cache.match(request);
-
-  // Mise à jour en arrière-plan (sans bloquer la réponse)
-  const fetchPromise = fetch(request.clone()).then((response) => {
+  const network = fetch(request.clone()).then(async (response) => {
     if (response.ok) {
-      cache.put(request, response.clone());
+      await cache.put(request, response.clone());
     }
     return response;
   }).catch(() => null);
-
-  // Retourner le cache immédiatement si disponible, sinon attendre le réseau
-  return cached || fetchPromise || new Response('Ressource non disponible.', { status: 503 });
+  if (cached) {
+    network;
+    return cached;
+  }
+  return (await network) || new Response('Ressource non disponible.', { status: 503 });
 }
 
-/* ============================================================
-   Stratégie : Cache-First
-   Sert depuis le cache, télécharge uniquement si absent.
-   Utilisé pour : fichiers v86 lourds (linux.iso, libv86.js, wasm…)
-   ============================================================ */
 async function cacheFirst(request) {
-  const cached = await caches.match(request);
+  const cache = await caches.open(SW_VERSION);
+  const cached = await cache.match(request);
   if (cached) return cached;
-
   try {
     const response = await fetch(request.clone());
     if (response.ok) {
-      const cache = await caches.open(SW_VERSION);
-      cache.put(request, response.clone());
+      await cache.put(request, response.clone());
     }
     return response;
   } catch (_) {

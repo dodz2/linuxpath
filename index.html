@@ -7,7 +7,6 @@
 <!-- ===== SEO PRIMARY ===== -->
 <title>LinuxPath — Apprends Linux &amp; Cybersécurité gratuitement en français</title>
 <meta name="description" content="LinuxPath est une plateforme d&#39;autoformation interactive en français pour apprendre Linux, la ligne de commande et la cybersécurité. Modules progressifs, sandbox réel, challenges CTF et actualités cyber.">
-<meta name="keywords" content="apprendre linux, formation linux français, tutoriel terminal, cybersécurité débutant, ligne de commande, CTF, sandbox linux, autoformation informatique">
 <meta name="author" content="LinuxPath">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://dodz2.github.io/linuxpath/">
@@ -56,7 +55,7 @@
       "@type": "Course",
       "@id": "https://dodz2.github.io/linuxpath/#course",
       "name": "Formation Linux & Cybersécurité — LinuxPath",
-      "description": "14 modules progressifs répartis en trois parcours : Linux, Réseau & Services et Sécurité offensive.",
+      "description": "14 modules progressifs répartis en trois parcours : Fondamentaux Linux, Réseau & services et Sécurité, Pentest & DFIR.",
       "url": "https://dodz2.github.io/linuxpath/",
       "inLanguage": "fr-FR",
       "isAccessibleForFree": true,
@@ -77,9 +76,6 @@
 <link rel="apple-touch-icon" href="assets/icon-192.svg">
 
 <!-- ===== FONTS & STYLES ===== -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/base.css">
 	<link rel="stylesheet" href="assets/terminal.css">
 	<link rel="stylesheet" href="assets/components.css">
@@ -91,7 +87,7 @@
 <div id="app">
 
   <!-- ===================== SIDEBAR ===================== -->
-  <aside class="sidebar" id="sidebar" aria-label="Navigation principale">
+  <aside class="sidebar" id="sidebar" aria-label="Navigation principale" tabindex="0">
     <div class="sidebar-logo">
       <!-- SVG Logo -->
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" role="img" aria-label="Logo LinuxPath">
@@ -214,11 +210,11 @@
         </div>
       </div>
       
-      <!-- ── Groupe : Sécurité offensive ── -->
+      <!-- ── Groupe : Sécurité, Pentest & DFIR ── -->
       <div class="sidebar-group" id="group-offsec">
         <button class="sidebar-group-header" onclick="toggleSidebarGroup('group-offsec')" aria-expanded="false" aria-controls="group-offsec-body">
           <span class="sidebar-group-icon">🛡️</span>
-          <span class="sidebar-group-title">Sécurité offensive</span>
+          <span class="sidebar-group-title">Sécurité, Pentest &amp; DFIR</span>
           <span class="sidebar-group-badge" id="group-offsec-badge">0%</span>
           <svg class="sidebar-group-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
             <polyline points="2,4 6,8 10,4"/>
@@ -294,11 +290,6 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-resources-body"><div>
-          <button class="module-nav-item" data-target="news" onclick="navigateTo('news')" id="nav-news" aria-label="Actualités Cyber">
-            <span class="module-nav-icon">📰</span>
-            <span class="module-nav-title">Actualités Cyber</span>
-            <span class="module-nav-badge" style="background:rgba(248,81,73,0.12);color:var(--accent-red);border:1px solid rgba(248,81,73,0.2)">NEW</span>
-          </button>
           <button class="module-nav-item" data-target="cheatsheet" onclick="navigateTo('cheatsheet')" id="nav-cheatsheet" aria-label="Cheatsheet Linux">
             <span class="module-nav-icon">📋</span>
             <span class="module-nav-title">Cheatsheet Linux</span>
@@ -307,7 +298,11 @@
             <span class="module-nav-icon">📖</span>
             <span class="module-nav-title">Glossaire</span>
           </button>
-        </div>
+          <button class="module-nav-item" data-target="news" onclick="navigateTo('news')" id="nav-news" aria-label="Actualités Cyber">
+            <span class="module-nav-icon">📰</span>
+            <span class="module-nav-title">Actualités Cyber</span>
+          </button>
+        </div></div>
       </div>
 
     </nav>
@@ -355,10 +350,66 @@
       <section id="section-home" class="module-section active">
         <div class="welcome-screen">
 
-          <!-- ===== HERO — rendu dynamique par JS (renderHome) ===== -->
-          <div id="home-hero"><!-- rempli par renderHome() --></div>
+          <!-- ===== HERO — rendu dynamique par JS (renderHome) ; le contenu statique sert de fallback sans JS ===== -->
+          <div id="home-hero">
+            <div class="lp-hero">
+              <div class="lp-badge">$ open-source · gratuit · 100% français</div>
+              <h1 class="lp-headline">Apprenez <em>Linux</em> de zéro à l'administration.</h1>
+              <p class="lp-sub">Des modules progressifs, des exercices guidés, des quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
+              <div class="lp-cta-row">
+                <a class="lp-cta-primary" href="https://github.com/dodz2/linuxpath" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;cursor:pointer">▶ Activer JavaScript pour démarrer, ou explorer le code</a>
+              </div>
+            </div>
+          </div>
 
-          <!-- ===== FEATURES ===== -->
+          <div class="lp-section-block" id="track-picker">
+            <div class="lp-section-label">// parcours</div>
+            <div class="lp-section-title">Trois chemins, sans verrou brutal</div>
+            <div class="track-grid">
+              <article class="track-card" data-track="linux">
+                <div class="track-level">Débutant</div>
+                <h3>Fondamentaux Linux</h3>
+                <p>M1 à M8 · ~14 h · aucun prérequis</p>
+                <ul class="track-objectives">
+                  <li>Terminal au quotidien</li>
+                  <li>Administration de base</li>
+                  <li>Git et Docker pédagogiques</li>
+                </ul>
+                <p class="track-capstone">Mini-projet : script bash versionné et lancé dans un conteneur.</p>
+                <button type="button" class="lp-cta-primary" id="track-linux-enter" onclick="enterTrack('linux')">Commencer ici</button>
+              </article>
+              <article class="track-card" data-track="network">
+                <div class="track-level">Intermédiaire</div>
+                <h3>Réseau &amp; services</h3>
+                <p>M9 à M11 · ~8 h · Linux recommandé</p>
+                <ul class="track-objectives">
+                  <li>SSH et transferts</li>
+                  <li>Nginx et DNS</li>
+                  <li>Filtrage réseau</li>
+                </ul>
+                <p class="track-capstone">Mini-projet : clé SSH + reverse proxy + table nftables dédiée.</p>
+                <button type="button" class="lp-cta-secondary" id="track-network-enter" onclick="enterTrack('network')">J'ai déjà Linux — y aller</button>
+              </article>
+              <article class="track-card" data-track="offsec">
+                <div class="track-level">Avancé</div>
+                <h3>Sécurité, Pentest &amp; DFIR</h3>
+                <p>M12 à M14 · ~9 h · Linux + réseau recommandés</p>
+                <ul class="track-objectives">
+                  <li>Audit et durcissement</li>
+                  <li>Outils de pentest responsables</li>
+                  <li>Investigation de base</li>
+                </ul>
+                <p class="track-capstone">Mini-projet : audit + artefact pédagogique + rapport d'incident.</p>
+                <button type="button" class="lp-cta-secondary" id="track-offsec-enter" onclick="enterTrack('offsec')">Diagnostic : entrer en sécurité</button>
+              </article>
+            </div>
+          </div>
+
+          <div class="lp-section-block">
+            <div id="lp-modules" class="lp-section-label">// programme</div>
+            <div class="lp-section-title">Les 14 modules</div>
+            <div class="modules-overview-grid" id="modules-overview-grid"></div>
+          </div>
           <div class="lp-section-block">
             <div class="lp-section-label">// ce que vous obtenez</div>
             <div class="lp-section-title">Tout ce qu'il faut pour progresser</div>
@@ -381,7 +432,7 @@
               <div class="lp-feature">
                 <div class="lp-feature-icon">🖥️</div>
                 <div class="lp-feature-title">Sandbox WebAssembly</div>
-                <div class="lp-feature-desc">Un vrai Alpine Linux tourne dans votre navigateur. Aucune installation, aucun risque.</div>
+                <div class="lp-feature-desc">Un vrai Linux (image de démonstration v86) tourne dans votre navigateur. Aucune installation, aucun risque.</div>
               </div>
               <div class="lp-feature">
                 <div class="lp-feature-icon">🚩</div>
@@ -390,38 +441,18 @@
               </div>
               <div class="lp-feature">
                 <div class="lp-feature-icon">📱</div>
-                <div class="lp-feature-title">100% mobile</div>
-                <div class="lp-feature-desc">Interface pensée pour smartphone. Apprenez depuis Termux ou votre navigateur mobile.</div>
+                <div class="lp-feature-title">Site utilisable sur mobile</div>
+                <div class="lp-feature-desc">Leçons, exercices et CTF passent sur smartphone. La sandbox WebAssembly est recommandée sur ordinateur.</div>
               </div>
-            </div></div>
-        
+            </div>
           </div>
 
-          <!-- ===== POURQUOI LINUXPATH ===== -->
-          <div class="lp-section-block">
-            <div class="lp-section-label">// pourquoi linuxpath</div>
-            <div class="lp-section-title">Un projet open-source, pensé pour apprendre</div>
-            <div class="lp-why-grid">
-              <div class="lp-why-card">
-                <div class="lp-why-icon">🔓</div>
-                <div class="lp-why-title">100% gratuit et open-source</div>
-                <div class="lp-why-desc">Tout le code est sur GitHub. Pas de compte, pas de pub, pas de paywall. Vous apprenez, point.</div>
-              </div>
-              <div class="lp-why-card">
-                <div class="lp-why-icon">🧪</div>
-                <div class="lp-why-title">Pratique avant tout</div>
-                <div class="lp-why-desc">Chaque concept est suivi d'exercices dans un vrai terminal. La sandbox WebAssembly vous donne un Linux réel sans rien installer.</div>
-              </div>
-              <div class="lp-why-card">
-                <div class="lp-why-icon">🇫🇷</div>
-                <div class="lp-why-title">En français, de A à Z</div>
-                <div class="lp-why-desc">Leçons, exercices, glossaire et actualités — tout est rédigé en français, avec les termes techniques expliqués.</div>
-              </div>
-              <div class="lp-why-card">
-                <div class="lp-why-icon">📈</div>
-                <div class="lp-why-title">Progression mesurable</div>
-                <div class="lp-why-desc">Quiz de validation, système de déverrouillage des modules et suivi de progression pour savoir où vous en êtes.</div>
-              </div>
+          <div class="lp-section-block" id="compat-matrix">
+            <div class="lp-section-label">// compatibilité</div>
+            <div class="lp-section-title">Ce qui marche où</div>
+            <div class="compat-matrix">
+              <div class="compat-row"><span class="compat-device">Site (leçons, quiz, CTF)</span><span class="compat-ok">Mobile oui</span><span class="compat-ok">Desktop oui</span></div>
+              <div class="compat-row"><span class="compat-device">Sandbox Linux (v86)</span><span class="compat-no">Mobile déconseillé</span><span class="compat-ok">Desktop recommandé</span></div>
             </div>
           </div>
 
@@ -432,7 +463,7 @@
             <div class="lp-faq">
               <div class="lp-faq-item">
                 <button class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Faut-il installer quelque chose ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
-                <div class="lp-faq-a">Non. LinuxPath fonctionne entièrement dans le navigateur. La sandbox Alpine Linux tourne via WebAssembly — aucun téléchargement, aucun risque pour votre machine.</div>
+                <div class="lp-faq-a">Non. LinuxPath fonctionne entièrement dans le navigateur. La sandbox émule un vrai Linux via WebAssembly — aucun téléchargement, aucun risque pour votre machine.</div>
               </div>
               <div class="lp-faq-item">
                 <button class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Pour quel niveau est conçu ce cours ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
@@ -440,7 +471,7 @@
               </div>
               <div class="lp-faq-item">
                 <button class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Ma progression est-elle sauvegardée ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
-                <div class="lp-faq-a">Oui, localement dans votre navigateur via IndexedDB. Si vous changez d'appareil ou videz le cache, la progression repart à zéro. Un compte cloud arrive prochainement.</div>
+                <div class="lp-faq-a">Oui, localement dans votre navigateur via localStorage. Si vous changez d'appareil ou videz les données du site, la progression repart à zéro. Exportez une sauvegarde JSON si vous voulez la conserver.</div>
               </div>
               <div class="lp-faq-item">
                 <button class="lp-faq-q" onclick="toggleFaq(this)">Le contenu est-il vraiment gratuit ? <span class="lp-faq-icon">+</span></button>
@@ -453,15 +484,6 @@
             </div>
           </div>
 
-          <!-- ===== MODULES OVERVIEW ===== -->
-          <div class="lp-section-block">
-            <div id="lp-modules" class="lp-section-label">// programme</div>
-            <div class="lp-section-title">Les modules du parcours Linux</div>
-            <div class="modules-overview-grid" id="modules-overview-grid">
-              <!-- Filled by JS -->
-            </div>
-          </div>
-
           <!-- ===== FINAL CTA ===== -->
           <div class="lp-final-cta">
             <div class="lp-final-cta-inner">
@@ -469,7 +491,7 @@
               <h2 class="lp-final-cta-title">Prêt à maîtriser Linux ?</h2>
               <p class="lp-final-cta-sub">Rejoignez les apprenants qui progressent chaque jour.<br>C'est gratuit, c'est en français, ça commence maintenant.</p>
               <div class="lp-cta-row" style="justify-content:center">
-                <button class="lp-cta-primary" onclick="navigateTo('m1')">▶ Démarrer le Module 1</button>
+                <button class="lp-cta-primary" onclick="document.getElementById('track-picker').scrollIntoView({behavior:'smooth'})">Choisir un parcours</button>
                 <button class="lp-cta-roadmap" onclick="navigateTo('roadmap')">🗺️ Voir ma progression</button>
               </div>
             </div>
@@ -766,7 +788,7 @@
         <div class="module-header">
           <div class="module-tag" style="background:rgba(188,140,255,0.15);color:var(--accent-purple)">Sandbox</div>
           <h2 class="module-title"><span class="prompt-prefix" style="color:var(--accent-purple)">$</span> Linux réel dans le navigateur</h2>
-          <p class="module-desc">Un vrai noyau Linux (Alpine) exécuté en WebAssembly — aucune installation requise.</p>
+          <p class="module-desc">Un vrai noyau Linux (image de démonstration v86) exécuté en WebAssembly — aucune installation requise.</p>
         </div>
         <div id="sandbox-container">
           <!-- Avertissement mobile — affiché uniquement sur petits écrans via JS -->
@@ -774,13 +796,13 @@
             <span class="sandbox-mobile-warning__icon">⚠️</span>
             <div class="sandbox-mobile-warning__body">
               <strong>Performances limitées sur mobile</strong>
-              <p>La sandbox émule un processeur x86 complet via WebAssembly et charge ~8 Mo d'Alpine Linux. Les navigateurs mobiles manquent souvent de RAM et imposent des quotas WebAssembly qui peuvent empêcher le boot de se terminer.</p>
+              <p>La sandbox émule un processeur x86 complet via WebAssembly et charge ~6 Mo de Linux (image de démonstration v86). Les navigateurs mobiles manquent souvent de RAM et imposent des quotas WebAssembly qui peuvent empêcher le boot de se terminer.</p>
               <p>Pour une expérience fiable, <strong>utilisez un ordinateur</strong>.</p>
             </div>
           </div>
           <div class="sandbox-info-bar">
             <div class="sandbox-badges">
-              <span class="sbadge sbadge-green">🐧 Alpine Linux x86</span>
+              <span class="sbadge sbadge-green">🐧 Linux x86 (v86)</span>
               <span class="sbadge sbadge-blue">🧠 v86 WASM JIT</span>
               <span class="sbadge sbadge-purple">🔒 Isolé dans votre navigateur</span>
             </div>
@@ -790,9 +812,9 @@
             </div>
           </div>
           <div class="sandbox-note">
-            <strong>📂 Données nécessaires :</strong> Le démarrage télécharge environ <strong>8 Mo</strong> (image Alpine Linux). Comptez 30–60s pour le boot initial.<br>
+            <strong>📂 Données nécessaires :</strong> Le démarrage télécharge environ <strong>6 Mo</strong> (image Linux de démonstration v86). Comptez 30–60s pour le boot initial.<br>
             <strong>🔒 Sécurité :</strong> Tout s’exécute localement dans votre navigateur via WebAssembly. Aucune donnée n’est envoyée à un serveur.<br>
-            <strong>📱 Mobile :</strong> Fonctionne sur mobile mais les performances sont meilleures sur desktop.
+            <strong>📱 Mobile :</strong> le site (leçons, quiz, CTF) est utilisable sur téléphone. La sandbox est <strong>recommandée sur desktop</strong>.
           </div>
           <div id="sandbox-status" class="sandbox-status" style="display:none">
             <div class="sandbox-spinner"></div>
@@ -926,9 +948,9 @@
           </div>
           <div class="news-meta-row">
             <span class="news-date-label" id="news-last-updated">Chargement...</span>
-            <span class="news-verified-badge">✓ Mis à jour manuellement — sources vérifiées</span>
+            <span class="news-verified-badge">Collecte automatique 2×/jour — sévérité seulement si CVSS source</span>
           </div>
-          <p class="news-desc" style="margin-top:10px">Un bulletin d'actualités cybersécurité mis à jour quotidiennement, sélectionné parmi les sources officielles, résumé en français avec un contexte pédagogique pour les apprenants Linux &amp; cyber.</p>
+          <p class="news-desc" style="margin-top:10px">Ressource secondaire. Interface en français. Titres et résumés dans la langue de la source (CERT-FR, CISA, NVD). La sévérité n'est affichée que lorsqu'un score CVSS est publié.</p>
         </div>
 
         <!-- Filtres sévérité + tags -->
@@ -939,6 +961,7 @@
             <button class="news-filter-btn" data-filter="high" onclick="filterNews('high', this)">🟠 Élevé</button>
             <button class="news-filter-btn" data-filter="medium" onclick="filterNews('medium', this)">🟡 Moyen</button>
             <button class="news-filter-btn" data-filter="info" onclick="filterNews('info', this)">🔵 Info</button>
+            <button class="news-filter-btn" data-filter="unevaluated" onclick="filterNews('unevaluated', this)">⚪ Non évaluée</button>
           </div>
           <div class="news-filters-sep"></div>
           <div class="news-filters-group" id="news-tag-filters">
@@ -960,7 +983,7 @@
 
         <!-- Note de bas de page -->
         <div class="news-footer-note">
-          <strong>Sources :</strong> CERT-FR, ANSSI, NVD/NIST, Krebs on Security, The Hacker News — Sélection et résumés par LinuxPath. Les actualités sont collectées automatiquement deux fois par jour et leurs sources sont affichées sur chaque fiche.
+          <strong>Sources :</strong> CERT-FR, CISA, NVD/NIST. Collecte automatique deux fois par jour via une pull request. Pas de déploiement direct.
         </div>
       </section>
 
@@ -969,7 +992,7 @@
         <div class="module-header">
           <div class="module-tag" style="background:rgba(88,166,255,0.12);color:var(--accent-blue)">Progression</div>
           <h2 class="module-title"><span class="prompt-prefix" style="color:var(--accent-blue)">$</span> Ma progression</h2>
-          <p class="module-desc">Vue d'ensemble de ton parcours LinuxPath : Linux (M1–M8), Réseau & Services (M9–M11) et Sécurité offensive (M12–M14).</p>
+          <p class="module-desc">Vue d'ensemble : Fondamentaux Linux (M1–M8), Réseau &amp; services (M9–M11) et Sécurité, Pentest &amp; DFIR (M12–M14).</p>
         </div>
 
         <!-- Récap global -->
@@ -1089,7 +1112,7 @@
   </main>
 
   <!-- ==================== TERMINAL ==================== -->
-  <div class="terminal-section" id="terminal-section">
+  <div class="terminal-section minimized" id="terminal-section">
     <div class="terminal-titlebar" onclick="toggleTerminal()">
       <div class="term-dots">
         <div class="term-dot dot-red"></div>
@@ -1097,9 +1120,9 @@
         <div class="term-dot dot-green"></div>
       </div>
       <div class="terminal-title">Terminal simulé — user@linux:~</div>
-      <div class="term-toggle-icon" id="term-toggle-icon">▼</div>
+      <div class="term-toggle-icon" id="term-toggle-icon">▲</div>
     </div>
-     <div class="terminal-output" id="terminal-output" aria-live="polite"></div>
+     <div class="terminal-output" id="terminal-output" aria-live="polite" tabindex="0"></div>
     <div class="terminal-input-row">
       <span class="terminal-prompt-label" id="terminal-prompt-label">user@linux:~$</span>
        <input type="text" class="terminal-input" id="terminal-input" placeholder="tapez une commande..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Saisie de commande terminal">
@@ -1115,9 +1138,9 @@
 <script src="assets/terminal-core.min.js" defer></script>
 <script src="assets/terminal-main.min.js" defer></script>
 <script src="assets/ctf.min.js" defer></script>
+<script src="assets/exercise-validators.min.js" defer></script>
 <script src="assets/render.min.js" defer></script>
 <script src="assets/app.min.js" defer></script>
-<script src="assets/site-patches.min.js" defer></script>
 
 <!-- Enregistrement du Service Worker -->
 <script>

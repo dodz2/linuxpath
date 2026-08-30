@@ -1,0 +1,5 @@
+{
+  "schemaVersion": 1,
+  "note": "Tous les défauts observés pendant l'audit initial ont été corrigés et sont couverts par la batterie. Ce fichier ne liste plus aucun échec attendu : la batterie (npm run verify) doit être entièrement verte. Ce fichier ne pilote aucun exit code ; il documente l'état attendu.",
+  "source": []
+}

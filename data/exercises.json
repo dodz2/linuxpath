@@ -8,13 +8,33 @@
         "mkdir projets",
         "mkdir ./projets",
         "mkdir -p projets",
-        "mkdir -p ./projets"
+        "mkdir -p ./projets",
+        "mkdir -v projets",
+        "mkdir -v ./projets",
+        "mkdir -pv projets"
       ],
       "hints": [
         "Pensez à la commande pour créer des dossiers.",
         "La commande commence par 'mk'.",
         "Tapez : mkdir projets"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "mkdir"
+          },
+          {
+            "type": "path_exists",
+            "path": "/home/user/projets",
+            "kind": "directory"
+          }
+        ]
+      }
     },
     {
       "id": "m1-e2",
@@ -29,7 +49,23 @@
         "C'est une commande courte qui affiche le chemin.",
         "La commande contient 3 lettres et signifie 'Print Working Directory'.",
         "Tapez : pwd"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "pwd"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "/home/user"
+          }
+        ]
+      }
     },
     {
       "id": "m1-e3",
@@ -45,47 +81,95 @@
         "Utilisez la commande de changement de répertoire.",
         "Le symbole ~ représente votre répertoire home.",
         "Tapez : cd ~ ou cd /home/user"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "cd"
+          },
+          {
+            "type": "cwd",
+            "path": "/home/user"
+          }
+        ]
+      }
     }
   ],
   "m2": [
     {
       "id": "m2-e1",
       "title": "Rendre un script exécutable",
-      "desc": "Rendez le fichier <code>script.sh</code> exécutable.",
+      "desc": "Rendez le fichier <code>scripts/script.sh</code> exécutable.",
       "accepted": [
-        "chmod +x script.sh",
-        "chmod 755 script.sh",
-        "chmod a+x script.sh",
-        "chmod u+x script.sh",
-        "chmod 0755 script.sh",
-        "chmod ug+x script.sh"
+        "chmod +x scripts/script.sh",
+        "chmod +x ./scripts/script.sh",
+        "chmod +x /home/user/scripts/script.sh",
+        "chmod +x ~/scripts/script.sh",
+        "chmod 755 scripts/script.sh",
+        "chmod a+x scripts/script.sh",
+        "chmod u+x scripts/script.sh"
       ],
       "hints": [
         "Il faut modifier les permissions du fichier.",
         "La commande est 'chmod' et vous devez ajouter le bit d'exécution.",
-        "Tapez : chmod +x script.sh"
-      ]
+        "Tapez : chmod +x scripts/script.sh"
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "chmod"
+          },
+          {
+            "type": "perm_includes",
+            "path": "/home/user/scripts/script.sh",
+            "needle": "x"
+          }
+        ]
+      }
     },
     {
       "id": "m2-e2",
       "title": "Afficher les permissions",
-      "desc": "Affichez les permissions détaillées du fichier <code>script.sh</code>.",
+      "desc": "Affichez les permissions détaillées du fichier <code>scripts/script.sh</code>.",
       "accepted": [
-        "ls -la script.sh",
-        "ls -l script.sh",
-        "ls -la",
-        "ls -l",
-        "ls -al script.sh",
-        "ls -al",
-        "ls -lh script.sh",
-        "ls -lh"
+        "ls -la scripts/script.sh",
+        "ls -l scripts/script.sh",
+        "ls -al scripts/script.sh",
+        "ls -lh scripts/script.sh",
+        "ls -la ./scripts/script.sh",
+        "ls -la /home/user/scripts/script.sh"
       ],
       "hints": [
         "Utilisez la commande 'ls' avec des options.",
         "L'option -l affiche les permissions en format long.",
-        "Tapez : ls -la script.sh"
-      ]
+        "Tapez : ls -la scripts/script.sh"
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "ls"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "script.sh"
+          }
+        ]
+      }
     }
   ],
   "m3": [
@@ -107,7 +191,23 @@
         "Utilisez la commande 'ps' pour lister les processus.",
         "Les options 'aux' permettent d'afficher tous les processus.",
         "Tapez : ps aux"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "ps"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "PID"
+          }
+        ]
+      }
     },
     {
       "id": "m3-e2",
@@ -120,7 +220,23 @@
         "Il existe une commande dédiée pour afficher votre identité.",
         "La commande se traduit littéralement par 'qui suis-je ?'.",
         "Tapez : whoami"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "whoami"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "user"
+          }
+        ]
+      }
     }
   ],
   "m4": [
@@ -140,7 +256,23 @@
         "Utilisez la commande de test de connectivité réseau.",
         "La commande 'ping' envoie des paquets ICMP.",
         "Tapez : ping google.com"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "ping"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "google.com"
+          }
+        ]
+      }
     },
     {
       "id": "m4-e2",
@@ -159,7 +291,26 @@
         "Utilisez une commande réseau pour afficher les interfaces.",
         "La commande moderne est 'ip addr'.",
         "Tapez : ip addr"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "names": [
+              "ip",
+              "ifconfig"
+            ]
+          },
+          {
+            "type": "stdout_includes",
+            "text": "inet"
+          }
+        ]
+      }
     }
   ],
   "m5": [
@@ -175,7 +326,24 @@
         "Il faut créer un fichier vide.",
         "La commande 'touch' crée des fichiers vides.",
         "Tapez : touch hello.sh"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "touch"
+          },
+          {
+            "type": "path_exists",
+            "path": "/home/user/hello.sh",
+            "kind": "file"
+          }
+        ]
+      }
     },
     {
       "id": "m5-e2",
@@ -184,17 +352,30 @@
       "accepted": [
         "echo $HOME",
         "echo ${HOME}",
-        "echo $USER",
         "echo \"$HOME\"",
-        "echo '$HOME'",
-        "echo \"${HOME}\"",
-        "echo $LOGNAME"
+        "echo \"${HOME}\""
       ],
       "hints": [
         "Utilisez la commande d'affichage de texte.",
         "La commande 'echo' affiche du texte. Les variables commencent par $.",
         "Tapez : echo $HOME"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "echo"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "/home/user"
+          }
+        ]
+      }
     }
   ],
   "m6": [
@@ -214,7 +395,26 @@
         "Utilisez la commande de gestion des services systemd.",
         "La commande est 'systemctl' avec l'action 'status'.",
         "Tapez : systemctl status ssh"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "names": [
+              "systemctl",
+              "service"
+            ]
+          },
+          {
+            "type": "stdout_includes",
+            "text": "ssh"
+          }
+        ]
+      }
     },
     {
       "id": "m6-e2",
@@ -229,7 +429,23 @@
         "Utilisez la commande de gestion des tâches planifiées.",
         "La commande est 'crontab' avec une option pour lister.",
         "Tapez : crontab -l"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "crontab"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "backup"
+          }
+        ]
+      }
     }
   ],
   "m8": [
@@ -245,7 +461,24 @@
         "Utilisez la commande Git pour initialiser un dépôt.",
         "La commande est 'git' avec la sous-commande 'init'.",
         "Tapez : git init"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "git"
+          },
+          {
+            "type": "path_exists",
+            "path": "/home/user/.git",
+            "kind": "directory"
+          }
+        ]
+      }
     },
     {
       "id": "m8-e2",
@@ -260,7 +493,23 @@
         "Utilisez git add pour stager les fichiers.",
         "Le point '.' représente le répertoire courant.",
         "Tapez : git add ."
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "git"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "index"
+          }
+        ]
+      }
     },
     {
       "id": "m8-e3",
@@ -276,7 +525,23 @@
         "Utilisez la commande Docker pour télécharger une image.",
         "La commande est 'docker pull' suivie du nom de l'image.",
         "Tapez : docker pull ubuntu"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "docker"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "ubuntu"
+          }
+        ]
+      }
     },
     {
       "id": "m8-e4",
@@ -296,7 +561,23 @@
         "Utilisez docker run avec les options pour le mode interactif.",
         "Les options -i (interactif) et -t (pseudo-TTY) sont nécessaires, combinées en -it.",
         "Tapez : docker run -it ubuntu bash"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "docker"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "interactif"
+          }
+        ]
+      }
     }
   ],
   "m7": [
@@ -318,7 +599,23 @@
         "Utilisez la commande de recherche de fichiers avec un filtre sur les permissions.",
         "La commande est <code>find</code> avec l’option <code>-perm</code>. Le SUID correspond au bit 4000.",
         "Tapez : find / -perm -4000 -type f 2>/dev/null"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "find"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "passwd"
+          }
+        ]
+      }
     },
     {
       "id": "m7-e2",
@@ -336,7 +633,23 @@
         "Utilisez grep avec une option pour ignorer la casse.",
         "L’option pour ignorer la casse est <code>-i</code>.",
         "Tapez : grep -i \"error\" /var/log/syslog"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "grep"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "error"
+          }
+        ]
+      }
     },
     {
       "id": "m7-e3",
@@ -354,7 +667,23 @@
         "Utilisez la commande de résolution DNS avec le type d’enregistrement ALL.",
         "La commande est <code>dig</code> avec le type <code>ANY</code> après le domaine.",
         "Tapez : dig example.com ANY"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "dig"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "example.com"
+          }
+        ]
+      }
     }
   ],
   "m9": [
@@ -371,7 +700,24 @@
         "La commande pour générer des clés SSH commence par ssh-keygen.",
         "L'option -t permet de spécifier le type de clé.",
         "Tapez : ssh-keygen -t ed25519"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "ssh-keygen"
+          },
+          {
+            "type": "path_exists",
+            "path": "/home/user/.ssh/id_ed25519",
+            "kind": "file"
+          }
+        ]
+      }
     },
     {
       "id": "m9-e2",
@@ -386,7 +732,23 @@
         "rsync utilise des options comme -a (archive), -v (verbose), -z (compression).",
         "La syntaxe est : rsync [options] source destination.",
         "Tapez : rsync -avz projet/ user@serveur:/backup/"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "rsync"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "sent"
+          }
+        ]
+      }
     },
     {
       "id": "m9-e3",
@@ -402,7 +764,23 @@
         "L'option -L permet de créer un tunnel local (Local port forwarding).",
         "La syntaxe est : ssh -L port_local:hôte_distant:port_distant serveur",
         "Tapez : ssh -L 8080:localhost:80 webserver"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "ssh"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "simulation"
+          }
+        ]
+      }
     }
   ],
   "m10": [
@@ -420,7 +798,23 @@
         "La commande dig permet d'interroger le DNS.",
         "L'option +short affiche uniquement la réponse.",
         "Tapez : dig linux.org +short"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "dig"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "linux.org"
+          }
+        ]
+      }
     },
     {
       "id": "m10-e2",
@@ -435,7 +829,23 @@
         "Certbot s'utilise avec l'option --nginx pour configurer automatiquement Nginx.",
         "L'option -d spécifie le domaine.",
         "Tapez : sudo certbot --nginx -d monsite.com"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "certbot"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "certificate"
+          }
+        ]
+      }
     },
     {
       "id": "m10-e3",
@@ -451,7 +861,23 @@
         "openssl s_client se connecte à un serveur SSL/TLS.",
         "openssl x509 -noout -dates affiche les dates de validité d'un certificat.",
         "Tapez : echo | openssl s_client -connect example.com:443 2>/dev/null | openssl x509 -noout -dates"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "openssl"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "notAfter"
+          }
+        ]
+      }
     }
   ],
   "m11": [
@@ -469,7 +895,23 @@
         "La commande nftables s'appelle nft.",
         "L'action 'list' permet d'afficher les règles, et 'ruleset' désigne l'ensemble complet.",
         "Tapez : sudo nft list ruleset"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "nft"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "table"
+          }
+        ]
+      }
     },
     {
       "id": "m11-e2",
@@ -485,7 +927,23 @@
         "ss est le remplaçant moderne de netstat.",
         "Les options : -t (TCP), -l (listening), -n (numérique), -p (processus).",
         "Tapez : ss -tlnp"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "ss"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "LISTEN"
+          }
+        ]
+      }
     },
     {
       "id": "m11-e3",
@@ -499,7 +957,24 @@
         "La commande nft add rule permet d'ajouter une règle de filtrage.",
         "ip saddr permet de filtrer par adresse IP source.",
         "Tapez : sudo nft add rule inet filter input ip saddr 203.0.113.42 drop"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "nft"
+          },
+          {
+            "type": "path_exists",
+            "path": "/etc/nftables.applied",
+            "kind": "file"
+          }
+        ]
+      }
     }
   ],
   "m12": [
@@ -515,7 +990,23 @@
         "Lynis est l'outil d'audit de sécurité.",
         "La commande commence par 'sudo lynis'.",
         "Tapez : sudo lynis audit system"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "lynis"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "Lynis"
+          }
+        ]
+      }
     },
     {
       "id": "m12-e2",
@@ -529,23 +1020,55 @@
         "auditctl configure les règles d'audit.",
         "L'option -w surveille un fichier, -p les permissions.",
         "Tapez : sudo auditctl -w /etc/passwd -p wa -k passwd_changes"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "auditctl"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "passwd"
+          }
+        ]
+      }
     },
     {
       "id": "m12-e3",
-      "title": "Lancer un audit système avec Lynis",
-      "desc": "Lancez un audit système complet avec <code>lynis</code> en mode non-interactif.",
+      "title": "Lire un rapport Lynis",
+      "desc": "Affichez les avertissements du rapport <code>/var/log/lynis.log</code>.",
       "accepted": [
-        "sudo lynis audit system",
-        "lynis audit system",
-        "sudo lynis audit system --quick",
-        "sudo lynis audit system -Q"
+        "grep -i warning /var/log/lynis.log",
+        "grep warning /var/log/lynis.log",
+        "grep -i \"warning\" /var/log/lynis.log",
+        "grep -i 'warning' /var/log/lynis.log"
       ],
       "hints": [
-        "La commande lynis permet d'auditer la sécurité du système.",
-        "L'action 'audit system' lance un audit complet.",
-        "Tapez : sudo lynis audit system"
-      ]
+        "Le rapport est déjà généré dans /var/log/lynis.log.",
+        "Utilisez grep pour filtrer le mot warning.",
+        "Tapez : grep -i warning /var/log/lynis.log"
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "grep"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "warning"
+          }
+        ]
+      }
     }
   ],
   "m13": [
@@ -562,7 +1085,23 @@
         "-sV pour les versions, -sC pour les scripts NSE.",
         "Combinez les deux options.",
         "Tapez : nmap -sV -sC 192.168.1.1"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "nmap"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "Nmap"
+          }
+        ]
+      }
     },
     {
       "id": "m13-e2",
@@ -576,7 +1115,23 @@
         "C'est la commande de base pour lancer Metasploit.",
         "Le nom commence par 'msf'.",
         "Tapez : msfconsole"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "msfconsole"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "msf"
+          }
+        ]
+      }
     },
     {
       "id": "m13-e3",
@@ -590,7 +1145,23 @@
         "Gobuster utilise le mode 'dir' pour l'énumération de répertoires.",
         "L'option -u spécifie l'URL cible, -w la wordlist.",
         "Tapez : gobuster dir -u http://cible.com -w /usr/share/wordlists/dirb/common.txt"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "gobuster"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "admin"
+          }
+        ]
+      }
     }
   ],
   "m14": [
@@ -606,7 +1177,23 @@
         "strings extrait les chaînes lisibles.",
         "Utilisez grep pour filtrer les URLs.",
         "Tapez : strings malware.bin | grep -i http"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "strings"
+          },
+          {
+            "type": "stdout_includes",
+            "text": "http"
+          }
+        ]
+      }
     },
     {
       "id": "m14-e2",
@@ -620,7 +1207,24 @@
         "binwalk analyse et extrait les fichiers.",
         "L'option -e extrait les fichiers trouvés.",
         "Tapez : binwalk -e firmware.bin"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "binwalk"
+          },
+          {
+            "type": "path_exists",
+            "path": "/home/user/_firmware.bin.extracted",
+            "kind": "directory"
+          }
+        ]
+      }
     },
     {
       "id": "m14-e3",
@@ -636,7 +1240,24 @@
         "dd copie des données bloc par bloc. if= spécifie la source, of= la destination.",
         "bs=4M définit la taille de bloc à 4 mégaoctets pour accélérer la copie.",
         "Tapez : sudo dd if=/dev/sdb of=/mnt/evidence/disk.img bs=4M"
-      ]
+      ],
+      "validator": {
+        "type": "all",
+        "of": [
+          {
+            "type": "exit_zero"
+          },
+          {
+            "type": "command",
+            "name": "dd"
+          },
+          {
+            "type": "path_exists",
+            "path": "/mnt/evidence/disk.img",
+            "kind": "file"
+          }
+        ]
+      }
     }
   ]
 }

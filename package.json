@@ -1,0 +1,35 @@
+{
+  "name": "linuxpath",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "npm@11.17.0",
+  "description": "Reproducible validation harness for the LinuxPath static learning application.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.16.0",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "clean": "node scripts/clean.mjs",
+    "validate:syntax": "node scripts/check-syntax.mjs",
+    "validate:html": "html-validate index.html",
+    "validate:data": "node scripts/validate-content.mjs",
+    "validate:references": "node scripts/check-references.mjs",
+    "build": "node scripts/build.mjs",
+    "test:unit": "node --test tests/unit/*.test.mjs",
+    "install:browsers": "playwright install chromium",
+    "test:e2e": "npm run install:browsers --silent && LINUXPATH_E2E_TARGET=source playwright test --project=source",
+    "test:e2e:dist": "npm run install:browsers --silent && LINUXPATH_E2E_TARGET=dist playwright test --project=dist",
+    "test:e2e:offline": "npm run install:browsers --silent && LINUXPATH_E2E_TARGET=offline playwright test --project=offline",
+    "test:e2e:list": "LINUXPATH_E2E_TARGET=source playwright test --list",
+    "verify:harness": "node scripts/run-suite.mjs harness",
+    "verify:static": "node scripts/run-suite.mjs static",
+    "verify": "node scripts/run-suite.mjs all"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.62.0",
+    "html-validate": "10.11.0",
+    "terser": "5.51.2"
+  }
+}

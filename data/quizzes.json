@@ -145,7 +145,7 @@
         "expl": "<strong>sudo</strong> (Superuser Do) permet d'exécuter une commande avec les privilèges root, après authentification."
       },
       {
-        "q": "Quelle commande affiche les processus en cours (plusieurs réponses) ?",
+        "q": "Quelle commande affiche un instantané des processus en cours ?",
         "options": [
           "jobs",
           "top",
@@ -254,7 +254,7 @@
         "expl": "<strong>VAR=valeur</strong> est la syntaxe correcte. Pas d'espaces autour du =. <code>$VAR</code> est la syntaxe pour utiliser la variable, pas la déclarer."
       },
       {
-        "q": "Quelle est la shebang line correcte pour un script Bash ?",
+        "q": "Quelle shebang indique l'interpréteur Bash par son chemin classique ?",
         "options": [
           "#!/bash",
           "#!bash",
@@ -262,7 +262,7 @@
           "#!/usr/bin/env bash"
         ],
         "correct": 2,
-        "expl": "<strong>#!/bin/bash</strong> et <code>#!/usr/bin/env bash</code> sont tous deux valides. La shebang indique quel interpréteur utiliser."
+        "expl": "<strong>#!/bin/bash</strong> pointe vers Bash. <code>#!/usr/bin/env bash</code> est plus portable mais ce n'est pas la même question."
       },
       {
         "q": "Comment rendre un script exécutable ?",
@@ -665,56 +665,56 @@
       {
         "q": "Quel outil est spécialisé dans l'audit de sécurité Linux ?",
         "options": [
-          "Lynis",
           "Nmap",
+          "Lynis",
           "tcpdump",
           "git"
         ],
-        "correct": 0,
+        "correct": 1,
         "expl": "<strong>Lynis</strong> est l'outil de référence pour l'audit de sécurité et la détection de vulnérabilités sur Linux."
       },
       {
         "q": "Quel framework fournit des benchmarks de conformité (CIS, STIG) ?",
         "options": [
-          "OpenSCAP",
           "Metasploit",
           "Burp",
+          "OpenSCAP",
           "nftables"
         ],
-        "correct": 0,
+        "correct": 2,
         "expl": "<strong>OpenSCAP</strong> fournit un cadre pour l'automatisation des tâches de sécurité et la vérification de conformité."
       },
       {
         "q": "Quel démon collecte les événements de sécurité système ?",
         "options": [
-          "auditd",
           "syslogd",
           "systemd",
-          "crond"
+          "crond",
+          "auditd"
         ],
-        "correct": 0,
+        "correct": 3,
         "expl": "<strong>auditd</strong> est le démon d'audit qui collecte les événements liés à la sécurité (connexions, sudo, fichiers critiques)."
       },
       {
         "q": "Quelle commande surveille un fichier avec auditd ?",
         "options": [
-          "auditctl -w /etc/passwd",
           "tail -f /etc/passwd",
+          "auditctl -w /etc/passwd",
           "grep /etc/passwd",
           "nftables -A INPUT"
         ],
-        "correct": 0,
+        "correct": 1,
         "expl": "<code>auditctl -w</code> surveille un fichier (watch) et enregistre les accès dans les logs d'audit."
       },
       {
         "q": "Quel concept réduit la surface d'attaque ?",
         "options": [
-          "Le durcissement (hardening)",
           "Le pentest",
           "La virtualisation",
+          "Le durcissement (hardening)",
           "Le monitoring"
         ],
-        "correct": 0,
+        "correct": 2,
         "expl": "Le <strong>durcissement</strong> (hardening) réduit la surface d'attaque en désactivant les services inutiles et en renforçant les configurations."
       }
     ]
@@ -725,57 +725,57 @@
       {
         "q": "Quel framework contient des milliers d'exploits ?",
         "options": [
-          "Metasploit",
           "OpenSCAP",
           "Lynis",
+          "Metasploit",
           "nftables"
         ],
-        "correct": 0,
+        "correct": 2,
         "expl": "<strong>Metasploit</strong> est la référence mondiale des frameworks d'exploitation avec des milliers d'exploits et de modules auxiliaires."
       },
       {
         "q": "Quel outil intercepte et modifie les requêtes HTTP/HTTPS ?",
         "options": [
-          "Burp Suite",
           "tcpdump",
           "ss",
-          "auditd"
+          "auditd",
+          "Burp Suite"
         ],
-        "correct": 0,
+        "correct": 3,
         "expl": "<strong>Burp Suite</strong> est l'outil incontournable pour le pentest d'applications web (proxy, scanner, intruder)."
       },
       {
         "q": "Quelle option Nmap lance les scripts NSE par défaut ?",
         "options": [
-          "-sC",
           "-sV",
+          "-sC",
           "-O",
           "-A"
         ],
-        "correct": 0,
+        "correct": 1,
         "expl": "<code>nmap -sC</code> lance les scripts NSE (Nmap Scripting Engine) par défaut pour une détection plus précise."
       },
       {
         "q": "Quelle commande lance la console Metasploit ?",
         "options": [
-          "msfconsole",
           "metasploit",
           "msf",
+          "msfconsole",
           "exploit"
         ],
-        "correct": 0,
+        "correct": 2,
         "expl": "<code>msfconsole</code> est la commande pour lancer la console Metasploit Framework."
       },
       {
-        "q": "Quel type de scan Nmap est le plus furtif ?",
+        "q": "Quel scan Nmap n'établit pas de connexion TCP complète (semi-ouverte) ?",
         "options": [
-          "SYN Stealth (-sS)",
           "TCP Connect (-sT)",
           "UDP (-sU)",
-          "FIN (-sF)"
+          "FIN (-sF)",
+          "SYN Stealth (-sS)"
         ],
-        "correct": 0,
-        "expl": "Le scan <strong>SYN Stealth (-sS)</strong> est le plus furtif car il ne complète pas le handshake TCP (connexion semi-ouverte)."
+        "correct": 3,
+        "expl": "Le scan <strong>SYN (-sS)</strong> envoie un SYN sans terminer le handshake. Ce n'est pas « le plus furtif dans tous les cas » : FIN/NULL/Xmas se comportent autrement selon le filtrage."
       }
     ]
   },
@@ -785,56 +785,56 @@
       {
         "q": "Quelle commande extrait les chaînes lisibles d'un binaire ?",
         "options": [
-          "strings",
           "file",
           "cat",
-          "grep"
+          "grep",
+          "strings"
         ],
-        "correct": 0,
+        "correct": 3,
         "expl": "<strong>strings</strong> extrait les chaînes de caractères lisibles d'un fichier binaire (utile pour analyser les malwares)."
       },
       {
         "q": "Quel outil récupère les fichiers embarqués dans un firmware ?",
         "options": [
-          "binwalk",
           "strings",
+          "binwalk",
           "dd",
           "fdisk"
         ],
-        "correct": 0,
+        "correct": 1,
         "expl": "<strong>binwalk</strong> analyse et extrait les fichiers embarqués dans les images firmware, les archives et les binaires."
       },
       {
-        "q": "Quelle empreinte permet d'identifier un malware de manière unique ?",
+        "q": "Quel algorithme est recommandé pour hasher une image forensique aujourd'hui ?",
         "options": [
-          "SHA-256",
           "MD5",
           "Base64",
+          "SHA-256",
           "CRC32"
         ],
-        "correct": 0,
-        "expl": "Le <strong>SHA-256</strong> (ou SHA-2) est recommandé pour créer une empreinte unique et sécurisée d'un fichier."
+        "correct": 2,
+        "expl": "Le <strong>SHA-256</strong> est recommandé. Il n'est pas « unique » au sens mathématique : une collision reste possible, mais MD5 n'est plus acceptable."
       },
       {
         "q": "Quel outil analyse les dumps de mémoire RAM ?",
         "options": [
-          "Volatility",
           "binwalk",
           "tcpdump",
-          "nftables"
+          "nftables",
+          "Volatility"
         ],
-        "correct": 0,
+        "correct": 3,
         "expl": "<strong>Volatility</strong> est le framework de référence pour l'analyse forensique des dumps de mémoire RAM."
       },
       {
         "q": "Quelle commande crée une image disque d'un disque /dev/sda ?",
         "options": [
-          "dd if=/dev/sda of=disk.img bs=4M",
           "cp /dev/sda disk.img",
+          "dd if=/dev/sda of=disk.img bs=4M",
           "mount /dev/sda disk.img",
           "fdisk /dev/sda"
         ],
-        "correct": 0,
+        "correct": 1,
         "expl": "<code>dd</code> crée une copie bit-à-bit d'un disque. Utilisez toujours <code>if=</code> (input file) et <code>of=</code> (output file)."
       }
     ]

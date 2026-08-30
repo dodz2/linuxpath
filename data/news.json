@@ -11,7 +11,7 @@
       "related_modules": [
         "m14"
       ],
-      "severity": "info",
+      "severity": "unevaluated",
       "tags": [
         "Réseau"
       ],
@@ -27,49 +27,12 @@
       "summary": "Cosmos Labs has warned that a critical balance-handling flaw in the shared Cosmos EVM module was exploited to drain funds from six blockchains between August 20 and August 25, 2026. The vulnerability, designated GHSA-7g4w-cg88-2cq2, is rated Critical by Cosmos Labs and was published without a CVE identifier, a weakness classification, or a CVSS score. Affected versions are < 0.6.2 and >=",
       "context": "Renforce ta culture de cybersécurité.",
       "related_modules": [],
-      "severity": "critical",
+      "severity": "unevaluated",
       "tags": [],
       "cve": null,
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/cosmos-evm-flaw-exploited-after-cosmos.html"
-    },
-    {
-      "id": "news-a9d2f59d",
-      "date": "2026-08-29",
-      "title": "Five Critical WordPress Plugin and Theme Flaws Enable Site Takeover or RCE",
-      "summary": "Multiple critical security flaws have been disclosed in WordPress plugins and themes, including WPMU DEV Dashboard, Avada, TranslatePress, Pods, and GiveWP, that could lead to authentication bypass, account takeover, and arbitrary code execution. The vulnerabilities, according to Wordfence and Patchstack, are listed below - CVE-2026-76581 (CVSS score: 9.8) - An authentication bypass flaw in",
-      "context": "Concerne la sécurité des applications et services web.",
-      "related_modules": [
-        "m10",
-        "m11",
-        "m14"
-      ],
-      "severity": "critical",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-76581",
-      "cvss": 9.8,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/five-critical-wordpress-plugin-and.html"
-    },
-    {
-      "id": "news-54f632b6",
-      "date": "2026-08-29",
-      "title": "Brave browser adds email aliases to help users evade tracking",
-      "summary": "The latest version of the Brave browser, 1.94, introduces a feature called 'Email Aliases' that allows users to generate disposable email addresses when signing up to a new service. [...]",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "info",
-      "tags": [
-        "Outil",
-        "Software"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/brave-browser-adds-email-aliases-to-help-users-evade-tracking/"
     },
     {
       "id": "news-a8ca9fe0",
@@ -80,7 +43,7 @@
       "related_modules": [
         "m14"
       ],
-      "severity": "high",
+      "severity": "unevaluated",
       "tags": [
         "Incident",
         "Outil"
@@ -97,7 +60,7 @@
       "summary": "Cybersecurity researchers have discovered a cluster of 18 Google Chrome and one Microsoft Edge extensions that were published over the last six months and harbored wallet secret stealing and cryptocurrency draining capabilities. The extensions, per Socket security researcher Karlo Zanki, share similarities in code and tradecraft, with evidence indicating that the campaign may have been active",
       "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
       "related_modules": [],
-      "severity": "info",
+      "severity": "unevaluated",
       "tags": [
         "Windows"
       ],
@@ -115,7 +78,7 @@
       "related_modules": [
         "m14"
       ],
-      "severity": "critical",
+      "severity": "unevaluated",
       "tags": [
         "CVE",
         "Réseau"
@@ -132,7 +95,7 @@
       "summary": "An Identity Fabric knits fragmented identity systems into a coherent layer that observes how identities behave across applications, APIs, and infrastructure. As enterprise access spans more cloud services and automated workloads, identity security depends less on static configuration and more on runtime visibility. This article covers the architecture, the risks of unmanaged identities, and",
       "context": "Renforce ta culture de cybersécurité.",
       "related_modules": [],
-      "severity": "info",
+      "severity": "unevaluated",
       "tags": [],
       "cve": null,
       "cvss": null,
@@ -164,7 +127,7 @@
         "m13",
         "m14"
       ],
-      "severity": "critical",
+      "severity": "unevaluated",
       "tags": [
         "CVE"
       ],
@@ -180,7 +143,7 @@
       "summary": "cPanel has released patches for a security flaw affecting domain parking and addon domain functionality in cPanel and WebHost Manager (WHM), which could allow code execution as the root user. The vulnerability, assigned the CVE identifier CVE-2026-65643, impacts all supported versions of cPanel & WHM. cPanel described the issue as a critical security vulnerability and said that an",
       "context": "Renforce ta culture de cybersécurité.",
       "related_modules": [],
-      "severity": "critical",
+      "severity": "unevaluated",
       "tags": [
         "CVE"
       ],
@@ -198,7 +161,7 @@
       "related_modules": [
         "m14"
       ],
-      "severity": "high",
+      "severity": "unevaluated",
       "tags": [
         "Windows"
       ],
@@ -216,7 +179,7 @@
       "related_modules": [
         "m4"
       ],
-      "severity": "info",
+      "severity": "unevaluated",
       "tags": [
         "Legal"
       ],
@@ -234,7 +197,7 @@
       "related_modules": [
         "m7"
       ],
-      "severity": "high",
+      "severity": "unevaluated",
       "tags": [],
       "cve": null,
       "cvss": null,
@@ -250,7 +213,7 @@
       "related_modules": [
         "m14"
       ],
-      "severity": "critical",
+      "severity": "unevaluated",
       "tags": [],
       "cve": null,
       "cvss": null,
@@ -264,7 +227,7 @@
       "summary": "Hasbro, one of the world's largest toy and game companies, has disclosed that attackers have accessed the personal and financial information of an undisclosed number of employees. [...]",
       "context": "Renforce ta culture de cybersécurité.",
       "related_modules": [],
-      "severity": "critical",
+      "severity": "unevaluated",
       "tags": [
         "Incident"
       ],
@@ -284,7 +247,7 @@
         "m11",
         "m13"
       ],
-      "severity": "critical",
+      "severity": "unevaluated",
       "tags": [],
       "cve": null,
       "cvss": null,
@@ -298,7 +261,7 @@
       "summary": "Microsoft released the KB5120998 preview cumulative update for Windows 11 versions 25H2 and 24H2, which comes with 35 changes, including improvements to the Start menu, taskbar, and Windows search. [...]",
       "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
       "related_modules": [],
-      "severity": "info",
+      "severity": "unevaluated",
       "tags": [
         "Windows"
       ],
@@ -317,7 +280,7 @@
         "m6",
         "m14"
       ],
-      "severity": "critical",
+      "severity": "unevaluated",
       "tags": [
         "Patch"
       ],
@@ -333,7 +296,7 @@
       "summary": "Google on Thursday announced new network security protections in Android 17 to bolster connection privacy, address cellular vulnerabilities, and safeguard the privacy of users' home networks. Topping the list is support for Encrypted Client Hello (ECH), a privacy standard that prevents networks from eavesdropping on which websites a user is visiting. \"This new privacy standard works in tandem",
       "context": "Renforce ta culture de cybersécurité.",
       "related_modules": [],
-      "severity": "info",
+      "severity": "unevaluated",
       "tags": [
         "Réseau"
       ],
@@ -366,7 +329,7 @@
       "summary": "Healthcare and pharmaceutical distribution giant McKesson has disclosed a cybersecurity incident involving unauthorized access to third-party applications and data theft, with the ShinyHunters extortion group claiming it stole 284 million patient data records. [...]",
       "context": "Renforce ta culture de cybersécurité.",
       "related_modules": [],
-      "severity": "info",
+      "severity": "unevaluated",
       "tags": [
         "Incident",
         "Healthcare"
@@ -385,7 +348,7 @@
       "related_modules": [
         "m6"
       ],
-      "severity": "high",
+      "severity": "unevaluated",
       "tags": [
         "Patch"
       ],
@@ -404,31 +367,12 @@
         "m10",
         "m11"
       ],
-      "severity": "high",
+      "severity": "unevaluated",
       "tags": [],
       "cve": null,
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/givewp-wordpress-donation-plugin-flaw-lets-hackers-execute-server-commands/"
-    },
-    {
-      "id": "news-a368d083",
-      "date": "2026-08-28",
-      "title": "PaperCut Zero-Day Exploited in Attacks, Affecting All NG and MF Versions",
-      "summary": "PaperCut has alerted customers that bad actors are actively exploiting a vulnerability impacting all versions of its PaperCut NG and PaperCut MF print management software in zero-day attacks. The company has released an emergency patch for v25 and v26 to address the issue. It said it's \"aware of confirmed customer incidents and is treating this matter with the highest priority.\" An",
-      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
-      "related_modules": [
-        "m6",
-        "m13"
-      ],
-      "severity": "critical",
-      "tags": [
-        "Patch"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/papercut-zero-day-exploited-in-attacks.html"
     },
     {
       "id": "news-14077168",
@@ -439,7 +383,7 @@
       "related_modules": [
         "m14"
       ],
-      "severity": "critical",
+      "severity": "unevaluated",
       "tags": [
         "CVE",
         "Outil",
@@ -461,7 +405,7 @@
         "m11",
         "m14"
       ],
-      "severity": "high",
+      "severity": "unevaluated",
       "tags": [
         "Outil",
         "Windows",
@@ -482,7 +426,7 @@
         "m11",
         "m13"
       ],
-      "severity": "high",
+      "severity": "unevaluated",
       "tags": [
         "Outil",
         "Windows"
@@ -501,7 +445,7 @@
       "related_modules": [
         "m14"
       ],
-      "severity": "high",
+      "severity": "unevaluated",
       "tags": [
         "Outil"
       ],
@@ -519,12 +463,61 @@
       "related_modules": [
         "m8"
       ],
-      "severity": "info",
+      "severity": "unevaluated",
       "tags": [],
       "cve": null,
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/alleged-teampcp-hackers-charged-in.html"
+    },
+    {
+      "id": "news-c63cbfd0",
+      "date": "2026-08-27",
+      "title": "What the Data Says About AI in Security Operations in 2026",
+      "summary": "AI is officially mainstream in security operations. According to Prophet Security's State of AI in Security Operations 2026 report (produced from ViB’s survey of 250+ cybersecurity pros), 40% of security teams now use AI daily. Another 56% are currently testing it out, and only 4% have no plans to adopt it. For the teams already using AI, what is actually changing? Here are the ten biggest",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/what-data-says-about-ai-in-security.html"
+    },
+    {
+      "id": "news-dcb09063",
+      "date": "2026-08-27",
+      "title": "Spark RAT Targets Cambodia, Abuses Vulnerable OPSWAT Driver to Disable Security Tools",
+      "summary": "Individuals and organizations in Cambodia have emerged as the target of a new campaign that delivers an open-source remote access trojan (RAT) called Spark RAT. \"The samples employ diverse lure themes, suggesting an effort to appeal to a broad range of potential victims. These include government notices, public health materials, real estate-related content, and other topics,\" Acronis Threat",
+      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
+      "related_modules": [
+        "m14"
+      ],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/spark-rat-targets-cambodia-abuses.html"
+    },
+    {
+      "id": "news-69913762",
+      "date": "2026-08-27",
+      "title": "GoCaracal Malware Uses Ethereum Smart Contract to Fetch Replacement C2 Address",
+      "summary": "Threat actors linked by Arctic Wolf to Dark Caracal with medium confidence deployed a previously undocumented Go-based malware framework, GoCaracal, during a June 2026 intrusion at an unnamed communications organization in Venezuela. GoCaracal provides operators with remote shell access and payload execution, while the extended profile adds browser data theft, keylogging, remote desktop control",
+      "context": "Technique liée au scripting et à l'automatisation.",
+      "related_modules": [
+        "m5",
+        "m14"
+      ],
+      "severity": "unevaluated",
+      "tags": [
+        "Outil"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "The Hacker News",
+      "source_url": "https://thehackernews.com/2026/08/gocaracal-malware-uses-ethereum-smart.html"
     }
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "ctf-01": "flag{hidden_in_plain_sight}",
+  "ctf-02": "flag{world_readable_mistake}",
+  "ctf-03": "flag{base64_is_not_encryption}",
+  "ctf-04": "flag{environment_variable_leak}",
+  "ctf-05": "flag{process_arguments_exposed}",
+  "ctf-06": "flag{network_exfiltration_trace}",
+  "ctf-07": "flag{dns_chain_resolved}",
+  "ctf-08": "flag{cleartext_credentials_leaked}",
+  "ctf-09": "flag{port_4444_open_backdoor}",
+  "ctf-10": "flag{ssh_key_hidden_in_backup}"
+}

@@ -1,0 +1,340 @@
+{
+  "schemaVersion": 1,
+  "passScore": 3,
+  "modules": [
+    {
+      "id": "m1",
+      "displayOrder": 1,
+      "track": "linux",
+      "title": "Les bases de Linux",
+      "description": "Histoire, distributions, terminal et commandes fondamentales.",
+      "icon": "🐧",
+      "prerequisites": [],
+      "estimatedMinutes": 50,
+      "status": "published",
+      "objectives": [
+        "Expliquer ce qu'est Linux et une distribution",
+        "Utiliser ls, cd, pwd, cat, man dans le terminal simulé"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "m2",
+      "displayOrder": 2,
+      "track": "linux",
+      "title": "Fichiers & permissions",
+      "description": "Permissions Unix, chmod, chown, redirections et wildcards.",
+      "icon": "🔒",
+      "prerequisites": [
+        "m1"
+      ],
+      "estimatedMinutes": 55,
+      "status": "published",
+      "objectives": [
+        "Lire et modifier les permissions Unix",
+        "Utiliser chmod, redirections et jokers sans se tromper de cible"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "m3",
+      "displayOrder": 3,
+      "track": "linux",
+      "title": "Utilisateurs & processus",
+      "description": "sudo, gestion des utilisateurs, ps, kill, jobs.",
+      "icon": "👤",
+      "prerequisites": [
+        "m2"
+      ],
+      "estimatedMinutes": 50,
+      "status": "published",
+      "objectives": [
+        "Distinguer utilisateur, processus et privilèges",
+        "Contrôler ps, jobs et sudo de façon sûre"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "m4",
+      "displayOrder": 4,
+      "track": "linux",
+      "title": "Réseau de base",
+      "description": "Interfaces réseau, ping, curl, ports ouverts et DNS.",
+      "icon": "🌐",
+      "prerequisites": [
+        "m3"
+      ],
+      "estimatedMinutes": 55,
+      "status": "published",
+      "objectives": [
+        "Tester la connectivité et les ports",
+        "Interroger DNS et HTTP depuis le terminal"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "m5",
+      "displayOrder": 5,
+      "track": "linux",
+      "title": "Scripting Bash",
+      "description": "Variables, conditions, boucles, fonctions et scripts.",
+      "icon": "📜",
+      "prerequisites": [
+        "m4"
+      ],
+      "estimatedMinutes": 70,
+      "status": "published",
+      "objectives": [
+        "Écrire un script bash avec variables et conditions",
+        "Automatiser une tâche répétitive sans copier-coller"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "m6",
+      "displayOrder": 6,
+      "track": "linux",
+      "title": "Administration intermédiaire",
+      "description": "apt, systemctl, cron jobs, logs et SSH.",
+      "icon": "⚙️",
+      "prerequisites": [
+        "m5"
+      ],
+      "estimatedMinutes": 70,
+      "status": "published",
+      "objectives": [
+        "Installer un paquet et piloter un service",
+        "Planifier une tâche cron et lire les journaux"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "m7",
+      "displayOrder": 7,
+      "track": "linux",
+      "title": "Sécurité & OSINT",
+      "description": "nmap, netcat, grep forensique, SUID/SGID et reconnaissance.",
+      "icon": "🔍",
+      "prerequisites": [
+        "m6"
+      ],
+      "estimatedMinutes": 80,
+      "status": "published",
+      "objectives": [
+        "Mener une reconnaissance réseau de base",
+        "Repérer SUID et extraire de l'information dans des fichiers"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "m8",
+      "displayOrder": 8,
+      "track": "linux",
+      "title": "Git & Docker",
+      "description": "Gestion de versions avec Git et conteneurisation avec Docker.",
+      "icon": "🐙",
+      "prerequisites": [
+        "m7"
+      ],
+      "estimatedMinutes": 90,
+      "status": "published",
+      "objectives": [
+        "Versionner un projet avec Git",
+        "Construire et lancer un conteneur Docker"
+      ],
+      "successCriteria": "Leçons cochées, exercices Git et Docker réussis, quiz ≥ 3/5.",
+      "chapters": [
+        {
+          "id": "git",
+          "title": "Git",
+          "lessons": [
+            "m8-l1",
+            "m8-l2",
+            "m8-l3",
+            "m8-l4",
+            "m8-l5"
+          ]
+        },
+        {
+          "id": "docker",
+          "title": "Docker",
+          "lessons": [
+            "m8-l6",
+            "m8-l7",
+            "m8-l8",
+            "m8-l9",
+            "m8-l10"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "m9",
+      "displayOrder": 9,
+      "track": "network",
+      "title": "SSH & accès distant",
+      "description": "Clés SSH, tunnels, SCP/SFTP/rsync et VPN WireGuard.",
+      "icon": "🔑",
+      "prerequisites": [],
+      "estimatedMinutes": 80,
+      "status": "published",
+      "objectives": [
+        "Ouvrir une session SSH par clé",
+        "Transférer des fichiers et poser un tunnel"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "m10",
+      "displayOrder": 10,
+      "track": "network",
+      "title": "Serveurs web & DNS",
+      "description": "Nginx, DNS avec dig/nslookup et HTTPS Let's Encrypt.",
+      "icon": "🌐",
+      "prerequisites": [
+        "m9"
+      ],
+      "estimatedMinutes": 70,
+      "status": "published",
+      "objectives": [
+        "Expliquer le rôle de Nginx et du DNS",
+        "Obtenir un certificat de test et servir du HTTPS pédagogique"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "m11",
+      "displayOrder": 11,
+      "track": "network",
+      "title": "Sécurité réseau",
+      "description": "Pare-feu nftables et monitoring réseau (tcpdump, ss).",
+      "icon": "🛡️",
+      "prerequisites": [
+        "m10"
+      ],
+      "estimatedMinutes": 70,
+      "status": "published",
+      "objectives": [
+        "Écrire une table nftables dédiée",
+        "Observer le trafic avec ss/tcpdump en lecture"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "m12",
+      "displayOrder": 12,
+      "track": "offsec",
+      "title": "Audit & Durcissement",
+      "description": "Lynis, OpenSCAP, auditd et renforcement système.",
+      "icon": "🕵",
+      "prerequisites": [],
+      "estimatedMinutes": 70,
+      "status": "published",
+      "objectives": [
+        "Lancer un audit de durcissement",
+        "Prioriser des recommandations sans casser le système"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "m13",
+      "displayOrder": 13,
+      "track": "offsec",
+      "title": "Pentest & Outils",
+      "description": "Metasploit, Burp Suite, Nmap avancé et outils hacker.",
+      "icon": "⚔️",
+      "prerequisites": [
+        "m12"
+      ],
+      "estimatedMinutes": 80,
+      "status": "published",
+      "objectives": [
+        "Choisir un outil de pentest selon la cible",
+        "Documenter une trouvaille sans lancer d'exploit réel"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
+      "id": "m14",
+      "displayOrder": 14,
+      "track": "offsec",
+      "title": "Forensic & Malwares",
+      "description": "Analyse de malwares, investigation numérique et réponse à incident.",
+      "icon": "🧬",
+      "prerequisites": [
+        "m13"
+      ],
+      "estimatedMinutes": 80,
+      "status": "published",
+      "objectives": [
+        "Préserver une preuve numérique",
+        "Décrire une réponse à incident étape par étape"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    }
+  ],
+  "tracks": [
+    {
+      "id": "linux",
+      "title": "Fondamentaux Linux",
+      "level": "Débutant",
+      "modules": [
+        "m1",
+        "m2",
+        "m3",
+        "m4",
+        "m5",
+        "m6",
+        "m7",
+        "m8"
+      ],
+      "estimatedHours": 14,
+      "prerequisites": "Aucun — on part de zéro.",
+      "objectives": [
+        "Maîtriser le terminal au quotidien",
+        "Administrer un poste Linux de base",
+        "Versionner et conteneuriser un petit projet"
+      ],
+      "capstone": "Mini-projet : script bash versionné avec Git et exécuté dans un conteneur Docker pédagogique.",
+      "entryModule": "m1"
+    },
+    {
+      "id": "network",
+      "title": "Réseau & services",
+      "level": "Intermédiaire",
+      "modules": [
+        "m9",
+        "m10",
+        "m11"
+      ],
+      "estimatedHours": 8,
+      "prerequisites": "Recommandé : Fondamentaux Linux. Diagnostic facultatif ci-dessous.",
+      "objectives": [
+        "Administrer l'accès distant",
+        "Servir un site et du DNS",
+        "Filtrer et observer le réseau"
+      ],
+      "capstone": "Mini-projet : accès SSH par clé + reverse proxy pédagogique + table nftables dédiée.",
+      "entryModule": "m9"
+    },
+    {
+      "id": "offsec",
+      "title": "Sécurité, Pentest & DFIR",
+      "level": "Avancé",
+      "modules": [
+        "m12",
+        "m13",
+        "m14"
+      ],
+      "estimatedHours": 9,
+      "prerequisites": "Recommandé : Linux + réseau. Pas de verrouillage brutal.",
+      "objectives": [
+        "Auditer et durcir un système",
+        "Utiliser les outils de pentest de façon responsable",
+        "Conduire une investigation de base"
+      ],
+      "capstone": "Mini-projet : audit Lynis + analyse d'un artefact pédagogique + rapport d'incident.",
+      "entryModule": "m12"
+    }
+  ]
+}

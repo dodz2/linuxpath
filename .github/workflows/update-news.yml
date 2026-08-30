@@ -2,47 +2,34 @@ name: Mise à jour automatique des actualités cyber
 
 on:
   schedule:
-    # Tous les jours à 6h UTC (8h Paris) et 18h UTC (20h Paris)
     - cron: '0 6 * * *'
     - cron: '0 18 * * *'
   workflow_dispatch:
-    # Permet un déclenchement manuel depuis l'interface GitHub
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   update-news:
     runs-on: ubuntu-latest
     steps:
-      - name: 📦 Cloner le dépôt
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: 🐍 Configurer Python
-        uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.11'
 
-      - name: 📡 Lancer la collecte d'actualités
-        run: |
-          python3 .github/scripts/fetch_news.py
+      - name: Collect news
+        run: python3 .github/scripts/fetch_news.py
 
-      - name: ✅ Vérifier les modifications
-        id: check
-        run: |
-          if git diff --quiet data/news.json; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-            echo "ℹ️ Aucune modification détectée."
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-            echo "✅ Modifications détectées dans data/news.json"
-          fi
-
-      - name: 📤 Pusher les modifications
-        if: steps.check.outputs.changed == 'true'
-        run: |
-          git config user.name "LinuxPath NewsBot"
-          git config user.email "linuxpath@dodz2.github.io"
-          git add data/news.json
-          git commit -m "📰 Mise à jour automatique des actualités cyber ($(date +'%d/%m/%Y'))"
-          git push
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          commit-message: "📰 Mise à jour automatique des actualités cyber"
+          branch: news/auto-update
+          title: "📰 Actualités cyber"
+          body: "Mise à jour automatique de `data/news.json`. La CI doit passer avant merge, ce qui déclenche ensuite Pages."
+          add-paths: data/news.json

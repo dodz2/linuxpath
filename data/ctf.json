@@ -226,7 +226,7 @@
       "hints": [
         "Cherche une ligne qui sort de l'ordinaire dans /var/log/auth.log. Les vraies entrées de log ont un format précis.",
         "Utilise <code>grep</code> pour filtrer les lignes qui contiennent un motif inhabituel. Les chaînes base64 ont un aspect particulier.",
-        "Utilise <code>grep 'DATA' /var/log/auth.log</code> pour trouver la ligne suspecte, puis décode la valeur avec <code>echo 'ZmxhZ3Ri...' | base64 -d</code>."
+        "Utilise <code>grep 'DATA' /var/log/auth.log</code> puis <code>echo 'ZmxhZ3tiYXNlNjRfaXNfbm90X2VuY3J5cHRpb259' | base64 -d</code>."
       ],
       "flagHash": "d7ba614676b457e3e6c432df3d5965368400fd07723d23b85ddbbba4e8e781c3",
       "vfs": {
@@ -419,7 +419,7 @@
     {
       "id": "ctf-05",
       "title": "Processus fantôme",
-      "difficulty": "hard",
+      "difficulty": "easy",
       "context": "Une alerte SIEM signale un processus anormal sur le serveur. Un programme malveillant tourne en arrière-plan et a été lancé avec le flag comme argument de ligne de commande — une erreur classique de développeur pressé. Le flag est visible dans la liste des processus. Utilise <code>ps aux</code> et <code>grep</code> pour l'identifier.",
       "objective": "Retrouve le flag passé en argument à un processus en cours d'exécution.",
       "hints": [
@@ -516,7 +516,7 @@
       "hints": [
         "Cherche dans /var/log/syslog les lignes qui contiennent l'IP suspecte 203.0.113.99.",
         "Les lignes suspectes ont toutes un champ DATA= à la fin. Utilise <code>grep '203.0.113.99' /var/log/syslog</code> pour les isoler.",
-        "Chaque ligne DATA= contient un morceau du flag dans l'ordre. Concatène les 4 valeurs DATA= pour reconstituer : flag{network_exfiltration_trace}."
+        "Les quatre champs DATA= du syslog, lus dans l'ordre des timestamps, reconstituent le flag. Utilise <code>grep '203.0.113.99' /var/log/syslog</code> puis concatène les valeurs."
       ],
       "flagHash": "75ae3ce451747291fee91aef10f2267be5de33267c5fabe7d6d07b086caefa3c",
       "vfs": {
@@ -688,10 +688,10 @@
       "id": "ctf-08",
       "title": "Capture the Leak",
       "difficulty": "medium",
-      "context": "L'équipe SOC a capturé du trafic réseau suspect avec <code>tcpdump</code>. Un utilisateur semble avoir envoyé ses identifiants en clair via une requête HTTP non chiffrée. Analyse la capture pour retrouver les credentials exfiltrés.",
+      "context": "L'équipe SOC vous confie une <strong>simulation pédagogique</strong> de capture (fichier texte, pas un vrai PCAP binaire). Un POST HTTP y contient des identifiants en clair. Analysez ce dump simulé.",
       "objective": "Analyse la capture réseau pour identifier les credentials envoyés en clair et reconstituer le flag.",
       "hints": [
-        "Utilise <code>tcpdump -r /var/log/capture.pcap</code> pour lire la capture réseau.",
+        "Le fichier <code>/var/log/capture.pcap</code> est une simulation lisible. <code>cat</code> ou <code>grep</code> suffisent ; <code>tcpdump -r</code> est aussi simulé.",
         "Cherche les requêtes HTTP POST — elles contiennent souvent des données sensibles.",
         "Le flag est dans le corps d'une requête POST. Utilise <code>grep flag /var/log/capture.pcap</code> pour le trouver directement."
       ],
@@ -862,11 +862,11 @@
       "id": "ctf-10",
       "title": "SSH Key Hunter",
       "difficulty": "hard",
-      "context": "Un ancien admin a quitté l'entreprise en urgence. Il aurait laissé une clé SSH privée quelque part dans le système de fichiers, probablement dans un backup oublié. Retrouve cette clé et utilise-la pour déchiffrer le message secret qu'il a laissé.",
-      "objective": "Explore le système de fichiers pour retrouver la clé SSH cachée, puis déchiffre le message encodé en base64.",
+      "context": "Un ancien admin a laissé une clé SSH privée dans un backup oublié, et un message encodé en base64 à côté. Retrouvez la clé et décodez le message. Le base64 n'utilise pas cette clé.",
+      "objective": "Trouvez la clé dans les backups, puis décodez le fichier base64 voisin. La clé n'est pas un outil de décodage.",
       "hints": [
         "Utilise <code>find / -name \"*.pem\"</code> ou <code>find / -name \"id_*\"</code> pour chercher des clés SSH.",
-        "Une fois la clé trouvée, regarde s'il y a un message chiffré à proximité.",
+        "Une fois la clé trouvée, regarde s'il y a un message encodé à proximité.",
         "Le message est encodé en base64. Utilise <code>base64 -d &lt;chaine&gt;</code> pour le décoder."
       ],
       "flagHash": "58d9d053e34a9454cf88783e9205b4add49365087fe70d2205cfcd4de930d389",

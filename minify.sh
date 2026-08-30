@@ -1,20 +1,25 @@
 #!/bin/bash
-# Script de minification JS avec terser
-# Usage: bash minify.sh (ou via pre-commit hook)
+# Minify source assets with the lockfile Terser (npm ci first).
+set -euo pipefail
 
-set -e
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+TERSER="$ROOT/node_modules/.bin/terser"
+ASSETS_DIR="$ROOT/assets"
 
-ASSETS_DIR="$(dirname "$0")/assets"
+if [ ! -x "$TERSER" ]; then
+  echo "❌ Terser local introuvable. Lancez npm ci." >&2
+  exit 1
+fi
 
-echo "🔍 Minification des fichiers JS..."
+echo "🔍 Minification des fichiers JS avec $TERSER"
 
-# Liste des fichiers sources (ajouter au besoin)
 SOURCES=(
   "utils.js"
   "storage.js"
   "terminal-core.js"
   "terminal-main.js"
   "ctf.js"
+  "exercise-validators.js"
   "render.js"
   "app.js"
 )
@@ -22,16 +27,9 @@ SOURCES=(
 for src in "${SOURCES[@]}"; do
   src_path="$ASSETS_DIR/$src"
   min_path="$ASSETS_DIR/${src%.js}.min.js"
-  
   if [ -f "$src_path" ]; then
     echo "  ⚙️  $src → ${src%.js}.min.js"
-    npx terser "$src_path" -o "$min_path" --compress --mangle 2>/dev/null
-    if [ $? -eq 0 ]; then
-      echo "  ✅ $(basename $min_path) mis à jour"
-    else
-      echo "  ❌ Erreur lors de la minification de $src"
-      exit 1
-    fi
+    "$TERSER" "$src_path" --compress --mangle --output "$min_path"
   else
     echo "  ⚠️  $src non trouvé, ignoré"
   fi

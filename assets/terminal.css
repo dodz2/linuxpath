@@ -15,7 +15,14 @@
   transition: height 0.2s ease;
 }
 
-.terminal-section.minimized { height: 36px; overflow: hidden; }
+.terminal-section.minimized {
+  height: 36px;
+  overflow: hidden;
+}
+.terminal-section.minimized .terminal-output,
+.terminal-section.minimized .terminal-input-row {
+  pointer-events: none;
+}
 
 .terminal-titlebar {
   height: 36px;
@@ -163,6 +170,7 @@
    ========================================== */
 .cmd-table {
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   font-size: 13px;
   margin: 14px 0;
@@ -211,16 +219,28 @@
    RESPONSIVE — tablet
    ========================================== */
 @media (max-width: 900px) {
-  .content-area { padding: 24px 24px 150px; }
+  .content-area { padding: 24px 24px calc(var(--terminal-minimized) + 32px); }
   .top-bar-progress-bar { width: 100px; }
+
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 4px 0 28px rgba(0,0,0,0.65);
+  }
+  .sidebar-overlay { display: block; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+  .sidebar-overlay.visible { opacity: 1; pointer-events: all; }
+  .main { margin-left: 0; }
+  .hamburger { display: flex; }
+  .terminal-section { left: 0; }
 }
 
 /* ==========================================
    RESPONSIVE — mobile
    ========================================== */
 @media (max-width: 700px) {
-  :root { --sidebar-width: 260px; }
-
   .sidebar {
     transform: translateX(-100%);
     transition: transform 0.25s ease;
@@ -241,7 +261,7 @@
   .top-bar-progress-label { display: none; }
   .top-bar-progress-bar { width: 80px; }
 
-  .content-area { padding: 16px 14px 160px; }
+  .content-area { padding: 16px 14px calc(var(--terminal-minimized) + 32px); }
 
   .module-title { font-size: 20px; }
 

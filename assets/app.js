@@ -53,6 +53,8 @@ function navigateTo(target) {
   const btn = document.querySelector(`[data-target="${target}"]`);
   if (btn) btn.classList.add('active');
   currentSection = target;
+  if (typeof ensureModuleRendered === 'function') ensureModuleRendered(target);
+  if (typeof renderModuleOutcomes === 'function') renderModuleOutcomes(target);
   // Synchroniser l'URL avec la section active (deep linking)
   const newHash = '#' + target;
   if (location.hash !== newHash) {
@@ -109,6 +111,9 @@ function navigateTo(target) {
     const meta = MODULE_META[target];
     document.querySelector('.top-bar-title').innerHTML = `<span>user@linux</span>:~/linuxpath/${target}$ <span style="color:var(--text-subtle);font-size:11px">${meta.title}</span>`;
   }
+  if ((target === 'ctf' || target === 'sandbox') && typeof setTerminalMinimized === 'function') {
+    setTerminalMinimized(true);
+  }
 }
 
 function toggleSidebar() {
@@ -117,19 +122,59 @@ function toggleSidebar() {
   const hamburger = document.querySelector('.hamburger');
   const isOpen = sidebar.classList.toggle('open');
   overlay.classList.toggle('visible');
-  if (hamburger) hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  if (hamburger) {
+    hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    hamburger.setAttribute('aria-label', isOpen ? 'Fermer le menu de navigation' : 'Ouvrir le menu de navigation');
+  }
   if (isOpen) {
     const firstNavItem = sidebar.querySelector('.module-nav-item');
     if (firstNavItem) firstNavItem.focus();
+  } else if (hamburger) {
+    hamburger.focus();
   }
 }
 
 function closeSidebar() {
-  document.getElementById('sidebar').classList.remove('open');
+  const sidebar = document.getElementById('sidebar');
+  const wasOpen = sidebar.classList.contains('open');
+  sidebar.classList.remove('open');
   document.getElementById('sidebar-overlay').classList.remove('visible');
   const hamburger = document.querySelector('.hamburger');
-  if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+  if (hamburger) {
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.setAttribute('aria-label', 'Ouvrir le menu de navigation');
+    if (wasOpen) hamburger.focus();
+  }
 }
+
+function sidebarFocusable() {
+  const sidebar = document.getElementById('sidebar');
+  if (!sidebar) return [];
+  return [...sidebar.querySelectorAll('button, a, [href], [tabindex]:not([tabindex="-1"])')]
+    .filter((el) => !el.disabled && el.getAttribute('aria-hidden') !== 'true' && el.offsetParent !== null);
+}
+
+document.addEventListener('keydown', (event) => {
+  const sidebar = document.getElementById('sidebar');
+  if (!sidebar || !sidebar.classList.contains('open')) return;
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    closeSidebar();
+    return;
+  }
+  if (event.key !== 'Tab') return;
+  const focusable = sidebarFocusable();
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+});
 
 function toggleFaq(btn) {
   const faqItem = btn.closest('.lp-faq-item');
@@ -220,16 +265,19 @@ async function init() {
   // Load data files and state concurrently
   let dataOk = true;
   try {
-    const [lessonsResp, exercisesResp, quizzesResp, vfsResp] = await Promise.all([
+    const [lessonsResp, exercisesResp, quizzesResp, vfsResp, modulesResp] = await Promise.all([
       fetch('data/lessons.json'),
       fetch('data/exercises.json'),
       fetch('data/quizzes.json'),
-      fetch('data/vfs.json')
+      fetch('data/vfs.json'),
+      fetch('data/modules.json')
     ]);
-    if (!lessonsResp.ok || !exercisesResp.ok || !quizzesResp.ok) throw new Error('Fetch failed');
+    if (!lessonsResp.ok || !exercisesResp.ok || !quizzesResp.ok || !modulesResp.ok) throw new Error('Fetch failed');
     LESSONS   = await lessonsResp.json();
     EXERCISES = await exercisesResp.json();
     QUIZZES   = await quizzesResp.json();
+    const catalogue = await modulesResp.json();
+    applyModules(catalogue.modules || [], { passScore: catalogue.passScore, tracks: catalogue.tracks });
     // VFS chargé et passé au terminal
     if (vfsResp.ok) {
       const VFS = await vfsResp.json();
@@ -256,9 +304,6 @@ async function init() {
   await loadState();
   await loadCTFState();
   updateCTFBadge();
-  renderLessons();
-  renderExercises();
-  renderQuizzes();
   renderOverviewCards();
   updateProgressUI();
   renderHome();
@@ -306,54 +351,13 @@ window.addEventListener('resize', updateSandboxMobileWarning);
 
 function updateProgressUI() {
   const modulesBadge = document.getElementById('group-modules-badge');
-  if (modulesBadge) {
-    const mods = ['m1','m2','m3','m4','m5','m6','m7','m8'];
-    let totalDone = 0, totalItems = 0;
-    mods.forEach(mod => {
-      const counts = MODULE_COUNTS[mod];
-      if (!counts) return;
-      const modTotal = counts.lessons + counts.exercises + counts.quizzes;
-      const modDone = [...state.lessonsDone].filter(id => id.startsWith(mod + '-')).length
-        + [...state.exercisesDone].filter(id => id.startsWith(mod + '-')).length
-        + Object.keys(state.quizScores).filter(id => id.startsWith(mod)).length;
-      totalDone += modDone;
-      totalItems += modTotal;
-    });
-    const pct = totalItems > 0 ? Math.round(totalDone / totalItems * 100) : 0;
-    modulesBadge.textContent = pct + '%';
-  }
+  if (modulesBadge) modulesBadge.textContent = getTrackProgress('linux').pct + '%';
 
   const networkBadge = document.getElementById('group-network-badge');
-  if (networkBadge) {
-    const netMods = ['m9', 'm10', 'm11'];
-    let netDone = 0, netTotal = 0;
-    netMods.forEach(mod => {
-      const counts = MODULE_COUNTS[mod];
-      if (!counts) return;
-      netTotal += counts.lessons + counts.exercises + counts.quizzes;
-      netDone += [...state.lessonsDone].filter(id => id.startsWith(mod + '-')).length
-        + [...state.exercisesDone].filter(id => id.startsWith(mod + '-')).length
-        + Object.keys(state.quizScores).filter(id => id.startsWith(mod)).length;
-    });
-    const netPct = netTotal > 0 ? Math.round(netDone / netTotal * 100) : 0;
-    networkBadge.textContent = netPct + '%';
-  }
+  if (networkBadge) networkBadge.textContent = getTrackProgress('network').pct + '%';
 
   const offsecBadge = document.getElementById('group-offsec-badge');
-  if (offsecBadge) {
-    const offMods = ['m12', 'm13', 'm14'];
-    let offDone = 0, offTotal = 0;
-    offMods.forEach(mod => {
-      const counts = MODULE_COUNTS[mod];
-      if (!counts) return;
-      offTotal += counts.lessons + counts.exercises + counts.quizzes;
-      offDone += [...state.lessonsDone].filter(id => id.startsWith(mod + '-')).length
-        + [...state.exercisesDone].filter(id => id.startsWith(mod + '-')).length
-        + Object.keys(state.quizScores).filter(id => id.startsWith(mod)).length;
-    });
-    const offPct = offTotal > 0 ? Math.round(offDone / offTotal * 100) : 0;
-    offsecBadge.textContent = offPct + '%';
-  }
+  if (offsecBadge) offsecBadge.textContent = getTrackProgress('offsec').pct + '%';
 
   const p = getProgress();
   const sidebarFill = document.getElementById('sidebar-progress-fill');
@@ -365,13 +369,29 @@ function updateProgressUI() {
   const topbarLabel = document.getElementById('topbar-progress-label');
   if (topbarLabel) topbarLabel.textContent = p.done + ' / ' + p.total + ' complétés';
 
-  const modules = ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14'];
+  const modules = getPublishedModuleIds();
   modules.forEach(mod => {
     const mp = getModuleProgress(mod);
     const badge = document.getElementById('nav-badge-' + mod);
     if (badge) {
       badge.textContent = mp.pct + '%';
       badge.classList.toggle('done', mp.pct === 100);
+    }
+    const nav = document.querySelector('[data-target="' + mod + '"]');
+    if (nav && !['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm1', 'm9', 'm12'].includes(mod)) {
+      const unlocked = state.unlockedModules.has(mod);
+      nav.setAttribute('aria-disabled', unlocked ? 'false' : 'true');
+      let hint = nav.querySelector('.nav-lock-hint');
+      if (!unlocked) {
+        if (!hint) {
+          hint = document.createElement('span');
+          hint.className = 'visually-hidden nav-lock-hint';
+          nav.appendChild(hint);
+        }
+        hint.textContent = 'Verrouillé : réussissez le quiz précédent';
+      } else if (hint) {
+        hint.remove();
+      }
     }
     if (LESSONS[mod]) {
       LESSONS[mod].forEach(l => {
@@ -411,6 +431,9 @@ function updateProgressUI() {
    ============================================================ */
 
 let _sandboxEmulator = null;
+let _sandboxBootTimer = null;
+let _sandboxInputBound = false;
+let _sandboxScreenBound = false;
 let _v86Loaded = false;
 let _v86Loading = false;
 
@@ -466,7 +489,7 @@ function startSandbox() {
   if (btnStart) btnStart.style.display = 'none';
   if (btnReset) btnReset.style.display = '';
   if (status) status.style.display = '';
-  if (statusTxt) statusTxt.textContent = 'Chargement de l\'image Alpine Linux (~8 Mo)…';
+  if (statusTxt) statusTxt.textContent = 'Chargement de l\'image Linux (~6 Mo)…';
 
   // Chargement lazy de libv86 si pas encore disponible
   if (!window.V86) {
@@ -504,8 +527,11 @@ function startSandbox() {
 
   // VGA mode: v86 handles keyboard directly via the canvas it injects.
   // The text input row is a fallback for sending commands via serial.
-  if (input) {
+  // Garde-fou : ne jamais dupliquer les listeners entre resets
+  if (input && !_sandboxInputBound) {
+    _sandboxInputBound = true;
     input.addEventListener('keydown', function(e) {
+      window.__sandboxKeydownCount = (window.__sandboxKeydownCount || 0) + 1;
       if (e.key === 'Enter') {
         const cmd = input.value;
         input.value = '';
@@ -514,18 +540,29 @@ function startSandbox() {
         }
       }
     });
-    if (inputRow) inputRow.style.display = '';
-    var quickCmds = document.getElementById('sandbox-quick-cmds');
-    if (quickCmds) quickCmds.style.display = '';
+  }
+  if (inputRow) inputRow.style.display = '';
+  var quickCmds = document.getElementById('sandbox-quick-cmds');
+  if (quickCmds) quickCmds.style.display = '';
+  if (screen) {
+    if (!_sandboxScreenBound) {
+      _sandboxScreenBound = true;
+      screen.addEventListener('click', function() {
+        var canvas = screen.querySelector('canvas');
+        if (canvas) canvas.focus();
+      });
+    }
   }
 
-  // Click on screen to focus the v86 canvas for keyboard input
-  if (screen) {
-    screen.addEventListener('click', function() {
-      var canvas = screen.querySelector('canvas');
-      if (canvas) canvas.focus();
-    });
-  }
+  // Budget de boot : au-delà, on affiche un échec — jamais un spinner infini.
+  if (_sandboxBootTimer) clearTimeout(_sandboxBootTimer);
+  _sandboxBootTimer = setTimeout(function() {
+    const s = document.getElementById('sandbox-status');
+    const t = document.getElementById('sandbox-status-text');
+    if (s && s.style.display !== 'none' && t && /Chargement|Boot en cours/.test(t.textContent)) {
+      t.textContent = 'Échec : la sandbox n\'a pas répondu dans le délai imparti (120 s). Rechargez la page ou réessayez.';
+    }
+  }, 120000);
 }
 
 function sandboxSend(cmd) {
@@ -535,6 +572,10 @@ function sandboxSend(cmd) {
 }
 
 function resetSandbox() {
+  if (_sandboxBootTimer) {
+    clearTimeout(_sandboxBootTimer);
+    _sandboxBootTimer = null;
+  }
   if (_sandboxEmulator) {
     _sandboxEmulator.destroy();
     _sandboxEmulator = null;

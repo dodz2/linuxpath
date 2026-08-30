@@ -9,30 +9,36 @@ let ctfCurrentId   = null; // id du challenge ouvert
 // Clés IndexedDB / localStorage
 const CTF_STORAGE_KEYS = {
   solved: 'lt_ctf_solved',  // Set des ids résolus
-  hints:  'lt_ctf_hints'    // { id: nbIndicesAffichés }
+  hints:  'lt_ctf_hints',   // { id: nbIndicesAffichés }
+  how:    'lt_ctf_how'      // { id: 'autonomous' | 'with_help' }
 };
 
 let ctfState = {
   solved: new Set(),
-  hints:  {}
+  hints:  {},
+  how:    {}
 };
 
 async function saveCTFState() {
   await Promise.all([
     storage.set(CTF_STORAGE_KEYS.solved, JSON.stringify([...ctfState.solved])),
-    storage.set(CTF_STORAGE_KEYS.hints,  JSON.stringify(ctfState.hints))
+    storage.set(CTF_STORAGE_KEYS.hints,  JSON.stringify(ctfState.hints)),
+    storage.set(CTF_STORAGE_KEYS.how,    JSON.stringify(ctfState.how || {}))
   ]);
 }
 
 async function loadCTFState() {
   try {
-    const [sv, hi] = await Promise.all([
+    const [sv, hi, hw] = await Promise.all([
       storage.get(CTF_STORAGE_KEYS.solved),
-      storage.get(CTF_STORAGE_KEYS.hints)
+      storage.get(CTF_STORAGE_KEYS.hints),
+      storage.get(CTF_STORAGE_KEYS.how)
     ]);
     if (sv) ctfState.solved = new Set(JSON.parse(sv));
     if (hi) ctfState.hints  = JSON.parse(hi);
+    if (hw) ctfState.how    = JSON.parse(hw) || {};
   } catch(e) { /* état par défaut */ }
+  updateCTFBadge();
 }
 
 
@@ -45,7 +51,7 @@ function normalizeFlag(raw) {
 /* --- Mise à jour du badge sidebar CTF --- */
 function updateCTFBadge() {
   const badge = document.getElementById('nav-badge-ctf');
-  if (badge) badge.textContent = ctfState.solved.size + '/6';
+  if (badge) badge.textContent = ctfState.solved.size + '/' + (CTF_CHALLENGES.length || 0);
 }
 
 /* --- Rendu de la grille des cards --- */
@@ -53,6 +59,15 @@ function renderCTFGrid() {
   const grid = document.getElementById('ctf-grid');
   if (!grid || !CTF_CHALLENGES.length) return;
   grid.innerHTML = '';
+
+  const stats = getCurriculumStats();
+  const ctfItems = document.querySelectorAll('#section-ctf .module-meta-item');
+  if (ctfItems.length >= 4) {
+    ctfItems[0].textContent = '🚩 ' + stats.challenges + ' challenges';
+    ctfItems[1].textContent = '🟢 ' + stats.difficulty.easy + ' faciles';
+    ctfItems[2].textContent = '🟡 ' + stats.difficulty.medium + ' moyens';
+    ctfItems[3].textContent = '🔴 ' + stats.difficulty.hard + ' difficiles';
+  }
 
   const diffLabels = { easy: 'Facile', medium: 'Moyen', hard: 'Difficile' };
   const diffClasses = { easy: 'ctf-diff-easy', medium: 'ctf-diff-medium', hard: 'ctf-diff-hard' };
@@ -190,10 +205,113 @@ function closeCTFDetail() {
   document.getElementById('ctf-detail').style.display = 'none';
   document.getElementById('ctf-grid').style.display   = '';
   ctfCurrentId = null;
-  // Rafraîchir la grille (statuts résolus)
   renderCTFGrid();
 }
 
+function tokenizeCtfCommand(input) {
+  var tokens = [];
+  var current = '';
+  var quote = null;
+  var text = String(input || '');
+  for (var i = 0; i < text.length; i++) {
+    var ch = text[i];
+    if (quote) {
+      if (ch === quote) quote = null;
+      else current += ch;
+      continue;
+    }
+    if (ch === "'" || ch === '"') { quote = ch; continue; }
+    if (ch === '|') {
+      if (current) { tokens.push(current); current = ''; }
+      tokens.push('|');
+      continue;
+    }
+    if (/\s/.test(ch)) {
+      if (current) { tokens.push(current); current = ''; }
+      continue;
+    }
+    current += ch;
+  }
+  if (current) tokens.push(current);
+  return tokens;
+}
+
+function rewriteCtfCommand(input) {
+  var tokens = tokenizeCtfCommand(input);
+  if (!tokens.length) return '';
+  var stages = [];
+  var stage = [];
+  tokens.forEach(function (token) {
+    if (token === '|') { stages.push(stage); stage = []; }
+    else stage.push(token);
+  });
+  stages.push(stage);
+  if (stages.length === 2 && stages[0][0] === 'echo' && stages[1][0] === 'base64' && stages[1].indexOf('-d') >= 0) {
+    return ['base64', '-d'].concat(stages[0].slice(1)).join(' ');
+  }
+  return stages.map(function (parts) { return parts.join(' '); }).join(' | ');
+}
+
+async function hashFlag(value) {
+  var bytes = new TextEncoder().encode(value);
+  var digest = await crypto.subtle.digest('SHA-256', bytes);
+  return Array.from(new Uint8Array(digest)).map(function (b) {
+    return b.toString(16).padStart(2, '0');
+  }).join('');
+}
+
+function setCtfFlagFeedback(kind, message) {
+  var feedback = document.getElementById('ctf-flag-feedback');
+  if (!feedback) return;
+  feedback.className = 'ctf-flag-feedback' + (kind ? ' ' + kind : '');
+  feedback.textContent = message;
+}
+
+async function submitCTFFlag() {
+  var ch = CTF_CHALLENGES.find(function (c) { return c.id === ctfCurrentId; });
+  var input = document.getElementById('ctf-flag-input');
+  if (!ch || !input) return;
+  var normalized = normalizeFlag(input.value);
+  if (!normalized) {
+    setCtfFlagFeedback('error', 'Entre un flag au format flag{…}.');
+    return;
+  }
+  var digest = await hashFlag(normalized);
+  if (digest !== ch.flagHash) {
+    setCtfFlagFeedback('error', 'Flag incorrect. Réessaye.');
+    return;
+  }
+  var hintsUsed = ctfState.hints[ch.id] || 0;
+  ctfState.solved.add(ch.id);
+  ctfState.how = ctfState.how || {};
+  ctfState.how[ch.id] = hintsUsed > 0 ? 'with_help' : 'autonomous';
+  await saveCTFState();
+  input.value = '✓ Challenge résolu !';
+  input.disabled = true;
+  setCtfFlagFeedback('success', hintsUsed > 0
+    ? 'Bravo ! Challenge résolu avec un peu d’aide.'
+    : 'Bravo ! Challenge résolu.');
+  updateCTFBadge();
+  renderCTFGrid();
+}
+
+function resetCtfInput() {
+  var input = document.getElementById('ctf-terminal-input');
+  if (!input || !input.parentNode) return;
+  var fresh = input.cloneNode(true);
+  input.parentNode.replaceChild(fresh, input);
+  fresh.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      var val = fresh.value.trim();
+      if (val) { ctfTerminal.exec(val); fresh.value = ''; }
+    }
+  });
+}
+
+function resetCTFTerminal() {
+  if (!ctfCurrentId) return;
+  loadCTFChallenge(ctfCurrentId);
+}
 
 /* --- Charger un challenge dans le terminal CTF --- */
 function loadCTFChallenge(id) {
@@ -212,9 +330,7 @@ function loadCTFChallenge(id) {
 	ctfTerminal.print('<span class="t-red">🚩 Challenge : ' + escapeHtml(ch.title) + '</span>', 'term-output');
 	ctfTerminal.print('<span class="t-muted">Explore le système de fichiers pour trouver le flag. Tape <strong>help</strong> pour les commandes disponibles.</span>', 'term-output');
 	ctfTerminal.updatePromptLabel();
-
-	// Initialiser l'input (initInput clone l'élément pour supprimer les anciens listeners)
-	ctfTerminal.initInput();
+	resetCtfInput();
 }
 
 
@@ -408,3 +524,11 @@ function ctfTermCmdEcho(cmd) { ctfTerminal.cmdEcho(cmd); }
 function processCTFCommand(input) { ctfTerminal.exec(input); }
 function updateCTFPromptLabel() { ctfTerminal.updatePromptLabel(); }
 function ctfSend(cmd) { ctfTerminal.exec(cmd); }
+
+(function wrapCtfExec() {
+  var rawExec = ctfTerminal.exec;
+  ctfTerminal.exec = function (rawCmd) {
+    if (!rawCmd || !rawCmd.trim()) return;
+    rawExec(rewriteCtfCommand(rawCmd.trim()));
+  };
+}());

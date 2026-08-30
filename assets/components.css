@@ -1,4 +1,5 @@
-.welcome-screen { padding: 0 0 60px; }
+.welcome-screen { padding: 0 0 24px; }
+#home-hero { min-height: 220px; }
 
 /* Hero */
 /* ============================================================
@@ -7,12 +8,12 @@
 
 .lp-hero {
   position: relative;
-  padding: 64px 48px 56px;
+  padding: 32px 28px 28px;
   border-radius: var(--radius-lg);
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   overflow: hidden;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
 }
 
 .lp-hero::before {
@@ -283,7 +284,7 @@
 
 /* Section blocks */
 .lp-section-block {
-  margin-bottom: 56px;
+  margin-bottom: 32px;
 }
 
 .lp-section-label {
@@ -1404,6 +1405,7 @@
 .news-card[data-severity="high"]     { border-left-color: var(--accent-orange); }
 .news-card[data-severity="medium"]   { border-left-color: var(--accent-yellow); }
 .news-card[data-severity="info"]     { border-left-color: var(--accent-blue); }
+.news-card[data-severity="unevaluated"] { border-left-color: var(--text-subtle); }
 
 .news-card-top {
   display: flex;
@@ -1453,6 +1455,11 @@
   background: rgba(79, 142, 247, 0.1);
   color: var(--accent-blue);
   border: 1px solid rgba(79, 142, 247, 0.2);
+}
+.news-sev-badge.unevaluated {
+  background: var(--bg-elevated);
+  color: var(--text-subtle);
+  border: 1px solid var(--border);
 }
 
 /* Badge CVSS — coloré selon score */
@@ -1613,6 +1620,66 @@
 
 .news-footer-note strong { color: var(--text-secondary); }
 
+/* ============================================================
+   MODULES OVERVIEW GRID
+   ============================================================ */
+.modules-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.module-overview-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 18px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.module-overview-card.locked { opacity: 0.62; }
+.mod-card-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent-green);
+  letter-spacing: 0.08em;
+}
+.mod-card-icon { font-size: 28px; line-height: 1; }
+.mod-card-title { margin: 0; font-size: 16px; color: var(--text-primary); }
+.mod-card-desc { margin: 0; font-size: 13px; line-height: 1.45; color: var(--text-secondary); }
+.mod-card-progress { display: flex; align-items: center; gap: 8px; margin-top: auto; }
+.mod-card-progress-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.mod-card-progress-fill { height: 100%; background: var(--accent-green); }
+.mod-card-pct {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-subtle);
+  white-space: nowrap;
+}
+.mod-card-btn {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--accent-green);
+  cursor: pointer;
+  font-size: 13px;
+}
+.mod-card-locked-msg { font-size: 12px; color: var(--text-subtle); }
+
+@media (min-width: 900px) {
+  .modules-overview-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
 @media (max-width: 600px) {
   .news-card-top { flex-direction: column; gap: 8px; }
   .news-card-badges { order: -1; }
@@ -1620,4 +1687,92 @@
   .news-filter-btn { font-size: 10px; padding: 3px 9px; }
   .news-filters-sep { display: none; }
 }
+
+.compat-matrix {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 100%;
+}
+.compat-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  padding: 12px 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+}
+.compat-device { color: var(--text-primary); font-weight: 600; min-width: 0; }
+.compat-ok { color: var(--accent-green); font-family: var(--font-mono); font-size: 12px; }
+.compat-no { color: var(--accent-orange); font-family: var(--font-mono); font-size: 12px; }
+
+@media (max-width: 600px) {
+  .compat-row { grid-template-columns: 1fr; gap: 4px; }
+  .lp-hero { padding: 24px 16px 20px; }
+}
+
+.lesson-content,
+.exercise-card,
+.quiz-body {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.track-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+.track-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.track-level {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent-green);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.track-card h3 { margin: 0; font-size: 18px; }
+.track-objectives { margin: 0; padding-left: 18px; color: var(--text-secondary); font-size: 13px; }
+.track-capstone { margin: 0; font-size: 12px; color: var(--text-subtle); }
+.chapter-heading {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent-blue);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 18px 0 8px;
+}
+.module-outcomes {
+  margin-top: 16px;
+  padding: 12px 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+}
+.module-outcomes-time { font-family: var(--font-mono); color: var(--accent-green); margin-bottom: 8px; }
+.module-outcomes ul { margin: 0 0 8px; padding-left: 18px; }
+.module-outcomes-success { margin: 0; color: var(--text-secondary); }
+.lesson-checkpoint {
+  margin: 12px 0;
+  padding: 8px 10px;
+  border-left: 3px solid var(--accent-blue);
+  color: var(--text-subtle);
+  font-size: 12px;
+}
+.quiz-review { text-align: left; margin: 12px 0; padding-left: 18px; font-size: 13px; color: var(--text-secondary); }
+
+
 

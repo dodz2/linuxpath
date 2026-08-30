@@ -24,45 +24,20 @@ FEEDS = [
         "lang": "fr"
     },
     {
-        "name": "The Hacker News",
-        "url": "https://thehackernews.com/feeds/posts/default",
-        "source_label": "The Hacker News",
-        "source_url": "https://thehackernews.com",
+        "name": "CISA",
+        "url": "https://www.cisa.gov/cybersecurity-advisories/all.xml",
+        "source_label": "CISA",
+        "source_url": "https://www.cisa.gov",
         "lang": "en"
     },
     {
-        "name": "Bleeping Computer",
-        "url": "https://www.bleepingcomputer.com/feed/",
-        "source_label": "Bleeping Computer",
-        "source_url": "https://www.bleepingcomputer.com",
-        "lang": "en"
-    },
-    {
-        "name": "Krebs on Security",
-        "url": "https://krebsonsecurity.com/feed/",
-        "source_label": "Krebs on Security",
-        "source_url": "https://krebsonsecurity.com",
+        "name": "NVD",
+        "url": "https://nvd.nist.gov/feeds/xml/cve/misc/nvd-rss-analyzed.xml",
+        "source_label": "NVD / NIST",
+        "source_url": "https://nvd.nist.gov",
         "lang": "en"
     }
 ]
-
-SEVERITY_KEYWORDS = {
-    "critical": [
-        r"\bcritical\b", r"\bcritique\b", r"\bzero.day\b", r"\bCVE-\d{4}-\d{4,}\b",
-        r"\brescale\b", r"\bprivilege escalation\b", r"\broot\b", r"\bRCE\b",
-        r"\barbitrary code\b", r"\bremote code\b", r"\bCVSS\s*(9|10)[\.\d]",
-        r"\bdata breach\b", r"\bransomware\b"
-    ],
-    "high": [
-        r"\bhigh\b", r"\bimportant\b", r"\bsql injection\b", r"\bpatch\b",
-        r"\bvulnerability\b", r"\bexploit\b", r"\bmalware\b", r"\bbackdoor\b",
-        r"\bCVE-\d{4}-\d{4,}\b"
-    ],
-    "medium": [
-        r"\bmedium\b", r"\bdenial of service\b", r"\bDOS\b", r"\bXSS\b",
-        r"\bcross.site\b", r"\bCSRF\b", r"\binfo\b", r"\badvisory\b"
-    ]
-}
 
 CONTEXT_MESSAGES = {
     "linux_system": "Touche directement les systèmes Linux que tu apprends à administrer.",
@@ -117,6 +92,8 @@ def parse_rss(xml_data, feed):
 
         if not title or not link:
             continue
+        if not link.startswith("https://"):
+            continue
 
         pub_date = _parse_date(pub_date_str)
 
@@ -150,69 +127,6 @@ def parse_rss(xml_data, feed):
             "cvss": cvss,
             "source_label": feed["source_label"],
             "source_url": link
-        })
-
-    return articles
-
-
-def parse_nvd_xml(xml_data):
-    """Parse le flux NVD CVE XML."""
-    articles = []
-    try:
-        root = ElementTree.fromstring(xml_data)
-    except ElementTree.ParseError as e:
-        print(f"  [WARN] Parse error NVD: {e}", file=sys.stderr)
-        return articles
-
-    ns = {
-        "ns": "http://scap.nist.gov/schema/feed/vulnerability/2.0",
-        "cve": "http://scap.nist.gov/schema/cve/2.0",
-        "cvss": "http://scap.nist.gov/schema/cvss/2.0"
-    }
-
-    for entry in root.findall(".//ns:entry", ns):
-        cve_id = entry.get("id", "")
-        if not cve_id:
-            continue
-
-        summary_el = entry.find(".//cve:summary", ns)
-        summary = summary_el.text if summary_el is not None else ""
-
-        cvss_el = entry.find(".//cvss:base_score", ns)
-        cvss = float(cvss_el.text) if cvss_el is not None and cvss_el.text else None
-
-        pub_date_str = entry.get("published", "") or entry.get("modified", "")
-        pub_date = _parse_date(pub_date_str)
-
-        severity = "info"
-        if cvss is not None:
-            if cvss >= 9.0:
-                severity = "critical"
-            elif cvss >= 7.0:
-                severity = "high"
-            elif cvss >= 4.0:
-                severity = "medium"
-
-        title = f"Nouveau CVE : {cve_id}"
-        clean_summary = _clean_html(summary)
-        short_summary = _truncate(clean_summary, 300)
-
-        tags = ["CVE", "Vulnérabilité"]
-        context, related_modules = _generate_context(title, clean_summary, tags)
-
-        articles.append({
-            "id": "news-cve-" + cve_id.lower().replace("-", ""),
-            "date": pub_date or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-            "title": f"{cve_id} — {_truncate(clean_summary, 120)}",
-            "summary": short_summary,
-            "context": context,
-            "related_modules": related_modules,
-            "severity": severity,
-            "tags": tags,
-            "cve": cve_id,
-            "cvss": cvss,
-            "source_label": "NVD / NIST",
-            "source_url": f"https://nvd.nist.gov/vuln/detail/{cve_id}"
         })
 
     return articles
@@ -262,29 +176,18 @@ def _truncate(text, max_len):
 
 
 def _classify_severity(text, categories):
-    text_lower = text.lower()
-    cat_lower = " ".join(c.lower() for c in categories)
-
-    # Check for CVSS score — handles "CVSS 7.8", "CVSS:7.8", "CVSS score: 7.8"
+    del categories
     cvss_match = re.search(r"CVSS\s*(?:score\s*)?[:\s]*(\d+[.\d]*)", text, re.IGNORECASE)
-    if cvss_match:
-        score = float(cvss_match.group(1))
-        if score >= 9.0:
-            return "critical", score
-        elif score >= 7.0:
-            return "high", score
-        elif score >= 4.0:
-            return "medium", score
-        else:
-            return "info", score
-
-    # Check by keywords
-    for sev, patterns in SEVERITY_KEYWORDS.items():
-        for pattern in patterns:
-            if re.search(pattern, text_lower) or re.search(pattern, cat_lower):
-                return sev, None
-
-    return "info", None
+    if not cvss_match:
+        return "unevaluated", None
+    score = float(cvss_match.group(1))
+    if score >= 9.0:
+        return "critical", score
+    if score >= 7.0:
+        return "high", score
+    if score >= 4.0:
+        return "medium", score
+    return "info", score
 
 
 def _generate_tags(title, desc, categories, cve):
