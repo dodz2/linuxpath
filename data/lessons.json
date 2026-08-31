@@ -652,7 +652,7 @@
     {
       "id": "m12-l1",
       "title": "Audit avec Lynis",
-      "content": "\n        <h3>Audit avec Lynis</h3>\n        <p><strong>Lynis</strong> examine la configuration d’un système Linux/Unix et propose des constats de durcissement. Dans LinuxPath, la commande est simulée : elle n’a aucun effet sur une machine réelle.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install lynis</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo lynis audit system --quick</span> <span class=\"comment\"># évite les pauses interactives</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo grep -i 'SSH-7412' /var/log/lynis.log</span></div>\n        <p>Lynis produit notamment des <code>[OK]</code>, des avertissements et des suggestions. Un avertissement doit être rapproché du rôle de la machine, du service concerné et du risque avant tout changement. Le <em>Hardening index</em> est un indicateur Lynis : ce n’est ni un score CVSS, ni une certification, ni une priorité de correction automatique.</p>\n        <div class=\"info-box warning\"><strong>Avant de corriger :</strong> consultez <code>/var/log/lynis.log</code> et <code>/var/log/lynis-report.dat</code>, vérifiez le contrôle concerné, préparez un test et un retour arrière.</div>",
+      "content": "\n        <h3>Lancer, puis lire</h3>\n        <p><strong>Lynis</strong> examine la configuration d’un système Linux/Unix et propose des constats de durcissement. Dans LinuxPath, la commande est simulée : elle n’a aucun effet sur une machine réelle. Lancer l’audit n’est que la première moitié du travail ; la seconde consiste à <strong>lire</strong> le rapport et à relier chaque identifiant à une preuve.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install lynis</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo lynis audit system --quick</span> <span class=\"comment\"># évite les pauses interactives</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo grep -i 'SSH-7412' /var/log/lynis.log</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo grep -E 'warning|suggestion' /var/log/lynis-report.dat</span></div>\n        <p><code>/var/log/lynis.log</code> raconte le déroulement. <code>/var/log/lynis-report.dat</code> condense les paires clé/valeur. Un identifiant de contrôle (par exemple <code>SSH-7412</code> ou, dans les dossiers du lab, <code>LP-AUDIT-*</code>) n’est pas une remédiation : c’est un pointeur vers un fichier, un réglage et un risque à qualifier.</p>\n        <p>Lynis produit des <code>[OK]</code>, des avertissements et des suggestions. Un avertissement doit être rapproché du rôle de la machine, du service concerné et du risque avant tout changement. Greper le journal pour un identifiant, c’est confirmer que le contrôle est bien dans ce rapport, pas encore décider de la correction. Le <em>Hardening index</em> est un indicateur Lynis : ce n’est ni un score CVSS, ni une certification, ni une priorité de correction automatique.</p>\n        <div class=\"info-box warning\"><strong>Avant de corriger :</strong> consultez <code>/var/log/lynis.log</code> et <code>/var/log/lynis-report.dat</code>, vérifiez le contrôle concerné, préparez un test et un retour arrière. Nommer le fichier n’est pas encore appliquer le réglage.</div>\n        ",
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
@@ -675,8 +675,8 @@
     },
     {
       "id": "m12-l2",
-      "title": "OpenSCAP et conformité",
-      "content": "\n        <h3>OpenSCAP et contenu de conformité</h3>\n        <p>SCAP est une famille de spécifications ; <strong>OpenSCAP</strong> évalue du contenu SCAP, mais ne fournit pas à lui seul un benchmark universel. Le contenu et le profil doivent correspondre exactement à la distribution et à sa version.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt update</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install openscap-scanner ssg-debderived</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">oscap info /usr/share/xml/scap/ssg/content/ssg-ubuntu2204-ds.xml</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_cis_level1_server --results-arf /tmp/oscap-results-arf.xml --report /tmp/oscap-report.html /usr/share/xml/scap/ssg/content/ssg-ubuntu2204-ds.xml</span></div>\n        <p><code>oscap info</code> est l’autorité locale pour les profils réellement installés. N’utilisez jamais un contenu RHEL « proche » sur Ubuntu. Une évaluation réussie ne prouve pas, à elle seule, une conformité certifiée.</p>\n        <p><strong>Code de retour :</strong> pour <code>oscap xccdf eval</code>, <code>0</code> signifie que toutes les règles ont réussi, <code>2</code> qu’au moins une règle a échoué et <code>1</code> une erreur d’exécution. Un <code>2</code> est donc un résultat d’audit à analyser, pas forcément une commande cassée ; conservez les fichiers de résultat et de rapport.</p>\n        <p>Sur un système Ubuntu Pro où USG est activé, <code>sudo usg audit cis_level1_server</code> est une option d’audit. N’utilisez pas <code>usg fix</code> sans tailoring, validation du propriétaire et plan de retour.</p>\n",
+      "title": "OpenSCAP, un repère",
+      "content": "\n        <h3>OpenSCAP n’est pas un benchmark universel</h3>\n        <p>SCAP est une famille de spécifications ; <strong>OpenSCAP</strong> évalue du contenu SCAP, mais ne fournit pas à lui seul un référentiel unique. Le contenu et le profil doivent correspondre <em>exactement</em> à la distribution et à sa version. Ce module en fait un <strong>repère</strong> : savoir vérifier le fichier local, pas devenir auditeur SCAP.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt update</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install openscap-scanner ssg-debderived</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">oscap info /usr/share/xml/scap/ssg/content/ssg-ubuntu2204-ds.xml</span></div>\n        <p><code>oscap info</code> est l’autorité locale pour les profils réellement installés. N’utilisez jamais un contenu RHEL « proche » sur Ubuntu : un fichier conçu pour une autre famille produit des règles inapplicables ou faussement échouées. Une évaluation réussie ne prouve pas, à elle seule, une conformité certifiée.</p>\n        <p>Si vous lancez une évaluation dans une VM autorisée, conservez le rapport. Pour <code>oscap xccdf eval</code>, le code <code>0</code> signifie que toutes les règles ont réussi, <code>2</code> qu’au moins une règle a échoué et <code>1</code> une erreur d’exécution. Un <code>2</code> est un résultat d’audit à analyser, pas forcément une commande cassée. Dans LinuxPath, cette évaluation n’est pas l’exercice : le geste utile reste <code>oscap info</code> avant toute conclusion.</p>\n        <p>Sur un système Ubuntu Pro où USG est activé, <code>sudo usg audit cis_level1_server</code> est une option d’audit. N’utilisez pas <code>usg fix</code> sans tailoring, validation du propriétaire et plan de retour. OpenSCAP n’applique aucune remédiation dans ce lab.</p>\n        ",
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
@@ -686,21 +686,21 @@
         {
           "title": "NIST — SCAP 1.4",
           "url": "https://csrc.nist.gov/projects/security-content-automation-protocol/scap-releases/scap-1-4",
-          "scope": "Cadre et portée du protocole SCAP.",
+          "scope": "Famille de spécifications SCAP, distincte de l’outil OpenSCAP.",
           "checkedAt": "2026-08-31"
         },
         {
           "title": "Ubuntu Security Guide — CIS audit",
           "url": "https://documentation.ubuntu.com/security/compliance/usg/cis-audit/",
-          "scope": "Audit CIS avec USG sur Ubuntu Pro.",
+          "scope": "Audit CIS via USG sur Ubuntu, à ne pas confondre avec un correctif automatique.",
           "checkedAt": "2026-08-31"
         }
       ]
     },
     {
       "id": "m12-l3",
-      "title": "auditd et renforcement système",
-      "content": "\n        <h3>auditd : couverture choisie, pas totale</h3>\n        <p><code>auditd</code> enregistre les événements du noyau sélectionnés par des règles. Il ne journalise pas automatiquement toutes les connexions, actions sudo ou modifications : couverture, volume et conservation sont des choix à vérifier.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install auditd</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo systemctl status auditd</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo auditctl -a always,exit -F arch=b64 -F path=/etc/passwd -F perm=wa -k identity</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo auditctl -l</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo ausearch -k identity -i</span></div>\n        <p>Cette règle est temporaire. Pour la rendre persistante, placez-la dans <code>/etc/audit/rules.d/identity.rules</code> et chargez-la seulement après revue en VM ou fenêtre de maintenance. Sur un hôte bi-architecture, évaluez aussi le besoin d’une règle <code>arch=b32</code>.</p>\n        <h3>Durcissement sans se couper l’accès</h3>\n        <p><code>pam_tally2</code> est déprécié : pour le verrouillage après échecs, étudiez <code>pam_faillock</code> avec seuil, durée, compte de secours et seconde session administrateur ouverte. Avant une modification SSH, testez <code>sudo sshd -t</code> ; avant de désactiver un service, validez son propriétaire, son usage et le retour arrière.</p>",
+      "title": "auditd : règles choisies",
+      "content": "\n        <h3>auditd : couverture choisie, pas totale</h3>\n        <p><code>auditd</code> enregistre les événements du noyau <strong>sélectionnés par des règles</strong>. Il ne journalise pas automatiquement toutes les connexions, actions sudo ou modifications : couverture, volume et conservation sont des choix à vérifier. Une règle trop large sature le disque ; une règle trop étroite rate l’événement utile.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install auditd</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo systemctl status auditd</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo auditctl -a always,exit -F arch=b64 -F path=/etc/passwd -F perm=wa -k identity</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo auditctl -l</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo ausearch -k identity -i</span></div>\n        <p>Cette règle est temporaire : elle disparaît au redémarrage. Pour la rendre persistante, placez-la dans <code>/etc/audit/rules.d/identity.rules</code> et chargez-la seulement après revue en VM ou fenêtre de maintenance. Sur un hôte bi-architecture, évaluez aussi le besoin d’une règle <code>arch=b32</code>. Une règle persistante mal écrite peut remplir le journal et masquer l’événement que vous vouliez voir.</p>\n        <h3>Verrouillage d’accès : pam_faillock</h3>\n        <p><code>pam_tally2</code> est déprécié. Pour le verrouillage après échecs, étudiez <code>pam_faillock</code> : seuil, durée, compte de secours, et une seconde session administrateur déjà ouverte. Une politique trop agressive sans compte de secours est une auto-exclusion, pas un durcissement.</p>\n        <p>Avant une modification SSH, testez <code>sudo sshd -t</code>. Avant de désactiver un service, validez son propriétaire, son usage et le retour arrière. auditd observe ; il ne corrige pas le réglage incriminé. L’exercice de ce module n’est plus d’ajouter la règle : il est de comprendre ce qu’elle couvre, et ce qu’elle ne couvre pas.</p>\n        ",
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
@@ -710,21 +710,21 @@
         {
           "title": "auditctl(8)",
           "url": "https://man7.org/linux/man-pages/man8/auditctl.8.html",
-          "scope": "Règles syscall, filtres et persistance auditd.",
+          "scope": "Syntaxe des règles syscall temporaires et persistantes.",
           "checkedAt": "2026-08-31"
         },
         {
           "title": "pam_faillock(8)",
           "url": "https://man7.org/linux/man-pages/man8/pam_faillock.8.html",
-          "scope": "Verrouillage PAM et paramètres de récupération.",
+          "scope": "Verrouillage après échecs, à configurer avec un accès de secours.",
           "checkedAt": "2026-08-31"
         }
       ]
     },
     {
       "id": "m12-l4",
-      "title": "Isolation des processus — chroot & namespaces",
-      "content": "\n        <h3>chroot : vue du système de fichiers, pas sandbox complète</h3>\n        <p>Un <code>chroot</code> change la racine visible par un processus. Il n’isole ni le noyau, ni les privilèges, ni les périphériques qui lui sont exposés : ce n’est pas une frontière de sécurité complète.</p>\n        <div class=\"code-block\"><span class=\"comment\"># Exemple Ubuntu 22.04 x86_64, uniquement dans une VM de test</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">ldd /bin/bash</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo install -d /srv/jail</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo cp -L --parents /bin/bash /lib/x86_64-linux-gnu/libtinfo.so.6 /lib/x86_64-linux-gnu/libc.so.6 /lib64/ld-linux-x86-64.so.2 /srv/jail</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo chroot /srv/jail /bin/bash --noprofile --norc</span></div>\n        <p>Les dépendances et le chargeur varient avec l’architecture et la version : utilisez <code>ldd</code> comme source de vérité plutôt qu’une liste copiée d’un autre hôte.</p>\n        <h3>Namespaces et systemd</h3>\n        <p>Les namespaces sont une brique des conteneurs, avec cgroups, capacités Linux, seccomp et politiques LSM selon le runtime. Dans une VM autorisée, <code>sudo unshare --net --fork bash</code> puis <code>ip link set lo up</code> illustrent un namespace réseau. <code>NoNewPrivileges=true</code> empêche un gain de privilèges lors d’un <code>exec</code>, sans être un sandbox complet ; examinez aussi <code>systemd-analyze security monservice.service</code> et testez le service.</p>",
+      "title": "Relier un constat à un fichier",
+      "content": "\n        <h3>Le constat pointe vers un fichier, pas vers un bouton « corriger »</h3>\n        <p>Un rapport Lynis utile nomme un <strong>fichier</strong> et un <strong>réglage</strong>. Dans ce module, vous apprenez à les identifier. Vous ne les appliquez pas encore : appliquer sans test, sans accès de secours et sans propriétaire, c’est le moyen le plus rapide de se couper d’un serveur.</p>\n        <p>Trois familles reviennent dans les dossiers du lab :</p>\n        <ul>\n          <li><code>/etc/ssh/sshd_config</code> — directive <code>PermitRootLogin</code>. La page <code>sshd_config</code> décrit les valeurs admises. Avant tout changement : seconde session, <code>sshd -t</code>, puis rechargement prévu.</li>\n          <li><code>/etc/sudoers</code> (et <code>/etc/sudoers.d/</code>) — une règle <code>NOPASSWD:ALL</code> trop large. On édite avec <code>visudo</code>, jamais avec un éditeur brut qui peut casser la syntaxe et bloquer sudo.</li>\n          <li>une tâche cron root qui appelle un script world-writable — le fichier à durcir est souvent le <em>script</em> (<code>/usr/local/bin/…</code>), pas seulement <code>/etc/crontab</code>.</li>\n        </ul>\n        <div class=\"code-block\"><span class=\"comment\"># Lire, pas modifier, dans le lab</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">grep -n PermitRootLogin /etc/ssh/sshd_config</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">grep -n NOPASSWD /etc/sudoers</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">ls -l /usr/local/bin/report-sync</span></div>\n        <div class=\"info-box warning\"><strong>Frontière du module :</strong> nommer le fichier et le réglage suffit ici. Appliquer la remédiation, la vérifier et gérer le retour arrière relèvent d’un laboratoire de durcissement, pas de cet exercice.</div>\n        <p>Si le rapport ne montre qu’une suggestion de maintenance sans anomalie privilégiée, le « fichier visé » peut être <em>aucun</em> : ne pas inventer une correction critique.</p>\n        ",
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
@@ -732,23 +732,23 @@
       "prerequisites": [],
       "sources": [
         {
-          "title": "chroot(1)",
-          "url": "https://man7.org/linux/man-pages/man1/chroot.1.html",
-          "scope": "Sémantique et limites de chroot.",
+          "title": "sshd_config(5)",
+          "url": "https://man7.org/linux/man-pages/man5/sshd_config.5.html",
+          "scope": "Directives SSH, dont PermitRootLogin, à lire avant toute modification.",
           "checkedAt": "2026-08-31"
         },
         {
-          "title": "systemd.exec",
-          "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html",
-          "scope": "Directives d’isolation et de privilèges systemd.",
+          "title": "visudo(8)",
+          "url": "https://man7.org/linux/man-pages/man8/visudo.8.html",
+          "scope": "Édition sûre de sudoers ; une erreur de syntaxe peut retirer tout privilège.",
           "checkedAt": "2026-08-31"
         }
       ]
     },
     {
       "id": "m12-l5",
-      "title": "Gestion des mises à jour et suivi des CVE",
-      "content": "\n        <h3>Mises à jour : revue avant application</h3>\n        <p>Les mises à jour réduisent l’exposition, mais une mise à jour peut redémarrer un service ou modifier une dépendance. En production, revoyez les paquets, le risque de redémarrage, la fenêtre de maintenance et le retour arrière avant d’appliquer.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt update</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">apt list --upgradable</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt upgrade</span></div>\n        <h3>Automatisation gouvernée</h3>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install unattended-upgrades</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo dpkg-reconfigure --priority=low unattended-upgrades</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo unattended-upgrade --dry-run --debug</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">systemctl status apt-daily-upgrade.timer</span></div>\n        <p>Ne modifiez pas directement <code>50unattended-upgrades</code> : placez une politique locale dans un fichier ultérieur, par exemple <code>/etc/apt/apt.conf.d/60local-unattended-upgrades</code>, puis vérifiez avec <code>apt-config dump</code>. Le redémarrage automatique exige une décision explicite du propriétaire du service.</p>\n        <h3>Qualifier une CVE</h3>\n        <p>Une CVE ne prouve pas qu’un hôte est affecté : Ubuntu peut rétroporter un correctif sans changer la version amont apparente. <code>apt-cache policy</code> décrit l’état d’un paquet, pas l’exposition. Consultez le CVE Tracker et les USN Ubuntu, puis comparez au paquet et au contexte locaux. Avec Ubuntu Pro, <code>pro fix --dry-run CVE-YYYY-NNNN</code> vérifie sans modifier.</p>",
+      "title": "Mises à jour et suivi des CVE",
+      "content": "\n        <h3>Mises à jour : revue avant application</h3>\n        <p>Les mises à jour réduisent l’exposition, mais une mise à jour peut redémarrer un service ou modifier une dépendance. En production, revoyez les paquets, le risque de redémarrage, la fenêtre de maintenance et le retour arrière avant d’appliquer. Un audit Lynis qui « suggère de mettre à jour » n’est pas un ordre d’exécution immédiat.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt update</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">apt list --upgradable</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt upgrade</span></div>\n        <h3>Automatisation gouvernée</h3>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install unattended-upgrades</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo dpkg-reconfigure --priority=low unattended-upgrades</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo unattended-upgrade --dry-run --debug</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">systemctl status apt-daily-upgrade.timer</span></div>\n        <p>Ne modifiez pas directement <code>50unattended-upgrades</code> : placez une politique locale dans un fichier ultérieur, par exemple <code>/etc/apt/apt.conf.d/60local-unattended-upgrades</code>, puis vérifiez avec <code>apt-config dump</code>. Le redémarrage automatique exige une décision explicite du propriétaire du service.</p>\n        <h3>Qualifier une CVE</h3>\n        <p>Une CVE ne prouve pas qu’un hôte est affecté : Ubuntu peut rétroporter un correctif sans changer la version amont apparente. <code>apt-cache policy</code> décrit l’état d’un paquet, pas l’exposition. Consultez le CVE Tracker et les USN Ubuntu, puis comparez au paquet et au contexte locaux. Avec Ubuntu Pro, <code>pro fix --dry-run CVE-YYYY-NNNN</code> vérifie sans modifier. Une CVE n’impose pas une remédiation automatique immédiate. Comme pour Lynis, qualifier précède corriger : le paquet installé, le service exposé et la fenêtre de maintenance décident, pas le numéro CVE tout seul.</p>\n        ",
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
@@ -758,13 +758,37 @@
         {
           "title": "Ubuntu Server — mises à jour automatiques",
           "url": "https://ubuntu.com/server/docs/how-to/software/automatic-updates/",
-          "scope": "Configuration et vérification d’unattended-upgrades.",
+          "scope": "unattended-upgrades, timers et politiques locales.",
           "checkedAt": "2026-08-31"
         },
         {
           "title": "Ubuntu Pro — statut et correction CVE",
           "url": "https://documentation.ubuntu.com/pro-client/en/docs/howtoguides/fix_how_to_know_if_system_affected_by_cve/",
-          "scope": "Qualification d’une CVE et dry-run Ubuntu Pro.",
+          "scope": "Vérifier l’affectation locale avant tout pro fix.",
+          "checkedAt": "2026-08-31"
+        }
+      ]
+    },
+    {
+      "id": "m12-l6",
+      "title": "Prioriser, ne pas tout appliquer",
+      "content": "\n        <h3>Tout corriger n’est pas durcir</h3>\n        <p>Lynis et OpenSCAP produisent des listes. Les appliquer dans l’ordre du fichier est une erreur classique : on casse un accès, on « corrige » une suggestion de maintenance comme un incident, ou on ignore un accès root SSH au profit d’un détail cosmétique. La priorité se décide avec le rôle de la machine, les preuves et un <strong>retour arrière</strong> préparé.</p>\n        <p>Le <em>Hardening index</em> aide à comparer deux scans du même hôte. Il ne classe pas les tickets. Un index à 82 avec une suggestion « revoir les comptes » n’est pas un incident critique. Un index à 61 avec <code>PermitRootLogin yes</code> démontré mérite une priorité élevée — après un accès de secours, pas avant.</p>\n        <div class=\"info-box info\"><strong>Règle opérationnelle :</strong> 1) preuve dans le log, 2) fichier et réglage nommés, 3) impact si on se trompe, 4) test et retour arrière, 5) seulement ensuite le changement. Sauter l’étape 4 transforme un audit en panne.</div>\n        <p>Pour SSH, le retour arrière typique est une seconde session ouverte, un fichier de configuration validé par <code>sshd -t</code>, et la possibilité de remettre la directive précédente. Pour sudoers, c’est <code>visudo</code> et une session root déjà disponible. Pour un script cron, c’est restaurer le mode et le propriétaire sans supprimer la tâche.</p>\n        <p>Dans les exercices de ce module, vous qualifiez et vous nommez. Vous n’appliquez pas. Si les preuves ne démontrent aucun défaut critique, la bonne décision est de planifier une revue, pas d’inventer une urgence.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-31",
+      "distro": "Ubuntu 22.04 LTS",
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
+      "prerequisites": [],
+      "sources": [
+        {
+          "title": "Documentation Lynis",
+          "url": "https://cisofy.com/documentation/lynis/",
+          "scope": "Interprétation des constats et limites de l’indice de durcissement.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "sshd_config(5)",
+          "url": "https://man7.org/linux/man-pages/man5/sshd_config.5.html",
+          "scope": "Valider une directive SSH avant rechargement, pour préparer un retour arrière.",
           "checkedAt": "2026-08-31"
         }
       ]

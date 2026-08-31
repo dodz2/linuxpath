@@ -7,9 +7,9 @@ import { validateContent, loadJson } from '../../scripts/lib/content-validation.
 
 const EXPECTED_COUNTS = {
   modules: 18,
-  lessons: 93,
-  exercises: 46,
-  quizQuestions: 90,
+  lessons: 94,
+  exercises: 47,
+  quizQuestions: 92,
   quizzes: 18,
   ctfChallenges: 10,
   cheatsheetCommands: 118,

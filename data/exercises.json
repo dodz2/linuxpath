@@ -1232,15 +1232,15 @@
       "id": "m12-e2",
       "mode": "command",
       "variantGroup": "m12-audit",
-      "title": "Ajouter une règle auditd actuelle",
-      "desc": "Dans le lab, ajoutez une règle syscall x86_64 temporaire qui trace les écritures et changements d'attributs sur <code>/etc/passwd</code> avec la clé <code>identity</code>.",
+      "title": "Trouver le contrôle dans le rapport Lynis",
+      "desc": "Dans le lab, cherchez l’identifiant de contrôle dans <code>/var/log/lynis.log</code> avec <code>grep</code>. Un identifiant n’est pas une remédiation.",
       "accepted": [
-        "sudo auditctl -a always,exit -F arch=b64 -F path=/etc/passwd -F perm=wa -k identity"
+        "grep SSH-7412 /var/log/lynis.log"
       ],
       "hints": [
-        "Les watches <code>auditctl -w</code> sont dépréciés.",
-        "Une règle syscall utilise <code>-a always,exit</code> et <code>-F path=…</code>.",
-        "Ajoutez <code>perm=wa</code> et la clé <code>identity</code>."
+        "Le rapport simulé est déjà dans <code>/var/log/lynis.log</code>.",
+        "Utilisez <code>grep</code> et un identifiant de contrôle, pas <code>auditctl</code>.",
+        "Tapez : <code>grep SSH-7412 /var/log/lynis.log</code>"
       ],
       "validator": {
         "type": "all",
@@ -1250,28 +1250,18 @@
           },
           {
             "type": "command",
-            "name": "auditctl",
+            "name": "grep",
             "single": true
           },
           {
-            "type": "stdout_includes",
-            "text": "identity"
+            "type": "args_include",
+            "tokens": [
+              "/var/log/lynis.log"
+            ]
           },
           {
-            "type": "args_exact",
-            "stage": 0,
-            "tokens": [
-              "-a",
-              "always,exit",
-              "-F",
-              "arch=b64",
-              "-F",
-              "path=/etc/passwd",
-              "-F",
-              "perm=wa",
-              "-k",
-              "identity"
-            ]
+            "type": "stdout_includes",
+            "text": "SSH-7412"
           }
         ]
       }
@@ -1288,13 +1278,251 @@
         "Distinguez priorité opérationnelle et simple suggestion de maintenance."
       ],
       "reportFields": [
-        {"id":"finding","label":"Constat","type":"select","options":[["","Sélectionnez…"],["root-login-enabled","Accès root SSH autorisé"],["broad-nopasswd","Sudo NOPASSWD global"],["writable-root-cron","Script cron root modifiable"],["maintenance-review","Revue de maintenance"]]},
-        {"id":"priority","label":"Priorité","type":"select","options":[["","Sélectionnez…"],["critical","Critique"],["high","Élevée"],["low","Faible"]]},
-        {"id":"risk","label":"Risque","type":"select","options":[["","Sélectionnez…"],["direct-privileged-access","Accès privilégié direct"],["uncontrolled-privilege-escalation","Élévation de privilèges incontrôlée"],["root-code-execution","Exécution de code root"],["no-critical-finding","Aucun défaut critique démontré"]]},
-        {"id":"evidence","label":"Preuves","type":"checkboxes","options":[["permitrootlogin-yes","PermitRootLogin yes"],["lp-audit-ssh-001","Contrôle LP-AUDIT-SSH-001"],["nopasswd-all","NOPASSWD:ALL"],["lp-audit-sudo-002","Contrôle LP-AUDIT-SUDO-002"],["cron-runs-as-root","Cron s’exécute en root"],["script-mode-0777","Script en mode 0777"],["no-privileged-anomaly","Aucune anomalie privilégiée"],["lp-audit-id-004","Contrôle LP-AUDIT-ID-004"]]},
-        {"id":"remediation","label":"Remédiation","type":"select","options":[["","Sélectionnez…"],["disable-after-fallback","Désactiver après préparation d’un accès de secours"],["least-privilege-sudoers","Réduire sudo au moindre privilège"],["restrict-owner-and-mode","Restaurer propriétaire et permissions"],["schedule-account-review","Planifier une revue des comptes"]]},
-        {"id":"verification","label":"Vérification","type":"select","options":[["","Sélectionnez…"],["reload-and-retest","Recharger puis retester SSH"],["visudo-and-command-test","Valider visudo et tester les commandes"],["observe-next-run","Observer la prochaine exécution"],["compare-after-maintenance","Comparer après maintenance"]]},
-        {"id":"justification","label":"Justification","type":"textarea","semantic":false,"minLength":30}
+        {
+          "id": "finding",
+          "label": "Constat",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "root-login-enabled",
+              "Accès root SSH autorisé"
+            ],
+            [
+              "broad-nopasswd",
+              "Sudo NOPASSWD global"
+            ],
+            [
+              "writable-root-cron",
+              "Script cron root modifiable"
+            ],
+            [
+              "maintenance-review",
+              "Revue de maintenance"
+            ]
+          ]
+        },
+        {
+          "id": "priority",
+          "label": "Priorité",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "critical",
+              "Critique"
+            ],
+            [
+              "high",
+              "Élevée"
+            ],
+            [
+              "low",
+              "Faible"
+            ]
+          ]
+        },
+        {
+          "id": "risk",
+          "label": "Risque",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "direct-privileged-access",
+              "Accès privilégié direct"
+            ],
+            [
+              "uncontrolled-privilege-escalation",
+              "Élévation de privilèges incontrôlée"
+            ],
+            [
+              "root-code-execution",
+              "Exécution de code root"
+            ],
+            [
+              "no-critical-finding",
+              "Aucun défaut critique démontré"
+            ]
+          ]
+        },
+        {
+          "id": "evidence",
+          "label": "Preuves",
+          "type": "checkboxes",
+          "options": [
+            [
+              "permitrootlogin-yes",
+              "PermitRootLogin yes"
+            ],
+            [
+              "lp-audit-ssh-001",
+              "Contrôle LP-AUDIT-SSH-001"
+            ],
+            [
+              "nopasswd-all",
+              "NOPASSWD:ALL"
+            ],
+            [
+              "lp-audit-sudo-002",
+              "Contrôle LP-AUDIT-SUDO-002"
+            ],
+            [
+              "cron-runs-as-root",
+              "Cron s’exécute en root"
+            ],
+            [
+              "script-mode-0777",
+              "Script en mode 0777"
+            ],
+            [
+              "no-privileged-anomaly",
+              "Aucune anomalie privilégiée"
+            ],
+            [
+              "lp-audit-id-004",
+              "Contrôle LP-AUDIT-ID-004"
+            ]
+          ]
+        },
+        {
+          "id": "remediation",
+          "label": "Remédiation",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "disable-after-fallback",
+              "Désactiver après préparation d’un accès de secours"
+            ],
+            [
+              "least-privilege-sudoers",
+              "Réduire sudo au moindre privilège"
+            ],
+            [
+              "restrict-owner-and-mode",
+              "Restaurer propriétaire et permissions"
+            ],
+            [
+              "schedule-account-review",
+              "Planifier une revue des comptes"
+            ]
+          ]
+        },
+        {
+          "id": "verification",
+          "label": "Vérification",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "reload-and-retest",
+              "Recharger puis retester SSH"
+            ],
+            [
+              "visudo-and-command-test",
+              "Valider visudo et tester les commandes"
+            ],
+            [
+              "observe-next-run",
+              "Observer la prochaine exécution"
+            ],
+            [
+              "compare-after-maintenance",
+              "Comparer après maintenance"
+            ]
+          ]
+        },
+        {
+          "id": "justification",
+          "label": "Justification",
+          "type": "textarea",
+          "semantic": false,
+          "minLength": 30
+        }
+      ]
+    },
+    {
+      "id": "m12-e4",
+      "mode": "investigation",
+      "variantGroup": "m12-audit",
+      "title": "Nommer le fichier et le réglage",
+      "desc": "D’après le dossier, indiquez le fichier visé et le réglage à changer. Ne les appliquez pas dans ce lab.",
+      "hints": [
+        "Relisez <code>/var/log/lynis.log</code> et le fichier de configuration du dossier.",
+        "Si aucune anomalie privilégiée n’est démontrée, ne forcez pas une remédiation.",
+        "Nommer n’est pas appliquer."
+      ],
+      "reportFields": [
+        {
+          "id": "configFile",
+          "label": "Fichier visé",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "/etc/ssh/sshd_config",
+              "/etc/ssh/sshd_config"
+            ],
+            [
+              "/etc/sudoers",
+              "/etc/sudoers"
+            ],
+            [
+              "/usr/local/bin/report-sync",
+              "/usr/local/bin/report-sync"
+            ],
+            [
+              "none",
+              "Aucun fichier à modifier maintenant"
+            ]
+          ]
+        },
+        {
+          "id": "setting",
+          "label": "Réglage à changer (sans l’appliquer)",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "permitrootlogin-no",
+              "PermitRootLogin no (après accès de secours)"
+            ],
+            [
+              "drop-nopasswd-all",
+              "Retirer NOPASSWD:ALL trop large"
+            ],
+            [
+              "restrict-script-mode",
+              "Restreindre propriétaire et mode du script"
+            ],
+            [
+              "no-change",
+              "Aucune modification de configuration maintenant"
+            ]
+          ]
+        }
       ]
     }
   ],
@@ -1393,15 +1621,191 @@
         "Proposez un retest qui reste dans le périmètre autorisé."
       ],
       "reportFields": [
-        {"id":"target","label":"Cible","type":"text"},
-        {"id":"service","label":"Service","type":"select","options":[["","Sélectionnez…"],["http/80","HTTP / 80"],["http-proxy/8080","HTTP proxy / 8080"],["http-alt/8000","HTTP alternatif / 8000"],["https/443","HTTPS / 443"]]},
-        {"id":"observation","label":"Observation","type":"select","options":[["","Sélectionnez…"],["expected-title","Titre attendu"],["admin-title-exposed","Titre de console d’administration"],["staging-title-exposed","Titre de staging"],["status-title-exposed","Titre de page de statut"]]},
-        {"id":"impact","label":"Impact","type":"select","options":[["","Sélectionnez…"],["info","Informatif"],["low","Faible"],["medium","Moyen"]]},
-        {"id":"confidence","label":"Confiance","type":"select","options":[["","Sélectionnez…"],["medium","Moyenne"],["high","Élevée"]]},
-        {"id":"evidence","label":"Preuves","type":"checkboxes","options":[["port-open","Port ouvert"],["title-expected","Titre attendu"],["admin-title","Titre Admin Console"],["staging-title","Titre Staging Panel"],["status-title","Titre Service Status"]]},
-        {"id":"remediation","label":"Remédiation","type":"select","options":[["","Sélectionnez…"],["none-monitor","Aucune action immédiate, surveiller"],["restrict-admin-interface","Restreindre l’interface d’administration"],["review-staging-exposure","Revoir l’exposition du staging"],["review-public-status-content","Revoir le contenu public du statut"]]},
-        {"id":"retest","label":"Retest","type":"select","options":[["","Sélectionnez…"],["repeat-approved-scan","Répéter le scan autorisé"],["rescan-from-untrusted-zone","Rescanner depuis une zone non approuvée"],["rescan-after-restriction","Rescanner après restriction"]]},
-        {"id":"justification","label":"Justification","type":"textarea","semantic":false,"minLength":30}
+        {
+          "id": "target",
+          "label": "Cible",
+          "type": "text"
+        },
+        {
+          "id": "service",
+          "label": "Service",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "http/80",
+              "HTTP / 80"
+            ],
+            [
+              "http-proxy/8080",
+              "HTTP proxy / 8080"
+            ],
+            [
+              "http-alt/8000",
+              "HTTP alternatif / 8000"
+            ],
+            [
+              "https/443",
+              "HTTPS / 443"
+            ]
+          ]
+        },
+        {
+          "id": "observation",
+          "label": "Observation",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "expected-title",
+              "Titre attendu"
+            ],
+            [
+              "admin-title-exposed",
+              "Titre de console d’administration"
+            ],
+            [
+              "staging-title-exposed",
+              "Titre de staging"
+            ],
+            [
+              "status-title-exposed",
+              "Titre de page de statut"
+            ]
+          ]
+        },
+        {
+          "id": "impact",
+          "label": "Impact",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "info",
+              "Informatif"
+            ],
+            [
+              "low",
+              "Faible"
+            ],
+            [
+              "medium",
+              "Moyen"
+            ]
+          ]
+        },
+        {
+          "id": "confidence",
+          "label": "Confiance",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "medium",
+              "Moyenne"
+            ],
+            [
+              "high",
+              "Élevée"
+            ]
+          ]
+        },
+        {
+          "id": "evidence",
+          "label": "Preuves",
+          "type": "checkboxes",
+          "options": [
+            [
+              "port-open",
+              "Port ouvert"
+            ],
+            [
+              "title-expected",
+              "Titre attendu"
+            ],
+            [
+              "admin-title",
+              "Titre Admin Console"
+            ],
+            [
+              "staging-title",
+              "Titre Staging Panel"
+            ],
+            [
+              "status-title",
+              "Titre Service Status"
+            ]
+          ]
+        },
+        {
+          "id": "remediation",
+          "label": "Remédiation",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "none-monitor",
+              "Aucune action immédiate, surveiller"
+            ],
+            [
+              "restrict-admin-interface",
+              "Restreindre l’interface d’administration"
+            ],
+            [
+              "review-staging-exposure",
+              "Revoir l’exposition du staging"
+            ],
+            [
+              "review-public-status-content",
+              "Revoir le contenu public du statut"
+            ]
+          ]
+        },
+        {
+          "id": "retest",
+          "label": "Retest",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "repeat-approved-scan",
+              "Répéter le scan autorisé"
+            ],
+            [
+              "rescan-from-untrusted-zone",
+              "Rescanner depuis une zone non approuvée"
+            ],
+            [
+              "rescan-after-restriction",
+              "Rescanner après restriction"
+            ]
+          ]
+        },
+        {
+          "id": "justification",
+          "label": "Justification",
+          "type": "textarea",
+          "semantic": false,
+          "minLength": 30
+        }
       ]
     }
   ],
@@ -1418,15 +1822,161 @@
         "Une nouvelle IP ou une nouvelle clé ne prouve pas, seule, une compromission."
       ],
       "reportFields": [
-        {"id":"account","label":"Compte","type":"text"},
-        {"id":"sourceIp","label":"IP source","type":"text"},
-        {"id":"firstSeen","label":"Premier événement (HH:MM:SS)","type":"text"},
-        {"id":"lastSeen","label":"Dernier événement (HH:MM:SS)","type":"text"},
-        {"id":"authMethod","label":"Méthode","type":"select","options":[["","Sélectionnez…"],["password","Mot de passe"],["publickey","Clé publique"],["none","Aucune réussite"]]},
-        {"id":"verdict","label":"Verdict","type":"select","options":[["","Sélectionnez…"],["confirmed","Compromission confirmée"],["attempted","Tentative bloquée"],["legitimate","Activité légitime"],["inconclusive","Preuves insuffisantes"]]},
-        {"id":"evidence","label":"Preuves","type":"checkboxes","options":[["repeated-failures","Échecs répétés"],["accepted-same-ip","Succès depuis la même IP"],["sudo-after-login","Sudo après connexion"],["no-accepted-login","Aucun succès observé"],["connection-closed","Connexion fermée"],["known-internal-ip","IP interne connue"],["known-key-fingerprint","Empreinte connue"],["approved-pipeline","Pipeline approuvé"],["new-source-ip","Nouvelle IP"],["unlisted-key","Clé non inventoriée"],["no-malicious-action","Aucune action malveillante observée"]]},
-        {"id":"immediateAction","label":"Action immédiate","type":"select","options":[["","Sélectionnez…"],["isolate-revoke-preserve","Isoler, révoquer et préserver"],["block-monitor-search","Bloquer, surveiller et rechercher"],["document-and-monitor","Documenter et surveiller"],["preserve-verify-owner","Préserver et vérifier le propriétaire"]]},
-        {"id":"justification","label":"Justification","type":"textarea","semantic":false,"minLength":30}
+        {
+          "id": "account",
+          "label": "Compte",
+          "type": "text"
+        },
+        {
+          "id": "sourceIp",
+          "label": "IP source",
+          "type": "text"
+        },
+        {
+          "id": "firstSeen",
+          "label": "Premier événement (HH:MM:SS)",
+          "type": "text"
+        },
+        {
+          "id": "lastSeen",
+          "label": "Dernier événement (HH:MM:SS)",
+          "type": "text"
+        },
+        {
+          "id": "authMethod",
+          "label": "Méthode",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "password",
+              "Mot de passe"
+            ],
+            [
+              "publickey",
+              "Clé publique"
+            ],
+            [
+              "none",
+              "Aucune réussite"
+            ]
+          ]
+        },
+        {
+          "id": "verdict",
+          "label": "Verdict",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "confirmed",
+              "Compromission confirmée"
+            ],
+            [
+              "attempted",
+              "Tentative bloquée"
+            ],
+            [
+              "legitimate",
+              "Activité légitime"
+            ],
+            [
+              "inconclusive",
+              "Preuves insuffisantes"
+            ]
+          ]
+        },
+        {
+          "id": "evidence",
+          "label": "Preuves",
+          "type": "checkboxes",
+          "options": [
+            [
+              "repeated-failures",
+              "Échecs répétés"
+            ],
+            [
+              "accepted-same-ip",
+              "Succès depuis la même IP"
+            ],
+            [
+              "sudo-after-login",
+              "Sudo après connexion"
+            ],
+            [
+              "no-accepted-login",
+              "Aucun succès observé"
+            ],
+            [
+              "connection-closed",
+              "Connexion fermée"
+            ],
+            [
+              "known-internal-ip",
+              "IP interne connue"
+            ],
+            [
+              "known-key-fingerprint",
+              "Empreinte connue"
+            ],
+            [
+              "approved-pipeline",
+              "Pipeline approuvé"
+            ],
+            [
+              "new-source-ip",
+              "Nouvelle IP"
+            ],
+            [
+              "unlisted-key",
+              "Clé non inventoriée"
+            ],
+            [
+              "no-malicious-action",
+              "Aucune action malveillante observée"
+            ]
+          ]
+        },
+        {
+          "id": "immediateAction",
+          "label": "Action immédiate",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "isolate-revoke-preserve",
+              "Isoler, révoquer et préserver"
+            ],
+            [
+              "block-monitor-search",
+              "Bloquer, surveiller et rechercher"
+            ],
+            [
+              "document-and-monitor",
+              "Documenter et surveiller"
+            ],
+            [
+              "preserve-verify-owner",
+              "Préserver et vérifier le propriétaire"
+            ]
+          ]
+        },
+        {
+          "id": "justification",
+          "label": "Justification",
+          "type": "textarea",
+          "semantic": false,
+          "minLength": 30
+        }
       ]
     },
     {

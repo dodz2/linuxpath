@@ -17,7 +17,7 @@ function allExercises(exercises) {
 test('every exercise has a command or structured investigation contract', async () => {
   const exercises = await loadJson('data/exercises.json');
   const rows = allExercises(exercises);
-  assert.equal(rows.length, 46);
+  assert.equal(rows.length, 47);
   for (const { exercise } of rows) {
     if (exercise.mode === 'investigation') {
       assert.ok(Array.isArray(exercise.reportFields) && exercise.reportFields.length, `${exercise.id} missing report fields`);
@@ -172,7 +172,7 @@ test('all twelve cyber dossiers accept their canonical commands and reports', as
 test('variant-aware cyber commands reject a wrong target, port, path or key', async () => {
   const [exercises, variants, vfs] = await Promise.all([loadJson('data/exercises.json'), loadJson('data/exercise-variants.json'), loadJson('data/vfs.json')]);
   const cases = [
-    ['m12-audit', 0, 'm12-e2', 'sudo auditctl -a always,exit -F arch=b64 -F path=/etc/passwd -F perm=wa -k identity'],
+    ['m12-audit', 0, 'm12-e2', 'grep SSH-7412 /var/log/lynis.log'],
     ['m13-pentest', 1, 'm13-e2', 'nmap -sV -p 80 --script=http-title lab.linuxpath.test'],
     ['m14-dfir', 0, 'm14-e2', 'binwalk -e camera-fw.bin'],
     ['m14-dfir', 0, 'm14-e3', 'dd if=/home/user/labs/case-ssh-02.img of=/mnt/evidence/case-ssh-01-copy.img bs=4M status=progress'],

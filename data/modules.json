@@ -225,16 +225,19 @@
       "displayOrder": 12,
       "track": "offsec",
       "title": "Audit & Durcissement",
-      "description": "Lynis, OpenSCAP, auditd et renforcement système.",
+      "description": "Lynis, OpenSCAP, auditd : lire un constat, le relier à un fichier, prioriser sans casser le système.",
       "icon": "🕵",
-      "prerequisites": [],
-      "estimatedMinutes": 70,
+      "prerequisites": [
+        "m11"
+      ],
+      "estimatedMinutes": 95,
       "status": "published",
       "objectives": [
-        "Lancer un audit de durcissement",
+        "Lancer un audit de durcissement et lire le rapport",
+        "Relier un constat à un fichier de configuration, sans l'appliquer",
         "Prioriser des recommandations sans casser le système"
       ],
-      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/7."
     },
     {
       "id": "m13",
@@ -398,7 +401,7 @@
         "m13",
         "m14"
       ],
-      "estimatedHours": 4,
+      "estimatedHours": 5,
       "prerequisites": "Fondamentaux Linux et réseau recommandés ; exercices actifs limités au lab pédagogique ou à une autorisation écrite explicite.",
       "objectives": [
         "Auditer et durcir un système",

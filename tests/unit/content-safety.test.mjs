@@ -40,9 +40,12 @@ const REQUIRED = [
   { id: 'm12-l2', needle: 'oscap info' },
   { id: 'm12-l3', needle: '-a always,exit' },
   { id: 'm12-l3', needle: 'pam_faillock' },
-  { id: 'm12-l4', needle: 'ldd /bin/bash' },
+  { id: 'm12-l4', needle: 'sshd_config' },
+  { id: 'm12-l4', needle: 'visudo' },
   { id: 'm12-l5', needle: 'unattended-upgrade --dry-run' },
   { id: 'm12-l5', needle: 'pro fix --dry-run' },
+  { id: 'm12-l6', needle: 'Hardening index' },
+  { id: 'm12-l6', needle: 'retour arrière' },
   { id: 'm13-l1', needle: 'simulation' },
   { id: 'm13-l1', needle: 'autorisation écrite' },
   { id: 'm13-l2', needle: 'Professional' },
@@ -85,7 +88,7 @@ test('priority lessons contain the corrected teaching', async () => {
 test('every lesson has a documented review status', async () => {
   const lessons = await loadJson('data/lessons.json');
   const rows = Object.values(lessons).flat();
-  assert.equal(rows.length, 93);
+  assert.equal(rows.length, 94);
   const incomplete = rows.filter((lesson) => lesson.reviewStatus !== 'reviewed' || !lesson.reviewedAt || !lesson.distro);
   assert.deepEqual(incomplete.map((lesson) => lesson.id), []);
 });

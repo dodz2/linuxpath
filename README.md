@@ -5,7 +5,7 @@ LinuxPath est une plateforme statique d’autoformation en français pour appren
 ## Fonctionnalités
 
 - 18 modules publiés répartis en quatre parcours : Fondamentaux Linux (M1–M8), Réseau & services (M9–M11), Sécurité, Pentest & DFIR (M12–M14) et Lab & Tinker (HW1–HW4 — matériel).
-- 93 leçons, 46 exercices, 90 questions de quiz et un quiz par module.
+- 94 leçons, 47 exercices, 92 questions de quiz et un quiz par module.
 - 10 challenges CTF avec système de hints et validation par hash.
 - Progression persistante dans localStorage.
 - PWA et fonctionnement hors ligne via le service worker.

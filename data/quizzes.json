@@ -676,12 +676,12 @@
       {
         "q": "Avant une évaluation OpenSCAP, quelle vérification est indispensable ?",
         "options": [
-          "Choisir un contenu et un profil correspondant à la distribution et à sa version",
           "Désactiver tous les services du système",
           "Utiliser un fichier RHEL si Ubuntu est proche",
+          "Choisir un contenu et un profil correspondant à la distribution et à sa version",
           "Exécuter directement une remédiation automatique"
         ],
-        "correct": 0,
+        "correct": 2,
         "expl": "<code>oscap info</code> permet de vérifier le contenu et les profils réellement fournis pour la cible."
       },
       {
@@ -696,15 +696,15 @@
         "expl": "La couverture auditd dépend des règles, du volume et de la conservation configurés ; une règle d’exercice peut être temporaire."
       },
       {
-        "q": "Quel énoncé décrit correctement un chroot ?",
+        "q": "Un rapport Lynis simulé montre PermitRootLogin yes et un Hardening index à 61. Quelle décision est la plus juste ?",
         "options": [
-          "Il remplace les mises à jour de sécurité",
-          "Il isole automatiquement le noyau",
-          "Il empêche toujours un processus root de sortir",
-          "Il change la racine visible par un processus, sans être une frontière de sécurité complète"
+          "Corriger immédiatement en production, l’index bas impose l’urgence",
+          "Priorité élevée : nommer sshd_config, préparer un accès de secours, ne pas appliquer à l’aveugle",
+          "Ignorer le constat, l’index n’est pas un score CVSS",
+          "Lancer usg fix sans tailoring"
         ],
-        "correct": 3,
-        "expl": "Un chroot limite la vue du système de fichiers ; il ne remplace ni les privilèges minimaux, ni les namespaces, ni les politiques de sécurité."
+        "correct": 1,
+        "expl": "La preuve SSH justifie une priorité élevée. Appliquer sans accès de secours ni test n’est pas un durcissement, c’est une panne probable."
       },
       {
         "q": "Quelle conclusion peut-on tirer d’un identifiant CVE ?",
@@ -716,6 +716,28 @@
         ],
         "correct": 1,
         "expl": "Ubuntu peut rétroporter des correctifs. Une CVE doit être rapprochée du statut fournisseur, de l’inventaire local et de l’exposition réelle."
+      },
+      {
+        "q": "Le rapport ne contient qu’une suggestion « revoir les comptes dormants », sans anomalie privilégiée. Que faire ?",
+        "options": [
+          "Classer critique et désactiver SSH",
+          "Appliquer toutes les suggestions Lynis dans l’ordre",
+          "Remplacer sudoers par NOPASSWD:ALL pour gagner du temps",
+          "Ne pas inventer un incident : planifier une revue, aucun changement de configuration urgent"
+        ],
+        "correct": 3,
+        "expl": "Une suggestion de maintenance sans preuve d’accès privilégié anormal n’est pas un incident critique."
+      },
+      {
+        "q": "Dans ce module, après avoir identifié le fichier et le réglage, quelle est l’étape attendue ?",
+        "options": [
+          "Écrire directement dans sshd_config depuis le lab",
+          "Exécuter visudo pour fermer le dossier",
+          "Nommer le fichier et le réglage, sans les appliquer ici",
+          "Désactiver auditd pour réduire le bruit"
+        ],
+        "correct": 2,
+        "expl": "m12 enseigne à lire et à décider. Appliquer la remédiation n’est pas l’exercice de ce module."
       }
     ]
   },

@@ -39,6 +39,7 @@ test('each published module header announces the real lesson, exercise and quiz 
 test('cyber lessons render checked HTTPS references safely', async ({ page }) => {
   await openApp(page);
   const result = await page.evaluate(() => {
+    state.unlockedModules.add('m12');
     navigateTo('m12');
     const card = document.querySelector('#lesson-card-m12-l1');
     if (!card.classList.contains('open')) toggleLesson('m12-l1');

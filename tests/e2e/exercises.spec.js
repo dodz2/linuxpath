@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { openApp } from './helpers.js';
 
-test('all 46 canonical exercise answers agree with terminal execution', async ({ page }, testInfo) => {
+test('all 47 canonical exercise answers agree with terminal execution', async ({ page }, testInfo) => {
   await openApp(page);
   const results = await page.evaluate(async () => {
     const rows = [];
@@ -39,7 +39,7 @@ test('all 46 canonical exercise answers agree with terminal execution', async ({
   });
 
   await testInfo.attach('exercise-matrix', { body: JSON.stringify(results, null, 2), contentType: 'application/json' });
-  expect(results).toHaveLength(46);
+  expect(results).toHaveLength(47);
   expect(results.filter((entry) => !entry.solved || !entry.feedback.startsWith('✓'))).toEqual([]);
 
   const contradictions = results.filter((entry) => entry.terminalErrors.length > 0);
@@ -131,7 +131,7 @@ test('structured investigation reveals the correction only on the third failure'
   expect(result[2]).toContain('Correction :');
 });
 
-test('a dossier assignment survives reload and rotates only after all three exercises', async ({ page }) => {
+test('a dossier assignment survives reload and rotates only after all group exercises', async ({ page }) => {
   await openApp(page);
   const before = await page.evaluate(async () => {
     ensureModuleRendered('m12');

@@ -118,7 +118,7 @@ export async function validateContent(root = process.cwd()) {
   if (!Array.isArray(terms) || terms.some((term) => !term.id || !term.term || !term.definition)) errors.push(issue('invalid-glossary', 'Glossary terms are malformed', 'data/glossary.json'));
   if (!Array.isArray(news) || news.some((entry) => !entry.id || !entry.title || !entry.source_url)) errors.push(issue('invalid-news', 'News entries are malformed', 'data/news.json'));
   const counts = { modules: ALL_MODULE_IDS.length, lessons: lessonIds.length, exercises: exerciseIds.length, quizQuestions: questionIds.length, quizzes: Object.keys(quizzes).length, ctfChallenges: challengeIds.length, cheatsheetCommands: categories.reduce((total, category) => total + category.commands.length, 0), glossaryTerms: termIds.length, news: news.length };
-  const expected = { modules: 18, lessons: 93, exercises: 46, quizQuestions: 90, quizzes: 18, ctfChallenges: 10, cheatsheetCommands: 118, glossaryTerms: 74 };
+  const expected = { modules: 18, lessons: 94, exercises: 47, quizQuestions: 92, quizzes: 18, ctfChallenges: 10, cheatsheetCommands: 118, glossaryTerms: 74 };
   for (const [name, value] of Object.entries(expected)) if (counts[name] !== value) errors.push(issue('unexpected-count', `${name}: expected ${value}, found ${counts[name]}`, 'data/'));
   return { errors, warnings, counts, data };
 }

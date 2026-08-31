@@ -43,7 +43,7 @@ test('a first successful online visit is reloadable offline', async ({ page, con
   expect(cacheState.active).toBe(true);
   expect(cachedUrls.length, JSON.stringify(cacheState, null, 2)).toBeGreaterThan(0);
   expect(offline.loaded, offline.error || 'offline reload did not load').toBe(true);
-  expect(offline.lessonCards).toBe(93);
+  expect(offline.lessonCards).toBe(94);
 });
 
 test('activation does not delete caches outside the linuxpath- prefix', async ({ page }) => {

@@ -88,7 +88,7 @@ let state = {
   lessonsDone:     new Set(),
   exercisesDone:   new Set(),
   quizScores:      {}, // { m1: 4, m2: 3, ... }
-  unlockedModules: new Set(['m1', 'sandbox', 'm9', 'm12']),
+  unlockedModules: new Set(['m1', 'sandbox', 'm9']),
   variantAssignments: {},
   variantResults: {}
 };
@@ -181,7 +181,7 @@ async function resetState() {
   state.lessonsDone     = new Set();
   state.exercisesDone   = new Set();
   state.quizScores      = {};
-  state.unlockedModules = new Set(['m1', 'sandbox', 'm9', 'm12']);
+  state.unlockedModules = new Set(['m1', 'sandbox', 'm9']);
   state.variantAssignments = {};
   state.variantResults = {};
   await saveState();

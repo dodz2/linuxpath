@@ -37,7 +37,7 @@ function navigateTo(target) {
   // dès qu'on navigue ailleurs (pas de fuite de setTimeout entre sections).
   if (typeof cleanHeroTimers === 'function') cleanHeroTimers();
   // 'ctf' et 'sandbox' sont toujours accessibles sans condition de module
-  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm9', 'm12'];
+  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm9'];
   if (!freeTargets.includes(target) && !state.unlockedModules.has(target)) {
     termPrint(`⚠ Le module "${target}" est verrouillé. Complétez le quiz du module précédent d'abord.`, 'error-line');
     return;
@@ -391,7 +391,7 @@ function updateProgressUI() {
       badge.classList.toggle('done', mp.pct === 100);
     }
     const nav = document.querySelector('[data-target="' + mod + '"]');
-    if (nav && !['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm1', 'm9', 'm12'].includes(mod)) {
+    if (nav && !['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm1', 'm9'].includes(mod)) {
       const unlocked = state.unlockedModules.has(mod);
       nav.setAttribute('aria-disabled', unlocked ? 'false' : 'true');
       let hint = nav.querySelector('.nav-lock-hint');

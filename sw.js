@@ -1,6 +1,6 @@
 /* ============================================================
    Service Worker — LinuxPath
-   Version : linuxpath-v62
+   Version : linuxpath-v63
 
    Stratégies par type de ressource :
    ┌─────────────────────────────┬──────────────────────────────┐
@@ -21,7 +21,7 @@
    ============================================================ */
 
 const CACHE_PREFIX = 'linuxpath-';
-const SW_VERSION = 'linuxpath-v62';
+const SW_VERSION = 'linuxpath-v63';
 
 /* ---- Ressources pré-cachées à l'installation -------------- */
 // On ne pre-cache plus libv86/linux.iso (chargés en lazy ou à la demande)

@@ -66,7 +66,13 @@ test('a 3/5 quiz completes a module whose lessons and exercises are done', async
 
 test('a passed quiz alone does not unlock the dependent cyber module', async ({ page }) => {
   await openApp(page);
-  await page.evaluate(() => navigateTo('m12'));
+  await page.evaluate(() => {
+    state.lessonsDone = new Set(LESSONS.m11.map((lesson) => lesson.id));
+    state.exercisesDone = new Set(EXERCISES.m11.map((exercise) => exercise.id));
+    state.quizScores.m11 = { lastScore: 5, bestScore: 5, passed: true };
+    refreshUnlocks();
+    navigateTo('m12');
+  });
   await answerQuiz(page, 'm12', 3);
   const result = await page.evaluate(() => ({
     m13Unlocked: state.unlockedModules.has('m13'),
@@ -81,8 +87,16 @@ test('a passed quiz alone does not unlock the dependent cyber module', async ({ 
 test('a fully completed cyber module unlocks its dependent module', async ({ page }) => {
   await openApp(page);
   await page.evaluate(() => {
-    state.lessonsDone = new Set(LESSONS.m12.map((lesson) => lesson.id));
-    state.exercisesDone = new Set(EXERCISES.m12.map((exercise) => exercise.id));
+    state.lessonsDone = new Set([
+      ...LESSONS.m11.map((lesson) => lesson.id),
+      ...LESSONS.m12.map((lesson) => lesson.id),
+    ]);
+    state.exercisesDone = new Set([
+      ...EXERCISES.m11.map((exercise) => exercise.id),
+      ...EXERCISES.m12.map((exercise) => exercise.id),
+    ]);
+    state.quizScores.m11 = { lastScore: 5, bestScore: 5, passed: true };
+    refreshUnlocks();
     navigateTo('m12');
   });
   await answerQuiz(page, 'm12', 3);
@@ -158,8 +172,36 @@ test('an imported stale unlock cannot bypass incomplete prerequisites', async ({
     });
     return { m12: state.unlockedModules.has('m12'), m13: state.unlockedModules.has('m13') };
   });
-  expect(result.m12).toBe(true);
+  expect(result.m12).toBe(false);
   expect(result.m13).toBe(false);
+});
+
+test('m12 stays locked until m11 is fully completed', async ({ page }) => {
+  await openApp(page);
+  const blocked = await page.evaluate(() => {
+    refreshUnlocks();
+    navigateTo('m12');
+    return {
+      unlocked: state.unlockedModules.has('m12'),
+      sectionActive: document.getElementById('section-m12')?.classList.contains('active'),
+    };
+  });
+  expect(blocked.unlocked).toBe(false);
+  expect(blocked.sectionActive).toBe(false);
+
+  const opened = await page.evaluate(() => {
+    state.lessonsDone = new Set(LESSONS.m11.map((lesson) => lesson.id));
+    state.exercisesDone = new Set(EXERCISES.m11.map((exercise) => exercise.id));
+    state.quizScores.m11 = { lastScore: 5, bestScore: 5, passed: true };
+    refreshUnlocks();
+    navigateTo('m12');
+    return {
+      unlocked: state.unlockedModules.has('m12'),
+      sectionActive: document.getElementById('section-m12')?.classList.contains('active'),
+    };
+  });
+  expect(opened.unlocked).toBe(true);
+  expect(opened.sectionActive).toBe(true);
 });
 
 test('an imported passed flag cannot replace an unsuccessful quiz score', async ({ page }) => {
@@ -226,10 +268,10 @@ test('a fully completed curriculum reports 100 percent from real data totals', a
       hardwareBadge: document.querySelector('#group-hardware-badge')?.textContent.trim(),
     };
   });
-  expect(result.progress.done).toBe(157);
-  expect(result.progress.total).toBe(157);
+  expect(result.progress.done).toBe(159);
+  expect(result.progress.total).toBe(159);
   expect(result.progress.pct).toBe(100);
-  expect(result.topbar).toBe('157 / 157 complétés');
+  expect(result.topbar).toBe('159 / 159 complétés');
   expect(result.linuxBadge).toBe('100%');
   expect(result.networkBadge).toBe('100%');
   expect(result.securityBadge).toBe('100%');

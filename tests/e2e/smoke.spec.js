@@ -30,7 +30,7 @@ test('the loaded app exposes every audited activity family', async ({ page }) =>
       quizzes: Object.keys(QUIZZES).length,
     };
   });
-  expect(totals).toEqual({ modules: 18, lessons: 93, exercises: 46, quizzes: 18 });
+  expect(totals).toEqual({ modules: 18, lessons: 94, exercises: 47, quizzes: 18 });
   await page.evaluate(() => navigateTo('m1'));
   await expect(page.locator('#section-m1 .lesson-card')).toHaveCount(4);
   await page.evaluate(() => navigateTo('hw1'));

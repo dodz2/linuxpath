@@ -83,10 +83,11 @@ Revue du 2026-08-29 — environnement de référence : Ubuntu 22.04 LTS.
 | m11-l4 | Analyse de trafic avec tshark | m11 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m11-l5 | Audit TLS/SSL — bonnes pratiques | m11 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m12-l1 | Audit avec Lynis | m12 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
-| m12-l2 | OpenSCAP et conformité | m12 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
-| m12-l3 | auditd et renforcement système | m12 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
-| m12-l4 | Isolation des processus — chroot & namespaces | m12 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
+| m12-l2 | OpenSCAP, un repère | m12 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
+| m12-l3 | auditd : règles choisies | m12 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
+| m12-l4 | Relier un constat à un fichier | m12 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m12-l5 | Gestion des mises à jour et suivi des CVE | m12 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
+| m12-l6 | Prioriser, ne pas tout appliquer | m12 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m13-l1 | Metasploit Framework | m13 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m13-l2 | Burp Suite et pentest web | m13 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m13-l3 | Nmap avancé et scripts NSE | m13 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
