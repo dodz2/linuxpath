@@ -1,5 +1,7 @@
 # Fichiers minifiés — générés automatiquement par le workflow CI
 assets/*.min.js
+# Dépendance servie directement par index.html et vérifiée avant le build.
+!assets/exercise-variants.min.js
 
 # Phase 0 — generated validation/build artifacts
 # GitHub Pages publishes dist/ via Actions, never the repository root.

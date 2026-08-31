@@ -14,7 +14,7 @@ sha256sum v86/*
 
 | Fichier | SHA-256 | Source | Licence |
 |---|---|---|---|
-| `v86/libv86.js` | `95e690ad38821073d2304a1d9da7c6580270688d7ad80fbe48f94eda85186047` | https://github.com/copy/v86 | BSD 2-Clause |
+| `v86/libv86.js` | `f370cb8eec9096447e071d89033ba5b396ebbce6bbf2065cd995bf30ebb44062` | https://github.com/copy/v86 | BSD 2-Clause |
 | `v86/v86.wasm` | `effc27d2da888631201bc1c9307361134f71af945f678c25a037f9959a4d1b88` | https://github.com/copy/v86 | BSD 2-Clause |
 
 v86 est © 2011-2023 Fabian Hemmer et contributeurs, distribué sous licence

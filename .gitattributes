@@ -1,0 +1,3 @@
+# Preserve the exact third-party release bytes so its documented SHA-256 is
+# identical on Windows and Linux checkouts.
+v86/libv86.js -text
