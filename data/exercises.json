@@ -2320,5 +2320,139 @@
         ]
       }
     }
+  ],
+  "cs1": [
+    {
+      "id": "cs1-e1",
+      "mode": "investigation",
+      "title": "Classer une situation",
+      "desc": "Un serveur d’administration autorise la connexion <code>root</code> par mot de passe unique, depuis Internet. Classe le constat : ce n’est pas encore un incident, ni un outil à lancer.",
+      "hints": [
+        "Distingue la faiblesse du système, la source de malheur, et ce qu’on perd.",
+        "Quelle propriété CIA est surtout visée si n’importe qui peut devenir root ?",
+        "Ce n’est pas encore un métier (audit/pentest/DFIR) : c’est du vocabulaire."
+      ],
+      "reportFields": [
+        {
+          "id": "kind",
+          "label": "Ce constat décrit surtout…",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "menace",
+              "Une menace (source de malheur)"
+            ],
+            [
+              "vulnerabilite",
+              "Une vulnérabilité (faiblesse du système)"
+            ],
+            [
+              "risque",
+              "Un risque déjà réalisé (incident)"
+            ],
+            [
+              "controle",
+              "Un contrôle déjà en place"
+            ]
+          ]
+        },
+        {
+          "id": "cia",
+          "label": "Propriété CIA la plus directement visée",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "confidentialite",
+              "Confidentialité"
+            ],
+            [
+              "integrite",
+              "Intégrité"
+            ],
+            [
+              "disponibilite",
+              "Disponibilité"
+            ]
+          ]
+        }
+      ],
+      "answer": {
+        "kind": "vulnerabilite",
+        "cia": "confidentialite"
+      },
+      "correction": "C’est une vulnérabilité (faiblesse de configuration), pas encore un incident. La confidentialité est la propriété la plus directement visée : un root par mot de passe exposé ouvre la lecture et l’administration."
+    },
+    {
+      "id": "cs1-e2",
+      "mode": "investigation",
+      "title": "Quel métier maintenant ?",
+      "desc": "Un serveur interne a peut-être été compromis cette nuit. Des journaux existent encore. On te demande d’agir tout de suite. Quel métier pose la bonne question ?",
+      "hints": [
+        "Veut-on une liste de conformité, une démonstration dans un périmètre, ou comprendre ce qui s’est passé ?",
+        "Modifier le système maintenant peut détruire des preuves.",
+        "Audit ≠ investigation. Pentest ≠ réponse à incident."
+      ],
+      "reportFields": [
+        {
+          "id": "role",
+          "label": "Métier qui pose la bonne question",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "audit",
+              "Audit de conformité / durcissement"
+            ],
+            [
+              "pentest",
+              "Pentest dans un périmètre"
+            ],
+            [
+              "dfir",
+              "DFIR — investigation et réponse"
+            ]
+          ]
+        },
+        {
+          "id": "next",
+          "label": "Premier geste cohérent",
+          "type": "select",
+          "options": [
+            [
+              "",
+              "Sélectionnez…"
+            ],
+            [
+              "scan-ports",
+              "Scanner tous les ports pour « voir »"
+            ],
+            [
+              "preserve",
+              "Isoler si besoin et préserver journaux / preuves"
+            ],
+            [
+              "apply-lynis",
+              "Appliquer toutes les suggestions d’un audit"
+            ]
+          ]
+        }
+      ],
+      "answer": {
+        "role": "dfir",
+        "next": "preserve"
+      },
+      "correction": "Question DFIR : que s’est-il passé, et comment ne pas détruire la preuve. Scanner ou « durcir » maintenant pollue la scène. Préserver d’abord."
+    }
   ]
 }

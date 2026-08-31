@@ -17,7 +17,7 @@ function allExercises(exercises) {
 test('every exercise has a command or structured investigation contract', async () => {
   const exercises = await loadJson('data/exercises.json');
   const rows = allExercises(exercises);
-  assert.equal(rows.length, 47);
+  assert.equal(rows.length, 49);
   for (const { exercise } of rows) {
     if (exercise.mode === 'investigation') {
       assert.ok(Array.isArray(exercise.reportFields) && exercise.reportFields.length, `${exercise.id} missing report fields`);

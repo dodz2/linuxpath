@@ -1100,5 +1100,65 @@
         "expl": "Toutes les manipulations se font chez soi, sur ses affaires : c'est la condition pour apprendre sans nuire."
       }
     ]
+  },
+  "cs1": {
+    "title": "Quiz — Repères cybersécurité",
+    "questions": [
+      {
+        "q": "Que décrit le mieux la disponibilité ?",
+        "options": [
+          "Seules les personnes autorisées lisent les données",
+          "Les fichiers ne sont pas modifiés en secret",
+          "Le service répond quand on en a besoin",
+          "Un outil d’audit a un bon score"
+        ],
+        "correct": 2,
+        "expl": "La disponibilité, c’est que le service soit là. Ce n’est ni la confidentialité, ni l’intégrité, ni un score d’outil."
+      },
+      {
+        "q": "Un compte SSH root ouvert avec un mot de passe unique est surtout…",
+        "options": [
+          "Une menace (quelqu’un a déjà attaqué)",
+          "Un contrôle",
+          "Une vulnérabilité (faiblesse de configuration)",
+          "Un incident DFIR confirmé"
+        ],
+        "correct": 2,
+        "expl": "C’est une faiblesse du système. Sans preuve d’intrusion, ce n’est pas encore un incident."
+      },
+      {
+        "q": "Quelle question est celle de l’audit, pas du pentest ?",
+        "options": [
+          "Que peut-on démontrer dans le périmètre autorisé ?",
+          "Cet hôte est-il conforme, et que prioriser sans casser ?",
+          "Que s’est-il passé cette nuit sur les journaux ?",
+          "Comment obtenir un shell root le plus vite possible ?"
+        ],
+        "correct": 1,
+        "expl": "L’audit qualifie la conformité et priorise. Le pentest démontre dans un mandat. Le DFIR reconstitue un événement."
+      },
+      {
+        "q": "Un ami te demande de « juste scanner » le site de son employeur pour apprendre. Que faire ?",
+        "options": [
+          "Accepter si c’est en lecture seule",
+          "Accepter la nuit, pour ne déranger personne",
+          "Scanner uniquement les ports 80 et 443",
+          "Refuser : pas d’autorisation écrite du propriétaire, pas de lab"
+        ],
+        "correct": 3,
+        "expl": "Sans mandat du propriétaire, ce n’est pas un exercice. LinuxPath se limite au lab simulé ou à une VM que tu possèdes."
+      },
+      {
+        "q": "Des journaux SSH existent encore après un soupçon de compromission. Premier réflexe ?",
+        "options": [
+          "Réinstaller le serveur pour « nettoyer »",
+          "Lancer un pentest complet pour confirmer",
+          "Préserver les journaux et éviter d’écraser les preuves",
+          "Appliquer tout un rapport d’audit d’un coup"
+        ],
+        "correct": 2,
+        "expl": "Réflexe DFIR : ne pas détruire la scène. Réinstaller ou scanner fort trop tôt efface ce qu’on voulait comprendre."
+      }
+    ]
   }
 }

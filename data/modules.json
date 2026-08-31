@@ -222,13 +222,13 @@
     },
     {
       "id": "m12",
-      "displayOrder": 12,
+      "displayOrder": 13,
       "track": "offsec",
       "title": "Audit & Durcissement",
       "description": "Lynis, OpenSCAP, auditd : lire un constat, le relier à un fichier, prioriser sans casser le système.",
       "icon": "🕵",
       "prerequisites": [
-        "m11"
+        "cs1"
       ],
       "estimatedMinutes": 95,
       "status": "published",
@@ -241,7 +241,7 @@
     },
     {
       "id": "m13",
-      "displayOrder": 13,
+      "displayOrder": 14,
       "track": "offsec",
       "title": "Pentest & Outils",
       "description": "Reconnaissance, validation manuelle et rapport de constats dans un laboratoire autorisé.",
@@ -259,7 +259,7 @@
     },
     {
       "id": "m14",
-      "displayOrder": 14,
+      "displayOrder": 15,
       "track": "offsec",
       "title": "Forensic & Malwares",
       "description": "Analyse de malwares, investigation numérique et réponse à incident.",
@@ -276,8 +276,24 @@
       "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
     },
     {
+      "id": "cs1",
+      "displayOrder": 12,
+      "track": "offsec",
+      "title": "Repères cybersécurité",
+      "description": "Vocabulaire, rôles et cadre légal pour aborder l'audit, le pentest et le DFIR sans se jeter dans les outils.",
+      "icon": "🧭",
+      "prerequisites": [],
+      "estimatedMinutes": 55,
+      "status": "published",
+      "objectives": [
+        "Distinguer menace, vulnérabilité, risque et contrôle",
+        "Situer audit, pentest et DFIR, et le cadre d'un lab autorisé"
+      ],
+      "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
+    },
+    {
       "id": "hw1",
-      "displayOrder": 15,
+      "displayOrder": 16,
       "track": "hardware",
       "title": "Anatomie d'un PC",
       "description": "Composants, flux de données, CPU, RAM, stockage, alimentation et compatibilité Linux.",
@@ -293,7 +309,7 @@
     },
     {
       "id": "hw2",
-      "displayOrder": 16,
+      "displayOrder": 17,
       "track": "hardware",
       "title": "Assembler & booter",
       "description": "Montage pas à pas, POST/BIOS/UEFI, installer Linux et premiers diagnostics.",
@@ -311,7 +327,7 @@
     },
     {
       "id": "hw3",
-      "displayOrder": 17,
+      "displayOrder": 18,
       "track": "hardware",
       "title": "Piloter le matériel",
       "description": "GPIO, breadboard, capteurs, USB et sérielle pilotés depuis Linux.",
@@ -329,7 +345,7 @@
     },
     {
       "id": "hw4",
-      "displayOrder": 18,
+      "displayOrder": 19,
       "track": "hardware",
       "title": "Gadgets & hack",
       "description": "Capstone : construire un petit gadget personnel et le piloter en terminal.",
@@ -397,19 +413,21 @@
       "title": "Sécurité, Pentest & DFIR",
       "level": "Avancé",
       "modules": [
+        "cs1",
         "m12",
         "m13",
         "m14"
       ],
-      "estimatedHours": 5,
+      "estimatedHours": 6,
       "prerequisites": "Fondamentaux Linux et réseau recommandés ; exercices actifs limités au lab pédagogique ou à une autorisation écrite explicite.",
       "objectives": [
+        "Poser les repères (vocabulaire, rôles, cadre légal)",
         "Auditer et durcir un système",
         "Utiliser les outils de pentest de façon responsable",
         "Conduire une investigation de base"
       ],
       "capstone": "Mini-projet : audit Lynis, analyse d'un artefact pédagogique et rapport d'incident dans un lab autorisé.",
-      "entryModule": "m12"
+      "entryModule": "cs1"
     },
     {
       "id": "hardware",

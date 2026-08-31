@@ -10,7 +10,7 @@ let currentSection = 'home';
 /** Liste complète des cibles navigables (utilisée par parseHash). */
 const VALID_TARGETS = [
   'home','sandbox','ctf','news','cheatsheet','glossary','roadmap',
-  'm1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14',
+  'm1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','cs1',
   'hw1','hw2','hw3','hw4',
 ];
 
@@ -37,7 +37,7 @@ function navigateTo(target) {
   // dès qu'on navigue ailleurs (pas de fuite de setTimeout entre sections).
   if (typeof cleanHeroTimers === 'function') cleanHeroTimers();
   // 'ctf' et 'sandbox' sont toujours accessibles sans condition de module
-  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm9'];
+  const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm9', 'cs1'];
   if (!freeTargets.includes(target) && !state.unlockedModules.has(target)) {
     termPrint(`⚠ Le module "${target}" est verrouillé. Complétez le quiz du module précédent d'abord.`, 'error-line');
     return;
@@ -219,7 +219,7 @@ function openGroupForTarget(target) {
     m9: 'group-network',
     m10: 'group-network',
     m11: 'group-network',
-    m12: 'group-offsec', m13: 'group-offsec', m14: 'group-offsec',
+    cs1: 'group-offsec', m12: 'group-offsec', m13: 'group-offsec', m14: 'group-offsec',
     hw1: 'group-hardware', hw2: 'group-hardware', hw3: 'group-hardware', hw4: 'group-hardware',
     ctf: 'group-challenges',
     sandbox: 'group-tools',
@@ -244,7 +244,7 @@ function openGroupForTarget(target) {
 function updateGroupActiveHeader(target) {
   document.querySelectorAll('.sidebar-group-header').forEach(h => h.classList.remove('has-active'));
   const group = document.getElementById(
-    ['m12','m13','m14'].includes(target) ? 'group-offsec'
+    ['cs1','m12','m13','m14'].includes(target) ? 'group-offsec'
     : ['m9','m10','m11'].includes(target) ? 'group-network'
     : target.startsWith('hw') ? 'group-hardware'
     : target.startsWith('m') && target !== 'ma' ? 'group-modules'
@@ -391,7 +391,7 @@ function updateProgressUI() {
       badge.classList.toggle('done', mp.pct === 100);
     }
     const nav = document.querySelector('[data-target="' + mod + '"]');
-    if (nav && !['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm1', 'm9'].includes(mod)) {
+    if (nav && !['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm1', 'm9', 'cs1'].includes(mod)) {
       const unlocked = state.unlockedModules.has(mod);
       nav.setAttribute('aria-disabled', unlocked ? 'false' : 'true');
       let hint = nav.querySelector('.nav-lock-hint');

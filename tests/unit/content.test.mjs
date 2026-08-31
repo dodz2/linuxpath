@@ -6,11 +6,11 @@ import { constants } from 'node:fs';
 import { validateContent, loadJson } from '../../scripts/lib/content-validation.mjs';
 
 const EXPECTED_COUNTS = {
-  modules: 18,
-  lessons: 94,
-  exercises: 47,
-  quizQuestions: 92,
-  quizzes: 18,
+  modules: 19,
+  lessons: 99,
+  exercises: 49,
+  quizQuestions: 97,
+  quizzes: 19,
   ctfChallenges: 10,
   cheatsheetCommands: 118,
   glossaryTerms: 74,
@@ -58,9 +58,9 @@ test('rendering sources contain no legacy hard-coded product totals', async () =
 test('modules.json is the unique published-module catalogue', async () => {
   const catalogue = await loadJson('data/modules.json');
   const modules = catalogue.modules;
-  assert.equal(modules.length, 18);
+  assert.equal(modules.length, 19);
   const ids = modules.map((entry) => entry.id);
-  assert.deepEqual(ids, [...Array.from({ length: 14 }, (_, index) => `m${index + 1}`), 'hw1', 'hw2', 'hw3', 'hw4']);
+  assert.deepEqual(ids, [...Array.from({ length: 14 }, (_, index) => `m${index + 1}`), 'cs1', 'hw1', 'hw2', 'hw3', 'hw4']);
   for (const entry of modules) {
     assert.equal(typeof entry.title, 'string');
     assert.ok(entry.title.length > 0, entry.id);

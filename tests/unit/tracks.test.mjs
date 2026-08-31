@@ -16,7 +16,8 @@ test('three learning tracks are explicit and the third is not labelled offensive
   assert.equal(tracks[3].title, 'Lab & Tinker');
   assert.deepEqual(tracks[0].modules, ['m1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8']);
   assert.deepEqual(tracks[1].modules, ['m9', 'm10', 'm11']);
-  assert.deepEqual(tracks[2].modules, ['m12', 'm13', 'm14']);
+  assert.deepEqual(tracks[2].modules, ['cs1', 'm12', 'm13', 'm14']);
+  assert.equal(tracks[2].entryModule, 'cs1');
   assert.deepEqual(tracks[3].modules, ['hw1', 'hw2', 'hw3', 'hw4']);
   assert.equal(tracks[3].entryModule, 'hw1');
   for (const track of tracks) {

@@ -221,6 +221,11 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-offsec-body">
+          <button type="button" class="module-nav-item" data-target="cs1" onclick="navigateTo('cs1')" id="nav-cs1" aria-label="Module : Repères cybersécurité">
+            <span class="module-nav-icon">🧭</span>
+            <span class="module-nav-title">Repères cybersécurité</span>
+            <span class="module-nav-badge" id="nav-badge-cs1">0%</span>
+          </button>
           <button type="button" class="module-nav-item" data-target="m12" onclick="navigateTo('m12')" id="nav-m12" aria-label="Module 12 : Audit &amp; Durcissement">
             <span class="module-nav-icon">🕵</span>
             <span class="module-nav-title">Audit &amp; Durcissement</span>
@@ -791,6 +796,26 @@
         <h3 class="section-title">Quiz de validation</h3>
         <div id="quiz-m11"></div>
        </section>
+
+      <!-- ==================== MODULE CS1 — Repères cybersécurité ==================== -->
+      <section id="section-cs1" class="module-section">
+        <div class="module-header">
+          <div class="module-tag">Cybersécurité</div>
+          <h2 class="module-title"><span class="prompt-prefix">$</span> Repères cybersécurité</h2>
+          <p class="module-desc">Vocabulaire, rôles et cadre légal pour aborder l'audit, le pentest et le DFIR sans se jeter dans les outils.</p>
+          <div class="module-meta">
+            <span class="module-meta-item">📚 5 leçons</span>
+            <span class="module-meta-item">⚡ 2 exercices</span>
+            <span class="module-meta-item">❓ Quiz 5 questions</span>
+          </div>
+        </div>
+        <h3 class="section-title">Leçons</h3>
+        <div class="lessons-grid" id="lessons-cs1"></div>
+        <h3 class="section-title">Exercices pratiques</h3>
+        <div id="exercises-cs1"></div>
+        <h3 class="section-title">Quiz de validation</h3>
+        <div id="quiz-cs1"></div>
+      </section>
 
       <!-- ==================== MODULE 12 — Audit &amp; Durcissement ==================== -->
       <section id="section-m12" class="module-section">

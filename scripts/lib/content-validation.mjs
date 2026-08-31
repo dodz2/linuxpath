@@ -2,10 +2,11 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 export const MODULE_IDS = Array.from({ length: 14 }, (_, index) => `m${index + 1}`);
+export const CS_MODULE_IDS = ['cs1'];
 export const HW_MODULE_IDS = ['hw1', 'hw2', 'hw3', 'hw4'];
-export const ALL_MODULE_IDS = [...MODULE_IDS, ...HW_MODULE_IDS];
+export const ALL_MODULE_IDS = [...MODULE_IDS, ...CS_MODULE_IDS, ...HW_MODULE_IDS];
 export const TRACK_IDS = ['linux', 'network', 'offsec', 'hardware'];
-export const CYBER_REFERENCE_MODULES = new Set(['m12', 'm13', 'm14']);
+export const CYBER_REFERENCE_MODULES = new Set(['cs1', 'm12', 'm13', 'm14']);
 export const DATA_FILES = ['cheatsheet.json', 'ctf.json', 'exercise-variants.json', 'exercises.json', 'glossary.json', 'lessons.json', 'modules.json', 'news.json', 'quizzes.json', 'vfs.json'];
 export async function loadJson(relativePath, root = process.cwd()) {
   return JSON.parse(await readFile(path.join(root, relativePath), 'utf8'));
@@ -43,10 +44,10 @@ export async function validateContent(root = process.cwd()) {
   const challenges = data['ctf.json'].challenges; const terms = data['glossary.json'].terms;
   const catalogue = data['modules.json'];
   if (!catalogue || !Array.isArray(catalogue.modules) || catalogue.modules.length !== ALL_MODULE_IDS.length) {
-    errors.push(issue('invalid-modules', 'modules.json must list exactly m1 through m14 plus hw1 through hw4', 'data/modules.json'));
+    errors.push(issue('invalid-modules', 'modules.json must list exactly m1 through m14, cs1, then hw1 through hw4', 'data/modules.json'));
   } else {
     const ids = catalogue.modules.map((entry) => entry.id);
-    if (JSON.stringify(ids) !== JSON.stringify(ALL_MODULE_IDS)) errors.push(issue('module-coverage', 'modules.json must define exactly m1 through m14 plus hw1 through hw4 in order', 'data/modules.json'));
+    if (JSON.stringify(ids) !== JSON.stringify(ALL_MODULE_IDS)) errors.push(issue('module-coverage', 'modules.json must define exactly m1 through m14, cs1, then hw1 through hw4 in order', 'data/modules.json'));
     for (const entry of catalogue.modules) {
       if (!entry.title || !TRACK_IDS.includes(entry.track) || !['published', 'draft'].includes(entry.status) || !Array.isArray(entry.prerequisites) || typeof entry.displayOrder !== 'number' || !Array.isArray(entry.objectives) || entry.objectives.length < 2 || !Number.isFinite(entry.estimatedMinutes) || typeof entry.successCriteria !== 'string') {
         errors.push(issue('invalid-module', `Malformed module ${entry.id ?? '(missing id)'}`, 'data/modules.json'));
@@ -118,7 +119,7 @@ export async function validateContent(root = process.cwd()) {
   if (!Array.isArray(terms) || terms.some((term) => !term.id || !term.term || !term.definition)) errors.push(issue('invalid-glossary', 'Glossary terms are malformed', 'data/glossary.json'));
   if (!Array.isArray(news) || news.some((entry) => !entry.id || !entry.title || !entry.source_url)) errors.push(issue('invalid-news', 'News entries are malformed', 'data/news.json'));
   const counts = { modules: ALL_MODULE_IDS.length, lessons: lessonIds.length, exercises: exerciseIds.length, quizQuestions: questionIds.length, quizzes: Object.keys(quizzes).length, ctfChallenges: challengeIds.length, cheatsheetCommands: categories.reduce((total, category) => total + category.commands.length, 0), glossaryTerms: termIds.length, news: news.length };
-  const expected = { modules: 18, lessons: 94, exercises: 47, quizQuestions: 92, quizzes: 18, ctfChallenges: 10, cheatsheetCommands: 118, glossaryTerms: 74 };
+  const expected = { modules: 19, lessons: 99, exercises: 49, quizQuestions: 97, quizzes: 19, ctfChallenges: 10, cheatsheetCommands: 118, glossaryTerms: 74 };
   for (const [name, value] of Object.entries(expected)) if (counts[name] !== value) errors.push(issue('unexpected-count', `${name}: expected ${value}, found ${counts[name]}`, 'data/'));
   return { errors, warnings, counts, data };
 }

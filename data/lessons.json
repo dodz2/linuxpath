@@ -1245,5 +1245,127 @@
       "distro": "Multi-distribution (matériel)",
       "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
     }
+  ],
+  "cs1": [
+    {
+      "id": "cs1-l1",
+      "title": "Confidentialité, intégrité, disponibilité",
+      "content": "\n        <h3>Trois questions, pas trois outils</h3>\n        <p>La cybersécurité n’est pas une liste de logiciels. C’est d’abord trois propriétés d’un système que l’on veut protéger. La <strong>confidentialité</strong> : seules les personnes autorisées lisent. L’<strong>intégrité</strong> : les données et les programmes restent ce qu’on a décidé, sans modification furtive. La <strong>disponibilité</strong> : le service répond quand on en a besoin.</p>\n        <p>Sur un Linux que tu connais déjà, ça se voit sans jargon d’éditeur. Un fichier <code>/etc/shadow</code> lisible par tout le monde casse la confidentialité. Un binaire système modifié sans que personne ne le remarque casse l’intégrité. Un service SSH arrêté « pour voir » casse la disponibilité — y compris la tienne, si tu n’as plus d’accès.</p>\n        <div class=\"info-box info\"><strong>Ordre pédagogique :</strong> on nomme la propriété atteinte, ensuite seulement on parlera de cause et de contrôle. Un outil ne remplace pas cette phrase.</div>\n        <p>Ces trois lettres (souvent résumées par CIA en anglais) ne sont pas un score. Un choix peut en favoriser une au détriment d’une autre : chiffrer des sauvegardes protège la confidentialité, mais une clé perdue menace la disponibilité. Le rôle de l’intro est de rendre ce conflit visible, pas de le résoudre avec une commande.</p>\n        <p>Dans LinuxPath, le lab est simulé. Rien de ce module ne s’exécute sur une machine réelle. La suite du parcours (audit, pentest, investigation) s’appuiera sur ces trois mots, pas sur un catalogue Kali.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-31",
+      "distro": "Ubuntu 22.04 LTS",
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. Ce module n’enseigne aucun outil d’attaque ni de durcissement opérationnel.",
+      "prerequisites": [],
+      "sources": [
+        {
+          "title": "NIST Cybersecurity Framework",
+          "url": "https://www.nist.gov/cyberframework",
+          "scope": "Cadre de vocabulaire et de fonctions, pas un outil à installer.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "ANSSI — Accueil",
+          "url": "https://www.ssi.gouv.fr/",
+          "scope": "Référence publique française sur la sécurité des systèmes d’information.",
+          "checkedAt": "2026-08-31"
+        }
+      ]
+    },
+    {
+      "id": "cs1-l2",
+      "title": "Menace, vulnérabilité, risque, contrôle",
+      "content": "\n        <h3>Quatre mots qu’on mélange trop tôt</h3>\n        <p>Une <strong>menace</strong> est une source de malheur possible : quelqu’un, un accident, un bug, un incendie. Une <strong>vulnérabilité</strong> est une faiblesse du système qui rend la menace crédible : un compte trop puissant, un service exposé, un mot de passe unique. Le <strong>risque</strong> est le croisement des deux, dans un contexte : « si cette faiblesse est exploitée ici, que perd-on ? ». Un <strong>contrôle</strong> est une mesure qui réduit ce risque — technique, organisationnelle ou humaine.</p>\n        <p>Exemple Linux, toujours sans outil d’attaque : un serveur SSH avec connexion root par mot de passe est une vulnérabilité. La menace peut être un scan d’Internet ou une erreur interne. Le risque dépend de ce que ce serveur contient. Un contrôle possible sera plus tard un réglage, un processus, un audit — pas une baguette magique.</p>\n        <div class=\"info-box warning\"><strong>Piège :</strong> traiter toute faiblesse comme un incident, ou tout incident comme une vulnérabilité. Classer d’abord. Le module suivant (audit) apprendra à lire un constat ; celui-ci apprend seulement à le nommer.</div>\n        <p>Un contrôle n’est pas forcément un logiciel. Une règle « on n’expose pas ce lab sur Internet » est un contrôle. Une revue à deux avant de toucher <code>sshd_config</code> aussi. La technique vient après le vocabulaire, sinon on collectionne des scans sans savoir ce qu’on a mesuré. Retiens la phrase : menace, vulnérabilité, risque, contrôle — dans cet ordre, avant toute commande.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-31",
+      "distro": "Ubuntu 22.04 LTS",
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. Ce module n’enseigne aucun outil d’attaque ni de durcissement opérationnel.",
+      "prerequisites": [],
+      "sources": [
+        {
+          "title": "NIST Cybersecurity Framework",
+          "url": "https://www.nist.gov/cyberframework",
+          "scope": "Fonctions Identify / Protect : vocabulaire menace, vulnérabilité, contrôle.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "ANSSI — Accueil",
+          "url": "https://www.ssi.gouv.fr/",
+          "scope": "Positionnement des risques et des mesures, hors catalogue d’exploits.",
+          "checkedAt": "2026-08-31"
+        }
+      ]
+    },
+    {
+      "id": "cs1-l3",
+      "title": "Trois métiers, trois questions",
+      "content": "\n        <h3>Audit, pentest, DFIR — ce n’est pas la même question</h3>\n        <p>Le parcours LinuxPath sépare volontairement trois métiers. L’<strong>audit</strong> demande : « cet hôte est-il conforme à une politique, et que faut-il prioriser ? » — c’est le module suivant, Audit &amp; Durcissement. Le <strong>pentest</strong> demande : « dans un périmètre autorisé, que peut-on démontrer, sans transformer une observation en exploit ? ». Le <strong>DFIR</strong> (investigation numérique et réponse) demande : « que s’est-il passé, et comment préserver la preuve ? ».</p>\n        <p>Si tu lances un scan « pour voir » sur un incident en cours, tu risques d’écraser des traces : tu n’es plus en DFIR, tu es en train de polluer la scène. Si tu « durcis » pendant un test de sécurité sans propriétaire, tu sors du pentest. Si tu traites un rapport d’audit comme une liste d’exploits, tu sors de l’audit.</p>\n        <div class=\"info-box info\"><strong>Carte du track :</strong> ce module pose les questions. M12 répond côté audit. M13 côté pentest responsable. M14 côté investigation. Aucun de ces modules n’est un mode « attaque libre ».</div>\n        <p>Tu n’as pas besoin d’aimer les trois. Tu as besoin de savoir lequel tu es en train de jouer, et lequel tu n’es pas. La suite du cours refuse les recettes hors lab : ici on ancre seulement la boussole. Si tu ne sais plus quelle question tu poses, tu n’es plus en train d’apprendre un métier : tu appuies sur des boutons.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-31",
+      "distro": "Ubuntu 22.04 LTS",
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. Ce module n’enseigne aucun outil d’attaque ni de durcissement opérationnel.",
+      "prerequisites": [],
+      "sources": [
+        {
+          "title": "NIST Cybersecurity Framework",
+          "url": "https://www.nist.gov/cyberframework",
+          "scope": "Fonctions Protect / Detect / Respond distinctes, comme audit / détection / réponse.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "ANSSI — Accueil",
+          "url": "https://www.ssi.gouv.fr/",
+          "scope": "Séparation des activités de sécurité, hors outils offensifs.",
+          "checkedAt": "2026-08-31"
+        }
+      ]
+    },
+    {
+      "id": "cs1-l4",
+      "title": "Cadre légal du lab",
+      "content": "\n        <h3>Sans autorisation, ce n’est pas un exercice</h3>\n        <p>Scanner, « tester » ou extraire des données sur un système qui n’est pas le tien, sans <strong>autorisation</strong> écrite et périmètre clair, n’est pas de la pédagogie. En France comme ailleurs, l’accès non autorisé à un système est une infraction. LinuxPath n’enseigne pas à le faire. Le terminal du site est un <strong>lab</strong> simulé : les commandes n’ont pas d’effet sur une machine réelle.</p>\n        <p>Une autorisation dit qui, quoi, jusqu’où, jusqu’à quand, et comment on s’arrête. « Mon copain a dit que c’était OK » n’en est pas une. « C’est pour apprendre » non plus. Un pentest professionnel s’appuie sur un contrat ; un audit, sur un mandat ; une investigation, sur une légitimité (employeur, justice, propriétaire).</p>\n        <div class=\"info-box warning\"><strong>Dans ce cours :</strong> tu travailles uniquement dans LinuxPath ou sur une VM que tu possèdes. Pas le Wi-Fi du voisin, pas le site d’une entreprise « pour voir », pas un conteneur cloud oublié.</div>\n        <p>Le lab autorise l’erreur. La production, non. Quand un module plus loin simulera un constat ou un scan, ce sera toujours présenté comme une simulation. Si une consigne te semble sortir du lab, tu t’arrêtes. Cette règle n’est pas un disclaimer décoratif : c’est le premier contrôle du parcours. L’autorisation précède l’outil ; jamais l’inverse. Sans mandat, tu n’apprends pas : tu prends un risque inutile.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-31",
+      "distro": "Ubuntu 22.04 LTS",
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. Ce module n’enseigne aucun outil d’attaque ni de durcissement opérationnel.",
+      "prerequisites": [],
+      "sources": [
+        {
+          "title": "ANSSI — Accueil",
+          "url": "https://www.ssi.gouv.fr/",
+          "scope": "Cadre public de la sécurité des SI ; les tests hors mandat n’en font pas partie.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "NIST Cybersecurity Framework",
+          "url": "https://www.nist.gov/cyberframework",
+          "scope": "Gouvernance et périmètre avant toute activité technique.",
+          "checkedAt": "2026-08-31"
+        }
+      ]
+    },
+    {
+      "id": "cs1-l5",
+      "title": "Linux que tu connais déjà",
+      "content": "\n        <h3>La surface d’attaque, c’est ton cours Linux</h3>\n        <p>Tu as déjà touché ce que les attaquants et les auditeurs regardent. Les comptes et les permissions décident qui lit quoi. <strong>SSH</strong> est souvent la porte d’administration. Les <strong>journaux</strong> racontent qui s’est connecté, qui a échoué, qui a utilisé sudo. Un service qui écoute, un fichier world-writable, une clé trop ouverte : ce n’est pas de la magie, c’est le programme Linux que tu as suivi.</p>\n        <p>Le module d’audit s’appuiera sur cette carte : relier un constat à un fichier (<code>sshd_config</code>, sudoers, cron), sans l’appliquer tout de suite. Ici, on ne lance pas d’audit automatique. On s’assure seulement que « durcir » voudra dire « changer un réglage connu », pas « installer un outil mystérieux ».</p>\n        <div class=\"code-block\"><span class=\"comment\"># Lecture, pas modification — idées, pas exercice noté</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">ls -l /etc/ssh/sshd_config</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">grep -i permitroot /etc/ssh/sshd_config</span></div>\n        <p>Si tu sais nommer la propriété (CIA), classer vulnérabilité vs risque, et rester dans le lab, tu es prêt pour M12. Si tu veux « un outil qui fait tout », tu n’es pas encore prêt : cet outil n’existe pas, et ceux qui le promettent vendent autre chose que de la pédagogie. Relis un journal, une permission, un service : tu as déjà la carte. L’audit n’ajoutera qu’une méthode pour la parcourir, pas une baguette.</p>\n        ",
+      "reviewStatus": "reviewed",
+      "reviewedAt": "2026-08-31",
+      "distro": "Ubuntu 22.04 LTS",
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. Ce module n’enseigne aucun outil d’attaque ni de durcissement opérationnel.",
+      "prerequisites": [],
+      "sources": [
+        {
+          "title": "sshd_config(5)",
+          "url": "https://man7.org/linux/man-pages/man5/sshd_config.5.html",
+          "scope": "Fichier de configuration SSH déjà rencontré ; lecture, pas remédiation.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "NIST Cybersecurity Framework",
+          "url": "https://www.nist.gov/cyberframework",
+          "scope": "Identifier les assets (comptes, services, journaux) avant de les contrôler.",
+          "checkedAt": "2026-08-31"
+        }
+      ]
+    }
   ]
 }

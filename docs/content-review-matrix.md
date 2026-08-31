@@ -82,6 +82,11 @@ Revue du 2026-08-29 — environnement de référence : Ubuntu 22.04 LTS.
 | m11-l3 | Détection d'intrusion — IDS avec Suricata | m11 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m11-l4 | Analyse de trafic avec tshark | m11 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m11-l5 | Audit TLS/SSL — bonnes pratiques | m11 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
+| cs1-l1 | Confidentialité, intégrité, disponibilité | cs1 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
+| cs1-l2 | Menace, vulnérabilité, risque, contrôle | cs1 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
+| cs1-l3 | Trois métiers, trois questions | cs1 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
+| cs1-l4 | Cadre légal du lab | cs1 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
+| cs1-l5 | Linux que tu connais déjà | cs1 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m12-l1 | Audit avec Lynis | m12 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m12-l2 | OpenSCAP, un repère | m12 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m12-l3 | auditd : règles choisies | m12 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |

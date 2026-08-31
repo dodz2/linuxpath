@@ -35,6 +35,16 @@ const REQUIRED = [
   { id: 'm8-l7', needle: 'docker run --rm' },
   { id: 'm9-l2', needle: 'chmod 600' },
   { id: 'm13-l1', needle: 'info' },
+  { id: 'cs1-l1', needle: 'disponibilité' },
+  { id: 'cs1-l1', needle: 'intégrité' },
+  { id: 'cs1-l2', needle: 'vulnérabilité' },
+  { id: 'cs1-l2', needle: 'contrôle' },
+  { id: 'cs1-l3', needle: 'audit' },
+  { id: 'cs1-l3', needle: 'DFIR' },
+  { id: 'cs1-l4', needle: 'autorisation' },
+  { id: 'cs1-l4', needle: 'lab' },
+  { id: 'cs1-l5', needle: 'SSH' },
+  { id: 'cs1-l5', needle: 'journal' },
   { id: 'm12-l1', needle: 'lynis-report.dat' },
   { id: 'm12-l2', needle: 'ssg-ubuntu2204-ds.xml' },
   { id: 'm12-l2', needle: 'oscap info' },
@@ -88,14 +98,14 @@ test('priority lessons contain the corrected teaching', async () => {
 test('every lesson has a documented review status', async () => {
   const lessons = await loadJson('data/lessons.json');
   const rows = Object.values(lessons).flat();
-  assert.equal(rows.length, 94);
+  assert.equal(rows.length, 99);
   const incomplete = rows.filter((lesson) => lesson.reviewStatus !== 'reviewed' || !lesson.reviewedAt || !lesson.distro);
   assert.deepEqual(incomplete.map((lesson) => lesson.id), []);
 });
 
 test('cyber lessons expose checked official references', async () => {
   const lessons = await loadJson('data/lessons.json');
-  const rows = ['m12', 'm13', 'm14'].flatMap((moduleId) => lessons[moduleId]);
+  const rows = ['cs1', 'm12', 'm13', 'm14'].flatMap((moduleId) => lessons[moduleId]);
   const malformed = rows.filter((lesson) => !Array.isArray(lesson.sources)
     || lesson.sources.length < 2
     || lesson.sources.some((source) => !source?.title || !source?.scope || !/^https:\/\//.test(source?.url || '') || source.checkedAt !== lesson.reviewedAt));

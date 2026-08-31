@@ -67,9 +67,9 @@ test('a 3/5 quiz completes a module whose lessons and exercises are done', async
 test('a passed quiz alone does not unlock the dependent cyber module', async ({ page }) => {
   await openApp(page);
   await page.evaluate(() => {
-    state.lessonsDone = new Set(LESSONS.m11.map((lesson) => lesson.id));
-    state.exercisesDone = new Set(EXERCISES.m11.map((exercise) => exercise.id));
-    state.quizScores.m11 = { lastScore: 5, bestScore: 5, passed: true };
+    state.lessonsDone = new Set(LESSONS.cs1.map((lesson) => lesson.id));
+    state.exercisesDone = new Set(EXERCISES.cs1.map((exercise) => exercise.id));
+    state.quizScores.cs1 = { lastScore: 5, bestScore: 5, passed: true };
     refreshUnlocks();
     navigateTo('m12');
   });
@@ -88,14 +88,14 @@ test('a fully completed cyber module unlocks its dependent module', async ({ pag
   await openApp(page);
   await page.evaluate(() => {
     state.lessonsDone = new Set([
-      ...LESSONS.m11.map((lesson) => lesson.id),
+      ...LESSONS.cs1.map((lesson) => lesson.id),
       ...LESSONS.m12.map((lesson) => lesson.id),
     ]);
     state.exercisesDone = new Set([
-      ...EXERCISES.m11.map((exercise) => exercise.id),
+      ...EXERCISES.cs1.map((exercise) => exercise.id),
       ...EXERCISES.m12.map((exercise) => exercise.id),
     ]);
-    state.quizScores.m11 = { lastScore: 5, bestScore: 5, passed: true };
+    state.quizScores.cs1 = { lastScore: 5, bestScore: 5, passed: true };
     refreshUnlocks();
     navigateTo('m12');
   });
@@ -176,7 +176,7 @@ test('an imported stale unlock cannot bypass incomplete prerequisites', async ({
   expect(result.m13).toBe(false);
 });
 
-test('m12 stays locked until m11 is fully completed', async ({ page }) => {
+test('m12 stays locked until cs1 is fully completed', async ({ page }) => {
   await openApp(page);
   const blocked = await page.evaluate(() => {
     refreshUnlocks();
@@ -190,9 +190,9 @@ test('m12 stays locked until m11 is fully completed', async ({ page }) => {
   expect(blocked.sectionActive).toBe(false);
 
   const opened = await page.evaluate(() => {
-    state.lessonsDone = new Set(LESSONS.m11.map((lesson) => lesson.id));
-    state.exercisesDone = new Set(EXERCISES.m11.map((exercise) => exercise.id));
-    state.quizScores.m11 = { lastScore: 5, bestScore: 5, passed: true };
+    state.lessonsDone = new Set(LESSONS.cs1.map((lesson) => lesson.id));
+    state.exercisesDone = new Set(EXERCISES.cs1.map((exercise) => exercise.id));
+    state.quizScores.cs1 = { lastScore: 5, bestScore: 5, passed: true };
     refreshUnlocks();
     navigateTo('m12');
     return {
@@ -268,10 +268,10 @@ test('a fully completed curriculum reports 100 percent from real data totals', a
       hardwareBadge: document.querySelector('#group-hardware-badge')?.textContent.trim(),
     };
   });
-  expect(result.progress.done).toBe(159);
-  expect(result.progress.total).toBe(159);
+  expect(result.progress.done).toBe(167);
+  expect(result.progress.total).toBe(167);
   expect(result.progress.pct).toBe(100);
-  expect(result.topbar).toBe('159 / 159 complétés');
+  expect(result.topbar).toBe('167 / 167 complétés');
   expect(result.linuxBadge).toBe('100%');
   expect(result.networkBadge).toBe('100%');
   expect(result.securityBadge).toBe('100%');
