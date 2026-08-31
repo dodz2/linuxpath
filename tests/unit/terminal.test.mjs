@@ -100,6 +100,13 @@ test('echo pipes into base64 -d and grep pipes into cut and awk', () => {
   assert.ok(awk.stdout.length > 0);
 });
 
+test('grep reads multiple log files and prefixes their names', () => {
+  const result = exec("grep -E 'Failed password|Accepted publickey' /var/log/auth.log /var/log/auth.log");
+  assert.equal(result.exitCode, 0);
+  assert.match(result.stdout.join('\n'), /\/var\/log\/auth\.log:/);
+  assert.match(result.stdout.join('\n'), /Failed password/);
+});
+
 test('an unknown command returns a non-zero exit code', () => {
   const result = exec('definitely-not-a-command');
   assert.notEqual(result.exitCode, 0);

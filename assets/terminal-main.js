@@ -2,6 +2,8 @@
    TERMINAL PRINCIPAL — Instance du moteur unifié
    ============================================================ */
 let VFS = null; // Chargé depuis data/vfs.json
+let BASE_VFS = null;
+let ACTIVE_SCENARIO_ID = 'base';
 let mainTerminal = null;
 const artifactChecksums = {
   'LAB_SAMPLE_ONLY\nhttps://c2.training.invalid/callback\n': '0e1a4734f609146ce91de2f680e0f6bfe5f539f7596895820674232c25f37ad2',
@@ -9,7 +11,8 @@ const artifactChecksums = {
 };
 
 function initMainTerminal(vfsData) {
-  VFS = vfsData;
+  BASE_VFS = JSON.parse(JSON.stringify(vfsData));
+  VFS = JSON.parse(JSON.stringify(vfsData));
   mainTerminal = createTerminalEngine({
   vfs: VFS,
   outputElId: 'terminal-output',
@@ -647,21 +650,22 @@ function initMainTerminal(vfsData) {
       if (!required.every(function (token) { return (args || []).indexOf(token) >= 0; })) {
         return { exitCode: 1, stdout: [], stderr: ['lynis : utilisez audit system --quick dans ce lab'], stateChanges: [] };
       }
-      mainTerminal.print('[ Lynis 3.0 ]', 'term-output');
-      mainTerminal.print('Hardening index : 66', 'term-output');
-      mainTerminal.print('Warning: SSH PermitRootLogin is enabled [SSH-7412]', 'term-output');
-      mainTerminal.print('Suggestion: review unused filesystems before remediation', 'term-output');
+      var audit = getMainScenario().audit || { index: 66, lines: ['Warning: SSH PermitRootLogin is enabled [SSH-7412]', 'Suggestion: review unused filesystems before remediation'] };
+      mainTerminal.print('[ Lynis 3.0 — simulation LinuxPath ]', 'term-output');
+      mainTerminal.print('Hardening index : ' + audit.index, 'term-output');
+      (audit.lines || []).forEach(function (line) { mainTerminal.print(escapeHtml(line), 'term-output'); });
     },
     auditctl: function(args) {
+      var audit = getMainScenario().audit || { path: '/etc/passwd', key: 'identity' };
       if ((args || []).length === 1 && args[0] === '-l') {
-        mainTerminal.print('-a always,exit -F arch=b64 -F path=/etc/passwd -F perm=wa -k identity', 'term-output');
+        mainTerminal.print('-a always,exit -F arch=b64 -F path=' + audit.path + ' -F perm=wa -k ' + audit.key, 'term-output');
         return;
       }
-      var required = ['-a', 'always,exit', '-F', 'arch=b64', 'path=/etc/passwd', 'perm=wa', '-k', 'identity'];
+      var required = ['-a', 'always,exit', '-F', 'arch=b64', 'path=' + audit.path, 'perm=wa', '-k', audit.key];
       if (!required.every(function (token) { return (args || []).indexOf(token) >= 0; })) {
         return { exitCode: 1, stdout: [], stderr: ['auditctl : utilisez une règle syscall explicite dans ce lab'], stateChanges: [] };
       }
-      mainTerminal.print('auditctl: règle syscall installée pour /etc/passwd (clé : identity)', 'term-output');
+      mainTerminal.print('auditctl: règle syscall installée pour ' + audit.path + ' (clé : ' + audit.key + ')', 'term-output');
     },
     ausearch: function(args) {
       if ((args || []).indexOf('-k') >= 0 && (args || []).indexOf('identity') >= 0) {
@@ -671,20 +675,21 @@ function initMainTerminal(vfsData) {
       return { exitCode: 1, stdout: [], stderr: ['ausearch : utilisez -k identity dans ce lab'], stateChanges: [] };
     },
     nmap: function(args) {
+      var config = getMainScenario().nmap || { host: 'lab.linuxpath.test', port: '80', service: 'http', title: 'LinuxPath training application' };
       var host = args[args.length - 1] || 'host';
-      if (host !== 'lab.linuxpath.test') {
-        return { exitCode: 1, stdout: [], stderr: ['LinuxPath : la simulation Nmap accepte uniquement lab.linuxpath.test'], stateChanges: [] };
+      if (host !== config.host) {
+        return { exitCode: 1, stdout: [], stderr: ['LinuxPath : la simulation Nmap accepte uniquement la cible autorisée du dossier'], stateChanges: [] };
       }
-      var required = ['-sV', '-p', '80', '--script=http-title'];
+      var required = ['-sV', '-p', config.port, '--script=http-title'];
       if (!required.every(function (token) { return (args || []).indexOf(token) >= 0; })) {
-        return { exitCode: 1, stdout: [], stderr: ['LinuxPath : utilisez -sV -p 80 --script=http-title dans ce lab'], stateChanges: [] };
+        return { exitCode: 1, stdout: [], stderr: ['LinuxPath : respectez exactement le port et le script autorisés dans le périmètre'], stateChanges: [] };
       }
       mainTerminal.print('LinuxPath : simulation — aucun paquet envoyé.', 'term-output');
       mainTerminal.print('Starting Nmap 7.91 ( Ubuntu 22.04 lab profile )', 'term-output');
       mainTerminal.print('Nmap scan report for ' + host, 'term-output');
       mainTerminal.print('PORT   STATE SERVICE VERSION', 'term-output');
-      mainTerminal.print('80/tcp open  http    LinuxPath training HTTP 1.0', 'term-output');
-      mainTerminal.print('| http-title: LinuxPath training application', 'term-output');
+      mainTerminal.print(config.port + '/tcp open  ' + config.service + '    LinuxPath simulated service', 'term-output');
+      mainTerminal.print('| http-title: ' + config.title, 'term-output');
     },
     msfconsole: function() {
       mainTerminal.print('Metasploit Framework', 'term-output');
@@ -733,14 +738,15 @@ function initMainTerminal(vfsData) {
       var file = (args || []).filter(function (a) { return a.charAt(0) !== '-'; })[0] || 'firmware.bin';
       var vfs = mainTerminal.getVfs();
       var source = mainTerminal.resolvePath(file);
+      var config = getMainScenario().firmware || { file: 'firmware.bin', description: 'UBI image header' };
       if (!vfs[source] || vfs[source].type !== 'file') {
         return { exitCode: 1, stdout: [], stderr: ['binwalk : ' + file + ' : Aucun fichier de ce type'], stateChanges: [] };
       }
-      if (source !== '/home/user/firmware.bin') {
-        return { exitCode: 1, stdout: [], stderr: ['LinuxPath : binwalk est limité à firmware.bin dans ce lab'], stateChanges: [] };
+      if (source !== '/home/user/' + config.file) {
+        return { exitCode: 1, stdout: [], stderr: ['LinuxPath : analysez uniquement le firmware attribué à ce dossier'], stateChanges: [] };
       }
       mainTerminal.print('DECIMAL  HEX  DESCRIPTION', 'term-output');
-      mainTerminal.print('0        0x0  UBI image header (LinuxPath simulated marker)', 'term-output');
+      mainTerminal.print('0        0x0  ' + config.description + ' (LinuxPath simulated marker)', 'term-output');
       if ((args || []).indexOf('-e') >= 0) {
         var parentPath = source.slice(0, source.lastIndexOf('/')) || '/';
         var outDir = parentPath + '/_' + source.split('/').pop() + '.extracted';
@@ -795,6 +801,23 @@ function initMainTerminal(vfsData) {
    }
 });
 
+}
+
+function activateMainTerminalScenario(overlay, scenarioId) {
+  if (!mainTerminal || !BASE_VFS || typeof applyVfsOverlay !== 'function') return;
+  scenarioId = scenarioId || 'base';
+  if (ACTIVE_SCENARIO_ID === scenarioId) return;
+  VFS = applyVfsOverlay(BASE_VFS, overlay || {});
+  mainTerminal.setVfs(VFS);
+  mainTerminal.setCurrentDir('/home/user');
+  ACTIVE_SCENARIO_ID = scenarioId;
+}
+
+function getMainScenario() {
+  try {
+    var node = mainTerminal && mainTerminal.getVfs()['/etc/linuxpath-scenario.json'];
+    return node && node.type === 'file' ? JSON.parse(node.content) : {};
+  } catch (_) { return {}; }
 }
 
 /* Global wrapper functions for backward compatibility */

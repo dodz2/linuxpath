@@ -89,9 +89,9 @@ test('m8 is followed by m9 and m14 has no successor', () => {
   assert.equal(nextModuleId('m14', modules), null);
 });
 
-test('a v1 fixture migrates to v2 without losing scores or unlocks', () => {
+test('a v1 fixture migrates to v3 without losing scores or unlocks', () => {
   const migrated = migrateProgress(v1);
-  assert.equal(migrated._format, 'linuxpath-progress-v2');
+  assert.equal(migrated._format, 'linuxpath-progress-v3');
   assert.deepEqual(migrated.lessonsDone, ['m1-l1']);
   assert.deepEqual(migrated.exercisesDone, ['m1-e1']);
   assert.equal(migrated.quiz.m1.lastScore, 3);
@@ -105,6 +105,16 @@ test('a v2 fixture is accepted as-is after normalization', () => {
   assert.equal(migrated.quiz.m1.bestScore, 4);
   assert.equal(migrated.quiz.m1.lastScore, 3);
   assert.equal(migrated.quiz.m1.passed, true);
+});
+
+test('v1 and v2 invalidate only the replaced M14-E1 exercise', () => {
+  const migrated = migrateProgress({
+    _format: 'linuxpath-progress-v2',
+    lessonsDone: [],
+    exercisesDone: ['m12-e1', 'm13-e3', 'm14-e1', 'm14-e2', 'm14-e3'],
+    quiz: {},
+  });
+  assert.deepEqual(migrated.exercisesDone, ['m12-e1', 'm13-e3', 'm14-e2', 'm14-e3']);
 });
 
 test('hostile string scores are dropped during migration', () => {

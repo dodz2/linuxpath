@@ -13,6 +13,13 @@ function resolveLabPath(ctx, candidate) {
     : `${ctx.cwd}/${candidate}`.replace(/\/+/g, '/');
 }
 
+function scenario(ctx) {
+  try {
+    const node = ctx.vfs['/etc/linuxpath-scenario.json'];
+    return node?.type === 'file' ? JSON.parse(node.content) : {};
+  } catch { return {}; }
+}
+
 const artifactChecksums = {
   'LAB_SAMPLE_ONLY\nhttps://c2.training.invalid/callback\n': '0e1a4734f609146ce91de2f680e0f6bfe5f539f7596895820674232c25f37ad2',
   'LINUXPATH_TRAINING_EVIDENCE_IMAGE\n': 'e517bf22cfe911ce831a192e9525560715f62da8a151a14848e10b91c5b1df5d',
@@ -100,22 +107,24 @@ export const pedagogicalCommands = {
     }
     return { exitCode: 1, stdout: [], stderr: ['journalctl : filtre de démonstration non pris en charge'], stateChanges: [] };
   },
-  lynis: (args) => {
+  lynis: (args, ctx) => {
     const required = ['audit', 'system', '--quick'];
     if (!required.every((token) => args.includes(token))) {
       return { exitCode: 1, stdout: [], stderr: ['lynis : utilisez audit system --quick dans ce lab'], stateChanges: [] };
     }
-    return ok(['[ Lynis 3.0 ]', 'Hardening index : 66', 'Warning: SSH PermitRootLogin is enabled [SSH-7412]', 'Suggestion: review unused filesystems before remediation']);
+    const audit = scenario(ctx).audit || { index: 66, lines: ['Warning: SSH PermitRootLogin is enabled [SSH-7412]', 'Suggestion: review unused filesystems before remediation'] };
+    return ok(['[ Lynis 3.0 — simulation LinuxPath ]', `Hardening index : ${audit.index}`, ...(audit.lines || [])]);
   },
-  auditctl: (args) => {
+  auditctl: (args, ctx) => {
+    const audit = scenario(ctx).audit || { path: '/etc/passwd', key: 'identity' };
     if (args.length === 1 && args[0] === '-l') {
-      return ok(['-a always,exit -F arch=b64 -F path=/etc/passwd -F perm=wa -k identity']);
+      return ok([`-a always,exit -F arch=b64 -F path=${audit.path} -F perm=wa -k ${audit.key}`]);
     }
-    const required = ['-a', 'always,exit', '-F', 'arch=b64', 'path=/etc/passwd', 'perm=wa', '-k', 'identity'];
+    const required = ['-a', 'always,exit', '-F', 'arch=b64', `path=${audit.path}`, 'perm=wa', '-k', audit.key];
     if (!required.every((token) => args.includes(token))) {
       return { exitCode: 1, stdout: [], stderr: ['auditctl : utilisez une règle syscall explicite dans ce lab'], stateChanges: [] };
     }
-    return ok(['auditctl: règle syscall installée pour /etc/passwd (clé : identity)']);
+    return ok([`auditctl: règle syscall installée pour ${audit.path} (clé : ${audit.key})`]);
   },
   ausearch: (args) => {
     if (args.includes('-k') && args.includes('identity')) {
@@ -123,14 +132,15 @@ export const pedagogicalCommands = {
     }
     return { exitCode: 1, stdout: [], stderr: ['ausearch : utilisez -k identity dans ce lab'], stateChanges: [] };
   },
-  nmap: (args) => {
+  nmap: (args, ctx) => {
+    const config = scenario(ctx).nmap || { host: 'lab.linuxpath.test', port: '80', service: 'http', title: 'LinuxPath training application' };
     const host = args[args.length - 1] || 'host';
-    if (host !== 'lab.linuxpath.test') return { exitCode: 1, stdout: [], stderr: ['LinuxPath : la simulation Nmap accepte uniquement lab.linuxpath.test'], stateChanges: [] };
-    const required = ['-sV', '-p', '80', '--script=http-title'];
+    if (host !== config.host) return { exitCode: 1, stdout: [], stderr: ['LinuxPath : la simulation Nmap accepte uniquement la cible autorisée du dossier'], stateChanges: [] };
+    const required = ['-sV', '-p', config.port, '--script=http-title'];
     if (!required.every((token) => args.includes(token))) {
-      return { exitCode: 1, stdout: [], stderr: ['LinuxPath : utilisez -sV -p 80 --script=http-title dans ce lab'], stateChanges: [] };
+      return { exitCode: 1, stdout: [], stderr: ['LinuxPath : respectez exactement le port et le script autorisés dans le périmètre'], stateChanges: [] };
     }
-    return ok(['LinuxPath : simulation — aucun paquet envoyé.', 'Starting Nmap 7.91 ( Ubuntu 22.04 lab profile )', `Nmap scan report for ${host}`, 'PORT   STATE SERVICE VERSION', '80/tcp open  http    LinuxPath training HTTP 1.0', '| http-title: LinuxPath training application']);
+    return ok(['LinuxPath : simulation — aucun paquet envoyé.', 'Starting Nmap 7.91 ( Ubuntu 22.04 lab profile )', `Nmap scan report for ${host}`, 'PORT   STATE SERVICE VERSION', `${config.port}/tcp open  ${config.service}    LinuxPath simulated service`, `| http-title: ${config.title}`]);
   },
   msfconsole: () => ok(['Metasploit Framework', 'msf6 >']),
   gobuster: (args) => {
@@ -171,13 +181,14 @@ export const pedagogicalCommands = {
   binwalk: (args, ctx) => {
     const file = args.find((a) => !a.startsWith('-')) || 'firmware.bin';
     const source = resolveLabPath(ctx, file);
+    const config = scenario(ctx).firmware || { file: 'firmware.bin', description: 'UBI image header' };
     if (!source || !ctx.vfs[source] || ctx.vfs[source].type !== 'file') {
       return { exitCode: 1, stdout: [], stderr: [`binwalk : ${file} : Aucun fichier de ce type`], stateChanges: [] };
     }
-    if (source !== '/home/user/firmware.bin') {
-      return { exitCode: 1, stdout: [], stderr: ['LinuxPath : binwalk est limité à firmware.bin dans ce lab'], stateChanges: [] };
+    if (source !== `/home/user/${config.file}`) {
+      return { exitCode: 1, stdout: [], stderr: ['LinuxPath : analysez uniquement le firmware attribué à ce dossier'], stateChanges: [] };
     }
-    const lines = ['DECIMAL  HEX  DESCRIPTION', '0        0x0  UBI image header (LinuxPath simulated marker)'];
+    const lines = ['DECIMAL  HEX  DESCRIPTION', `0        0x0  ${config.description} (LinuxPath simulated marker)`];
     if (args.includes('-e')) {
       const parentPath = source.slice(0, source.lastIndexOf('/')) || '/';
       const outDir = `${parentPath}/_${source.split('/').pop()}.extracted`;

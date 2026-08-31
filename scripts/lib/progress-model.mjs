@@ -1,6 +1,7 @@
 export const PASS_SCORE = 3;
 export const PROGRESS_FORMAT_V1 = 'linuxpath-progress-v1';
 export const PROGRESS_FORMAT_V2 = 'linuxpath-progress-v2';
+export const PROGRESS_FORMAT_V3 = 'linuxpath-progress-v3';
 
 export function activityBelongsToModule(id, moduleId) {
   return typeof id === 'string' && typeof moduleId === 'string' && (id === moduleId || id.startsWith(`${moduleId}-`));
@@ -70,7 +71,7 @@ export function masteryLabel({ passed, bestScore, withHelp, questionCount = 5 })
 export function migrateProgress(data, passScore = PASS_SCORE) {
   if (!data || typeof data !== 'object') return null;
   const format = data._format;
-  if (format !== PROGRESS_FORMAT_V1 && format !== PROGRESS_FORMAT_V2) return null;
+  if (format !== PROGRESS_FORMAT_V1 && format !== PROGRESS_FORMAT_V2 && format !== PROGRESS_FORMAT_V3) return null;
   const sourceQuiz = data.quiz && typeof data.quiz === 'object' ? data.quiz : data.quizScores;
   const quiz = {};
   if (sourceQuiz && typeof sourceQuiz === 'object') {
@@ -80,14 +81,16 @@ export function migrateProgress(data, passScore = PASS_SCORE) {
     }
   }
   return {
-    _format: PROGRESS_FORMAT_V2,
+    _format: PROGRESS_FORMAT_V3,
     lessonsDone: Array.isArray(data.lessonsDone) ? data.lessonsDone.filter((id) => typeof id === 'string') : [],
-    exercisesDone: Array.isArray(data.exercisesDone) ? data.exercisesDone.filter((id) => typeof id === 'string') : [],
+    exercisesDone: (Array.isArray(data.exercisesDone) ? data.exercisesDone.filter((id) => typeof id === 'string') : []).filter((id) => format === PROGRESS_FORMAT_V3 || id !== 'm14-e1'),
     quiz,
     unlockedModules: Array.isArray(data.unlockedModules) ? data.unlockedModules.filter((id) => typeof id === 'string') : [],
     ctfSolved: Array.isArray(data.ctfSolved) ? data.ctfSolved.filter((id) => typeof id === 'string') : [],
     ctfHints: data.ctfHints && typeof data.ctfHints === 'object' ? data.ctfHints : {},
     ctfHow: data.ctfHow && typeof data.ctfHow === 'object' ? data.ctfHow : {},
+    variantAssignments: format === PROGRESS_FORMAT_V3 && data.variantAssignments && typeof data.variantAssignments === 'object' ? data.variantAssignments : {},
+    variantResults: format === PROGRESS_FORMAT_V3 && data.variantResults && typeof data.variantResults === 'object' ? data.variantResults : {},
   };
 }
 
@@ -170,7 +173,7 @@ export function validateProgressImport(raw, catalog, maxBytes = PROGRESS_IMPORT_
   ];
   if (unknown.length) return { ok: false, reason: 'unknown-id' };
   const data = {
-    _format: PROGRESS_FORMAT_V2,
+    _format: PROGRESS_FORMAT_V3,
     lessonsDone: migrated.lessonsDone.slice(),
     exercisesDone: migrated.exercisesDone.slice(),
     quiz: { ...migrated.quiz },
@@ -178,6 +181,8 @@ export function validateProgressImport(raw, catalog, maxBytes = PROGRESS_IMPORT_
     ctfSolved: migrated.ctfSolved.slice(),
     ctfHints: { ...migrated.ctfHints },
     ctfHow: { ...migrated.ctfHow },
+    variantAssignments: { ...migrated.variantAssignments },
+    variantResults: { ...migrated.variantResults },
   };
   const preview = [
     `${data.lessonsDone.length} leçon${data.lessonsDone.length === 1 ? '' : 's'}`,

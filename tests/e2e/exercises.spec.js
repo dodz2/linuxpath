@@ -5,21 +5,29 @@ test('all 46 canonical exercise answers agree with terminal execution', async ({
   await openApp(page);
   const results = await page.evaluate(async () => {
     const rows = [];
-    const cleanVfs = structuredClone(VFS);
     for (const moduleId of Object.keys(EXERCISES)) {
       ensureModuleRendered(moduleId);
-      for (const exercise of EXERCISES[moduleId]) {
-        const input = document.querySelector(`#ex-input-${exercise.id}`);
+      for (const baseExercise of EXERCISES[moduleId]) {
+        const variant = getActiveVariant(moduleId);
+        const exercise = variant ? getEffectiveExercise(baseExercise, moduleId) : baseExercise;
         const terminal = document.querySelector('#terminal-output');
-        mainTerminal.setVfs(structuredClone(cleanVfs));
-        mainTerminal.setCurrentDir('/home/user');
+        if (variant) activateVariantForModule(moduleId);
+        else { mainTerminal.setVfs(structuredClone(BASE_VFS)); mainTerminal.setCurrentDir('/home/user'); }
         terminal.innerHTML = '';
-        input.value = exercise.accepted[0];
+        if (exercise.mode === 'investigation') {
+          for (const field of exercise.reportFields) {
+            const nodes = [...document.querySelectorAll(`[data-investigation="${exercise.id}"] [data-report-field="${field.id}"]`)];
+            if (field.type === 'checkboxes') nodes.forEach((node) => { node.checked = exercise.answer[field.id].includes(node.value); });
+            else nodes[0].value = exercise.answer[field.id];
+          }
+        } else {
+          document.querySelector(`#ex-input-${exercise.id}`).value = exercise.accepted[0];
+        }
         await checkExercise(exercise.id, moduleId);
         rows.push({
           id: exercise.id,
           moduleId,
-          command: exercise.accepted[0],
+          command: exercise.accepted?.[0] || '[structured report]',
           solved: state.exercisesDone.has(exercise.id),
           feedback: document.querySelector(`#feedback-${exercise.id}`)?.textContent.trim(),
           terminal: terminal.textContent.replace(/\s+/g, ' ').trim(),
@@ -83,28 +91,18 @@ test('a command with a non-zero exit code cannot validate an exercise', async ({
 test('strict cyber exercises reject incomplete commands in the browser', async ({ page }) => {
   await openApp(page);
   const result = await page.evaluate(async () => {
-    const cleanVfs = structuredClone(VFS);
     const cases = [
-      ['m12-e2', 'm12', 'auditctl -a always,exit -F path=/etc/passwd | echo identity arch=b64 perm=wa -k'],
-      ['m13-e2', 'm13', 'nmap lab.linuxpath.test | echo simulation -sV -p 80 --script=http-title'],
-      ['m13-e3', 'm13', 'rapport --target lab.linuxpath.test --finding http-title-observed --impact info | echo rapport nmap-http-title authorized-lab'],
-      ['m14-e1', 'm14', 'strings malware.bin grep http'],
-      ['m14-e1', 'm14', 'strings -a other.bin | grep -i http malware.bin'],
-      ['m14-e1', 'm14', 'strings -a malware.bin | grep -i callback malware.bin http'],
-      ['m12-e3', 'm12', 'grep PermitRootLogin /var/log/lynis.log -i SSH-7412'],
-      ['m14-e2', 'm14', 'binwalk firmware.bin'],
-      ['m14-e2', 'm14', 'mkdir /home/user/_firmware.bin.extracted | binwalk -e other.bin | echo firmware.bin'],
-      ['m13-e3', 'm13', 'rapport --target lab.linuxpath.test --finding http-title-observed --impact info --evidence nmap-http-title --scope authorized-lab --observed-at 2026-08-31 --tool nmap-7.91 --confidence high --remediation review-title-exposure --retest rerun-nmap-after-change --finding fabricated'],
+      ['m12-e2', 'm12', 'auditctl -w /etc/passwd -p wa -k identity'],
+      ['m13-e2', 'm13', 'nmap -sV -p 22 --script=http-title wrong.linuxpath.test'],
+      ['m14-e2', 'm14', 'binwalk -e firmware.bin'],
       ['m14-e3', 'm14', 'dd if=/dev/sda of=/mnt/evidence/disk.img bs=4M'],
-      ['m14-e3', 'm14', 'touch /mnt/evidence/training-copy.img | dd if=/home/user/labs/evidence-source.img of=/tmp/not-evidence bs=1 | echo bs=4M status=progress of=/mnt/evidence/training-copy.img'],
-      ['m14-e3', 'm14', 'dd if=/home/user/labs/evidence-source.img of=/mnt/evidence/training-copy.img if=/home/user/malware.bin bs=4M status=progress'],
     ];
     const rows = [];
     for (const [id, moduleId, command] of cases) {
       ensureModuleRendered(moduleId);
-      state.exercisesDone.delete(id);
-      mainTerminal.setVfs(structuredClone(cleanVfs));
-      mainTerminal.setCurrentDir('/home/user');
+      const variant = getActiveVariant(moduleId);
+      if (state.variantResults[id]) state.variantResults[id].solvedVariants = state.variantResults[id].solvedVariants.filter((variantId) => variantId !== variant.id);
+      activateVariantForModule(moduleId);
       document.querySelector('#terminal-output').innerHTML = '';
       const input = document.querySelector(`#ex-input-${id}`);
       input.disabled = false;
@@ -115,6 +113,50 @@ test('strict cyber exercises reject incomplete commands in the browser', async (
     return rows;
   });
   expect(result.every((entry) => !entry.solved && entry.feedback.startsWith('✗'))).toBe(true);
+});
+
+test('structured investigation reveals the correction only on the third failure', async ({ page }) => {
+  await openApp(page);
+  const result = await page.evaluate(async () => {
+    ensureModuleRendered('m14');
+    const messages = [];
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      await checkExercise('m14-e1', 'm14');
+      messages.push(document.querySelector('#feedback-m14-e1').textContent.trim());
+    }
+    return messages;
+  });
+  expect(result[0]).not.toContain('Correction :');
+  expect(result[1]).not.toContain('Correction :');
+  expect(result[2]).toContain('Correction :');
+});
+
+test('a dossier assignment survives reload and rotates only after all three exercises', async ({ page }) => {
+  await openApp(page);
+  const before = await page.evaluate(async () => {
+    ensureModuleRendered('m12');
+    const group = getVariantGroupByModule('m12');
+    const variant = getActiveVariant('m12');
+    await saveState();
+    return { id: variant.id, disabled: document.querySelector('#dossier-panel-m12 .btn-new-dossier').disabled, exerciseIds: group.exerciseIds };
+  });
+  expect(before.disabled).toBe(true);
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => typeof APP_READY !== 'undefined' && APP_READY);
+  const after = await page.evaluate(async () => {
+    ensureModuleRendered('m12');
+    const group = getVariantGroupByModule('m12');
+    const current = getActiveVariant('m12');
+    group.exerciseIds.forEach((id) => { recordVariantSolved(id, current.id); state.exercisesDone.add(id); });
+    renderExercises('m12');
+    const enabled = !document.querySelector('#dossier-panel-m12 .btn-new-dossier').disabled;
+    await switchVariant('m12');
+    return { original: current.id, next: getActiveVariant('m12').id, enabled, done: group.exerciseIds.every((id) => state.exercisesDone.has(id)) };
+  });
+  expect(after.original).toBe(before.id);
+  expect(after.enabled).toBe(true);
+  expect(after.next).not.toBe(after.original);
+  expect(after.done).toBe(true);
 });
 
 test('the browser terminal returns the documented journal filters', async ({ page }) => {

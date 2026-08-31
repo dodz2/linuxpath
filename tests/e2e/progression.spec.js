@@ -271,7 +271,7 @@ test('a version-1 save is migrated in memory without losing the passed quiz', as
       lessons: [...state.lessonsDone],
     };
   });
-  expect(migrated.format).toBe('linuxpath-progress-v2');
+  expect(migrated.format).toBe('linuxpath-progress-v3');
   expect(migrated.quiz.passed).toBe(true);
   expect(migrated.quiz.lastScore).toBe(3);
   expect(migrated.lessons).toContain('m1-l1');
@@ -296,6 +296,21 @@ test('a completed lesson can be unmarked and a module can be reset', async ({ pa
   expect(result.afterMark).toBe(true);
   expect(result.afterUnmark).toBe(false);
   expect(result.quizAfterReset).toBeUndefined();
+});
+
+test('a version-2 save invalidates only the replaced M14-E1 exercise', async ({ page }) => {
+  await openApp(page);
+  const migrated = await page.evaluate(() => {
+    applyImportedProgress({
+      _format: 'linuxpath-progress-v2',
+      lessonsDone: [],
+      exercisesDone: ['m12-e1', 'm14-e1', 'm14-e2', 'm14-e3'],
+      quiz: {}, unlockedModules: ['m12'], ctfSolved: [], ctfHints: {}, ctfHow: {},
+    });
+    return { format: exportProgressData()._format, exercises: [...state.exercisesDone] };
+  });
+  expect(migrated.format).toBe('linuxpath-progress-v3');
+  expect(migrated.exercises).toEqual(['m12-e1', 'm14-e2', 'm14-e3']);
 });
 
 test('a complete reset clears CTF completion metadata too', async ({ page }) => {

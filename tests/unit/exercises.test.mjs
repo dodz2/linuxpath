@@ -4,6 +4,7 @@ import { loadJson } from '../../scripts/lib/content-validation.mjs';
 import { evaluateValidator } from '../../scripts/lib/exercise-validators.mjs';
 import { pedagogicalCommands } from '../../scripts/lib/pedagogical-commands.mjs';
 import { runShell } from '../../scripts/lib/shell-exec.mjs';
+import { applyVfsOverlay, evaluateReport } from '../../scripts/lib/exercise-variants.mjs';
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -13,11 +14,15 @@ function allExercises(exercises) {
   return Object.entries(exercises).flatMap(([moduleId, list]) => list.map((exercise) => ({ moduleId, exercise })));
 }
 
-test('every exercise has a declarative validator and a canonical answer', async () => {
+test('every exercise has a command or structured investigation contract', async () => {
   const exercises = await loadJson('data/exercises.json');
   const rows = allExercises(exercises);
   assert.equal(rows.length, 46);
   for (const { exercise } of rows) {
+    if (exercise.mode === 'investigation') {
+      assert.ok(Array.isArray(exercise.reportFields) && exercise.reportFields.length, `${exercise.id} missing report fields`);
+      continue;
+    }
     assert.ok(exercise.validator && exercise.validator.type, `${exercise.id} missing validator`);
     assert.ok(Array.isArray(exercise.accepted) && exercise.accepted[0], `${exercise.id} missing accepted[0]`);
     assert.equal(exercise.accepted.includes("echo $USER"), false, `${exercise.id} still accepts echo $USER`);
@@ -30,6 +35,7 @@ test('every accepted answer produces exit 0 and satisfies its effect oracle', as
   const [exercises, vfs] = await Promise.all([loadJson('data/exercises.json'), loadJson('data/vfs.json')]);
   const failures = [];
   for (const { exercise } of allExercises(exercises)) {
+    if (exercise.mode === 'investigation') continue;
     for (const command of exercise.accepted) {
       const isolatedVfs = clone(vfs);
       const isolated = runShell({ vfs: isolatedVfs, cwd: '/home/user', command, extraCommands: pedagogicalCommands });
@@ -54,6 +60,7 @@ test('no exercise can succeed when exitCode is not zero', async () => {
   const vfs = await loadJson('data/vfs.json');
   const failures = [];
   for (const { exercise } of allExercises(exercises)) {
+    if (exercise.mode === 'investigation') continue;
     const isolatedVfs = clone(vfs);
     const result = { exitCode: 1, stdout: ['fake success'], stderr: ['boom'], cwd: '/home/user', command: 'false', vfs: isolatedVfs };
     const verdict = evaluateValidator(exercise.validator, result);
@@ -66,6 +73,7 @@ test('each exercise rejects a command that does not produce the required effect'
   const [exercises, vfs] = await Promise.all([loadJson('data/exercises.json'), loadJson('data/vfs.json')]);
   const failures = [];
   for (const { exercise } of allExercises(exercises)) {
+    if (exercise.mode === 'investigation') continue;
     const isolatedVfs = clone(vfs);
     const isolated = runShell({ vfs: isolatedVfs, cwd: '/home/user', command: 'echo NOT_THE_EXERCISE', extraCommands: pedagogicalCommands });
     const verdict = evaluateValidator(exercise.validator, { ...isolated, vfs: isolatedVfs });
@@ -92,11 +100,8 @@ test('exercises reject incomplete, obsolete or unsafe command forms', async () =
     ['hw1-e2', 'ls /tmp'],
     ['m13-e1', 'nmap'],
     ['m12-e1', 'lynis'],
-    ['m13-e3', 'gobuster'],
     ['m12-e2', 'auditctl -w /etc/passwd -p wa -k passwd_changes'],
     ['m13-e2', 'nmap'],
-    ['m13-e3', 'rapport --target lab.linuxpath.test --finding http-title-observed --impact info --evidence nmap-http-title'],
-    ['m14-e1', 'strings malware.bin grep http'],
     ['m14-e2', 'binwalk'],
     ['m14-e2', 'binwalk firmware.bin'],
     ['m14-e3', 'dd'],
@@ -124,13 +129,7 @@ test('strict cyber validators bind arguments and effects to their own command st
   const cases = [
     ['m12-e2', 'auditctl -a always,exit -F path=/etc/passwd | echo identity arch=b64 perm=wa -k'],
     ['m13-e2', 'nmap lab.linuxpath.test | echo simulation -sV -p 80 --script=http-title'],
-    ['m13-e3', 'rapport --target lab.linuxpath.test --finding http-title-observed --impact info | echo rapport nmap-http-title authorized-lab'],
-    ['m14-e1', 'strings -i malware.bin | grep -a http'],
-    ['m14-e1', 'strings -a other.bin | grep -i http malware.bin'],
-    ['m14-e1', 'strings -a malware.bin | grep -i callback malware.bin http'],
-    ['m12-e3', 'grep PermitRootLogin /var/log/lynis.log -i SSH-7412'],
     ['m14-e2', 'mkdir /home/user/_firmware.bin.extracted | binwalk -e other.bin | echo firmware.bin'],
-    ['m13-e3', 'rapport --target lab.linuxpath.test --finding http-title-observed --impact info --evidence nmap-http-title --scope authorized-lab --observed-at 2026-08-31 --tool nmap-7.91 --confidence high --remediation review-title-exposure --retest rerun-nmap-after-change --finding fabricated'],
     ['m14-e3', 'touch /mnt/evidence/training-copy.img | dd if=/home/user/labs/evidence-source.img of=/tmp/not-evidence bs=1 | echo bs=4M status=progress of=/mnt/evidence/training-copy.img'],
     ['m14-e3', 'dd if=/home/user/labs/evidence-source.img of=/mnt/evidence/training-copy.img if=/home/user/malware.bin bs=4M status=progress'],
   ];
@@ -143,6 +142,50 @@ test('strict cyber validators bind arguments and effects to their own command st
     if (verdict.ok) failures.push({ id, command });
   }
   assert.deepEqual(failures, []);
+});
+
+test('all twelve cyber dossiers accept their canonical commands and reports', async () => {
+  const [exercises, variants, vfs] = await Promise.all([loadJson('data/exercises.json'), loadJson('data/exercise-variants.json'), loadJson('data/vfs.json')]);
+  const failures = [];
+  for (const group of Object.values(variants.groups)) {
+    for (const variant of group.variants) {
+      for (const exerciseId of group.exerciseIds) {
+        const base = exercises[group.moduleId].find((entry) => entry.id === exerciseId);
+        const effective = { ...base, ...variant.exercises[exerciseId] };
+        if (effective.mode === 'investigation') {
+          const verdict = evaluateReport(effective.reportFields, effective.answer, effective.answer);
+          if (!verdict.ok) failures.push({ variant: variant.id, exerciseId, reason: verdict.incorrectFields });
+          continue;
+        }
+        for (const command of effective.accepted) {
+          const isolatedVfs = applyVfsOverlay(vfs, variant.vfsOverlay);
+          const result = runShell({ vfs: isolatedVfs, cwd: '/home/user', command, extraCommands: pedagogicalCommands });
+          const verdict = evaluateValidator(effective.validator, { ...result, vfs: isolatedVfs, raw: command });
+          if (result.exitCode !== 0 || !verdict.ok) failures.push({ variant: variant.id, exerciseId, command, stderr: result.stderr, reason: verdict.reason });
+        }
+      }
+    }
+  }
+  assert.deepEqual(failures, []);
+});
+
+test('variant-aware cyber commands reject a wrong target, port, path or key', async () => {
+  const [exercises, variants, vfs] = await Promise.all([loadJson('data/exercises.json'), loadJson('data/exercise-variants.json'), loadJson('data/vfs.json')]);
+  const cases = [
+    ['m12-audit', 0, 'm12-e2', 'sudo auditctl -a always,exit -F arch=b64 -F path=/etc/passwd -F perm=wa -k identity'],
+    ['m13-pentest', 1, 'm13-e2', 'nmap -sV -p 80 --script=http-title lab.linuxpath.test'],
+    ['m14-dfir', 0, 'm14-e2', 'binwalk -e camera-fw.bin'],
+    ['m14-dfir', 0, 'm14-e3', 'dd if=/home/user/labs/case-ssh-02.img of=/mnt/evidence/case-ssh-01-copy.img bs=4M status=progress'],
+  ];
+  for (const [groupId, index, exerciseId, command] of cases) {
+    const group = variants.groups[groupId]; const variant = group.variants[index];
+    const base = exercises[group.moduleId].find((entry) => entry.id === exerciseId);
+    const effective = { ...base, ...variant.exercises[exerciseId] };
+    const isolatedVfs = applyVfsOverlay(vfs, variant.vfsOverlay);
+    const result = runShell({ vfs: isolatedVfs, cwd: '/home/user', command, extraCommands: pedagogicalCommands });
+    const verdict = evaluateValidator(effective.validator, { ...result, vfs: isolatedVfs, raw: command });
+    assert.equal(result.exitCode === 0 && verdict.ok, false, `${variant.id}/${exerciseId}`);
+  }
 });
 
 test('cyber simulator distinguishes valid lab inputs from missing files and connection states', async () => {

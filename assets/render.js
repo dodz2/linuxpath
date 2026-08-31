@@ -133,45 +133,88 @@ function renderExercises(mod) {
     const container = document.getElementById('exercises-' + mod);
     if (!container) return;
     container.innerHTML = '';
-    (EXERCISES[mod] || []).forEach((ex, i) => {
+    const group = typeof getVariantGroupByModule === 'function' ? getVariantGroupByModule(mod) : null;
+    const variant = group ? activateVariantForModule(mod) : null;
+    if (!group && typeof activateMainTerminalScenario === 'function') activateMainTerminalScenario({}, 'base');
+    if (group && variant) container.appendChild(renderDossierPanel(group, variant));
+    (EXERCISES[mod] || []).forEach((baseExercise, i) => {
+      const ex = variant ? getEffectiveExercise(baseExercise, mod) : baseExercise;
+      const variantSolved = variant && state.variantResults && state.variantResults[ex.id]
+        ? state.variantResults[ex.id].solvedVariants.indexOf(variant.id) >= 0
+        : false;
+      const solved = variant ? variantSolved : state.exercisesDone.has(ex.id);
+      const legacyComplete = variant && state.exercisesDone.has(ex.id) && !variantSolved;
       const card = document.createElement('div');
-      card.className = 'exercise-card' + (state.exercisesDone.has(ex.id) ? ' solved' : '');
+      card.className = 'exercise-card' + (solved ? ' solved' : '');
       card.id = 'ex-card-' + ex.id;
+      const controls = ex.mode === 'investigation' ? renderReportFields(ex) : `
+        <div class="exercise-input-row">
+          <span class="exercise-prompt">user@linux:~$</span>
+          <input type="text" class="exercise-input" id="ex-input-${ex.id}"
+            placeholder="tapez votre commande..."
+            ${solved ? 'disabled' : ''}
+            onkeydown="if(event.key==='Enter') checkExercise('${ex.id}', '${mod}')">
+          <button class="btn-check" data-check-exercise="${ex.id}" onclick="checkExercise('${ex.id}', '${mod}')" ${solved ? 'disabled' : ''}>Vérifier</button>
+          <button class="btn-hint" onclick="showHint('${ex.id}', '${mod}')">💡 Indice</button>
+        </div>`;
       card.innerHTML = `
         <div class="exercise-header">
           <div class="exercise-title">
             <span>${i+1}. ${ex.title}</span>
           </div>
-          <span class="exercise-badge ${state.exercisesDone.has(ex.id) ? 'solved' : ''}" id="ex-badge-${ex.id}">
-            ${state.exercisesDone.has(ex.id) ? '✓ Résolu' : 'Exercice'}
+          <span class="exercise-badge ${solved ? 'solved' : ''}" id="ex-badge-${ex.id}">
+            ${solved ? '✓ Validé pour ce dossier' : (legacyComplete ? '✓ Acquis · dossier à pratiquer' : 'Exercice')}
           </span>
         </div>
         <div class="exercise-desc">${ex.desc}</div>
-        <div class="exercise-input-row">
-          <span class="exercise-prompt">user@linux:~$</span>
-          <input type="text" class="exercise-input" id="ex-input-${ex.id}" 
-            placeholder="tapez votre commande..." 
-            ${state.exercisesDone.has(ex.id) ? 'disabled' : ''}
-            onkeydown="if(event.key==='Enter') checkExercise('${ex.id}', '${mod}')">
-          <button class="btn-check" onclick="checkExercise('${ex.id}', '${mod}')" ${state.exercisesDone.has(ex.id) ? 'disabled' : ''}>Vérifier</button>
-          <button class="btn-hint" onclick="showHint('${ex.id}')">💡 Indice</button>
-        </div>
+        ${controls}
         <div class="hint-box" id="hint-${ex.id}"></div>
-            <div class="exercise-feedback" id="feedback-${ex.id}" role="status" aria-live="polite"></div>
+        <div class="exercise-feedback" id="feedback-${ex.id}" role="status" aria-live="polite"></div>
       `;
       container.appendChild(card);
     });
   });
 }
 
+function renderDossierPanel(group, variant) {
+  const panel = document.createElement('div');
+  panel.className = 'dossier-panel';
+  panel.id = 'dossier-panel-' + group.moduleId;
+  const complete = dossierIsComplete(group, variant.id, state.variantResults || {});
+  const mastered = masteredDossierCount(group, state.variantResults || {});
+  panel.innerHTML = `<div class="dossier-copy"><span class="dossier-kicker">Dossier actif · ${escapeHtml(variant.id)}</span><strong>${escapeHtml(variant.title)}</strong><p>${escapeHtml(variant.brief)}</p></div>
+    <div class="dossier-actions"><span class="dossier-progress">${mastered}/4 dossiers maîtrisés</span><button class="btn-new-dossier" onclick="switchVariant('${group.moduleId}')" ${complete ? '' : 'disabled'}>Nouveau dossier</button><small>${complete ? 'Entraînement optionnel disponible.' : 'Réussissez les 3 exercices pour changer.'}</small></div>`;
+  return panel;
+}
+
+function renderReportFields(ex) {
+  const fields = (ex.reportFields || []).map(field => {
+    const id = `report-${ex.id}-${field.id}`;
+    if (field.type === 'select') {
+      const options = (field.options || []).map(option => `<option value="${escapeHtml(option[0])}">${escapeHtml(option[1])}</option>`).join('');
+      return `<label class="report-field" for="${id}"><span>${escapeHtml(field.label)}</span><select id="${id}" data-report-field="${field.id}">${options}</select></label>`;
+    }
+    if (field.type === 'checkboxes') {
+      const options = (field.options || []).map(option => `<label class="report-check"><input type="checkbox" value="${escapeHtml(option[0])}" data-report-field="${field.id}"> <span>${escapeHtml(option[1])}</span></label>`).join('');
+      return `<fieldset class="report-field report-evidence"><legend>${escapeHtml(field.label)}</legend>${options}</fieldset>`;
+    }
+    if (field.type === 'textarea') return `<label class="report-field report-wide" for="${id}"><span>${escapeHtml(field.label)}</span><textarea id="${id}" data-report-field="${field.id}" rows="3" placeholder="Expliquez votre raisonnement à partir des preuves…"></textarea></label>`;
+    return `<label class="report-field" for="${id}"><span>${escapeHtml(field.label)}</span><input id="${id}" data-report-field="${field.id}" type="text" autocomplete="off"></label>`;
+  }).join('');
+  return `<div class="investigation-form" data-investigation="${ex.id}">${fields}<div class="report-actions"><button class="btn-check" data-check-exercise="${ex.id}" onclick="checkExercise('${ex.id}', '${ex.id.split('-')[0]}')">Vérifier l’analyse</button><button class="btn-hint" onclick="showHint('${ex.id}', '${ex.id.split('-')[0]}')">💡 Indice</button></div></div>`;
+}
+
 const hintLevels = {};
 
-function showHint(exId) {
-  const ex = findExercise(exId);
+function showHint(exId, mod) {
+  const base = findExercise(exId);
+  const ex = base && mod ? getEffectiveExercise(base, mod) : base;
   if (!ex) return;
-  const current = hintLevels[exId] || 0;
+  const variant = mod ? getActiveVariant(mod) : null;
+  const hintKey = exId + ':' + (variant ? variant.id : 'base');
+  const current = hintLevels[hintKey] || 0;
   const next = Math.min(current + 1, ex.hints.length);
-  hintLevels[exId] = next;
+  hintLevels[hintKey] = next;
   if (!state.exercisesHow) state.exercisesHow = {};
   state.exercisesHow[exId] = 'helped';
   const box = document.getElementById('hint-' + exId);
@@ -190,46 +233,75 @@ function findExercise(id) {
 }
 
 async function checkExercise(exId, mod) {
-  const ex = findExercise(exId);
+  const base = findExercise(exId);
+  const variant = getActiveVariant(mod);
+  const ex = base && variant ? getEffectiveExercise(base, mod) : base;
   if (!ex) return;
-  if (state.exercisesDone.has(exId)) return;
-
-  const input = document.getElementById('ex-input-' + exId);
   const feedback = document.getElementById('feedback-' + exId);
-  if (!input || !feedback) return;
+  if (!feedback) return;
+  if (variant && state.variantResults && state.variantResults[exId] && state.variantResults[exId].solvedVariants.indexOf(variant.id) >= 0) return;
+  if (!variant && state.exercisesDone.has(exId)) return;
+  if (variant) activateVariantForModule(mod);
 
-  const command = input.value.trim();
-  if (!command) {
-    feedback.className = 'exercise-feedback error';
-    feedback.textContent = '✗ Entrez une commande.';
-    return;
+  let passed = false;
+  let reason = '';
+  let input = null;
+  if (ex.mode === 'investigation') {
+    const report = {};
+    (ex.reportFields || []).forEach(field => {
+      const nodes = Array.from(document.querySelectorAll(`[data-investigation="${exId}"] [data-report-field="${field.id}"]`));
+      report[field.id] = field.type === 'checkboxes' ? nodes.filter(node => node.checked).map(node => node.value) : (nodes[0] ? nodes[0].value.trim() : '');
+    });
+    const reportVerdict = evaluateReport(ex.reportFields, ex.answer, report);
+    passed = reportVerdict.ok;
+    if (!passed) {
+      const labels = reportVerdict.incorrectFields.map(id => (ex.reportFields.find(field => field.id === id) || { label: id }).label);
+      reason = 'Champs à revoir : ' + labels.join(', ') + '.';
+    }
+  } else {
+    input = document.getElementById('ex-input-' + exId);
+    if (!input) return;
+    const command = input.value.trim();
+    if (!command) {
+      feedback.className = 'exercise-feedback error';
+      feedback.textContent = '✗ Entrez une commande.';
+      return;
+    }
+    const result = mainTerminal.exec(command);
+    const commandVerdict = evaluateValidator(ex.validator, { ...result, vfs: mainTerminal.getVfs(), cwd: mainTerminal.getCurrentDir(), raw: command });
+    passed = result.exitCode === 0 && commandVerdict.ok;
+    reason = commandVerdict.reason || (result.stderr && result.stderr[0]) || 'La commande ne produit pas l’effet attendu.';
   }
 
-  const result = mainTerminal.exec(command);
-  const verdict = evaluateValidator(ex.validator, {
-    ...result,
-    vfs: mainTerminal.getVfs(),
-    cwd: mainTerminal.getCurrentDir(),
-    raw: command,
-  });
-
-  if (result.exitCode === 0 && verdict.ok) {
+  const attempt = variant ? recordVariantAttempt(exId, variant.id) : 1;
+  if (passed) {
+    if (variant) recordVariantSolved(exId, variant.id);
     state.exercisesDone.add(exId);
     if (!state.exercisesHow) state.exercisesHow = {};
     if (!state.exercisesHow[exId]) state.exercisesHow[exId] = (hintLevels[exId] ? 'helped' : 'autonomous');
     await saveState();
     feedback.className = 'exercise-feedback success';
-    feedback.textContent = '✓ Bravo ! Objectif atteint. Exercice validé.';
-    input.disabled = true;
-    const button = document.querySelector(`[onclick="checkExercise('${exId}', '${mod}')"]`);
+    feedback.textContent = '✓ Objectif atteint. ' + (ex.correction || variant && variant.correction || 'Exercice validé.');
+    if (input) input.disabled = true;
+    document.querySelectorAll(`[data-investigation="${exId}"] input, [data-investigation="${exId}"] select, [data-investigation="${exId}"] textarea`).forEach(node => { node.disabled = true; });
+    const button = document.querySelector(`[data-check-exercise="${exId}"]`);
     if (button) button.disabled = true;
+    const badge = document.getElementById('ex-badge-' + exId);
+    if (badge) { badge.className = 'exercise-badge solved'; badge.textContent = '✓ Validé pour ce dossier'; }
+    const card = document.getElementById('ex-card-' + exId);
+    if (card) card.classList.add('solved');
+    if (variant) {
+      const group = getVariantGroupByModule(mod);
+      const oldPanel = document.getElementById('dossier-panel-' + mod);
+      if (oldPanel) oldPanel.replaceWith(renderDossierPanel(group, variant));
+    }
     updateProgressUI();
   } else {
     feedback.className = 'exercise-feedback error';
-    feedback.textContent = '✗ ' + (verdict.reason || result.stderr?.[0] || 'La commande ne produit pas l’effet attendu.');
-    input.focus();
-    input.select();
+    feedback.textContent = '✗ ' + reason + (attempt >= 3 && (ex.correction || variant && variant.correction) ? ' Correction : ' + (ex.correction || variant.correction) : '');
+    if (input) { input.focus(); input.select(); }
   }
+  await saveState();
 }
 
 /* ============================================================

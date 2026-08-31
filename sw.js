@@ -1,6 +1,6 @@
 /* ============================================================
    Service Worker — LinuxPath
-   Version : linuxpath-v61
+   Version : linuxpath-v62
 
    Stratégies par type de ressource :
    ┌─────────────────────────────┬──────────────────────────────┐
@@ -21,7 +21,7 @@
    ============================================================ */
 
 const CACHE_PREFIX = 'linuxpath-';
-const SW_VERSION = 'linuxpath-v61';
+const SW_VERSION = 'linuxpath-v62';
 
 /* ---- Ressources pré-cachées à l'installation -------------- */
 // On ne pre-cache plus libv86/linux.iso (chargés en lazy ou à la demande)
@@ -34,6 +34,7 @@ const PRECACHE_URLS = [
   './assets/responsive.css',
   './assets/utils.min.js',
   './assets/storage.min.js',
+  './assets/exercise-variants.min.js',
   './assets/terminal-core.min.js',
   './assets/terminal-main.min.js',
   './assets/ctf.min.js',
@@ -44,6 +45,7 @@ const PRECACHE_URLS = [
   './manifest.json',
   './data/lessons.json',
   './data/exercises.json',
+  './data/exercise-variants.json',
   './data/quizzes.json',
   './data/modules.json',
   './data/ctf.json',

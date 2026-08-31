@@ -1,0 +1,162 @@
+{
+  "groups": {
+    "m12-audit": {
+      "id": "m12-audit",
+      "moduleId": "m12",
+      "exerciseIds": ["m12-e1", "m12-e2", "m12-e3"],
+      "variants": [
+        {
+          "id": "audit-ssh-root",
+          "title": "Accès root par SSH",
+          "brief": "Un serveur d'administration présente un réglage SSH à qualifier avant remédiation.",
+          "correction": "Le rapport établit que PermitRootLogin est actif. La priorité est élevée, mais la modification doit être préparée avec un accès de secours et vérifiée après rechargement de sshd.",
+          "vfsOverlay": { "paths": {
+            "/etc/linuxpath-scenario.json": { "type": "file", "content": "{\"audit\":{\"path\":\"/etc/ssh/sshd_config\",\"key\":\"sshd_config\",\"index\":61,\"lines\":[\"Warning: PermitRootLogin yes [LP-AUDIT-SSH-001]\",\"Evidence: /etc/ssh/sshd_config: PermitRootLogin yes\",\"Suggestion: establish an alternate admin path, disable root login, reload sshd and retest\"]}}" },
+            "/etc/ssh": { "type": "dir", "children": ["sshd_config"] },
+            "/etc/ssh/sshd_config": { "type": "file", "content": "Port 22\nPermitRootLogin yes\nPasswordAuthentication yes\n" },
+            "/var/log/lynis.log": { "type": "file", "content": "[ LinuxPath — rapport Lynis simulé ]\nWarning: PermitRootLogin yes [LP-AUDIT-SSH-001]\nEvidence: /etc/ssh/sshd_config: PermitRootLogin yes\nSuggestion: establish an alternate admin path, disable root login, reload sshd and retest\nHardening index : 61 (indicateur à interpréter)\n" }
+          } },
+          "exercises": {
+            "m12-e1": { "accepted": ["sudo lynis audit system --quick"] },
+            "m12-e2": {
+              "desc": "Ajoutez une règle syscall x86_64 temporaire qui trace les écritures et changements d’attributs sur <code>/etc/ssh/sshd_config</code> avec la clé <code>sshd_config</code>.",
+              "accepted": ["sudo auditctl -a always,exit -F arch=b64 -F path=/etc/ssh/sshd_config -F perm=wa -k sshd_config"],
+              "hints": ["Utilisez une règle syscall, pas une watch dépréciée.", "Le chemin est <code>/etc/ssh/sshd_config</code>.", "La clé attendue est <code>sshd_config</code>."],
+              "validator": { "type": "all", "of": [{"type":"exit_zero"},{"type":"command","name":"auditctl","single":true},{"type":"args_exact","stage":0,"tokens":["-a","always,exit","-F","arch=b64","-F","path=/etc/ssh/sshd_config","-F","perm=wa","-k","sshd_config"]}] }
+            },
+            "m12-e3": {
+              "answer": { "finding":"root-login-enabled", "priority":"high", "risk":"direct-privileged-access", "evidence":["permitrootlogin-yes","lp-audit-ssh-001"], "remediation":"disable-after-fallback", "verification":"reload-and-retest", "justification":"Analyse fondée sur le réglage observé et le contrôle simulé." },
+              "correction": "Constat : connexion root SSH autorisée. Preuves : PermitRootLogin yes et LP-AUDIT-SSH-001. Préparer un accès administrateur de secours, désactiver ce réglage, recharger sshd puis retester."
+            }
+          }
+        },
+        {
+          "id": "audit-sudo-nopasswd",
+          "title": "Sudo sans mot de passe",
+          "brief": "Une règle sudo très large est présente sur un hôte partagé.",
+          "correction": "La règle NOPASSWD globale augmente fortement le risque d'élévation de privilèges. Elle doit être remplacée par une autorisation minimale et testée avec visudo.",
+          "vfsOverlay": { "paths": {
+            "/etc/linuxpath-scenario.json": { "type": "file", "content": "{\"audit\":{\"path\":\"/etc/sudoers\",\"key\":\"privilege\",\"index\":58,\"lines\":[\"Warning: broad NOPASSWD rule [LP-AUDIT-SUDO-002]\",\"Evidence: %sudo ALL=(ALL) NOPASSWD:ALL\",\"Suggestion: replace with least-privilege command aliases and validate with visudo\"]}}" },
+            "/etc/sudoers": { "type": "file", "content": "Defaults env_reset\n%sudo ALL=(ALL) NOPASSWD:ALL\n", "perms": "-r--r-----" },
+            "/var/log/lynis.log": { "type": "file", "content": "[ LinuxPath — rapport Lynis simulé ]\nWarning: broad NOPASSWD rule [LP-AUDIT-SUDO-002]\nEvidence: %sudo ALL=(ALL) NOPASSWD:ALL\nSuggestion: replace with least-privilege command aliases and validate with visudo\nHardening index : 58 (indicateur à interpréter)\n" }
+          } },
+          "exercises": {
+            "m12-e1": { "accepted": ["sudo lynis audit system --quick"] },
+            "m12-e2": {
+              "desc": "Ajoutez une règle syscall x86_64 temporaire sur <code>/etc/sudoers</code> avec la clé <code>privilege</code>.",
+              "accepted": ["sudo auditctl -a always,exit -F arch=b64 -F path=/etc/sudoers -F perm=wa -k privilege"],
+              "hints": ["Tracez les écritures et changements d’attributs avec <code>perm=wa</code>.", "Le fichier est <code>/etc/sudoers</code>.", "Utilisez la clé <code>privilege</code>."],
+              "validator": { "type": "all", "of": [{"type":"exit_zero"},{"type":"command","name":"auditctl","single":true},{"type":"args_exact","stage":0,"tokens":["-a","always,exit","-F","arch=b64","-F","path=/etc/sudoers","-F","perm=wa","-k","privilege"]}] }
+            },
+            "m12-e3": {
+              "answer": { "finding":"broad-nopasswd", "priority":"critical", "risk":"uncontrolled-privilege-escalation", "evidence":["nopasswd-all","lp-audit-sudo-002"], "remediation":"least-privilege-sudoers", "verification":"visudo-and-command-test", "justification":"Analyse fondée sur la règle sudo observée et son étendue." },
+              "correction": "Constat : NOPASSWD s'applique à toutes les commandes du groupe sudo. Réduire la règle au strict nécessaire, vérifier avec visudo puis tester les seules commandes autorisées."
+            }
+          }
+        },
+        {
+          "id": "audit-cron-writable",
+          "title": "Tâche root modifiable",
+          "brief": "Une tâche planifiée root appelle un script modifiable par tous.",
+          "correction": "Le script appelé par root est modifiable par un utilisateur non privilégié. Il faut retirer l'écriture globale, vérifier le propriétaire et contrôler la prochaine exécution.",
+          "vfsOverlay": { "paths": {
+            "/etc/linuxpath-scenario.json": { "type": "file", "content": "{\"audit\":{\"path\":\"/etc/crontab\",\"key\":\"scheduled_tasks\",\"index\":55,\"lines\":[\"Warning: root cron invokes world-writable script [LP-AUDIT-CRON-003]\",\"Evidence: /usr/local/bin/report-sync mode 0777\",\"Suggestion: remove global write permission, restore root ownership and observe next run\"]}}" },
+            "/etc/crontab": { "type": "file", "content": "*/5 * * * * root /usr/local/bin/report-sync\n" },
+            "/usr/local/bin": { "type": "dir", "children": ["report-sync"] },
+            "/usr/local/bin/report-sync": { "type": "file", "content": "#!/bin/sh\necho sync\n", "perms": "-rwxrwxrwx" },
+            "/var/log/lynis.log": { "type": "file", "content": "[ LinuxPath — rapport Lynis simulé ]\nWarning: root cron invokes world-writable script [LP-AUDIT-CRON-003]\nEvidence: /usr/local/bin/report-sync mode 0777\nSuggestion: remove global write permission, restore root ownership and observe next run\nHardening index : 55 (indicateur à interpréter)\n" }
+          } },
+          "exercises": {
+            "m12-e1": { "accepted": ["sudo lynis audit system --quick"] },
+            "m12-e2": {
+              "desc": "Ajoutez une règle syscall x86_64 temporaire sur <code>/etc/crontab</code> avec la clé <code>scheduled_tasks</code>.",
+              "accepted": ["sudo auditctl -a always,exit -F arch=b64 -F path=/etc/crontab -F perm=wa -k scheduled_tasks"],
+              "hints": ["Utilisez <code>-a always,exit</code>.", "Le chemin est <code>/etc/crontab</code>.", "La clé attendue est <code>scheduled_tasks</code>."],
+              "validator": { "type": "all", "of": [{"type":"exit_zero"},{"type":"command","name":"auditctl","single":true},{"type":"args_exact","stage":0,"tokens":["-a","always,exit","-F","arch=b64","-F","path=/etc/crontab","-F","perm=wa","-k","scheduled_tasks"]}] }
+            },
+            "m12-e3": {
+              "answer": { "finding":"writable-root-cron", "priority":"critical", "risk":"root-code-execution", "evidence":["cron-runs-as-root","script-mode-0777"], "remediation":"restrict-owner-and-mode", "verification":"observe-next-run", "justification":"Analyse fondée sur l'identité root et les permissions du script." },
+              "correction": "Constat : cron exécute en root un script en mode 0777. Restaurer propriétaire root et permissions minimales, puis observer la prochaine exécution et les journaux."
+            }
+          }
+        },
+        {
+          "id": "audit-maintenance",
+          "title": "Maintenance sans urgence",
+          "brief": "L'audit ne montre aucun défaut critique ; il faut éviter de surclasser des suggestions d'entretien.",
+          "correction": "Aucune urgence n'est démontrée. Les suggestions doivent entrer dans une maintenance planifiée, avec sauvegarde et vérification après changement.",
+          "vfsOverlay": { "paths": {
+            "/etc/linuxpath-scenario.json": { "type": "file", "content": "{\"audit\":{\"path\":\"/etc/group\",\"key\":\"identity\",\"index\":82,\"lines\":[\"Notice: review dormant local groups [LP-AUDIT-ID-004]\",\"Evidence: no privileged membership anomaly detected\",\"Suggestion: include account review in the next maintenance window\"]}}" },
+            "/etc/group": { "type": "file", "content": "root:x:0:\nsudo:x:27:user\nuser:x:1000:\n" },
+            "/var/log/lynis.log": { "type": "file", "content": "[ LinuxPath — rapport Lynis simulé ]\nNotice: review dormant local groups [LP-AUDIT-ID-004]\nEvidence: no privileged membership anomaly detected\nSuggestion: include account review in the next maintenance window\nHardening index : 82 (indicateur à interpréter)\n" }
+          } },
+          "exercises": {
+            "m12-e1": { "accepted": ["sudo lynis audit system --quick"] },
+            "m12-e2": {
+              "desc": "Ajoutez une règle syscall x86_64 temporaire sur <code>/etc/group</code> avec la clé <code>identity</code>.",
+              "accepted": ["sudo auditctl -a always,exit -F arch=b64 -F path=/etc/group -F perm=wa -k identity"],
+              "hints": ["Tracez les modifications du fichier de groupes.", "Le chemin est <code>/etc/group</code>.", "Utilisez la clé <code>identity</code>."],
+              "validator": { "type": "all", "of": [{"type":"exit_zero"},{"type":"command","name":"auditctl","single":true},{"type":"args_exact","stage":0,"tokens":["-a","always,exit","-F","arch=b64","-F","path=/etc/group","-F","perm=wa","-k","identity"]}] }
+            },
+            "m12-e3": {
+              "answer": { "finding":"maintenance-review", "priority":"low", "risk":"no-critical-finding", "evidence":["no-privileged-anomaly","lp-audit-id-004"], "remediation":"schedule-account-review", "verification":"compare-after-maintenance", "justification":"Le rapport ne démontre pas d'incident ou de défaut critique." },
+              "correction": "Constat : suggestion de maintenance, sans anomalie privilégiée. Planifier la revue des comptes et comparer l'état après intervention, sans déclarer un incident inexistant."
+            }
+          }
+        }
+      ]
+    },
+    "m13-pentest": {
+      "id": "m13-pentest",
+      "moduleId": "m13",
+      "exerciseIds": ["m13-e1", "m13-e2", "m13-e3"],
+      "variants": [
+        {
+          "id":"pentest-normal-service", "title":"Service web attendu", "brief":"Qualifier un titre HTTP normal sans transformer une observation en vulnérabilité.", "correction":"Le service et son titre sont attendus. Le résultat est informatif et ne démontre aucune vulnérabilité.",
+          "vfsOverlay":{"paths":{"/etc/linuxpath-scenario.json":{"type":"file","content":"{\"nmap\":{\"host\":\"lab.linuxpath.test\",\"port\":\"80\",\"service\":\"http\",\"title\":\"LinuxPath training application\"}}"},"/home/user/documents/pentest-scope.md":{"type":"file","content":"Périmètre autorisé LinuxPath\nCible : lab.linuxpath.test\nPort : 80/tcp uniquement\nAction : détection de version et http-title\nArrêt : toute instabilité\n"}}},
+          "exercises":{"m13-e1":{"accepted":["cat /home/user/documents/pentest-scope.md"]},"m13-e2":{"desc":"Scannez uniquement <code>lab.linuxpath.test:80</code> avec la détection de version et <code>http-title</code>.","accepted":["nmap -sV -p 80 --script=http-title lab.linuxpath.test"],"validator":{"type":"all","of":[{"type":"exit_zero"},{"type":"command","name":"nmap","single":true},{"type":"args_exact","stage":0,"tokens":["-sV","-p","80","--script=http-title","lab.linuxpath.test"]}]}},"m13-e3":{"answer":{"target":"lab.linuxpath.test","service":"http/80","observation":"expected-title","impact":"info","confidence":"high","evidence":["port-open","title-expected"],"remediation":"none-monitor","retest":"repeat-approved-scan","justification":"Le titre observé correspond au service attendu et ne prouve pas une vulnérabilité."},"correction":"Observation : port 80 ouvert et titre attendu. Impact informatif ; aucune vulnérabilité n'est confirmée. Surveiller et répéter le même scan autorisé si nécessaire."}}
+        },
+        {
+          "id":"pentest-admin-console", "title":"Console d’administration", "brief":"Une console d'administration est visible sur un port applicatif autorisé.", "correction":"Le titre révèle une console d'administration. C'est une exposition à confirmer, pas la preuve d'un accès non autorisé.",
+          "vfsOverlay":{"paths":{"/etc/linuxpath-scenario.json":{"type":"file","content":"{\"nmap\":{\"host\":\"webapp.lab.linuxpath.test\",\"port\":\"8080\",\"service\":\"http-proxy\",\"title\":\"LinuxPath Admin Console\"}}"},"/home/user/documents/pentest-scope.md":{"type":"file","content":"Périmètre autorisé LinuxPath\nCible : webapp.lab.linuxpath.test\nPort : 8080/tcp uniquement\nAction : détection de version et http-title\nArrêt : toute instabilité\n"}}},
+          "exercises":{"m13-e1":{"accepted":["cat /home/user/documents/pentest-scope.md"]},"m13-e2":{"desc":"Scannez uniquement <code>webapp.lab.linuxpath.test:8080</code> avec la détection de version et <code>http-title</code>.","accepted":["nmap -sV -p 8080 --script=http-title webapp.lab.linuxpath.test"],"validator":{"type":"all","of":[{"type":"exit_zero"},{"type":"command","name":"nmap","single":true},{"type":"args_exact","stage":0,"tokens":["-sV","-p","8080","--script=http-title","webapp.lab.linuxpath.test"]}]}},"m13-e3":{"answer":{"target":"webapp.lab.linuxpath.test","service":"http-proxy/8080","observation":"admin-title-exposed","impact":"medium","confidence":"medium","evidence":["port-open","admin-title"],"remediation":"restrict-admin-interface","retest":"rescan-from-untrusted-zone","justification":"Le titre indique une interface d'administration mais ne démontre pas une authentification contournée."},"correction":"Observation : une console d'administration est annoncée sur 8080. Restreindre son exposition, puis rescanner depuis une zone non approuvée. Aucun contournement n'est démontré."}}
+        },
+        {
+          "id":"pentest-staging", "title":"Environnement de staging", "brief":"Un titre divulgue la nature non productive d'un service exposé.", "correction":"L'exposition d'un environnement de staging est un constat de surface d'attaque à vérifier avec le propriétaire, sans conclure à une compromission.",
+          "vfsOverlay":{"paths":{"/etc/linuxpath-scenario.json":{"type":"file","content":"{\"nmap\":{\"host\":\"staging.lab.linuxpath.test\",\"port\":\"8000\",\"service\":\"http-alt\",\"title\":\"LinuxPath Staging Panel\"}}"},"/home/user/documents/pentest-scope.md":{"type":"file","content":"Périmètre autorisé LinuxPath\nCible : staging.lab.linuxpath.test\nPort : 8000/tcp uniquement\nAction : détection de version et http-title\nArrêt : toute instabilité\n"}}},
+          "exercises":{"m13-e1":{"accepted":["cat /home/user/documents/pentest-scope.md"]},"m13-e2":{"desc":"Scannez uniquement <code>staging.lab.linuxpath.test:8000</code> avec la détection de version et <code>http-title</code>.","accepted":["nmap -sV -p 8000 --script=http-title staging.lab.linuxpath.test"],"validator":{"type":"all","of":[{"type":"exit_zero"},{"type":"command","name":"nmap","single":true},{"type":"args_exact","stage":0,"tokens":["-sV","-p","8000","--script=http-title","staging.lab.linuxpath.test"]}]}},"m13-e3":{"answer":{"target":"staging.lab.linuxpath.test","service":"http-alt/8000","observation":"staging-title-exposed","impact":"medium","confidence":"high","evidence":["port-open","staging-title"],"remediation":"review-staging-exposure","retest":"rescan-after-restriction","justification":"Le titre confirme l'exposition d'un staging, pas la présence d'une faille exploitable."},"correction":"Observation : staging visible sur 8000. Vérifier le besoin d'exposition avec le propriétaire, restreindre si inutile, puis rescanner après changement."}}
+        },
+        {
+          "id":"pentest-status-page", "title":"Page de statut", "brief":"Une page de statut livre une information limitée sur un service TLS.", "correction":"Le titre de statut constitue une divulgation faible. Documenter, vérifier le contenu exposé et retester sans surclasser le risque.",
+          "vfsOverlay":{"paths":{"/etc/linuxpath-scenario.json":{"type":"file","content":"{\"nmap\":{\"host\":\"status.lab.linuxpath.test\",\"port\":\"443\",\"service\":\"https\",\"title\":\"LinuxPath Service Status\"}}"},"/home/user/documents/pentest-scope.md":{"type":"file","content":"Périmètre autorisé LinuxPath\nCible : status.lab.linuxpath.test\nPort : 443/tcp uniquement\nAction : détection de version et http-title\nArrêt : toute instabilité\n"}}},
+          "exercises":{"m13-e1":{"accepted":["cat /home/user/documents/pentest-scope.md"]},"m13-e2":{"desc":"Scannez uniquement <code>status.lab.linuxpath.test:443</code> avec la détection de version et <code>http-title</code>.","accepted":["nmap -sV -p 443 --script=http-title status.lab.linuxpath.test"],"validator":{"type":"all","of":[{"type":"exit_zero"},{"type":"command","name":"nmap","single":true},{"type":"args_exact","stage":0,"tokens":["-sV","-p","443","--script=http-title","status.lab.linuxpath.test"]}]}},"m13-e3":{"answer":{"target":"status.lab.linuxpath.test","service":"https/443","observation":"status-title-exposed","impact":"low","confidence":"high","evidence":["port-open","status-title"],"remediation":"review-public-status-content","retest":"repeat-approved-scan","justification":"Seul le titre de la page est observé ; son contenu sensible reste à vérifier."},"correction":"Observation : page de statut annoncée sur 443. Impact faible à ce stade ; vérifier le contenu public puis répéter le scan autorisé."}}
+        }
+      ]
+    },
+    "m14-dfir": {
+      "id":"m14-dfir", "moduleId":"m14", "exerciseIds":["m14-e1","m14-e2","m14-e3"],
+      "variants":[
+        {
+          "id":"dfir-confirmed", "title":"Compromission confirmée", "brief":"Des échecs SSH sont suivis d'une authentification réussie et d'une action sudo depuis la même IP.", "correction":"L'enchaînement échecs, succès par mot de passe et sudo depuis la même IP confirme un incident. Isoler l'hôte, révoquer les secrets et préserver les journaux.",
+          "vfsOverlay":{"remove":["/home/user/firmware.bin","/home/user/labs/evidence-source.img"],"paths":{"/etc/linuxpath-scenario.json":{"type":"file","content":"{\"firmware\":{\"file\":\"router-fw.bin\",\"description\":\"UBI image header\"}}"},"/var/log/auth.log.1":{"type":"file","content":"Aug 31 01:14:02 edge sshd[610]: Failed password for admin from 203.0.113.44\nAug 31 01:14:09 edge sshd[612]: Failed password for admin from 203.0.113.44\n"},"/var/log/auth.log":{"type":"file","content":"Aug 31 01:15:12 edge sshd[620]: Accepted password for admin from 203.0.113.44\nAug 31 01:17:40 edge sudo: admin : COMMAND=/usr/bin/curl training.invalid\n"},"/home/user/router-fw.bin":{"type":"file","content":"UBI# LinuxPath router firmware inert\n"},"/home/user/labs/case-ssh-01.img":{"type":"file","content":"LINUXPATH_CASE_SSH_01_EVIDENCE\n"}}},
+          "exercises":{"m14-e1":{"answer":{"account":"admin","sourceIp":"203.0.113.44","firstSeen":"01:14:02","lastSeen":"01:17:40","authMethod":"password","verdict":"confirmed","evidence":["repeated-failures","accepted-same-ip","sudo-after-login"],"immediateAction":"isolate-revoke-preserve","justification":"La même source échoue, réussit par mot de passe puis déclenche sudo."},"correction":"Compte admin, IP 203.0.113.44, de 01:14:02 à 01:17:40. Verdict confirmé : échecs répétés, succès depuis la même IP puis sudo."},"m14-e2":{"desc":"Extrayez le firmware inerte <code>router-fw.bin</code>.","accepted":["binwalk -e router-fw.bin"],"validator":{"type":"all","of":[{"type":"exit_zero"},{"type":"command","name":"binwalk","single":true},{"type":"args_exact","stage":0,"tokens":["-e","router-fw.bin"]},{"type":"path_exists","path":"/home/user/_router-fw.bin.extracted","kind":"directory"}]}},"m14-e3":{"desc":"Copiez <code>/home/user/labs/case-ssh-01.img</code> vers <code>/mnt/evidence/case-ssh-01-copy.img</code>.","accepted":["dd if=/home/user/labs/case-ssh-01.img of=/mnt/evidence/case-ssh-01-copy.img bs=4M status=progress"],"validator":{"type":"all","of":[{"type":"exit_zero"},{"type":"command","name":"dd","single":true},{"type":"args_exact","stage":0,"tokens":["if=/home/user/labs/case-ssh-01.img","of=/mnt/evidence/case-ssh-01-copy.img","bs=4M","status=progress"]},{"type":"path_exists","path":"/mnt/evidence/case-ssh-01-copy.img","kind":"file"}]}}}
+        },
+        {
+          "id":"dfir-blocked", "title":"Brute force bloqué", "brief":"De nombreux essais SSH échouent, sans authentification réussie associée.", "correction":"Les journaux démontrent une tentative bloquée, pas une compromission. Bloquer la source, surveiller et rechercher d'autres traces avant de conclure.",
+          "vfsOverlay":{"remove":["/home/user/firmware.bin","/home/user/labs/evidence-source.img"],"paths":{"/etc/linuxpath-scenario.json":{"type":"file","content":"{\"firmware\":{\"file\":\"camera-fw.bin\",\"description\":\"Squashfs filesystem\"}}"},"/var/log/auth.log.1":{"type":"file","content":"Aug 31 03:20:01 cam sshd[700]: Failed password for root from 198.51.100.77\nAug 31 03:20:05 cam sshd[701]: Failed password for root from 198.51.100.77\n"},"/var/log/auth.log":{"type":"file","content":"Aug 31 03:20:10 cam sshd[702]: Failed password for root from 198.51.100.77\nAug 31 03:25:00 cam sshd[710]: Connection closed by 198.51.100.77\n"},"/home/user/camera-fw.bin":{"type":"file","content":"hsqs LinuxPath camera firmware inert\n"},"/home/user/labs/case-ssh-02.img":{"type":"file","content":"LINUXPATH_CASE_SSH_02_EVIDENCE\n"}}},
+          "exercises":{"m14-e1":{"answer":{"account":"root","sourceIp":"198.51.100.77","firstSeen":"03:20:01","lastSeen":"03:25:00","authMethod":"none","verdict":"attempted","evidence":["repeated-failures","no-accepted-login","connection-closed"],"immediateAction":"block-monitor-search","justification":"Les tentatives échouent et aucun succès d'authentification n'est présent."},"correction":"Compte ciblé root, IP 198.51.100.77, de 03:20:01 à 03:25:00. Verdict : tentative bloquée ; aucun succès n'est observé."},"m14-e2":{"desc":"Extrayez le firmware inerte <code>camera-fw.bin</code>.","accepted":["binwalk -e camera-fw.bin"],"validator":{"type":"all","of":[{"type":"exit_zero"},{"type":"command","name":"binwalk","single":true},{"type":"args_exact","stage":0,"tokens":["-e","camera-fw.bin"]},{"type":"path_exists","path":"/home/user/_camera-fw.bin.extracted","kind":"directory"}]}},"m14-e3":{"desc":"Copiez <code>/home/user/labs/case-ssh-02.img</code> vers <code>/mnt/evidence/case-ssh-02-copy.img</code>.","accepted":["dd if=/home/user/labs/case-ssh-02.img of=/mnt/evidence/case-ssh-02-copy.img bs=4M status=progress"],"validator":{"type":"all","of":[{"type":"exit_zero"},{"type":"command","name":"dd","single":true},{"type":"args_exact","stage":0,"tokens":["if=/home/user/labs/case-ssh-02.img","of=/mnt/evidence/case-ssh-02-copy.img","bs=4M","status=progress"]},{"type":"path_exists","path":"/mnt/evidence/case-ssh-02-copy.img","kind":"file"}]}}}
+        },
+        {
+          "id":"dfir-legitimate", "title":"Clé CI légitime", "brief":"Une clé de déploiement connue se connecte depuis le réseau interne attendu.", "correction":"Les éléments concordent avec l'automatisation autorisée. Documenter le faux positif et maintenir la surveillance sans isoler inutilement le serveur.",
+          "vfsOverlay":{"remove":["/home/user/firmware.bin","/home/user/labs/evidence-source.img"],"paths":{"/etc/linuxpath-scenario.json":{"type":"file","content":"{\"firmware\":{\"file\":\"agent-update.bin\",\"description\":\"gzip compressed data\"}}"},"/var/log/auth.log.1":{"type":"file","content":"Aug 31 05:59:58 build sshd[800]: Connection from 10.20.0.15\n"},"/var/log/auth.log":{"type":"file","content":"Aug 31 06:00:00 build sshd[801]: Accepted publickey for deploy from 10.20.0.15 key ED25519 SHA256:CIKNOWN\nAug 31 06:00:02 build deploy-agent: approved pipeline release-42\n"},"/home/user/agent-update.bin":{"type":"file","content":"1F8B LinuxPath agent update inert\n"},"/home/user/labs/case-ssh-03.img":{"type":"file","content":"LINUXPATH_CASE_SSH_03_EVIDENCE\n"}}},
+          "exercises":{"m14-e1":{"answer":{"account":"deploy","sourceIp":"10.20.0.15","firstSeen":"05:59:58","lastSeen":"06:00:02","authMethod":"publickey","verdict":"legitimate","evidence":["known-internal-ip","known-key-fingerprint","approved-pipeline"],"immediateAction":"document-and-monitor","justification":"L'adresse, l'empreinte de clé et le pipeline correspondent à l'automatisation approuvée."},"correction":"Compte deploy, IP interne 10.20.0.15, clé connue et pipeline approuvé. Verdict légitime ; documenter puis surveiller."},"m14-e2":{"desc":"Extrayez le firmware inerte <code>agent-update.bin</code>.","accepted":["binwalk -e agent-update.bin"],"validator":{"type":"all","of":[{"type":"exit_zero"},{"type":"command","name":"binwalk","single":true},{"type":"args_exact","stage":0,"tokens":["-e","agent-update.bin"]},{"type":"path_exists","path":"/home/user/_agent-update.bin.extracted","kind":"directory"}]}},"m14-e3":{"desc":"Copiez <code>/home/user/labs/case-ssh-03.img</code> vers <code>/mnt/evidence/case-ssh-03-copy.img</code>.","accepted":["dd if=/home/user/labs/case-ssh-03.img of=/mnt/evidence/case-ssh-03-copy.img bs=4M status=progress"],"validator":{"type":"all","of":[{"type":"exit_zero"},{"type":"command","name":"dd","single":true},{"type":"args_exact","stage":0,"tokens":["if=/home/user/labs/case-ssh-03.img","of=/mnt/evidence/case-ssh-03-copy.img","bs=4M","status=progress"]},{"type":"path_exists","path":"/mnt/evidence/case-ssh-03-copy.img","kind":"file"}]}}}
+        },
+        {
+          "id":"dfir-inconclusive", "title":"Nouvelle clé, contexte incomplet", "brief":"Une connexion par clé depuis une nouvelle adresse est visible, sans action malveillante confirmée.", "correction":"L'accès est inhabituel mais les preuves sont insuffisantes. Préserver les traces, vérifier l'inventaire des clés et contacter le propriétaire avant de qualifier l'incident.",
+          "vfsOverlay":{"remove":["/home/user/firmware.bin","/home/user/labs/evidence-source.img"],"paths":{"/etc/linuxpath-scenario.json":{"type":"file","content":"{\"firmware\":{\"file\":\"gateway-fw.bin\",\"description\":\"uImage header\"}}"},"/var/log/auth.log.1":{"type":"file","content":"Aug 31 07:41:18 gateway sshd[900]: Connection from 192.0.2.88\n"},"/var/log/auth.log":{"type":"file","content":"Aug 31 07:41:20 gateway sshd[901]: Accepted publickey for ops from 192.0.2.88 key ED25519 SHA256:UNLISTED\nAug 31 07:43:10 gateway sshd[901]: Disconnected from user ops 192.0.2.88\n"},"/home/user/gateway-fw.bin":{"type":"file","content":"UIMAGE LinuxPath gateway firmware inert\n"},"/home/user/labs/case-ssh-04.img":{"type":"file","content":"LINUXPATH_CASE_SSH_04_EVIDENCE\n"}}},
+          "exercises":{"m14-e1":{"answer":{"account":"ops","sourceIp":"192.0.2.88","firstSeen":"07:41:18","lastSeen":"07:43:10","authMethod":"publickey","verdict":"inconclusive","evidence":["new-source-ip","unlisted-key","no-malicious-action"],"immediateAction":"preserve-verify-owner","justification":"L'accès est inhabituel mais aucune action malveillante n'est démontrée dans les journaux disponibles."},"correction":"Compte ops, IP 192.0.2.88 et clé non inventoriée. Verdict indéterminé : préserver, vérifier le propriétaire et collecter davantage de contexte."},"m14-e2":{"desc":"Extrayez le firmware inerte <code>gateway-fw.bin</code>.","accepted":["binwalk -e gateway-fw.bin"],"validator":{"type":"all","of":[{"type":"exit_zero"},{"type":"command","name":"binwalk","single":true},{"type":"args_exact","stage":0,"tokens":["-e","gateway-fw.bin"]},{"type":"path_exists","path":"/home/user/_gateway-fw.bin.extracted","kind":"directory"}]}},"m14-e3":{"desc":"Copiez <code>/home/user/labs/case-ssh-04.img</code> vers <code>/mnt/evidence/case-ssh-04-copy.img</code>.","accepted":["dd if=/home/user/labs/case-ssh-04.img of=/mnt/evidence/case-ssh-04-copy.img bs=4M status=progress"],"validator":{"type":"all","of":[{"type":"exit_zero"},{"type":"command","name":"dd","single":true},{"type":"args_exact","stage":0,"tokens":["if=/home/user/labs/case-ssh-04.img","of=/mnt/evidence/case-ssh-04-copy.img","bs=4M","status=progress"]},{"type":"path_exists","path":"/mnt/evidence/case-ssh-04-copy.img","kind":"file"}]}}}
+        }
+      ]
+    }
+  }
+}

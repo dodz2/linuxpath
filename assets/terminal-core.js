@@ -370,13 +370,18 @@ function createTerminalEngine(config) {
       var flags = args.filter(function (a) { return a.charAt(0) === '-'; });
       var nonFlag = args.filter(function (a) { return a.charAt(0) !== '-'; });
       var pattern = nonFlag[0];
-      var file = nonFlag[1];
+      var files = nonFlag.slice(1);
       if (!pattern) return failResult('grep : spécifiez un motif', 'usage', 2);
       var lines = stdin.slice();
-      if (file) {
-        var gt = resolvePath(file);
-        if (!vfs[gt] || vfs[gt].type !== 'file') return failResult('grep : ' + file + ' : Aucun fichier de ce type', 'enoent');
-        lines = String(vfs[gt].content || '').split('\n');
+      if (files.length) {
+        lines = [];
+        for (var grepFileIndex = 0; grepFileIndex < files.length; grepFileIndex++) {
+          var file = files[grepFileIndex];
+          var gt = resolvePath(file);
+          if (!vfs[gt] || vfs[gt].type !== 'file') return failResult('grep : ' + file + ' : Aucun fichier de ce type', 'enoent');
+          var fileLines = String(vfs[gt].content || '').split('\n');
+          for (var grepLineIndex = 0; grepLineIndex < fileLines.length; grepLineIndex++) lines.push(files.length > 1 ? file + ':' + fileLines[grepLineIndex] : fileLines[grepLineIndex]);
+        }
       }
       var ci = flags.some(function (flag) { return flag === '--ignore-case' || /^-[^-]*i/.test(flag); });
       var extended = flags.some(function (flag) { return flag === '--extended-regexp' || /^-[^-]*E/.test(flag); });

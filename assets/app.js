@@ -263,6 +263,7 @@ function updateGroupActiveHeader(target) {
 /* ============================================================
    INIT — Bootstrap de l'application
    ============================================================ */
+let APP_READY = false;
 
 /* ============================================================
    INIT
@@ -271,16 +272,18 @@ async function init() {
   // Load data files and state concurrently
   let dataOk = true;
   try {
-    const [lessonsResp, exercisesResp, quizzesResp, vfsResp, modulesResp] = await Promise.all([
+    const [lessonsResp, exercisesResp, variantsResp, quizzesResp, vfsResp, modulesResp] = await Promise.all([
       fetch('data/lessons.json'),
       fetch('data/exercises.json'),
+      fetch('data/exercise-variants.json'),
       fetch('data/quizzes.json'),
       fetch('data/vfs.json'),
       fetch('data/modules.json')
     ]);
-    if (!lessonsResp.ok || !exercisesResp.ok || !quizzesResp.ok || !modulesResp.ok) throw new Error('Fetch failed');
+    if (!lessonsResp.ok || !exercisesResp.ok || !variantsResp.ok || !quizzesResp.ok || !modulesResp.ok) throw new Error('Fetch failed');
     LESSONS   = await lessonsResp.json();
     EXERCISES = await exercisesResp.json();
+    EXERCISE_VARIANTS = await variantsResp.json();
     QUIZZES   = await quizzesResp.json();
     const catalogue = await modulesResp.json();
     applyModules(catalogue.modules || [], { passScore: catalogue.passScore, tracks: catalogue.tracks });
@@ -314,6 +317,7 @@ async function init() {
   updateProgressUI();
   renderHome();
   initTerminal();
+  APP_READY = true;
   // News chargées indépendamment — ne bloque pas l'appli si absent
   loadNews();
 
@@ -415,15 +419,20 @@ function updateProgressUI() {
     }
     if (EXERCISES[mod]) {
       EXERCISES[mod].forEach(ex => {
+        const variant = typeof getActiveVariant === 'function' ? getActiveVariant(mod) : null;
+        const solvedForVariant = variant && state.variantResults && state.variantResults[ex.id]
+          ? state.variantResults[ex.id].solvedVariants.indexOf(variant.id) >= 0
+          : false;
+        const solved = variant ? solvedForVariant : state.exercisesDone.has(ex.id);
         const badge2 = document.getElementById('ex-badge-' + ex.id);
         if (badge2) {
-          badge2.textContent = state.exercisesDone.has(ex.id) ? '✓ Résolu' : 'Exercice';
-          badge2.className = 'exercise-badge ' + (state.exercisesDone.has(ex.id) ? 'solved' : '');
+          badge2.textContent = solved ? '✓ Validé pour ce dossier' : (variant && state.exercisesDone.has(ex.id) ? '✓ Acquis · dossier à pratiquer' : 'Exercice');
+          badge2.className = 'exercise-badge ' + (solved ? 'solved' : '');
         }
         const inp = document.getElementById('ex-input-' + ex.id);
-        if (inp) inp.disabled = state.exercisesDone.has(ex.id);
-        const chk = document.querySelector(`[onclick="checkExercise('${ex.id}', '${mod}')"]`);
-        if (chk) chk.disabled = state.exercisesDone.has(ex.id);
+        if (inp) inp.disabled = solved;
+        const chk = document.querySelector(`[data-check-exercise="${ex.id}"]`);
+        if (chk) chk.disabled = solved;
       });
     }
   });

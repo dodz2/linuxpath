@@ -187,13 +187,17 @@ function runCommand(ctx, name, args, stdin) {
     const flags = args.filter((a) => a.startsWith('-'));
     const nonFlag = args.filter((a) => !a.startsWith('-'));
     const pattern = nonFlag[0];
-    const file = nonFlag[1];
+    const files = nonFlag.slice(1);
     if (!pattern) return fail('grep : spécifiez un motif', 'usage', 2);
     let lines = stdin.slice();
-    if (file) {
-      const target = resolvePath(ctx.cwd, file, ctx.prevDir);
-      if (!vfs[target] || vfs[target].type !== 'file') return fail(`grep : ${file} : Aucun fichier de ce type`, 'enoent');
-      lines = String(vfs[target].content || '').split('\n');
+    if (files.length) {
+      lines = [];
+      for (const file of files) {
+        const target = resolvePath(ctx.cwd, file, ctx.prevDir);
+        if (!vfs[target] || vfs[target].type !== 'file') return fail(`grep : ${file} : Aucun fichier de ce type`, 'enoent');
+        const fileLines = String(vfs[target].content || '').split('\n');
+        lines.push(...fileLines.map((line) => files.length > 1 ? `${file}:${line}` : line));
+      }
     }
     const ci = flags.some((flag) => flag === '--ignore-case' || /^-[^-]*i/.test(flag));
     const extended = flags.some((flag) => flag === '--extended-regexp' || /^-[^-]*E/.test(flag));

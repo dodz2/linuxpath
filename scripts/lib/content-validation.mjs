@@ -6,7 +6,7 @@ export const HW_MODULE_IDS = ['hw1', 'hw2', 'hw3', 'hw4'];
 export const ALL_MODULE_IDS = [...MODULE_IDS, ...HW_MODULE_IDS];
 export const TRACK_IDS = ['linux', 'network', 'offsec', 'hardware'];
 export const CYBER_REFERENCE_MODULES = new Set(['m12', 'm13', 'm14']);
-export const DATA_FILES = ['cheatsheet.json', 'ctf.json', 'exercises.json', 'glossary.json', 'lessons.json', 'modules.json', 'news.json', 'quizzes.json', 'vfs.json'];
+export const DATA_FILES = ['cheatsheet.json', 'ctf.json', 'exercise-variants.json', 'exercises.json', 'glossary.json', 'lessons.json', 'modules.json', 'news.json', 'quizzes.json', 'vfs.json'];
 export async function loadJson(relativePath, root = process.cwd()) {
   return JSON.parse(await readFile(path.join(root, relativePath), 'utf8'));
 }
@@ -80,12 +80,40 @@ export async function validateContent(root = process.cwd()) {
       if (!lesson.id.startsWith(`${moduleId}-l`) || !lesson.title || !lesson.content || lesson.reviewStatus !== 'reviewed' || !lesson.reviewedAt || !lesson.distro) errors.push(issue('invalid-lesson', `Malformed lesson ${lesson.id ?? '(missing id)'}`, `data/lessons.json#${moduleId}`));
       if (CYBER_REFERENCE_MODULES.has(moduleId) && !hasValidCyberSources(lesson)) errors.push(issue('invalid-cyber-source', `Lesson ${lesson.id ?? '(missing id)'} must provide at least two checked HTTPS references`, `data/lessons.json#${moduleId}`));
     }
-    for (const exercise of exercises[moduleId] || []) if (!exercise.id.startsWith(`${moduleId}-e`) || !exercise.title || !exercise.desc || !Array.isArray(exercise.accepted) || exercise.accepted.length === 0 || !Array.isArray(exercise.hints) || !exercise.validator || typeof exercise.validator !== 'object' || !exercise.validator.type) errors.push(issue('invalid-exercise', `Malformed exercise ${exercise.id ?? '(missing id)'}`, `data/exercises.json#${moduleId}`));
+    for (const exercise of exercises[moduleId] || []) {
+      const investigation = exercise.mode === 'investigation';
+      const commandContract = Array.isArray(exercise.accepted) && exercise.accepted.length > 0 && exercise.validator && typeof exercise.validator === 'object' && exercise.validator.type;
+      const reportContract = Array.isArray(exercise.reportFields) && exercise.reportFields.length > 0 && exercise.reportFields.every((field) => field.id && field.label && field.type);
+      if (!exercise.id.startsWith(`${moduleId}-e`) || !exercise.title || !exercise.desc || !Array.isArray(exercise.hints) || (investigation ? !reportContract : !commandContract)) {
+        errors.push(issue('invalid-exercise', `Malformed exercise ${exercise.id ?? '(missing id)'}`, `data/exercises.json#${moduleId}`));
+      }
+    }
     const quiz = quizzes[moduleId];
     if (!quiz || !quiz.title || !Array.isArray(quiz.questions) || quiz.questions.length === 0) { errors.push(issue('invalid-quiz', `Malformed quiz ${moduleId}`, `data/quizzes.json#${moduleId}`)); continue; }
     for (const question of quiz.questions) if (!Array.isArray(question.options) || question.options.length < 2 || !Number.isInteger(question.correct) || question.correct < 0 || question.correct >= question.options.length || !question.q || !question.expl) errors.push(issue('invalid-question', `Malformed question ${question.id ?? '(missing id)'}`, `data/quizzes.json#${moduleId}`));
   }
   for (const challenge of challenges) if (!/^ctf-\d{2}$/.test(challenge.id) || !/^[0-9a-f]{64}$/.test(challenge.flagHash || '') || !Array.isArray(challenge.hints) || !challenge.vfs || typeof challenge.vfs !== 'object') errors.push(issue('invalid-ctf', `Malformed challenge ${challenge.id ?? '(missing id)'}`, 'data/ctf.json'));
+  const variantCatalogue = data['exercise-variants.json'];
+  const expectedGroups = ['m12-audit', 'm13-pentest', 'm14-dfir'];
+  if (!variantCatalogue || JSON.stringify(Object.keys(variantCatalogue.groups || {})) !== JSON.stringify(expectedGroups)) {
+    errors.push(issue('invalid-variant-groups', 'exercise-variants.json must define the three Cyber groups in canonical order', 'data/exercise-variants.json'));
+  } else {
+    for (const groupId of expectedGroups) {
+      const group = variantCatalogue.groups[groupId];
+      const moduleExerciseIds = (exercises[group.moduleId] || []).map((exercise) => exercise.id);
+      if (!Array.isArray(group.variants) || group.variants.length !== 4 || JSON.stringify(group.exerciseIds) !== JSON.stringify(moduleExerciseIds)) {
+        errors.push(issue('invalid-variant-group', `${groupId} must define four variants and all module exercises`, `data/exercise-variants.json#${groupId}`));
+        continue;
+      }
+      if (duplicateValues(group.variants.map((variant) => variant.id)).length) errors.push(issue('duplicate-variant', `Duplicate variant id in ${groupId}`, `data/exercise-variants.json#${groupId}`));
+      for (const variant of group.variants) {
+        const covered = Object.keys(variant.exercises || {}).sort();
+        if (!variant.id || !variant.title || !variant.brief || !variant.correction || !variant.vfsOverlay || JSON.stringify(covered) !== JSON.stringify([...group.exerciseIds].sort())) {
+          errors.push(issue('invalid-variant', `Malformed variant ${variant.id ?? '(missing id)'}`, `data/exercise-variants.json#${groupId}`));
+        }
+      }
+    }
+  }
   if (!Array.isArray(categories) || categories.some((category) => !category.id || !category.label || !Array.isArray(category.commands))) errors.push(issue('invalid-cheatsheet', 'Cheatsheet categories are malformed', 'data/cheatsheet.json'));
   if (!Array.isArray(terms) || terms.some((term) => !term.id || !term.term || !term.definition)) errors.push(issue('invalid-glossary', 'Glossary terms are malformed', 'data/glossary.json'));
   if (!Array.isArray(news) || news.some((entry) => !entry.id || !entry.title || !entry.source_url)) errors.push(issue('invalid-news', 'News entries are malformed', 'data/news.json'));

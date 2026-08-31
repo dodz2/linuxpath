@@ -6,6 +6,11 @@ export async function openApp(page) {
   await page.waitForFunction(() => (
     typeof navigateTo === 'function'
     && typeof state === 'object'
+    && typeof CTF_CHALLENGES !== 'undefined'
+    && CTF_CHALLENGES.length === 10
+    && Boolean(mainTerminal)
+    && typeof APP_READY !== 'undefined'
+    && APP_READY
     && Boolean(document.querySelector('#home-hero .lp-hero, #home-hero > *'))
   ));
 }

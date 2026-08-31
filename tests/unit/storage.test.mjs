@@ -19,11 +19,11 @@ async function catalog() {
   };
 }
 
-test('a valid v1 fixture is accepted and rebuilt as v2', async () => {
+test('a valid v1 fixture is accepted and rebuilt as v3', async () => {
   const raw = await readFile('tests/fixtures/progress-v1.json', 'utf8');
   const result = validateProgressImport(raw, await catalog());
   assert.equal(result.ok, true);
-  assert.equal(result.data._format, 'linuxpath-progress-v2');
+  assert.equal(result.data._format, 'linuxpath-progress-v3');
   assert.equal(result.data.quiz.m1.lastScore, 3);
   assert.match(result.preview, /1 leçon/);
 });

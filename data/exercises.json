@@ -1189,6 +1189,8 @@
   "m12": [
     {
       "id": "m12-e1",
+      "mode": "command",
+      "variantGroup": "m12-audit",
       "title": "Lancer un audit Lynis sans interaction",
       "desc": "Dans le lab simulé, lancez Lynis en mode non interactif. Un résultat est un constat à interpréter, pas une remédiation automatique.",
       "accepted": [
@@ -1228,6 +1230,8 @@
     },
     {
       "id": "m12-e2",
+      "mode": "command",
+      "variantGroup": "m12-audit",
       "title": "Ajouter une règle auditd actuelle",
       "desc": "Dans le lab, ajoutez une règle syscall x86_64 temporaire qui trace les écritures et changements d'attributs sur <code>/etc/passwd</code> avec la clé <code>identity</code>.",
       "accepted": [
@@ -1274,47 +1278,31 @@
     },
     {
       "id": "m12-e3",
-      "title": "Lire un rapport Lynis",
-      "desc": "Retrouvez le contrôle <code>SSH-7412</code> dans le rapport Lynis simulé avant toute décision de remédiation.",
-      "accepted": [
-        "grep -i SSH-7412 /var/log/lynis.log"
-      ],
+      "mode": "investigation",
+      "variantGroup": "m12-audit",
+      "title": "Qualifier le rapport Lynis",
+      "desc": "Explorez <code>/var/log/lynis.log</code>, puis qualifiez le constat et proposez une remédiation vérifiable sans surclasser les preuves.",
       "hints": [
         "Le rapport est déjà généré dans /var/log/lynis.log.",
-        "Cherchez l'identifiant du contrôle, pas un niveau de sévérité inventé.",
-        "Tapez : <code>grep -i SSH-7412 /var/log/lynis.log</code>"
+        "Relevez l'identifiant <code>LP-*</code> et la ligne Evidence.",
+        "Distinguez priorité opérationnelle et simple suggestion de maintenance."
       ],
-      "validator": {
-        "type": "all",
-        "of": [
-          {
-            "type": "exit_zero"
-          },
-          {
-            "type": "command",
-            "name": "grep",
-            "single": true
-          },
-          {
-            "type": "stdout_includes",
-            "text": "SSH-7412"
-          },
-          {
-            "type": "args_exact",
-            "stage": 0,
-            "tokens": [
-              "-i",
-              "SSH-7412",
-              "/var/log/lynis.log"
-            ]
-          }
-        ]
-      }
+      "reportFields": [
+        {"id":"finding","label":"Constat","type":"select","options":[["","Sélectionnez…"],["root-login-enabled","Accès root SSH autorisé"],["broad-nopasswd","Sudo NOPASSWD global"],["writable-root-cron","Script cron root modifiable"],["maintenance-review","Revue de maintenance"]]},
+        {"id":"priority","label":"Priorité","type":"select","options":[["","Sélectionnez…"],["critical","Critique"],["high","Élevée"],["low","Faible"]]},
+        {"id":"risk","label":"Risque","type":"select","options":[["","Sélectionnez…"],["direct-privileged-access","Accès privilégié direct"],["uncontrolled-privilege-escalation","Élévation de privilèges incontrôlée"],["root-code-execution","Exécution de code root"],["no-critical-finding","Aucun défaut critique démontré"]]},
+        {"id":"evidence","label":"Preuves","type":"checkboxes","options":[["permitrootlogin-yes","PermitRootLogin yes"],["lp-audit-ssh-001","Contrôle LP-AUDIT-SSH-001"],["nopasswd-all","NOPASSWD:ALL"],["lp-audit-sudo-002","Contrôle LP-AUDIT-SUDO-002"],["cron-runs-as-root","Cron s’exécute en root"],["script-mode-0777","Script en mode 0777"],["no-privileged-anomaly","Aucune anomalie privilégiée"],["lp-audit-id-004","Contrôle LP-AUDIT-ID-004"]]},
+        {"id":"remediation","label":"Remédiation","type":"select","options":[["","Sélectionnez…"],["disable-after-fallback","Désactiver après préparation d’un accès de secours"],["least-privilege-sudoers","Réduire sudo au moindre privilège"],["restrict-owner-and-mode","Restaurer propriétaire et permissions"],["schedule-account-review","Planifier une revue des comptes"]]},
+        {"id":"verification","label":"Vérification","type":"select","options":[["","Sélectionnez…"],["reload-and-retest","Recharger puis retester SSH"],["visudo-and-command-test","Valider visudo et tester les commandes"],["observe-next-run","Observer la prochaine exécution"],["compare-after-maintenance","Comparer après maintenance"]]},
+        {"id":"justification","label":"Justification","type":"textarea","semantic":false,"minLength":30}
+      ]
     }
   ],
   "m13": [
     {
       "id": "m13-e1",
+      "mode": "command",
+      "variantGroup": "m13-pentest",
       "title": "Vérifier le périmètre avant toute action",
       "desc": "Lisez le document de périmètre du lab : il précise les cibles, limites et condition d'arrêt avant tout test actif.",
       "accepted": [
@@ -1352,6 +1340,8 @@
     },
     {
       "id": "m13-e2",
+      "mode": "command",
+      "variantGroup": "m13-pentest",
       "title": "Cartographier le service du lab",
       "desc": "Exécutez dans le simulateur un scan ciblé de <code>lab.linuxpath.test</code> : version du service HTTP et script NSE <code>http-title</code> uniquement.",
       "accepted": [
@@ -1359,8 +1349,8 @@
       ],
       "hints": [
         "Le script ciblé s'écrit <code>--script=http-title</code>.",
-        "Limitez le port à <code>80</code>.",
-        "Tapez : <code>nmap -sV -p 80 --script=http-title lab.linuxpath.test</code>"
+        "Relevez dans le document de périmètre le port et la cible attribués.",
+        "La forme est <code>nmap -sV -p PORT --script=http-title CIBLE</code>."
       ],
       "validator": {
         "type": "all",
@@ -1393,117 +1383,56 @@
     },
     {
       "id": "m13-e3",
-      "title": "Consigner une observation de service",
-      "desc": "À partir du scan précédent, consignez une observation de service du lab avec son périmètre, date, outil, niveau de confiance, impact, remédiation proposée et test de suivi — sans exécuter d’exploit.",
-      "accepted": [
-        "rapport --target lab.linuxpath.test --finding http-title-observed --impact info --evidence nmap-http-title --scope authorized-lab --observed-at 2026-08-31 --tool nmap-7.91 --confidence high --remediation review-title-exposure --retest rerun-nmap-after-change"
-      ],
+      "mode": "investigation",
+      "variantGroup": "m13-pentest",
+      "title": "Qualifier l’observation de service",
+      "desc": "À partir du scan autorisé, distinguez ce qui est observé de ce qui serait une vulnérabilité confirmée.",
       "hints": [
         "Un constat utile distingue observation, impact et niveau de confiance.",
-        "Le terminal propose une commande pédagogique <code>rapport</code>.",
-        "Ajoutez le périmètre, la date, l’outil, la remédiation et le test de suivi aux quatre champs de base."
+        "Le titre HTTP est une preuve d’exposition, pas une preuve d’exploitation.",
+        "Proposez un retest qui reste dans le périmètre autorisé."
       ],
-      "validator": {
-        "type": "all",
-        "of": [
-          {
-            "type": "exit_zero"
-          },
-          {
-            "type": "command",
-            "name": "rapport",
-            "single": true
-          },
-          {
-            "type": "stdout_includes",
-            "text": "rapport"
-          },
-          {
-            "type": "args_exact",
-            "tokens": [
-              "--target",
-              "lab.linuxpath.test",
-              "--finding",
-              "http-title-observed",
-              "--impact",
-              "info",
-              "--evidence",
-              "nmap-http-title",
-              "--scope",
-              "authorized-lab",
-              "--observed-at",
-              "2026-08-31",
-              "--tool",
-              "nmap-7.91",
-              "--confidence",
-              "high",
-              "--remediation",
-              "review-title-exposure",
-              "--retest",
-              "rerun-nmap-after-change"
-            ],
-            "stage": 0
-          },
-          {
-            "type": "path_exists",
-            "path": "/home/user/documents/rapport-m13.txt",
-            "kind": "file"
-          }
-        ]
-      }
+      "reportFields": [
+        {"id":"target","label":"Cible","type":"text"},
+        {"id":"service","label":"Service","type":"select","options":[["","Sélectionnez…"],["http/80","HTTP / 80"],["http-proxy/8080","HTTP proxy / 8080"],["http-alt/8000","HTTP alternatif / 8000"],["https/443","HTTPS / 443"]]},
+        {"id":"observation","label":"Observation","type":"select","options":[["","Sélectionnez…"],["expected-title","Titre attendu"],["admin-title-exposed","Titre de console d’administration"],["staging-title-exposed","Titre de staging"],["status-title-exposed","Titre de page de statut"]]},
+        {"id":"impact","label":"Impact","type":"select","options":[["","Sélectionnez…"],["info","Informatif"],["low","Faible"],["medium","Moyen"]]},
+        {"id":"confidence","label":"Confiance","type":"select","options":[["","Sélectionnez…"],["medium","Moyenne"],["high","Élevée"]]},
+        {"id":"evidence","label":"Preuves","type":"checkboxes","options":[["port-open","Port ouvert"],["title-expected","Titre attendu"],["admin-title","Titre Admin Console"],["staging-title","Titre Staging Panel"],["status-title","Titre Service Status"]]},
+        {"id":"remediation","label":"Remédiation","type":"select","options":[["","Sélectionnez…"],["none-monitor","Aucune action immédiate, surveiller"],["restrict-admin-interface","Restreindre l’interface d’administration"],["review-staging-exposure","Revoir l’exposition du staging"],["review-public-status-content","Revoir le contenu public du statut"]]},
+        {"id":"retest","label":"Retest","type":"select","options":[["","Sélectionnez…"],["repeat-approved-scan","Répéter le scan autorisé"],["rescan-from-untrusted-zone","Rescanner depuis une zone non approuvée"],["rescan-after-restriction","Rescanner après restriction"]]},
+        {"id":"justification","label":"Justification","type":"textarea","semantic":false,"minLength":30}
+      ]
     }
   ],
   "m14": [
     {
       "id": "m14-e1",
-      "title": "Extraire les URLs d'un binaire",
-      "desc": "Dans le lab, utilisez <code>strings</code> puis <code>grep</code> pour filtrer les URLs HTTP de l'artefact inerte <code>malware.bin</code>.",
-      "accepted": [
-        "strings -a malware.bin | grep -i http"
-      ],
+      "mode": "investigation",
+      "variantGroup": "m14-dfir",
+      "title": "Trier un incident SSH",
+      "desc": "Analysez <code>/var/log/auth.log</code> et <code>/var/log/auth.log.1</code>, reconstruisez la chronologie et qualifiez l’activité sans dépasser les preuves disponibles.",
       "hints": [
-        "strings extrait les chaînes lisibles.",
-        "Utilisez grep pour filtrer les URLs.",
-        "Tapez : <code>strings -a malware.bin | grep -i http</code>"
+        "Cherchez les lignes <code>Failed</code> et <code>Accepted</code> dans les deux fichiers.",
+        "Comparez compte, IP, méthode d’authentification et chronologie.",
+        "Une nouvelle IP ou une nouvelle clé ne prouve pas, seule, une compromission."
       ],
-      "validator": {
-        "type": "all",
-        "of": [
-          {
-            "type": "exit_zero"
-          },
-          {
-            "type": "pipeline",
-            "commands": [
-              "strings",
-              "grep"
-            ]
-          },
-          {
-            "type": "stdout_includes",
-            "text": "http"
-          },
-          {
-            "type": "args_exact",
-            "stage": 0,
-            "tokens": [
-              "-a",
-              "malware.bin"
-            ]
-          },
-          {
-            "type": "args_exact",
-            "stage": 1,
-            "tokens": [
-              "-i",
-              "http"
-            ]
-          }
-        ]
-      }
+      "reportFields": [
+        {"id":"account","label":"Compte","type":"text"},
+        {"id":"sourceIp","label":"IP source","type":"text"},
+        {"id":"firstSeen","label":"Premier événement (HH:MM:SS)","type":"text"},
+        {"id":"lastSeen","label":"Dernier événement (HH:MM:SS)","type":"text"},
+        {"id":"authMethod","label":"Méthode","type":"select","options":[["","Sélectionnez…"],["password","Mot de passe"],["publickey","Clé publique"],["none","Aucune réussite"]]},
+        {"id":"verdict","label":"Verdict","type":"select","options":[["","Sélectionnez…"],["confirmed","Compromission confirmée"],["attempted","Tentative bloquée"],["legitimate","Activité légitime"],["inconclusive","Preuves insuffisantes"]]},
+        {"id":"evidence","label":"Preuves","type":"checkboxes","options":[["repeated-failures","Échecs répétés"],["accepted-same-ip","Succès depuis la même IP"],["sudo-after-login","Sudo après connexion"],["no-accepted-login","Aucun succès observé"],["connection-closed","Connexion fermée"],["known-internal-ip","IP interne connue"],["known-key-fingerprint","Empreinte connue"],["approved-pipeline","Pipeline approuvé"],["new-source-ip","Nouvelle IP"],["unlisted-key","Clé non inventoriée"],["no-malicious-action","Aucune action malveillante observée"]]},
+        {"id":"immediateAction","label":"Action immédiate","type":"select","options":[["","Sélectionnez…"],["isolate-revoke-preserve","Isoler, révoquer et préserver"],["block-monitor-search","Bloquer, surveiller et rechercher"],["document-and-monitor","Documenter et surveiller"],["preserve-verify-owner","Préserver et vérifier le propriétaire"]]},
+        {"id":"justification","label":"Justification","type":"textarea","semantic":false,"minLength":30}
+      ]
     },
     {
       "id": "m14-e2",
+      "mode": "command",
+      "variantGroup": "m14-dfir",
       "title": "Extraire des fichiers avec binwalk",
       "desc": "Dans le simulateur, utilisez <code>binwalk</code> avec extraction sur le firmware inerte <code>firmware.bin</code>.",
       "accepted": [
@@ -1511,8 +1440,8 @@
       ],
       "hints": [
         "binwalk analyse et extrait les fichiers.",
-        "L'option -e extrait les fichiers trouvés.",
-        "Tapez : binwalk -e firmware.bin"
+        "L'option <code>-e</code> extrait les fichiers trouvés.",
+        "Utilisez le nom d’artefact affiché dans le dossier actif."
       ],
       "validator": {
         "type": "all",
@@ -1543,6 +1472,8 @@
     },
     {
       "id": "m14-e3",
+      "mode": "command",
+      "variantGroup": "m14-dfir",
       "title": "Copier l'artefact disque inerte du lab",
       "desc": "Copiez le fichier de démonstration <code>/home/user/labs/evidence-source.img</code> vers <code>/mnt/evidence/training-copy.img</code>. Ne lancez jamais <code>dd</code> sur un périphérique réel sans procédure validée.",
       "accepted": [
@@ -1552,7 +1483,7 @@
         "Le lab fournit un fichier source, jamais un disque système.",
         "<code>if=</code> spécifie la source et <code>of=</code> la destination.",
         "bs=4M définit la taille de bloc à 4 mégaoctets pour accélérer la copie.",
-        "Ajoutez <code>status=progress</code> pour observer la copie simulée."
+        "Reprenez exactement les chemins du dossier actif et ajoutez <code>status=progress</code>."
       ],
       "validator": {
         "type": "all",

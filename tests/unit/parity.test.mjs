@@ -5,8 +5,28 @@ import vm from 'node:vm';
 import { loadJson } from '../../scripts/lib/content-validation.mjs';
 import { evaluateValidator as libEvaluate } from '../../scripts/lib/exercise-validators.mjs';
 import { runShell } from '../../scripts/lib/shell-exec.mjs';
+import { applyVfsOverlay as libOverlay, evaluateReport as libReport, sanitizeVariantProgress as libSanitize } from '../../scripts/lib/exercise-variants.mjs';
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
+
+test('browser and Node variant helpers agree on overlays and report verdicts', async () => {
+  const [source, variants, exercises, vfs] = await Promise.all([
+    readFile('assets/exercise-variants.js', 'utf8'),
+    loadJson('data/exercise-variants.json'),
+    loadJson('data/exercises.json'),
+    loadJson('data/vfs.json'),
+  ]);
+  const sandbox = {};
+  vm.createContext(sandbox);
+  vm.runInContext(source, sandbox, { filename: 'assets/exercise-variants.js' });
+  const variant = variants.groups['m14-dfir'].variants[0];
+  const fields = exercises.m14.find((entry) => entry.id === 'm14-e1').reportFields;
+  const answer = variant.exercises['m14-e1'].answer;
+  assert.deepEqual(clone(sandbox.applyVfsOverlay(vfs, variant.vfsOverlay)), libOverlay(vfs, variant.vfsOverlay));
+  assert.deepEqual(clone(sandbox.evaluateReport(fields, answer, answer)), libReport(fields, answer, answer));
+  const progress = { assignments: { 'm14-dfir': variant.id }, results: { 'm14-e1': { solvedVariants: [variant.id, 'bogus'], attemptsByVariant: { [variant.id]: 2 } } } };
+  assert.deepEqual(clone(sandbox.sanitizeVariantProgress(progress, variants)), libSanitize(progress, variants));
+});
 
 // Charge l'implémentation navigateur (assets/exercise-validators.js) dans un
 // contexte vm : elle expose `evaluateValidator` en fonction globale.
@@ -84,6 +104,7 @@ test('the browser terminal engine agrees with the shell-exec library on the core
     'cat readme.txt', 'cat /nope', 'cat /home/user', 'cat readme.txt </dev/null',
     'grep -i error /var/log/syslog', 'grep --ignore-case error /var/log/syslog', 'grep zzz readme.txt',
     "grep -E 'Failed password|Accepted (publickey|password)' /var/log/auth.log | tail -20",
+    "grep -E 'Failed password|Accepted publickey' /var/log/auth.log /var/log/auth.log",
     'mkdir -v projets', 'mkdir', 'chmod 644 readme.txt', 'chmod 755 scripts/script.sh',
     'find /home/user -name "*.txt"', 'echo bonjour', 'whoami',
     'ls | grep e', 'cat readme.txt | grep -i linux',
