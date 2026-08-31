@@ -64,22 +64,40 @@ test('on mobile, sidebar groups stay clipped and the arrow toggles them', async 
   await openApp(page);
   await page.locator('.hamburger').click();
   await expect(page.locator('#sidebar')).toHaveClass(/open/);
-  // le groupe est initialement fermé : ses items masqués (pas cliquables)
+  // Le bouton contrôle un seul conteneur qui doit contenir les quatre modules.
   const group = page.locator('#group-hardware');
+  const header = page.locator('#group-hardware .sidebar-group-header');
+  const body = page.locator('#group-hardware-body');
+  const hardwareTargets = ['hw1', 'hw2', 'hw3', 'hw4'];
   await expect(group).not.toHaveClass(/open/);
-  await expect(page.locator('[data-target="hw1"]')).toBeHidden();
-  // on ouvre le groupe via son header (la flèche)
-  await page.locator('#group-hardware .sidebar-group-header').click();
+  await expect(header).toHaveAttribute('aria-controls', 'group-hardware-body');
+  await expect(header).toHaveAttribute('aria-expanded', 'false');
+  for (const target of hardwareTargets) {
+    const item = page.locator(`[data-target="${target}"]`);
+    await expect(body.locator(`[data-target="${target}"]`)).toHaveCount(1);
+    await expect(item).toBeHidden();
+  }
+  // On ouvre le groupe via son header (la flèche).
+  await header.click();
   await expect(group).toHaveClass(/open/);
-  await expect(page.locator('[data-target="hw1"]')).toBeVisible();
-  // la flèche referme : les items redeviennent masqués et non cliquables
-  await page.locator('#group-hardware .sidebar-group-header').click();
+  await expect(header).toHaveAttribute('aria-expanded', 'true');
+  for (const target of hardwareTargets) {
+    await expect(page.locator(`[data-target="${target}"]`)).toBeVisible();
+  }
+  // La flèche referme : tous les items redeviennent masqués et non cliquables.
+  await header.click();
   await expect(group).not.toHaveClass(/open/);
-  await expect(page.locator('[data-target="hw1"]')).toBeHidden();
-  // la flèche rouvre : les items redeviennent cliquables
-  await page.locator('#group-hardware .sidebar-group-header').click();
+  await expect(header).toHaveAttribute('aria-expanded', 'false');
+  for (const target of hardwareTargets) {
+    await expect(page.locator(`[data-target="${target}"]`)).toBeHidden();
+  }
+  // La flèche rouvre : tous les items redeviennent cliquables.
+  await header.click();
   await expect(group).toHaveClass(/open/);
-  await expect(page.locator('[data-target="hw1"]')).toBeVisible();
+  await expect(header).toHaveAttribute('aria-expanded', 'true');
+  for (const target of hardwareTargets) {
+    await expect(page.locator(`[data-target="${target}"]`)).toBeVisible();
+  }
 });
 
 test('locked modules expose aria-disabled and a prerequisite label', async ({ page }) => {
@@ -100,3 +118,4 @@ test('reduced motion preference is declared in CSS', async ({ page }) => {
   }));
   expect(declared).toBe(true);
 });
+
