@@ -100,11 +100,24 @@ test('on mobile, sidebar groups stay clipped and the arrow toggles them', async 
   }
 });
 
-test('locked modules expose aria-disabled and a prerequisite label', async ({ page }) => {
+test('locked modules expose their prerequisite and explain it in the terminal', async ({ page }) => {
   await openApp(page);
   const locked = page.locator('[data-target="m2"]');
   await expect(locked).toHaveAttribute('aria-disabled', 'true');
   await expect(locked).toContainText(/quiz précédent|verrouill/i);
+
+  const initialUrl = page.url();
+  const output = page.locator('#terminal-output');
+  const lineCount = await output.locator('.term-line').count();
+  // Le bouton reste volontairement accessible au clic pour expliquer le prérequis.
+  await locked.dispatchEvent('click');
+  const feedback = output.locator('.term-line').nth(lineCount);
+  await expect(feedback).toHaveText(/Le module "m2" est verrouillé\. Complétez le quiz du module précédent d'abord\./);
+  await expect(feedback).toHaveClass(/(^|\s)error-line(\s|$)/);
+  await expect(feedback).not.toHaveText(/^error-line$/);
+  await expect(page.locator('#section-m2')).not.toHaveClass(/active/);
+  expect(await page.evaluate(() => currentSection)).toBe('home');
+  expect(page.url()).toBe(initialUrl);
 });
 
 test('reduced motion preference is declared in CSS', async ({ page }) => {

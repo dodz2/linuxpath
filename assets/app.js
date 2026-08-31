@@ -39,7 +39,7 @@ function navigateTo(target) {
   // 'ctf' et 'sandbox' sont toujours accessibles sans condition de module
   const freeTargets = ['home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap', 'm9', 'm12'];
   if (!freeTargets.includes(target) && !state.unlockedModules.has(target)) {
-    termPrint('error-line', `⚠ Le module "${target}" est verrouillé. Complétez le quiz du module précédent d'abord.`);
+    termPrint(`⚠ Le module "${target}" est verrouillé. Complétez le quiz du module précédent d'abord.`, 'error-line');
     return;
   }
   document.querySelectorAll('.module-section').forEach(s => {
@@ -603,3 +603,4 @@ function resetSandbox() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
