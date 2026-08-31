@@ -414,11 +414,15 @@
             "of": [
               {
                 "type": "args_include",
-                "tokens": ["$HOME"]
+                "tokens": [
+                  "$HOME"
+                ]
               },
               {
                 "type": "args_include",
-                "tokens": ["${HOME}"]
+                "tokens": [
+                  "${HOME}"
+                ]
               }
             ]
           }
@@ -1185,16 +1189,15 @@
   "m12": [
     {
       "id": "m12-e1",
-      "title": "Lancer un audit Lynis",
-      "desc": "Lancez un audit complet du système avec <code>lynis</code>.",
+      "title": "Lancer un audit Lynis sans interaction",
+      "desc": "Dans le lab simulé, lancez Lynis en mode non interactif. Un résultat est un constat à interpréter, pas une remédiation automatique.",
       "accepted": [
-        "sudo lynis audit system",
-        "lynis audit system"
+        "sudo lynis audit system --quick"
       ],
       "hints": [
         "Lynis est l'outil d'audit de sécurité.",
-        "La commande commence par 'sudo lynis'.",
-        "Tapez : sudo lynis audit system"
+        "L'option <code>--quick</code> évite les pauses interactives.",
+        "Tapez : <code>sudo lynis audit system --quick</code>"
       ],
       "validator": {
         "type": "all",
@@ -1204,34 +1207,36 @@
           },
           {
             "type": "command",
-            "name": "lynis"
+            "name": "lynis",
+            "single": true
           },
           {
             "type": "stdout_includes",
             "text": "Lynis"
           },
           {
-            "type": "args_include",
+            "type": "args_exact",
             "tokens": [
               "audit",
-              "system"
-            ]
+              "system",
+              "--quick"
+            ],
+            "stage": 0
           }
         ]
       }
     },
     {
       "id": "m12-e2",
-      "title": "Surveiller /etc/passwd avec auditd",
-      "desc": "Configurez <code>auditd</code> pour surveiller les accès en écriture à <code>/etc/passwd</code>.",
+      "title": "Ajouter une règle auditd actuelle",
+      "desc": "Dans le lab, ajoutez une règle syscall x86_64 temporaire qui trace les écritures et changements d'attributs sur <code>/etc/passwd</code> avec la clé <code>identity</code>.",
       "accepted": [
-        "sudo auditctl -w /etc/passwd -p wa -k passwd_changes",
-        "auditctl -w /etc/passwd -p wa -k passwd_changes"
+        "sudo auditctl -a always,exit -F arch=b64 -F path=/etc/passwd -F perm=wa -k identity"
       ],
       "hints": [
-        "auditctl configure les règles d'audit.",
-        "L'option -w surveille un fichier, -p les permissions.",
-        "Tapez : sudo auditctl -w /etc/passwd -p wa -k passwd_changes"
+        "Les watches <code>auditctl -w</code> sont dépréciés.",
+        "Une règle syscall utilise <code>-a always,exit</code> et <code>-F path=…</code>.",
+        "Ajoutez <code>perm=wa</code> et la clé <code>identity</code>."
       ],
       "validator": {
         "type": "all",
@@ -1241,21 +1246,27 @@
           },
           {
             "type": "command",
-            "name": "auditctl"
+            "name": "auditctl",
+            "single": true
           },
           {
             "type": "stdout_includes",
-            "text": "passwd"
+            "text": "identity"
           },
           {
-            "type": "args_include",
+            "type": "args_exact",
+            "stage": 0,
             "tokens": [
-              "-w",
-              "/etc/passwd",
-              "-p",
-              "wa",
+              "-a",
+              "always,exit",
+              "-F",
+              "arch=b64",
+              "-F",
+              "path=/etc/passwd",
+              "-F",
+              "perm=wa",
               "-k",
-              "passwd_changes"
+              "identity"
             ]
           }
         ]
@@ -1264,16 +1275,14 @@
     {
       "id": "m12-e3",
       "title": "Lire un rapport Lynis",
-      "desc": "Affichez les avertissements du rapport <code>/var/log/lynis.log</code>.",
+      "desc": "Retrouvez le contrôle <code>SSH-7412</code> dans le rapport Lynis simulé avant toute décision de remédiation.",
       "accepted": [
-        "grep -i warning /var/log/lynis.log",
-        "grep -i \"warning\" /var/log/lynis.log",
-        "grep -i 'warning' /var/log/lynis.log"
+        "grep -i SSH-7412 /var/log/lynis.log"
       ],
       "hints": [
         "Le rapport est déjà généré dans /var/log/lynis.log.",
-        "Utilisez grep pour filtrer le mot warning.",
-        "Tapez : grep -i warning /var/log/lynis.log"
+        "Cherchez l'identifiant du contrôle, pas un niveau de sévérité inventé.",
+        "Tapez : <code>grep -i SSH-7412 /var/log/lynis.log</code>"
       ],
       "validator": {
         "type": "all",
@@ -1283,15 +1292,19 @@
           },
           {
             "type": "command",
-            "name": "grep"
+            "name": "grep",
+            "single": true
           },
           {
             "type": "stdout_includes",
-            "text": "warning"
+            "text": "SSH-7412"
           },
           {
-            "type": "args_include",
+            "type": "args_exact",
+            "stage": 0,
             "tokens": [
+              "-i",
+              "SSH-7412",
               "/var/log/lynis.log"
             ]
           }
@@ -1302,17 +1315,15 @@
   "m13": [
     {
       "id": "m13-e1",
-      "title": "Scan Nmap avec détection de version",
-      "desc": "Lancez un scan Nmap sur <code>192.168.1.1</code> avec détection de version et scripts NSE par défaut.",
+      "title": "Vérifier le périmètre avant toute action",
+      "desc": "Lisez le document de périmètre du lab : il précise les cibles, limites et condition d'arrêt avant tout test actif.",
       "accepted": [
-        "nmap -sV -sC 192.168.1.1",
-        "sudo nmap -sV -sC 192.168.1.1",
-        "nmap -sC -sV 192.168.1.1"
+        "cat /home/user/documents/pentest-scope.md"
       ],
       "hints": [
-        "-sV pour les versions, -sC pour les scripts NSE.",
-        "Combinez les deux options.",
-        "Tapez : nmap -sV -sC 192.168.1.1"
+        "Le périmètre est un document dans <code>/home/user/documents</code>.",
+        "Utilisez une commande de lecture seule.",
+        "Tapez : <code>cat /home/user/documents/pentest-scope.md</code>"
       ],
       "validator": {
         "type": "all",
@@ -1322,18 +1333,18 @@
           },
           {
             "type": "command",
-            "name": "nmap"
+            "name": "cat",
+            "single": true
           },
           {
             "type": "stdout_includes",
-            "text": "Nmap"
+            "text": "Cible"
           },
           {
-            "type": "args_include",
+            "type": "args_exact",
+            "stage": 0,
             "tokens": [
-              "-sV",
-              "-sC",
-              "192.168.1.1"
+              "/home/user/documents/pentest-scope.md"
             ]
           }
         ]
@@ -1341,16 +1352,15 @@
     },
     {
       "id": "m13-e2",
-      "title": "Lancer Metasploit",
-      "desc": "Lancez la console Metasploit Framework.",
+      "title": "Cartographier le service du lab",
+      "desc": "Exécutez dans le simulateur un scan ciblé de <code>lab.linuxpath.test</code> : version du service HTTP et script NSE <code>http-title</code> uniquement.",
       "accepted": [
-        "msfconsole",
-        "sudo msfconsole"
+        "nmap -sV -p 80 --script=http-title lab.linuxpath.test"
       ],
       "hints": [
-        "C'est la commande de base pour lancer Metasploit.",
-        "Le nom commence par 'msf'.",
-        "Tapez : msfconsole"
+        "Le script ciblé s'écrit <code>--script=http-title</code>.",
+        "Limitez le port à <code>80</code>.",
+        "Tapez : <code>nmap -sV -p 80 --script=http-title lab.linuxpath.test</code>"
       ],
       "validator": {
         "type": "all",
@@ -1360,27 +1370,38 @@
           },
           {
             "type": "command",
-            "name": "msfconsole"
+            "name": "nmap",
+            "single": true
           },
           {
             "type": "stdout_includes",
-            "text": "msf"
+            "text": "simulation"
+          },
+          {
+            "type": "args_exact",
+            "stage": 0,
+            "tokens": [
+              "-sV",
+              "-p",
+              "80",
+              "--script=http-title",
+              "lab.linuxpath.test"
+            ]
           }
         ]
       }
     },
     {
       "id": "m13-e3",
-      "title": "Énumérer les répertoires d'un serveur web",
-      "desc": "Utilisez <code>gobuster</code> pour énumérer les répertoires de <code>http://cible.com</code> avec la wordlist <code>/usr/share/wordlists/dirb/common.txt</code>.",
+      "title": "Consigner une observation de service",
+      "desc": "À partir du scan précédent, consignez une observation de service du lab avec son périmètre, date, outil, niveau de confiance, impact, remédiation proposée et test de suivi — sans exécuter d’exploit.",
       "accepted": [
-        "gobuster dir -u http://cible.com -w /usr/share/wordlists/dirb/common.txt",
-        "gobuster dir -u http://cible.com/ -w /usr/share/wordlists/dirb/common.txt"
+        "rapport --target lab.linuxpath.test --finding http-title-observed --impact info --evidence nmap-http-title --scope authorized-lab --observed-at 2026-08-31 --tool nmap-7.91 --confidence high --remediation review-title-exposure --retest rerun-nmap-after-change"
       ],
       "hints": [
-        "Gobuster utilise le mode 'dir' pour l'énumération de répertoires.",
-        "L'option -u spécifie l'URL cible, -w la wordlist.",
-        "Tapez : gobuster dir -u http://cible.com -w /usr/share/wordlists/dirb/common.txt"
+        "Un constat utile distingue observation, impact et niveau de confiance.",
+        "Le terminal propose une commande pédagogique <code>rapport</code>.",
+        "Ajoutez le périmètre, la date, l’outil, la remédiation et le test de suivi aux quatre champs de base."
       ],
       "validator": {
         "type": "all",
@@ -1390,20 +1411,43 @@
           },
           {
             "type": "command",
-            "name": "gobuster"
+            "name": "rapport",
+            "single": true
           },
           {
             "type": "stdout_includes",
-            "text": "admin"
+            "text": "rapport"
           },
           {
-            "type": "args_include",
+            "type": "args_exact",
             "tokens": [
-              "dir",
-              "-u",
-              "-w",
-              "/usr/share/wordlists/dirb/common.txt"
-            ]
+              "--target",
+              "lab.linuxpath.test",
+              "--finding",
+              "http-title-observed",
+              "--impact",
+              "info",
+              "--evidence",
+              "nmap-http-title",
+              "--scope",
+              "authorized-lab",
+              "--observed-at",
+              "2026-08-31",
+              "--tool",
+              "nmap-7.91",
+              "--confidence",
+              "high",
+              "--remediation",
+              "review-title-exposure",
+              "--retest",
+              "rerun-nmap-after-change"
+            ],
+            "stage": 0
+          },
+          {
+            "type": "path_exists",
+            "path": "/home/user/documents/rapport-m13.txt",
+            "kind": "file"
           }
         ]
       }
@@ -1413,15 +1457,14 @@
     {
       "id": "m14-e1",
       "title": "Extraire les URLs d'un binaire",
-      "desc": "Utilisez <code>strings</code> pour extraire et filtrer les URLs HTTP d'un fichier <code>malware.bin</code>.",
+      "desc": "Dans le lab, utilisez <code>strings</code> puis <code>grep</code> pour filtrer les URLs HTTP de l'artefact inerte <code>malware.bin</code>.",
       "accepted": [
-        "strings malware.bin | grep -i http",
-        "strings malware.bin | grep http"
+        "strings -a malware.bin | grep -i http"
       ],
       "hints": [
         "strings extrait les chaînes lisibles.",
         "Utilisez grep pour filtrer les URLs.",
-        "Tapez : strings malware.bin | grep -i http"
+        "Tapez : <code>strings -a malware.bin | grep -i http</code>"
       ],
       "validator": {
         "type": "all",
@@ -1430,18 +1473,29 @@
             "type": "exit_zero"
           },
           {
-            "type": "command",
-            "name": "strings"
+            "type": "pipeline",
+            "commands": [
+              "strings",
+              "grep"
+            ]
           },
           {
             "type": "stdout_includes",
             "text": "http"
           },
           {
-            "type": "args_include",
+            "type": "args_exact",
+            "stage": 0,
             "tokens": [
-              "malware.bin",
-              "grep",
+              "-a",
+              "malware.bin"
+            ]
+          },
+          {
+            "type": "args_exact",
+            "stage": 1,
+            "tokens": [
+              "-i",
               "http"
             ]
           }
@@ -1451,10 +1505,9 @@
     {
       "id": "m14-e2",
       "title": "Extraire des fichiers avec binwalk",
-      "desc": "Utilisez <code>binwalk</code> pour extraire les fichiers embarqués dans <code>firmware.bin</code>.",
+      "desc": "Dans le simulateur, utilisez <code>binwalk</code> avec extraction sur le firmware inerte <code>firmware.bin</code>.",
       "accepted": [
-        "binwalk -e firmware.bin",
-        "sudo binwalk -e firmware.bin"
+        "binwalk -e firmware.bin"
       ],
       "hints": [
         "binwalk analyse et extrait les fichiers.",
@@ -1469,7 +1522,16 @@
           },
           {
             "type": "command",
-            "name": "binwalk"
+            "name": "binwalk",
+            "single": true
+          },
+          {
+            "type": "args_exact",
+            "tokens": [
+              "-e",
+              "firmware.bin"
+            ],
+            "stage": 0
           },
           {
             "type": "path_exists",
@@ -1481,18 +1543,16 @@
     },
     {
       "id": "m14-e3",
-      "title": "Créer une image disque forensique",
-      "desc": "Créez une image bit-à-bit de <code>/dev/sdb</code> vers <code>/mnt/evidence/disk.img</code> avec <code>dd</code>, en utilisant un bloc de 4 Mo.",
+      "title": "Copier l'artefact disque inerte du lab",
+      "desc": "Copiez le fichier de démonstration <code>/home/user/labs/evidence-source.img</code> vers <code>/mnt/evidence/training-copy.img</code>. Ne lancez jamais <code>dd</code> sur un périphérique réel sans procédure validée.",
       "accepted": [
-        "sudo dd if=/dev/sdb of=/mnt/evidence/disk.img bs=4M",
-        "dd if=/dev/sdb of=/mnt/evidence/disk.img bs=4M",
-        "sudo dd if=/dev/sdb of=/mnt/evidence/disk.img bs=4M status=progress",
-        "dd if=/dev/sdb of=/mnt/evidence/disk.img bs=4M status=progress"
+        "dd if=/home/user/labs/evidence-source.img of=/mnt/evidence/training-copy.img bs=4M status=progress"
       ],
       "hints": [
-        "dd copie des données bloc par bloc. if= spécifie la source, of= la destination.",
+        "Le lab fournit un fichier source, jamais un disque système.",
+        "<code>if=</code> spécifie la source et <code>of=</code> la destination.",
         "bs=4M définit la taille de bloc à 4 mégaoctets pour accélérer la copie.",
-        "Tapez : sudo dd if=/dev/sdb of=/mnt/evidence/disk.img bs=4M"
+        "Ajoutez <code>status=progress</code> pour observer la copie simulée."
       ],
       "validator": {
         "type": "all",
@@ -1502,12 +1562,23 @@
           },
           {
             "type": "command",
-            "name": "dd"
+            "name": "dd",
+            "single": true
           },
           {
             "type": "path_exists",
-            "path": "/mnt/evidence/disk.img",
+            "path": "/mnt/evidence/training-copy.img",
             "kind": "file"
+          },
+          {
+            "type": "args_exact",
+            "tokens": [
+              "if=/home/user/labs/evidence-source.img",
+              "of=/mnt/evidence/training-copy.img",
+              "bs=4M",
+              "status=progress"
+            ],
+            "stage": 0
           }
         ]
       }

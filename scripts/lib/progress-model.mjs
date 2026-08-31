@@ -22,7 +22,9 @@ export function normalizeQuizRecord(value, passScore = PASS_SCORE) {
     attempts,
     bestScore: best,
     lastScore: last,
-    passed: value.passed === true || best >= passScore,
+    // `passed` est dérivé de la meilleure note pour empêcher qu'un export
+    // falsifié ne déverrouille un module sans quiz réussi.
+    passed: best >= passScore,
   };
 }
 
@@ -41,6 +43,21 @@ export function recordQuizAttempt(existing, score, passScore = PASS_SCORE) {
 export function isQuizPassed(value, passScore = PASS_SCORE) {
   const record = normalizeQuizRecord(value, passScore);
   return Boolean(record && record.passed);
+}
+
+export function isModuleComplete({
+  lessonIds = [],
+  exerciseIds = [],
+  lessonsDone = [],
+  exercisesDone = [],
+  quizValue,
+  passScore = PASS_SCORE,
+} = {}) {
+  const completedLessons = lessonsDone instanceof Set ? lessonsDone : new Set(lessonsDone);
+  const completedExercises = exercisesDone instanceof Set ? exercisesDone : new Set(exercisesDone);
+  return isQuizPassed(quizValue, passScore)
+    && lessonIds.every((id) => completedLessons.has(id))
+    && exerciseIds.every((id) => completedExercises.has(id));
 }
 
 export function masteryLabel({ passed, bestScore, withHelp, questionCount = 5 }) {

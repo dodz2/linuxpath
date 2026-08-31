@@ -4,6 +4,13 @@ import { readFile, access } from 'node:fs/promises';
 import { constants } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
+import path from 'node:path';
+
+const npmCli = process.platform === 'win32'
+  ? path.join(path.dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npm-cli.js')
+  : null;
+const npmCommand = npmCli ? process.execPath : 'npm';
+const npmArgs = (args) => npmCli ? [npmCli, ...args] : args;
 
 async function exists(path) {
   try { await access(path, constants.F_OK); return true; }
@@ -28,11 +35,11 @@ test('known-failures.json no longer lists resolved defects as expected failures'
   assert.equal(data.source.length, 0, `expected failures remain: ${data.source.join(', ')}`);
 });
 
-test('the build drops unminified sources from the dist asset bundle', async () => {
+test('the build synchronizes served minified bundles and drops sources from dist', async () => {
   const { spawn } = await import('node:child_process');
   const { readdir } = await import('node:fs/promises');
   const result = await new Promise((resolve) => {
-    const child = spawn('npm', ['run', 'build'], { cwd: process.cwd(), stdio: 'pipe' });
+    const child = spawn(npmCommand, npmArgs(['run', 'build']), { cwd: process.cwd(), stdio: 'pipe' });
     let out = '';
     child.stdout.on('data', (chunk) => { out += chunk; });
     child.stderr.on('data', (chunk) => { out += chunk; });
@@ -42,6 +49,15 @@ test('the build drops unminified sources from the dist asset bundle', async () =
   const files = await readdir('dist/assets');
   const unminified = files.filter((name) => name.endsWith('.js') && !name.endsWith('.min.js'));
   assert.deepEqual(unminified, [], `dist/assets still ships unminified sources: ${unminified.join(', ')}`);
+  const { minify } = await import('terser');
+  const sources = (await readdir('assets')).filter((name) => name.endsWith('.js') && !name.endsWith('.min.js'));
+  for (const sourceName of sources) {
+    const source = await readFile(`assets/${sourceName}`, 'utf8');
+    const expected = `${(await minify(source, { compress: true, mangle: true })).code}\n`;
+    const minifiedName = sourceName.replace(/\.js$/, '.min.js');
+    assert.equal(await readFile(`assets/${minifiedName}`, 'utf8'), expected, `${minifiedName} is stale at the project root`);
+    assert.equal(await readFile(`dist/assets/${minifiedName}`, 'utf8'), expected, `${minifiedName} differs between root and dist`);
+  }
 });
 
 test('the harness suite verifies and cleans up its self-marker', async () => {

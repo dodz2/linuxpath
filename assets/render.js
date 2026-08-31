@@ -1,6 +1,39 @@
 /* ============================================================
    LESSON RENDERING
    ============================================================ */
+function escapeLessonText(value) {
+  return String(value || '').replace(/[&<>"']/g, function (char) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char];
+  });
+}
+
+function renderLessonSources(sources) {
+  if (!Array.isArray(sources)) return '';
+  const entries = sources.map(function (source) {
+    if (!source || typeof source !== 'object') return null;
+    try {
+      const url = new URL(source.url);
+      if (url.protocol !== 'https:' || !source.title || !source.checkedAt || !source.scope) return null;
+      return {
+        title: escapeLessonText(source.title),
+        url: escapeLessonText(url.href),
+        checkedAt: escapeLessonText(source.checkedAt),
+        scope: escapeLessonText(source.scope)
+      };
+    } catch (_) {
+      return null;
+    }
+  }).filter(Boolean);
+  if (!entries.length) return '';
+  return '<aside class="info-box info lesson-sources" aria-label="Références vérifiées">'
+    + '<strong>Références vérifiées :</strong><ul>'
+    + entries.map(function (entry) {
+      return '<li><a href="' + entry.url + '" target="_blank" rel="noopener noreferrer">'
+        + entry.title + '</a> — ' + entry.scope + ' <span class="text-muted">(vérifié le ' + entry.checkedAt + ')</span></li>';
+    }).join('')
+    + '</ul></aside>';
+}
+
 function renderLessons(mod) {
   const ids = mod ? [mod] : getPublishedModuleIds();
   ids.forEach(mod => {
@@ -29,7 +62,7 @@ function renderLessons(mod) {
           <span class="lesson-toggle" aria-hidden="true">▼</span>
         </button>
         <div class="lesson-body" id="lesson-body-${lesson.id}">
-          <div class="lesson-content">${lesson.content.length > 3500 ? lesson.content.replace('</h3>', '</h3><p class="lesson-checkpoint">Point de reprise — vous pouvez revenir ici plus tard.</p>') : lesson.content}</div>
+          <div class="lesson-content">${lesson.content.length > 3500 ? lesson.content.replace('</h3>', '</h3><p class="lesson-checkpoint">Point de reprise — vous pouvez revenir ici plus tard.</p>') : lesson.content}${renderLessonSources(lesson.sources)}</div>
           <div class="lesson-actions">
             <button class="lesson-done-btn ${state.lessonsDone.has(lesson.id) ? 'done' : ''}" id="done-btn-${lesson.id}" onclick="markLessonDone('${lesson.id}')">
               ${state.lessonsDone.has(lesson.id) ? '✓ Leçon terminée' : '✓ Marquer comme terminée'}
@@ -231,7 +264,7 @@ function renderQuizzes(mod) {
       card.innerHTML = `
         <div class="quiz-start">
           <h3>${quiz.title}</h3>
-          <p>5 questions à choix multiples. Score minimum : 3/5 pour déverrouiller le module suivant.</p>
+          <p>${quiz.questions.length} questions à choix multiples. Score minimum : ${PASS_SCORE}/${quiz.questions.length} ; terminez aussi les leçons et exercices pour déverrouiller le module suivant.</p>
           <button class="btn-start-quiz" onclick="startQuiz('${mod}')">▶ Commencer le quiz</button>
         </div>
         <div class="quiz-body" id="quiz-body-${mod}"></div>
@@ -377,12 +410,9 @@ function nextQuestion(mod) {
 async function showQuizResult(mod) {
   const qs = quizState[mod];
   const score = qs.score;
-  const pass = score >= 3;
+  const pass = score >= PASS_SCORE;
 
   state.quizScores[mod] = recordQuizAttempt(state.quizScores[mod], score);
-  if (pass) {
-    refreshUnlocks();
-  }
   await saveState();
   updateProgressUI();
 
@@ -394,7 +424,7 @@ async function showQuizResult(mod) {
   result.classList.add('visible');
 
   const withHelp = Object.keys(hintLevels).some((id) => id.startsWith(mod + '-') && hintLevels[id] > 0);
-  const mastery = !pass ? 'À retravailler' : (score >= 5 && !withHelp ? 'Maîtrisé' : (withHelp ? 'Réussi avec aide' : 'Réussi autonome'));
+  const mastery = !pass ? 'À retravailler' : (score >= QUIZZES[mod].questions.length && !withHelp ? 'Maîtrisé' : (withHelp ? 'Réussi avec aide' : 'Réussi autonome'));
   const msgs = ['Relisez les leçons et réessayez.', 'Continuez à réviser, vous pouvez le faire !', 'Pas mal, mais retentez pour valider.', 'Bien joué ! Module déverrouillé.', 'Excellent ! Presque parfait.', 'Parfait ! Vous maîtrisez ce module.'];
   const nextMod = getNextMod(mod);
   const reviewItems = qs.questions.map((question, index) => {
@@ -403,15 +433,18 @@ async function showQuizResult(mod) {
     return '<li>' + question.q + (lesson ? ' — revoir : ' + lesson.title : '') + '</li>';
   }).join('');
 
+  const moduleComplete = isModuleComplete(mod);
+  const nextUnlocked = moduleComplete && nextMod && state.unlockedModules.has(nextMod);
+  const completionNeeded = pass && !moduleComplete;
   result.innerHTML = '<div class="quiz-result-inner ' + (pass ? 'pass' : 'fail') + '">'
     + '<div class="quiz-result-stars">' + mastery + '</div>'
     + '<div class="quiz-result-score">' + score + '<span>/5</span></div>'
     + '<div class="quiz-result-msg">' + (msgs[score] || '') + '</div>'
     + (reviewItems ? '<ul class="quiz-review">' + reviewItems + '</ul>' : '')
-    + (pass && nextMod ? '<div class="quiz-unlock-msg">🔓 Module suivant déverrouillé !</div>' : (pass && !nextMod ? '<div class="quiz-unlock-msg">🏁 Parcours terminé.</div>' : ''))
+    + (pass && nextUnlocked ? '<div class="quiz-unlock-msg">🔓 Module suivant déverrouillé !</div>' : (pass && moduleComplete && !nextMod ? '<div class="quiz-unlock-msg">🏁 Parcours terminé.</div>' : (completionNeeded ? '<div class="quiz-unlock-msg">Terminez les leçons et exercices du module pour déverrouiller la suite.</div>' : '')))
     + '<div class="quiz-result-actions">'
     + '<button class="btn-start-quiz" onclick="startQuiz(\'' + mod + '\')">Recommencer</button>'
-    + (pass && nextMod ? '<button class="btn-start-quiz" style="background:var(--accent-blue-dim);margin-left:8px" onclick="navigateTo(\'' + nextMod + '\')">Module suivant →</button>' : '')
+    + (pass && nextUnlocked ? '<button class="btn-start-quiz" style="background:var(--accent-blue-dim);margin-left:8px" onclick="navigateTo(\'' + nextMod + '\')">Module suivant →</button>' : '')
     + '</div></div>';
 }
 
@@ -976,7 +1009,7 @@ function renderRoadmapSummary() {
     if (
       lessonsDone >= counts.lessons &&
       exDone      >= counts.exercises &&
-      state.quizScores[m] !== undefined
+      quizDone
     ) completedModules++;
   });
 

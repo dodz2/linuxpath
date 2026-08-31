@@ -35,6 +35,8 @@ test('the browser exercise validator agrees with the library validator on every 
     { exitCode: 2, stdout: [], stderr: ['bash: syntaxe non supportée'], cwd: '/home/user', vfs, raw: 'ls && cat x' },
     { exitCode: 0, stdout: ['/home/user'], stderr: [], cwd: '/home/user', vfs, raw: '' }, // raw absent
     { exitCode: 0, stdout: ['crwd'], stderr: [], cwd: '/tmp', vfs: {}, raw: 'cd /tmp' },
+    { exitCode: 0, stdout: ['https://c2.training.invalid/callback'], stderr: [], cwd: '/home/user', vfs, raw: 'strings -a malware.bin | grep -i http', commands: ['strings', 'grep'] },
+    { exitCode: 0, stdout: ['https://c2.training.invalid/callback'], stderr: [], cwd: '/home/user', vfs, raw: 'strings -a malware.bin', commands: ['strings'] },
   ];
 
   const disagreements = [];
@@ -81,6 +83,7 @@ test('the browser terminal engine agrees with the shell-exec library on the core
     'pwd', 'cd /tmp', 'cd ~', 'cd ~/', 'cd ..', 'cd /nope', 'cd -',
     'cat readme.txt', 'cat /nope', 'cat /home/user', 'cat readme.txt </dev/null',
     'grep -i error /var/log/syslog', 'grep --ignore-case error /var/log/syslog', 'grep zzz readme.txt',
+    "grep -E 'Failed password|Accepted (publickey|password)' /var/log/auth.log | tail -20",
     'mkdir -v projets', 'mkdir', 'chmod 644 readme.txt', 'chmod 755 scripts/script.sh',
     'find /home/user -name "*.txt"', 'echo bonjour', 'whoami',
     'ls | grep e', 'cat readme.txt | grep -i linux',

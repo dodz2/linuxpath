@@ -4,8 +4,10 @@ import { readFile } from 'node:fs/promises';
 import {
   activityBelongsToModule,
   computeModuleProgress,
+  isModuleComplete,
   migrateProgress,
   nextModuleId,
+  normalizeQuizRecord,
   recordQuizAttempt,
 } from '../../scripts/lib/progress-model.mjs';
 
@@ -54,6 +56,32 @@ test('a 3/5 pass completes the module and later lower scores keep the best', () 
   assert.equal(retry.attempts, 2);
   assert.equal(progress.state, 'passed');
   assert.equal(progress.pct, 100);
+});
+
+test('a forged passed flag cannot replace a passing quiz score', () => {
+  const forged = normalizeQuizRecord({ lastScore: 0, bestScore: 0, passed: true });
+  assert.equal(forged.passed, false);
+  assert.equal(isModuleComplete({
+    lessonIds: ['m12-l1'],
+    exerciseIds: ['m12-e1'],
+    lessonsDone: ['m12-l1'],
+    exercisesDone: ['m12-e1'],
+    quizValue: forged,
+  }), false);
+});
+
+test('a module unlock prerequisite requires lessons, exercises and a passed quiz', () => {
+  const base = {
+    lessonIds: ['m12-l1', 'm12-l2'],
+    exerciseIds: ['m12-e1'],
+    lessonsDone: ['m12-l1', 'm12-l2'],
+    exercisesDone: ['m12-e1'],
+    quizValue: recordQuizAttempt(null, 3),
+  };
+  assert.equal(isModuleComplete(base), true);
+  assert.equal(isModuleComplete({ ...base, lessonsDone: ['m12-l1'] }), false);
+  assert.equal(isModuleComplete({ ...base, exercisesDone: [] }), false);
+  assert.equal(isModuleComplete({ ...base, quizValue: recordQuizAttempt(null, 2) }), false);
 });
 
 test('m8 is followed by m9 and m14 has no successor', () => {

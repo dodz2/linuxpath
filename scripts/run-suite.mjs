@@ -11,6 +11,11 @@ if (!['harness', 'static', 'all'].includes(mode)) {
 }
 
 const results = [];
+const npmCli = process.platform === 'win32'
+  ? path.join(path.dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npm-cli.js')
+  : null;
+const npmCommand = npmCli ? process.execPath : 'npm';
+const npmArgs = (args) => npmCli ? [npmCli, ...args] : args;
 let interrupted = false;
 for (const signal of ['SIGINT', 'SIGTERM']) {
   process.on(signal, () => {
@@ -82,21 +87,21 @@ try {
   console.error(`\nPHASE 0 SUITE: harness-self-marker n'a pas créé ${marker} (${error.code || error}) — suite interrompue.`);
   process.exit(2);
 }
-run('syntax', 'npm', ['run', 'validate:syntax']);
+run('syntax', npmCommand, npmArgs(['run', 'validate:syntax']));
 run('engines', process.execPath, ['-e', 'const major=+process.versions.node.split(".")[0]; if (major<22) { console.error("Node >=22 required"); process.exit(2); }']);
-run('e2e-list', 'npm', ['run', 'test:e2e:list']);
+run('e2e-list', npmCommand, npmArgs(['run', 'test:e2e:list']));
 
 if (mode !== 'harness') {
-  run('html', 'npm', ['run', 'validate:html']);
-  run('data', 'npm', ['run', 'validate:data']);
-  run('references', 'npm', ['run', 'validate:references']);
-  run('unit', 'npm', ['run', 'test:unit']);
-  run('build', 'npm', ['run', 'build']);
+  run('html', npmCommand, npmArgs(['run', 'validate:html']));
+  run('data', npmCommand, npmArgs(['run', 'validate:data']));
+  run('references', npmCommand, npmArgs(['run', 'validate:references']));
+  run('unit', npmCommand, npmArgs(['run', 'test:unit']));
+  run('build', npmCommand, npmArgs(['run', 'build']));
 }
 if (mode === 'all') {
-  run('e2e-source', 'npm', ['run', 'test:e2e']);
-  run('e2e-dist', 'npm', ['run', 'test:e2e:dist']);
-  run('e2e-offline', 'npm', ['run', 'test:e2e:offline']);
+  run('e2e-source', npmCommand, npmArgs(['run', 'test:e2e']));
+  run('e2e-dist', npmCommand, npmArgs(['run', 'test:e2e:dist']));
+  run('e2e-offline', npmCommand, npmArgs(['run', 'test:e2e:offline']));
 }
 
 if (interrupted) await finalize(130);

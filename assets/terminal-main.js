@@ -3,6 +3,10 @@
    ============================================================ */
 let VFS = null; // Chargé depuis data/vfs.json
 let mainTerminal = null;
+const artifactChecksums = {
+  'LAB_SAMPLE_ONLY\nhttps://c2.training.invalid/callback\n': '0e1a4734f609146ce91de2f680e0f6bfe5f539f7596895820674232c25f37ad2',
+  'LINUXPATH_TRAINING_EVIDENCE_IMAGE\n': 'e517bf22cfe911ce831a192e9525560715f62da8a151a14848e10b91c5b1df5d'
+};
 
 function initMainTerminal(vfsData) {
   VFS = vfsData;
@@ -145,11 +149,29 @@ function initMainTerminal(vfsData) {
       mainTerminal.print('<span class="t-cmd-name">lo</span>: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536', 'term-output');
       mainTerminal.print('        inet <span class="t-green">127.0.0.1</span>  netmask 255.0.0.0', 'term-output');
     },
-    ss: function() {
+    ss: function(args) {
       mainTerminal.print('<span class="t-muted">Netid  State   Recv-Q  Send-Q  Local Address:Port    Peer Address:Port</span>', 'term-output');
-      mainTerminal.print('tcp    LISTEN  0       128     0.0.0.0:22           0.0.0.0:*', 'term-output');
-      mainTerminal.print('tcp    LISTEN  0       511     0.0.0.0:80           0.0.0.0:*', 'term-output');
-      mainTerminal.print('tcp    LISTEN  0       511     0.0.0.0:443          0.0.0.0:*', 'term-output');
+      var listeners = (args || []).some(function (arg) { return arg.charAt(0) === '-' && arg.indexOf('l') >= 0; });
+      if (listeners) {
+        mainTerminal.print('tcp    LISTEN  0       128     0.0.0.0:22           0.0.0.0:*', 'term-output');
+        mainTerminal.print('tcp    LISTEN  0       511     0.0.0.0:80           0.0.0.0:*', 'term-output');
+        mainTerminal.print('tcp    LISTEN  0       511     0.0.0.0:443          0.0.0.0:*', 'term-output');
+      } else {
+        mainTerminal.print('tcp    ESTAB   0       0       192.0.2.10:443       198.51.100.25:52644', 'term-output');
+      }
+    },
+    journalctl: function(args) {
+      if ((args || []).indexOf('-u') >= 0 && (args || []).indexOf('ssh.service') >= 0) {
+        mainTerminal.print('Aug 31 10:02:11 linuxpath sshd[821]: Accepted publickey for user from 198.51.100.25', 'term-output');
+        mainTerminal.print('Aug 31 10:04:02 linuxpath sshd[834]: Failed password for invalid user lab from 198.51.100.25', 'term-output');
+        return;
+      }
+      if ((args || []).indexOf('_UID=0') >= 0) {
+        mainTerminal.print('Aug 31 09:58:31 linuxpath systemd[1]: Started OpenSSH server daemon.', 'term-output');
+        mainTerminal.print('Aug 31 10:00:00 linuxpath CRON[710]: (root) CMD (test -x /usr/sbin/anacron)', 'term-output');
+        return;
+      }
+      return { exitCode: 1, stdout: [], stderr: ['journalctl : filtre de démonstration non pris en charge'], stateChanges: [] };
     },
     netstat: function() {
       mainTerminal.print('<span class="t-muted">Proto  Recv-Q  Send-Q  Local Address     Foreign Address     State</span>', 'term-output');
@@ -170,13 +192,26 @@ function initMainTerminal(vfsData) {
       mainTerminal.print('Connexion... 200 OK', 'term-output');
       mainTerminal.print('<span class="t-green">« ' + escapeHtml(fname) + ' » sauvegardé [4096/4096]</span>', 'term-output');
     },
-    tail: function(args) {
+    tail: function(args, engine, stdin) {
+      var count = 10;
+      for (var tailIndex = 0; tailIndex < args.length; tailIndex++) {
+        if (args[tailIndex] === '-n' && /^\d+$/.test(args[tailIndex + 1] || '')) {
+          count = Number(args[++tailIndex]);
+        } else if (/^-\d+$/.test(args[tailIndex])) {
+          count = Number(args[tailIndex].slice(1));
+        }
+      }
       var fileArg = args.filter(function(a){return !a.startsWith('-');})[0];
-      if (!fileArg) { mainTerminal.print('<span class="t-err">tail : fichier manquant</span>'); return; }
+      if (!fileArg) {
+        if (Array.isArray(stdin) && stdin.length) {
+          return { exitCode: 0, stdout: stdin.slice(-count), stderr: [], stateChanges: [] };
+        }
+        return { exitCode: 1, stdout: [], stderr: ['tail : fichier manquant'], stateChanges: [] };
+      }
       var t = mainTerminal.resolvePath(fileArg);
       var _vfs = mainTerminal.getVfs();
-      if (!_vfs[t]) { mainTerminal.print('<span class="t-err">tail : ' + escapeHtml(fileArg) + ' : Aucun fichier</span>'); return; }
-      (_vfs[t].content||'').split('\n').slice(-10).forEach(function(l){mainTerminal.print(escapeHtml(l),'term-output');});
+      if (!_vfs[t]) { return { exitCode: 1, stdout: [], stderr: ['tail : ' + fileArg + ' : Aucun fichier'], stateChanges: [] }; }
+      (_vfs[t].content||'').split('\n').slice(-count).forEach(function(l){mainTerminal.print(escapeHtml(l),'term-output');});
     },
     head: function(args) {
       var fileArg = args.filter(function(a){return !a.startsWith('-');})[0];
@@ -322,12 +357,6 @@ function initMainTerminal(vfsData) {
       } else if (['start','stop','restart','enable','disable'].includes(action)) {
         if (action==='enable') mainTerminal.print('<span class="t-green">Synchronizing state of ' + escapeHtml(service) + ' with SysV service script...</span>', 'term-output');
       } else { mainTerminal.print('<span class="t-err">systemctl : commande inconnue : ' + escapeHtml(action||'') + '</span>'); }
-    },
-    journalctl: function() {
-      mainTerminal.print('<span class="t-muted">-- Journal begins at Thu 2023-12-14 10:00:00 UTC --</span>', 'term-output');
-      mainTerminal.print('Dec 14 10:00:01 user-pc systemd[1]: Starting System...', 'term-output');
-      mainTerminal.print('Dec 14 10:00:03 user-pc kernel: Linux version 5.15.0-91-generic', 'term-output');
-      mainTerminal.print('Dec 14 10:00:15 user-pc sshd[891]: Server listening on 0.0.0.0 port 22', 'term-output');
     },
     crontab: function(args) {
       if (args.includes('-l')) {
@@ -613,25 +642,62 @@ function initMainTerminal(vfsData) {
         mainTerminal.print('nft: règle ajoutée (simulation)', 'term-output');
       }
     },
-    lynis: function() {
+    lynis: function(args) {
+      var required = ['audit', 'system', '--quick'];
+      if (!required.every(function (token) { return (args || []).indexOf(token) >= 0; })) {
+        return { exitCode: 1, stdout: [], stderr: ['lynis : utilisez audit system --quick dans ce lab'], stateChanges: [] };
+      }
       mainTerminal.print('[ Lynis 3.0 ]', 'term-output');
       mainTerminal.print('Hardening index : 66', 'term-output');
-      mainTerminal.print('Warning: SSH permit root login', 'term-output');
+      mainTerminal.print('Warning: SSH PermitRootLogin is enabled [SSH-7412]', 'term-output');
+      mainTerminal.print('Suggestion: review unused filesystems before remediation', 'term-output');
     },
-    auditctl: function() {
-      mainTerminal.print('auditctl: watch installed on /etc/passwd', 'term-output');
+    auditctl: function(args) {
+      if ((args || []).length === 1 && args[0] === '-l') {
+        mainTerminal.print('-a always,exit -F arch=b64 -F path=/etc/passwd -F perm=wa -k identity', 'term-output');
+        return;
+      }
+      var required = ['-a', 'always,exit', '-F', 'arch=b64', 'path=/etc/passwd', 'perm=wa', '-k', 'identity'];
+      if (!required.every(function (token) { return (args || []).indexOf(token) >= 0; })) {
+        return { exitCode: 1, stdout: [], stderr: ['auditctl : utilisez une règle syscall explicite dans ce lab'], stateChanges: [] };
+      }
+      mainTerminal.print('auditctl: règle syscall installée pour /etc/passwd (clé : identity)', 'term-output');
+    },
+    ausearch: function(args) {
+      if ((args || []).indexOf('-k') >= 0 && (args || []).indexOf('identity') >= 0) {
+        mainTerminal.print('type=PATH msg=audit(1725098400.321:7412): item=0 name="/etc/passwd" key="identity"', 'term-output');
+        return;
+      }
+      return { exitCode: 1, stdout: [], stderr: ['ausearch : utilisez -k identity dans ce lab'], stateChanges: [] };
     },
     nmap: function(args) {
       var host = args[args.length - 1] || 'host';
-      mainTerminal.print('Starting Nmap 7.94 ( https://nmap.org )', 'term-output');
+      if (host !== 'lab.linuxpath.test') {
+        return { exitCode: 1, stdout: [], stderr: ['LinuxPath : la simulation Nmap accepte uniquement lab.linuxpath.test'], stateChanges: [] };
+      }
+      var required = ['-sV', '-p', '80', '--script=http-title'];
+      if (!required.every(function (token) { return (args || []).indexOf(token) >= 0; })) {
+        return { exitCode: 1, stdout: [], stderr: ['LinuxPath : utilisez -sV -p 80 --script=http-title dans ce lab'], stateChanges: [] };
+      }
+      mainTerminal.print('LinuxPath : simulation — aucun paquet envoyé.', 'term-output');
+      mainTerminal.print('Starting Nmap 7.91 ( Ubuntu 22.04 lab profile )', 'term-output');
       mainTerminal.print('Nmap scan report for ' + host, 'term-output');
-      mainTerminal.print('22/tcp open ssh', 'term-output');
+      mainTerminal.print('PORT   STATE SERVICE VERSION', 'term-output');
+      mainTerminal.print('80/tcp open  http    LinuxPath training HTTP 1.0', 'term-output');
+      mainTerminal.print('| http-title: LinuxPath training application', 'term-output');
     },
     msfconsole: function() {
       mainTerminal.print('Metasploit Framework', 'term-output');
       mainTerminal.print('msf6 >', 'term-output');
     },
-    gobuster: function() {
+    gobuster: function(args) {
+      var urlIndex = (args || []).indexOf('-u');
+      var target = urlIndex >= 0 ? args[urlIndex + 1] : '';
+      var required = ['dir', '-u', 'http://webapp.lab.linuxpath.test', '-w', '/home/user/wordlists/lab-small.txt', '-t', '1'];
+      if (!required.every(function (token) { return (args || []).indexOf(token) >= 0; }) || target !== 'http://webapp.lab.linuxpath.test') {
+        return { exitCode: 1, stdout: [], stderr: ['LinuxPath : utilisez gobuster dir avec la wordlist du lab et -t 1'], stateChanges: [] };
+      }
+      mainTerminal.print('LinuxPath : simulation — aucun paquet envoyé.', 'term-output');
       mainTerminal.print('===============================================================', 'term-output');
       mainTerminal.print('/admin                (Status: 301)', 'term-output');
     },
@@ -639,29 +705,92 @@ function initMainTerminal(vfsData) {
       var file = (args || []).filter(function (a) { return a.charAt(0) !== '-'; })[0];
       var vfs = mainTerminal.getVfs();
       var target = file ? mainTerminal.resolvePath(file) : null;
-      var lines = target && vfs[target] ? String(vfs[target].content || '').split('\n') : (stdin || []);
-      return { exitCode: 0, stdout: lines, stderr: [], stateChanges: [] };
+      if (target && vfs[target]) return { exitCode: 0, stdout: String(vfs[target].content || '').split('\n'), stderr: [], stateChanges: [], renderOutput: true };
+      if (file) return { exitCode: 1, stdout: [], stderr: ['strings : ' + file + ' : Aucun fichier de ce type'], stateChanges: [] };
+      return { exitCode: 0, stdout: stdin || [], stderr: [], stateChanges: [] };
+    },
+    sha256sum: function(args) {
+      var file = (args || []).find(function (arg) { return arg.charAt(0) !== '-'; });
+      var vfs = mainTerminal.getVfs();
+      var source = file ? mainTerminal.resolvePath(file) : null;
+      var content = source && vfs[source] && vfs[source].type === 'file' ? String(vfs[source].content || '') : null;
+      var hash = content === null ? null : artifactChecksums[content];
+      if (!file || !hash) return { exitCode: 1, stdout: [], stderr: ['sha256sum : artefact de démonstration introuvable'], stateChanges: [] };
+      mainTerminal.print(hash + '  ' + file, 'term-output');
+    },
+    file: function(args) {
+      var file = (args || []).find(function (arg) { return arg.charAt(0) !== '-'; });
+      var vfs = mainTerminal.getVfs();
+      var source = file ? mainTerminal.resolvePath(file) : null;
+      var content = source && vfs[source] && vfs[source].type === 'file' ? String(vfs[source].content || '') : null;
+      if (!file || content === null) return { exitCode: 1, stdout: [], stderr: ['file : artefact de démonstration introuvable'], stateChanges: [] };
+      var kind = content.indexOf('LAB_SAMPLE_ONLY') === 0
+        ? 'LinuxPath inert training artifact, ASCII text'
+        : 'LinuxPath training evidence image, ASCII text';
+      mainTerminal.print(file + ': ' + kind, 'term-output');
     },
     binwalk: function(args) {
       var file = (args || []).filter(function (a) { return a.charAt(0) !== '-'; })[0] || 'firmware.bin';
-      var outDir = '/home/user/_' + file + '.extracted';
       var vfs = mainTerminal.getVfs();
-      vfs[outDir] = { type: 'dir', children: [] };
-      var parent = vfs['/home/user'];
-      var name = outDir.split('/').pop();
-      if (parent && parent.children.indexOf(name) < 0) parent.children.push(name);
+      var source = mainTerminal.resolvePath(file);
+      if (!vfs[source] || vfs[source].type !== 'file') {
+        return { exitCode: 1, stdout: [], stderr: ['binwalk : ' + file + ' : Aucun fichier de ce type'], stateChanges: [] };
+      }
+      if (source !== '/home/user/firmware.bin') {
+        return { exitCode: 1, stdout: [], stderr: ['LinuxPath : binwalk est limité à firmware.bin dans ce lab'], stateChanges: [] };
+      }
       mainTerminal.print('DECIMAL  HEX  DESCRIPTION', 'term-output');
-      mainTerminal.print('0        0x0  extracted to ' + outDir, 'term-output');
+      mainTerminal.print('0        0x0  UBI image header (LinuxPath simulated marker)', 'term-output');
+      if ((args || []).indexOf('-e') >= 0) {
+        var parentPath = source.slice(0, source.lastIndexOf('/')) || '/';
+        var outDir = parentPath + '/_' + source.split('/').pop() + '.extracted';
+        vfs[outDir] = { type: 'dir', children: [] };
+        var parent = vfs[parentPath];
+        var name = outDir.split('/').pop();
+        if (parent && parent.children.indexOf(name) < 0) parent.children.push(name);
+        mainTerminal.print('extracted to ' + outDir, 'term-output');
+      }
     },
     dd: function(args) {
-      var of = ((args || []).find(function (a) { return a.indexOf('of=') === 0; }) || 'of=/mnt/evidence/disk.img').slice(3);
+      var sources = (args || []).filter(function (a) { return a.indexOf('if=') === 0; });
+      var destinations = (args || []).filter(function (a) { return a.indexOf('of=') === 0; });
+      if (sources.length !== 1 || destinations.length !== 1) return { exitCode: 1, stdout: [], stderr: ['dd : indiquez une seule source if= et une seule destination of='], stateChanges: [] };
+      var from = sources[0];
+      var destination = destinations[0];
+      var source = from.slice(3);
+      var of = destination.slice(3);
       var vfs = mainTerminal.getVfs();
-      vfs[of] = { type: 'file', content: 'DISKIMAGE' };
+      if (!vfs[source] || vfs[source].type !== 'file') return { exitCode: 1, stdout: [], stderr: ['dd : source introuvable dans le lab'], stateChanges: [] };
       var parent = of.slice(0, of.lastIndexOf('/')) || '/';
+      if (!vfs[parent] || vfs[parent].type !== 'dir') return { exitCode: 1, stdout: [], stderr: ['dd : répertoire de destination introuvable'], stateChanges: [] };
+      var content = String(vfs[source].content || '');
+      vfs[of] = { type: 'file', content: content };
       var name = of.split('/').pop();
       if (vfs[parent] && vfs[parent].children.indexOf(name) < 0) vfs[parent].children.push(name);
-      mainTerminal.print('123+0 records in', 'term-output');
-      mainTerminal.print('123+0 records out', 'term-output');
+      mainTerminal.print('0+1 records in', 'term-output');
+      mainTerminal.print('0+1 records out', 'term-output');
+      mainTerminal.print(content.length + ' bytes copied (simulation)', 'term-output');
+    },
+    rapport: function(args) {
+      var values = {};
+      var duplicate = false;
+      for (var i = 0; i < (args || []).length; i += 2) {
+        if (String(args[i]).indexOf('--') === 0 && args[i + 1]) {
+          var key = args[i].slice(2);
+          if (values[key] !== undefined) duplicate = true;
+          values[key] = args[i + 1];
+        }
+      }
+      var required = ['target', 'finding', 'impact', 'evidence', 'scope', 'observed-at', 'tool', 'confidence', 'remediation', 'retest'];
+      if (duplicate || values.target !== 'lab.linuxpath.test' || !required.every(function (field) { return values[field]; }) || (args || []).length !== required.length * 2) {
+        return { exitCode: 1, stdout: [], stderr: ['rapport : précisez cible, constat, impact, preuve, périmètre, date, outil, confiance, remédiation et test de suivi'], stateChanges: [] };
+      }
+      var reportPath = '/home/user/documents/rapport-m13.txt';
+      var reportVfs = mainTerminal.getVfs();
+      reportVfs[reportPath] = { type: 'file', content: 'Cible : ' + values.target + '\nPérimètre : ' + values.scope + '\nObservé le : ' + values['observed-at'] + '\nOutil : ' + values.tool + '\nConstat : ' + values.finding + '\nConfiance : ' + values.confidence + '\nImpact : ' + values.impact + '\nPreuve : ' + values.evidence + '\nRemédiation : ' + values.remediation + '\nTest de suivi : ' + values.retest + '\n' };
+      var documents = reportVfs['/home/user/documents'];
+      if (documents && documents.children.indexOf('rapport-m13.txt') < 0) documents.children.push('rapport-m13.txt');
+      mainTerminal.print('rapport : constat pédagogique enregistré dans ' + reportPath, 'term-output');
     }
    }
 });

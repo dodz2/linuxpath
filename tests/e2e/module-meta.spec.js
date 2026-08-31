@@ -35,3 +35,21 @@ test('each published module header announces the real lesson, exercise and quiz 
   expect(mismatches, JSON.stringify(mismatches, null, 2)).toEqual([]);
   expect(report.length).toBeGreaterThanOrEqual(18);
 });
+
+test('cyber lessons render checked HTTPS references safely', async ({ page }) => {
+  await openApp(page);
+  const result = await page.evaluate(() => {
+    navigateTo('m12');
+    const card = document.querySelector('#lesson-card-m12-l1');
+    if (!card.classList.contains('open')) toggleLesson('m12-l1');
+    const links = [...card.querySelectorAll('.lesson-sources a')];
+    return {
+      count: links.length,
+      text: card.querySelector('.lesson-sources')?.textContent.replace(/\s+/g, ' ').trim(),
+      valid: links.every((link) => link.href.startsWith('https://') && link.target === '_blank' && link.rel === 'noopener noreferrer'),
+    };
+  });
+  expect(result.count).toBeGreaterThanOrEqual(2);
+  expect(result.valid).toBe(true);
+  expect(result.text).toContain('vérifié le 2026-08-31');
+});

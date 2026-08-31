@@ -241,7 +241,7 @@
       "displayOrder": 13,
       "track": "offsec",
       "title": "Pentest & Outils",
-      "description": "Metasploit, Burp Suite, Nmap avancé et outils hacker.",
+      "description": "Reconnaissance, validation manuelle et rapport de constats dans un laboratoire autorisé.",
       "icon": "⚔️",
       "prerequisites": [
         "m12"
@@ -249,8 +249,8 @@
       "estimatedMinutes": 80,
       "status": "published",
       "objectives": [
-        "Choisir un outil de pentest selon la cible",
-        "Documenter une trouvaille sans lancer d'exploit réel"
+        "Définir le périmètre, l'autorisation et les limites d'un test de sécurité",
+        "Collecter et documenter un constat reproductible sans exécuter d'exploit ni de test à fort impact"
       ],
       "successCriteria": "Leçons cochées, exercices du module réussis, quiz ≥ 3/5."
     },
@@ -398,14 +398,14 @@
         "m13",
         "m14"
       ],
-      "estimatedHours": 9,
-      "prerequisites": "Recommandé : Linux + réseau. Pas de verrouillage brutal.",
+      "estimatedHours": 4,
+      "prerequisites": "Fondamentaux Linux et réseau recommandés ; exercices actifs limités au lab pédagogique ou à une autorisation écrite explicite.",
       "objectives": [
         "Auditer et durcir un système",
         "Utiliser les outils de pentest de façon responsable",
         "Conduire une investigation de base"
       ],
-      "capstone": "Mini-projet : audit Lynis + analyse d'un artefact pédagogique + rapport d'incident.",
+      "capstone": "Mini-projet : audit Lynis, analyse d'un artefact pédagogique et rapport d'incident dans un lab autorisé.",
       "entryModule": "m12"
     },
     {

@@ -96,4 +96,10 @@ Revue du 2026-08-29 — environnement de référence : Ubuntu 22.04 LTS.
 | m14-l2 | Forensic et investigation numérique | m14 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m14-l3 | Réponse à incident — méthodologie & premiers gestes | m14 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
 | m14-l4 | Analyse de logs — détecter les IOC | m14 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
-| m14-l5 | Collecte de preuves — dd, volatility & chaîne de custody | m14 | reviewed | Ubuntu 22.04 LTS | Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production. |
+| m14-l5 | Collecte de preuves — ordre de volatilité, mémoire et chaîne de conservation | m14 | reviewed | Ubuntu 22.04 LTS | Références détaillées et limites de laboratoire dans la leçon, revue le 2026-08-31. |
+
+## Revue renforcée cybersécurité — 2026-08-31
+
+Les leçons M12 à M14 ont été revues contre leurs références officielles et pour leur cadre de laboratoire. La source de vérité est désormais le champ `sources` de `data/lessons.json` : chaque référence y porte son titre, son URL HTTPS, le point couvert et la date de vérification. `npm run validate:data` impose au moins deux références vérifiées par leçon de cette section.
+
+Les commandes actives, les cibles et les artefacts de M12–M14 sont limités au simulateur LinuxPath, à ses noms de domaine de laboratoire ou à une autorisation écrite explicite. Toute configuration, acquisition de preuve ou activité réseau réelle doit être planifiée, autorisée, testée et assortie d’un plan de retour.

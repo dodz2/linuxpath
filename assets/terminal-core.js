@@ -378,11 +378,35 @@ function createTerminalEngine(config) {
         if (!vfs[gt] || vfs[gt].type !== 'file') return failResult('grep : ' + file + ' : Aucun fichier de ce type', 'enoent');
         lines = String(vfs[gt].content || '').split('\n');
       }
-      var ci = flags.indexOf('-i') >= 0 || flags.indexOf('--ignore-case') >= 0;
-      var matched = lines.filter(function (line) {
-        return ci ? line.toLowerCase().indexOf(pattern.toLowerCase()) >= 0 : line.indexOf(pattern) >= 0;
-      });
+      var ci = flags.some(function (flag) { return flag === '--ignore-case' || /^-[^-]*i/.test(flag); });
+      var extended = flags.some(function (flag) { return flag === '--extended-regexp' || /^-[^-]*E/.test(flag); });
+      var matched;
+      if (extended) {
+        var expression;
+        try {
+          expression = new RegExp(pattern, ci ? 'i' : '');
+        } catch (err) {
+          return failResult('grep : expression régulière invalide', 'invalid-regex', 2);
+        }
+        matched = lines.filter(function (line) { return expression.test(line); });
+      } else {
+        matched = lines.filter(function (line) {
+          return ci ? line.toLowerCase().indexOf(pattern.toLowerCase()) >= 0 : line.indexOf(pattern) >= 0;
+        });
+      }
       return { exitCode: matched.length ? 0 : 1, stdout: matched, stderr: [], stateChanges: [], errorCode: matched.length ? undefined : 'no-match' };
+    }
+    if (name === 'tail') {
+      var countTail = 10;
+      for (var tailIndex = 0; tailIndex < args.length; tailIndex++) {
+        var tailArg = args[tailIndex];
+        if (tailArg === '-n' && /^\d+$/.test(args[tailIndex + 1] || '')) {
+          countTail = Number(args[++tailIndex]);
+        } else if (/^-\d+$/.test(tailArg)) {
+          countTail = Number(tailArg.slice(1));
+        }
+      }
+      return { exitCode: 0, stdout: stdin.slice(-countTail), stderr: [], stateChanges: [] };
     }
     if (name === 'cut') {
       var delimiter = '\t';
@@ -526,9 +550,9 @@ function createTerminalEngine(config) {
   function runStructured(rawCmd) {
     var parsed = parseLine(rawCmd);
     if (!parsed.ok) {
-      return { exitCode: parsed.exitCode, stdout: [], stderr: parsed.stderr, cwd: currentDir, stateChanges: [], errorCode: parsed.errorCode, command: null, commands: [] };
+      return { exitCode: parsed.exitCode, stdout: [], stderr: parsed.stderr, cwd: currentDir, stateChanges: [], errorCode: parsed.errorCode, command: null, commands: [], stages: [] };
     }
-    if (!parsed.stages.length) return { exitCode: 0, stdout: [], stderr: [], cwd: currentDir, stateChanges: [], command: null, commands: [] };
+    if (!parsed.stages.length) return { exitCode: 0, stdout: [], stderr: [], cwd: currentDir, stateChanges: [], command: null, commands: [], stages: [] };
     var ctx = { cwd: currentDir };
     var stdin = [];
     var last = { exitCode: 0, stdout: [], stderr: [], stateChanges: [] };
@@ -550,14 +574,16 @@ function createTerminalEngine(config) {
       errorCode: last.errorCode,
       html: last.html,
       silent: last.silent,
+      renderOutput: last.renderOutput,
       command: parsed.stages[0][0],
-      commands: parsed.stages.map(function (stage) { return stage[0]; })
+      commands: parsed.stages.map(function (stage) { return stage[0]; }),
+      stages: parsed.stages.map(function (stage) { return stage.slice(); })
     };
   }
 
   /* --- Command dispatcher --- */
   function exec(rawCmd) {
-    if (!rawCmd || !rawCmd.trim()) return { exitCode: 0, stdout: [], stderr: [], cwd: currentDir, stateChanges: [], command: null, commands: [] };
+    if (!rawCmd || !rawCmd.trim()) return { exitCode: 0, stdout: [], stderr: [], cwd: currentDir, stateChanges: [], command: null, commands: [], stages: [] };
     var trimmed = rawCmd.trim();
     if (cmdHistory[cmdHistory.length - 1] !== trimmed) cmdHistory.push(trimmed);
     historyIdx = cmdHistory.length;
@@ -566,7 +592,7 @@ function createTerminalEngine(config) {
     var result = runStructured(trimmed);
     if (!result.silent) {
       if (result.html) print(result.html, 'term-output');
-      if (!result.commands || !result.commands.some(function (name) { return extraCmds[name]; })) {
+      if (!result.commands || !result.commands.some(function (name) { return extraCmds[name]; }) || result.renderOutput) {
         (result.stdout || []).forEach(function (line) { print(escapeHtml(line), 'term-output'); });
       } else if (result.commands.length > 1) {
         (result.stdout || []).forEach(function (line) { print(escapeHtml(line), 'term-output'); });

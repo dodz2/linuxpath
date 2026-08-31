@@ -39,6 +39,14 @@ test('every published module has objectives, time estimate and a success criteri
   }
 });
 
+test('the offsec estimate matches its published modules and states the lab boundary', async () => {
+  const catalogue = await loadJson('data/modules.json');
+  const track = catalogue.tracks.find((entry) => entry.id === 'offsec');
+  const modules = catalogue.modules.filter((entry) => track.modules.includes(entry.id));
+  assert.equal(track.estimatedHours, Math.ceil(modules.reduce((sum, entry) => sum + entry.estimatedMinutes, 0) / 60));
+  assert.match(track.prerequisites, /lab|autorisation/i);
+});
+
 test('m8 is split into Git and Docker chapters without changing lesson ids', async () => {
   const catalogue = await loadJson('data/modules.json');
   const lessons = await loadJson('data/lessons.json');

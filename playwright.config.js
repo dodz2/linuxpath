@@ -12,6 +12,8 @@ if (!servers[target]) {
 }
 const selected = servers[target];
 const baseURL = `http://${host}:${selected.port}/`;
+const node = `"${process.execPath}"`;
+const managedServer = process.env.LINUXPATH_E2E_MANAGED_SERVER === '1';
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -27,14 +29,16 @@ export default defineConfig({
     ['list'],
     ['json', { outputFile: `test-results/playwright-${target}.json` }],
   ],
-  webServer: {
-    command: `python3 -m http.server ${selected.port} --bind ${host} --directory ${selected.directory}`,
-    url: baseURL,
-    reuseExistingServer: false,
-    timeout: 30_000,
-    stdout: 'ignore',
-    stderr: 'pipe',
-  },
+  ...(managedServer ? {} : {
+    webServer: {
+      command: `${node} scripts/e2e-static-server.mjs ${selected.port} ${selected.directory}`,
+      url: baseURL,
+      reuseExistingServer: false,
+      timeout: 30_000,
+      stdout: 'ignore',
+      stderr: 'pipe',
+    },
+  }),
   use: {
     baseURL,
     headless: true,

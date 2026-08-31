@@ -130,6 +130,7 @@ async function initStorage() {
 // --- Fonctions de persistance de l'état ---
 
 async function saveState() {
+  refreshUnlocks();
   await Promise.all([
     storage.set(STORAGE_KEYS.lessonsDone,     JSON.stringify([...state.lessonsDone])),
     storage.set(STORAGE_KEYS.exercisesDone,   JSON.stringify([...state.exercisesDone])),
@@ -158,11 +159,12 @@ async function resetState() {
   state.lessonsDone     = new Set();
   state.exercisesDone   = new Set();
   state.quizScores      = {};
-  state.unlockedModules = new Set(['m1', 'sandbox', 'm9']);
+  state.unlockedModules = new Set(['m1', 'sandbox', 'm9', 'm12']);
   await saveState();
   // Réinitialiser aussi la progression CTF
   ctfState.solved = new Set();
   ctfState.hints  = {};
+  ctfState.how    = {};
   await saveCTFState();
 }
 
@@ -196,7 +198,9 @@ function normalizeQuizRecord(value, passScore) {
     attempts: attempts,
     bestScore: best,
     lastScore: last,
-    passed: value.passed === true || best >= passScore
+    // Le booléen exporté est une information dérivée, jamais une preuve de
+    // réussite : seule la meilleure note peut valider un quiz importé.
+    passed: best >= passScore
   };
 }
 
@@ -220,6 +224,14 @@ function getQuizRecord(mod) {
 function isQuizPassed(mod) {
   const record = getQuizRecord(mod);
   return Boolean(record && record.passed);
+}
+
+function isModuleComplete(mod) {
+  const lessons = LESSONS[mod] || [];
+  const exercises = EXERCISES[mod] || [];
+  return isQuizPassed(mod)
+    && lessons.every(function (lesson) { return state.lessonsDone.has(lesson.id); })
+    && exercises.every(function (exercise) { return state.exercisesDone.has(exercise.id); });
 }
 
 function migrateProgress(data) {
@@ -289,24 +301,28 @@ function getTrackProgress(track) {
 
 function getProgress() {
   const stats = getCurriculumStats();
+  const lessonIds = new Set(Object.values(LESSONS).flat().map(function (lesson) { return lesson.id; }));
+  const exerciseIds = new Set(Object.values(EXERCISES).flat().map(function (exercise) { return exercise.id; }));
   let passedQuizzes = 0;
   Object.keys(state.quizScores).forEach(function (mod) {
-    if (isQuizPassed(mod)) passedQuizzes += 1;
+    if (QUIZZES[mod] && isQuizPassed(mod)) passedQuizzes += 1;
   });
-  const done = state.lessonsDone.size + state.exercisesDone.size + passedQuizzes;
+  const lessonsDone = Array.from(state.lessonsDone).filter(function (id) { return lessonIds.has(id); }).length;
+  const exercisesDone = Array.from(state.exercisesDone).filter(function (id) { return exerciseIds.has(id); }).length;
+  const done = lessonsDone + exercisesDone + passedQuizzes;
   const total = stats.lessons + stats.exercises + stats.quizzes;
   return { done: done, total: total, pct: total ? Math.round(done / total * 100) : 0 };
 }
 
 function refreshUnlocks() {
-  state.unlockedModules.add('m1');
-  state.unlockedModules.add('sandbox');
-  MODULES.forEach(function (entry) {
+  const unlocked = new Set(['sandbox']);
+  MODULES.filter(function (entry) { return entry.status === 'published'; }).forEach(function (entry) {
     const prereqs = entry.prerequisites || [];
-    if (prereqs.every(function (id) { return isQuizPassed(id); })) {
-      state.unlockedModules.add(entry.id);
+    if (prereqs.every(function (id) { return isModuleComplete(id); })) {
+      unlocked.add(entry.id);
     }
   });
+  state.unlockedModules = unlocked;
 }
 
 function nextModuleId(mod) {
@@ -327,6 +343,34 @@ function nextModuleId(mod) {
   return next;
 }
 
+function filterKnownIds(ids, allowedIds) {
+  return Array.from(new Set((Array.isArray(ids) ? ids : []).filter(function (id) {
+    return typeof id === 'string' && allowedIds.has(id);
+  })));
+}
+
+function sanitizeImportedProgress(migrated) {
+  const catalog = importCatalog();
+  const lessonIds = new Set(catalog.lessonIds);
+  const exerciseIds = new Set(catalog.exerciseIds);
+  const moduleIds = new Set(catalog.moduleIds);
+  const ctfIds = new Set(catalog.ctfIds);
+  const quiz = {};
+  Object.keys(migrated.quiz || {}).forEach(function (moduleId) {
+    if (!moduleIds.has(moduleId)) return;
+    const record = normalizeQuizRecord(migrated.quiz[moduleId]);
+    if (record) quiz[moduleId] = record;
+  });
+  return {
+    ...migrated,
+    lessonsDone: filterKnownIds(migrated.lessonsDone, lessonIds),
+    exercisesDone: filterKnownIds(migrated.exercisesDone, exerciseIds),
+    quiz: quiz,
+    unlockedModules: filterKnownIds(migrated.unlockedModules, moduleIds),
+    ctfSolved: filterKnownIds(migrated.ctfSolved, ctfIds),
+  };
+}
+
 function applyImportedProgress(data) {
   const migrated = data && data._format === 'linuxpath-progress-v2' && Array.isArray(data.lessonsDone)
     ? {
@@ -341,17 +385,18 @@ function applyImportedProgress(data) {
       }
     : migrateProgress(data);
   if (!migrated) throw new Error('invalid-progress-format');
-  state.lessonsDone = new Set(migrated.lessonsDone);
-  state.exercisesDone = new Set(migrated.exercisesDone);
-  state.quizScores = migrated.quiz;
-  state.unlockedModules = new Set(migrated.unlockedModules);
+  const sanitized = sanitizeImportedProgress(migrated);
+  state.lessonsDone = new Set(sanitized.lessonsDone);
+  state.exercisesDone = new Set(sanitized.exercisesDone);
+  state.quizScores = sanitized.quiz;
+  state.unlockedModules = new Set(sanitized.unlockedModules);
   refreshUnlocks();
   if (typeof ctfState !== 'undefined') {
-    ctfState.solved = new Set(migrated.ctfSolved);
-    ctfState.hints = migrated.ctfHints;
-    ctfState.how = migrated.ctfHow && typeof migrated.ctfHow === 'object' ? migrated.ctfHow : {};
+    ctfState.solved = new Set(sanitized.ctfSolved);
+    ctfState.hints = sanitized.ctfHints;
+    ctfState.how = sanitized.ctfHow && typeof sanitized.ctfHow === 'object' ? sanitized.ctfHow : {};
   }
-  return migrated;
+  return sanitized;
 }
 
 function exportProgressData() {

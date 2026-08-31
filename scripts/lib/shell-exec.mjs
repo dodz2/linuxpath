@@ -195,9 +195,35 @@ function runCommand(ctx, name, args, stdin) {
       if (!vfs[target] || vfs[target].type !== 'file') return fail(`grep : ${file} : Aucun fichier de ce type`, 'enoent');
       lines = String(vfs[target].content || '').split('\n');
     }
-    const ci = flags.includes('-i') || flags.includes('--ignore-case');
-    const matched = lines.filter((line) => (ci ? line.toLowerCase().includes(pattern.toLowerCase()) : line.includes(pattern)));
+    const ci = flags.some((flag) => flag === '--ignore-case' || /^-[^-]*i/.test(flag));
+    const extended = flags.some((flag) => flag === '--extended-regexp' || /^-[^-]*E/.test(flag));
+    let matched;
+    if (extended) {
+      let expression;
+      try {
+        expression = new RegExp(pattern, ci ? 'i' : '');
+      } catch {
+        return fail('grep : expression régulière invalide', 'invalid-regex', 2);
+      }
+      matched = lines.filter((line) => expression.test(line));
+    } else {
+      matched = lines.filter((line) => (ci ? line.toLowerCase().includes(pattern.toLowerCase()) : line.includes(pattern)));
+    }
     return { exitCode: matched.length ? 0 : 1, stdout: matched, stderr: [], stateChanges: [], errorCode: matched.length ? undefined : 'no-match' };
+  }
+
+  if (name === 'tail') {
+    let count = 10;
+    for (let index = 0; index < args.length; index += 1) {
+      const arg = args[index];
+      if (arg === '-n' && /^\d+$/.test(args[index + 1] || '')) {
+        count = Number(args[index + 1]);
+        index += 1;
+      } else if (/^-\d+$/.test(arg)) {
+        count = Number(arg.slice(1));
+      }
+    }
+    return { exitCode: 0, stdout: stdin.slice(-count), stderr: [], stateChanges: [] };
   }
 
   if (name === 'cut') {
@@ -339,10 +365,12 @@ export function runShell({
       stateChanges: [],
       errorCode: parsed.errorCode,
       command: null,
+      commands: [],
+      stages: [],
     };
   }
   if (!parsed.stages.length) {
-    return { exitCode: 0, stdout: [], stderr: [], cwd, stateChanges: [], command: null };
+    return { exitCode: 0, stdout: [], stderr: [], cwd, stateChanges: [], command: null, commands: [], stages: [] };
   }
   const ctx = { vfs, cwd, prevDir: null, permCheck, recursiveFind, userInfo };
   let stdin = [];
@@ -368,5 +396,6 @@ export function runShell({
     errorCode: last.errorCode,
     command: parsed.stages[0][0],
     commands: parsed.stages.map((stage) => stage[0]),
+    stages: parsed.stages.map((stage) => stage.slice()),
   };
 }

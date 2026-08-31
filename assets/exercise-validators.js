@@ -1,3 +1,33 @@
+function normalizeToken(token) {
+  return String(token).replace(/^["']|["']$/g, '');
+}
+
+function getStages(ctx) {
+  if (Array.isArray(ctx.stages) && ctx.stages.length) {
+    return ctx.stages
+      .filter(function (stage) { return Array.isArray(stage) && stage.length; })
+      .map(function (stage) { return stage.map(normalizeToken); });
+  }
+
+  var raw = String(ctx.raw || '').trim();
+  if (raw) {
+    return raw.split('|')
+      .map(function (stage, index) {
+        var tokens = stage.trim().split(/\s+/).filter(Boolean).map(normalizeToken);
+        return index === 0 && tokens[0] === 'sudo' ? tokens.slice(1) : tokens;
+      })
+      .filter(function (stage) { return stage.length; });
+  }
+
+  var names = Array.isArray(ctx.commands) && ctx.commands.length ? ctx.commands : [ctx.command];
+  return names.filter(Boolean).map(function (name) { return [normalizeToken(name)]; });
+}
+
+function getStageArgs(ctx, stageIndex) {
+  var stage = getStages(ctx)[stageIndex];
+  return stage ? stage.slice(1) : [];
+}
+
 function evaluateValidator(validator, ctx) {
   if (!validator || typeof validator !== 'object' || !validator.type) {
     return { ok: false, reason: 'Validateur manquant.' };
@@ -11,8 +41,12 @@ function evaluateValidator(validator, ctx) {
         : { ok: false, reason: (ctx.stderr && ctx.stderr[0]) || 'La commande a échoué (code de sortie non nul).' };
     case 'command': {
       var names = validator.names || [validator.name];
-      var seen = Array.isArray(ctx.commands) && ctx.commands.length ? ctx.commands : [ctx.command];
-      return names.some(function (name) { return seen.indexOf(name) >= 0; })
+      var stages = getStages(ctx);
+      var seen = stages.map(function (stage) { return stage[0]; });
+      var matches = validator.single
+        ? stages.length === 1 && names.indexOf(seen[0]) >= 0
+        : names.some(function (name) { return seen.indexOf(name) >= 0; });
+      return matches
         ? { ok: true }
         : { ok: false, reason: "La commande attendue n'est pas " + names.join(' ou ') + '.' };
     }
@@ -41,12 +75,33 @@ function evaluateValidator(validator, ctx) {
     case 'args_include': {
       var raw = String(ctx.raw || '');
       function normalize(token) { return token.replace(/^["']|["']$/g, ''); }
-      var tokens = raw.trim() ? raw.trim().split(/\s+/).map(normalize) : [];
+      var tokens = Number.isInteger(validator.stage)
+        ? getStageArgs(ctx, validator.stage)
+        : (raw.trim() ? raw.trim().split(/\s+/).map(normalize) : []);
       var needed = (validator.tokens || []).map(normalize);
       var missing = needed.filter(function (token) { return tokens.indexOf(token) < 0; });
       return missing.length === 0
         ? { ok: true }
         : { ok: false, reason: "La commande n'utilise pas les arguments attendus." };
+    }
+    case 'args_exact': {
+      var stage = Number.isInteger(validator.stage) ? validator.stage : 0;
+      var actual = getStageArgs(ctx, stage);
+      var expectedTokens = (validator.tokens || []).map(normalizeToken);
+      var matchesExact = actual.length === expectedTokens.length
+        && expectedTokens.every(function (token, index) { return actual[index] === token; });
+      return matchesExact
+        ? { ok: true }
+        : { ok: false, reason: 'La commande doit utiliser exactement les arguments attendus.' };
+    }
+    case 'pipeline': {
+      var expected = Array.isArray(validator.commands) ? validator.commands : [];
+      var stages = getStages(ctx);
+      var matches = expected.length > 0 && stages.length === expected.length
+        && expected.every(function (name, index) { return stages[index][0] === name; });
+      return matches
+        ? { ok: true }
+        : { ok: false, reason: 'La commande doit utiliser la pipeline attendue.' };
     }
     case 'all': {
       for (var i = 0; i < (validator.of || []).length; i++) {

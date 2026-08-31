@@ -26,6 +26,8 @@ test('a failed 0/5 quiz is attempted but never completed', async ({ page }) => {
       },
       nodeClass: firstNode?.className,
       nodeText: firstNode?.textContent.replace(/\s+/g, ' ').trim(),
+      roadmapSummary: document.querySelector('#roadmap-summary')?.textContent.replace(/\s+/g, ' ').trim(),
+      expectedCompletedModules: `0/${getPublishedModuleIds().length}`,
     };
   });
   expect(result.score).toBe(0);
@@ -35,6 +37,7 @@ test('a failed 0/5 quiz is attempted but never completed', async ({ page }) => {
   expect(result.module.pct).toBe(result.expected.pct);
   expect(result.nodeClass).not.toContain('completed');
   expect(result.nodeText).toContain('0/1 quiz');
+  expect(result.roadmapSummary).toContain(result.expectedCompletedModules);
 });
 
 test('a 3/5 quiz completes a module whose lessons and exercises are done', async ({ page }) => {
@@ -61,6 +64,38 @@ test('a 3/5 quiz completes a module whose lessons and exercises are done', async
   expect(result.m2Unlocked).toBe(true);
 });
 
+test('a passed quiz alone does not unlock the dependent cyber module', async ({ page }) => {
+  await openApp(page);
+  await page.evaluate(() => navigateTo('m12'));
+  await answerQuiz(page, 'm12', 3);
+  const result = await page.evaluate(() => ({
+    m13Unlocked: state.unlockedModules.has('m13'),
+    text: document.querySelector('#quiz-result-m12')?.textContent.replace(/\s+/g, ' ').trim(),
+    nextButtons: [...document.querySelectorAll('#quiz-result-m12 button')].filter((button) => button.textContent.includes('Module suivant')).length,
+  }));
+  expect(result.m13Unlocked).toBe(false);
+  expect(result.text).toContain('Terminez les leçons et exercices');
+  expect(result.nextButtons).toBe(0);
+});
+
+test('a fully completed cyber module unlocks its dependent module', async ({ page }) => {
+  await openApp(page);
+  await page.evaluate(() => {
+    state.lessonsDone = new Set(LESSONS.m12.map((lesson) => lesson.id));
+    state.exercisesDone = new Set(EXERCISES.m12.map((exercise) => exercise.id));
+    navigateTo('m12');
+  });
+  await answerQuiz(page, 'm12', 3);
+  const result = await page.evaluate(() => ({
+    m13Unlocked: state.unlockedModules.has('m13'),
+    text: document.querySelector('#quiz-result-m12')?.textContent.replace(/\s+/g, ' ').trim(),
+    nextButtons: [...document.querySelectorAll('#quiz-result-m12 button')].filter((button) => button.textContent.includes('Module suivant')).length,
+  }));
+  expect(result.m13Unlocked).toBe(true);
+  expect(result.text).toContain('Module suivant déverrouillé');
+  expect(result.nextButtons).toBe(1);
+});
+
 test('Linux progress counts m1 exactly and does not confuse m10 through m14', async ({ page }) => {
   await openApp(page);
   const badge = await page.evaluate(async () => {
@@ -76,6 +111,8 @@ test('Linux progress counts m1 exactly and does not confuse m10 through m14', as
 test('passing m8 offers a real transition to m9', async ({ page }) => {
   await openApp(page);
   await page.evaluate(() => {
+    state.lessonsDone = new Set(LESSONS.m8.map((lesson) => lesson.id));
+    state.exercisesDone = new Set(EXERCISES.m8.map((exercise) => exercise.id));
     state.unlockedModules.add('m8');
     navigateTo('m8');
   });
@@ -102,7 +139,75 @@ test('passing m14 ends the course without a self-referential next module', async
   }));
   expect(result.nextModule).toBeNull();
   expect(result.resultText).not.toContain('Module suivant déverrouillé');
+  expect(result.resultText).not.toContain('Parcours terminé');
   expect(result.nextButtons).toBe(0);
+});
+
+test('an imported stale unlock cannot bypass incomplete prerequisites', async ({ page }) => {
+  await openApp(page);
+  const result = await page.evaluate(() => {
+    applyImportedProgress({
+      _format: 'linuxpath-progress-v2',
+      lessonsDone: [],
+      exercisesDone: [],
+      quiz: { m12: { lastScore: 5, bestScore: 5, passed: true } },
+      unlockedModules: ['m12', 'm13'],
+      ctfSolved: [],
+      ctfHints: {},
+      ctfHow: {},
+    });
+    return { m12: state.unlockedModules.has('m12'), m13: state.unlockedModules.has('m13') };
+  });
+  expect(result.m12).toBe(true);
+  expect(result.m13).toBe(false);
+});
+
+test('an imported passed flag cannot replace an unsuccessful quiz score', async ({ page }) => {
+  await openApp(page);
+  const result = await page.evaluate(() => {
+    applyImportedProgress({
+      _format: 'linuxpath-progress-v2',
+      lessonsDone: LESSONS.m12.map((lesson) => lesson.id),
+      exercisesDone: EXERCISES.m12.map((exercise) => exercise.id),
+      quiz: { m12: { lastScore: 0, bestScore: 0, passed: true } },
+      unlockedModules: ['m12', 'm13'],
+      ctfSolved: [],
+      ctfHints: {},
+      ctfHow: {},
+    });
+    return { quiz: state.quizScores.m12, m13: state.unlockedModules.has('m13') };
+  });
+  expect(result.quiz.passed).toBe(false);
+  expect(result.m13).toBe(false);
+});
+
+test('an imported unknown activity cannot inflate overall progress', async ({ page }) => {
+  await openApp(page);
+  const result = await page.evaluate(() => {
+    const bogusLessons = Array.from({ length: 200 }, (_, index) => `m12-lbogus-${index}`);
+    const bogusExercises = Array.from({ length: 200 }, (_, index) => `m12-ebogus-${index}`);
+    applyImportedProgress({
+      _format: 'linuxpath-progress-v2',
+      lessonsDone: bogusLessons,
+      exercisesDone: bogusExercises,
+      quiz: { unknown: { lastScore: 5, bestScore: 5, passed: true } },
+      unlockedModules: ['m12', 'unknown'],
+      ctfSolved: [],
+      ctfHints: {},
+      ctfHow: {},
+    });
+    return {
+      progress: getProgress(),
+      lessonsDone: state.lessonsDone.size,
+      exercisesDone: state.exercisesDone.size,
+      quizModules: Object.keys(state.quizScores),
+    };
+  });
+  expect(result.progress.done).toBe(0);
+  expect(result.progress.pct).toBe(0);
+  expect(result.lessonsDone).toBe(0);
+  expect(result.exercisesDone).toBe(0);
+  expect(result.quizModules).toEqual([]);
 });
 
 test('a fully completed curriculum reports 100 percent from real data totals', async ({ page }) => {
@@ -191,4 +296,18 @@ test('a completed lesson can be unmarked and a module can be reset', async ({ pa
   expect(result.afterMark).toBe(true);
   expect(result.afterUnmark).toBe(false);
   expect(result.quizAfterReset).toBeUndefined();
+});
+
+test('a complete reset clears CTF completion metadata too', async ({ page }) => {
+  await openApp(page);
+  const result = await page.evaluate(async () => {
+    ctfState.solved = new Set(['ctf-01']);
+    ctfState.hints = { 'ctf-01': 1 };
+    ctfState.how = { 'ctf-01': 'with_help' };
+    await resetState();
+    return exportProgressData();
+  });
+  expect(result.ctfSolved).toEqual([]);
+  expect(result.ctfHints).toEqual({});
+  expect(result.ctfHow).toEqual({});
 });

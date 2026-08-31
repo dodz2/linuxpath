@@ -5,6 +5,7 @@ export const MODULE_IDS = Array.from({ length: 14 }, (_, index) => `m${index + 1
 export const HW_MODULE_IDS = ['hw1', 'hw2', 'hw3', 'hw4'];
 export const ALL_MODULE_IDS = [...MODULE_IDS, ...HW_MODULE_IDS];
 export const TRACK_IDS = ['linux', 'network', 'offsec', 'hardware'];
+export const CYBER_REFERENCE_MODULES = new Set(['m12', 'm13', 'm14']);
 export const DATA_FILES = ['cheatsheet.json', 'ctf.json', 'exercises.json', 'glossary.json', 'lessons.json', 'modules.json', 'news.json', 'quizzes.json', 'vfs.json'];
 export async function loadJson(relativePath, root = process.cwd()) {
   return JSON.parse(await readFile(path.join(root, relativePath), 'utf8'));
@@ -14,6 +15,22 @@ function duplicateValues(values) {
   const seen = new Set(); const duplicates = new Set();
   for (const value of values) { if (seen.has(value)) duplicates.add(value); seen.add(value); }
   return [...duplicates].sort();
+}
+function isValidReviewDate(value) {
+  return typeof value === 'string'
+    && /^\d{4}-\d{2}-\d{2}$/.test(value)
+    && Number.isFinite(Date.parse(`${value}T00:00:00Z`));
+}
+function hasValidCyberSources(lesson) {
+  if (!Array.isArray(lesson.sources) || lesson.sources.length < 2) return false;
+  return lesson.sources.every((source) => {
+    if (!source || typeof source !== 'object' || !source.title || !source.scope || source.checkedAt !== lesson.reviewedAt || !isValidReviewDate(source.checkedAt)) return false;
+    try {
+      return new URL(source.url).protocol === 'https:';
+    } catch {
+      return false;
+    }
+  });
 }
 export async function validateContent(root = process.cwd()) {
   const errors = []; const warnings = []; const data = {};
@@ -59,7 +76,10 @@ export async function validateContent(root = process.cwd()) {
     if (values.some((value) => typeof value !== 'string' || value.length === 0)) errors.push(issue('invalid-id', `${label} ids must be non-empty strings`, 'data/'));
   }
   for (const moduleId of publishedIdsSorted) {
-    for (const lesson of lessons[moduleId] || []) if (!lesson.id.startsWith(`${moduleId}-l`) || !lesson.title || !lesson.content || lesson.reviewStatus !== 'reviewed' || !lesson.reviewedAt || !lesson.distro) errors.push(issue('invalid-lesson', `Malformed lesson ${lesson.id ?? '(missing id)'}`, `data/lessons.json#${moduleId}`));
+    for (const lesson of lessons[moduleId] || []) {
+      if (!lesson.id.startsWith(`${moduleId}-l`) || !lesson.title || !lesson.content || lesson.reviewStatus !== 'reviewed' || !lesson.reviewedAt || !lesson.distro) errors.push(issue('invalid-lesson', `Malformed lesson ${lesson.id ?? '(missing id)'}`, `data/lessons.json#${moduleId}`));
+      if (CYBER_REFERENCE_MODULES.has(moduleId) && !hasValidCyberSources(lesson)) errors.push(issue('invalid-cyber-source', `Lesson ${lesson.id ?? '(missing id)'} must provide at least two checked HTTPS references`, `data/lessons.json#${moduleId}`));
+    }
     for (const exercise of exercises[moduleId] || []) if (!exercise.id.startsWith(`${moduleId}-e`) || !exercise.title || !exercise.desc || !Array.isArray(exercise.accepted) || exercise.accepted.length === 0 || !Array.isArray(exercise.hints) || !exercise.validator || typeof exercise.validator !== 'object' || !exercise.validator.type) errors.push(issue('invalid-exercise', `Malformed exercise ${exercise.id ?? '(missing id)'}`, `data/exercises.json#${moduleId}`));
     const quiz = quizzes[moduleId];
     if (!quiz || !quiz.title || !Array.isArray(quiz.questions) || quiz.questions.length === 0) { errors.push(issue('invalid-quiz', `Malformed quiz ${moduleId}`, `data/quizzes.json#${moduleId}`)); continue; }

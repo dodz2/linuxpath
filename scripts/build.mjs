@@ -10,6 +10,19 @@ const dist = path.join(root, 'dist');
 const rootFiles = ['index.html', 'manifest.json', 'robots.txt', 'sitemap.xml', 'sw.js'];
 const directories = ['assets', 'data', 'v86'];
 
+// `index.html` charge les bundles minifiés aussi bien à la racine que dans
+// l'artefact Pages. Les régénérer d'abord évite qu'un test local ou un aperçu
+// serve une version différente de celle placée dans dist/.
+const sourceScripts = (await readdir(path.join(root, 'assets')))
+  .filter((name) => name.endsWith('.js') && !name.endsWith('.min.js'))
+  .sort();
+for (const name of sourceScripts) {
+  const source = await readFile(path.join(root, 'assets', name), 'utf8');
+  const result = await minify(source, { compress: true, mangle: true });
+  if (!result.code) throw new Error(`Terser produced no output for assets/${name}`);
+  await writeFile(path.join(root, 'assets', name.replace(/\.js$/, '.min.js')), `${result.code}\n`);
+}
+
 await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
 for (const file of rootFiles) await cp(path.join(root, file), path.join(dist, file));
@@ -21,15 +34,6 @@ for (const name of assetEntries) {
   if (name.endsWith('.js') && !name.endsWith('.min.js')) {
     await rm(path.join(dist, 'assets', name), { force: true });
   }
-}
-const sourceScripts = (await readdir(path.join(root, 'assets')))
-  .filter((name) => name.endsWith('.js') && !name.endsWith('.min.js'))
-  .sort();
-for (const name of sourceScripts) {
-  const source = await readFile(path.join(root, 'assets', name), 'utf8');
-  const result = await minify(source, { compress: true, mangle: true });
-  if (!result.code) throw new Error(`Terser produced no output for assets/${name}`);
-  await writeFile(path.join(dist, 'assets', name.replace(/\.js$/, '.min.js')), `${result.code}\n`);
 }
 
 async function walk(dir) {

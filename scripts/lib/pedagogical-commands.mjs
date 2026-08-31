@@ -6,6 +6,18 @@ function childPath(parent, name) {
   return parent === '/' ? `/${name}` : `${parent.replace(/\/$/, '')}/${name}`;
 }
 
+function resolveLabPath(ctx, candidate) {
+  if (!candidate) return null;
+  return candidate.startsWith('/')
+    ? candidate
+    : `${ctx.cwd}/${candidate}`.replace(/\/+/g, '/');
+}
+
+const artifactChecksums = {
+  'LAB_SAMPLE_ONLY\nhttps://c2.training.invalid/callback\n': '0e1a4734f609146ce91de2f680e0f6bfe5f539f7596895820674232c25f37ad2',
+  'LINUXPATH_TRAINING_EVIDENCE_IMAGE\n': 'e517bf22cfe911ce831a192e9525560715f62da8a151a14848e10b91c5b1df5d',
+};
+
 export const pedagogicalCommands = {
   ps: () => ok([
     'USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND',
@@ -73,34 +85,145 @@ export const pedagogicalCommands = {
     }
     return ok(['nft: simulation']);
   },
-  ss: () => ok(['State  Recv-Q Send-Q Local Address:Port', 'LISTEN 0      128        0.0.0.0:22']),
-  lynis: () => ok(['[ Lynis 3.0 ]', 'Hardening index : 66', 'Warning: SSH permit root login']),
-  auditctl: () => ok(['auditctl: watch installed on /etc/passwd']),
-  nmap: (args) => ok([`Starting Nmap 7.94 ( https://nmap.org )`, `Nmap scan report for ${args[args.length - 1]}`, '22/tcp open ssh']),
+  ss: (args) => {
+    const listeners = args.some((arg) => arg.startsWith('-') && arg.includes('l'));
+    return listeners
+      ? ok(['State  Recv-Q Send-Q Local Address:Port', 'LISTEN 0      128        0.0.0.0:22'])
+      : ok(['State Recv-Q Send-Q Local Address:Port Peer Address:Port', 'ESTAB 0      0      192.0.2.10:443   198.51.100.25:52644']);
+  },
+  journalctl: (args) => {
+    if (args.includes('-u') && args.includes('ssh.service')) {
+      return ok(['Aug 31 10:02:11 linuxpath sshd[821]: Accepted publickey for user from 198.51.100.25', 'Aug 31 10:04:02 linuxpath sshd[834]: Failed password for invalid user lab from 198.51.100.25']);
+    }
+    if (args.some((arg) => arg === '_UID=0')) {
+      return ok(['Aug 31 09:58:31 linuxpath systemd[1]: Started OpenSSH server daemon.', 'Aug 31 10:00:00 linuxpath CRON[710]: (root) CMD (test -x /usr/sbin/anacron)']);
+    }
+    return { exitCode: 1, stdout: [], stderr: ['journalctl : filtre de démonstration non pris en charge'], stateChanges: [] };
+  },
+  lynis: (args) => {
+    const required = ['audit', 'system', '--quick'];
+    if (!required.every((token) => args.includes(token))) {
+      return { exitCode: 1, stdout: [], stderr: ['lynis : utilisez audit system --quick dans ce lab'], stateChanges: [] };
+    }
+    return ok(['[ Lynis 3.0 ]', 'Hardening index : 66', 'Warning: SSH PermitRootLogin is enabled [SSH-7412]', 'Suggestion: review unused filesystems before remediation']);
+  },
+  auditctl: (args) => {
+    if (args.length === 1 && args[0] === '-l') {
+      return ok(['-a always,exit -F arch=b64 -F path=/etc/passwd -F perm=wa -k identity']);
+    }
+    const required = ['-a', 'always,exit', '-F', 'arch=b64', 'path=/etc/passwd', 'perm=wa', '-k', 'identity'];
+    if (!required.every((token) => args.includes(token))) {
+      return { exitCode: 1, stdout: [], stderr: ['auditctl : utilisez une règle syscall explicite dans ce lab'], stateChanges: [] };
+    }
+    return ok(['auditctl: règle syscall installée pour /etc/passwd (clé : identity)']);
+  },
+  ausearch: (args) => {
+    if (args.includes('-k') && args.includes('identity')) {
+      return ok(['type=PATH msg=audit(1725098400.321:7412): item=0 name="/etc/passwd" key="identity"']);
+    }
+    return { exitCode: 1, stdout: [], stderr: ['ausearch : utilisez -k identity dans ce lab'], stateChanges: [] };
+  },
+  nmap: (args) => {
+    const host = args[args.length - 1] || 'host';
+    if (host !== 'lab.linuxpath.test') return { exitCode: 1, stdout: [], stderr: ['LinuxPath : la simulation Nmap accepte uniquement lab.linuxpath.test'], stateChanges: [] };
+    const required = ['-sV', '-p', '80', '--script=http-title'];
+    if (!required.every((token) => args.includes(token))) {
+      return { exitCode: 1, stdout: [], stderr: ['LinuxPath : utilisez -sV -p 80 --script=http-title dans ce lab'], stateChanges: [] };
+    }
+    return ok(['LinuxPath : simulation — aucun paquet envoyé.', 'Starting Nmap 7.91 ( Ubuntu 22.04 lab profile )', `Nmap scan report for ${host}`, 'PORT   STATE SERVICE VERSION', '80/tcp open  http    LinuxPath training HTTP 1.0', '| http-title: LinuxPath training application']);
+  },
   msfconsole: () => ok(['Metasploit Framework', 'msf6 >']),
-  gobuster: () => ok(['===============================================================', '/admin                (Status: 301)']),
+  gobuster: (args) => {
+    const urlIndex = args.indexOf('-u');
+    const target = urlIndex >= 0 ? args[urlIndex + 1] : '';
+    const required = ['dir', '-u', 'http://webapp.lab.linuxpath.test', '-w', '/home/user/wordlists/lab-small.txt', '-t', '1'];
+    if (!required.every((token) => args.includes(token)) || target !== 'http://webapp.lab.linuxpath.test') {
+      return { exitCode: 1, stdout: [], stderr: ['LinuxPath : utilisez gobuster dir avec la wordlist du lab et -t 1'], stateChanges: [] };
+    }
+    return ok(['LinuxPath : simulation — aucun paquet envoyé.', '===============================================================', '/admin                (Status: 301)']);
+  },
   strings: (args, ctx, stdin) => {
     const file = args.find((a) => !a.startsWith('-'));
     if (file && ctx.vfs[file]) return ok(String(ctx.vfs[file].content || '').split('\n'));
-    const resolved = file ? `${ctx.cwd}/${file}`.replace(/\/+/g, '/') : null;
+    const resolved = resolveLabPath(ctx, file);
     if (resolved && ctx.vfs[resolved]) return ok(String(ctx.vfs[resolved].content || '').split('\n'));
+    if (file) return { exitCode: 1, stdout: [], stderr: [`strings : ${file} : Aucun fichier de ce type`], stateChanges: [] };
     return ok(stdin);
+  },
+  sha256sum: (args, ctx) => {
+    const file = args.find((arg) => !arg.startsWith('-'));
+    const source = resolveLabPath(ctx, file);
+    const content = source && ctx.vfs[source]?.type === 'file' ? String(ctx.vfs[source].content || '') : null;
+    const hash = content === null ? null : artifactChecksums[content];
+    if (!file || !hash) return { exitCode: 1, stdout: [], stderr: ['sha256sum : artefact de démonstration introuvable'], stateChanges: [] };
+    return ok([`${hash}  ${file}`]);
+  },
+  file: (args, ctx) => {
+    const file = args.find((arg) => !arg.startsWith('-'));
+    const source = resolveLabPath(ctx, file);
+    const content = source && ctx.vfs[source]?.type === 'file' ? String(ctx.vfs[source].content || '') : null;
+    if (!file || content === null) return { exitCode: 1, stdout: [], stderr: ['file : artefact de démonstration introuvable'], stateChanges: [] };
+    const kind = content.startsWith('LAB_SAMPLE_ONLY')
+      ? 'LinuxPath inert training artifact, ASCII text'
+      : 'LinuxPath training evidence image, ASCII text';
+    return ok([`${file}: ${kind}`]);
   },
   binwalk: (args, ctx) => {
     const file = args.find((a) => !a.startsWith('-')) || 'firmware.bin';
-    const outDir = `${ctx.cwd}/_${file}.extracted`.replace(/\/+/g, '/');
-    ctx.vfs[outDir] = { type: 'dir', children: [] };
-    const parent = ctx.vfs[ctx.cwd];
-    const name = outDir.split('/').pop();
-    if (parent && !(parent.children || []).includes(name)) parent.children.push(name);
-    return ok(['DECIMAL  HEX  DESCRIPTION', `0        0x0  extracted to ${outDir}`]);
+    const source = resolveLabPath(ctx, file);
+    if (!source || !ctx.vfs[source] || ctx.vfs[source].type !== 'file') {
+      return { exitCode: 1, stdout: [], stderr: [`binwalk : ${file} : Aucun fichier de ce type`], stateChanges: [] };
+    }
+    if (source !== '/home/user/firmware.bin') {
+      return { exitCode: 1, stdout: [], stderr: ['LinuxPath : binwalk est limité à firmware.bin dans ce lab'], stateChanges: [] };
+    }
+    const lines = ['DECIMAL  HEX  DESCRIPTION', '0        0x0  UBI image header (LinuxPath simulated marker)'];
+    if (args.includes('-e')) {
+      const parentPath = source.slice(0, source.lastIndexOf('/')) || '/';
+      const outDir = `${parentPath}/_${source.split('/').pop()}.extracted`;
+      ctx.vfs[outDir] = { type: 'dir', children: [] };
+      const parent = ctx.vfs[parentPath];
+      const name = outDir.split('/').pop();
+      if (parent && !(parent.children || []).includes(name)) parent.children.push(name);
+      lines.push(`extracted to ${outDir}`);
+    }
+    return ok(lines);
   },
   dd: (args, ctx) => {
-    const of = (args.find((a) => a.startsWith('of=')) || 'of=/mnt/evidence/disk.img').slice(3);
-    ctx.vfs[of] = { type: 'file', content: 'DISKIMAGE' };
+    const sourceArgs = args.filter((a) => a.startsWith('if='));
+    const destinationArgs = args.filter((a) => a.startsWith('of='));
+    if (sourceArgs.length !== 1 || destinationArgs.length !== 1) return { exitCode: 1, stdout: [], stderr: ['dd : indiquez une seule source if= et une seule destination of='], stateChanges: [] };
+    const sourceArg = sourceArgs[0];
+    const destinationArg = destinationArgs[0];
+    const source = sourceArg.slice(3);
+    const of = destinationArg.slice(3);
+    if (!ctx.vfs[source] || ctx.vfs[source].type !== 'file') return { exitCode: 1, stdout: [], stderr: ['dd : source introuvable dans le lab'], stateChanges: [] };
     const parent = of.slice(0, of.lastIndexOf('/')) || '/';
+    if (!ctx.vfs[parent] || ctx.vfs[parent].type !== 'dir') return { exitCode: 1, stdout: [], stderr: ['dd : répertoire de destination introuvable'], stateChanges: [] };
+    const content = String(ctx.vfs[source].content || '');
+    ctx.vfs[of] = { type: 'file', content };
     const name = of.split('/').pop();
     if (ctx.vfs[parent] && !(ctx.vfs[parent].children || []).includes(name)) ctx.vfs[parent].children.push(name);
-    return ok(['123+0 records in', '123+0 records out']);
+    return ok(['0+1 records in', '0+1 records out', `${Buffer.byteLength(content)} bytes copied (simulation)`]);
+  },
+  rapport: (args, ctx) => {
+    const values = {};
+    let duplicate = false;
+    for (let index = 0; index < args.length; index += 2) {
+      if (args[index].startsWith('--') && args[index + 1]) {
+        const key = args[index].slice(2);
+        if (values[key] !== undefined) duplicate = true;
+        values[key] = args[index + 1];
+      }
+    }
+    const required = ['target', 'finding', 'impact', 'evidence', 'scope', 'observed-at', 'tool', 'confidence', 'remediation', 'retest'];
+    if (duplicate || values.target !== 'lab.linuxpath.test' || !required.every((field) => values[field]) || args.length !== required.length * 2) {
+      return { exitCode: 1, stdout: [], stderr: ['rapport : précisez cible, constat, impact, preuve, périmètre, date, outil, confiance, remédiation et test de suivi'], stateChanges: [] };
+    }
+    const reportPath = '/home/user/documents/rapport-m13.txt';
+    ctx.vfs[reportPath] = { type: 'file', content: `Cible : ${values.target}\nPérimètre : ${values.scope}\nObservé le : ${values['observed-at']}\nOutil : ${values.tool}\nConstat : ${values.finding}\nConfiance : ${values.confidence}\nImpact : ${values.impact}\nPreuve : ${values.evidence}\nRemédiation : ${values.remediation}\nTest de suivi : ${values.retest}\n` };
+    const documents = ctx.vfs['/home/user/documents'];
+    if (documents && !(documents.children || []).includes('rapport-m13.txt')) documents.children.push('rapport-m13.txt');
+    return ok([`rapport : constat pédagogique enregistré dans ${reportPath}`]);
   },
 };

@@ -12,7 +12,7 @@ test('hw1 is reachable from the start and renders its five lessons', async ({ pa
   await expect(page.locator('#quiz-hw1 .quiz-card')).toHaveCount(1);
 });
 
-test('hw4 is locked until hw1, hw2 and hw3 quizzes are passed', async ({ page }) => {
+test('hw4 is locked until hw1, hw2 and hw3 are fully completed', async ({ page }) => {
   await openApp(page);
   const locked = await page.evaluate(() => ({
     unlocked: state.unlockedModules.has('hw4'),
@@ -23,8 +23,10 @@ test('hw4 is locked until hw1, hw2 and hw3 quizzes are passed', async ({ page })
   expect(locked.hw2).toBe(false);
   expect(locked.unlocked).toBe(false);
 
-  // passer les trois quizzes en direct (refreshUnlocks recalcule)
+  // terminer les trois modules en direct (refreshUnlocks recalcule)
   await page.evaluate(() => {
+    state.lessonsDone = new Set(['hw1', 'hw2', 'hw3'].flatMap((moduleId) => LESSONS[moduleId].map((lesson) => lesson.id)));
+    state.exercisesDone = new Set(['hw1', 'hw2', 'hw3'].flatMap((moduleId) => EXERCISES[moduleId].map((exercise) => exercise.id)));
     state.quizScores = { hw1: { lastScore: 5, bestScore: 5, passed: true }, hw2: { lastScore: 5, bestScore: 5, passed: true }, hw3: { lastScore: 5, bestScore: 5, passed: true } };
     refreshUnlocks();
     updateProgressUI();
@@ -33,7 +35,7 @@ test('hw4 is locked until hw1, hw2 and hw3 quizzes are passed', async ({ page })
   expect(after).toBe(true);
 });
 
-test('a new user can complete the hw1 quiz and unlock hw2', async ({ page }) => {
+test('a new user needs the hw1 lessons and exercises as well as the quiz to unlock hw2', async ({ page }) => {
   await openApp(page);
   await page.evaluate(() => navigateTo('hw1'));
   const { answerQuiz } = await import('./helpers.js');
@@ -44,7 +46,8 @@ test('a new user can complete the hw1 quiz and unlock hw2', async ({ page }) => 
     mastery: document.querySelector('#quiz-result-hw1')?.textContent.replace(/\s+/g, ' ').trim(),
   }));
   expect(result.passed).toBe(true);
-  expect(result.hw2).toBe(true);
+  expect(result.hw2).toBe(false);
+  expect(result.mastery).toContain('Terminez les leçons et exercices');
 });
 
 test('the main course chain still ends at m14 and never jumps into hardware', async ({ page }) => {

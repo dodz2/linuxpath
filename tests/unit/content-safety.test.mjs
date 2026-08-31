@@ -11,7 +11,20 @@ const FORBIDDEN = [
   { id: 'm9-l2', needle: 'nft flush table' },
   { id: 'm13-l1', needle: 'exploit/multi/handler' },
   { id: 'm13-l1', needle: 'set RHOSTS' },
+  { id: 'm12-l1', needle: 'lynis show details' },
+  { id: 'm12-l2', needle: 'ssg-rhel7-oval.xml' },
+  { id: 'm12-l2', needle: 'scap-yaml' },
+  { id: 'm12-l3', needle: 'auditctl -w' },
+  { id: 'm12-l5', needle: 'unattended-upgrades --dry-run' },
+  { id: 'm13-l3', needle: '--script vuln' },
+  { id: 'm13-l3', needle: '192.168.1.1' },
+  { id: 'm13-l4', needle: 'cible.com' },
+  { id: 'm13-l5', needle: 'searchsploit -x' },
   { id: 'm14-l2', needle: 'mount -o loop,offset=' },
+  { id: 'm14-l3', needle: 'ip link set eth0 down' },
+  { id: 'm14-l3', needle: 'sans l’éteindre' },
+  { id: 'm14-l5', needle: 'insmod lime.ko' },
+  { id: 'm14-l5', needle: 'linux.netscan' },
 ];
 
 const REQUIRED = [
@@ -22,9 +35,29 @@ const REQUIRED = [
   { id: 'm8-l7', needle: 'docker run --rm' },
   { id: 'm9-l2', needle: 'chmod 600' },
   { id: 'm13-l1', needle: 'info' },
+  { id: 'm12-l1', needle: 'lynis-report.dat' },
+  { id: 'm12-l2', needle: 'ssg-ubuntu2204-ds.xml' },
+  { id: 'm12-l2', needle: 'oscap info' },
+  { id: 'm12-l3', needle: '-a always,exit' },
+  { id: 'm12-l3', needle: 'pam_faillock' },
+  { id: 'm12-l4', needle: 'ldd /bin/bash' },
+  { id: 'm12-l5', needle: 'unattended-upgrade --dry-run' },
+  { id: 'm12-l5', needle: 'pro fix --dry-run' },
+  { id: 'm13-l1', needle: 'simulation' },
+  { id: 'm13-l1', needle: 'autorisation écrite' },
+  { id: 'm13-l2', needle: 'Professional' },
+  { id: 'm13-l3', needle: 'lab.linuxpath.test' },
+  { id: 'm13-l3', needle: 'http-title' },
+  { id: 'm14-l1', needle: 'SHA-256' },
+  { id: 'm14-l1', needle: 'ne téléversez jamais' },
   { id: 'm14-l2', needle: 'ro,noload' },
   { id: 'm14-l2', needle: 'write blocker' },
+  { id: 'm14-l2', needle: '/home/user/labs/evidence-source.img' },
+  { id: 'm14-l3', needle: 'SP 800-61r3' },
+  { id: 'm14-l4', needle: 'ss -tpn' },
   { id: 'm14-l5', needle: 'ordre de volatilité' },
+  { id: 'm14-l5', needle: 'banners.Banners' },
+  { id: 'm14-l5', needle: 'ISF' },
 ];
 
 test('lessons do not teach the audited operationally dangerous recipes', async () => {
@@ -55,6 +88,15 @@ test('every lesson has a documented review status', async () => {
   assert.equal(rows.length, 93);
   const incomplete = rows.filter((lesson) => lesson.reviewStatus !== 'reviewed' || !lesson.reviewedAt || !lesson.distro);
   assert.deepEqual(incomplete.map((lesson) => lesson.id), []);
+});
+
+test('cyber lessons expose checked official references', async () => {
+  const lessons = await loadJson('data/lessons.json');
+  const rows = ['m12', 'm13', 'm14'].flatMap((moduleId) => lessons[moduleId]);
+  const malformed = rows.filter((lesson) => !Array.isArray(lesson.sources)
+    || lesson.sources.length < 2
+    || lesson.sources.some((source) => !source?.title || !source?.scope || !/^https:\/\//.test(source?.url || '') || source.checkedAt !== lesson.reviewedAt));
+  assert.deepEqual(malformed.map((lesson) => lesson.id), []);
 });
 
 test('content review matrix lists every published lesson', async () => {

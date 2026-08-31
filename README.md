@@ -38,9 +38,10 @@ URL cible : `https://dodz2.github.io/linuxpath/`.
 ## Développement
 
 - Modifier les fichiers JavaScript sources (non minifiés) dans `assets/`.
-- `npm run build` génère `dist/` (y compris les bundles minifiés par Terser) à partir des sources.
+- `npm run build` régénère les bundles `assets/*.min.js` chargés par `index.html`, puis génère `dist/` avec les mêmes artefacts Terser.
+- Après `npm ci`, lancez une fois `npm run install:browsers` pour les tests e2e ; le CI effectue cette installation avant `npm run verify`.
 - `npm run verify` reproduit la batterie complète du CI : validation, tests unitaires et e2e.
-- Les fichiers `assets/*.min.js` suivis par git sont des artefacts historiques ; ne pas les modifier manuellement. La minification « locale » héritée (`minify.sh`) n'est plus nécessaire — seul `npm run build` fait foi.
+- Ne modifiez jamais `assets/*.min.js` manuellement. La minification « locale » héritée (`minify.sh`) n'est plus nécessaire — seul `npm run build` fait foi.
 
 ## Limites de la sandbox
 

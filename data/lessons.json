@@ -652,81 +652,121 @@
     {
       "id": "m12-l1",
       "title": "Audit avec Lynis",
-      "content": "\n        <h3>Qu'est-ce que Lynis ?</h3>\n        <p><strong>Lynis</strong> est un outil d'audit de sécurité pour systèmes Linux/Unix. Il passe en revue la configuration système et détecte les failles de sécurité potentielles.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install lynis</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo lynis audit system</span>    <span class=\"comment\"># Lancer un audit complet</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo lynis audit system --quick</span>    <span class=\"comment\"># Audit rapide</span></div>\n\n        <h3>Interpréter les résultats</h3>\n        <p>Lynis classe les résultats par niveau de sévérité :</p>\n        <ul>\n          <li><span style=\"color:var(--accent-red)\"><strong>[RED]</strong></span> : Problème critique à corriger immédiatement</li>\n          <li><span style=\"color:var(--accent-orange)\"><strong>[ORANGE]</strong></span> : Point d'attention à examiner</li>\n          <li><span style=\"color:var(--accent-green)\"><strong>[GREEN]</strong></span> : Configuration correcte</li>\n          <li><span style=\"color:var(--text-muted)\"><strong>[MUTED]</strong></span> : Information seulement</li>\n        </ul>\n        <div class=\"info-box tip\"><strong>Astuce :</strong> Le rapport complet est sauvegardé dans <code>/var/log/lynis.log</code>. Utilisez <code>sudo lynis show details</code> pour voir les détails d'un test.</div>",
+      "content": "\n        <h3>Audit avec Lynis</h3>\n        <p><strong>Lynis</strong> examine la configuration d’un système Linux/Unix et propose des constats de durcissement. Dans LinuxPath, la commande est simulée : elle n’a aucun effet sur une machine réelle.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install lynis</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo lynis audit system --quick</span> <span class=\"comment\"># évite les pauses interactives</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo grep -i 'SSH-7412' /var/log/lynis.log</span></div>\n        <p>Lynis produit notamment des <code>[OK]</code>, des avertissements et des suggestions. Un avertissement doit être rapproché du rôle de la machine, du service concerné et du risque avant tout changement. Le <em>Hardening index</em> est un indicateur Lynis : ce n’est ni un score CVSS, ni une certification, ni une priorité de correction automatique.</p>\n        <div class=\"info-box warning\"><strong>Avant de corriger :</strong> consultez <code>/var/log/lynis.log</code> et <code>/var/log/lynis-report.dat</code>, vérifiez le contrôle concerné, préparez un test et un retour arrière.</div>",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
-      "prerequisites": [
-        "m11"
-      ],
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
+      "prerequisites": [],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "Documentation Lynis",
+          "url": "https://cisofy.com/documentation/lynis/",
+          "scope": "Commandes, rapports et interprétation des résultats Lynis.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "Lynis — présentation officielle",
+          "url": "https://cisofy.com/lynis/",
+          "scope": "Rôle de l’outil et portée de l’indice de durcissement.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     },
     {
       "id": "m12-l2",
       "title": "OpenSCAP et conformité",
-      "content": "\n        <h3>OpenSCAP : cadre de sécurité</h3>\n        <p><strong>OpenSCAP</strong> est un ensemble de standards pour l'automatisation des tâches de sécurité (SCAP). Il permet de vérifier la conformité aux benchmarks de sécurité.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install openscap-scanner</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">oscap oval eval --results /tmp/results.xml /usr/share/openscap/scap-yaml/ssg-rhel7-oval.xml</span></div>\n\n        <h3>Benchmarks de conformité</h3>\n        <table class=\"cmd-table\">\n          <tr><th>Benchmark</th><th>Usage</th></tr>\n          <tr><td>CIS Benchmarks</td><td>Center for Internet Security — référence mondiale</td></tr>\n          <tr><td>STIG</td><td>Security Technical Implementation Guide (gouvernement US)</td></tr>\n          <tr><td>PCI-DSS</td><td>Payment Card Industry — sécurité des paiements</td></tr>\n        </table>\n        <div class=\"info-box info\"><strong>SCAP :</strong> Security Content Automation Protocol est un standard du NIST pour automatiser la gestion des vulnérabilités.</div>",
+      "content": "\n        <h3>OpenSCAP et contenu de conformité</h3>\n        <p>SCAP est une famille de spécifications ; <strong>OpenSCAP</strong> évalue du contenu SCAP, mais ne fournit pas à lui seul un benchmark universel. Le contenu et le profil doivent correspondre exactement à la distribution et à sa version.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt update</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install openscap-scanner ssg-debderived</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">oscap info /usr/share/xml/scap/ssg/content/ssg-ubuntu2204-ds.xml</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo oscap xccdf eval --profile xccdf_org.ssgproject.content_profile_cis_level1_server --results-arf /tmp/oscap-results-arf.xml --report /tmp/oscap-report.html /usr/share/xml/scap/ssg/content/ssg-ubuntu2204-ds.xml</span></div>\n        <p><code>oscap info</code> est l’autorité locale pour les profils réellement installés. N’utilisez jamais un contenu RHEL « proche » sur Ubuntu. Une évaluation réussie ne prouve pas, à elle seule, une conformité certifiée.</p>\n        <p><strong>Code de retour :</strong> pour <code>oscap xccdf eval</code>, <code>0</code> signifie que toutes les règles ont réussi, <code>2</code> qu’au moins une règle a échoué et <code>1</code> une erreur d’exécution. Un <code>2</code> est donc un résultat d’audit à analyser, pas forcément une commande cassée ; conservez les fichiers de résultat et de rapport.</p>\n        <p>Sur un système Ubuntu Pro où USG est activé, <code>sudo usg audit cis_level1_server</code> est une option d’audit. N’utilisez pas <code>usg fix</code> sans tailoring, validation du propriétaire et plan de retour.</p>\n",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
-      "prerequisites": [
-        "m11"
-      ],
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
+      "prerequisites": [],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "NIST — SCAP 1.4",
+          "url": "https://csrc.nist.gov/projects/security-content-automation-protocol/scap-releases/scap-1-4",
+          "scope": "Cadre et portée du protocole SCAP.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "Ubuntu Security Guide — CIS audit",
+          "url": "https://documentation.ubuntu.com/security/compliance/usg/cis-audit/",
+          "scope": "Audit CIS avec USG sur Ubuntu Pro.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     },
     {
       "id": "m12-l3",
       "title": "auditd et renforcement système",
-      "content": "\n        <h3>auditd : le démon d'audit</h3>\n        <p>Le démon <code>auditd</code> collecte et enregistre tous les événements liés à la sécurité : connexions, élévations sudo, modifications de fichiers critiques.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo systemctl enable --now auditd</span>    <span class=\"comment\"># Activer auditd</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo auditctl -w /etc/passwd -p rwxa -k identity</span>    <span class=\"comment\"># Surveiller /etc/passwd</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo ausearch -k identity</span>    <span class=\"comment\"># Chercher des événements</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo aureport -au</span>    <span class=\"comment\"># Rapport sur les échecs d'authentification</span></div>\n\n        <h3>Bonnes pratiques de durcissement</h3>\n        <ul>\n          <li><strong>Désactiver les services inutiles</strong> : <code>systemctl disable --now service</code></li>\n          <li><strong>Limiter les tentatives SSH</strong> : configurer <code>fail2ban</code></li>\n          <li><strong>Forcer des mots de passe forts</strong> : module <code>pam_pwquality</code></li>\n          <li><strong>Verrouiller après échecs</strong> : <code>pam_tally2</code></li>\n          <li><strong>Désactiver le login root</strong> : <code>PermitRootLogin no</code> dans <code>/etc/ssh/sshd_config</code></li>\n        </ul>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo systemctl disable --now cups</span>    <span class=\"comment\"># Désactiver service d'impression inutile</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install fail2ban</span>              <span class=\"comment\"># Anti brute-force SSH</span></div>",
+      "content": "\n        <h3>auditd : couverture choisie, pas totale</h3>\n        <p><code>auditd</code> enregistre les événements du noyau sélectionnés par des règles. Il ne journalise pas automatiquement toutes les connexions, actions sudo ou modifications : couverture, volume et conservation sont des choix à vérifier.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install auditd</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo systemctl status auditd</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo auditctl -a always,exit -F arch=b64 -F path=/etc/passwd -F perm=wa -k identity</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo auditctl -l</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo ausearch -k identity -i</span></div>\n        <p>Cette règle est temporaire. Pour la rendre persistante, placez-la dans <code>/etc/audit/rules.d/identity.rules</code> et chargez-la seulement après revue en VM ou fenêtre de maintenance. Sur un hôte bi-architecture, évaluez aussi le besoin d’une règle <code>arch=b32</code>.</p>\n        <h3>Durcissement sans se couper l’accès</h3>\n        <p><code>pam_tally2</code> est déprécié : pour le verrouillage après échecs, étudiez <code>pam_faillock</code> avec seuil, durée, compte de secours et seconde session administrateur ouverte. Avant une modification SSH, testez <code>sudo sshd -t</code> ; avant de désactiver un service, validez son propriétaire, son usage et le retour arrière.</p>",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
-      "prerequisites": [
-        "m11"
-      ],
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
+      "prerequisites": [],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "auditctl(8)",
+          "url": "https://man7.org/linux/man-pages/man8/auditctl.8.html",
+          "scope": "Règles syscall, filtres et persistance auditd.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "pam_faillock(8)",
+          "url": "https://man7.org/linux/man-pages/man8/pam_faillock.8.html",
+          "scope": "Verrouillage PAM et paramètres de récupération.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     },
     {
       "id": "m12-l4",
       "title": "Isolation des processus — chroot & namespaces",
-      "content": "\n        <p>L'isolation limite les dégâts en cas de compromission d'un service. Linux offre plusieurs mécanismes, du plus simple (chroot) au plus avancé (namespaces).</p>\n\n        <h3>chroot — l'isolation classique</h3>\n        <p><code>chroot</code> change la racine du système de fichiers visible par un processus. Il ne voit que ce qu'on lui donne :</p>\n        <div class=\"code-block\"><span class=\"comment\"># Créer un environnement chroot minimal</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo mkdir -p /srv/jail/{bin,lib,lib64}</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo cp /bin/bash /srv/jail/bin/</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo cp /lib/x86_64-linux-gnu/libtinfo.so.6 /srv/jail/lib/</span>  <span class=\"comment\"># dépendances de bash</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo chroot /srv/jail /bin/bash</span>           <span class=\"comment\"># entrer dans le chroot</span></div>\n        <p>⚠️ chroot n'est <strong>pas</strong> une mesure de sécurité forte — un processus root peut en sortir. C'est un cloisonnement de base.</p>\n\n        <h3>Namespaces Linux — l'isolation du noyau</h3>\n        <p>Les namespaces sont la technologie derrière Docker et les conteneurs. Chaque namespace isole un aspect du système :</p>\n        <div class=\"code-block\"><span class=\"comment\"># Créer un namespace réseau isolé</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo unshare --net bash</span>                  <span class=\"comment\"># nouveau namespace réseau</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">ip addr</span>                                   <span class=\"comment\"># seul lo est visible</span>\n\n<span class=\"comment\"># Lister les namespaces</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">lsns</span>                                      <span class=\"comment\"># tous les namespaces actifs</span></div>\n        <p>Types de namespaces : PID (processus), NET (réseau), MNT (montages), USER (utilisateurs), UTS (hostname), IPC (communication inter-processus).</p>\n\n        <h3>systemd et l'isolation des services</h3>\n        <p>systemd offre des directives d'isolation simples et efficaces pour les services :</p>\n        <div class=\"code-block\"><span class=\"comment\"># /etc/systemd/system/monservice.service</span>\n[Service]\nProtectHome=true               <span class=\"comment\"># /home inaccessible</span>\nProtectSystem=strict            <span class=\"comment\"># système en lecture seule</span>\nPrivateTmp=true                 <span class=\"comment\"># /tmp isolé</span>\nNoNewPrivileges=true            <span class=\"comment\"># pas d'escalade de privilèges</span>\nReadWritePaths=/var/lib/monapp  <span class=\"comment\"># seul dossier en écriture</span></div>\n\n        <h3>Résumé</h3>\n        <p>Du chroot basique aux namespaces du noyau en passant par les directives systemd, Linux offre une gamme d'outils d'isolation. En production, les directives systemd sont le moyen le plus simple de sécuriser un service.</p>",
+      "content": "\n        <h3>chroot : vue du système de fichiers, pas sandbox complète</h3>\n        <p>Un <code>chroot</code> change la racine visible par un processus. Il n’isole ni le noyau, ni les privilèges, ni les périphériques qui lui sont exposés : ce n’est pas une frontière de sécurité complète.</p>\n        <div class=\"code-block\"><span class=\"comment\"># Exemple Ubuntu 22.04 x86_64, uniquement dans une VM de test</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">ldd /bin/bash</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo install -d /srv/jail</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo cp -L --parents /bin/bash /lib/x86_64-linux-gnu/libtinfo.so.6 /lib/x86_64-linux-gnu/libc.so.6 /lib64/ld-linux-x86-64.so.2 /srv/jail</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo chroot /srv/jail /bin/bash --noprofile --norc</span></div>\n        <p>Les dépendances et le chargeur varient avec l’architecture et la version : utilisez <code>ldd</code> comme source de vérité plutôt qu’une liste copiée d’un autre hôte.</p>\n        <h3>Namespaces et systemd</h3>\n        <p>Les namespaces sont une brique des conteneurs, avec cgroups, capacités Linux, seccomp et politiques LSM selon le runtime. Dans une VM autorisée, <code>sudo unshare --net --fork bash</code> puis <code>ip link set lo up</code> illustrent un namespace réseau. <code>NoNewPrivileges=true</code> empêche un gain de privilèges lors d’un <code>exec</code>, sans être un sandbox complet ; examinez aussi <code>systemd-analyze security monservice.service</code> et testez le service.</p>",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
-      "prerequisites": [
-        "m11"
-      ],
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
+      "prerequisites": [],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "chroot(1)",
+          "url": "https://man7.org/linux/man-pages/man1/chroot.1.html",
+          "scope": "Sémantique et limites de chroot.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "systemd.exec",
+          "url": "https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html",
+          "scope": "Directives d’isolation et de privilèges systemd.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     },
     {
       "id": "m12-l5",
       "title": "Gestion des mises à jour et suivi des CVE",
-      "content": "\n        <p>Les mises à jour de sécurité sont la première ligne de défense. Un système non patché est un système vulnérable.</p>\n\n        <h3>Mises à jour manuelles — les bases</h3>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt update</span>                         <span class=\"comment\"># rafraîchir les sources</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt list --upgradable</span>               <span class=\"comment\"># voir les mises à jour disponibles</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt upgrade -y</span>                      <span class=\"comment\"># appliquer toutes les mises à jour</span>\n\n<span class=\"comment\"># Mises à jour de sécurité uniquement</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install --only-upgrade $(apt list --upgradable 2>/dev/null | grep -i security | cut -d/ -f1)</span></div>\n\n        <h3>Mises à jour automatiques — unattended-upgrades</h3>\n        <p>Pour un serveur en production, les mises à jour de sécurité doivent être automatiques :</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install unattended-upgrades</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo dpkg-reconfigure -plow unattended-upgrades</span></div>\n        <p>Vérifiez la configuration dans <code>/etc/apt/apt.conf.d/50unattended-upgrades</code> — par défaut, seules les mises à jour de sécurité sont appliquées automatiquement.</p>\n        <div class=\"code-block\"><span class=\"comment\"># Vérifier que les mises à jour automatiques fonctionnent</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo unattended-upgrades --dry-run --debug</span></div>\n\n        <h3>Suivi des CVE — rester informé</h3>\n        <p>Surveiller les CVE qui affectent vos systèmes :</p>\n        <div class=\"code-block\"><span class=\"comment\"># Vérifier les CVE connues sur votre système Debian/Ubuntu</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">apt changelog <paquet></span>                  <span class=\"comment\"># historique des correctifs</span>\n\n<span class=\"comment\"># Vérifier si un paquet est affecté par un CVE précis</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">apt-cache policy openssl</span>                 <span class=\"comment\"># version installée vs disponible</span></div>\n        <p>Consultez régulièrement les flux CERT-FR (intégrés dans la section Actualités de LinuxPath) et la base NVD du NIST pour les CVE critiques.</p>\n\n        <h3>Résumé</h3>\n        <p>Appliquer les mises à jour de sécurité rapidement est fondamental. unattended-upgrades automatise le processus, et le suivi des CVE via les flux CERT permet de réagir aux vulnérabilités critiques.</p>",
+      "content": "\n        <h3>Mises à jour : revue avant application</h3>\n        <p>Les mises à jour réduisent l’exposition, mais une mise à jour peut redémarrer un service ou modifier une dépendance. En production, revoyez les paquets, le risque de redémarrage, la fenêtre de maintenance et le retour arrière avant d’appliquer.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt update</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">apt list --upgradable</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt upgrade</span></div>\n        <h3>Automatisation gouvernée</h3>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install unattended-upgrades</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo dpkg-reconfigure --priority=low unattended-upgrades</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo unattended-upgrade --dry-run --debug</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">systemctl status apt-daily-upgrade.timer</span></div>\n        <p>Ne modifiez pas directement <code>50unattended-upgrades</code> : placez une politique locale dans un fichier ultérieur, par exemple <code>/etc/apt/apt.conf.d/60local-unattended-upgrades</code>, puis vérifiez avec <code>apt-config dump</code>. Le redémarrage automatique exige une décision explicite du propriétaire du service.</p>\n        <h3>Qualifier une CVE</h3>\n        <p>Une CVE ne prouve pas qu’un hôte est affecté : Ubuntu peut rétroporter un correctif sans changer la version amont apparente. <code>apt-cache policy</code> décrit l’état d’un paquet, pas l’exposition. Consultez le CVE Tracker et les USN Ubuntu, puis comparez au paquet et au contexte locaux. Avec Ubuntu Pro, <code>pro fix --dry-run CVE-YYYY-NNNN</code> vérifie sans modifier.</p>",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
-      "prerequisites": [
-        "m11"
-      ],
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
+      "prerequisites": [],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "Ubuntu Server — mises à jour automatiques",
+          "url": "https://ubuntu.com/server/docs/how-to/software/automatic-updates/",
+          "scope": "Configuration et vérification d’unattended-upgrades.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "Ubuntu Pro — statut et correction CVE",
+          "url": "https://documentation.ubuntu.com/pro-client/en/docs/howtoguides/fix_how_to_know_if_system_affected_by_cve/",
+          "scope": "Qualification d’une CVE et dry-run Ubuntu Pro.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     }
   ],
@@ -734,81 +774,131 @@
     {
       "id": "m13-l1",
       "title": "Metasploit Framework",
-      "content": "\n        <h3>Présentation de Metasploit</h3>\n        <p><strong>Metasploit</strong> est la référence mondiale des frameworks d'exploitation. Il contient des milliers d'exploits, payloads et modules auxiliaires pour tester la sécurité des systèmes.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">msfconsole</span>    <span class=\"comment\"># Console — lecture seule ici</span>\n<span class=\"msf\">msf6 ></span> <span class=\"cmd\">search platform:linux type:auxiliary</span>   <span class=\"comment\"># Chercher un module</span>\n<span class=\"msf\">msf6 ></span> <span class=\"cmd\">info auxiliary/scanner/ssh/ssh_version</span> <span class=\"comment\"># Lire un module sans l'exécuter</span>\n<span class=\"msf\">msf6 ></span> <span class=\"cmd\">show options</span>                             <span class=\"comment\"># Voir les options documentées</span></div>\n        <div class=\"info-box warning\"><strong>Pédagogie :</strong> ce cours se limite à <code>search</code>, <code>info</code> et <code>show options</code>. Aucun <code>run</code> contre une cible.</div>\n\n        <h3>Types de modules</h3>\n        <table class=\"cmd-table\">\n          <tr><th>Type</th><th>Description</th></tr>\n          <tr><td>exploit</td><td>Code d'exploitation pour une vulnérabilité (CVE)</td></tr>\n          <tr><td>auxiliary</td><td>Scanners, fuzzers, reconnaissance</td></tr>\n          <tr><td>post</td><td>Modules de post-exploitation (persistance, extraction)</td></tr>\n          <tr><td>payload</td><td>Code exécuté après exploitation (shell, meterpreter)</td></tr>\n          <tr><td>encoder</td><td>Obfuscation du payload pour éviter la détection</td></tr>\n        </table>\n        <div class=\"info-box danger\"><strong>Légal :</strong> N'utilisez Metasploit que sur vos propres machines ou avec une autorisation écrite explicite. L'utilisation non autorisée est un délit pénal.</div>",
+      "content": "\n        <h3>Metasploit : lire, cadrer, ne pas exécuter</h3>\n        <div class=\"info-box warning\"><strong>Cadre obligatoire :</strong> un test actif exige une autorisation écrite, un périmètre signé, une fenêtre de tir, une limite de débit, un contact d’escalade et une règle d’arrêt. Dans LinuxPath, le terminal est une simulation : aucun module n’est exécuté et aucun paquet n’est envoyé.</div>\n        <p>Metasploit organise des modules. Cette leçon se limite à la documentation des modules et à l’analyse de leur impact :</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">msfconsole</span>\n<span class=\"msf\">msf6 &gt;</span> <span class=\"cmd\">search platform:linux type:auxiliary</span>\n<span class=\"msf\">msf6 &gt;</span> <span class=\"cmd\">info auxiliary/scanner/ssh/ssh_version</span>\n<span class=\"msf\">msf6 &gt;</span> <span class=\"cmd\">show options</span></div>\n        <table class=\"cmd-table\"><tr><th>Type</th><th>Règle dans ce cours</th></tr><tr><td>auxiliary</td><td>Lire la documentation et le niveau d’interaction.</td></tr><tr><td>exploit, payload, post</td><td>Hors exécution LinuxPath ; analyser le risque et les préconditions.</td></tr></table>\n        <p>Un module et une CVE ne suffisent jamais à conclure à l’exploitabilité : vérifier version, préconditions, impact métier et accord explicite reste indispensable.</p>",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
       "prerequisites": [
         "m12"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "Rapid7 — Metasploit modules",
+          "url": "https://docs.rapid7.com/metasploit/modules/",
+          "scope": "Types de modules et documentation associée.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "Rapid7 — Metasploit documentation",
+          "url": "https://docs.rapid7.com/metasploit/",
+          "scope": "Usage responsable et documentation du framework.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     },
     {
       "id": "m13-l2",
       "title": "Burp Suite et pentest web",
-      "content": "\n        <h3>Burp Suite : le proxy d'interception</h3>\n        <p><strong>Burp Suite</strong> est l'outil incontournable pour le pentest d'applications web. Il intercepte, inspecte et modifie les requêtes HTTP/HTTPS entre le navigateur et le serveur.</p>\n        <div class=\"code-block\"><span class=\"comment\"># Configuration basique :</span>\n<span class=\"comment\"># 1. Proxy → Options → Add proxy listener : 127.0.0.1:8080</span>\n<span class=\"comment\"># 2. Navigateur → Proxy manuel → HTTP : localhost:8080</span>\n<span class=\"comment\"># 3. Proxy → Intercept → ON (Intercepter les requêtes)</span>\n<span class=\"comment\"># 4. Naviguer sur la cible → Modifier la requête → Forward</span></div>\n\n        <h3>Fonctionnalités essentielles</h3>\n        <ul>\n          <li><strong>Repeater</strong> : Renvoyer une requête modifiée manuellement</li>\n          <li><strong>Intruder</strong> : Attaques automatisées (brute-force, fuzzing de paramètres)</li>\n          <li><strong>Scanner</strong> : Détection automatique de vulnérabilités (SQLi, XSS)</li>\n          <li><strong>Decoder</strong> : Décodage/encodage (Base64, URL, Hex, HTML)</li>\n          <li><strong>Comparer</strong> : Comparaison de réponses HTTP</li>\n        </ul>",
+      "content": "\n        <h3>Burp Suite dans un laboratoire</h3>\n        <p>Burp intercepte, inspecte et peut modifier les requêtes HTTP(S) entre un navigateur et un serveur. Utilisez un profil de navigateur de test séparé, un certificat d’autorité temporaire et aucune donnée ou session réelle.</p>\n        <div class=\"info-box warning\"><strong>Édition et autorisation :</strong> Burp Community convient à l’apprentissage manuel ; Burp Scanner est réservé à Burp Suite Professional et DAST. Même dans un laboratoire, définissez la cible dans le scope, limitez les requêtes et arrêtez-vous au premier signe d’instabilité.</div>\n        <table class=\"cmd-table\"><tr><th>Fonction</th><th>Usage pédagogique</th></tr><tr><td>Repeater</td><td>Comparer manuellement une requête et sa réponse dans le laboratoire.</td></tr><tr><td>Intruder</td><td>Variantes contrôlées, uniquement sur un périmètre autorisé et plafonné.</td></tr><tr><td>Scanner</td><td>Audit actif Professional/DAST uniquement, après validation du risque.</td></tr><tr><td>Decoder / Comparer</td><td>Analyse hors interaction avec la cible.</td></tr></table>\n        <p>Avant de lancer une action, vérifiez le scope, la méthode, le débit, les données manipulées et la procédure d’arrêt. Une réponse inhabituelle est un indice à documenter, pas une preuve de vulnérabilité.</p>",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
       "prerequisites": [
         "m12"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "PortSwigger — Burp Suite Desktop",
+          "url": "https://portswigger.net/burp/documentation/desktop",
+          "scope": "Fonctionnalités et modes de Burp Suite Desktop.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "PortSwigger — première analyse",
+          "url": "https://portswigger.net/burp/documentation/desktop/getting-started/running-your-first-scan",
+          "scope": "Préconditions, scope et disponibilité du Scanner.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     },
     {
       "id": "m13-l3",
       "title": "Nmap avancé et scripts NSE",
-      "content": "\n        <h3>Scans avancés avec Nmap</h3>\n        <p>Au-delà du scan de ports simple, Nmap permet des détections précises de services, de systèmes d'exploitation et de vulnérabilités via les scripts NSE.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">nmap -sV -sC -p- 192.168.1.1</span>          <span class=\"comment\"># Version + scripts + tous ports</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">nmap --script vuln 192.168.1.0/24</span>       <span class=\"comment\"># Détecter les CVE connues</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">nmap -O --osscan-guess 192.168.1.1</span>      <span class=\"comment\"># Détection OS agressive</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">nmap -sS -sU -p 1-1000 --top-ports 50</span>  <span class=\"comment\"># Scan SYN + UDP</span></div>\n\n        <h3>Les scripts NSE par catégorie</h3>\n        <table class=\"cmd-table\">\n          <tr><th>Catégorie</th><th>Exemple de script</th><th>Usage</th></tr>\n          <tr><td>default</td><td>dns-brute, http-title</td><td>Reconnaissance de base</td></tr>\n          <tr><td>vuln</td><td>http-vuln-cve2017-5638</td><td>Détection de CVE</td></tr>\n          <tr><td>exploit</td><td>samba-vuln-cve-2015-0240</td><td>Vérification d'exploit</td></tr>\n          <tr><td>auth</td><td>ssh-auth-methods, ftp-anon</td><td>Test d'authentification</td></tr>\n          <tr><td>malware</td><td>http-malware-host</td><td>Détection de malwares</td></tr>\n        </table>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">nmap --script-help http-*</span>              <span class=\"comment\"># Aide sur les scripts HTTP</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">nmap -sV --script http-enum 192.168.1.1</span>  <span class=\"comment\"># Énumération web</span></div>",
+      "content": "\n        <h3>Nmap et NSE : une interaction réseau à autoriser</h3>\n        <p>Nmap peut détecter des services et exécuter des scripts NSE. Même un script classé <code>safe</code> interagit avec la cible ; l’autorisation reste indispensable. Dans LinuxPath, seule une cible fictive est acceptée par le simulateur et aucun paquet n’est envoyé.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">nmap -sV -p 80 --script=http-title lab.linuxpath.test</span></div>\n        <p><code>http-title</code> est documenté comme <em>default/discovery/safe</em>, mais son résultat est un indice à vérifier. Ne confondez pas <code>-sC</code> avec « sans impact » : les scripts par défaut forment un ensemble variable et certains peuvent être intrusifs.</p>\n        <table class=\"cmd-table\"><tr><th>Catégorie</th><th>Règle du cours</th></tr><tr><td>safe</td><td>Exemple ciblé de laboratoire, avec autorisation.</td></tr><tr><td>default</td><td>Ne pas assimiler à « sans impact ».</td></tr><tr><td>vuln</td><td>Étude documentaire, validation manuelle obligatoire.</td></tr><tr><td>intrusive, brute, exploit, dos</td><td>Hors exécution LinuxPath.</td></tr></table>",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
       "prerequisites": [
         "m12"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "Nmap Reference Guide — NSE",
+          "url": "https://nmap.org/book/man-nse.html",
+          "scope": "Catégories NSE, risque et sélection des scripts.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "Nmap NSEDoc — http-title",
+          "url": "https://nmap.org/nsedoc/scripts/http-title.html",
+          "scope": "Portée et catégories du script http-title.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     },
     {
       "id": "m13-l4",
       "title": "Reconnaissance web — Gobuster & ffuf",
-      "content": "\n        <p>Avant d'exploiter une application web, il faut en cartographier la surface d'attaque. L'énumération de répertoires et de sous-domaines révèle des pages cachées, des interfaces d'administration et des fichiers sensibles.</p>\n\n        <h3>Gobuster — énumération par dictionnaire</h3>\n        <p><strong>Gobuster</strong> teste méthodiquement des chemins contre un serveur web :</p>\n        <div class=\"code-block\"><span class=\"comment\"># Énumération de répertoires</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">gobuster dir -u http://cible.com -w /usr/share/wordlists/dirb/common.txt</span>\n\n<span class=\"comment\"># Avec extensions de fichiers</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">gobuster dir -u http://cible.com -w /usr/share/wordlists/dirb/common.txt -x php,txt,bak</span>\n\n<span class=\"comment\"># Énumération de sous-domaines (mode DNS)</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">gobuster dns -d example.com -w /usr/share/wordlists/subdomains.txt</span></div>\n\n        <h3>ffuf — fuzzing rapide et flexible</h3>\n        <p><strong>ffuf</strong> (Fuzz Faster U Fool) est plus rapide et flexible que Gobuster :</p>\n        <div class=\"code-block\"><span class=\"comment\"># Fuzzing de répertoires (FUZZ est remplacé par chaque mot)</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">ffuf -u http://cible.com/FUZZ -w /usr/share/wordlists/dirb/common.txt</span>\n\n<span class=\"comment\"># Filtrer les faux positifs par taille de réponse</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">ffuf -u http://cible.com/FUZZ -w wordlist.txt -fs 1234</span>\n\n<span class=\"comment\"># Fuzzing de paramètres</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">ffuf -u \"http://cible.com/page?FUZZ=test\" -w params.txt -fs 0</span></div>\n\n        <h3>Bonnes pratiques (cadre légal)</h3>\n        <p>⚠️ L'énumération de répertoires sur un système sans autorisation est <strong>illégale</strong>. Ces outils ne doivent être utilisés que dans le cadre d'un pentest autorisé, d'un programme de bug bounty, ou sur vos propres machines.</p>\n\n        <h3>Résumé</h3>\n        <p>Gobuster et ffuf sont des outils complémentaires pour découvrir les pages et fichiers cachés d'un serveur web. ffuf est plus rapide et offre plus de flexibilité pour le fuzzing avancé.</p>",
+      "content": "\n        <h3>Énumération web à débit borné</h3>\n        <p>Dans une évaluation explicitement autorisée, Gobuster et ffuf essaient des chemins issus d’une liste. Un code HTTP, une taille de réponse ou un chemin découvert ne constituent pas à eux seuls une vulnérabilité.</p>\n        <div class=\"code-block\"><span class=\"comment\"># Cible et wordlist fictives LinuxPath, concurrence minimale</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">gobuster dir -u http://webapp.lab.linuxpath.test -w /home/user/wordlists/lab-small.txt -t 1</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">ffuf -u http://webapp.lab.linuxpath.test/FUZZ -w /home/user/wordlists/lab-small.txt -t 1 -rate 5 -maxtime 60</span></div>\n        <p>Le terminal LinuxPath simule Gobuster et n’émule pas ffuf. Ne dirigez jamais ces commandes vers une production, un domaine tiers ou une adresse privée sans autorisation écrite. Notez la cible, la wordlist, le débit, l’heure, les réponses observées et la règle d’arrêt.</p>",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
       "prerequisites": [
         "m12"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "Gobuster",
+          "url": "https://github.com/OJ/gobuster",
+          "scope": "Modes d’énumération et paramètres de Gobuster.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "ffuf — performance et rate limiting",
+          "url": "https://github.com/ffuf/ffuf/wiki/Performance-and-rate",
+          "scope": "Réglage de concurrence, débit et durée.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     },
     {
       "id": "m13-l5",
       "title": "Scan de vulnérabilités avec Nikto & searchsploit",
-      "content": "\n        <p>Après la reconnaissance, l'étape suivante est d'identifier les vulnérabilités connues. Des outils spécialisés automatisent cette recherche.</p>\n\n        <h3>Nikto — scanner de vulnérabilités web</h3>\n        <p><strong>Nikto</strong> teste un serveur web contre des milliers de vulnérabilités connues :</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">nikto -h http://cible.com</span>               <span class=\"comment\"># scan basique</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">nikto -h http://cible.com -o rapport.html -Format htm</span>  <span class=\"comment\"># rapport HTML</span></div>\n        <p>Nikto vérifie : headers de sécurité manquants, fichiers sensibles exposés (robots.txt, .git), versions de serveur obsolètes, configurations dangereuses.</p>\n\n        <h3>searchsploit — exploits connus hors-ligne</h3>\n        <p><strong>searchsploit</strong> recherche des exploits dans la base Exploit-DB, disponible localement :</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">searchsploit apache 2.4</span>                 <span class=\"comment\"># chercher des exploits pour Apache 2.4</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">searchsploit -x 12345</span>                   <span class=\"comment\"># afficher le code d'un exploit</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">searchsploit --update</span>                    <span class=\"comment\"># mettre à jour la base</span>\n\n<span class=\"comment\"># Rechercher par CVE</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">searchsploit --cve 2024-1234</span></div>\n\n        <h3>Interpréter les résultats</h3>\n        <p>Tout résultat n'est pas exploitable. Trois critères pour évaluer un exploit :</p>\n        <p>1. <strong>Version exacte</strong> — l'exploit cible-t-il précisément la version installée ?</p>\n        <p>2. <strong>Conditions préalables</strong> — nécessite-t-il un accès authentifié ou une configuration spécifique ?</p>\n        <p>3. <strong>Fiabilité</strong> — est-il marqué comme vérifié par la communauté ?</p>\n\n        <h3>Résumé</h3>\n        <p>Nikto automatise la détection de vulnérabilités web classiques. searchsploit permet de chercher des exploits connus hors-ligne. Ces outils sont les premiers réflexes dans la phase d'analyse de vulnérabilités d'un pentest.</p>",
+      "content": "\n        <h3>Triage de résultats avec Nikto et SearchSploit</h3>\n        <p>Nikto repère des configurations, fichiers et signatures web ; SearchSploit recherche des références dans Exploit-DB. Le terminal LinuxPath ne les exécute pas : les commandes sont des repères documentaires à utiliser exclusivement dans un périmètre autorisé.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">nikto -h http://webapp.lab.linuxpath.test</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">searchsploit apache 2.4</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">searchsploit --cve 2024-1234</span></div>\n        <p>Une correspondance Nikto ou SearchSploit n’établit ni l’exposition, ni la version affectée, ni l’exploitabilité. Vérifiez la version installée, les préconditions, l’avis éditeur/CVE, le correctif et l’impact métier ; n’exécutez ni n’affichez du code d’exploit dans ce cours.</p>\n        <p>Un constat utile contient au minimum : cible autorisée, date et version de base, preuve reproductible, niveau de confiance, impact, remédiation proposée et test de correction. L’exercice du module fait produire cette structure dans le lab.</p>",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
       "prerequisites": [
         "m12"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "Nikto",
+          "url": "https://github.com/sullo/nikto",
+          "scope": "Portée des détections et usage de Nikto.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "SearchSploit — Exploit Database",
+          "url": "https://www.exploit-db.com/searchsploit",
+          "scope": "Recherche locale de références Exploit-DB.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     }
   ],
@@ -816,81 +906,131 @@
     {
       "id": "m14-l1",
       "title": "Analyse de malwares",
-      "content": "\n        <h3>Qu'est-ce qu'un malware ?</h3>\n        <p>Un <strong>malware</strong> (malicious software) est un programme conçu pour infecter, endommager ou prendre le contrôle d'un système. Types courants : virus, vers, chevaux de Troie, ransomwares, spywares, rootkits.</p>\n        <div class=\"code-block\"><span class=\"comment\"># Analyse statique d'un binaire suspect</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">file malware.bin</span>                        <span class=\"comment\"># Type de fichier</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">strings malware.bin | grep -i http</span>        <span class=\"comment\"># URLs embarquées</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">strings malware.bin | grep -i flag{</span>        <span class=\"comment\"># Chercher des flags CTF</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">hexdump -C malware.bin | head -30</span>          <span class=\"comment\"># Analyse hexadécimale</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">objdump -d malware.bin | head -100</span>         <span class=\"comment\"># Désassemblage</span></div>\n\n        <h3>Identification par signature</h3>\n        <p>Chaque malware peut être identifié par son empreinte cryptographique :</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sha256sum malware.bin</span>                    <span class=\"comment\"># Empreinte SHA-256</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">md5sum malware.bin</span>                        <span class=\"comment\"># Empreinte MD5 (obsolète)</span></div>\n        <p>Comparez l'empreinte sur <strong>VirusTotal</strong> (https://virustotal.com) ou avec la base locale ClamAV :</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo apt install clamav && freshclam</span>      <span class=\"comment\"># Installer ClamAV et signatures</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">clamscan malware.bin</span>                        <span class=\"comment\"># Scanner le fichier</span></div>",
+      "content": "\n        <h3>Analyse statique d’un artefact inerte</h3>\n        <div class=\"info-box danger\"><strong>Règle de sécurité :</strong> <code>malware.bin</code> est un artefact inerte du lab. N’exécutez jamais un échantillon réel, n’ouvrez pas ses URL et travaillez sur une station isolée sans secrets.</div>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sha256sum malware.bin</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">file malware.bin</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">strings -a malware.bin | grep -i http</span></div>\n        <p>Une empreinte SHA-256 identifie un artefact précis ; elle ne permet ni d’identifier à elle seule une famille de malware, ni de conclure qu’un fichier est sain. Un scanner local est un signal de triage, pas une preuve d’absence de malware.</p>\n        <p>Recherchez d’abord la SHA-256. Une soumission publique à VirusTotal peut partager le fichier et son rapport avec la communauté ou des partenaires : ne téléversez jamais un artefact, des données personnelles ou des données confidentielles sans autorisation écrite et politique approuvée.</p>",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
       "prerequisites": [
         "m13"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "VirusTotal — How it works",
+          "url": "https://docs.virustotal.com/docs/how-it-works",
+          "scope": "Recherche par hash et conséquences d’une soumission.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "sha256sum(1)",
+          "url": "https://man7.org/linux/man-pages/man1/sha256sum.1.html",
+          "scope": "Portée d’une empreinte SHA-256.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     },
     {
       "id": "m14-l2",
       "title": "Forensic et investigation numérique",
-      "content": "\n        <h3>Réponse à incident</h3>\n        <p>La réponse à incident (IR) et l'analyse forensic permettent de comprendre comment une attaque a eu lieu, quels dégâts ont été causés et comment prévenir une récidive.</p>\n        <div class=\"code-block\"><span class=\"comment\"># 0. Autorisation écrite + write blocker matériel avant toute lecture</span>\n<span class=\"comment\"># 1. Image sur un support externe, jamais sur le disque source</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo dd if=/dev/sda of=/mnt/evidence/disk.img bs=4M status=progress conv=noerror,sync</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo sha256sum /dev/sda /mnt/evidence/disk.img | tee /mnt/evidence/disk.hash</span>\n<span class=\"comment\"># 2. Monter en lecture seule, sans rejouer le journal (noload)</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo mount -o ro,noload,loop /mnt/evidence/disk.img /mnt/loop</span>\n<span class=\"comment\"># Documenter toute modification ; travailler uniquement sur la copie</span></div>\n\n        <h3>Outils forensiques essentiels</h3>\n        <table class=\"cmd-table\">\n          <tr><th>Outil</th><th>Fonction</th></tr>\n          <tr><td>binwalk</td><td>Extraire les fichiers embarqués dans un binaire/firmware</td></tr>\n          <tr><td>foremost</td><td>Récupérer les fichiers supprimés (carving)</td></tr>\n          <tr><td>volatility</td><td>Analyse de mémoire RAM (processus, connexions, rootkits)</td></tr>\n          <tr><td>autopsy</td><td>Interface graphique complète d'analyse forensique</td></tr>\n          <tr><td>sleuthkit</td><td>Boîte à outils forensique (ligne de commande)</td></tr>\n        </table>\n        <div class=\"info-box danger\"><strong>Chaîne de custody :</strong> Travaillez toujours sur une <strong>copie</strong> (pas l'original), documentez chaque étape et calculez les empreintes SHA-256 pour garantir l'intégrité des preuves.</div>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo foremost -i disk.img -o /mnt/out</span>    <span class=\"comment\"># Récupérer fichiers effacés</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">binwalk -e firmware.bin</span>                    <span class=\"comment\"># Extraire les fichiers d'un firmware</span></div>",
+      "content": "\n        <h3>Copie et analyse forensique : le lab n’est pas une saisie</h3>\n        <p>Pour un support saisi hors tension, source, périmètre, responsable, destination et prévention d’écriture (<em>write blocker</em>) sont validés avant la collecte. Ne devinez jamais un chemin <code>/dev/sdX</code> et ne travaillez jamais sur l’original.</p>\n        <div class=\"code-block\"><span class=\"comment\"># Fichier de démonstration LinuxPath, pas un périphérique réel</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">dd if=/home/user/labs/evidence-source.img of=/mnt/evidence/training-copy.img bs=4M status=progress</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sha256sum /mnt/evidence/training-copy.img</span></div>\n        <p>Une image disque complète peut contenir une table de partitions. Attachez d’abord la <em>copie</em> en lecture seule, identifiez partitions et système de fichiers, puis montez la partition visée. <code>ro,noload</code> concerne notamment ext3/ext4 ; les options sûres diffèrent selon le système de fichiers.</p>\n        <p>Le carving avec foremost retrouve des séquences d’octets, mais ne rétablit pas à lui seul nom, emplacement, horodatage ou provenance. <code>binwalk -e firmware.bin</code> est limité au firmware inerte du simulateur ; sur un artefact réel, l’extraction se fait seulement dans une VM isolée et validée.</p>",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
       "prerequisites": [
         "m13"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "mount(8)",
+          "url": "https://man7.org/linux/man-pages/man8/mount.8.html",
+          "scope": "Montage en lecture seule, options et systèmes de fichiers.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "The Sleuth Kit",
+          "url": "https://www.sleuthkit.org/sleuthkit/",
+          "scope": "Outils et principes d’analyse forensique de systèmes de fichiers.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     },
     {
       "id": "m14-l3",
       "title": "Réponse à incident — méthodologie & premiers gestes",
-      "content": "\n        <p>Quand un incident de sécurité survient, la réactivité et la méthodologie font la différence entre une résolution rapide et une catastrophe. Le NIST définit un cadre en 4 phases.</p>\n\n        <h3>Les 4 phases du NIST</h3>\n        <p>1. <strong>Préparation</strong> — plans, outils, contacts, sauvegardes prêtes.</p>\n        <p>2. <strong>Détection & Analyse</strong> — identifier la nature et l'étendue de l'incident.</p>\n        <p>3. <strong>Confinement, Éradication & Récupération</strong> — stopper la menace, nettoyer, restaurer.</p>\n        <p>4. <strong>Post-incident</strong> — documenter, tirer les leçons, améliorer les défenses.</p>\n\n        <h3>Premiers gestes — confinement immédiat</h3>\n        <div class=\"code-block\"><span class=\"comment\"># 1. Isoler la machine du réseau (sans l'éteindre !)</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo ip link set eth0 down</span>              <span class=\"comment\"># couper l'interface réseau</span>\n\n<span class=\"comment\"># 2. Capturer l'état actuel (preuves volatiles)</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">date > /tmp/incident_$(date +%s).log</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">who >> /tmp/incident_*.log</span>               <span class=\"comment\"># sessions ouvertes</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">ps auxf >> /tmp/incident_*.log</span>           <span class=\"comment\"># processus en cours</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">ss -tulpn >> /tmp/incident_*.log</span>         <span class=\"comment\"># connexions réseau</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">last >> /tmp/incident_*.log</span>              <span class=\"comment\"># historique des connexions</span>\n\n<span class=\"comment\"># 3. Sauvegarder les logs avant qu'ils ne soient altérés</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo tar czf /tmp/logs_backup.tar.gz /var/log/</span></div>\n\n        <h3>Règle d'or : ne pas éteindre</h3>\n        <p>Éteindre la machine détruit les preuves en mémoire (processus, connexions actives, cache DNS). Isolez le réseau mais gardez la machine allumée pour la collecte de preuves.</p>\n\n        <h3>Documentation de l'incident</h3>\n        <p>Notez tout : date/heure de détection, symptômes observés, actions entreprises, personnes contactées. Cette timeline est essentielle pour l'analyse post-incident et les éventuelles obligations légales.</p>\n\n        <h3>Résumé</h3>\n        <p>Face à un incident : isoler sans éteindre, capturer l'état volatile, sauvegarder les logs, documenter chaque action. La méthode prime sur la rapidité — une mauvaise manipulation peut détruire les preuves.</p>",
+      "content": "\n        <h3>Réponse à incident : décider avant d’agir</h3>\n        <p>Les quatre phases sont le repère historique de SP 800-61r2. La SP 800-61r3 (avril 2025) l’a remplacé par une intégration de la réponse à incident dans les fonctions CSF 2.0 : Govern, Identify, Protect, Detect, Respond et Recover.</p>\n        <p>Il n’existe pas de réflexe universel « couper le réseau » ou « ne jamais éteindre ». Le responsable d’incident arbitre, avant toute action, sécurité des personnes, propagation ou exfiltration, impact métier, accès distant, valeur des preuves volatiles et obligations applicables. Toute action de confinement est autorisée, réversible si possible et consignée.</p>\n        <div class=\"info-box info\"><strong>Dans LinuxPath :</strong> <code>date</code>, <code>who</code>, <code>ps</code>, <code>ss</code> et <code>last</code> illustrent des artefacts volatils ; ils ne constituent pas une procédure réelle.</div>\n        <h3>Trace minimale</h3>\n        <p>Consignez l’ID du dossier, l’horodatage ISO 8601 et le fuseau, le collecteur, l’état du système, l’autorisation et le périmètre, chaque commande et version d’outil, les sorties et empreintes, puis chaque transfert et emplacement de stockage.</p>",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
       "prerequisites": [
         "m13"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "NIST SP 800-61r3",
+          "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final",
+          "scope": "Réponse à incident intégrée au CSF 2.0.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "NIST Cybersecurity Framework 2.0",
+          "url": "https://www.nist.gov/cyberframework",
+          "scope": "Fonctions Govern, Identify, Protect, Detect, Respond et Recover.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     },
     {
       "id": "m14-l4",
       "title": "Analyse de logs — détecter les IOC",
-      "content": "\n        <p>Les <strong>IOC</strong> (Indicators of Compromise) sont les traces laissées par un attaquant dans les logs système. Savoir les chercher est la compétence clé de l'investigation numérique.</p>\n\n        <h3>Logs système essentiels</h3>\n        <div class=\"code-block\"><span class=\"comment\"># Logs d'authentification — tentatives de connexion</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo grep 'Failed password' /var/log/auth.log | tail -20</span>\n\n<span class=\"comment\"># Connexions SSH réussies depuis des IP inhabituelles</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo grep 'Accepted' /var/log/auth.log | awk '{print $9, $11}' | sort -u</span>\n\n<span class=\"comment\"># Commandes sudo suspectes</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo grep 'COMMAND' /var/log/auth.log | grep -v 'apt\\|systemctl'</span></div>\n\n        <h3>Rechercher des IOC courants</h3>\n        <div class=\"code-block\"><span class=\"comment\"># Tâches cron suspectes (persistance)</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">for user in $(cut -d: -f1 /etc/passwd); do crontab -l -u $user 2>/dev/null; done</span>\n\n<span class=\"comment\"># Fichiers modifiés récemment dans des répertoires sensibles</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">find /tmp /var/tmp /dev/shm -type f -mtime -1 2>/dev/null</span>\n\n<span class=\"comment\"># Processus avec des connexions réseau inhabituelles</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">ss -tulpn | grep -v '127.0.0.1\\|::1'</span>\n\n<span class=\"comment\"># Binaires SUID inhabituels (élévation de privilèges)</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">find / -perm -4000 -type f 2>/dev/null | grep -v '/usr/\\|/bin/'</span></div>\n\n        <h3>journalctl — exploiter le journal systemd</h3>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">journalctl --since \"2 hours ago\" -p err</span>  <span class=\"comment\"># erreurs récentes</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">journalctl -u sshd --since \"yesterday\"</span>   <span class=\"comment\"># logs SSH depuis hier</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">journalctl _UID=0 --since \"today\"</span>        <span class=\"comment\"># toutes les actions root aujourd'hui</span></div>\n\n        <h3>Résumé</h3>\n        <p>L'analyse de logs est le socle de la détection d'intrusion. Les IOC les plus courants : connexions depuis des IP inconnues, processus inhabituels, fichiers dans /tmp, crons ajoutés et binaires SUID anormaux.</p>",
+      "content": "\n        <h3>IOC : des indices à corréler</h3>\n        <p>Un <strong>IOC</strong> est un indice à corréler, pas une preuve. Le contexte, un baseline approuvé et plusieurs sources sont nécessaires avant toute conclusion.</p>\n        <div class=\"code-block\"><span class=\"comment\"># Si rsyslog fournit auth.log</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo grep -E 'Failed password|Accepted (publickey|password)' /var/log/auth.log | tail -20</span>\n<span class=\"comment\"># Connexions établies ; les écouteurs sont une autre vue</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">ss -tpn</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">ss -ltnp</span></div>\n        <p>Inventoriez aussi les crontabs système et utilisateurs, les timers systemd et les emplacements de persistance documentés. Un fichier récent ou inconnu n’est pas automatiquement malveillant ; comparez-le à un baseline et à la chronologie.</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">sudo journalctl -u ssh.service --since \"yesterday\" --no-pager</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">journalctl _UID=0 --since \"today\"</span></div>\n        <p>Sur Ubuntu, le nom d’unité est généralement <code>ssh.service</code>. Le filtre <code>_UID=0</code> vise les messages journald attribués à UID 0 : ce n’est pas la totalité des actions root.</p>",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
       "prerequisites": [
         "m13"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "Ubuntu Server — OpenSSH",
+          "url": "https://ubuntu.com/server/docs/how-to/security/openssh-server/",
+          "scope": "Service SSH et journalisation sur Ubuntu.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "journalctl(1)",
+          "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html",
+          "scope": "Filtres et portée des journaux systemd.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     },
     {
       "id": "m14-l5",
-      "title": "Collecte de preuves — dd, volatility & chaîne de custody",
-      "content": "\n        <p>En forensic, la qualité des preuves collectées détermine la capacité à comprendre l'attaque. Respectez l'<strong>ordre de volatilité</strong> (mémoire, réseau, disque), une autorisation écrite, un write blocker, et hashez la source <em>et</em> l'image.</p>\n\n        <h3>Image disque avec dd</h3>\n        <p><code>dd</code> crée une copie bit-à-bit d'un disque ou d'une partition — la base de toute investigation :</p>\n        <div class=\"code-block\"><span class=\"comment\"># Créer une image forensique du disque /dev/sda</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo dd if=/dev/sda of=/mnt/evidence/disk.img bs=4M status=progress</span>\n\n<span class=\"comment\"># Calculer le hash pour vérifier l'intégrité</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sha256sum /mnt/evidence/disk.img > /mnt/evidence/disk.img.sha256</span>\n\n<span class=\"comment\"># Monter l'image en lecture seule pour analyse</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo mount -o ro,noload,loop /mnt/evidence/disk.img /mnt/analysis/</span></div>\n        <p>⚠️ Ne jamais travailler sur le disque original. Toujours analyser une copie.</p>\n\n        <h3>Mémoire volatile — volatility</h3>\n        <p><strong>Volatility</strong> analyse les dumps de mémoire RAM pour retrouver les processus, connexions réseau et artefacts qui n'existent qu'en mémoire :</p>\n        <div class=\"code-block\"><span class=\"comment\"># Capturer la mémoire (avec LiME sur Linux)</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">sudo insmod lime.ko \"path=/mnt/evidence/mem.lime format=lime\"</span>\n\n<span class=\"comment\"># Analyser avec Volatility 3</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">vol -f mem.lime linux.pslist</span>             <span class=\"comment\"># liste des processus</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">vol -f mem.lime linux.netscan</span>            <span class=\"comment\"># connexions réseau</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">vol -f mem.lime linux.bash</span>               <span class=\"comment\"># historique bash en mémoire</span></div>\n\n        <h3>Chaîne de custody</h3>\n        <p>Pour que les preuves soient recevables, chaque manipulation doit être documentée :</p>\n        <p>1. <strong>Qui</strong> a collecté la preuve et quand.</p>\n        <p>2. <strong>Comment</strong> — outil utilisé, commande exacte.</p>\n        <p>3. <strong>Hash</strong> — SHA-256 calculé immédiatement après la collecte.</p>\n        <p>4. <strong>Stockage</strong> — support chiffré, accès restreint.</p>\n\n        <h3>Résumé</h3>\n        <p>dd pour le disque, LiME/Volatility pour la mémoire, et une documentation rigoureuse de la chaîne de custody. Ces trois piliers garantissent des preuves exploitables en investigation numérique.</p>",
+      "title": "Collecte de preuves — ordre de volatilité, mémoire et chaîne de conservation",
+      "content": "\n        <h3>Collecte de preuves — ordre de volatilité, mémoire et chaîne de conservation</h3>\n        <p>L’ordre de volatilité est un critère de décision, pas une instruction de collecte automatique. Toute collecte réelle est prévalidée avec l’autorité compétente, le périmètre, l’outil, l’impact potentiel et la chaîne de conservation.</p>\n        <p>Le terminal LinuxPath ne fournit ni image mémoire ni exécutable Volatility. Les commandes suivantes sont des exemples à utiliser uniquement dans une VM d’analyse autorisée, avec une image fournie par votre environnement de formation. Volatility analyse une image existante ; il n’acquiert pas la mémoire. Sur un hôte réel, l’acquisition modifie l’état et exige un outil compatible avec le noyau ciblé.</p>\n        <div class=\"code-block\"><span class=\"comment\"># Exemple hors simulateur, avec Volatility 3 et une image de démonstration</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">python3 vol.py -f mem.lime banners.Banners</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">python3 vol.py -f mem.lime linux.pslist</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">python3 vol.py -f mem.lime linux.sockstat</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">python3 vol.py -f mem.lime linux.bash</span></div>\n        <p>Pour Linux, l’ISF ou symbole doit correspondre exactement au banner complet du noyau de l’image. Une absence de résultat ne prouve pas l’absence d’artefact.</p>\n        <h3>Chaîne de conservation</h3>\n        <p>Documentez ID de dossier, source/numéro de série/état, autorisation, collecteur, outil et version, paramètres, hash, copie maître et copie de travail, chaque transfert, destinataire et stockage. Un hash établit l’égalité avec la valeur enregistrée, pas à lui seul l’authenticité ou la provenance. Cette traçabilité renforce la défendabilité sans préjuger de la recevabilité juridique.</p>\n",
       "reviewStatus": "reviewed",
-      "reviewedAt": "2026-08-29",
+      "reviewedAt": "2026-08-31",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "limits": "Lab LinuxPath simulé. Toute modification de configuration doit être testée sur une VM autorisée, avec sauvegarde, responsable identifié et plan de retour ; ce cours n’est pas une procédure de production.",
       "prerequisites": [
         "m13"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "Volatility 3 — Linux tutorial",
+          "url": "https://volatility3.readthedocs.io/en/latest/getting-started-linux-tutorial.html",
+          "scope": "Plugins Linux et analyse d’images mémoire.",
+          "checkedAt": "2026-08-31"
+        },
+        {
+          "title": "Volatility 3 — symbol tables",
+          "url": "https://volatility3.readthedocs.io/en/stable/symbol-tables.html",
+          "scope": "Correspondance des symboles et du noyau Linux.",
+          "checkedAt": "2026-08-31"
+        }
       ]
     }
   ],
