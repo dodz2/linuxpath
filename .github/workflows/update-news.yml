@@ -45,10 +45,3 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           NEWS_BRANCH: ${{ steps.update.outputs.pull-request-branch }}
         run: gh workflow run ci.yml --ref "$NEWS_BRANCH"
-
-      - name: Merge after verification
-        if: ${{ steps.update.outputs.pull-request-number }}
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PR_NUMBER: ${{ steps.update.outputs.pull-request-number }}
-        run: gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --auto --squash --delete-branch

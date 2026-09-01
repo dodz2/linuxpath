@@ -58,3 +58,16 @@ jobs:
             ${{ runner.temp }}/linuxpath-test-results/
           if-no-files-found: warn
           retention-days: 14
+
+  merge-news:
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref_name == 'news/auto-update' }}
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Merge verified news
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr merge news/auto-update --repo "$GITHUB_REPOSITORY" --match-head-commit "$GITHUB_SHA" --squash --delete-branch
