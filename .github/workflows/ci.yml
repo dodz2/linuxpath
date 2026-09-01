@@ -64,6 +64,7 @@ jobs:
     needs: verify
     runs-on: ubuntu-latest
     permissions:
+      actions: write
       contents: write
       pull-requests: write
       statuses: write
@@ -77,3 +78,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh pr merge news/auto-update --repo "$GITHUB_REPOSITORY" --match-head-commit "$GITHUB_SHA" --squash --delete-branch
+
+      - name: Deploy updated news
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy-pages.yml --ref main --repo "$GITHUB_REPOSITORY"
