@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile, access, cp, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises';
+import { readFile, access, cp, mkdtemp, readdir, rm, symlink, writeFile } from 'node:fs/promises';
 import { constants } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
@@ -33,6 +33,14 @@ test('known-failures.json no longer lists resolved defects as expected failures'
   const data = JSON.parse(await readFile('tests/known-failures.json', 'utf8'));
   assert.ok(Array.isArray(data.source), 'known-failures must keep a source array');
   assert.equal(data.source.length, 0, `expected failures remain: ${data.source.join(', ')}`);
+});
+
+test('E2E fixtures never depend on a developer or runner absolute path', async () => {
+  const names = (await readdir('tests/e2e')).filter((name) => name.endsWith('.js'));
+  for (const name of names) {
+    const source = await readFile(path.join('tests/e2e', name), 'utf8');
+    assert.doesNotMatch(source, /\/(?:opt\/data|home\/runner)\//, `${name} contains a host-specific absolute path`);
+  }
 });
 
 test('generated minified bundles are never hidden from a fresh commit', async () => {

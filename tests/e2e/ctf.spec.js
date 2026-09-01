@@ -1,5 +1,8 @@
 import { test, expect } from '@playwright/test';
+import { fileURLToPath } from 'node:url';
 import { openApp } from './helpers.js';
+
+const ctfFixturePath = fileURLToPath(new URL('../../data/ctf.json', import.meta.url));
 
 async function openFirstChallenge(page) {
   await page.evaluate(() => {
@@ -61,7 +64,7 @@ test('a CTF catalogue 404 exposes an honest retryable alert and recovers on 200'
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      path: '/opt/data/linuxpath/data/ctf.json'
+      path: ctfFixturePath
     });
   });
 
