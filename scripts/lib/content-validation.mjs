@@ -18,20 +18,37 @@ function duplicateValues(values) {
   return [...duplicates].sort();
 }
 function isValidReviewDate(value) {
-  return typeof value === 'string'
-    && /^\d{4}-\d{2}-\d{2}$/.test(value)
-    && Number.isFinite(Date.parse(`${value}T00:00:00Z`));
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const parsed = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(parsed.valueOf()) && parsed.toISOString().slice(0, 10) === value;
+}
+function isHttpsUrl(value) {
+  if (typeof value !== 'string') return false;
+  try {
+    const url = new URL(value);
+    return url.protocol === 'https:' && Boolean(url.hostname);
+  } catch {
+    return false;
+  }
+}
+function validateLessonSource(source) {
+  if (!source || typeof source !== 'object' || Array.isArray(source)) return ['must be an object'];
+  const reasons = [];
+  if (typeof source.title !== 'string' || !source.title.trim()) reasons.push('title must be a non-empty string');
+  if (!isHttpsUrl(source.url)) reasons.push('url must be an HTTPS URL');
+  if (typeof source.scope !== 'string' || !source.scope.trim()) reasons.push('scope must be a non-empty string');
+  if (!isValidReviewDate(source.checkedAt)) reasons.push('checkedAt must be a valid YYYY-MM-DD date');
+  return reasons;
+}
+function hasResolvableLessonSources(lesson) {
+  return Array.isArray(lesson.sources)
+    && lesson.sources.length > 0
+    && lesson.sources.every((source) => validateLessonSource(source).length === 0);
 }
 function hasValidCyberSources(lesson) {
-  if (!Array.isArray(lesson.sources) || lesson.sources.length < 2) return false;
-  return lesson.sources.every((source) => {
-    if (!source || typeof source !== 'object' || !source.title || !source.scope || source.checkedAt !== lesson.reviewedAt || !isValidReviewDate(source.checkedAt)) return false;
-    try {
-      return new URL(source.url).protocol === 'https:';
-    } catch {
-      return false;
-    }
-  });
+  return hasResolvableLessonSources(lesson)
+    && lesson.sources.length >= 2
+    && lesson.sources.every((source) => source.checkedAt === lesson.reviewedAt);
 }
 export async function validateContent(root = process.cwd()) {
   const errors = []; const warnings = []; const data = {};
@@ -79,6 +96,15 @@ export async function validateContent(root = process.cwd()) {
   for (const moduleId of publishedIdsSorted) {
     for (const lesson of lessons[moduleId] || []) {
       if (!lesson.id.startsWith(`${moduleId}-l`) || !lesson.title || !lesson.content || lesson.reviewStatus !== 'reviewed' || !lesson.reviewedAt || !lesson.distro) errors.push(issue('invalid-lesson', `Malformed lesson ${lesson.id ?? '(missing id)'}`, `data/lessons.json#${moduleId}`));
+      if (!Array.isArray(lesson.sources) || lesson.sources.length === 0) {
+        errors.push(issue('invalid-lesson-source', `Lesson ${lesson.id}: sources must be a non-empty array`, `data/lessons.json#${lesson.id}`));
+      } else {
+        lesson.sources.forEach((source, index) => {
+          for (const reason of validateLessonSource(source)) {
+            errors.push(issue('invalid-lesson-source', `Lesson ${lesson.id} source ${index + 1}: ${reason}`, `data/lessons.json#${lesson.id}/sources/${index}`));
+          }
+        });
+      }
       if (CYBER_REFERENCE_MODULES.has(moduleId) && !hasValidCyberSources(lesson)) errors.push(issue('invalid-cyber-source', `Lesson ${lesson.id ?? '(missing id)'} must provide at least two checked HTTPS references`, `data/lessons.json#${moduleId}`));
     }
     for (const exercise of exercises[moduleId] || []) {
@@ -91,9 +117,25 @@ export async function validateContent(root = process.cwd()) {
     }
     const quiz = quizzes[moduleId];
     if (!quiz || !quiz.title || !Array.isArray(quiz.questions) || quiz.questions.length === 0) { errors.push(issue('invalid-quiz', `Malformed quiz ${moduleId}`, `data/quizzes.json#${moduleId}`)); continue; }
+    if (!Number.isInteger(quiz.passScore) || quiz.passScore < 1 || quiz.passScore > quiz.questions.length) {
+      errors.push(issue('invalid-quiz-pass-score', `Quiz ${moduleId} passScore must be an integer between 1 and ${quiz.questions.length}`, `data/quizzes.json#${moduleId}`));
+    }
     for (const question of quiz.questions) if (!Array.isArray(question.options) || question.options.length < 2 || !Number.isInteger(question.correct) || question.correct < 0 || question.correct >= question.options.length || !question.q || !question.expl) errors.push(issue('invalid-question', `Malformed question ${question.id ?? '(missing id)'}`, `data/quizzes.json#${moduleId}`));
   }
-  for (const challenge of challenges) if (!/^ctf-\d{2}$/.test(challenge.id) || !/^[0-9a-f]{64}$/.test(challenge.flagHash || '') || !Array.isArray(challenge.hints) || !challenge.vfs || typeof challenge.vfs !== 'object') errors.push(issue('invalid-ctf', `Malformed challenge ${challenge.id ?? '(missing id)'}`, 'data/ctf.json'));
+  for (const challenge of challenges) {
+    if (!/^ctf-\d{2}$/.test(challenge.id) || !/^[0-9a-f]{64}$/.test(challenge.flagHash || '') || !Array.isArray(challenge.hints) || !challenge.vfs || typeof challenge.vfs !== 'object') {
+      errors.push(issue('invalid-ctf', `Malformed challenge ${challenge.id ?? '(missing id)'}`, 'data/ctf.json'));
+      continue;
+    }
+    const dangling = findDanglingVfsReferences(challenge.vfs);
+    if (dangling.length > 0) {
+      errors.push(issue(
+        'dangling-ctf-vfs',
+        `${challenge.id} has dangling VFS references: ${dangling.map((entry) => entry.childPath).join(', ')}`,
+        `data/ctf.json#${challenge.id}`,
+      ));
+    }
+  }
   const variantCatalogue = data['exercise-variants.json'];
   const expectedGroups = ['m12-audit', 'm13-pentest', 'm14-dfir'];
   if (!variantCatalogue || JSON.stringify(Object.keys(variantCatalogue.groups || {})) !== JSON.stringify(expectedGroups)) {

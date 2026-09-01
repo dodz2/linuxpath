@@ -1,0 +1,19 @@
+{
+  "_format": "linuxpath-progress-v3",
+  "lessonsDone": [],
+  "exercisesDone": [],
+  "quiz": {
+    "m12": {
+      "attempts": 1,
+      "bestScore": 7,
+      "lastScore": 7,
+      "passed": false
+    }
+  },
+  "unlockedModules": [],
+  "ctfSolved": [],
+  "ctfHints": {},
+  "ctfHow": {},
+  "variantAssignments": {},
+  "variantResults": {}
+}

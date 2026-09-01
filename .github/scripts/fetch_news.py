@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """fetch_news.py — Parse des flux RSS cybersécurité et génère data/news.json"""
 
 import json
@@ -8,9 +7,9 @@ import sys
 from datetime import datetime, timezone
 from hashlib import md5
 from html import unescape
-from xml.etree import ElementTree
-from urllib.request import urlopen, Request
 from urllib.error import URLError
+from urllib.request import Request, urlopen
+from xml.etree import ElementTree
 
 NEWS_FILE = "data/news.json"
 MAX_ITEMS = 30
@@ -145,11 +144,11 @@ def _parse_date(date_str):
         from email.utils import parsedate_to_datetime
         dt = parsedate_to_datetime(date_str)
         return dt.strftime("%Y-%m-%d")
-    except Exception:
+    except (TypeError, ValueError, OverflowError):
         try:
             dt = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
             return dt.strftime("%Y-%m-%d")
-        except Exception:
+        except (TypeError, ValueError, OverflowError):
             return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 
@@ -253,17 +252,17 @@ def _generate_context(title, desc, tags):
             context_type = "filesystem"
 
     # Utilisateurs, droits, auth → m3, m9
-    if re.search(r"\bprivilege\b|\bescalation\b|\bsudo\b|\broot access\b|\bPAM\b|\baccess.?control\b", combined):
+    if re.search(r"\bprivilege\b|\bescalation\b|\bsudo\b|\broot access\b|\bpam\b|\baccess.?control\b", combined):
         related.update(["m3", "m14"])
         if context_type == "default":
             context_type = "permissions"
-    if re.search(r"\bSSH\b|\bcredential\b|\bpassword\b|\bbrute.?force\b|\bauthenticat\b", combined):
+    if re.search(r"\bssh\b|\bcredential\b|\bpassword\b|\bbrute.?force\b|\bauthenticat\b", combined):
         related.update(["m3", "m9"])
         if context_type == "default":
             context_type = "permissions"
 
     # Réseau fondamental → m4
-    if re.search(r"\bDNS\b|\bTCP\b|\bUDP\b|\broutage\b|\brouting\b|\bprotocol[e]?\b", combined):
+    if re.search(r"\bdns\b|\btcp\b|\budp\b|\broutage\b|\brouting\b|\bprotocol[e]?\b", combined):
         related.add("m4")
         if context_type == "default":
             context_type = "network"
@@ -285,7 +284,7 @@ def _generate_context(title, desc, tags):
             context_type = "admin"
 
     # Sécurité & OSINT → m7
-    if re.search(r"\bOSINT\b|\breconnaissance\b|\bfootprint\b|\bnmap\b|\bshodan\b|\bdiscovery\b|\bscan\b", combined):
+    if re.search(r"\bosint\b|\breconnaissance\b|\bfootprint\b|\bnmap\b|\bshodan\b|\bdiscovery\b|\bscan\b", combined):
         related.add("m7")
         if context_type == "default":
             context_type = "recon"
@@ -295,35 +294,35 @@ def _generate_context(title, desc, tags):
         related.add("m8")
 
     # SSH & accès distant → m9
-    if re.search(r"\bSSH\b|\btunnel\b|\bSCP\b|\bSFTP\b|\brsync\b|\bVPN\b|\bWireGuard\b", combined):
+    if re.search(r"\bssh\b|\btunnel\b|\bscp\b|\bsftp\b|\brsync\b|\bvpn\b|\bwireguard\b", combined):
         related.add("m9")
         if context_type == "default":
             context_type = "services"
 
     # Serveurs web & DNS → m10
-    if re.search(r"\bApache\b|\bNginx\b|\bHTTPS?\b|\bTLS\b|\bSSL\b|\bcertificat\b|\bweb.?server\b|\bserveur web\b", combined):
+    if re.search(r"\bapache\b|\bnginx\b|\bhttps?\b|\btls\b|\bssl\b|\bcertificat\b|\bweb.?server\b|\bserveur web\b", combined):
         related.add("m10")
         if context_type == "default":
             context_type = "services"
-    if re.search(r"\bwordpress\b|\bCMS\b|\bweb.?app\b|\bPHP\b", combined):
+    if re.search(r"\bwordpress\b|\bcms\b|\bweb.?app\b|\bphp\b", combined):
         related.update(["m10", "m11"])
         if context_type == "default":
             context_type = "web"
 
     # Sécurité réseau → m11
-    if re.search(r"\bfirewall\b|\bpare.?feu\b|\biptables\b|\bnftables\b|\bWAF\b|\bIDS\b|\bIPS\b", combined):
+    if re.search(r"\bfirewall\b|\bpare.?feu\b|\biptables\b|\bnftables\b|\bwaf\b|\bids\b|\bips\b", combined):
         related.add("m11")
         if context_type == "default":
             context_type = "firewall"
-    if re.search(r"\bchiffrement\b|\bencrypt\b|\bMITM\b|\bman.?in.?the.?middle\b|\binterception\b", combined):
+    if re.search(r"\bchiffrement\b|\bencrypt\b|\bmitm\b|\bman.?in.?the.?middle\b|\binterception\b", combined):
         related.add("m11")
         if context_type == "default":
             context_type = "net_security"
-    if re.search(r"\bDDoS\b|\bDoS\b|\bbotnet\b|\btcpdump\b", combined):
+    if re.search(r"\bddos\b|\bdos\b|\bbotnet\b|\btcpdump\b", combined):
         related.add("m11")
         if context_type == "default":
             context_type = "net_security"
-    if re.search(r"\bXSS\b|\bCSRF\b|\bSQL.?injection\b|\binjection\b", combined):
+    if re.search(r"\bxss\b|\bcsrf\b|\bsql.?injection\b|\binjection\b", combined):
         related.update(["m11", "m13"])
         if context_type == "default":
             context_type = "web"
@@ -335,7 +334,7 @@ def _generate_context(title, desc, tags):
             context_type = "admin"
 
     # Pentest & Outils → m13
-    if re.search(r"\bvulnerab\b|\bvulnérab\b|\bCVE\b|\bCVSS\b|\bfaille\b|\b0.?day\b|\bzero.?day\b", combined):
+    if re.search(r"\bvulnerab\b|\bvulnérab\b|\bcve\b|\bcvss\b|\bfaille\b|\b0.?day\b|\bzero.?day\b", combined):
         related.add("m13")
         if context_type == "default":
             context_type = "vulnerability"
@@ -345,23 +344,22 @@ def _generate_context(title, desc, tags):
             context_type = "exploit"
 
     # Forensic & Malwares → m14
-    if re.search(r"\bexploit\b|\bRCE\b|\bremote.?code\b|\barbitrary.?code\b|\bshellcode\b", combined):
+    if re.search(r"\bexploit\b|\brce\b|\bremote.?code\b|\barbitrary.?code\b|\bshellcode\b", combined):
         related.add("m14")
         if context_type == "default":
             context_type = "exploit"
-    if re.search(r"\bbackdoor\b|\btrojan\b|\bmalware\b|\bransomware\b|\bRAT\b|\bc[2&]c?\b|\bcommand.?and.?control\b", combined):
+    if re.search(r"\bbackdoor\b|\btrojan\b|\bmalware\b|\bransomware\b|\brat\b|\bc[2&]c?\b|\bcommand.?and.?control\b", combined):
         related.add("m14")
         if context_type == "default":
             context_type = "exploit"
-    if re.search(r"\bforensic\b|\binvestigation\b|\bincident.?response\b|\bIOC\b|\bindicator\b", combined):
+    if re.search(r"\bforensic\b|\binvestigation\b|\bincident.?response\b|\bioc\b|\bindicator\b", combined):
         related.add("m14")
         if context_type == "default":
             context_type = "exploit"
 
     # Windows (pas de module directement lié)
-    if re.search(r"\bwindows\b|\bmicrosoft\b|\bazure\b", combined):
-        if context_type == "default":
-            context_type = "windows"
+    if re.search(r"\bwindows\b|\bmicrosoft\b|\bazure\b", combined) and context_type == "default":
+        context_type = "windows"
 
     # Texte du contexte
     context = CONTEXT_MESSAGES.get(context_type, CONTEXT_MESSAGES["default"])
@@ -388,7 +386,7 @@ def _title_words(title):
     """Extrait les mots significatifs (>3 chars) d'un titre pour comparaison."""
     stop = {"that", "this", "with", "from", "have", "been", "were", "their", "about",
             "more", "into", "dans", "pour", "les", "des", "une", "the", "and", "for",
-            "2026", "2025", "29", "30", "31", "mai", "juin", "mai"}
+            "2026", "2025", "29", "30", "31", "mai", "juin"}
     words = set(re.findall(r'\w{4,}', title.lower()))
     return words - stop
 
@@ -512,7 +510,7 @@ def main():
     if changed > 0:
         print(f"\n✅ {changed} nouveaux articles ajoutés !")
     else:
-        print(f"\nℹ️ Aucun nouvel article.")
+        print("\nℹ️ Aucun nouvel article.")
 
     return 0
 

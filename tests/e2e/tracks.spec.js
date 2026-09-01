@@ -34,6 +34,17 @@ test('an experienced learner can enter the network track without finishing Linux
   await expect(page.locator('#section-m9')).toHaveClass(/active/);
 });
 
+test('m9 exposes the non-blocking m8 recommendation before keyboard entry', async ({ page }) => {
+  await openApp(page);
+  const card = page.locator('#modules-overview-grid .module-overview-card')
+    .filter({ has: page.locator('.mod-card-title', { hasText: 'SSH & accès distant' }) });
+  await expect(card.locator('.mod-card-desc')).toContainText(/M8.*recommandé.*sans être bloquant/i);
+  const entry = page.locator('#track-network-enter');
+  await entry.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#section-m9')).toHaveClass(/active/);
+});
+
 test('module 1 states observable objectives and a success criterion', async ({ page }) => {
   await openApp(page);
   await page.evaluate(() => navigateTo('m1'));

@@ -25,9 +25,14 @@
 }
 
 .terminal-titlebar {
+  width: 100%;
   height: 36px;
   background: var(--bg-secondary);
+  border: 0;
   border-bottom: 1px solid var(--border);
+  color: inherit;
+  font: inherit;
+  text-align: left;
   display: flex;
   align-items: center;
   padding: 0 14px;

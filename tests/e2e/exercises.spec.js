@@ -1,49 +1,32 @@
 import { test, expect } from '@playwright/test';
-import { openApp } from './helpers.js';
+import { readFile } from 'node:fs/promises';
+import { collectAdversarialExerciseMatrix, collectExerciseCommandMatrix, openApp } from './helpers.js';
 
-test('all 49 canonical exercise answers agree with terminal execution', async ({ page }, testInfo) => {
+const adversarialFixture = JSON.parse(await readFile('tests/fixtures/audit-v2-adversarial-commands.json', 'utf8'));
+
+test('all 164 accepted commands and 24 variant commands pass in the shipped browser runtime', async ({ page }, testInfo) => {
   await openApp(page);
-  const results = await page.evaluate(async () => {
-    const rows = [];
-    for (const moduleId of Object.keys(EXERCISES)) {
-      ensureModuleRendered(moduleId);
-      for (const baseExercise of EXERCISES[moduleId]) {
-        const variant = getActiveVariant(moduleId);
-        const exercise = variant ? getEffectiveExercise(baseExercise, moduleId) : baseExercise;
-        const terminal = document.querySelector('#terminal-output');
-        if (variant) activateVariantForModule(moduleId);
-        else { mainTerminal.setVfs(structuredClone(BASE_VFS)); mainTerminal.setCurrentDir('/home/user'); }
-        terminal.innerHTML = '';
-        if (exercise.mode === 'investigation') {
-          for (const field of exercise.reportFields) {
-            const nodes = [...document.querySelectorAll(`[data-investigation="${exercise.id}"] [data-report-field="${field.id}"]`)];
-            if (field.type === 'checkboxes') nodes.forEach((node) => { node.checked = exercise.answer[field.id].includes(node.value); });
-            else nodes[0].value = exercise.answer[field.id];
-          }
-        } else {
-          document.querySelector(`#ex-input-${exercise.id}`).value = exercise.accepted[0];
-        }
-        await checkExercise(exercise.id, moduleId);
-        rows.push({
-          id: exercise.id,
-          moduleId,
-          command: exercise.accepted?.[0] || '[structured report]',
-          solved: state.exercisesDone.has(exercise.id),
-          feedback: document.querySelector(`#feedback-${exercise.id}`)?.textContent.trim(),
-          terminal: terminal.textContent.replace(/\s+/g, ' ').trim(),
-          terminalErrors: [...terminal.querySelectorAll('.t-err')].map((element) => element.textContent.trim()),
-        });
-      }
-    }
-    return rows;
-  });
+  const results = await collectExerciseCommandMatrix(page);
 
   await testInfo.attach('exercise-matrix', { body: JSON.stringify(results, null, 2), contentType: 'application/json' });
-  expect(results).toHaveLength(49);
-  expect(results.filter((entry) => !entry.solved || !entry.feedback.startsWith('✓'))).toEqual([]);
+  expect(results.accepted).toHaveLength(164);
+  expect(results.variants).toHaveLength(24);
+  const failures = [...results.accepted, ...results.variants].filter((entry) => !entry.accepted);
+  expect(failures, `accepted answers rejected by browser runtime:\n${JSON.stringify(failures, null, 2)}`).toEqual([]);
+});
 
-  const contradictions = results.filter((entry) => entry.terminalErrors.length > 0);
-  expect(contradictions, `accepted answers contradicted by terminal:\n${JSON.stringify(contradictions, null, 2)}`).toEqual([]);
+test('all ten audit-v2 adversarial probes are rejected with deterministic reasons', async ({ page }, testInfo) => {
+  await openApp(page);
+  const results = await collectAdversarialExerciseMatrix(page, adversarialFixture.probes);
+  await testInfo.attach('adversarial-exercise-matrix', { body: JSON.stringify(results, null, 2), contentType: 'application/json' });
+  expect(results).toHaveLength(10);
+  for (const [index, result] of results.entries()) {
+    const expected = adversarialFixture.probes[index];
+    expect(result.id).toBe(expected.id);
+    expect(result.accepted, JSON.stringify(result, null, 2)).toBe(false);
+    expect(result.evaluationExitCode, JSON.stringify(result, null, 2)).not.toBe(0);
+    expect(result.reason).toBe(expected.rejectionReason);
+  }
 });
 
 test('GNU mkdir -v is accepted as an equivalent of m1-e1', async ({ page }) => {
@@ -178,4 +161,22 @@ test('the browser terminal returns the documented journal filters', async ({ pag
   expect(result.output).toContain('Failed password');
   expect(result.output).toContain('UBI# firmware blob');
   expect(result.output).toContain('UBI image header (LinuxPath simulated marker)');
+});
+
+test('journalctl pipeline renders only the final Failed line once', async ({ page }) => {
+  await openApp(page);
+  const result = await page.evaluate(() => {
+    document.querySelector('#terminal-output').innerHTML = '';
+    const execution = mainTerminal.exec('journalctl -u ssh.service | grep Failed');
+    return {
+      execution,
+      outputLines: [...document.querySelectorAll('#terminal-output .term-output')]
+        .map((line) => line.textContent.trim())
+        .filter(Boolean),
+    };
+  });
+  expect(result.execution.exitCode).toBe(0);
+  expect(result.execution.stdout).toHaveLength(1);
+  expect(result.execution.stdout[0]).toContain('Failed password');
+  expect(result.outputLines).toEqual(result.execution.stdout);
 });

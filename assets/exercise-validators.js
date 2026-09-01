@@ -106,7 +106,7 @@ function evaluateValidator(validator, ctx) {
     case 'all': {
       for (var i = 0; i < (validator.of || []).length; i++) {
         var child = evaluateValidator(validator.of[i], ctx);
-        if (!child.ok) return child;
+        if (!child.ok) return validator.reason ? { ok: false, reason: validator.reason } : child;
       }
       return { ok: true };
     }

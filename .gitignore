@@ -1,7 +1,6 @@
-# Fichiers minifiés — générés automatiquement par le workflow CI
-assets/*.min.js
-# Dépendance servie directement par index.html et vérifiée avant le build.
-!assets/exercise-variants.min.js
+# Bundles minifiés suivis — générés explicitement par npm run generate:assets.
+# Ne jamais les ignorer : tout nouveau bundle doit apparaître dans git status
+# afin qu’un checkout frais contienne exactement les artefacts servis.
 
 # Phase 0 — generated validation/build artifacts
 # GitHub Pages publishes dist/ via Actions, never the repository root.

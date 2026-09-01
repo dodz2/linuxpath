@@ -58,6 +58,19 @@ test('m8 is split into Git and Docker chapters without changing lesson ids', asy
   assert.deepEqual(covered, lessonIds);
 });
 
+test('m9 consistently recommends m8 without blocking direct network-track entry', async () => {
+  const catalogue = await loadJson('data/modules.json');
+  const lessons = await loadJson('data/lessons.json');
+  const module = catalogue.modules.find((entry) => entry.id === 'm9');
+  assert.deepEqual(module.prerequisites, []);
+  assert.deepEqual(module.recommendedPrerequisites, ['m8']);
+  assert.equal(lessons.m9.length, 5);
+  for (const lesson of lessons.m9) {
+    assert.deepEqual(lesson.prerequisites, [], lesson.id);
+    assert.deepEqual(lesson.recommendedPrerequisites, ['m8'], lesson.id);
+  }
+});
+
 test('mastery labels distinguish helped, autonomous and mastered', () => {
   assert.equal(masteryLabel({ passed: true, bestScore: 5, withHelp: false }), 'mastered');
   assert.equal(masteryLabel({ passed: true, bestScore: 4, withHelp: false }), 'autonomous');

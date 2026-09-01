@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "probes": [
+    {
+      "id": "audit-v2-e01-01",
+      "exerciseId": "m2-e2",
+      "command": "ls scripts/script.sh",
+      "expectedResult": {
+        "accepted": false,
+        "exitCode": "non-zero"
+      },
+      "rejectionReason": "L’exercice exige un affichage long des permissions ; l’option -l manque."
+    },
+    {
+      "id": "audit-v2-e01-02",
+      "exerciseId": "m3-e1",
+      "command": "ps",
+      "expectedResult": {
+        "accepted": false,
+        "exitCode": "non-zero"
+      },
+      "rejectionReason": "La commande ne demande pas la liste complète des processus exigée par l’exercice."
+    },
+    {
+      "id": "audit-v2-e01-03",
+      "exerciseId": "m6-e1",
+      "command": "systemctl ssh",
+      "expectedResult": {
+        "accepted": false,
+        "exitCode": "non-zero"
+      },
+      "rejectionReason": "La sous-commande status ou is-active manque ; ssh n’est pas une sous-commande systemctl."
+    },
+    {
+      "id": "audit-v2-e01-04",
+      "exerciseId": "m8-e2",
+      "command": "git add",
+      "expectedResult": {
+        "accepted": false,
+        "exitCode": "non-zero"
+      },
+      "rejectionReason": "Aucun chemin ni fichier n’est fourni à git add."
+    },
+    {
+      "id": "audit-v2-e01-05",
+      "exerciseId": "m8-e4",
+      "command": "docker run -it ubuntu sh",
+      "expectedResult": {
+        "accepted": false,
+        "exitCode": "non-zero"
+      },
+      "rejectionReason": "L’exercice exige un shell bash ou /bin/bash, pas sh."
+    },
+    {
+      "id": "audit-v2-e01-06",
+      "exerciseId": "m9-e1",
+      "command": "ssh-keygen",
+      "expectedResult": {
+        "accepted": false,
+        "exitCode": "non-zero"
+      },
+      "rejectionReason": "L’algorithme ed25519 exigé n’est pas sélectionné avec -t ed25519."
+    },
+    {
+      "id": "audit-v2-e01-07",
+      "exerciseId": "m9-e2",
+      "command": "rsync -avz autre/ user@serveur:/backup/",
+      "expectedResult": {
+        "accepted": false,
+        "exitCode": "non-zero"
+      },
+      "rejectionReason": "La source demandée par l’exercice est projet/, pas autre/."
+    },
+    {
+      "id": "audit-v2-e01-08",
+      "exerciseId": "m9-e3",
+      "command": "ssh -L 9999:evil:22 wronghost",
+      "expectedResult": {
+        "accepted": false,
+        "exitCode": "non-zero"
+      },
+      "rejectionReason": "Le port local, la cible de tunnel et l’hôte ne correspondent pas au tunnel demandé."
+    },
+    {
+      "id": "audit-v2-e01-09",
+      "exerciseId": "m10-e1",
+      "command": "dig linux.org MX +short",
+      "expectedResult": {
+        "accepted": false,
+        "exitCode": "non-zero"
+      },
+      "rejectionReason": "L’exercice demande l’enregistrement A ; la requête MX est sémantiquement différente."
+    },
+    {
+      "id": "audit-v2-e01-10",
+      "exerciseId": "m11-e3",
+      "command": "nft add junk",
+      "expectedResult": {
+        "accepted": false,
+        "exitCode": "non-zero"
+      },
+      "rejectionReason": "La sous-commande et la règle nftables sont incomplètes et invalides."
+    }
+  ]
+}

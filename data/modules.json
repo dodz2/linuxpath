@@ -173,9 +173,12 @@
       "displayOrder": 9,
       "track": "network",
       "title": "SSH & accès distant",
-      "description": "Clés SSH, tunnels, SCP/SFTP/rsync et VPN WireGuard.",
+      "description": "Clés SSH, tunnels, SCP/SFTP/rsync et VPN WireGuard. M8 est recommandé, sans être bloquant.",
       "icon": "🔑",
       "prerequisites": [],
+      "recommendedPrerequisites": [
+        "m8"
+      ],
       "estimatedMinutes": 80,
       "status": "published",
       "objectives": [
@@ -379,7 +382,7 @@
         "m7",
         "m8"
       ],
-      "estimatedHours": 14,
+      "estimatedHours": 9,
       "prerequisites": "Aucun — on part de zéro.",
       "objectives": [
         "Maîtriser le terminal au quotidien",
@@ -398,7 +401,7 @@
         "m10",
         "m11"
       ],
-      "estimatedHours": 8,
+      "estimatedHours": 4,
       "prerequisites": "Recommandé : Fondamentaux Linux. Diagnostic facultatif ci-dessous.",
       "objectives": [
         "Administrer l'accès distant",
@@ -439,7 +442,7 @@
         "hw3",
         "hw4"
       ],
-      "estimatedHours": 10,
+      "estimatedHours": 5,
       "prerequisites": "Entrée libre via HW1 (Anatomie d'un PC). Les modules HW2, HW3 et HW4 se débloquent en validant le quiz du module précédent.",
       "objectives": [
         "Comprendre et choisir les composants d'un PC",

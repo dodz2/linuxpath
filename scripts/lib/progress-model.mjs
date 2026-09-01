@@ -68,7 +68,7 @@ export function masteryLabel({ passed, bestScore, withHelp, questionCount = 5 })
   return 'autonomous';
 }
 
-export function migrateProgress(data, passScore = PASS_SCORE) {
+export function migrateProgress(data, quizPolicies = PASS_SCORE) {
   if (!data || typeof data !== 'object') return null;
   const format = data._format;
   if (format !== PROGRESS_FORMAT_V1 && format !== PROGRESS_FORMAT_V2 && format !== PROGRESS_FORMAT_V3) return null;
@@ -76,6 +76,9 @@ export function migrateProgress(data, passScore = PASS_SCORE) {
   const quiz = {};
   if (sourceQuiz && typeof sourceQuiz === 'object') {
     for (const [moduleId, value] of Object.entries(sourceQuiz)) {
+      const passScore = typeof quizPolicies === 'number'
+        ? quizPolicies
+        : (quizPolicies[moduleId]?.passScore ?? PASS_SCORE);
       const record = normalizeQuizRecord(value, passScore);
       if (record) quiz[moduleId] = record;
     }
@@ -134,11 +137,11 @@ function hasDangerousKey(value) {
   return false;
 }
 
-function invalidScore(value) {
-  if (typeof value === 'number') return !Number.isInteger(value) || value < 0 || value > 5;
+function invalidScore(value, maxScore) {
+  if (typeof value === 'number') return !Number.isInteger(value) || value < 0 || value > maxScore;
   if (!value || typeof value !== 'object') return true;
   for (const field of ['lastScore', 'bestScore']) {
-    if (value[field] !== undefined && (!Number.isInteger(value[field]) || value[field] < 0 || value[field] > 5)) return true;
+    if (value[field] !== undefined && (!Number.isInteger(value[field]) || value[field] < 0 || value[field] > maxScore)) return true;
   }
   return false;
 }
@@ -159,11 +162,12 @@ export function validateProgressImport(raw, catalog, maxBytes = PROGRESS_IMPORT_
   if (sourceQuiz && typeof sourceQuiz === 'object') {
     if (hasDangerousKey(sourceQuiz)) return { ok: false, reason: 'prototype' };
     for (const [moduleId, value] of Object.entries(sourceQuiz)) {
-      if (!catalog.moduleIds.includes(moduleId)) return { ok: false, reason: 'unknown-id' };
-      if (invalidScore(value)) return { ok: false, reason: 'score' };
+      const policy = catalog.quizPolicies && catalog.quizPolicies[moduleId];
+      if (!policy) return { ok: false, reason: 'unknown-id' };
+      if (invalidScore(value, policy.maxScore)) return { ok: false, reason: 'score' };
     }
   }
-  const migrated = migrateProgress(parsed);
+  const migrated = migrateProgress(parsed, catalog.quizPolicies);
   if (!migrated) return { ok: false, reason: 'format' };
   const unknown = [
     ...migrated.lessonsDone.filter((id) => !catalog.lessonIds.includes(id)),

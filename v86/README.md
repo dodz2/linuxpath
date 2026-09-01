@@ -26,6 +26,20 @@ a4bc0d80cc3ca028c73dafa8fee396b8d054ce87ebd8abfbd31b06b437607880  vgabios.bin
 ff21a908573cdf2cf0cd00fe30eab8646b2f64874afbb34ff6de5a915eaebcdf  linux.iso
 ```
 
+## Cache hors-ligne indépendant
+
+Le Service Worker range les ressources `v86/*` dans un cache indépendant du
+cache applicatif. Son nom inclut le SHA-256 du manifeste
+`v86/checksums.sha256`. Une mise à jour de l’interface conserve donc les gros
+fichiers v86 inchangés : ils ne sont pas re-téléchargés. Lorsqu’un binaire est
+remplacé, mettez à jour le manifeste et la révision correspondante dans
+`sw.js` ; l’ancien cache v86 sera alors supprimé à l’activation suivante.
+
+La première activation de cette séparation migre d’abord les entrées `v86/*`
+depuis le cache historique `linuxpath-v64`. Si la copie échoue (quota ou
+interruption), ce cache historique est conservé et reste consulté hors-ligne
+jusqu’à une migration réussie.
+
 ## Reconstruction / remplacement
 
 1. **libv86.js + v86.wasm** : télécharger la release officielle depuis

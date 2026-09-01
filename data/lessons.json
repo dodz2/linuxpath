@@ -7,7 +7,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "The Linux Kernel documentation",
+          "url": "https://docs.kernel.org/",
+          "scope": "Rôle du noyau Linux, sous-systèmes et distinction entre noyau et distribution complète.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m1-l2",
@@ -16,7 +24,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "Bash Reference Manual",
+          "url": "https://www.gnu.org/software/bash/manual/bash.html",
+          "scope": "Invite de commande, syntaxe du shell, options, historique et édition de ligne dans Bash.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m1-l3",
@@ -25,7 +41,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "GNU Coreutils Manual",
+          "url": "https://www.gnu.org/software/coreutils/manual/coreutils.html",
+          "scope": "Commandes fondamentales de navigation et de manipulation de fichiers : pwd, ls, mkdir, rm, cp, mv et cat.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m1-l4",
@@ -34,7 +58,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "hier(7) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man7/hier.7.html",
+          "scope": "Organisation de l’arborescence Linux et rôle des principaux répertoires sous la racine.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     }
   ],
   "m2": [
@@ -45,16 +77,32 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "ls(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/ls.1.html",
+          "scope": "Format long de ls et lecture des types, propriétaires, groupes et bits de permission.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m2-l2",
       "title": "chmod : modifier les permissions",
-      "content": "\n        <h3>Notation symbolique</h3>\n        <div class=\"code-block\"><span class=\"comment\"># Syntaxe : chmod [qui][+/-/=][permission] fichier\n# qui : u=user, g=group, o=others, a=all</span>\n\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod +x script.sh</span>          <span class=\"comment\"># ajoute l'exécution à tous</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod u+x script.sh</span>         <span class=\"comment\"># exécution au propriétaire seul</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod g-w fichier.txt</span>       <span class=\"comment\"># retire écriture au groupe</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod o=r fichier.txt</span>       <span class=\"comment\"># autres : lecture seulement</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod a-x script.sh</span>         <span class=\"comment\"># retire exécution à tous</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod u+x,g+r fichier</span>       <span class=\"comment\"># combinaison</span></div>\n\n        <h3>Notation numérique (octale)</h3>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">chmod 755 script.sh</span>     <span class=\"comment\"># rwxr-xr-x</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod 644 document.txt</span>  <span class=\"comment\"># rw-r--r--</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod 600 ~/.ssh/id_rsa</span> <span class=\"comment\"># rw------- (clé privée SSH)</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod 700 mon_dossier/</span>  <span class=\"comment\"># rwx------ (dossier privé)</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod -R 755 projet/</span>    <span class=\"comment\"># -R = récursif</span></div>\n\n        <div class=\"info-box warning\"><strong>umask et <code>who</code> omis :</strong> <code>chmod +x</code> n'est <em>pas</em> équivalent à <code>chmod a+x</code>. Si <code>ugoa</code> est omis, GNU chmod agit comme <code>a</code> mais <strong>n'ajoute pas</strong> les bits encore masqués par l'<code>umask</code>. <code>chmod a+x</code> force l'exécution pour tout le monde, umask ignoré. Vérifiez avec <code>umask</code> puis <code>ls -l</code>.</div>\n      ",
+      "content": "\n        <h3>Notation symbolique</h3>\n        <div class=\"code-block\"><span class=\"comment\"># Syntaxe : chmod [qui][+/-/=][permission] fichier\n# qui : u=user, g=group, o=others, a=all</span>\n\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod a+x script.sh</span>         <span class=\"comment\"># ajoute l'exécution à tous</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod u+x script.sh</span>         <span class=\"comment\"># exécution au propriétaire seul</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod g-w fichier.txt</span>       <span class=\"comment\"># retire écriture au groupe</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod o=r fichier.txt</span>       <span class=\"comment\"># autres : lecture seulement</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod a-x script.sh</span>         <span class=\"comment\"># retire exécution à tous</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod u+x,g+r fichier</span>       <span class=\"comment\"># combinaison</span></div>\n\n        <h3>Notation numérique (octale)</h3>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">chmod 755 script.sh</span>     <span class=\"comment\"># rwxr-xr-x</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod 644 document.txt</span>  <span class=\"comment\"># rw-r--r--</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod 600 ~/.ssh/id_rsa</span> <span class=\"comment\"># rw------- (clé privée SSH)</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod 700 mon_dossier/</span>  <span class=\"comment\"># rwx------ (dossier privé)</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">chmod -R 755 projet/</span>    <span class=\"comment\"># -R = récursif</span></div>\n\n        <div class=\"info-box warning\"><strong>umask et <code>who</code> omis :</strong> <code>chmod +x</code> n'est <em>pas</em> équivalent à <code>chmod a+x</code>. Si <code>ugoa</code> est omis, GNU chmod agit comme <code>a</code> mais <strong>n'ajoute pas</strong> les bits encore masqués par l'<code>umask</code>. <code>chmod a+x</code> force l'exécution pour tout le monde, umask ignoré. Vérifiez avec <code>umask</code> puis <code>ls -l</code>.</div>\n      ",
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "chmod(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/chmod.1.html",
+          "scope": "Modes symboliques et octaux, récursivité et effets exacts de chmod.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m2-l3",
@@ -63,7 +111,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "chown(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/chown.1.html",
+          "scope": "Changement de propriétaire et de groupe, syntaxe utilisateur:groupe et récursivité.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m2-l4",
@@ -72,7 +128,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "Bash Reference Manual",
+          "url": "https://www.gnu.org/software/bash/manual/bash.html",
+          "scope": "Pipelines et redirections des entrées, sorties et erreurs effectuées par le shell.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m2-l5",
@@ -81,7 +145,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "find(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/find.1.html",
+          "scope": "Critères, expressions et actions de find ; complément aux motifs glob développés par le shell.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     }
   ],
   "m3": [
@@ -92,7 +164,21 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "Sudo Manual",
+          "url": "https://www.sudo.ws/docs/man/sudo.man/",
+          "scope": "Exécution d’une commande sous une autre identité, options sudo et règles de sécurité associées.",
+          "checkedAt": "2026-09-01"
+        },
+        {
+          "title": "su(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/su.1.html",
+          "scope": "Changement d’identité et différences d’environnement entre su et su -.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m3-l2",
@@ -101,7 +187,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "useradd(8) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man8/useradd.8.html",
+          "scope": "Création de comptes, répertoire personnel, shell et paramètres de compte ; point d’entrée vers les outils shadow associés.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m3-l3",
@@ -110,7 +204,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "ps(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/ps.1.html",
+          "scope": "Sélection et affichage des processus, notamment le format BSD utilisé par ps aux.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m3-l4",
@@ -119,7 +221,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "Bash Reference Manual",
+          "url": "https://www.gnu.org/software/bash/manual/bash.html",
+          "scope": "Contrôle des jobs Bash, premier plan, arrière-plan et effets d’une déconnexion du shell.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     }
   ],
   "m4": [
@@ -130,7 +240,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "ip(8) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man8/ip.8.html",
+          "scope": "Inspection et administration des adresses, liens et routes avec la commande ip.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m4-l2",
@@ -139,7 +257,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "ping(8) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man8/ping.8.html",
+          "scope": "Options, métriques et limites du test de connectivité ICMP avec ping.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m4-l3",
@@ -148,7 +274,21 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "curl command-line manual",
+          "url": "https://curl.se/docs/manpage.html",
+          "scope": "Transferts HTTP et options de curl : sortie, redirections, en-têtes et méthodes.",
+          "checkedAt": "2026-09-01"
+        },
+        {
+          "title": "GNU Wget Manual",
+          "url": "https://www.gnu.org/software/wget/manual/wget.html",
+          "scope": "Téléchargements, reprise, récursivité et comportement de wget.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m4-l4",
@@ -157,7 +297,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "ss(8) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man8/ss.8.html",
+          "scope": "Affichage et filtrage des sockets, états TCP/UDP, ports en écoute et processus associés.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m4-l5",
@@ -166,7 +314,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "dig — BIND 9 manual page",
+          "url": "https://bind9.readthedocs.io/en/stable/manpages.html#dig-dns-lookup-utility",
+          "scope": "Syntaxe de dig, types d’enregistrements, résolution inverse, sélection du serveur et sortie courte.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     }
   ],
   "m5": [
@@ -177,7 +333,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "Bash Reference Manual",
+          "url": "https://www.gnu.org/software/bash/manual/bash.html",
+          "scope": "Paramètres du shell, expansion des variables, paramètres spéciaux et substitution de commande.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m5-l2",
@@ -186,7 +350,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "Bash Reference Manual",
+          "url": "https://www.gnu.org/software/bash/manual/bash.html",
+          "scope": "Commandes conditionnelles, tests numériques et tests sur les fichiers dans Bash.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m5-l3",
@@ -195,7 +367,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "Bash Reference Manual",
+          "url": "https://www.gnu.org/software/bash/manual/bash.html",
+          "scope": "Boucles for, while et until, ainsi que break et continue.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m5-l4",
@@ -204,7 +384,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "Bash Reference Manual",
+          "url": "https://www.gnu.org/software/bash/manual/bash.html",
+          "scope": "Déclaration de fonctions, paramètres positionnels, variables locales et codes de retour.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m5-l5",
@@ -213,7 +401,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "Bash Reference Manual",
+          "url": "https://www.gnu.org/software/bash/manual/bash.html",
+          "scope": "Scripts Bash, shebang, exécution, options set et organisation d’un point d’entrée.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     }
   ],
   "m6": [
@@ -224,7 +420,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "Install and manage packages — Ubuntu Server documentation",
+          "url": "https://ubuntu.com/server/docs/how-to/software/package-management/",
+          "scope": "Mise à jour, recherche, installation et suppression de paquets APT/dpkg sur Ubuntu.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m6-l2",
@@ -233,7 +437,21 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "systemctl",
+          "url": "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html",
+          "scope": "Démarrage, arrêt, rechargement, activation et inspection des unités systemd.",
+          "checkedAt": "2026-09-01"
+        },
+        {
+          "title": "journalctl",
+          "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html",
+          "scope": "Consultation et filtrage du journal systemd, notamment par unité et par période.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m6-l3",
@@ -242,7 +460,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "crontab(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/crontab.1.html",
+          "scope": "Création, édition, affichage et suppression des tables cron d’un utilisateur.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m6-l4",
@@ -251,7 +477,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "journalctl",
+          "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html",
+          "scope": "Lecture, suivi et filtrage des journaux systemd sans confondre journal et fichiers de logs traditionnels.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m6-l5",
@@ -260,7 +494,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "ssh(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/ssh.1.html",
+          "scope": "Connexion SSH, sélection du port et de l’identité, transfert et options de configuration client.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     }
   ],
   "m7": [
@@ -271,7 +513,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "Nmap Reference Guide",
+          "url": "https://nmap.org/book/man.html",
+          "scope": "Types de scans, sélection des ports, détection de services, sorties et usage encadré de NSE.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m7-l2",
@@ -280,7 +530,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "nc(1) — OpenBSD manual page",
+          "url": "https://man.openbsd.org/nc.1",
+          "scope": "Connexions et écoutes TCP/UDP, tests de ports et particularités des options de la variante OpenBSD de nc.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m7-l3",
@@ -289,7 +547,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "grep(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/grep.1.html",
+          "scope": "Recherche récursive, expressions régulières, contexte, comptage et extraction avec grep.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m7-l4",
@@ -298,7 +564,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "chmod(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/chmod.1.html",
+          "scope": "Bits SUID, SGID et sticky en notation symbolique et octale, avec leurs effets sur fichiers et répertoires.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m7-l5",
@@ -307,7 +581,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "dig — BIND 9 manual page",
+          "url": "https://bind9.readthedocs.io/en/stable/manpages.html#dig-dns-lookup-utility",
+          "scope": "Requêtes DNS passives avec dig, types d’enregistrements, résolution inverse et transfert de zone explicitement autorisé.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     }
   ],
   "m8": [
@@ -318,7 +600,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "git(1) Documentation",
+          "url": "https://git-scm.com/docs/git",
+          "scope": "Rôle de Git, création ou clonage d’un dépôt et configuration initiale.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m8-l2",
@@ -327,7 +617,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "gittutorial(7) Documentation",
+          "url": "https://git-scm.com/docs/gittutorial",
+          "scope": "Cycle de travail Git : état, index, commit, historique et fichiers ignorés.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m8-l3",
@@ -336,7 +634,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "git-branch(1) Documentation",
+          "url": "https://git-scm.com/docs/git-branch",
+          "scope": "Création, listage, renommage et suppression des branches ; liens avec HEAD et la fusion.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m8-l4",
@@ -345,7 +651,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "git-remote(1) Documentation",
+          "url": "https://git-scm.com/docs/git-remote",
+          "scope": "Ajout, inspection et suppression de dépôts distants avant fetch, pull et push.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m8-l5",
@@ -354,7 +668,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "git-stash(1) Documentation",
+          "url": "https://git-scm.com/docs/git-stash",
+          "scope": "Création, listage, application et suppression de remises temporaires ; ancrage des commandes Git avancées.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m8-l6",
@@ -363,7 +685,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "What is Docker? — Docker Docs",
+          "url": "https://docs.docker.com/get-started/docker-overview/",
+          "scope": "Architecture client/daemon/registre, images, conteneurs et différence de principe avec une VM.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m8-l7",
@@ -372,7 +702,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "docker container run — Docker Docs",
+          "url": "https://docs.docker.com/reference/cli/docker/container/run/",
+          "scope": "Création et exécution de conteneurs, modes interactif/détaché, publication de ports et suppression avec --rm.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m8-l8",
@@ -381,7 +719,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "Dockerfile reference",
+          "url": "https://docs.docker.com/reference/dockerfile/",
+          "scope": "Syntaxe et effets de FROM, RUN, COPY, WORKDIR, EXPOSE, ENV, CMD et ENTRYPOINT.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m8-l9",
@@ -390,7 +736,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "Volumes — Docker Docs",
+          "url": "https://docs.docker.com/engine/storage/volumes/",
+          "scope": "Création, montage, inspection et cycle de vie des volumes persistants ; distinction avec les bind mounts.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "m8-l10",
@@ -399,7 +753,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
-      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production."
+      "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
+      "sources": [
+        {
+          "title": "Docker Compose — Docker Docs",
+          "url": "https://docs.docker.com/compose/",
+          "scope": "Modèle multi-conteneurs, fichier Compose, services, réseaux, volumes et commandes docker compose.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     }
   ],
   "m9": [
@@ -411,12 +773,23 @@
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
       "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
-      "prerequisites": [
+      "prerequisites": [],
+      "recommendedPrerequisites": [
         "m8"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "ssh(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/ssh.1.html",
+          "scope": "Authentification par clé et tunnels locaux, distants ou dynamiques via les options du client SSH.",
+          "checkedAt": "2026-09-01"
+        },
+        {
+          "title": "ssh_config(5) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man5/ssh_config.5.html",
+          "scope": "Fichier de configuration client, Host, IdentityFile, Port et ProxyJump.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     },
     {
@@ -427,12 +800,17 @@
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
       "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
-      "prerequisites": [
+      "prerequisites": [],
+      "recommendedPrerequisites": [
         "m8"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "Quick Start — WireGuard",
+          "url": "https://www.wireguard.com/quickstart/",
+          "scope": "Création d’interfaces, génération de clés, configuration des pairs et commandes wg/wg-quick.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     },
     {
@@ -443,12 +821,23 @@
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
       "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
-      "prerequisites": [
+      "prerequisites": [],
+      "recommendedPrerequisites": [
         "m8"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "scp(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/scp.1.html",
+          "scope": "Copies SSH ponctuelles, chemins locaux/distants, récursivité et sélection du port.",
+          "checkedAt": "2026-09-01"
+        },
+        {
+          "title": "rsync(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/rsync.1.html",
+          "scope": "Synchronisation incrémentale, mode archive, suppression, progression et transport SSH.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     },
     {
@@ -459,12 +848,17 @@
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
       "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
-      "prerequisites": [
+      "prerequisites": [],
+      "recommendedPrerequisites": [
         "m8"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "sshd_config(5) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man5/sshd_config.5.html",
+          "scope": "Directives du serveur SSH : authentification, accès root, utilisateurs autorisés, ports et validation avant rechargement.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     },
     {
@@ -475,12 +869,17 @@
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
       "limits": "Illustrations pédagogiques du terminal LinuxPath, pas un serveur de production.",
-      "prerequisites": [
+      "prerequisites": [],
+      "recommendedPrerequisites": [
         "m8"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "ssh_config(5) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man5/ssh_config.5.html",
+          "scope": "Agent, multiplexage ControlMaster/ControlPath/ControlPersist et saut via ProxyJump.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     }
   ],
@@ -497,8 +896,12 @@
         "m9"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "NGINX Beginner’s Guide",
+          "url": "https://nginx.org/en/docs/beginners_guide.html",
+          "scope": "Structure de configuration, serveur de fichiers statiques, proxy simple, test et rechargement de Nginx.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     },
     {
@@ -513,8 +916,12 @@
         "m9"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "dig — BIND 9 manual page",
+          "url": "https://bind9.readthedocs.io/en/stable/manpages.html#dig-dns-lookup-utility",
+          "scope": "Chaîne de résolution DNS, types d’enregistrements et diagnostic avec dig.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     },
     {
@@ -529,8 +936,12 @@
         "m9"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "Certbot User Guide",
+          "url": "https://eff-certbot.readthedocs.io/en/stable/using.html",
+          "scope": "Obtention, installation, inventaire, renouvellement et test à blanc des certificats avec Certbot.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     },
     {
@@ -545,8 +956,12 @@
         "m9"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "NGINX ngx_http_proxy_module",
+          "url": "https://nginx.org/en/docs/http/ngx_http_proxy_module.html",
+          "scope": "Directives proxy_pass et proxy_set_header pour les server blocks et reverse proxies.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     },
     {
@@ -561,8 +976,12 @@
         "m9"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "NGINX ngx_http_log_module",
+          "url": "https://nginx.org/en/docs/http/ngx_http_log_module.html",
+          "scope": "Configuration des journaux d’accès, formats de log et variables disponibles pour l’analyse de trafic.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     }
   ],
@@ -579,8 +998,12 @@
         "m10"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "The netfilter.org nftables project",
+          "url": "https://www.netfilter.org/projects/nftables/index.html",
+          "scope": "Source officielle du projet nftables, documentation et outils pour tables, chaînes et règles du pare-feu Linux.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     },
     {
@@ -595,8 +1018,12 @@
         "m10"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "tcpdump(8) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man8/tcpdump.8.html",
+          "scope": "Sélection d’interface, filtres de capture, limites de paquets et lecture/écriture de fichiers pcap.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     },
     {
@@ -611,8 +1038,12 @@
         "m10"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "Suricata User Guide",
+          "url": "https://docs.suricata.io/",
+          "scope": "Configuration HOME_NET et interfaces, modes IDS/IPS, règles, mises à jour et interprétation des alertes.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     },
     {
@@ -627,14 +1058,18 @@
         "m10"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "tshark(1)",
+          "url": "https://www.wireshark.org/docs/man-pages/tshark.html",
+          "scope": "Capture, filtres BPF et d’affichage, lecture de pcap, extraction de champs et statistiques tshark.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     },
     {
       "id": "m11-l5",
       "title": "Audit TLS/SSL — bonnes pratiques",
-      "content": "\n        <p>Un certificat TLS mal configuré peut exposer vos communications. L'audit régulier de la configuration SSL/TLS est une pratique essentielle.</p>\n\n        <h3>Vérifier un certificat avec openssl</h3>\n        <div class=\"code-block\"><span class=\"comment\"># Afficher le certificat d'un serveur</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">openssl s_client -connect example.com:443 -servername example.com </dev/null 2>/dev/null | openssl x509 -noout -text</span>\n\n<span class=\"comment\"># Vérifier la date d'expiration</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">echo | openssl s_client -connect example.com:443 2>/dev/null | openssl x509 -noout -dates</span>\n\n<span class=\"comment\"># Vérifier la chaîne de certificats</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">openssl s_client -connect example.com:443 -showcerts </dev/null</span></div>\n\n        <h3>Audit avec testssl.sh</h3>\n        <p><code>testssl.sh</code> est un script open-source qui teste exhaustivement la configuration TLS d'un serveur :</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">git clone https://github.com/drwetter/testssl.sh.git</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">cd testssl.sh</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">./testssl.sh example.com</span></div>\n        <p>Il vérifie : les protocoles supportés (TLS 1.2, 1.3), les suites de chiffrement, les vulnérabilités connues (BEAST, POODLE, Heartbleed), et la configuration des certificats.</p>\n\n        <h3>Bonnes pratiques TLS</h3>\n        <p>Quatre règles essentielles pour une configuration TLS solide :</p>\n        <div class=\"code-block\"><span class=\"comment\"># Configuration Nginx recommandée</span>\nssl_protocols TLSv1.2 TLSv1.3;                <span class=\"comment\"># désactiver TLS 1.0 et 1.1</span>\nssl_ciphers HIGH:!aNULL:!MD5:!RC4;             <span class=\"comment\"># chiffrements forts uniquement</span>\nssl_prefer_server_ciphers on;                   <span class=\"comment\"># le serveur choisit le chiffrement</span>\nadd_header Strict-Transport-Security \"max-age=63072000\" always;  <span class=\"comment\"># HSTS</span></div>\n\n        <h3>Résumé</h3>\n        <p>Auditer régulièrement votre configuration TLS avec openssl et testssl.sh garantit que vos communications restent chiffrées avec des protocoles et suites de chiffrement modernes.</p>",
+      "content": "\n        <p>Un certificat TLS mal configuré peut exposer vos communications. L'audit régulier de la configuration SSL/TLS est une pratique essentielle.</p>\n\n        <h3>Vérifier un certificat avec openssl</h3>\n        <div class=\"code-block\"><span class=\"comment\"># Afficher le certificat d'un serveur</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">openssl s_client -connect example.com:443 -servername example.com &lt;/dev/null 2>/dev/null | openssl x509 -noout -text</span>\n\n<span class=\"comment\"># Vérifier la date d'expiration</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">echo | openssl s_client -connect example.com:443 2>/dev/null | openssl x509 -noout -dates</span>\n\n<span class=\"comment\"># Vérifier la chaîne de certificats</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">openssl s_client -connect example.com:443 -showcerts &lt;/dev/null</span></div>\n\n        <h3>Audit avec testssl.sh</h3>\n        <p><code>testssl.sh</code> est un script open-source qui teste exhaustivement la configuration TLS d'un serveur :</p>\n        <div class=\"code-block\"><span class=\"prompt\">$ </span><span class=\"cmd\">git clone https://github.com/drwetter/testssl.sh.git</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">cd testssl.sh</span>\n<span class=\"prompt\">$ </span><span class=\"cmd\">./testssl.sh example.com</span></div>\n        <p>Il vérifie : les protocoles supportés (TLS 1.2, 1.3), les suites de chiffrement, les vulnérabilités connues (BEAST, POODLE, Heartbleed), et la configuration des certificats.</p>\n\n        <h3>Bonnes pratiques TLS</h3>\n        <p>Quatre règles essentielles pour une configuration TLS solide :</p>\n        <div class=\"code-block\"><span class=\"comment\"># Configuration Nginx recommandée</span>\nssl_protocols TLSv1.2 TLSv1.3;                <span class=\"comment\"># désactiver TLS 1.0 et 1.1</span>\nssl_ciphers HIGH:!aNULL:!MD5:!RC4;             <span class=\"comment\"># chiffrements forts uniquement</span>\nssl_prefer_server_ciphers on;                   <span class=\"comment\"># le serveur choisit le chiffrement</span>\nadd_header Strict-Transport-Security \"max-age=63072000\" always;  <span class=\"comment\"># HSTS</span></div>\n\n        <h3>Résumé</h3>\n        <p>Auditer régulièrement votre configuration TLS avec openssl et testssl.sh garantit que vos communications restent chiffrées avec des protocoles et suites de chiffrement modernes.</p>",
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-29",
       "distro": "Ubuntu 22.04 LTS",
@@ -643,8 +1078,12 @@
         "m10"
       ],
       "sources": [
-        "man-pages",
-        "Ubuntu 22.04 documentation"
+        {
+          "title": "openssl-s_client — OpenSSL Documentation",
+          "url": "https://docs.openssl.org/master/man1/openssl-s_client/",
+          "scope": "Connexion TLS de diagnostic, SNI, affichage de chaîne et vérification de certificats avec s_client.",
+          "checkedAt": "2026-09-01"
+        }
       ]
     }
   ],
@@ -1066,7 +1505,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "How to Build a Gaming PC — Intel",
+          "url": "https://www.intel.com/content/www/us/en/gaming/resources/how-to-build-a-gaming-pc.html",
+          "scope": "Identification des principaux composants d’un PC, de leurs connexions et de leur ordre d’assemblage.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw1-l2",
@@ -1075,7 +1522,21 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "lscpu(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/lscpu.1.html",
+          "scope": "Architecture, cœurs, threads, caches et autres informations CPU exposées par Linux.",
+          "checkedAt": "2026-09-01"
+        },
+        {
+          "title": "free(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/free.1.html",
+          "scope": "Lecture de la mémoire disponible, utilisée et du swap sans confondre mémoire libre et disponible.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw1-l3",
@@ -1084,7 +1545,21 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "lsblk(8) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man8/lsblk.8.html",
+          "scope": "Disques, partitions, relations bloc et points de montage vus par Linux.",
+          "checkedAt": "2026-09-01"
+        },
+        {
+          "title": "mount(8) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man8/mount.8.html",
+          "scope": "Montage des systèmes de fichiers, options, sources et cibles de montage.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw1-l4",
@@ -1093,7 +1568,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "How to Build a Gaming PC — Intel",
+          "url": "https://www.intel.com/content/www/us/en/gaming/resources/how-to-build-a-gaming-pc.html",
+          "scope": "Choix et installation de l’alimentation, du refroidissement et du boîtier, avec précautions de manipulation.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw1-l5",
@@ -1102,7 +1585,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : composants décrits, manipulations réelles recommandées uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "The Linux Kernel documentation",
+          "url": "https://docs.kernel.org/",
+          "scope": "Pilotes intégrés au noyau et documentation des sous-systèmes matériels à consulter pour évaluer la compatibilité Linux.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     }
   ],
   "hw2": [
@@ -1113,7 +1604,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "How to Build a Gaming PC — Intel",
+          "url": "https://www.intel.com/content/www/us/en/gaming/resources/how-to-build-a-gaming-pc.html",
+          "scope": "Préparation de l’espace de montage, manipulation des composants et précautions contre les décharges électrostatiques.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw2-l2",
@@ -1122,7 +1621,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "How to Build a Gaming PC — Intel",
+          "url": "https://www.intel.com/content/www/us/en/gaming/resources/how-to-build-a-gaming-pc.html",
+          "scope": "Ordre d’assemblage du CPU, refroidisseur, RAM, carte mère, stockage et alimentation.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw2-l3",
@@ -1131,7 +1638,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "How to Build a Gaming PC — Intel",
+          "url": "https://www.intel.com/content/www/us/en/gaming/resources/how-to-build-a-gaming-pc.html",
+          "scope": "Premier démarrage après assemblage et vérifications matérielles avant l’installation du système.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw2-l4",
@@ -1140,7 +1655,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "Install Ubuntu Desktop",
+          "url": "https://ubuntu.com/tutorials/install-ubuntu-desktop",
+          "scope": "Préparation du support, démarrage de l’installateur et étapes d’installation d’Ubuntu Desktop.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw2-l5",
@@ -1149,7 +1672,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "dmesg(1) — Linux manual page",
+          "url": "https://man7.org/linux/man-pages/man1/dmesg.1.html",
+          "scope": "Lecture des messages du noyau relatifs au démarrage, aux pilotes et aux périphériques pour un premier diagnostic.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     }
   ],
   "hw3": [
@@ -1160,7 +1691,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "Arduino Documentation",
+          "url": "https://docs.arduino.cc/",
+          "scope": "Fondamentaux d’électronique et exemples de circuits basse tension sur breadboard, avec documentation officielle du matériel.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw3-l2",
@@ -1169,7 +1708,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "gpiozero documentation",
+          "url": "https://gpiozero.readthedocs.io/en/stable/",
+          "scope": "Pilotage en Python des LED, boutons et autres composants connectés aux GPIO d’un Raspberry Pi.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw3-l3",
@@ -1178,7 +1725,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "Configuring I2C — Raspberry Pi Documentation",
+          "url": "https://www.raspberrypi.com/documentation/computers/configuration.html#configuring-i2c",
+          "scope": "Activation et configuration du bus I2C sous Raspberry Pi OS ; point d’appui pour les capteurs I2C.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw3-l4",
@@ -1187,7 +1742,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "Configuring UARTs — Raspberry Pi Documentation",
+          "url": "https://www.raspberrypi.com/documentation/computers/configuration.html#configuring-uarts",
+          "scope": "Configuration des UART et de la console série pour dialoguer avec des cartes et adaptateurs USB-série.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw3-l5",
@@ -1196,7 +1759,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "Arduino Documentation",
+          "url": "https://docs.arduino.cc/",
+          "scope": "Caractéristiques électriques et documentation officielle à vérifier avant tout câblage ou alimentation d’une carte.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     }
   ],
   "hw4": [
@@ -1207,7 +1778,21 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "Raspberry Pi computer hardware — Raspberry Pi Documentation",
+          "url": "https://www.raspberrypi.com/documentation/computers/raspberry-pi.html",
+          "scope": "Capacités d’un SBC pour choisir un mini-serveur ou un gadget piloté par Linux.",
+          "checkedAt": "2026-09-01"
+        },
+        {
+          "title": "Arduino Documentation",
+          "url": "https://docs.arduino.cc/",
+          "scope": "Cartes et outils officiels pour choisir un microcontrôleur adapté au projet.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw4-l2",
@@ -1216,7 +1801,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "Getting started — Raspberry Pi Documentation",
+          "url": "https://www.raspberrypi.com/documentation/computers/getting-started.html",
+          "scope": "Imagerie du support, premier démarrage, configuration initiale et accès distant au Raspberry Pi.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw4-l3",
@@ -1225,7 +1818,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "Arduino CLI — Getting started",
+          "url": "https://docs.arduino.cc/arduino-cli/getting-started/",
+          "scope": "Installation de l’outil, ajout du cœur de carte, compilation et téléversement d’un firmware depuis le terminal.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw4-l4",
@@ -1234,7 +1835,21 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "systemd.service",
+          "url": "https://www.freedesktop.org/software/systemd/man/systemd.service.html",
+          "scope": "Structure d’une unité service, ExecStart, redémarrage et dépendances de démarrage.",
+          "checkedAt": "2026-09-01"
+        },
+        {
+          "title": "journalctl",
+          "url": "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html",
+          "scope": "Consultation et suivi des journaux du service associé au gadget.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     },
     {
       "id": "hw4-l5",
@@ -1243,7 +1858,15 @@
       "reviewStatus": "reviewed",
       "reviewedAt": "2026-08-30",
       "distro": "Multi-distribution (matériel)",
-      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel."
+      "limits": "Illustrations pédagogiques : manipulations réelles uniquement sur du matériel personnel.",
+      "sources": [
+        {
+          "title": "Git Reference",
+          "url": "https://git-scm.com/docs",
+          "scope": "Versionnement local du code et du README servant de livrable reproductible pour le projet matériel.",
+          "checkedAt": "2026-09-01"
+        }
+      ]
     }
   ],
   "cs1": [

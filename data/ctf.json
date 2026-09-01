@@ -73,6 +73,21 @@
             "cat"
           ]
         },
+        "/bin/bash": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/ls": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/cat": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
         "/etc": {
           "type": "dir",
           "children": [
@@ -162,6 +177,26 @@
             "cat",
             "find"
           ]
+        },
+        "/bin/bash": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/ls": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/cat": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/find": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
         },
         "/etc": {
           "type": "dir",
@@ -266,6 +301,31 @@
             "base64"
           ]
         },
+        "/bin/bash": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/ls": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/cat": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/grep": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/base64": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
         "/etc": {
           "type": "dir",
           "children": [
@@ -356,6 +416,26 @@
             "cat",
             "grep"
           ]
+        },
+        "/bin/bash": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/ls": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/cat": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/grep": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
         },
         "/etc": {
           "type": "dir",
@@ -471,6 +551,31 @@
             "ps"
           ]
         },
+        "/bin/bash": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/ls": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/cat": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/grep": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/ps": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
         "/etc": {
           "type": "dir",
           "children": [
@@ -562,6 +667,36 @@
             "cut"
           ]
         },
+        "/bin/bash": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/ls": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/cat": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/grep": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/awk": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
+        "/bin/cut": {
+          "type": "file",
+          "content": "",
+          "perms": "-rwxr-xr-x"
+        },
         "/etc": {
           "type": "dir",
           "children": [
@@ -591,7 +726,7 @@
         },
         "/var/log/syslog": {
           "type": "file",
-          "content": "Mar 20 22:00:01 srv systemd[1]: Started Daily Cleanup.\nMar 20 22:05:14 srv kernel: eth0: link is up 1000Mbps\nMar 20 22:14:08 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=flag{\nMar 20 22:14:09 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=network_\nMar 20 22:14:10 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=exfiltration_\nMar 20 22:14:11 srv netfilter[7821]: OUTBOUND src=10.0.0.5 dst=203.0.113.99 port=443 DATA=trace}\nMar 20 22:15:30 srv systemd[1]: NetworkManager[910]: connection activated\nMar 20 22:18:44 srv kernel: usb 1-1: new high-speed USB device"
+          "content": "Mar 20 22:00:01 srv systemd[1]: Started Daily Cleanup.\nMar 20 22:05:14 srv kernel: eth0: link is up 1000Mbps\nMar 20 22:14:08 srv netfilter[7821]: OUTBOUND src 10.0.0.5 dst 203.0.113.99 port 443 DATA=flag{\nMar 20 22:14:09 srv netfilter[7821]: OUTBOUND src 10.0.0.5 dst 203.0.113.99 port 443 DATA=network_\nMar 20 22:14:10 srv netfilter[7821]: OUTBOUND src 10.0.0.5 dst 203.0.113.99 port 443 DATA=exfiltration_\nMar 20 22:14:11 srv netfilter[7821]: OUTBOUND src 10.0.0.5 dst 203.0.113.99 port 443 DATA=trace}\nMar 20 22:15:30 srv systemd[1]: NetworkManager[910]: connection activated\nMar 20 22:18:44 srv kernel: usb 1-1: new high-speed USB device"
         },
         "/tmp": {
           "type": "dir",

@@ -10,7 +10,7 @@ const HINT_PATHS = [
   { id: 'ctf-06', commands: ["grep '203.0.113.99' /var/log/syslog"], flag: 'flag{network_exfiltration_trace}' },
   { id: 'ctf-07', commands: ['dig start.target.local', 'dig chain.target.local', 'dig flag.target.local TXT'], flag: 'flag{dns_chain_resolved}' },
   { id: 'ctf-08', commands: ['tcpdump -r /var/log/capture.pcap', 'grep flag /var/log/capture.pcap'], flag: 'flag{cleartext_credentials_leaked}' },
-  { id: 'ctf-09', commands: ['cat /etc/nftables.conf', 'ss -tlnp', 'cat /opt/.backdoor/flag.txt'], flag: 'flag{port_4444_open_backdoor}' },
+  { id: 'ctf-09', commands: ['cat /etc/nftables.conf', 'ss -tlnp', 'nft list ruleset', 'cat /opt/.backdoor/flag.txt'], flag: 'flag{port_4444_open_backdoor}' },
   { id: 'ctf-10', commands: ['find / -name "id_*"', 'cat /backup/.old/message.b64', 'base64 -d ZmxhZ3tzc2hfa2V5X2hpZGRlbl9pbl9iYWNrdXB9'], flag: 'flag{ssh_key_hidden_in_backup}' },
 ];
 

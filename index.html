@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; script-src-attr 'none'; worker-src 'self' blob:; connect-src 'self'; img-src 'self' data: blob:; font-src 'self'; manifest-src 'self'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-src 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ===== SEO PRIMARY ===== -->
@@ -55,7 +56,7 @@
       "@type": "Course",
       "@id": "https://dodz2.github.io/linuxpath/#course",
       "name": "Formation Linux & Cybersécurité — LinuxPath",
-      "description": "18 modules progressifs répartis en quatre parcours : Fondamentaux Linux, Réseau & services, Sécurité, Pentest & DFIR et Lab & Tinker (matériel).",
+      "description": "19 modules progressifs répartis en quatre parcours : Fondamentaux Linux, Réseau & services, Sécurité, Pentest & DFIR et Lab & Tinker (matériel).",
       "url": "https://dodz2.github.io/linuxpath/",
       "inLanguage": "fr-FR",
       "isAccessibleForFree": true,
@@ -117,18 +118,18 @@
       <!-- ── Navigation principale ── -->
       <div class="sidebar-nav-label">Navigation</div>
 
-      <button type="button" class="module-nav-item nav-top-item active" data-target="home" onclick="navigateTo('home')" aria-label="Accueil">
+      <button type="button" class="module-nav-item nav-top-item active" data-target="home" data-action="navigate" aria-label="Accueil">
         <span class="module-num">⌂</span>
         <span class="module-nav-title">Accueil</span>
       </button>
-      <button type="button" class="module-nav-item nav-top-item" data-target="roadmap" onclick="navigateTo('roadmap')" id="nav-roadmap" aria-label="Ma progression">
+      <button type="button" class="module-nav-item nav-top-item" data-target="roadmap" data-action="navigate" id="nav-roadmap" aria-label="Ma progression">
         <span class="module-nav-icon">🗺️</span>
         <span class="module-nav-title">Ma Progression</span>
       </button>
 
       <!-- ── Groupe : Modules ── -->
       <div class="sidebar-group" id="group-modules">
-        <button type="button" class="sidebar-group-header" onclick="toggleSidebarGroup('group-modules')" aria-expanded="false" aria-controls="group-modules-body">
+        <button type="button" class="sidebar-group-header" data-action="toggle-sidebar-group" data-group="group-modules" aria-expanded="false" aria-controls="group-modules-body">
           <span class="sidebar-group-icon">📚</span>
           <span class="sidebar-group-title">Modules Linux</span>
           <span class="sidebar-group-badge" id="group-modules-badge">0%</span>
@@ -137,42 +138,42 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-modules-body"><div>
-          <button type="button" class="module-nav-item" data-target="m1" onclick="navigateTo('m1')" aria-label="Module 1 : Les bases de Linux">
+          <button type="button" class="module-nav-item" data-target="m1" data-action="navigate" aria-label="Module 1 : Les bases de Linux">
             <span class="module-num">01</span>
             <span class="module-nav-title">Bases de Linux</span>
             <span class="module-nav-badge" id="nav-badge-m1">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="m2" onclick="navigateTo('m2')" id="nav-m2" aria-label="Module 2 : Fichiers & permissions">
+          <button type="button" class="module-nav-item" data-target="m2" data-action="navigate" id="nav-m2" aria-label="Module 2 : Fichiers & permissions">
             <span class="module-num">02</span>
             <span class="module-nav-title">Fichiers &amp; permissions</span>
             <span class="module-nav-badge" id="nav-badge-m2">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="m3" onclick="navigateTo('m3')" id="nav-m3" aria-label="Module 3 : Utilisateurs & processus">
+          <button type="button" class="module-nav-item" data-target="m3" data-action="navigate" id="nav-m3" aria-label="Module 3 : Utilisateurs & processus">
             <span class="module-num">03</span>
             <span class="module-nav-title">Utilisateurs &amp; processus</span>
             <span class="module-nav-badge" id="nav-badge-m3">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="m4" onclick="navigateTo('m4')" id="nav-m4" aria-label="Module 4 : Réseau de base">
+          <button type="button" class="module-nav-item" data-target="m4" data-action="navigate" id="nav-m4" aria-label="Module 4 : Réseau de base">
             <span class="module-num">04</span>
             <span class="module-nav-title">Réseau de base</span>
             <span class="module-nav-badge" id="nav-badge-m4">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="m5" onclick="navigateTo('m5')" id="nav-m5" aria-label="Module 5 : Scripting Bash">
+          <button type="button" class="module-nav-item" data-target="m5" data-action="navigate" id="nav-m5" aria-label="Module 5 : Scripting Bash">
             <span class="module-num">05</span>
             <span class="module-nav-title">Scripting Bash</span>
             <span class="module-nav-badge" id="nav-badge-m5">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="m6" onclick="navigateTo('m6')" id="nav-m6" aria-label="Module 6 : Administration">
+          <button type="button" class="module-nav-item" data-target="m6" data-action="navigate" id="nav-m6" aria-label="Module 6 : Administration">
             <span class="module-num">06</span>
             <span class="module-nav-title">Administration</span>
             <span class="module-nav-badge" id="nav-badge-m6">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="m7" onclick="navigateTo('m7')" id="nav-m7" aria-label="Module 7 : Sécurité / OSINT">
+          <button type="button" class="module-nav-item" data-target="m7" data-action="navigate" id="nav-m7" aria-label="Module 7 : Sécurité / OSINT">
             <span class="module-nav-icon">🔍</span>
             <span class="module-nav-title">Sécurité / OSINT</span>
             <span class="module-nav-badge" id="nav-badge-m7">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="m8" onclick="navigateTo('m8')" id="nav-m8" aria-label="Module 8 : Git & Docker">
+          <button type="button" class="module-nav-item" data-target="m8" data-action="navigate" id="nav-m8" aria-label="Module 8 : Git & Docker">
             <span class="module-nav-icon">🐙</span>
             <span class="module-nav-title">Git &amp; Docker</span>
             <span class="module-nav-badge" id="nav-badge-m8">0%</span>
@@ -183,7 +184,7 @@
 
       <!-- ── Groupe : Réseau & Services ── -->
       <div class="sidebar-group" id="group-network">
-        <button type="button" class="sidebar-group-header" onclick="toggleSidebarGroup('group-network')" aria-expanded="false" aria-controls="group-network-body">
+        <button type="button" class="sidebar-group-header" data-action="toggle-sidebar-group" data-group="group-network" aria-expanded="false" aria-controls="group-network-body">
           <span class="sidebar-group-icon">🌐</span>
           <span class="sidebar-group-title">Réseau &amp; Services</span>
           <span class="sidebar-group-badge" id="group-network-badge">0%</span>
@@ -192,17 +193,17 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-network-body">
-          <button type="button" class="module-nav-item" data-target="m9" onclick="navigateTo('m9')" id="nav-m9" aria-label="Module 9 : SSH &amp; accès distant">
+          <button type="button" class="module-nav-item" data-target="m9" data-action="navigate" id="nav-m9" aria-label="Module 9 : SSH &amp; accès distant">
             <span class="module-nav-icon">🔑</span>
             <span class="module-nav-title">SSH &amp; accès distant</span>
             <span class="module-nav-badge" id="nav-badge-m9">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="m10" onclick="navigateTo('m10')" id="nav-m10" aria-label="Module 10 : Serveurs web &amp; DNS">
+          <button type="button" class="module-nav-item" data-target="m10" data-action="navigate" id="nav-m10" aria-label="Module 10 : Serveurs web &amp; DNS">
             <span class="module-nav-icon">🌐</span>
             <span class="module-nav-title">Serveurs web &amp; DNS</span>
             <span class="module-nav-badge" id="nav-badge-m10">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="m11" onclick="navigateTo('m11')" id="nav-m11" aria-label="Module 11 : Sécurité réseau">
+          <button type="button" class="module-nav-item" data-target="m11" data-action="navigate" id="nav-m11" aria-label="Module 11 : Sécurité réseau">
             <span class="module-nav-icon">🛡️</span>
             <span class="module-nav-title">Sécurité réseau</span>
             <span class="module-nav-badge" id="nav-badge-m11">0%</span>
@@ -212,7 +213,7 @@
 
       <!-- ── Groupe : Sécurité, Pentest & DFIR ── -->
       <div class="sidebar-group" id="group-offsec">
-        <button type="button" class="sidebar-group-header" onclick="toggleSidebarGroup('group-offsec')" aria-expanded="false" aria-controls="group-offsec-body">
+        <button type="button" class="sidebar-group-header" data-action="toggle-sidebar-group" data-group="group-offsec" aria-expanded="false" aria-controls="group-offsec-body">
           <span class="sidebar-group-icon">🛡️</span>
           <span class="sidebar-group-title">Sécurité, Pentest &amp; DFIR</span>
           <span class="sidebar-group-badge" id="group-offsec-badge">0%</span>
@@ -221,22 +222,22 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-offsec-body">
-          <button type="button" class="module-nav-item" data-target="cs1" onclick="navigateTo('cs1')" id="nav-cs1" aria-label="Module : Repères cybersécurité">
+          <button type="button" class="module-nav-item" data-target="cs1" data-action="navigate" id="nav-cs1" aria-label="Module : Repères cybersécurité">
             <span class="module-nav-icon">🧭</span>
             <span class="module-nav-title">Repères cybersécurité</span>
             <span class="module-nav-badge" id="nav-badge-cs1">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="m12" onclick="navigateTo('m12')" id="nav-m12" aria-label="Module 12 : Audit &amp; Durcissement">
+          <button type="button" class="module-nav-item" data-target="m12" data-action="navigate" id="nav-m12" aria-label="Module 12 : Audit &amp; Durcissement">
             <span class="module-nav-icon">🕵</span>
             <span class="module-nav-title">Audit &amp; Durcissement</span>
             <span class="module-nav-badge" id="nav-badge-m12">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="m13" onclick="navigateTo('m13')" id="nav-m13" aria-label="Module 13 : Pentest &amp; Outils">
+          <button type="button" class="module-nav-item" data-target="m13" data-action="navigate" id="nav-m13" aria-label="Module 13 : Pentest &amp; Outils">
             <span class="module-nav-icon">⚔️</span>
             <span class="module-nav-title">Pentest &amp; Outils</span>
             <span class="module-nav-badge" id="nav-badge-m13">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="m14" onclick="navigateTo('m14')" id="nav-m14" aria-label="Module 14 : Forensic &amp; Malwares">
+          <button type="button" class="module-nav-item" data-target="m14" data-action="navigate" id="nav-m14" aria-label="Module 14 : Forensic &amp; Malwares">
             <span class="module-nav-icon">🧬</span>
             <span class="module-nav-title">Forensic &amp; Malwares</span>
             <span class="module-nav-badge" id="nav-badge-m14">0%</span>
@@ -246,7 +247,7 @@
 
       <!-- ── Groupe : Lab & Tinker ── -->
       <div class="sidebar-group" id="group-hardware">
-        <button type="button" class="sidebar-group-header" onclick="toggleSidebarGroup('group-hardware')" aria-expanded="false" aria-controls="group-hardware-body">
+        <button type="button" class="sidebar-group-header" data-action="toggle-sidebar-group" data-group="group-hardware" aria-expanded="false" aria-controls="group-hardware-body">
           <span class="sidebar-group-icon">🧰</span>
           <span class="sidebar-group-title">Lab &amp; Tinker</span>
           <span class="sidebar-group-badge" id="group-hardware-badge">0%</span>
@@ -255,22 +256,22 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-hardware-body">
-          <button type="button" class="module-nav-item" data-target="hw1" onclick="navigateTo('hw1')" id="nav-hw1" aria-label="Module HW1 : Anatomie d'un PC">
+          <button type="button" class="module-nav-item" data-target="hw1" data-action="navigate" id="nav-hw1" aria-label="Module HW1 : Anatomie d'un PC">
             <span class="module-nav-icon">🧰</span>
             <span class="module-nav-title">Anatomie d'un PC</span>
             <span class="module-nav-badge" id="nav-badge-hw1">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="hw2" onclick="navigateTo('hw2')" id="nav-hw2" aria-label="Module HW2 : Assembler &amp; booter">
+          <button type="button" class="module-nav-item" data-target="hw2" data-action="navigate" id="nav-hw2" aria-label="Module HW2 : Assembler &amp; booter">
             <span class="module-nav-icon">🔩</span>
             <span class="module-nav-title">Assembler &amp; booter</span>
             <span class="module-nav-badge" id="nav-badge-hw2">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="hw3" onclick="navigateTo('hw3')" id="nav-hw3" aria-label="Module HW3 : Piloter le matériel">
+          <button type="button" class="module-nav-item" data-target="hw3" data-action="navigate" id="nav-hw3" aria-label="Module HW3 : Piloter le matériel">
             <span class="module-nav-icon">💡</span>
             <span class="module-nav-title">Piloter le matériel</span>
             <span class="module-nav-badge" id="nav-badge-hw3">0%</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="hw4" onclick="navigateTo('hw4')" id="nav-hw4" aria-label="Module HW4 : Gadgets &amp; hack">
+          <button type="button" class="module-nav-item" data-target="hw4" data-action="navigate" id="nav-hw4" aria-label="Module HW4 : Gadgets &amp; hack">
             <span class="module-nav-icon">🛠️</span>
             <span class="module-nav-title">Gadgets &amp; hack</span>
             <span class="module-nav-badge" id="nav-badge-hw4">0%</span>
@@ -280,7 +281,7 @@
 
       <!-- ── Groupe : Challenges ── -->
       <div class="sidebar-group" id="group-challenges">
-        <button type="button" class="sidebar-group-header" onclick="toggleSidebarGroup('group-challenges')" aria-expanded="false" aria-controls="group-challenges-body">
+        <button type="button" class="sidebar-group-header" data-action="toggle-sidebar-group" data-group="group-challenges" aria-expanded="false" aria-controls="group-challenges-body">
           <span class="sidebar-group-icon">🚩</span>
           <span class="sidebar-group-title">Challenges</span>
           <span class="sidebar-group-badge badge-ctf-accent" id="nav-badge-ctf">0/10</span>
@@ -289,7 +290,7 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-challenges-body"><div>
-          <button type="button" class="module-nav-item" data-target="ctf" onclick="navigateTo('ctf')" id="nav-ctf" aria-label="Challenges CTF">
+          <button type="button" class="module-nav-item" data-target="ctf" data-action="navigate" id="nav-ctf" aria-label="Challenges CTF">
             <span class="module-nav-icon">🏴</span>
             <span class="module-nav-title">Challenges CTF</span>
           </button>
@@ -299,7 +300,7 @@
 
       <!-- ── Groupe : Outils ── -->
       <div class="sidebar-group" id="group-tools">
-        <button type="button" class="sidebar-group-header" onclick="toggleSidebarGroup('group-tools')" aria-expanded="false" aria-controls="group-tools-body">
+        <button type="button" class="sidebar-group-header" data-action="toggle-sidebar-group" data-group="group-tools" aria-expanded="false" aria-controls="group-tools-body">
           <span class="sidebar-group-icon">⚙️</span>
           <span class="sidebar-group-title">Outils</span>
           <svg class="sidebar-group-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
@@ -307,11 +308,11 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-tools-body"><div>
-          <button type="button" class="module-nav-item" onclick="focusTerminal()" aria-label="Terminal simulé">
+          <button type="button" class="module-nav-item" data-action="focus-terminal" aria-label="Terminal simulé">
             <span class="module-num">⌨</span>
             <span class="module-nav-title">Terminal simulé</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="sandbox" onclick="navigateTo('sandbox')" id="nav-sandbox" aria-label="Sandbox Linux réelle">
+          <button type="button" class="module-nav-item" data-target="sandbox" data-action="navigate" id="nav-sandbox" aria-label="Sandbox Linux réelle">
             <span class="module-nav-icon">🐧</span>
             <span class="module-nav-title">Sandbox Linux réelle</span>
           </button>
@@ -321,7 +322,7 @@
 
       <!-- ── Groupe : Ressources ── -->
       <div class="sidebar-group" id="group-resources">
-        <button type="button" class="sidebar-group-header" onclick="toggleSidebarGroup('group-resources')" aria-expanded="false" aria-controls="group-resources-body">
+        <button type="button" class="sidebar-group-header" data-action="toggle-sidebar-group" data-group="group-resources" aria-expanded="false" aria-controls="group-resources-body">
           <span class="sidebar-group-icon">📖</span>
           <span class="sidebar-group-title">Ressources</span>
           <svg class="sidebar-group-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
@@ -329,15 +330,15 @@
           </svg>
         </button>
         <div class="sidebar-group-body" id="group-resources-body"><div>
-          <button type="button" class="module-nav-item" data-target="cheatsheet" onclick="navigateTo('cheatsheet')" id="nav-cheatsheet" aria-label="Cheatsheet Linux">
+          <button type="button" class="module-nav-item" data-target="cheatsheet" data-action="navigate" id="nav-cheatsheet" aria-label="Cheatsheet Linux">
             <span class="module-nav-icon">📋</span>
             <span class="module-nav-title">Cheatsheet Linux</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="glossary" onclick="navigateTo('glossary')" id="nav-glossary" aria-label="Glossaire">
+          <button type="button" class="module-nav-item" data-target="glossary" data-action="navigate" id="nav-glossary" aria-label="Glossaire">
             <span class="module-nav-icon">📖</span>
             <span class="module-nav-title">Glossaire</span>
           </button>
-          <button type="button" class="module-nav-item" data-target="news" onclick="navigateTo('news')" id="nav-news" aria-label="Actualités Cyber">
+          <button type="button" class="module-nav-item" data-target="news" data-action="navigate" id="nav-news" aria-label="Actualités Cyber">
             <span class="module-nav-icon">📰</span>
             <span class="module-nav-title">Actualités Cyber</span>
           </button>
@@ -348,28 +349,28 @@
 
     <div class="sidebar-footer">
       <div class="progress-actions">
-        <button type="button" class="btn-export" onclick="exportProgress()" aria-label="Exporter la progression">
+        <button type="button" class="btn-export" data-action="export-progress" aria-label="Exporter la progression">
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 2v9M4.5 7.5 8 11l3.5-3.5M3 14h10"/></svg>
           Exporter
         </button>
-        <button type="button" class="btn-import" onclick="importProgress()" aria-label="Importer la progression">
+        <button type="button" class="btn-import" data-action="import-progress" aria-label="Importer la progression">
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 11V2M4.5 5.5 8 2l3.5 3.5M3 14h10"/></svg>
           Importer
         </button>
       </div>
-      <button type="button" class="btn-reset" onclick="confirmReset()" aria-label="Réinitialiser toute la progression">
+      <button type="button" class="btn-reset" data-action="confirm-reset" aria-label="Réinitialiser toute la progression">
         <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         Réinitialiser la progression
       </button>
     </div>
   </aside>
 
-  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+  <div class="sidebar-overlay" id="sidebar-overlay" data-action="close-sidebar"></div>
 
   <!-- ===================== MAIN ===================== -->
    <main class="main" aria-label="Contenu principal" id="main-content">
     <div class="top-bar">
-      <button type="button" class="hamburger" onclick="toggleSidebar()" aria-label="Ouvrir le menu de navigation" aria-expanded="false" aria-controls="sidebar">
+      <button type="button" class="hamburger" data-action="toggle-sidebar" aria-label="Ouvrir le menu de navigation" aria-expanded="false" aria-controls="sidebar">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
           <line x1="3" y1="6" x2="17" y2="6"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="14" x2="17" y2="14"/>
         </svg>
@@ -426,67 +427,67 @@
 
           <div class="lp-section-block" id="track-picker">
             <div class="lp-section-label">// parcours</div>
-            <div class="lp-section-title">Quatre chemins, sans verrou brutal</div>
+            <h2 class="lp-section-title">Quatre chemins, sans verrou brutal</h2>
             <div class="track-grid">
               <article class="track-card" data-track="linux">
                 <div class="track-level">Débutant</div>
                 <h3>Fondamentaux Linux</h3>
-                <p>M1 à M8 · ~14 h · aucun prérequis</p>
+                <p>M1 à M8 · ~9 h · aucun prérequis</p>
                 <ul class="track-objectives">
                   <li>Terminal au quotidien</li>
                   <li>Administration de base</li>
                   <li>Git et Docker pédagogiques</li>
                 </ul>
                 <p class="track-capstone">Mini-projet : script bash versionné et lancé dans un conteneur.</p>
-                <button type="button" class="lp-cta-primary" id="track-linux-enter" onclick="enterTrack('linux')">Commencer ici</button>
+                <button type="button" class="lp-cta-primary" id="track-linux-enter" data-action="enter-track" data-track="linux">Commencer ici</button>
               </article>
               <article class="track-card" data-track="network">
                 <div class="track-level">Intermédiaire</div>
                 <h3>Réseau &amp; services</h3>
-                <p>M9 à M11 · ~8 h · Linux recommandé</p>
+                <p>M9 à M11 · ~4 h · Linux recommandé</p>
                 <ul class="track-objectives">
                   <li>SSH et transferts</li>
                   <li>Nginx et DNS</li>
                   <li>Filtrage réseau</li>
                 </ul>
                 <p class="track-capstone">Mini-projet : clé SSH + reverse proxy + table nftables dédiée.</p>
-                <button type="button" class="lp-cta-secondary" id="track-network-enter" onclick="enterTrack('network')">J'ai déjà Linux — y aller</button>
+                <button type="button" class="lp-cta-secondary" id="track-network-enter" data-action="enter-track" data-track="network">J'ai déjà Linux — y aller</button>
               </article>
               <article class="track-card" data-track="offsec">
                 <div class="track-level">Avancé</div>
                 <h3>Sécurité, Pentest &amp; DFIR</h3>
-                <p>M12 à M14 · ~4 h · Linux + réseau recommandés</p>
+                <p>CS1 + M12 à M14 · ~6 h · Linux + réseau recommandés</p>
                 <ul class="track-objectives">
                   <li>Audit et durcissement</li>
                   <li>Outils de pentest responsables</li>
                   <li>Investigation de base</li>
                 </ul>
                 <p class="track-capstone">Mini-projet : audit + artefact pédagogique + rapport d'incident.</p>
-                <button type="button" class="lp-cta-secondary" id="track-offsec-enter" onclick="enterTrack('offsec')">Diagnostic : entrer en sécurité</button>
+                <button type="button" class="lp-cta-secondary" id="track-offsec-enter" data-action="enter-track" data-track="offsec">Diagnostic : entrer en sécurité</button>
               </article>
               <article class="track-card" data-track="hardware">
                 <div class="track-level">Débutant / Intermédiaire</div>
                 <h3>Lab &amp; Tinker</h3>
-                <p>HW1 à HW4 · ~10 h · Linux de base recommandé</p>
+                <p>HW1 à HW4 · ~5 h · Linux de base recommandé</p>
                 <ul class="track-objectives">
                   <li>Composants et choix matériel</li>
                   <li>Assemblage, boot, Linux réel</li>
                   <li>GPIO, capteurs, gadgets éthiques</li>
                 </ul>
                 <p class="track-capstone">Mini-projet : un gadget USB/série assemblé, flashé et piloté depuis un shell.</p>
-                <button type="button" class="lp-cta-secondary" id="track-hardware-enter" onclick="enterTrack('hardware')">Faire mumuse avec des vis</button>
+                <button type="button" class="lp-cta-secondary" id="track-hardware-enter" data-action="enter-track" data-track="hardware">Faire mumuse avec des vis</button>
               </article>
             </div>
           </div>
 
           <div class="lp-section-block">
             <div id="lp-modules" class="lp-section-label">// programme</div>
-            <div class="lp-section-title" id="home-modules-title">Les 18 modules</div>
+            <h2 class="lp-section-title" id="home-modules-title">Les 19 modules</h2>
             <div class="modules-overview-grid" id="modules-overview-grid"></div>
           </div>
           <div class="lp-section-block">
             <div class="lp-section-label">// ce que vous obtenez</div>
-            <div class="lp-section-title">Tout ce qu'il faut pour progresser</div>
+            <h2 class="lp-section-title">Tout ce qu'il faut pour progresser</h2>
             <div class="lp-features">
               <div class="lp-feature">
                 <div class="lp-feature-icon">📚</div>
@@ -523,7 +524,7 @@
 
           <div class="lp-section-block" id="compat-matrix">
             <div class="lp-section-label">// compatibilité</div>
-            <div class="lp-section-title">Ce qui marche où</div>
+            <h2 class="lp-section-title">Ce qui marche où</h2>
             <div class="compat-matrix">
               <div class="compat-row"><span class="compat-device">Site (leçons, quiz, CTF)</span><span class="compat-ok">Mobile oui</span><span class="compat-ok">Desktop oui</span></div>
               <div class="compat-row"><span class="compat-device">Sandbox Linux (v86)</span><span class="compat-no">Mobile déconseillé</span><span class="compat-ok">Desktop recommandé</span></div>
@@ -533,27 +534,27 @@
           <!-- ===== FAQ ===== -->
           <div class="lp-section-block">
             <div class="lp-section-label">// foire aux questions</div>
-            <div class="lp-section-title">Questions fréquentes</div>
+            <h2 class="lp-section-title">Questions fréquentes</h2>
             <div class="lp-faq">
               <div class="lp-faq-item">
-                <button type="button" class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Faut-il installer quelque chose ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
-                <div class="lp-faq-a">Non. LinuxPath fonctionne entièrement dans le navigateur. La sandbox émule un vrai Linux via WebAssembly — aucun téléchargement, aucun risque pour votre machine.</div>
+                <button type="button" class="lp-faq-q" data-action="toggle-faq" aria-expanded="false" aria-controls="faq-answer-1">Faut-il installer quelque chose ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
+                <div class="lp-faq-a" id="faq-answer-1">Non. LinuxPath fonctionne entièrement dans le navigateur. La sandbox émule un vrai Linux via WebAssembly — aucun téléchargement, aucun risque pour votre machine.</div>
               </div>
               <div class="lp-faq-item">
-                <button type="button" class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Pour quel niveau est conçu ce cours ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
-                <div class="lp-faq-a">Le module 1 part de zéro — aucun prérequis. Les modules 5 à 7 (scripting, administration, sécurité) sont plus avancés et conviennent à un niveau intermédiaire.</div>
+                <button type="button" class="lp-faq-q" data-action="toggle-faq" aria-expanded="false" aria-controls="faq-answer-2">Pour quel niveau est conçu ce cours ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
+                <div class="lp-faq-a" id="faq-answer-2">Le module 1 part de zéro — aucun prérequis. Les modules 5 à 7 (scripting, administration, sécurité) sont plus avancés et conviennent à un niveau intermédiaire.</div>
               </div>
               <div class="lp-faq-item">
-                <button type="button" class="lp-faq-q" onclick="toggleFaq(this)" aria-expanded="false">Ma progression est-elle sauvegardée ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
-                <div class="lp-faq-a">Oui, localement dans votre navigateur via localStorage. Si vous changez d'appareil ou videz les données du site, la progression repart à zéro. Exportez une sauvegarde JSON si vous voulez la conserver.</div>
+                <button type="button" class="lp-faq-q" data-action="toggle-faq" aria-expanded="false" aria-controls="faq-answer-3">Ma progression est-elle sauvegardée ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
+                <div class="lp-faq-a" id="faq-answer-3">Oui, localement dans votre navigateur via localStorage. Si vous changez d'appareil ou videz les données du site, la progression repart à zéro. Exportez une sauvegarde JSON si vous voulez la conserver.</div>
               </div>
               <div class="lp-faq-item">
-                <button type="button" class="lp-faq-q" onclick="toggleFaq(this)">Le contenu est-il vraiment gratuit ? <span class="lp-faq-icon">+</span></button>
-                <div class="lp-faq-a">Oui, tous les modules, la sandbox et les challenges CTF sont entièrement gratuits et open-source.</div>
+                <button type="button" class="lp-faq-q" data-action="toggle-faq" aria-expanded="false" aria-controls="faq-answer-4">Le contenu est-il vraiment gratuit ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
+                <div class="lp-faq-a" id="faq-answer-4">Oui, tous les modules, la sandbox et les challenges CTF sont entièrement gratuits et open-source.</div>
               </div>
               <div class="lp-faq-item">
-                <button type="button" class="lp-faq-q" onclick="toggleFaq(this)">Quelles certifications prépare ce cours ? <span class="lp-faq-icon">+</span></button>
-                <div class="lp-faq-a">LinuxPath pose les bases pour CompTIA Linux+, LPIC-1 et contribue à la préparation du CEH et de l'OSCP pour la partie Linux et administration système.</div>
+                <button type="button" class="lp-faq-q" data-action="toggle-faq" aria-expanded="false" aria-controls="faq-answer-5">Quelles certifications prépare ce cours ? <span class="lp-faq-icon" aria-hidden="true">+</span></button>
+                <div class="lp-faq-a" id="faq-answer-5">LinuxPath pose les bases pour CompTIA Linux+, LPIC-1 et contribue à la préparation du CEH et de l'OSCP pour la partie Linux et administration système.</div>
               </div>
             </div>
           </div>
@@ -565,8 +566,8 @@
               <h2 class="lp-final-cta-title">Prêt à maîtriser Linux ?</h2>
               <p class="lp-final-cta-sub">Rejoignez les apprenants qui progressent chaque jour.<br>C'est gratuit, c'est en français, ça commence maintenant.</p>
               <div class="lp-cta-row cta-row-center">
-                <button type="button" class="lp-cta-primary" onclick="document.getElementById('track-picker').scrollIntoView({behavior:'smooth'})">Choisir un parcours</button>
-                <button type="button" class="lp-cta-roadmap" onclick="navigateTo('roadmap')">🗺️ Voir ma progression</button>
+                <button type="button" class="lp-cta-primary" data-action="scroll-to" data-scroll-target="track-picker">Choisir un parcours</button>
+                <button type="button" class="lp-cta-roadmap" data-action="navigate" data-target="roadmap">🗺️ Voir ma progression</button>
               </div>
             </div>
           </div>
@@ -577,7 +578,7 @@
       <section id="section-m1" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 01</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Les bases de Linux</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Les bases de Linux</h1>
           <p class="module-desc">Histoire, distributions, navigation dans le terminal et commandes fondamentales du système.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 4 leçons</span>
@@ -586,13 +587,13 @@
           </div>
         </div>
 
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-m1"></div>
 
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-m1"></div>
 
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-m1"></div>
       </section>
 
@@ -600,7 +601,7 @@
       <section id="section-m2" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 02</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Fichiers &amp; permissions</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Fichiers &amp; permissions</h1>
           <p class="module-desc">Comprendre et manipuler les permissions Unix, redirections et wildcards.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 5 leçons</span>
@@ -608,11 +609,11 @@
             <span class="module-meta-item">❓ Quiz 5 questions</span>
           </div>
         </div>
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-m2"></div>
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-m2"></div>
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-m2"></div>
       </section>
 
@@ -620,7 +621,7 @@
       <section id="section-m3" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 03</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Utilisateurs &amp; processus</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Utilisateurs &amp; processus</h1>
           <p class="module-desc">Gestion des droits, des utilisateurs et contrôle des processus système.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 4 leçons</span>
@@ -628,11 +629,11 @@
             <span class="module-meta-item">❓ Quiz 5 questions</span>
           </div>
         </div>
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-m3"></div>
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-m3"></div>
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-m3"></div>
       </section>
 
@@ -640,7 +641,7 @@
       <section id="section-m4" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 04</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Réseau de base</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Réseau de base</h1>
           <p class="module-desc">Interfaces réseau, connectivité, téléchargement et diagnostic DNS.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 5 leçons</span>
@@ -648,11 +649,11 @@
             <span class="module-meta-item">❓ Quiz 5 questions</span>
           </div>
         </div>
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-m4"></div>
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-m4"></div>
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-m4"></div>
       </section>
 
@@ -660,7 +661,7 @@
       <section id="section-m5" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 05</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Scripting Bash</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Scripting Bash</h1>
           <p class="module-desc">Variables, conditions, boucles et fonctions pour automatiser avec Bash.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 5 leçons</span>
@@ -668,11 +669,11 @@
             <span class="module-meta-item">❓ Quiz 5 questions</span>
           </div>
         </div>
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-m5"></div>
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-m5"></div>
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-m5"></div>
       </section>
 
@@ -680,7 +681,7 @@
       <section id="section-m6" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 06</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Administration intermédiaire</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Administration intermédiaire</h1>
           <p class="module-desc">Paquets, services systemd, cron, logs et connexions SSH.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 5 leçons</span>
@@ -688,11 +689,11 @@
             <span class="module-meta-item">❓ Quiz 5 questions</span>
           </div>
         </div>
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-m6"></div>
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-m6"></div>
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-m6"></div>
       </section>
 
@@ -700,7 +701,7 @@
       <section id="section-m7" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 07</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Sécurité &amp; OSINT</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Sécurité &amp; OSINT</h1>
           <p class="module-desc">Reconnaissance, scan réseau, analyse forensique et outils d’investigation open-source.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 5 leçons</span>
@@ -708,11 +709,11 @@
             <span class="module-meta-item">❓ Quiz 5 questions</span>
           </div>
         </div>
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-m7"></div>
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-m7"></div>
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-m7"></div>
       </section>
 
@@ -720,7 +721,7 @@
       <section id="section-m8" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 08</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Git &amp; Docker</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Git &amp; Docker</h1>
           <p class="module-desc">Gestion de versions avec Git et conteneurisation avec Docker.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 10 leçons</span>
@@ -728,11 +729,11 @@
             <span class="module-meta-item">❓ Quiz 5 questions</span>
           </div>
         </div>
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-m8"></div>
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-m8"></div>
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-m8"></div>
       </section>
 
@@ -741,7 +742,7 @@
       <section id="section-m9" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 09</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> SSH &amp; accès distant</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> SSH &amp; accès distant</h1>
           <p class="module-desc">Authentification par clé, tunnels SSH, transferts de fichiers (SCP, SFTP, rsync) et VPN WireGuard.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 5 leçons</span>
@@ -749,11 +750,11 @@
             <span class="module-meta-item">❓ Quiz 5 questions</span>
           </div>
         </div>
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-m9"></div>
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-m9"></div>
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-m9"></div>
       </section>
 
@@ -761,7 +762,7 @@
       <section id="section-m10" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 10</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Serveurs web &amp; DNS</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Serveurs web &amp; DNS</h1>
           <p class="module-desc">Nginx, résolution DNS avec dig et nslookup, et sécurisation HTTPS avec Let's Encrypt.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 5 leçons</span>
@@ -769,11 +770,11 @@
             <span class="module-meta-item">❓ Quiz 5 questions</span>
           </div>
         </div>
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-m10"></div>
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-m10"></div>
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-m10"></div>
       </section>
 
@@ -781,7 +782,7 @@
       <section id="section-m11" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 11</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Sécurité réseau</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Sécurité réseau</h1>
           <p class="module-desc">Pare-feu nftables et monitoring réseau avec tcpdump, ss et outils de diagnostic.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 5 leçons</span>
@@ -789,11 +790,11 @@
             <span class="module-meta-item">❓ Quiz 5 questions</span>
           </div>
         </div>
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-m11"></div>
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-m11"></div>
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-m11"></div>
        </section>
 
@@ -801,7 +802,7 @@
       <section id="section-cs1" class="module-section">
         <div class="module-header">
           <div class="module-tag">Cybersécurité</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Repères cybersécurité</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Repères cybersécurité</h1>
           <p class="module-desc">Vocabulaire, rôles et cadre légal pour aborder l'audit, le pentest et le DFIR sans se jeter dans les outils.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 5 leçons</span>
@@ -809,11 +810,11 @@
             <span class="module-meta-item">❓ Quiz 5 questions</span>
           </div>
         </div>
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-cs1"></div>
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-cs1"></div>
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-cs1"></div>
       </section>
 
@@ -821,7 +822,7 @@
       <section id="section-m12" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 12</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Audit &amp; Durcissement</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Audit &amp; Durcissement</h1>
           <p class="module-desc">Lynis, OpenSCAP, auditd : lire un constat, le relier à un fichier, prioriser sans casser le système.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 6 leçons</span>
@@ -829,11 +830,11 @@
             <span class="module-meta-item">❓ Quiz 7 questions</span>
           </div>
         </div>
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-m12"></div>
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-m12"></div>
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-m12"></div>
       </section>
 
@@ -841,7 +842,7 @@
       <section id="section-m13" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 13</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Pentest &amp; Outils</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Pentest &amp; Outils</h1>
           <p class="module-desc">Metasploit, Burp Suite, Nmap avancé et outils hacker.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 5 leçons</span>
@@ -849,11 +850,11 @@
             <span class="module-meta-item">❓ Quiz 5 questions</span>
           </div>
         </div>
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-m13"></div>
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-m13"></div>
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-m13"></div>
       </section>
 
@@ -861,7 +862,7 @@
       <section id="section-m14" class="module-section">
         <div class="module-header">
           <div class="module-tag">Module 14</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Forensic &amp; Malwares</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Forensic &amp; Malwares</h1>
           <p class="module-desc">Analyse de malwares, investigation numérique et réponse à incident.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 5 leçons</span>
@@ -869,11 +870,11 @@
             <span class="module-meta-item">❓ Quiz 5 questions</span>
           </div>
         </div>
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-m14"></div>
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-m14"></div>
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
                 <div id="quiz-m14"></div>
               </section>
 
@@ -881,7 +882,7 @@
               <section id="section-hw1" class="module-section">
                 <div class="module-header">
                   <div class="module-tag">Lab &amp; Tinker</div>
-                  <h2 class="module-title"><span class="prompt-prefix">$</span> Anatomie d'un PC</h2>
+                  <h1 class="module-title"><span class="prompt-prefix">$</span> Anatomie d'un PC</h1>
                   <p class="module-desc">Composants, flux de données, CPU, RAM, stockage, alimentation et compatibilité Linux.</p>
                   <div class="module-meta">
                     <span class="module-meta-item">📚 5 leçons</span>
@@ -890,13 +891,13 @@
                   </div>
                 </div>
 
-                <h3 class="section-title">Leçons</h3>
+                <h2 class="section-title">Leçons</h2>
                 <div class="lessons-grid" id="lessons-hw1"></div>
 
-                <h3 class="section-title">Exercices pratiques</h3>
+                <h2 class="section-title">Exercices pratiques</h2>
                 <div id="exercises-hw1"></div>
 
-                <h3 class="section-title">Quiz de validation</h3>
+                <h2 class="section-title">Quiz de validation</h2>
                 <div id="quiz-hw1"></div>
               </section>
 
@@ -905,7 +906,7 @@
       <section id="section-hw2" class="module-section">
         <div class="module-header">
           <div class="module-tag">Lab &amp; Tinker</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Assembler &amp; booter</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Assembler &amp; booter</h1>
           <p class="module-desc">Montage pas à pas, POST/BIOS/UEFI, installer Linux et premiers diagnostics.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 5 leçons</span>
@@ -914,13 +915,13 @@
           </div>
         </div>
 
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-hw2"></div>
 
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-hw2"></div>
 
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-hw2"></div>
       </section>
 
@@ -928,7 +929,7 @@
       <section id="section-hw3" class="module-section">
         <div class="module-header">
           <div class="module-tag">Lab &amp; Tinker</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Piloter le matériel</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Piloter le matériel</h1>
           <p class="module-desc">GPIO, breadboard, capteurs, USB et sérielle pilotés depuis Linux.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 5 leçons</span>
@@ -937,13 +938,13 @@
           </div>
         </div>
 
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-hw3"></div>
 
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-hw3"></div>
 
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-hw3"></div>
       </section>
 
@@ -951,7 +952,7 @@
       <section id="section-hw4" class="module-section">
         <div class="module-header">
           <div class="module-tag">Lab &amp; Tinker</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Gadgets &amp; hack</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Gadgets &amp; hack</h1>
           <p class="module-desc">Capstone : construire un petit gadget personnel et le piloter en terminal.</p>
           <div class="module-meta">
             <span class="module-meta-item">📚 5 leçons</span>
@@ -960,13 +961,13 @@
           </div>
         </div>
 
-        <h3 class="section-title">Leçons</h3>
+        <h2 class="section-title">Leçons</h2>
         <div class="lessons-grid" id="lessons-hw4"></div>
 
-        <h3 class="section-title">Exercices pratiques</h3>
+        <h2 class="section-title">Exercices pratiques</h2>
         <div id="exercises-hw4"></div>
 
-        <h3 class="section-title">Quiz de validation</h3>
+        <h2 class="section-title">Quiz de validation</h2>
         <div id="quiz-hw4"></div>
       </section>
 
@@ -974,7 +975,7 @@
               <section id="section-sandbox" class="module-section">
         <div class="module-header">
           <div class="module-tag tag-sandbox">Sandbox</div>
-          <h2 class="module-title"><span class="prompt-prefix prompt-sandbox">$</span> Linux réel dans le navigateur</h2>
+          <h1 class="module-title"><span class="prompt-prefix prompt-sandbox">$</span> Linux réel dans le navigateur</h1>
           <p class="module-desc">Un vrai noyau Linux (image de démonstration v86) exécuté en WebAssembly — aucune installation requise.</p>
         </div>
         <div id="sandbox-container">
@@ -994,8 +995,8 @@
               <span class="sbadge sbadge-purple">🔒 Isolé dans votre navigateur</span>
             </div>
             <div class="sandbox-actions">
-              <button type="button" class="btn-sandbox" id="btn-start-sandbox" onclick="startSandbox()">▶ Démarrer la sandbox</button>
-              <button type="button" class="btn-sandbox btn-sandbox-reset " id="btn-reset-sandbox" onclick="resetSandbox()" data-runtime-hide style="display:none">↺ Redémarrer</button>
+              <button type="button" class="btn-sandbox" id="btn-start-sandbox" data-action="start-sandbox">▶ Démarrer la sandbox</button>
+              <button type="button" class="btn-sandbox btn-sandbox-reset " id="btn-reset-sandbox" data-action="reset-sandbox" data-runtime-hide style="display:none">↺ Redémarrer</button>
             </div>
           </div>
           <div class="sandbox-note">
@@ -1012,22 +1013,23 @@
             <div class="sandbox-input-row " id="sandbox-input-row" data-runtime-hide style="display:none">
               <span class="sandbox-input-hint">Entrée série :</span>
               <span class="sandbox-prompt" id="sandbox-prompt-label">~#</span>
+              <label class="visually-hidden" for="sandbox-input">Commande de la sandbox Linux</label>
               <input type="text" id="sandbox-input" class="sandbox-input-field"
                 placeholder="tapez une commande puis Entrée…"
                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
             <div class="sandbox-quick-cmds " id="sandbox-quick-cmds" data-runtime-hide style="display:none">
               <span class="sandbox-quick-label">Essayez :</span>
-              <button type="button" class="sandbox-quick-btn" onclick="sandboxSend('ls /')">ls /</button>
-              <button type="button" class="sandbox-quick-btn" onclick="sandboxSend('uname -a')">uname -a</button>
-              <button type="button" class="sandbox-quick-btn" onclick="sandboxSend('cat /etc/os-release')">cat /etc/os-release</button>
-              <button type="button" class="sandbox-quick-btn" onclick="sandboxSend('free -m')">free -m</button>
-              <button type="button" class="sandbox-quick-btn" onclick="sandboxSend('df -h')">df -h</button>
-              <button type="button" class="sandbox-quick-btn" onclick="sandboxSend('ps aux')">ps aux</button>
+              <button type="button" class="sandbox-quick-btn" data-action="sandbox-send" data-command="ls /">ls /</button>
+              <button type="button" class="sandbox-quick-btn" data-action="sandbox-send" data-command="uname -a">uname -a</button>
+              <button type="button" class="sandbox-quick-btn" data-action="sandbox-send" data-command="cat /etc/os-release">cat /etc/os-release</button>
+              <button type="button" class="sandbox-quick-btn" data-action="sandbox-send" data-command="free -m">free -m</button>
+              <button type="button" class="sandbox-quick-btn" data-action="sandbox-send" data-command="df -h">df -h</button>
+              <button type="button" class="sandbox-quick-btn" data-action="sandbox-send" data-command="ps aux">ps aux</button>
             </div>
           </div>
           <div class="sandbox-tips">
-            <h3 class="section-title">Commandes pour démarrer</h3>
+            <h2 class="section-title">Commandes pour démarrer</h2>
             <div class="sandbox-tips-grid">
               <div class="tip-card"><code>ls /</code><span>Arborescence racine</span></div>
               <div class="tip-card"><code>cat /etc/os-release</code><span>Version de l’OS</span></div>
@@ -1047,7 +1049,7 @@
       <section id="section-ctf" class="module-section">
         <div class="module-header">
           <div class="module-tag tag-ctf">Challenges CTF</div>
-          <h2 class="module-title"><span class="prompt-prefix prompt-ctf">$</span> Challenges CTF</h2>
+          <h1 class="module-title"><span class="prompt-prefix prompt-ctf">$</span> Challenges CTF</h1>
           <p class="module-desc">Missions d'investigation réelles : explore un système de fichiers compromis, trouve le flag caché et soumets-le. Format : <code>flag{...}</code></p>
           <div class="module-meta">
             <span class="module-meta-item">🚩 10 challenges</span>
@@ -1065,9 +1067,9 @@
         <!-- Vue détaillée d'un challenge -->
         <div class="ctf-detail " id="ctf-detail" data-runtime-hide style="display:none">
           <div class="ctf-detail-header">
-            <button type="button" class="ctf-back-btn" onclick="closeCTFDetail()">← Retour aux challenges</button>
+            <button type="button" class="ctf-back-btn" data-action="close-ctf-detail">← Retour aux challenges</button>
             <div class="ctf-detail-meta">
-              <span class="ctf-detail-title" id="ctf-detail-title"></span>
+              <h2 class="ctf-detail-title" id="ctf-detail-title">Challenge CTF</h2>
               <span class="ctf-difficulty-badge" id="ctf-detail-diff"></span>
             </div>
           </div>
@@ -1084,21 +1086,22 @@
                 <div class="term-dot dot-green"></div>
               </div>
               <div class="ctf-terminal-title" id="ctf-terminal-title">ctf@challenge:~$</div>
-              <button type="button" class="ctf-reset-term-btn" onclick="resetCTFTerminal()" title="Réinitialiser le terminal">↺</button>
+              <button type="button" class="ctf-reset-term-btn" data-action="reset-ctf-terminal" title="Réinitialiser le terminal">↺</button>
             </div>
-            <div class="ctf-terminal-output" id="ctf-terminal-output"></div>
+            <div class="ctf-terminal-output" id="ctf-terminal-output" role="log" aria-live="polite" aria-atomic="false" aria-relevant="additions"></div>
             <div class="ctf-terminal-input-row">
               <span class="ctf-terminal-prompt" id="ctf-terminal-prompt">ctf@challenge:~$</span>
+              <label class="visually-hidden" for="ctf-terminal-input">Commande du terminal CTF</label>
               <input type="text" class="ctf-terminal-input" id="ctf-terminal-input"
                 placeholder="tapez une commande..."
                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
             <div class="sandbox-quick-cmds " id="ctf-quick-cmds" data-runtime-hide style="display:none">
               <span class="sandbox-quick-label">Essayez :</span>
-              <button type="button" class="sandbox-quick-btn" onclick="ctfSend('ls /')">ls /</button>
-              <button type="button" class="sandbox-quick-btn" onclick="ctfSend('ls -la')">ls -la</button>
-              <button type="button" class="sandbox-quick-btn" onclick="ctfSend('find / -name flag* 2>/dev/null')">find flag*</button>
-              <button type="button" class="sandbox-quick-btn" onclick="ctfSend('cat /etc/passwd')">cat /etc/passwd</button>
+              <button type="button" class="sandbox-quick-btn" data-action="ctf-send" data-command="ls /">ls /</button>
+              <button type="button" class="sandbox-quick-btn" data-action="ctf-send" data-command="ls -la">ls -la</button>
+              <button type="button" class="sandbox-quick-btn" data-action="ctf-send" data-command="find / -name flag* 2>/dev/null">find flag*</button>
+              <button type="button" class="sandbox-quick-btn" data-action="ctf-send" data-command="cat /etc/passwd">cat /etc/passwd</button>
             </div>
           </div>
 
@@ -1106,11 +1109,12 @@
           <div class="ctf-submit-section">
             <h3 class="ctf-section-label">🚩 Soumettre le flag</h3>
             <div class="ctf-submit-row">
+              <label class="visually-hidden" for="ctf-flag-input">Flag du challenge CTF</label>
               <input type="text" class="ctf-flag-input" id="ctf-flag-input"
                 placeholder="flag{...}"
                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                onkeydown="if(event.key==='Enter') submitCTFFlag()">
-              <button type="button" class="ctf-submit-btn" onclick="submitCTFFlag()">Valider</button>
+                data-action="submit-ctf-flag">
+              <button type="button" class="ctf-submit-btn" data-action="submit-ctf-flag">Valider</button>
             </div>
             <div class="ctf-flag-feedback" id="ctf-flag-feedback" role="alert" aria-live="assertive"></div>
           </div>
@@ -1119,7 +1123,7 @@
           <div class="ctf-hints-section">
             <h3 class="ctf-section-label">💡 Indices</h3>
             <div class="ctf-hints-list" id="ctf-hints-list"></div>
-            <button type="button" class="ctf-hint-btn" id="ctf-hint-btn" onclick="showNextCTFHint()">Afficher un indice</button>
+            <button type="button" class="ctf-hint-btn" id="ctf-hint-btn" data-action="show-ctf-hint">Afficher un indice</button>
           </div>
         </div>
       </section>
@@ -1143,23 +1147,23 @@
         <!-- Filtres sévérité + tags -->
         <div class="news-filters" id="news-filters">
           <div class="news-filters-group" id="news-sev-filters">
-            <button type="button" class="news-filter-btn active" data-filter="all" onclick="filterNews('all', this)" aria-pressed="true">Tous</button>
-            <button type="button" class="news-filter-btn" data-filter="critical" onclick="filterNews('critical', this)">🔴 Critique</button>
-            <button type="button" class="news-filter-btn" data-filter="high" onclick="filterNews('high', this)">🟠 Élevé</button>
-            <button type="button" class="news-filter-btn" data-filter="medium" onclick="filterNews('medium', this)">🟡 Moyen</button>
-            <button type="button" class="news-filter-btn" data-filter="info" onclick="filterNews('info', this)">🔵 Info</button>
-            <button type="button" class="news-filter-btn" data-filter="unevaluated" onclick="filterNews('unevaluated', this)">⚪ Non évaluée</button>
+            <button type="button" class="news-filter-btn active" data-filter="all" data-action="filter-news" aria-pressed="true">Tous</button>
+            <button type="button" class="news-filter-btn" data-filter="critical" data-action="filter-news">🔴 Critique</button>
+            <button type="button" class="news-filter-btn" data-filter="high" data-action="filter-news">🟠 Élevé</button>
+            <button type="button" class="news-filter-btn" data-filter="medium" data-action="filter-news">🟡 Moyen</button>
+            <button type="button" class="news-filter-btn" data-filter="info" data-action="filter-news">🔵 Info</button>
+            <button type="button" class="news-filter-btn" data-filter="unevaluated" data-action="filter-news">⚪ Non évaluée</button>
           </div>
           <div class="news-filters-sep"></div>
           <div class="news-filters-group" id="news-tag-filters">
-            <button type="button" class="news-filter-btn" data-filter="tag:CVE" onclick="filterNews('tag:CVE', this)">CVE</button>
-            <button type="button" class="news-filter-btn" data-filter="tag:Patch" onclick="filterNews('tag:Patch', this)">Patch</button>
-            <button type="button" class="news-filter-btn" data-filter="tag:Incident" onclick="filterNews('tag:Incident', this)">Incident</button>
-            <button type="button" class="news-filter-btn" data-filter="tag:Outil" onclick="filterNews('tag:Outil', this)">Outil</button>
-            <button type="button" class="news-filter-btn" data-filter="tag:Linux" onclick="filterNews('tag:Linux', this)">Linux</button>
-            <button type="button" class="news-filter-btn" data-filter="tag:Réseau" onclick="filterNews('tag:Réseau', this)">Réseau</button>
-            <button type="button" class="news-filter-btn" data-filter="tag:Windows" onclick="filterNews('tag:Windows', this)">Windows</button>
-            <button type="button" class="news-filter-btn" data-filter="tag:Fraude" onclick="filterNews('tag:Fraude', this)">Fraude</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:CVE" data-action="filter-news">CVE</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:Patch" data-action="filter-news">Patch</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:Incident" data-action="filter-news">Incident</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:Outil" data-action="filter-news">Outil</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:Linux" data-action="filter-news">Linux</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:Réseau" data-action="filter-news">Réseau</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:Windows" data-action="filter-news">Windows</button>
+            <button type="button" class="news-filter-btn" data-filter="tag:Fraude" data-action="filter-news">Fraude</button>
           </div>
         </div>
 
@@ -1178,7 +1182,7 @@
       <section id="section-roadmap" class="module-section">
         <div class="module-header">
           <div class="module-tag tag-progress">Progression</div>
-          <h2 class="module-title"><span class="prompt-prefix prompt-progress">$</span> Ma progression</h2>
+          <h1 class="module-title"><span class="prompt-prefix prompt-progress">$</span> Ma progression</h1>
           <p class="module-desc">Vue d'ensemble : Fondamentaux Linux (M1–M8), Réseau &amp; services (M9–M11) et Sécurité, Pentest &amp; DFIR (M12–M14).</p>
         </div>
 
@@ -1193,7 +1197,7 @@
         </div>
 
         <!-- Sections bonus -->
-        <div class="roadmap-bonus-title">Outils &amp; Ressources</div>
+        <h2 class="roadmap-bonus-title">Outils &amp; Ressources</h2>
         <div class="roadmap-bonus-grid" id="roadmap-bonus-grid">
           <!-- Rempli par JS -->
         </div>
@@ -1203,7 +1207,7 @@
       <section id="section-glossary" class="module-section">
         <div class="module-header">
           <div class="module-tag tag-reference">Référence</div>
-          <h2 class="module-title"><span class="prompt-prefix prompt-reference">$</span> Glossaire Linux &amp; Cybersécurité</h2>
+          <h1 class="module-title"><span class="prompt-prefix prompt-reference">$</span> Glossaire Linux &amp; Cybersécurité</h1>
           <p class="module-desc">74 termes essentiels expliqués en français, avec exemples concrets. Du vocabulaire que tu rencontres dans les modules, les CTF et les actualités.</p>
           <div class="module-meta">
             <span class="module-meta-item">📖 74 termes</span>
@@ -1219,7 +1223,7 @@
           id="glossary-search"
           class="cheatsheet-search"
           placeholder="🔍  Rechercher un terme... (ex: kernel, CVE, permission)"
-          oninput="filterGlossary()"
+          data-action="filter-glossary"
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"
@@ -1230,14 +1234,14 @@
 
         <!-- Filtres catégories -->
         <div class="cheatsheet-filters" id="glossary-cat-filters">
-          <button type="button" class="cheatsheet-filter-btn active" data-cat="all" onclick="filterGlossaryCat('all', this)">Tout</button>
-          <button type="button" class="cheatsheet-filter-btn" data-cat="securite" onclick="filterGlossaryCat('securite', this)">🛡️ Sécurité</button>
-          <button type="button" class="cheatsheet-filter-btn" data-cat="systeme" onclick="filterGlossaryCat('systeme', this)">🖥️ Système</button>
-          <button type="button" class="cheatsheet-filter-btn" data-cat="shell" onclick="filterGlossaryCat('shell', this)">📝 Shell</button>
-          <button type="button" class="cheatsheet-filter-btn" data-cat="reseau" onclick="filterGlossaryCat('reseau', this)">🌐 Réseau</button>
-          <button type="button" class="cheatsheet-filter-btn" data-cat="permissions" onclick="filterGlossaryCat('permissions', this)">🔐 Permissions</button>
-          <button type="button" class="cheatsheet-filter-btn" data-cat="developpement" onclick="filterGlossaryCat('developpement', this)">⚙️ Dev</button>
-          <button type="button" class="cheatsheet-filter-btn" data-cat="virtualisation" onclick="filterGlossaryCat('virtualisation', this)">📦 Virtualisation</button>
+          <button type="button" class="cheatsheet-filter-btn active" data-cat="all" data-action="filter-glossary-category">Tout</button>
+          <button type="button" class="cheatsheet-filter-btn" data-cat="securite" data-action="filter-glossary-category">🛡️ Sécurité</button>
+          <button type="button" class="cheatsheet-filter-btn" data-cat="systeme" data-action="filter-glossary-category">🖥️ Système</button>
+          <button type="button" class="cheatsheet-filter-btn" data-cat="shell" data-action="filter-glossary-category">📝 Shell</button>
+          <button type="button" class="cheatsheet-filter-btn" data-cat="reseau" data-action="filter-glossary-category">🌐 Réseau</button>
+          <button type="button" class="cheatsheet-filter-btn" data-cat="permissions" data-action="filter-glossary-category">🔐 Permissions</button>
+          <button type="button" class="cheatsheet-filter-btn" data-cat="developpement" data-action="filter-glossary-category">⚙️ Dev</button>
+          <button type="button" class="cheatsheet-filter-btn" data-cat="virtualisation" data-action="filter-glossary-category">📦 Virtualisation</button>
         </div>
 
         <!-- Nav alphabétique -->
@@ -1255,7 +1259,7 @@
       <section id="section-cheatsheet" class="module-section">
         <div class="module-header">
           <div class="module-tag tag-rapide">Référence rapide</div>
-          <h2 class="module-title"><span class="prompt-prefix">$</span> Cheatsheet Linux</h2>
+          <h1 class="module-title"><span class="prompt-prefix">$</span> Cheatsheet Linux</h1>
           <p class="module-desc">118 commandes essentielles organisées par thème. Clique sur une commande pour la copier directement.</p>
           <div class="module-meta">
             <span class="module-meta-item">📋 118 commandes</span>
@@ -1271,7 +1275,7 @@
           id="cheatsheet-search"
           class="cheatsheet-search"
           placeholder="🔍  Rechercher une commande... (ex: grep, chmod, ssh)"
-          oninput="filterCheatsheet()"
+          data-action="filter-cheatsheet"
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"
@@ -1282,7 +1286,7 @@
 
         <!-- Filtres catégories -->
         <div class="cheatsheet-filters" id="cheatsheet-filters">
-          <button type="button" class="cheatsheet-filter-btn active" data-cat="all" onclick="filterCheatsheetCat('all', this)">Tout</button>
+          <button type="button" class="cheatsheet-filter-btn active" data-cat="all" data-action="filter-cheatsheet-category">Tout</button>
           <!-- Rempli dynamiquement par JS -->
         </div>
 
@@ -1292,29 +1296,29 @@
         </div>
 
         <!-- Toast copie -->
-        <div class="cheatsheet-toast" id="cheatsheet-toast">✓ Copié dans le presse-papier</div>
+        <div class="cheatsheet-toast" id="cheatsheet-toast" role="status" aria-live="polite" aria-atomic="true">✓ Copié dans le presse-papier</div>
       </section>
 
     </div><!-- /.content-area -->
   </main>
 
   <!-- ==================== TERMINAL ==================== -->
-  <div class="terminal-section minimized" id="terminal-section">
-    <div class="terminal-titlebar" onclick="toggleTerminal()">
-      <div class="term-dots">
-        <div class="term-dot dot-red"></div>
-        <div class="term-dot dot-yellow"></div>
-        <div class="term-dot dot-green"></div>
-      </div>
-      <div class="terminal-title">Terminal simulé — user@linux:~</div>
-      <div class="term-toggle-icon" id="term-toggle-icon">▲</div>
-    </div>
-     <div class="terminal-output" id="terminal-output" aria-live="polite" tabindex="0"></div>
+  <section class="terminal-section minimized" id="terminal-section" aria-labelledby="terminal-toggle">
+    <button type="button" class="terminal-titlebar" id="terminal-toggle" data-action="toggle-terminal" aria-expanded="false" aria-controls="terminal-output">
+      <span class="term-dots" aria-hidden="true">
+        <span class="term-dot dot-red"></span>
+        <span class="term-dot dot-yellow"></span>
+        <span class="term-dot dot-green"></span>
+      </span>
+      <span class="terminal-title">Terminal simulé — user@linux:~</span>
+      <span class="term-toggle-icon" id="term-toggle-icon" aria-hidden="true">▲</span>
+    </button>
+     <div class="terminal-output" id="terminal-output" role="log" aria-live="polite" aria-atomic="false" aria-relevant="additions" tabindex="0"></div>
     <div class="terminal-input-row">
       <span class="terminal-prompt-label" id="terminal-prompt-label">user@linux:~$</span>
        <input type="text" class="terminal-input" id="terminal-input" placeholder="tapez une commande..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Saisie de commande terminal">
     </div>
-  </div>
+  </section>
 
 </div><!-- /#app -->
 
@@ -1324,21 +1328,13 @@
 <script src="assets/storage.min.js" defer></script>
 <script src="assets/exercise-variants.min.js" defer></script>
 <script src="assets/terminal-core.min.js" defer></script>
+<script src="assets/pedagogical-commands.min.js" defer></script>
 <script src="assets/terminal-main.min.js" defer></script>
 <script src="assets/ctf.min.js" defer></script>
 <script src="assets/exercise-validators.min.js" defer></script>
 <script src="assets/render.min.js" defer></script>
 <script src="assets/app.min.js" defer></script>
-
-<!-- Enregistrement du Service Worker -->
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('./sw.js')
-      .catch(function(err) { console.warn('SW registration failed:', err); });
-  });
-}
-</script>
+<script src="assets/sw-register.min.js" defer></script>
 </body>
 </html>
 

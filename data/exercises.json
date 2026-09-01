@@ -156,13 +156,68 @@
       ],
       "validator": {
         "type": "all",
+        "reason": "L’exercice exige un affichage long des permissions ; l’option -l manque.",
         "of": [
           {
             "type": "exit_zero"
           },
           {
             "type": "command",
-            "name": "ls"
+            "name": "ls",
+            "single": true
+          },
+          {
+            "type": "any",
+            "of": [
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-la",
+                  "scripts/script.sh"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-l",
+                  "scripts/script.sh"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-al",
+                  "scripts/script.sh"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-lh",
+                  "scripts/script.sh"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-la",
+                  "./scripts/script.sh"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-la",
+                  "/home/user/scripts/script.sh"
+                ]
+              }
+            ]
           },
           {
             "type": "stdout_includes",
@@ -180,7 +235,7 @@
       "accepted": [
         "ps aux",
         "ps -aux",
-        "ps",
+        "ps -A",
         "ps -ef",
         "ps -e",
         "ps -a -u -x",
@@ -194,13 +249,78 @@
       ],
       "validator": {
         "type": "all",
+        "reason": "La commande ne demande pas la liste complète des processus exigée par l’exercice.",
         "of": [
           {
             "type": "exit_zero"
           },
           {
             "type": "command",
-            "name": "ps"
+            "name": "ps",
+            "single": true
+          },
+          {
+            "type": "any",
+            "of": [
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "aux"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-aux"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-A"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-ef"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-e"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-a",
+                  "-u",
+                  "-x"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "axu"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-eF"
+                ]
+              }
+            ]
           },
           {
             "type": "stdout_includes",
@@ -450,6 +570,7 @@
       ],
       "validator": {
         "type": "all",
+        "reason": "La sous-commande status ou is-active manque ; ssh n’est pas une sous-commande systemctl.",
         "of": [
           {
             "type": "exit_zero"
@@ -459,46 +580,65 @@
             "names": [
               "systemctl",
               "service"
-            ]
-          },
-          {
-            "type": "stdout_includes",
-            "text": "ssh"
+            ],
+            "single": true
           },
           {
             "type": "any",
             "of": [
               {
-                "type": "command",
-                "names": [
-                  "service"
-                ]
-              },
-              {
-                "type": "args_include",
+                "type": "args_exact",
+                "stage": 0,
                 "tokens": [
-                  "status"
-                ]
-              },
-              {
-                "type": "args_include",
-                "tokens": [
+                  "status",
                   "ssh"
                 ]
               },
               {
-                "type": "args_include",
+                "type": "args_exact",
+                "stage": 0,
                 "tokens": [
+                  "status",
                   "sshd"
                 ]
               },
               {
-                "type": "args_include",
+                "type": "args_exact",
+                "stage": 0,
                 "tokens": [
-                  "is-active"
+                  "ssh",
+                  "status"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "sshd",
+                  "status"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "is-active",
+                  "ssh"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "is-active",
+                  "sshd"
                 ]
               }
             ]
+          },
+          {
+            "type": "stdout_includes",
+            "text": "ssh"
           }
         ]
       }
@@ -600,23 +740,48 @@
       ],
       "validator": {
         "type": "all",
+        "reason": "Aucun chemin ni fichier n’est fourni à git add.",
         "of": [
           {
             "type": "exit_zero"
           },
           {
             "type": "command",
-            "name": "git"
+            "name": "git",
+            "single": true
+          },
+          {
+            "type": "any",
+            "of": [
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "add",
+                  "."
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "add",
+                  "-A"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "add",
+                  "--all"
+                ]
+              }
+            ]
           },
           {
             "type": "stdout_includes",
             "text": "index"
-          },
-          {
-            "type": "args_include",
-            "tokens": [
-              "add"
-            ]
           }
         ]
       }
@@ -680,24 +845,108 @@
       ],
       "validator": {
         "type": "all",
+        "reason": "L’exercice exige un shell bash ou /bin/bash, pas sh.",
         "of": [
           {
             "type": "exit_zero"
           },
           {
             "type": "command",
-            "name": "docker"
+            "name": "docker",
+            "single": true
+          },
+          {
+            "type": "any",
+            "of": [
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "run",
+                  "-it",
+                  "ubuntu",
+                  "bash"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "run",
+                  "-it",
+                  "ubuntu",
+                  "/bin/bash"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "run",
+                  "-ti",
+                  "ubuntu",
+                  "bash"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "run",
+                  "-ti",
+                  "ubuntu",
+                  "/bin/bash"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "run",
+                  "--rm",
+                  "-it",
+                  "ubuntu",
+                  "bash"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "run",
+                  "--rm",
+                  "-it",
+                  "ubuntu",
+                  "/bin/bash"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "run",
+                  "-it",
+                  "--rm",
+                  "ubuntu",
+                  "bash"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "run",
+                  "-it",
+                  "--rm",
+                  "ubuntu",
+                  "/bin/bash"
+                ]
+              }
+            ]
           },
           {
             "type": "stdout_includes",
             "text": "interactif"
-          },
-          {
-            "type": "args_include",
-            "tokens": [
-              "run",
-              "ubuntu"
-            ]
           }
         ]
       }
@@ -847,13 +1096,23 @@
       ],
       "validator": {
         "type": "all",
+        "reason": "L’algorithme ed25519 exigé n’est pas sélectionné avec -t ed25519.",
         "of": [
           {
             "type": "exit_zero"
           },
           {
             "type": "command",
-            "name": "ssh-keygen"
+            "name": "ssh-keygen",
+            "single": true
+          },
+          {
+            "type": "args_include",
+            "stage": 0,
+            "tokens": [
+              "-t",
+              "ed25519"
+            ]
           },
           {
             "type": "path_exists",
@@ -879,24 +1138,51 @@
       ],
       "validator": {
         "type": "all",
+        "reason": "La source demandée par l’exercice est projet/, pas autre/.",
         "of": [
           {
             "type": "exit_zero"
           },
           {
             "type": "command",
-            "name": "rsync"
+            "name": "rsync",
+            "single": true
+          },
+          {
+            "type": "any",
+            "of": [
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-avz",
+                  "projet/",
+                  "user@serveur:/backup/"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-avz",
+                  "./projet/",
+                  "user@serveur:/backup/"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-avz",
+                  "projet",
+                  "user@serveur:/backup/"
+                ]
+              }
+            ]
           },
           {
             "type": "stdout_includes",
             "text": "sent"
-          },
-          {
-            "type": "args_include",
-            "tokens": [
-              "-avz",
-              "user@serveur:/backup/"
-            ]
           }
         ]
       }
@@ -918,23 +1204,61 @@
       ],
       "validator": {
         "type": "all",
+        "reason": "Le port local, la cible de tunnel et l’hôte ne correspondent pas au tunnel demandé.",
         "of": [
           {
             "type": "exit_zero"
           },
           {
             "type": "command",
-            "name": "ssh"
+            "name": "ssh",
+            "single": true
+          },
+          {
+            "type": "any",
+            "of": [
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-L",
+                  "8080:localhost:80",
+                  "webserver"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-L",
+                  "8080:127.0.0.1:80",
+                  "webserver"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-L",
+                  "8080:localhost:80",
+                  "user@webserver"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "-N",
+                  "-L",
+                  "8080:localhost:80",
+                  "webserver"
+                ]
+              }
+            ]
           },
           {
             "type": "stdout_includes",
             "text": "simulation"
-          },
-          {
-            "type": "args_include",
-            "tokens": [
-              "-L"
-            ]
           }
         ]
       }
@@ -958,24 +1282,58 @@
       ],
       "validator": {
         "type": "all",
+        "reason": "L’exercice demande l’enregistrement A ; la requête MX est sémantiquement différente.",
         "of": [
           {
             "type": "exit_zero"
           },
           {
             "type": "command",
-            "name": "dig"
+            "name": "dig",
+            "single": true
+          },
+          {
+            "type": "any",
+            "of": [
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "linux.org",
+                  "+short"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "linux.org",
+                  "A",
+                  "+short"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "+short",
+                  "linux.org"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "+short",
+                  "linux.org",
+                  "A"
+                ]
+              }
+            ]
           },
           {
             "type": "stdout_includes",
             "text": "linux.org"
-          },
-          {
-            "type": "args_include",
-            "tokens": [
-              "linux.org",
-              "+short"
-            ]
           }
         ]
       }
@@ -1169,13 +1527,50 @@
       ],
       "validator": {
         "type": "all",
+        "reason": "La sous-commande et la règle nftables sont incomplètes et invalides.",
         "of": [
           {
             "type": "exit_zero"
           },
           {
             "type": "command",
-            "name": "nft"
+            "name": "nft",
+            "single": true
+          },
+          {
+            "type": "any",
+            "of": [
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "add",
+                  "rule",
+                  "inet",
+                  "filter",
+                  "input",
+                  "ip",
+                  "saddr",
+                  "203.0.113.42",
+                  "drop"
+                ]
+              },
+              {
+                "type": "args_exact",
+                "stage": 0,
+                "tokens": [
+                  "add",
+                  "rule",
+                  "inet",
+                  "filter",
+                  "input",
+                  "ip",
+                  "saddr",
+                  "203.0.113.42",
+                  "drop"
+                ]
+              }
+            ]
           },
           {
             "type": "path_exists",

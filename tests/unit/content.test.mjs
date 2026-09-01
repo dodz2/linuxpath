@@ -1,8 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
-import { access } from 'node:fs/promises';
+import { access, cp, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { constants } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { validateContent, loadJson } from '../../scripts/lib/content-validation.mjs';
 
 const EXPECTED_COUNTS = {
@@ -33,6 +34,105 @@ test('course answers and CTF hashes stay within valid ranges and formats', async
     });
   }
   for (const challenge of challenges) assert.match(challenge.flagHash, /^[0-9a-f]{64}$/, challenge.id);
+});
+
+test('every quiz declares a valid explicit pass score', async () => {
+  const quizzes = await loadJson('data/quizzes.json');
+  for (const [moduleId, quiz] of Object.entries(quizzes)) {
+    assert.equal(Number.isInteger(quiz.passScore), true, moduleId);
+    assert.ok(quiz.passScore >= 1 && quiz.passScore <= quiz.questions.length, moduleId);
+  }
+  assert.equal(quizzes.m12.passScore, 3);
+});
+
+test('browser bootstrap no longer consumes a global quiz threshold', async () => {
+  const [app, storage] = await Promise.all([
+    readFile('assets/app.js', 'utf8'),
+    readFile('assets/storage.js', 'utf8'),
+  ]);
+  assert.equal(app.includes('catalogue.passScore'), false);
+  assert.equal(storage.includes('options.passScore'), false);
+});
+
+test('content validation rejects a quiz threshold outside its question bounds', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'linuxpath-quiz-policy-'));
+  try {
+    await cp('data', path.join(root, 'data'), { recursive: true });
+    const fixturePath = path.join(root, 'data/quizzes.json');
+    const quizzes = JSON.parse(await readFile(fixturePath, 'utf8'));
+    quizzes.m1.passScore = quizzes.m1.questions.length + 1;
+    await writeFile(fixturePath, `${JSON.stringify(quizzes, null, 2)}\n`);
+
+    const result = await validateContent(root);
+    assert.deepEqual(result.errors.filter((entry) => entry.code === 'invalid-quiz-pass-score'), [{
+      severity: 'error',
+      code: 'invalid-quiz-pass-score',
+      location: 'data/quizzes.json#m1',
+      message: 'Quiz m1 passScore must be an integer between 1 and 5',
+    }]);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test('content validation itemizes every malformed lesson source with its reason', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'linuxpath-lesson-sources-'));
+  try {
+    await cp('data', path.join(root, 'data'), { recursive: true });
+    const fixturePath = path.join(root, 'data/lessons.json');
+    const lessons = JSON.parse(await readFile(fixturePath, 'utf8'));
+    delete lessons.m1[0].sources;
+    lessons.m1[1].sources = ['man-pages'];
+    lessons.m1[2].sources = [{
+      title: '   ',
+      url: 'http://example.com/',
+      scope: '',
+      checkedAt: '2026-02-30',
+    }];
+    await writeFile(fixturePath, `${JSON.stringify(lessons, null, 2)}\n`);
+
+    const result = await validateContent(root);
+    assert.deepEqual(result.errors.filter((entry) => entry.code === 'invalid-lesson-source'), [
+      {
+        severity: 'error',
+        code: 'invalid-lesson-source',
+        location: 'data/lessons.json#m1-l1',
+        message: 'Lesson m1-l1: sources must be a non-empty array',
+      },
+      {
+        severity: 'error',
+        code: 'invalid-lesson-source',
+        location: 'data/lessons.json#m1-l2/sources/0',
+        message: 'Lesson m1-l2 source 1: must be an object',
+      },
+      {
+        severity: 'error',
+        code: 'invalid-lesson-source',
+        location: 'data/lessons.json#m1-l3/sources/0',
+        message: 'Lesson m1-l3 source 1: title must be a non-empty string',
+      },
+      {
+        severity: 'error',
+        code: 'invalid-lesson-source',
+        location: 'data/lessons.json#m1-l3/sources/0',
+        message: 'Lesson m1-l3 source 1: url must be an HTTPS URL',
+      },
+      {
+        severity: 'error',
+        code: 'invalid-lesson-source',
+        location: 'data/lessons.json#m1-l3/sources/0',
+        message: 'Lesson m1-l3 source 1: scope must be a non-empty string',
+      },
+      {
+        severity: 'error',
+        code: 'invalid-lesson-source',
+        location: 'data/lessons.json#m1-l3/sources/0',
+        message: 'Lesson m1-l3 source 1: checkedAt must be a valid YYYY-MM-DD date',
+      },
+    ]);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
 });
 
 test('rendering sources contain no legacy hard-coded product totals', async () => {
