@@ -99,7 +99,7 @@ async function exists(path) {
 }
 
 function unpinnedUses(yaml) {
-  return [...yaml.matchAll(/uses:\s*([^\s#]+)/g)]
+  return [...yaml.matchAll(/^\s*uses:\s*([^\s#]+)/gm)]
     .map((match) => match[1])
     .filter((value) => !/@[0-9a-f]{40}$/.test(value));
 }
