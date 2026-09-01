@@ -49,7 +49,12 @@ test('repository governance files define maintainable and private security workf
   assert.match(ci, /workflow_dispatch:/);
   assert.match(news, /actions:\s*write/);
   assert.match(news, /gh workflow run ci\.yml --ref/);
-  assert.match(news, /gh pr merge[^\n]*--auto[^\n]*--squash/);
+  const mergeNewsJob = ci.match(/\n  merge-news:[\s\S]*$/)?.[0] || '';
+  assert.match(mergeNewsJob, /needs:\s*verify/);
+  assert.match(mergeNewsJob, /github\.event_name\s*==\s*'workflow_dispatch'/);
+  assert.match(mergeNewsJob, /github\.ref_name\s*==\s*'news\/auto-update'/);
+  assert.match(mergeNewsJob, /gh pr merge[^\n]*--squash/);
+  assert.equal(/gh pr merge/.test(news), false);
 
   assert.match(security, /security\/advisories\/new/);
   assert.match(security, /ne (?:publiez|divulguez|déposez) pas|do not (?:publish|disclose|file)/i);
