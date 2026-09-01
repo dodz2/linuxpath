@@ -14,6 +14,236 @@ const VALID_TARGETS = [
   'hw1','hw2','hw3','hw4',
 ];
 
+const DELEGATED_SIDEBAR_GROUPS = Object.freeze([
+  'group-modules', 'group-network', 'group-offsec', 'group-hardware',
+  'group-challenges', 'group-tools', 'group-resources',
+]);
+const DELEGATED_TRACKS = Object.freeze(['linux', 'network', 'offsec', 'hardware']);
+const DELEGATED_SCROLL_TARGETS = Object.freeze(['track-picker', 'lp-modules']);
+const DELEGATED_SANDBOX_COMMANDS = Object.freeze([
+  'ls /', 'uname -a', 'cat /etc/os-release', 'free -m', 'df -h', 'ps aux',
+]);
+const DELEGATED_CTF_COMMANDS = Object.freeze([
+  'ls /', 'ls -la', 'find / -name flag* 2>/dev/null', 'cat /etc/passwd',
+]);
+const DELEGATED_NEWS_FILTERS = Object.freeze([
+  'all', 'critical', 'high', 'medium', 'info', 'unevaluated',
+  'tag:CVE', 'tag:Patch', 'tag:Incident', 'tag:Outil',
+  'tag:Linux', 'tag:Réseau', 'tag:Windows', 'tag:Fraude',
+]);
+const DELEGATED_GLOSSARY_CATEGORIES = Object.freeze([
+  'all', 'securite', 'systeme', 'shell', 'reseau', 'permissions',
+  'developpement', 'virtualisation',
+]);
+
+function delegatedLessonExists(lessonId) {
+  return typeof LESSONS === 'object' && Object.values(LESSONS).some(function (lessons) {
+    return Array.isArray(lessons) && lessons.some(function (lesson) { return lesson.id === lessonId; });
+  });
+}
+
+function delegatedExerciseExists(exerciseId, moduleId) {
+  return typeof EXERCISES === 'object'
+    && Array.isArray(EXERCISES[moduleId])
+    && EXERCISES[moduleId].some(function (exercise) { return exercise.id === exerciseId; });
+}
+
+function delegatedModuleExists(moduleId) {
+  return VALID_TARGETS.includes(moduleId)
+    && typeof MODULE_META === 'object'
+    && Object.prototype.hasOwnProperty.call(MODULE_META, moduleId);
+}
+
+function delegatedQuizExists(moduleId) {
+  return delegatedModuleExists(moduleId)
+    && typeof QUIZZES === 'object'
+    && Object.prototype.hasOwnProperty.call(QUIZZES, moduleId);
+}
+
+function delegatedChallengeExists(challengeId) {
+  return typeof CTF_CHALLENGES !== 'undefined'
+    && CTF_CHALLENGES.some(function (challenge) { return challenge.id === challengeId; });
+}
+
+function delegatedCheatsheetCategoryExists(categoryId) {
+  return categoryId === 'all'
+    || (typeof _cheatsheetData !== 'undefined' && _cheatsheetData.some(function (category) {
+      return category.id === categoryId;
+    }));
+}
+
+function delegatedGlossaryLetterExists(letter) {
+  return letter === 'all'
+    || (typeof _glossaryData !== 'undefined' && _glossaryData.some(function (term) {
+      return term.letter === letter;
+    }));
+}
+
+function delegatedCheatsheetCommandExists(command) {
+  return typeof _cheatsheetData !== 'undefined' && _cheatsheetData.some(function (category) {
+    return Array.isArray(category.commands) && category.commands.some(function (entry) {
+      return entry.example === command;
+    });
+  });
+}
+
+function delegatedScrollTo(elementId) {
+  if (!DELEGATED_SCROLL_TARGETS.includes(elementId)) return;
+  const target = document.getElementById(elementId);
+  if (target) target.scrollIntoView({ behavior: 'smooth' });
+}
+
+const DELEGATED_CLICK_ACTIONS = Object.freeze({
+  navigate: function (element) {
+    if (VALID_TARGETS.includes(element.dataset.target)) navigateTo(element.dataset.target);
+  },
+  'toggle-sidebar-group': function (element) {
+    if (DELEGATED_SIDEBAR_GROUPS.includes(element.dataset.group)) toggleSidebarGroup(element.dataset.group);
+  },
+  'focus-terminal': function () { focusTerminal(); },
+  'export-progress': function () { exportProgress(); },
+  'import-progress': function () { importProgress(); },
+  'confirm-reset': function () { confirmReset(); },
+  'close-sidebar': function () { closeSidebar(); },
+  'toggle-sidebar': function () { toggleSidebar(); },
+  'enter-track': function (element) {
+    if (DELEGATED_TRACKS.includes(element.dataset.track)) enterTrack(element.dataset.track);
+  },
+  'toggle-faq': function (element) { toggleFaq(element); },
+  'scroll-to': function (element) { delegatedScrollTo(element.dataset.scrollTarget); },
+  'start-sandbox': function () { startSandbox(); },
+  'reset-sandbox': function () { resetSandbox(); },
+  'sandbox-send': function (element) {
+    if (DELEGATED_SANDBOX_COMMANDS.includes(element.dataset.command)) sandboxSend(element.dataset.command);
+  },
+  'close-ctf-detail': function () { closeCTFDetail(); },
+  'reset-ctf-terminal': function () { resetCTFTerminal(); },
+  'ctf-send': function (element) {
+    if (DELEGATED_CTF_COMMANDS.includes(element.dataset.command)) ctfSend(element.dataset.command);
+  },
+  'submit-ctf-flag': function () { submitCTFFlag(); },
+  'show-ctf-hint': function () { showNextCTFHint(); },
+  'filter-news': function (element) {
+    if (DELEGATED_NEWS_FILTERS.includes(element.dataset.filter)) filterNews(element.dataset.filter, element);
+  },
+  'filter-glossary-category': function (element) {
+    if (DELEGATED_GLOSSARY_CATEGORIES.includes(element.dataset.cat)) filterGlossaryCat(element.dataset.cat, element);
+  },
+  'filter-cheatsheet-category': function (element) {
+    if (delegatedCheatsheetCategoryExists(element.dataset.cat)) filterCheatsheetCat(element.dataset.cat, element);
+  },
+  'toggle-terminal': function () { toggleTerminal(); },
+  'toggle-lesson': function (element) {
+    if (delegatedLessonExists(element.dataset.lessonId)) toggleLesson(element.dataset.lessonId);
+  },
+  'mark-lesson-done': function (element) {
+    if (delegatedLessonExists(element.dataset.lessonId)) markLessonDone(element.dataset.lessonId);
+  },
+  'scroll-to-lesson': function (element) {
+    if (delegatedLessonExists(element.dataset.lessonId)) scrollToLesson(element.dataset.lessonId);
+  },
+  'scroll-to-exercises': function (element) {
+    if (!delegatedModuleExists(element.dataset.module)) return;
+    const target = document.getElementById('exercises-' + element.dataset.module);
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  },
+  'check-exercise': function (element) {
+    if (delegatedExerciseExists(element.dataset.exerciseId, element.dataset.module)) {
+      checkExercise(element.dataset.exerciseId, element.dataset.module);
+    }
+  },
+  'show-hint': function (element) {
+    if (delegatedExerciseExists(element.dataset.exerciseId, element.dataset.module)) {
+      showHint(element.dataset.exerciseId, element.dataset.module);
+    }
+  },
+  'switch-variant': function (element) {
+    if (delegatedModuleExists(element.dataset.module) && getVariantGroupByModule(element.dataset.module)) {
+      switchVariant(element.dataset.module);
+    }
+  },
+  'start-quiz': function (element) {
+    if (delegatedQuizExists(element.dataset.module)) startQuiz(element.dataset.module);
+  },
+  'select-quiz-option': function (element) {
+    const moduleId = element.dataset.module;
+    const optionIndex = Number(element.dataset.optionIndex);
+    const quiz = delegatedQuizExists(moduleId) && quizState[moduleId];
+    const question = quiz && quiz.questions[quiz.currentQ];
+    if (question && Number.isInteger(optionIndex) && optionIndex >= 0 && optionIndex < question.options.length) {
+      selectOption(moduleId, optionIndex);
+    }
+  },
+  'next-question': function (element) {
+    if (delegatedQuizExists(element.dataset.module) && quizState[element.dataset.module]) {
+      nextQuestion(element.dataset.module);
+    }
+  },
+  'load-news': function () { loadNews(); },
+  'load-cheatsheet': function () { loadCheatsheet(); },
+  'copy-command': function (element) {
+    if (delegatedCheatsheetCommandExists(element.dataset.command)) copyCmd(element.dataset.command);
+  },
+  'load-glossary': function () { loadGlossary(); },
+  'filter-glossary-letter': function (element) {
+    if (delegatedGlossaryLetterExists(element.dataset.letter)) filterGlossaryLetter(element.dataset.letter, element);
+  },
+  'load-ctf-catalogue': function () { loadCTFCatalogue(); },
+  'open-ctf-challenge': function (element) {
+    if (delegatedChallengeExists(element.dataset.challengeId)) openCTFChallenge(element.dataset.challengeId);
+  },
+});
+
+const DELEGATED_INPUT_ACTIONS = Object.freeze({
+  'filter-glossary': function () { filterGlossary(); },
+  'filter-cheatsheet': function () { filterCheatsheet(); },
+});
+
+const DELEGATED_KEYDOWN_ACTIONS = Object.freeze({
+  'submit-ctf-flag': function () { submitCTFFlag(); },
+  'check-exercise': function (element) {
+    if (delegatedExerciseExists(element.dataset.exerciseId, element.dataset.module)) {
+      checkExercise(element.dataset.exerciseId, element.dataset.module);
+    }
+  },
+});
+
+function delegatedActionElement(event) {
+  if (!(event.target instanceof Element)) return null;
+  const element = event.target.closest('[data-action]');
+  return element && document.documentElement.contains(element) ? element : null;
+}
+
+document.addEventListener('click', function (event) {
+  const element = delegatedActionElement(event);
+  if (!element || element.matches('input, textarea, select')) return;
+  const action = Object.prototype.hasOwnProperty.call(DELEGATED_CLICK_ACTIONS, element.dataset.action)
+    ? DELEGATED_CLICK_ACTIONS[element.dataset.action]
+    : null;
+  if (!action) return;
+  if (element.matches('a')) event.preventDefault();
+  action(element, event);
+});
+
+document.addEventListener('input', function (event) {
+  const element = delegatedActionElement(event);
+  if (!element) return;
+  const action = Object.prototype.hasOwnProperty.call(DELEGATED_INPUT_ACTIONS, element.dataset.action)
+    ? DELEGATED_INPUT_ACTIONS[element.dataset.action]
+    : null;
+  if (action) action(element, event);
+});
+
+document.addEventListener('keydown', function (event) {
+  if (event.key !== 'Enter') return;
+  const element = delegatedActionElement(event);
+  if (!element || element.matches('button, a')) return;
+  const action = Object.prototype.hasOwnProperty.call(DELEGATED_KEYDOWN_ACTIONS, element.dataset.action)
+    ? DELEGATED_KEYDOWN_ACTIONS[element.dataset.action]
+    : null;
+  if (action) action(element, event);
+});
+
 /**
  * Lit location.hash et retourne la cible de navigation.
  * Supporte : #m3, #ctf, #/m3, #/ctf, #m3-l2 (module+leçon).
@@ -286,20 +516,12 @@ async function init() {
     EXERCISE_VARIANTS = await variantsResp.json();
     QUIZZES   = await quizzesResp.json();
     const catalogue = await modulesResp.json();
-    applyModules(catalogue.modules || [], { passScore: catalogue.passScore, tracks: catalogue.tracks });
+    applyModules(catalogue.modules || [], { tracks: catalogue.tracks });
     // VFS chargé et passé au terminal
     if (vfsResp.ok) {
       const VFS = await vfsResp.json();
       if (typeof initMainTerminal === 'function') initMainTerminal(VFS);
     }
-    // CTF chargé séparément — ne bloque pas l'appli si absent
-    try {
-      const ctfResp = await fetch('data/ctf.json');
-      if (ctfResp.ok) {
-        const ctfData = await ctfResp.json();
-        CTF_CHALLENGES = ctfData.challenges || [];
-      }
-    } catch(e) { /* ctf.json absent ou invalide — la section CTF restera vide */ }
   } catch (err) {
     dataOk = false;
     showAppError(
@@ -318,6 +540,13 @@ async function init() {
   renderHome();
   initTerminal();
   APP_READY = true;
+  // Catalogue optionnel : même une requête réseau pendue ne doit jamais bloquer
+  // le cours, la restauration locale ni le terminal principal.
+  if (typeof loadCTFCatalogue === 'function') {
+    Promise.resolve()
+      .then(function() { return loadCTFCatalogue(); })
+      .catch(function() { /* loadCTFCatalogue rend déjà un état d'erreur honnête */ });
+  }
   // News chargées indépendamment — ne bloque pas l'appli si absent
   loadNews();
 
@@ -477,19 +706,19 @@ function loadV86Script(callback) {
   _v86Loading = true;
   const script = document.createElement('script');
   script.src = 'v86/libv86.js';
-  script.onload = () => {
+  script.addEventListener('load', () => {
     _v86Loaded = true;
     _v86Loading = false;
     callback();
-  };
-  script.onerror = () => {
+  }, { once: true });
+  script.addEventListener('error', () => {
     _v86Loading = false;
     console.error('Impossible de charger libv86.js');
     const statusTxt = document.getElementById('sandbox-status-text');
     if (statusTxt) statusTxt.textContent = 'Erreur : impossible de charger la sandbox. Vérifiez votre connexion.';
     const status = document.getElementById('sandbox-status');
     if (status) status.style.display = '';
-  };
+  }, { once: true });
   document.head.appendChild(script);
 }
 

@@ -236,3 +236,32 @@ test('exercises reject an unrelated command that happens to carry the expected t
   }
   assert.deepEqual(failures, []);
 });
+
+test('the audit-v2 adversarial corpus is rejected with deterministic reasons', async () => {
+  const [exercises, vfs, fixture] = await Promise.all([
+    loadJson('data/exercises.json'),
+    loadJson('data/vfs.json'),
+    loadJson('tests/fixtures/audit-v2-adversarial-commands.json'),
+  ]);
+  const byId = Object.fromEntries(allExercises(exercises).map(({ exercise }) => [exercise.id, exercise]));
+  const results = fixture.probes.map((probe) => {
+    const isolatedVfs = clone(vfs);
+    const execution = runShell({
+      vfs: isolatedVfs,
+      cwd: '/home/user',
+      command: probe.command,
+      extraCommands: pedagogicalCommands,
+    });
+    const verdict = evaluateValidator(byId[probe.exerciseId].validator, {
+      ...execution,
+      raw: probe.command,
+      vfs: isolatedVfs,
+    });
+    return { id: probe.id, accepted: execution.exitCode === 0 && verdict.ok, reason: verdict.reason };
+  });
+  assert.deepEqual(results, fixture.probes.map((probe) => ({
+    id: probe.id,
+    accepted: false,
+    reason: probe.rejectionReason,
+  })));
+});

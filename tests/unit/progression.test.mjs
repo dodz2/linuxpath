@@ -107,6 +107,21 @@ test('a v2 fixture is accepted as-is after normalization', () => {
   assert.equal(migrated.quiz.m1.passed, true);
 });
 
+test('m12 pass status comes from the quiz threshold', () => {
+  const progress = {
+    _format: 'linuxpath-progress-v3',
+    lessonsDone: [],
+    exercisesDone: [],
+    quiz: { m12: { lastScore: 3, bestScore: 3, attempts: 1, passed: true } },
+  };
+  const policies = { m12: { maxScore: 7, passScore: 4 } };
+
+  assert.equal(migrateProgress(progress, policies).quiz.m12.passed, false);
+  progress.quiz.m12.lastScore = 4;
+  progress.quiz.m12.bestScore = 4;
+  assert.equal(migrateProgress(progress, policies).quiz.m12.passed, true);
+});
+
 test('v1 and v2 invalidate only the replaced M14-E1 exercise', () => {
   const migrated = migrateProgress({
     _format: 'linuxpath-progress-v2',

@@ -23,7 +23,10 @@ function createTerminalEngine(config) {
 
   const userInfo   = config.userInfo || { user: 'user', hostname: 'user-pc', uid: '1000', gid: '1000', groups: 'user : user adm cdrom sudo dip plugdev lxd' };
   const promptFn   = config.promptFn;
-  const extraCmds  = config.extraCommands || {};
+  const extraCmds  = Object.create(null);
+  Object.keys(config.extraCommands || {}).forEach(function(name) {
+    if (typeof config.extraCommands[name] === 'function') extraCmds[name] = config.extraCommands[name];
+  });
   const manPages   = config.manPages || {};
   const helpHtml   = config.helpHtml || '';
   const permCheck  = config.permCheck || false;
@@ -301,6 +304,123 @@ function createTerminalEngine(config) {
     return parent === '/' ? '/' + name : parent.replace(/\/$/, '') + '/' + name;
   }
 
+  function parentPath(path) {
+    var index = path.lastIndexOf('/');
+    return index <= 0 ? '/' : path.slice(0, index);
+  }
+
+  function baseName(path) {
+    return path.slice(path.lastIndexOf('/') + 1);
+  }
+
+  function cloneVfsState(source) {
+    return JSON.parse(JSON.stringify(source));
+  }
+
+  function graphErrors(candidate) {
+    var errors = [];
+    Object.keys(candidate).forEach(function (path) {
+      var node = candidate[path];
+      if (!node || (node.type !== 'dir' && node.type !== 'file')) {
+        errors.push('nœud invalide: ' + path);
+        return;
+      }
+      if (path !== '/') {
+        var parent = parentPath(path);
+        var parentNode = candidate[parent];
+        if (!parentNode || parentNode.type !== 'dir' || (parentNode.children || []).indexOf(baseName(path)) < 0) {
+          errors.push('parent absent: ' + path);
+        }
+      }
+      if (node.type === 'dir') {
+        var seen = {};
+        (node.children || []).forEach(function (child) {
+          if (seen[child]) errors.push('enfant dupliqué: ' + childPath(path, child));
+          seen[child] = true;
+          if (!candidate[childPath(path, child)]) errors.push('enfant absent: ' + childPath(path, child));
+        });
+      }
+    });
+    return errors;
+  }
+
+  function commitVfsState(draft) {
+    Object.keys(vfs).forEach(function (path) { delete vfs[path]; });
+    Object.keys(draft).forEach(function (path) { vfs[path] = draft[path]; });
+  }
+
+  function transactVfs(operation) {
+    var draft = cloneVfsState(vfs);
+    var result = operation(draft);
+    if (!result.ok) return result;
+    var errors = graphErrors(draft);
+    if (errors.length) return { ok: false, errorCode: 'vfs-invariant', message: 'VFS : mutation refusée (' + errors[0] + ')' };
+    commitVfsState(draft);
+    return result;
+  }
+
+  var vfsApi = {
+    touch: function (path) {
+      if (vfs[path]) return { ok: true };
+      var parent = parentPath(path);
+      if (!vfs[parent] || vfs[parent].type !== 'dir') return { ok: false, errorCode: 'enoent', message: 'touch : impossible de faire un touch « ' + path + ' » : Aucun fichier ou dossier de ce type' };
+      return transactVfs(function (draft) {
+        draft[path] = { type: 'file', content: '' };
+        if (draft[parent].children.indexOf(baseName(path)) < 0) draft[parent].children.push(baseName(path));
+        return { ok: true };
+      });
+    },
+    remove: function (path, recursive) {
+      if (!vfs[path]) return { ok: false, errorCode: 'enoent', message: 'rm : cible introuvable' };
+      if (path === '/') return { ok: false, errorCode: 'eperm', message: 'rm : impossible de supprimer la racine' };
+      if (vfs[path].type === 'dir' && !recursive) return { ok: false, errorCode: 'eisdir', message: 'rm : la cible est un répertoire' };
+      return transactVfs(function (draft) {
+        var parent = parentPath(path);
+        draft[parent].children = draft[parent].children.filter(function (child) { return child !== baseName(path); });
+        Object.keys(draft).forEach(function (candidate) {
+          if (candidate === path || candidate.indexOf(path + '/') === 0) delete draft[candidate];
+        });
+        return { ok: true };
+      });
+    },
+    copy: function (source, destination, recursive) {
+      if (!vfs[source]) return { ok: false, errorCode: 'enoent', message: 'cp : source introuvable' };
+      if (vfs[source].type === 'dir' && !recursive) return { ok: false, errorCode: 'eisdir', message: 'cp : omission du répertoire (utilisez -r)' };
+      if (destination === source || destination.indexOf(source + '/') === 0) return { ok: false, errorCode: 'einval', message: 'cp : impossible de copier un répertoire dans lui-même' };
+      var destinationParent = parentPath(destination);
+      if (!vfs[destinationParent] || vfs[destinationParent].type !== 'dir') return { ok: false, errorCode: 'enoent', message: 'cp : répertoire de destination introuvable' };
+      return transactVfs(function (draft) {
+        Object.keys(draft).filter(function (candidate) {
+          return candidate === source || candidate.indexOf(source + '/') === 0;
+        }).forEach(function (candidate) {
+          var target = destination + candidate.slice(source.length);
+          draft[target] = cloneVfsState(draft[candidate]);
+        });
+        if (draft[destinationParent].children.indexOf(baseName(destination)) < 0) draft[destinationParent].children.push(baseName(destination));
+        return { ok: true };
+      });
+    },
+    move: function (source, destination) {
+      if (!vfs[source]) return { ok: false, errorCode: 'enoent', message: 'mv : source introuvable' };
+      if (source === '/' || destination === source || destination.indexOf(source + '/') === 0) return { ok: false, errorCode: 'einval', message: 'mv : destination invalide' };
+      var sourceParent = parentPath(source);
+      var destinationParent = parentPath(destination);
+      if (!vfs[destinationParent] || vfs[destinationParent].type !== 'dir') return { ok: false, errorCode: 'enoent', message: 'mv : répertoire de destination introuvable' };
+      return transactVfs(function (draft) {
+        var paths = Object.keys(draft).filter(function (candidate) {
+          return candidate === source || candidate.indexOf(source + '/') === 0;
+        });
+        paths.forEach(function (candidate) {
+          draft[destination + candidate.slice(source.length)] = draft[candidate];
+        });
+        paths.forEach(function (candidate) { delete draft[candidate]; });
+        draft[sourceParent].children = draft[sourceParent].children.filter(function (child) { return child !== baseName(source); });
+        if (draft[destinationParent].children.indexOf(baseName(destination)) < 0) draft[destinationParent].children.push(baseName(destination));
+        return { ok: true };
+      });
+    }
+  };
+
   function failResult(message, errorCode, exitCode) {
     return { exitCode: exitCode || 1, stdout: [], stderr: [message], errorCode: errorCode, stateChanges: [] };
   }
@@ -417,8 +537,10 @@ function createTerminalEngine(config) {
       var delimiter = '\t';
       var field = 1;
       for (var ci2 = 0; ci2 < args.length; ci2++) {
-        if (args[ci2] === '-d' && args[ci2 + 1] !== undefined) { delimiter = args[++ci2]; }
-        else if (args[ci2] === '-f' && args[ci2 + 1] !== undefined) { field = Number(args[++ci2]) || 1; }
+        if (args[ci2] === '-d' && args[ci2 + 1] !== undefined) delimiter = args[++ci2];
+        else if (args[ci2].indexOf('-d') === 0 && args[ci2].length > 2) delimiter = args[ci2].slice(2);
+        else if (args[ci2] === '-f' && args[ci2 + 1] !== undefined) field = Number(args[++ci2]) || 1;
+        else if (/^-f\d+$/.test(args[ci2])) field = Number(args[ci2].slice(2)) || 1;
       }
       return { exitCode: 0, stdout: stdin.map(function (line) { var parts = line.split(delimiter); return parts[field - 1] || ''; }), stderr: [], stateChanges: [] };
     }
@@ -497,12 +619,8 @@ function createTerminalEngine(config) {
     if (name === 'touch') {
       if (!args[0]) return failResult('touch : nom de fichier manquant', 'usage');
       var targetTo = resolvePath(args[0]);
-      if (!vfs[targetTo]) {
-        var parentTo = targetTo.lastIndexOf('/') > 0 ? targetTo.substring(0, targetTo.lastIndexOf('/')) : '/';
-        var fname = targetTo.split('/').pop();
-        vfs[targetTo] = { type: 'file', content: '' };
-        if (vfs[parentTo] && vfs[parentTo].children.indexOf(fname) < 0) vfs[parentTo].children.push(fname);
-      }
+      var touched = vfsApi.touch(targetTo);
+      if (!touched.ok) return failResult(touched.message, touched.errorCode);
       return { exitCode: 0, stdout: [], stderr: [], stateChanges: [{ op: 'touch', path: targetTo }] };
     }
     if (name === 'rm') {
@@ -512,10 +630,8 @@ function createTerminalEngine(config) {
       var targetRm = resolvePath(fileArgs[0]);
       if (!vfs[targetRm]) return failResult('rm : impossible de supprimer « ' + fileArgs[0] + ' » : Aucun fichier ou dossier de ce type', 'enoent');
       if (vfs[targetRm].type === 'dir' && !recursive) return failResult('rm : impossible de supprimer « ' + fileArgs[0] + ' » : est un répertoire (utilisez -r)', 'eisdir');
-      var parentRm = targetRm.lastIndexOf('/') > 0 ? targetRm.substring(0, targetRm.lastIndexOf('/')) : '/';
-      var nameRm = targetRm.split('/').pop();
-      if (vfs[parentRm]) vfs[parentRm].children = vfs[parentRm].children.filter(function (c) { return c !== nameRm; });
-      delete vfs[targetRm];
+      var removed = vfsApi.remove(targetRm, recursive);
+      if (!removed.ok) return failResult(removed.message, removed.errorCode);
       return { exitCode: 0, stdout: [], stderr: [], stateChanges: [{ op: 'rm', path: targetRm }] };
     }
     if (name === 'clear') {
@@ -538,18 +654,27 @@ function createTerminalEngine(config) {
     return failResult('bash: ' + name + ': commande introuvable', 'enoent', 127);
   }
 
-  function harvestFrom(fromCount) {
-    var out = document.getElementById(config.outputElId);
-    if (!out) return [];
-    return [].slice.call(out.children, fromCount).map(function (node) { return node.textContent; });
+  function hasExtraCommand(name) {
+    return Object.prototype.hasOwnProperty.call(extraCmds, name) && typeof extraCmds[name] === 'function';
   }
 
-  function runExtra(name, args, stdin) {
-    var out = document.getElementById(config.outputElId);
-    var from = out ? out.childElementCount : 0;
-    var ret = extraCmds[name](args, engine, stdin);
-    if (ret && typeof ret.exitCode === 'number') return ret;
-    return { exitCode: 0, stdout: harvestFrom(from), stderr: [], stateChanges: [] };
+  function runExtra(name, args, stdin, ctx) {
+    var commandCtx = {
+      vfs: vfs,
+      cwd: ctx.cwd,
+      userInfo: userInfo,
+      resolvePath: function (candidate) { return resolvePath(candidate); },
+      vfsApi: vfsApi
+    };
+    var ret = extraCmds[name](args, commandCtx, stdin);
+    if (!ret || typeof ret.exitCode !== 'number' || !Array.isArray(ret.stdout) || !Array.isArray(ret.stderr) || !Array.isArray(ret.stateChanges)) {
+      return failResult('LinuxPath : contrat de commande invalide pour ' + name, 'invalid-command-contract', 125);
+    }
+    if (commandCtx.cwd !== ctx.cwd) {
+      ctx.cwd = commandCtx.cwd;
+      currentDir = commandCtx.cwd;
+    }
+    return ret;
   }
 
   function runStructured(rawCmd) {
@@ -564,7 +689,7 @@ function createTerminalEngine(config) {
     var stateChanges = [];
     for (var s = 0; s < parsed.stages.length; s++) {
       var parts = parsed.stages[s];
-      if (extraCmds[parts[0]]) last = runExtra(parts[0], parts.slice(1), stdin);
+      if (hasExtraCommand(parts[0])) last = runExtra(parts[0], parts.slice(1), stdin, ctx);
       else last = runOne(parts[0], parts.slice(1), stdin, ctx);
       stateChanges = stateChanges.concat(last.stateChanges || []);
       stdin = last.stdout || [];
@@ -597,11 +722,7 @@ function createTerminalEngine(config) {
     var result = runStructured(trimmed);
     if (!result.silent) {
       if (result.html) print(result.html, 'term-output');
-      if (!result.commands || !result.commands.some(function (name) { return extraCmds[name]; }) || result.renderOutput) {
-        (result.stdout || []).forEach(function (line) { print(escapeHtml(line), 'term-output'); });
-      } else if (result.commands.length > 1) {
-        (result.stdout || []).forEach(function (line) { print(escapeHtml(line), 'term-output'); });
-      }
+      (result.stdout || []).forEach(function (line) { print(escapeHtml(line), 'term-output'); });
       (result.stderr || []).forEach(function (line) { print('<span class="t-err">' + escapeHtml(line) + '</span>'); });
     }
     updatePromptLabel();
@@ -662,6 +783,9 @@ function createTerminalEngine(config) {
     getCurrentDir: function() { return currentDir; },
     setCurrentDir: function(d) { currentDir = d; },
     resolvePath: resolvePath,
+    tokenize: tokenizeCmd,
+    parseCommandLine: parseLine,
+    runStructured: runStructured,
     handleLs: handleLs,
     handleCd: handleCd,
     initInput: initInput,

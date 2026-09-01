@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { getCurriculumStats } from '../../scripts/lib/curriculum-stats.mjs';
 
 test('every url listed in the served sitemap answers HTTP 200 with a coherent canonical', async ({ request }) => {
   const sitemapResp = await request.get('/sitemap.xml');
@@ -26,7 +27,8 @@ test('robots.txt is served and points only at served resources', async ({ reques
   expect(body).toContain('Disallow: /v86/');
 });
 
-test('without JavaScript the home still renders essential metadata and a visible fallback', async ({ browser }) => {
+test('without JavaScript the home still renders essential metadata and authoritative curriculum totals', async ({ browser }) => {
+  const stats = await getCurriculumStats();
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   const resp = await page.goto('./', { waitUntil: 'domcontentloaded' });
@@ -38,6 +40,11 @@ test('without JavaScript the home still renders essential metadata and a visible
   await expect(page.locator('script[type="application/ld+json"]')).toHaveCount(1);
   // body is not blank: a fallback hero is actually visible
   await expect(page.locator('#home-hero')).toContainText(/Linux|JavaScript/i);
+  await expect(page.locator('#home-modules-title')).toHaveText(`Les ${stats.modules} modules`);
+  for (const track of stats.tracks) {
+    await expect(page.locator(`.track-card[data-track="${track.id}"]`)).toContainText(`~${track.estimatedHours} h`);
+  }
+  await expect(page.locator('.track-card[data-track="offsec"]')).toContainText('CS1 + M12 à M14');
   const visible = await page.locator('#home-hero').isVisible();
   expect(visible).toBe(true);
   await context.close();

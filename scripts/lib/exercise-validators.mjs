@@ -113,7 +113,7 @@ export function evaluateValidator(validator, ctx) {
     case 'all': {
       for (const child of validator.of || []) {
         const result = evaluateValidator(child, ctx);
-        if (!result.ok) return result;
+        if (!result.ok) return validator.reason ? { ok: false, reason: validator.reason } : result;
       }
       return { ok: true };
     }

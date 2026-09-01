@@ -176,6 +176,145 @@ test('an imported stale unlock cannot bypass incomplete prerequisites', async ({
   expect(result.m13).toBe(false);
 });
 
+test('browser import uses each quiz question count as its score maximum', async ({ page }) => {
+  await openApp(page);
+  const result = await page.evaluate(() => {
+    const progress = (moduleId, score) => JSON.stringify({
+      _format: 'linuxpath-progress-v3',
+      lessonsDone: [],
+      exercisesDone: [],
+      quiz: { [moduleId]: { lastScore: score, bestScore: score, attempts: 1, passed: false } },
+      unlockedModules: [],
+    });
+    const catalog = importCatalog();
+    return {
+      m12: Array.from({ length: 9 }, (_, score) => validateProgressImport(progress('m12', score), catalog).ok),
+      m1At5: validateProgressImport(progress('m1', 5), catalog).ok,
+      m1At6: validateProgressImport(progress('m1', 6), catalog).ok,
+    };
+  });
+
+  expect(result.m12).toEqual([true, true, true, true, true, true, true, true, false]);
+  expect(result.m1At5).toBe(true);
+  expect(result.m1At6).toBe(false);
+});
+
+test('browser import rebuilds pass status from each quiz threshold', async ({ page }) => {
+  await openApp(page);
+  const result = await page.evaluate(() => {
+    QUIZZES.m12.passScore = 7;
+    const imported = applyImportedProgress({
+      _format: 'linuxpath-progress-v3',
+      lessonsDone: [],
+      exercisesDone: [],
+      quiz: { m12: { lastScore: 6, bestScore: 6, attempts: 1, passed: true } },
+      unlockedModules: [],
+      ctfSolved: [],
+      ctfHints: {},
+      ctfHow: {},
+    });
+    return imported.quiz.m12;
+  });
+
+  expect(result.bestScore).toBe(6);
+  expect(result.passed).toBe(false);
+});
+
+test('runtime quiz status follows the active quiz threshold', async ({ page }) => {
+  await openApp(page);
+  const result = await page.evaluate(() => {
+    QUIZZES.m12.passScore = 7;
+    state.quizScores.m12 = { lastScore: 6, bestScore: 6, attempts: 1, passed: true };
+    return {
+      record: getQuizRecord('m12'),
+      passed: isQuizPassed('m12'),
+    };
+  });
+
+  expect(result.record.passed).toBe(false);
+  expect(result.passed).toBe(false);
+});
+
+test('m12 previous score uses its seven-question total', async ({ page }) => {
+  await openApp(page);
+  const text = await page.evaluate(() => {
+    state.quizScores.m12 = { lastScore: 7, bestScore: 7, attempts: 1, passed: true };
+    state.unlockedModules.add('m12');
+    navigateTo('m12');
+    return document.querySelector('#quiz-card-m12 .quiz-start p')?.textContent || '';
+  });
+
+  expect(text).toContain('7/7');
+  expect(text).not.toContain('7/5');
+});
+
+test('m12 result uses its seven-question total', async ({ page }) => {
+  await openApp(page);
+  const text = await page.evaluate(async () => {
+    state.unlockedModules.add('m12');
+    navigateTo('m12');
+    startQuiz('m12');
+    quizState.m12.score = 7;
+    quizState.m12.answered = quizState.m12.questions.map((question) => question.correct);
+    await showQuizResult('m12');
+    return document.querySelector('#quiz-result-m12')?.textContent.replace(/\s+/g, ' ').trim() || '';
+  });
+
+  expect(text).toContain('7/7');
+  expect(text).not.toContain('7/5');
+});
+
+test('m12 gives non-empty threshold-aware feedback for every score', async ({ page }) => {
+  await openApp(page);
+  const result = await page.evaluate(async () => {
+    QUIZZES.m12.passScore = 7;
+    state.unlockedModules.add('m12');
+    navigateTo('m12');
+    const rows = [];
+    for (let score = 0; score <= QUIZZES.m12.questions.length; score += 1) {
+      startQuiz('m12');
+      quizState.m12.score = score;
+      quizState.m12.answered = quizState.m12.questions.map((question, index) => (
+        index < score ? question.correct : (question.correct + 1) % question.options.length
+      ));
+      await showQuizResult('m12');
+      rows.push({
+        score,
+        feedback: document.querySelector('#quiz-result-m12 .quiz-result-msg')?.textContent.trim() || '',
+        passed: document.querySelector('#quiz-result-m12 .quiz-result-inner')?.classList.contains('pass') || false,
+      });
+    }
+    return rows;
+  });
+
+  expect(result).toHaveLength(8);
+  expect(result.every((row) => row.feedback.length > 0)).toBe(true);
+  expect(result.filter((row) => row.passed).map((row) => row.score)).toEqual([7]);
+});
+
+test('five-question quizzes keep their real denominator and threshold', async ({ page }) => {
+  await openApp(page);
+  const result = await page.evaluate(async () => {
+    state.unlockedModules.add('m1');
+    navigateTo('m1');
+    startQuiz('m1');
+    quizState.m1.score = 3;
+    quizState.m1.answered = quizState.m1.questions.map((question, index) => (
+      index < 3 ? question.correct : (question.correct + 1) % question.options.length
+    ));
+    await showQuizResult('m1');
+    return {
+      score: document.querySelector('#quiz-result-m1 .quiz-result-score')?.textContent || '',
+      feedback: document.querySelector('#quiz-result-m1 .quiz-result-msg')?.textContent.trim() || '',
+      passed: document.querySelector('#quiz-result-m1 .quiz-result-inner')?.classList.contains('pass') || false,
+    };
+  });
+
+  expect(result.score).toContain('3/5');
+  expect(result.feedback).not.toBe('');
+  expect(result.passed).toBe(true);
+});
+
 test('m12 stays locked until cs1 is fully completed', async ({ page }) => {
   await openApp(page);
   const blocked = await page.evaluate(() => {

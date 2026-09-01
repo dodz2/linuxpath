@@ -13,7 +13,6 @@ let MODULE_META = {
 
 let TRACKS = [];
 function applyModules(list, options) {
-  if (options && Number.isFinite(options.passScore)) PASS_SCORE = options.passScore;
   TRACKS = options && Array.isArray(options.tracks) ? options.tracks : [];
   MODULES = Array.isArray(list) ? list.slice().sort((a, b) => a.displayOrder - b.displayOrder) : [];
   MODULE_META = {
@@ -51,12 +50,26 @@ function getCurriculumStats() {
   }
   var quizzes = typeof QUIZZES !== 'undefined' ? QUIZZES : {};
   var challenges = typeof CTF_CHALLENGES !== 'undefined' && Array.isArray(CTF_CHALLENGES) ? CTF_CHALLENGES : [];
+  var publishedModules = Array.isArray(MODULES)
+    ? MODULES.filter(function(module) { return module.status === 'published'; })
+    : [];
+  var tracks = Object.fromEntries((Array.isArray(TRACKS) ? TRACKS : []).map(function(track) {
+    var members = publishedModules.filter(function(module) { return track.modules.includes(module.id); });
+    var minutes = members.reduce(function(total, module) { return total + module.estimatedMinutes; }, 0);
+    return [track.id, {
+      moduleCount: members.length,
+      estimatedMinutes: minutes,
+      estimatedHours: Math.ceil(minutes / 60)
+    }];
+  }));
   var difficulty = { easy: 0, medium: 0, hard: 0 };
   challenges.forEach(function (challenge) {
     if (Object.prototype.hasOwnProperty.call(difficulty, challenge.difficulty)) difficulty[challenge.difficulty] += 1;
   });
   return {
-    modules: Object.keys(typeof LESSONS !== 'undefined' ? LESSONS : {}).length,
+    modules: publishedModules.length,
+    estimatedMinutes: publishedModules.reduce(function(total, module) { return total + module.estimatedMinutes; }, 0),
+    tracks: tracks,
     lessons: count(typeof LESSONS !== 'undefined' ? LESSONS : {}),
     exercises: count(typeof EXERCISES !== 'undefined' ? EXERCISES : {}),
     quizzes: Object.keys(quizzes).length,
@@ -108,15 +121,86 @@ const STORAGE_KEYS = {
 };
 
 const _lsStore  = {};
+const _lsFallbackKeys = new Set();
 const _lsRaw    = (() => { try { return window.localStorage; } catch(_) { return null; } })();
 
 function _lsFallbackGet(key) {
+  if (_lsFallbackKeys.has(key)) return _lsStore[key] ?? null;
   try { return _lsRaw ? _lsRaw.getItem(key) : (_lsStore[key] ?? null); }
   catch(_) { return _lsStore[key] ?? null; }
 }
 function _lsFallbackSet(key, value) {
-  try { if (_lsRaw) _lsRaw.setItem(key, value); else _lsStore[key] = value; }
-  catch(_) { _lsStore[key] = value; }
+  try {
+    if (_lsRaw) {
+      _lsRaw.setItem(key, value);
+      delete _lsStore[key];
+      _lsFallbackKeys.delete(key);
+      return true;
+    } else {
+      _lsStore[key] = value;
+      _lsFallbackKeys.add(key);
+    }
+  } catch(_) {
+    _lsStore[key] = value;
+    _lsFallbackKeys.add(key);
+  }
+  return false;
+}
+
+function _lsFallbackRemove(key) {
+  try {
+    if (_lsRaw) _lsRaw.removeItem(key);
+    delete _lsStore[key];
+    _lsFallbackKeys.delete(key);
+  } catch (_) {
+    _lsStore[key] = null;
+    _lsFallbackKeys.add(key);
+  }
+}
+
+function getPersistenceStatus() {
+  return {
+    persistent: Boolean(_lsRaw) && _lsFallbackKeys.size === 0,
+    fallbackKeys: Array.from(_lsFallbackKeys),
+  };
+}
+
+const _storageRecovery = new Map();
+
+function getStorageRecoveryStatus() {
+  return {
+    state: _storageRecovery.size ? 'recovered' : 'empty',
+    entries: Array.from(_storageRecovery.values()).map(function (entry) {
+      return { key: entry.key, scope: entry.scope, raw: entry.raw };
+    }),
+  };
+}
+
+function recordStorageRecovery(key, raw, scope) {
+  _storageRecovery.set(key, {
+    key: key,
+    scope: scope || 'progress',
+    raw: String(raw),
+  });
+  console.warn('Donnée locale corrompue isolée.', {
+    key: key,
+    scope: scope || 'progress',
+    length: String(raw).length,
+  });
+  if (typeof renderStorageRecovery === 'function') renderStorageRecovery(getStorageRecoveryStatus());
+}
+
+async function readStoredJson(key, emptyValue, validate, scope) {
+  const raw = await storage.get(key);
+  if (raw === null) return emptyValue;
+  try {
+    const parsed = JSON.parse(raw);
+    if (typeof validate === 'function' && !validate(parsed)) throw new Error('invalid-shape');
+    return parsed;
+  } catch (_) {
+    recordStorageRecovery(key, raw, scope);
+    return emptyValue;
+  }
 }
 
 const storage = {
@@ -124,10 +208,22 @@ const storage = {
     return Promise.resolve(_lsFallbackGet(key));
   },
   set(key, value) {
-    _lsFallbackSet(key, value);
+    const persistent = _lsFallbackSet(key, value);
+    if (typeof renderStorageStatus === 'function') renderStorageStatus(getPersistenceStatus());
+    return Promise.resolve({ key: key, persistent: persistent });
+  },
+  remove(key) {
+    _lsFallbackRemove(key);
+    if (typeof renderStorageStatus === 'function') renderStorageStatus(getPersistenceStatus());
     return Promise.resolve();
   }
 };
+
+async function resetStorageRecovery(key) {
+  await storage.remove(key);
+  _storageRecovery.delete(key);
+  if (typeof renderStorageRecovery === 'function') renderStorageRecovery(getStorageRecoveryStatus());
+}
 
 async function initStorage() {
   return undefined;
@@ -137,7 +233,7 @@ async function initStorage() {
 
 async function saveState() {
   refreshUnlocks();
-  await Promise.all([
+  const writes = await Promise.all([
     storage.set(STORAGE_KEYS.lessonsDone,     JSON.stringify([...state.lessonsDone])),
     storage.set(STORAGE_KEYS.exercisesDone,   JSON.stringify([...state.exercisesDone])),
     storage.set(STORAGE_KEYS.quizScores,      JSON.stringify(state.quizScores)),
@@ -146,35 +242,43 @@ async function saveState() {
     storage.set(STORAGE_KEYS.variantResults, JSON.stringify(state.variantResults || {})),
     storage.set(STORAGE_KEYS.progressMigration, '3')
   ]);
+  return {
+    persistent: writes.every(function (write) { return write && write.persistent; }),
+    writes: writes,
+  };
 }
 
 async function loadState() {
-  try {
-    const [ld, ed, qs, um, va, vr, migration] = await Promise.all([
-      storage.get(STORAGE_KEYS.lessonsDone),
-      storage.get(STORAGE_KEYS.exercisesDone),
-      storage.get(STORAGE_KEYS.quizScores),
-      storage.get(STORAGE_KEYS.unlockedModules),
-      storage.get(STORAGE_KEYS.variantAssignments),
-      storage.get(STORAGE_KEYS.variantResults),
-      storage.get(STORAGE_KEYS.progressMigration)
-    ]);
-    if (ld) state.lessonsDone     = new Set(JSON.parse(ld));
-    if (ed) state.exercisesDone   = new Set(JSON.parse(ed));
-    if (qs) state.quizScores = migrateProgress({ _format: 'linuxpath-progress-v2', quiz: JSON.parse(qs) }).quiz;
-    if (um) state.unlockedModules = new Set(JSON.parse(um));
-    const variantProgress = typeof sanitizeVariantProgress === 'function'
-      ? sanitizeVariantProgress({ assignments: va ? JSON.parse(va) : {}, results: vr ? JSON.parse(vr) : {} }, EXERCISE_VARIANTS)
-      : { assignments: {}, results: {} };
-    state.variantAssignments = variantProgress.assignments;
-    state.variantResults = variantProgress.results;
-    if (migration !== '3') {
-      state.exercisesDone.delete('m14-e1');
-      await storage.set(STORAGE_KEYS.progressMigration, '3');
-      await storage.set(STORAGE_KEYS.exercisesDone, JSON.stringify([...state.exercisesDone]));
-    }
-    refreshUnlocks();
-  } catch(e) { /* état par défaut conservé */ }
+  const isStringArray = function (value) {
+    return Array.isArray(value) && value.every(function (entry) { return typeof entry === 'string'; });
+  };
+  const isRecord = function (value) {
+    return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+  };
+  const [ld, ed, qs, um, va, vr, migration] = await Promise.all([
+    readStoredJson(STORAGE_KEYS.lessonsDone, [], isStringArray, 'progress'),
+    readStoredJson(STORAGE_KEYS.exercisesDone, [], isStringArray, 'progress'),
+    readStoredJson(STORAGE_KEYS.quizScores, {}, isRecord, 'progress'),
+    readStoredJson(STORAGE_KEYS.unlockedModules, [], isStringArray, 'progress'),
+    readStoredJson(STORAGE_KEYS.variantAssignments, {}, isRecord, 'progress'),
+    readStoredJson(STORAGE_KEYS.variantResults, {}, isRecord, 'progress'),
+    storage.get(STORAGE_KEYS.progressMigration),
+  ]);
+  state.lessonsDone = new Set(ld);
+  state.exercisesDone = new Set(ed);
+  state.quizScores = migrateProgress({ _format: 'linuxpath-progress-v2', quiz: qs }).quiz;
+  state.unlockedModules = new Set(um);
+  const variantProgress = typeof sanitizeVariantProgress === 'function'
+    ? sanitizeVariantProgress({ assignments: va, results: vr }, EXERCISE_VARIANTS)
+    : { assignments: {}, results: {} };
+  state.variantAssignments = variantProgress.assignments;
+  state.variantResults = variantProgress.results;
+  if (migration !== '3') {
+    state.exercisesDone.delete('m14-e1');
+    await storage.set(STORAGE_KEYS.progressMigration, '3');
+    await storage.set(STORAGE_KEYS.exercisesDone, JSON.stringify([...state.exercisesDone]));
+  }
+  refreshUnlocks();
 }
 
 async function resetState() {
@@ -241,8 +345,16 @@ function recordQuizAttempt(existing, score, passScore) {
   };
 }
 
+function getQuizPolicy(mod) {
+  const quiz = QUIZZES && QUIZZES[mod];
+  return {
+    maxScore: quiz && Array.isArray(quiz.questions) ? quiz.questions.length : 0,
+    passScore: quiz && Number.isInteger(quiz.passScore) ? quiz.passScore : PASS_SCORE
+  };
+}
+
 function getQuizRecord(mod) {
-  return normalizeQuizRecord(state.quizScores[mod]);
+  return normalizeQuizRecord(state.quizScores[mod], getQuizPolicy(mod).passScore);
 }
 
 function isQuizPassed(mod) {
@@ -258,7 +370,7 @@ function isModuleComplete(mod) {
     && exercises.every(function (exercise) { return state.exercisesDone.has(exercise.id); });
 }
 
-function migrateProgress(data) {
+function migrateProgress(data, quizPolicies) {
   if (!data || typeof data !== 'object') return null;
   const format = data._format;
   if (format !== 'linuxpath-progress-v1' && format !== 'linuxpath-progress-v2' && format !== 'linuxpath-progress-v3') return null;
@@ -266,7 +378,8 @@ function migrateProgress(data) {
   const quiz = {};
   if (sourceQuiz && typeof sourceQuiz === 'object') {
     Object.keys(sourceQuiz).forEach(function (moduleId) {
-      const record = normalizeQuizRecord(sourceQuiz[moduleId]);
+      const passScore = quizPolicies && quizPolicies[moduleId] ? quizPolicies[moduleId].passScore : PASS_SCORE;
+      const record = normalizeQuizRecord(sourceQuiz[moduleId], passScore);
       if (record) quiz[moduleId] = record;
     });
   }
@@ -387,7 +500,8 @@ function sanitizeImportedProgress(migrated) {
     : { assignments: {}, results: {} };
   Object.keys(migrated.quiz || {}).forEach(function (moduleId) {
     if (!moduleIds.has(moduleId)) return;
-    const record = normalizeQuizRecord(migrated.quiz[moduleId]);
+    const policy = catalog.quizPolicies[moduleId];
+    const record = normalizeQuizRecord(migrated.quiz[moduleId], policy && policy.passScore);
     if (record) quiz[moduleId] = record;
   });
   return {
@@ -403,7 +517,7 @@ function sanitizeImportedProgress(migrated) {
 }
 
 function applyImportedProgress(data) {
-  const migrated = migrateProgress(data);
+  const migrated = migrateProgress(data, importCatalog().quizPolicies);
   if (!migrated) throw new Error('invalid-progress-format');
   const sanitized = sanitizeImportedProgress(migrated);
   state.lessonsDone = new Set(sanitized.lessonsDone);
@@ -478,6 +592,13 @@ function importCatalog() {
     lessonIds: Object.values(LESSONS || {}).flat().map(function (entry) { return entry.id; }),
     exerciseIds: Object.values(EXERCISES || {}).flat().map(function (entry) { return entry.id; }),
     moduleIds: (typeof getPublishedModuleIds === 'function' ? getPublishedModuleIds() : Object.keys(LESSONS || {})).concat(['sandbox']),
+    quizPolicies: Object.fromEntries(Object.keys(QUIZZES || {}).map(function (moduleId) {
+      var quiz = QUIZZES[moduleId];
+      return [moduleId, {
+        maxScore: quiz && Array.isArray(quiz.questions) ? quiz.questions.length : 0,
+        passScore: quiz && Number.isInteger(quiz.passScore) ? quiz.passScore : PASS_SCORE
+      }];
+    })),
     ctfIds: (typeof CTF_CHALLENGES !== 'undefined' ? CTF_CHALLENGES : []).map(function (entry) { return entry.id; })
   };
 }
@@ -502,20 +623,21 @@ function validateProgressImport(raw, catalog) {
   if (sourceQuiz && typeof sourceQuiz === 'object') {
     if (hasDangerousKey(sourceQuiz)) return { ok: false, reason: 'prototype' };
     for (const moduleId of Object.keys(sourceQuiz)) {
-      if (catalog.moduleIds.indexOf(moduleId) < 0) return { ok: false, reason: 'unknown-id' };
+      const policy = catalog.quizPolicies && catalog.quizPolicies[moduleId];
+      if (!policy) return { ok: false, reason: 'unknown-id' };
       const value = sourceQuiz[moduleId];
       if (typeof value === 'number') {
-        if (!Number.isInteger(value) || value < 0 || value > 5) return { ok: false, reason: 'score' };
+        if (!Number.isInteger(value) || value < 0 || value > policy.maxScore) return { ok: false, reason: 'score' };
       } else if (!value || typeof value !== 'object') {
         return { ok: false, reason: 'score' };
       } else {
         for (const field of ['lastScore', 'bestScore']) {
-          if (value[field] !== undefined && (!Number.isInteger(value[field]) || value[field] < 0 || value[field] > 5)) return { ok: false, reason: 'score' };
+          if (value[field] !== undefined && (!Number.isInteger(value[field]) || value[field] < 0 || value[field] > policy.maxScore)) return { ok: false, reason: 'score' };
         }
       }
     }
   }
-  const migrated = migrateProgress(parsed);
+  const migrated = migrateProgress(parsed, catalog.quizPolicies);
   if (!migrated) return { ok: false, reason: 'format' };
   const unknown = migrated.lessonsDone.some(function (id) { return catalog.lessonIds.indexOf(id) < 0; })
     || migrated.exercisesDone.some(function (id) { return catalog.exerciseIds.indexOf(id) < 0; })
@@ -536,11 +658,43 @@ function validateProgressImport(raw, catalog) {
   return { ok: true, data: migrated, preview: preview };
 }
 
+async function persistProgressImport(data) {
+  const previous = JSON.parse(JSON.stringify(exportProgressData()));
+  let failure = null;
+  try {
+    applyImportedProgress(data);
+    const progressWrite = await saveState();
+    if (typeof saveCTFState === 'function') await saveCTFState();
+    const status = getPersistenceStatus();
+    if (progressWrite.persistent && status.persistent) {
+      return { durable: true, restored: false, status: status };
+    }
+  } catch (error) {
+    failure = error;
+  }
+
+  let restored = false;
+  try {
+    applyImportedProgress(previous);
+    await saveState();
+    if (typeof saveCTFState === 'function') await saveCTFState();
+    restored = true;
+  } catch (_) {
+    restored = false;
+  }
+  return {
+    durable: false,
+    restored: restored,
+    status: getPersistenceStatus(),
+    error: failure,
+  };
+}
+
 function importProgress() {
   var input = document.createElement('input');
   input.type = 'file';
   input.accept = '.json';
-  input.onchange = async function(e) {
+  input.addEventListener('change', async function(e) {
     var file = e.target.files[0];
     if (!file) return;
     try {
@@ -557,15 +711,19 @@ function importProgress() {
       if (!confirm('Importer cette sauvegarde (' + result.preview + ') remplacera votre progression actuelle. Continuer ?')) {
         return;
       }
-      applyImportedProgress(result.data);
-      await saveState();
-      if (typeof saveCTFState === 'function') await saveCTFState();
+      var persistence = await persistProgressImport(result.data);
+      if (!persistence.durable) {
+        alert(persistence.restored
+          ? 'Import non durable : le stockage local est indisponible. Votre progression précédente a été restaurée dans cette session. Aucun rechargement n’a été effectué.'
+          : 'Import interrompu : le stockage local est indisponible et la restauration n’a pas pu être confirmée. Aucun rechargement n’a été effectué.');
+        return;
+      }
       alert('Progression importée avec succès !');
       location.reload();
     } catch (err) {
       alert('Erreur lors de l\'import : ' + err.message);
     }
-  };
+  });
   input.click();
 }
 

@@ -26,6 +26,24 @@ test('the news collector does not guess severity from keywords or keep a dead NV
   assert.equal(/git push/.test(await readFile('.github/workflows/update-news.yml', 'utf8')) && !/create-pull-request/.test(await readFile('.github/workflows/update-news.yml', 'utf8')), false);
 });
 
+test('the validation harness and CI run the Python news checks', async () => {
+  const pkg = JSON.parse(await readFile('package.json', 'utf8'));
+  const suite = await readFile('scripts/run-suite.mjs', 'utf8');
+  const launcher = await readFile('scripts/run-python-tests.mjs', 'utf8');
+  const ci = await readFile('.github/workflows/ci.yml', 'utf8');
+
+  assert.equal(pkg.scripts['test:python'], 'node scripts/run-python-tests.mjs');
+  assert.match(launcher, /env\.PYTHON/);
+  assert.match(launcher, /platform === 'win32' \? 'python' : 'python3'/);
+  assert.doesNotMatch(pkg.scripts['test:python'], /python3|['"]test_\*\.py['"]/);
+  assert.match(pkg.scripts['lint:python'], /uvx .*ruff check \.github\/scripts\/fetch_news\.py tests\/python/);
+  assert.match(suite, /run\('python-unit'.*test:python/);
+  assert.match(suite, /run\('python-lint'.*lint:python/);
+  assert.match(ci, /actions\/setup-python@[0-9a-f]{40}/);
+  assert.match(ci, /astral-sh\/setup-uv@[0-9a-f]{40}/);
+  assert.match(ci, /run: npm run verify/);
+});
+
 test('the learning chrome does not advertise a manual verified news desk', async () => {
   const html = await readFile('index.html', 'utf8');
   assert.equal(/Mis à jour manuellement/.test(html), false);

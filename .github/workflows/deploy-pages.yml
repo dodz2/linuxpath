@@ -7,8 +7,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -20,12 +18,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: '22'
+          node-version: '24.20.0'
           cache: npm
+
+      - name: Setup Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13.5'
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          version: '0.11.6'
 
       - name: Install locked dependencies
         run: npm ci
@@ -34,6 +44,8 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Verify then build
+        env:
+          SOURCE_COMMIT: ${{ github.sha }}
         run: npm run verify
 
       - name: Configure Pages
@@ -47,28 +59,39 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Checkout deployed source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js for live verification
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24.20.0'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
 
-      - name: Smoke live Pages
+      - name: Verify deployed commit and manifest
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          SOURCE_COMMIT: ${{ github.sha }}
         run: |
           set -euo pipefail
-          url="https://dodz2.github.io/linuxpath/"
-          ok=0
-          for _ in $(seq 1 12); do
-            # $( ) capture la réponse complète : aucun pipe alimenté par celui
-            # qui pourrait être fermé prématurément (curl 23 / SIGPIPE avec grep -q).
-            html="$(curl -fsSL --max-time 20 "$url" 2>/dev/null || true)"
-            sw="$(curl -fsSL --max-time 20 "${url}sw.js" 2>/dev/null || true)"
-            if [[ "$html" == *linuxpath* && "$sw" == *linuxpath-v* ]]; then
-              ok=1
-              break
+          for attempt in $(seq 1 12); do
+            if node scripts/verify-live-deployment.mjs "$PAGE_URL" "$SOURCE_COMMIT"; then
+              exit 0
             fi
+            echo "Pages propagation incomplete (attempt ${attempt}/12)" >&2
             sleep 10
           done
-          test "$ok" -eq 1
+          exit 1

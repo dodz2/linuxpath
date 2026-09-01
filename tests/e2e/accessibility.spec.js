@@ -2,24 +2,49 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { openApp } from './helpers.js';
 
+const AUDITED_VIEWS = [
+  'home', 'sandbox', 'ctf', 'news', 'cheatsheet', 'glossary', 'roadmap',
+  'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'm10', 'm11',
+  'cs1', 'm12', 'm13', 'm14', 'hw1', 'hw2', 'hw3', 'hw4',
+];
+const STRUCTURAL_RULES = new Set(['page-has-heading-one', 'region', 'heading-order']);
+
 async function blockingAxe(page, label) {
-  const results = await new AxeBuilder({ page })
-    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-    .analyze();
+  const results = await new AxeBuilder({ page }).analyze();
   return results.violations
-    .filter((violation) => ['serious', 'critical'].includes(violation.impact))
-    .map((violation) => `${label}:${violation.id} (${violation.nodes.length})`);
+    .filter((violation) => ['serious', 'critical'].includes(violation.impact) || STRUCTURAL_RULES.has(violation.id))
+    .map((violation) => `${label}:${violation.id}:${violation.impact} (${violation.nodes.length})`);
 }
 
-test('the rendered learning application has no serious or critical axe violation', async ({ page }, testInfo) => {
+test('all 26 views on desktop and mobile have one H1, named regions and no blocking axe violation', async ({ page }, testInfo) => {
+  test.setTimeout(300_000);
   await openApp(page);
+  await page.evaluate(() => {
+    getPublishedModuleIds().forEach((moduleId) => state.unlockedModules.add(moduleId));
+    updateProgressUI();
+  });
+
   const blocking = [];
-  for (const view of ['home', 'm1', 'roadmap', 'ctf', 'news']) {
-    await page.evaluate((target) => navigateTo(target), view);
-    if (view === 'm1') await page.evaluate(() => startQuiz('m1'));
-    blocking.push(...await blockingAxe(page, view));
+  const headingFailures = [];
+  for (const viewport of [
+    { name: 'desktop', width: 1440, height: 1000 },
+    { name: 'mobile', width: 390, height: 844 },
+  ]) {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    for (const view of AUDITED_VIEWS) {
+      await page.evaluate((target) => navigateTo(target), view);
+      if (view === 'm1') await page.evaluate(() => startQuiz('m1'));
+      const heading = await page.locator(`#section-${view} h1:visible`).allTextContents();
+      if (heading.length !== 1 || !heading[0].trim()) {
+        headingFailures.push(`${viewport.name}:${view}: ${JSON.stringify(heading)}`);
+      }
+      blocking.push(...await blockingAxe(page, `${viewport.name}:${view}`));
+    }
   }
+
   await testInfo.attach('axe-blocking', { body: JSON.stringify(blocking, null, 2), contentType: 'application/json' });
+  await testInfo.attach('heading-failures', { body: JSON.stringify(headingFailures, null, 2), contentType: 'application/json' });
+  expect(headingFailures).toEqual([]);
   expect(blocking).toEqual([]);
 });
 
@@ -48,6 +73,120 @@ test('module 1 lessons and quiz can be used with the keyboard only', async ({ pa
   await expect(option).toHaveClass(/disabled|correct|wrong/);
 });
 
+test('terminal toggle and roadmap bonus actions are native keyboard controls', async ({ page }) => {
+  await openApp(page);
+
+  const terminalToggle = page.locator('#terminal-toggle');
+  await expect(terminalToggle).toHaveJSProperty('tagName', 'BUTTON');
+  await expect(terminalToggle).toHaveAttribute('aria-controls', 'terminal-output');
+  await expect(terminalToggle).toHaveAttribute('aria-expanded', 'false');
+  await terminalToggle.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#terminal-section')).not.toHaveClass(/minimized/);
+  await expect(terminalToggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(terminalToggle).toBeFocused();
+  await page.keyboard.press('Space');
+  await expect(page.locator('#terminal-section')).toHaveClass(/minimized/);
+  await expect(terminalToggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(terminalToggle).toBeFocused();
+  expect(await terminalToggle.evaluate((element) => getComputedStyle(element).outlineStyle)).not.toBe('none');
+
+  await page.evaluate(() => navigateTo('roadmap'));
+  const bonusActions = page.locator('#roadmap-bonus-grid .roadmap-bonus-card');
+  await expect(bonusActions).toHaveCount(5);
+  expect(await bonusActions.evaluateAll((elements) => elements.every((element) => element.tagName === 'BUTTON' && element.tabIndex >= 0))).toBe(true);
+
+  const firstBonus = bonusActions.first();
+  await firstBonus.focus();
+  await page.keyboard.press('Enter');
+  expect(await page.evaluate(() => currentSection)).toBe('sandbox');
+  await page.evaluate(() => navigateTo('roadmap'));
+  await bonusActions.first().focus();
+  await page.keyboard.press('Space');
+  expect(await page.evaluate(() => currentSection)).toBe('sandbox');
+});
+
+test('CTF, flag and sandbox inputs have labels and terminal histories expose controlled logs', async ({ page }) => {
+  await openApp(page);
+
+  await expect(page.getByLabel('Commande du terminal CTF', { exact: true })).toHaveAttribute('id', 'ctf-terminal-input');
+  await expect(page.getByLabel('Flag du challenge CTF', { exact: true })).toHaveAttribute('id', 'ctf-flag-input');
+  await expect(page.getByLabel('Commande de la sandbox Linux', { exact: true })).toHaveAttribute('id', 'sandbox-input');
+
+  for (const selector of ['#terminal-output', '#ctf-terminal-output']) {
+    const log = page.locator(selector);
+    await expect(log).toHaveAttribute('role', 'log');
+    await expect(log).toHaveAttribute('aria-live', 'polite');
+    await expect(log).toHaveAttribute('aria-atomic', 'false');
+    await expect(log).toHaveAttribute('aria-relevant', 'additions');
+  }
+});
+
+test('all 49 exercises expose persistent title-specific answer names', async ({ page }) => {
+  await openApp(page);
+  const rows = await page.evaluate(() => {
+    getPublishedModuleIds().forEach((moduleId) => ensureModuleRendered(moduleId));
+    return Object.values(EXERCISES).flat().map((exercise) => {
+      const card = document.getElementById(`ex-card-${exercise.id}`);
+      const controls = [...card.querySelectorAll('.exercise-input, [data-report-field]')];
+      return {
+        id: exercise.id,
+        title: exercise.title,
+        labels: controls.map((control) => control.getAttribute('aria-label') || ''),
+      };
+    });
+  });
+
+  expect(rows).toHaveLength(49);
+  for (const row of rows) {
+    expect(row.labels.length, row.id).toBeGreaterThan(0);
+    expect(row.labels.every((label) => label.trim() && label.includes(row.id) && label.includes(row.title)), row.id).toBe(true);
+    expect(new Set(row.labels).size, row.id).toBe(row.labels.length);
+  }
+});
+
+test('all five FAQ disclosures expose their answer and state to assistive technologies', async ({ page }) => {
+  await openApp(page);
+
+  const faqButtons = page.locator('.lp-faq-q');
+  await expect(faqButtons).toHaveCount(5);
+  expect(await faqButtons.evaluateAll((buttons) => buttons.every((button) => {
+    const answerId = button.getAttribute('aria-controls');
+    const icon = button.querySelector('.lp-faq-icon');
+    return button.getAttribute('aria-expanded') === 'false'
+      && Boolean(answerId && document.getElementById(answerId))
+      && icon?.getAttribute('aria-hidden') === 'true';
+  }))).toBe(true);
+
+  await faqButtons.first().focus();
+  await page.keyboard.press('Enter');
+  await expect(faqButtons.first()).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('#faq-answer-1')).toBeVisible();
+  await page.keyboard.press('Enter');
+  await expect(faqButtons.first()).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.locator('#faq-answer-1')).toBeHidden();
+});
+
+test('a rejected clipboard copy announces an honest failure without raw exception text', async ({ page }) => {
+  await openApp(page);
+  await page.evaluate(() => navigateTo('cheatsheet'));
+  await page.evaluate(async () => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText: () => Promise.reject(new Error('raw clipboard stack secret')) }
+    });
+    document.execCommand = () => false;
+    await copyCmd('pwd');
+  });
+
+  const toast = page.locator('#cheatsheet-toast');
+  await expect(toast).toHaveAttribute('role', 'status');
+  await expect(toast).toHaveAttribute('aria-live', 'polite');
+  await expect(toast).toContainText('Échec de la copie');
+  await expect(toast).not.toContainText('Copié');
+  await expect(toast).not.toContainText('raw clipboard');
+});
+
 test('the mobile menu closes with Escape and restores focus', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await openApp(page);
@@ -73,7 +212,7 @@ test('on mobile, sidebar groups stay clipped and the arrow toggles them', async 
   await expect(header).toHaveAttribute('aria-controls', 'group-hardware-body');
   await expect(header).toHaveAttribute('aria-expanded', 'false');
   for (const target of hardwareTargets) {
-    const item = page.locator(`[data-target="${target}"]`);
+    const item = body.locator(`[data-target="${target}"]`);
     await expect(body.locator(`[data-target="${target}"]`)).toHaveCount(1);
     await expect(item).toBeHidden();
   }
@@ -82,21 +221,21 @@ test('on mobile, sidebar groups stay clipped and the arrow toggles them', async 
   await expect(group).toHaveClass(/open/);
   await expect(header).toHaveAttribute('aria-expanded', 'true');
   for (const target of hardwareTargets) {
-    await expect(page.locator(`[data-target="${target}"]`)).toBeVisible();
+    await expect(body.locator(`[data-target="${target}"]`)).toBeVisible();
   }
   // La flèche referme : tous les items redeviennent masqués et non cliquables.
   await header.click();
   await expect(group).not.toHaveClass(/open/);
   await expect(header).toHaveAttribute('aria-expanded', 'false');
   for (const target of hardwareTargets) {
-    await expect(page.locator(`[data-target="${target}"]`)).toBeHidden();
+    await expect(body.locator(`[data-target="${target}"]`)).toBeHidden();
   }
   // La flèche rouvre : tous les items redeviennent cliquables.
   await header.click();
   await expect(group).toHaveClass(/open/);
   await expect(header).toHaveAttribute('aria-expanded', 'true');
   for (const target of hardwareTargets) {
-    await expect(page.locator(`[data-target="${target}"]`)).toBeVisible();
+    await expect(body.locator(`[data-target="${target}"]`)).toBeVisible();
   }
 });
 

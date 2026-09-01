@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { loadJson } from '../../scripts/lib/content-validation.mjs';
 
 const FORBIDDEN = [
@@ -103,6 +103,17 @@ test('every lesson has a documented review status', async () => {
   assert.deepEqual(incomplete.map((lesson) => lesson.id), []);
 });
 
+test('m11-l5 serializes shell input redirections without creating HTML tags', async () => {
+  const lessons = await loadJson('data/lessons.json');
+  const lesson = lessons.m11.find((entry) => entry.id === 'm11-l5');
+  const expected = [
+    'openssl s_client -connect example.com:443 -servername example.com &lt;/dev/null 2>/dev/null | openssl x509 -noout -text',
+    'openssl s_client -connect example.com:443 -showcerts &lt;/dev/null',
+  ];
+  for (const command of expected) assert.ok(lesson.content.includes(command), command);
+  assert.equal(lesson.content.includes('</dev/null'), false);
+});
+
 test('cyber lessons expose checked official references', async () => {
   const lessons = await loadJson('data/lessons.json');
   const rows = ['cs1', 'm12', 'm13', 'm14'].flatMap((moduleId) => lessons[moduleId]);
@@ -165,4 +176,54 @@ test('glossary does not present regreSSHion as a buffer overflow', async () => {
   assert.ok(overflow);
   assert.equal(/CVE-2024-6387/i.test(`${overflow.definition} ${overflow.example}`), false);
   assert.match(glossary.terms.find((term) => term.id === 'daemon').definition, /pas toujours/i);
+});
+
+test('first-party HTML has no inline handlers or executable inline scripts', async () => {
+  const html = await readFile('index.html', 'utf8');
+  const handlers = [...html.matchAll(/\s(on[a-z]+)\s*=/gi)].map((match) => match[1].toLowerCase());
+  assert.deepEqual(handlers, []);
+
+  const inlineExecutable = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
+    .filter(([, attrs, body]) => body.trim()
+      && !/\bsrc\s*=/.test(attrs)
+      && !/\btype\s*=\s*["']application\/ld\+json["']/i.test(attrs));
+  assert.deepEqual(inlineExecutable.map(([, attrs]) => attrs.trim()), []);
+  assert.match(html, /<script\s+src=["']assets\/sw-register\.min\.js["'][^>]*><\/script>/i);
+});
+
+test('first-party JavaScript never creates runtime handler properties or executable strings', async () => {
+  const sourceNames = (await readdir('assets'))
+    .filter((name) => name.endsWith('.js') && !name.endsWith('.min.js'));
+  const violations = [];
+  for (const name of sourceNames) {
+    const source = await readFile(`assets/${name}`, 'utf8');
+    for (const pattern of [
+      /setAttribute\s*\(\s*(["'])on[a-z]+\1\s*,/gi,
+      /\.on[a-z]+\s*=/gi,
+      /\son[a-z]+\s*=\s*(["'])/gi,
+      /\beval\s*\(/g,
+      /\bnew\s+Function\s*\(/g,
+    ]) {
+      for (const match of source.matchAll(pattern)) {
+        violations.push(`${name}:${source.slice(0, match.index).split('\n').length}:${match[0]}`);
+      }
+    }
+  }
+  assert.deepEqual(violations, []);
+});
+
+test('static CSP forbids inline and eval while allowing self-hosted WASM workers', async () => {
+  const html = await readFile('index.html', 'utf8');
+  const csp = html.match(/<meta\s+http-equiv=["']Content-Security-Policy["']\s+content=(["'])([\s\S]*?)\1/i)?.[2] || '';
+  assert.match(csp, /default-src\s+'self'/);
+  assert.match(csp, /script-src\s+'self'\s+'wasm-unsafe-eval'/);
+  assert.match(csp, /script-src-attr\s+'none'/);
+  assert.match(csp, /worker-src\s+'self'\s+blob:/);
+  assert.match(csp, /object-src\s+'none'/);
+  assert.match(csp, /base-uri\s+'none'/);
+  assert.match(csp, /frame-src\s+'none'/);
+  assert.equal(/frame-ancestors/.test(csp), false);
+  const scriptDirective = csp.match(/script-src\s+([^;]+)/)?.[1] || '';
+  assert.equal(/'unsafe-inline'|'unsafe-eval'/.test(scriptDirective), false);
+  assert.equal(/'unsafe-eval'/.test(csp), false);
 });

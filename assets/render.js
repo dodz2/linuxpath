@@ -7,6 +7,109 @@ function escapeLessonText(value) {
   });
 }
 
+function exerciseControlLabel(exercise, fieldLabel, optionLabel) {
+  let label = 'Exercice ' + exercise.id + ' — ' + exercise.title;
+  if (fieldLabel) label += ' — ' + fieldLabel;
+  if (optionLabel) label += ' — ' + optionLabel;
+  return label;
+}
+
+function renderStorageStatus(status) {
+  const existing = document.getElementById('storage-status-banner');
+  if (!status || status.persistent) {
+    if (existing) existing.remove();
+    return;
+  }
+  const banner = existing || document.createElement('div');
+  banner.id = 'storage-status-banner';
+  banner.className = 'storage-status-banner';
+  banner.setAttribute('role', 'status');
+  banner.setAttribute('aria-live', 'polite');
+  banner.textContent = 'Session non persistante : vos changements sont conservés uniquement dans cet onglet et seront perdus au rechargement.';
+  if (!existing) {
+    const content = document.querySelector('.content-area');
+    if (content && content.parentNode) content.parentNode.insertBefore(banner, content);
+  }
+}
+
+function renderStorageRecovery(status) {
+  const existing = document.getElementById('storage-recovery-panel');
+  if (!status || status.state !== 'recovered') {
+    if (existing) existing.remove();
+    return;
+  }
+
+  const panel = existing || document.createElement('section');
+  panel.id = 'storage-recovery-panel';
+  panel.className = 'storage-recovery-panel';
+  panel.setAttribute('role', 'alert');
+  panel.setAttribute('aria-live', 'polite');
+  panel.dataset.recoveryState = 'recovered';
+  panel.replaceChildren();
+
+  const title = document.createElement('strong');
+  title.textContent = 'Données locales à récupérer';
+  panel.appendChild(title);
+  const explanation = document.createElement('p');
+  explanation.textContent = 'Une valeur illisible a été isolée. Les autres données valides restent chargées.';
+  panel.appendChild(explanation);
+
+  status.entries.forEach(function (entry) {
+    const item = document.createElement('div');
+    item.className = 'storage-recovery-entry';
+    item.dataset.recoveryKey = entry.key;
+    const label = document.createElement('strong');
+    label.textContent = entry.scope + ' · ' + entry.key;
+    item.appendChild(label);
+    const raw = document.createElement('pre');
+    raw.className = 'storage-recovery-raw';
+    raw.textContent = entry.raw;
+    item.appendChild(raw);
+    const actions = document.createElement('div');
+    actions.className = 'storage-recovery-actions';
+    const copy = document.createElement('button');
+    copy.type = 'button';
+    copy.className = 'storage-recovery-copy';
+    copy.textContent = 'Copier la valeur brute';
+    copy.addEventListener('click', async function () {
+      await navigator.clipboard.writeText(entry.raw);
+      copy.textContent = 'Valeur copiée';
+    });
+    actions.appendChild(copy);
+    const exportButton = document.createElement('button');
+    exportButton.type = 'button';
+    exportButton.className = 'storage-recovery-export';
+    exportButton.textContent = 'Exporter une copie';
+    exportButton.addEventListener('click', function () {
+      const blob = new Blob([entry.raw], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'linuxpath-recovery-' + entry.key.replace(/[^a-zA-Z0-9_-]/g, '_') + '.txt';
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+    });
+    actions.appendChild(exportButton);
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.className = 'storage-recovery-reset';
+    reset.textContent = 'Réinitialiser cette valeur';
+    reset.addEventListener('click', function () {
+      resetStorageRecovery(entry.key);
+    });
+    actions.appendChild(reset);
+    item.appendChild(actions);
+    panel.appendChild(item);
+  });
+
+  if (!existing) {
+    const content = document.querySelector('.content-area');
+    if (content && content.parentNode) content.parentNode.insertBefore(panel, content);
+  }
+}
+
 function renderLessonSources(sources) {
   if (!Array.isArray(sources)) return '';
   const entries = sources.map(function (source) {
@@ -56,7 +159,7 @@ function renderLessons(mod) {
       card.className = 'lesson-card' + (state.lessonsDone.has(lesson.id) ? ' completed' : '');
       card.id = 'lesson-card-' + lesson.id;
       card.innerHTML = `
-        <button type="button" class="lesson-header" onclick="toggleLesson('${lesson.id}')" aria-expanded="false" aria-controls="lesson-body-${lesson.id}">
+        <button type="button" class="lesson-header" data-action="toggle-lesson" data-lesson-id="${escapeHtml(lesson.id)}" aria-expanded="false" aria-controls="lesson-body-${escapeHtml(lesson.id)}">
           <span class="lesson-num">${String(i+1).padStart(2,'0')}</span>
           <span class="lesson-title">${lesson.title}</span>
           <span class="lesson-toggle" aria-hidden="true">▼</span>
@@ -64,12 +167,12 @@ function renderLessons(mod) {
         <div class="lesson-body" id="lesson-body-${lesson.id}">
           <div class="lesson-content">${lesson.content.length > 3500 ? lesson.content.replace('</h3>', '</h3><p class="lesson-checkpoint">Point de reprise — vous pouvez revenir ici plus tard.</p>') : lesson.content}${renderLessonSources(lesson.sources)}</div>
           <div class="lesson-actions">
-            <button class="lesson-done-btn ${state.lessonsDone.has(lesson.id) ? 'done' : ''}" id="done-btn-${lesson.id}" onclick="markLessonDone('${lesson.id}')">
+            <button class="lesson-done-btn ${state.lessonsDone.has(lesson.id) ? 'done' : ''}" id="done-btn-${escapeHtml(lesson.id)}" data-action="mark-lesson-done" data-lesson-id="${escapeHtml(lesson.id)}">
               ${state.lessonsDone.has(lesson.id) ? '✓ Leçon terminée' : '✓ Marquer comme terminée'}
             </button>
             ${i < LESSONS[mod].length - 1
-              ? `<button class="lesson-next-btn" onclick="scrollToLesson('${LESSONS[mod][i+1].id}')">Leçon suivante →</button>`
-              : `<button class="lesson-next-btn" onclick="document.getElementById('exercises-${mod}')?.scrollIntoView({behavior:'smooth'})">Exercices du module →</button>`
+              ? `<button class="lesson-next-btn" data-action="scroll-to-lesson" data-lesson-id="${escapeHtml(LESSONS[mod][i+1].id)}">Leçon suivante →</button>`
+              : `<button class="lesson-next-btn" data-action="scroll-to-exercises" data-module="${escapeHtml(mod)}">Exercices du module →</button>`
             }
           </div>
         </div>
@@ -151,11 +254,12 @@ function renderExercises(mod) {
         <div class="exercise-input-row">
           <span class="exercise-prompt">user@linux:~$</span>
           <input type="text" class="exercise-input" id="ex-input-${ex.id}"
+            aria-label="${escapeHtml(exerciseControlLabel(ex))}"
             placeholder="tapez votre commande..."
             ${solved ? 'disabled' : ''}
-            onkeydown="if(event.key==='Enter') checkExercise('${ex.id}', '${mod}')">
-          <button class="btn-check" data-check-exercise="${ex.id}" onclick="checkExercise('${ex.id}', '${mod}')" ${solved ? 'disabled' : ''}>Vérifier</button>
-          <button class="btn-hint" onclick="showHint('${ex.id}', '${mod}')">💡 Indice</button>
+            data-action="check-exercise" data-exercise-id="${escapeHtml(ex.id)}" data-module="${escapeHtml(mod)}">
+          <button class="btn-check" data-check-exercise="${escapeHtml(ex.id)}" data-action="check-exercise" data-exercise-id="${escapeHtml(ex.id)}" data-module="${escapeHtml(mod)}" ${solved ? 'disabled' : ''}>Vérifier</button>
+          <button class="btn-hint" data-action="show-hint" data-exercise-id="${escapeHtml(ex.id)}" data-module="${escapeHtml(mod)}">💡 Indice</button>
         </div>`;
       card.innerHTML = `
         <div class="exercise-header">
@@ -183,25 +287,27 @@ function renderDossierPanel(group, variant) {
   const complete = dossierIsComplete(group, variant.id, state.variantResults || {});
   const mastered = masteredDossierCount(group, state.variantResults || {});
   panel.innerHTML = `<div class="dossier-copy"><span class="dossier-kicker">Dossier actif · ${escapeHtml(variant.id)}</span><strong>${escapeHtml(variant.title)}</strong><p>${escapeHtml(variant.brief)}</p></div>
-    <div class="dossier-actions"><span class="dossier-progress">${mastered}/4 dossiers maîtrisés</span><button class="btn-new-dossier" onclick="switchVariant('${group.moduleId}')" ${complete ? '' : 'disabled'}>Nouveau dossier</button><small>${complete ? 'Entraînement optionnel disponible.' : 'Réussissez les 3 exercices pour changer.'}</small></div>`;
+    <div class="dossier-actions"><span class="dossier-progress">${mastered}/4 dossiers maîtrisés</span><button class="btn-new-dossier" data-action="switch-variant" data-module="${escapeHtml(group.moduleId)}" ${complete ? '' : 'disabled'}>Nouveau dossier</button><small>${complete ? 'Entraînement optionnel disponible.' : 'Réussissez les 3 exercices pour changer.'}</small></div>`;
   return panel;
 }
 
 function renderReportFields(ex) {
   const fields = (ex.reportFields || []).map(field => {
     const id = `report-${ex.id}-${field.id}`;
+    const fieldAriaLabel = escapeHtml(exerciseControlLabel(ex, field.label));
     if (field.type === 'select') {
       const options = (field.options || []).map(option => `<option value="${escapeHtml(option[0])}">${escapeHtml(option[1])}</option>`).join('');
-      return `<label class="report-field" for="${id}"><span>${escapeHtml(field.label)}</span><select id="${id}" data-report-field="${field.id}">${options}</select></label>`;
+      return `<label class="report-field" for="${id}"><span>${escapeHtml(field.label)}</span><select id="${id}" data-report-field="${field.id}" aria-label="${fieldAriaLabel}">${options}</select></label>`;
     }
     if (field.type === 'checkboxes') {
-      const options = (field.options || []).map(option => `<label class="report-check"><input type="checkbox" value="${escapeHtml(option[0])}" data-report-field="${field.id}"> <span>${escapeHtml(option[1])}</span></label>`).join('');
+      const options = (field.options || []).map(option => `<label class="report-check"><input type="checkbox" value="${escapeHtml(option[0])}" data-report-field="${field.id}" aria-label="${escapeHtml(exerciseControlLabel(ex, field.label, option[1]))}"> <span>${escapeHtml(option[1])}</span></label>`).join('');
       return `<fieldset class="report-field report-evidence"><legend>${escapeHtml(field.label)}</legend>${options}</fieldset>`;
     }
-    if (field.type === 'textarea') return `<label class="report-field report-wide" for="${id}"><span>${escapeHtml(field.label)}</span><textarea id="${id}" data-report-field="${field.id}" rows="3" placeholder="Expliquez votre raisonnement à partir des preuves…"></textarea></label>`;
-    return `<label class="report-field" for="${id}"><span>${escapeHtml(field.label)}</span><input id="${id}" data-report-field="${field.id}" type="text" autocomplete="off"></label>`;
+    if (field.type === 'textarea') return `<label class="report-field report-wide" for="${id}"><span>${escapeHtml(field.label)}</span><textarea id="${id}" data-report-field="${field.id}" aria-label="${fieldAriaLabel}" rows="3" placeholder="Expliquez votre raisonnement à partir des preuves…"></textarea></label>`;
+    return `<label class="report-field" for="${id}"><span>${escapeHtml(field.label)}</span><input id="${id}" data-report-field="${field.id}" aria-label="${fieldAriaLabel}" type="text" autocomplete="off"></label>`;
   }).join('');
-  return `<div class="investigation-form" data-investigation="${ex.id}">${fields}<div class="report-actions"><button class="btn-check" data-check-exercise="${ex.id}" onclick="checkExercise('${ex.id}', '${ex.id.split('-')[0]}')">Vérifier l’analyse</button><button class="btn-hint" onclick="showHint('${ex.id}', '${ex.id.split('-')[0]}')">💡 Indice</button></div></div>`;
+  const moduleId = ex.id.split('-')[0];
+  return `<div class="investigation-form" data-investigation="${escapeHtml(ex.id)}">${fields}<div class="report-actions"><button class="btn-check" data-check-exercise="${escapeHtml(ex.id)}" data-action="check-exercise" data-exercise-id="${escapeHtml(ex.id)}" data-module="${escapeHtml(moduleId)}">Vérifier l’analyse</button><button class="btn-hint" data-action="show-hint" data-exercise-id="${escapeHtml(ex.id)}" data-module="${escapeHtml(moduleId)}">💡 Indice</button></div></div>`;
 }
 
 const hintLevels = {};
@@ -313,6 +419,7 @@ function renderQuizzes(mod) {
     const container = document.getElementById('quiz-' + mod);
     if (!container) return;
     const quiz = QUIZZES[mod];
+    const questionCount = quiz.questions.length;
     const record = getQuizRecord(mod);
     const prevScore = record ? record.lastScore : undefined;
 
@@ -326,8 +433,8 @@ function renderQuizzes(mod) {
       card.innerHTML = `
         <div class="quiz-start">
           <h3>${quiz.title}</h3>
-          <p>Score précédent : <strong>${prevScore}/5</strong> ${pass ? '— Réussi ✓' : '— À recommencer'}${record.bestScore !== prevScore ? ' (meilleur : ' + record.bestScore + '/5)' : ''}</p>
-          <button class="btn-start-quiz" onclick="startQuiz('${mod}')">Recommencer le quiz</button>
+          <p>Score précédent : <strong>${prevScore}/${questionCount}</strong> ${pass ? '— Réussi ✓' : '— À recommencer'}${record.bestScore !== prevScore ? ' (meilleur : ' + record.bestScore + '/' + questionCount + ')' : ''}</p>
+          <button class="btn-start-quiz" data-action="start-quiz" data-module="${escapeHtml(mod)}">Recommencer le quiz</button>
         </div>
         <div class="quiz-body" id="quiz-body-${mod}"></div>
         <div class="quiz-result" id="quiz-result-${mod}" role="status" aria-live="polite"></div>
@@ -336,8 +443,8 @@ function renderQuizzes(mod) {
       card.innerHTML = `
         <div class="quiz-start">
           <h3>${quiz.title}</h3>
-          <p>${quiz.questions.length} questions à choix multiples. Score minimum : ${PASS_SCORE}/${quiz.questions.length} ; terminez aussi les leçons et exercices pour déverrouiller le module suivant.</p>
-          <button class="btn-start-quiz" onclick="startQuiz('${mod}')">▶ Commencer le quiz</button>
+          <p>${quiz.questions.length} questions à choix multiples. Score minimum : ${getQuizPolicy(mod).passScore}/${quiz.questions.length} ; terminez aussi les leçons et exercices pour déverrouiller le module suivant.</p>
+          <button class="btn-start-quiz" data-action="start-quiz" data-module="${escapeHtml(mod)}">▶ Commencer le quiz</button>
         </div>
         <div class="quiz-body" id="quiz-body-${mod}"></div>
         <div class="quiz-result" id="quiz-result-${mod}" role="status" aria-live="polite"></div>
@@ -345,6 +452,19 @@ function renderQuizzes(mod) {
     }
     container.appendChild(card);
   });
+}
+
+function getQuizFeedback(score, maxScore, passScore) {
+  if (score <= 0) return 'Relisez les leçons et réessayez.';
+  if (score < passScore) {
+    return score + 1 < passScore
+      ? 'Continuez à réviser, vous pouvez le faire !'
+      : 'Pas mal, mais retentez pour valider.';
+  }
+  if (score >= maxScore) return 'Parfait ! Vous maîtrisez ce module.';
+  return score / maxScore >= 0.8
+    ? 'Excellent ! Presque parfait.'
+    : 'Bien joué ! Module déverrouillé.';
 }
 
 const quizState = {}; // { m1: { currentQ: 0, score: 0, answered: [], questions: [] } }
@@ -427,14 +547,14 @@ function showQuestion(mod) {
     <fieldset class="quiz-options" id="quiz-opts-${mod}">
       <legend class="visually-hidden">Choix de réponse</legend>
       ${q.options.map((opt, i) => `
-        <button type="button" class="quiz-option" id="quiz-opt-${mod}-${i}" onclick="selectOption('${mod}', ${i})">
+        <button type="button" class="quiz-option" id="quiz-opt-${escapeHtml(mod)}-${i}" data-action="select-quiz-option" data-module="${escapeHtml(mod)}" data-option-index="${i}">
           <span class="quiz-option-letter">${letters[i]}</span>
           <span>${opt}</span>
         </button>
       `).join('')}
     </fieldset>
     <div class="quiz-explanation" id="quiz-expl-${mod}">${q.expl}</div>
-    <button class="btn-next-q" id="quiz-next-${mod}" onclick="nextQuestion('${mod}')">
+    <button class="btn-next-q" id="quiz-next-${escapeHtml(mod)}" data-action="next-question" data-module="${escapeHtml(mod)}">
       ${qs.currentQ < quiz.questions.length - 1 ? 'Question suivante →' : 'Voir les résultats →'}
     </button>
   `;
@@ -482,9 +602,11 @@ function nextQuestion(mod) {
 async function showQuizResult(mod) {
   const qs = quizState[mod];
   const score = qs.score;
-  const pass = score >= PASS_SCORE;
+  const policy = getQuizPolicy(mod);
+  const questionCount = policy.maxScore;
+  const pass = score >= policy.passScore;
 
-  state.quizScores[mod] = recordQuizAttempt(state.quizScores[mod], score);
+  state.quizScores[mod] = recordQuizAttempt(state.quizScores[mod], score, policy.passScore);
   await saveState();
   updateProgressUI();
 
@@ -497,7 +619,7 @@ async function showQuizResult(mod) {
 
   const withHelp = Object.keys(hintLevels).some((id) => id.startsWith(mod + '-') && hintLevels[id] > 0);
   const mastery = !pass ? 'À retravailler' : (score >= QUIZZES[mod].questions.length && !withHelp ? 'Maîtrisé' : (withHelp ? 'Réussi avec aide' : 'Réussi autonome'));
-  const msgs = ['Relisez les leçons et réessayez.', 'Continuez à réviser, vous pouvez le faire !', 'Pas mal, mais retentez pour valider.', 'Bien joué ! Module déverrouillé.', 'Excellent ! Presque parfait.', 'Parfait ! Vous maîtrisez ce module.'];
+  const feedback = getQuizFeedback(score, questionCount, policy.passScore);
   const nextMod = getNextMod(mod);
   const reviewItems = qs.questions.map((question, index) => {
     if (qs.answered[index] === question.correct) return '';
@@ -510,13 +632,13 @@ async function showQuizResult(mod) {
   const completionNeeded = pass && !moduleComplete;
   result.innerHTML = '<div class="quiz-result-inner ' + (pass ? 'pass' : 'fail') + '">'
     + '<div class="quiz-result-stars">' + mastery + '</div>'
-    + '<div class="quiz-result-score">' + score + '<span>/5</span></div>'
-    + '<div class="quiz-result-msg">' + (msgs[score] || '') + '</div>'
+    + '<div class="quiz-result-score">' + score + '<span>/' + questionCount + '</span></div>'
+    + '<div class="quiz-result-msg">' + feedback + '</div>'
     + (reviewItems ? '<ul class="quiz-review">' + reviewItems + '</ul>' : '')
     + (pass && nextUnlocked ? '<div class="quiz-unlock-msg">🔓 Module suivant déverrouillé !</div>' : (pass && moduleComplete && !nextMod ? '<div class="quiz-unlock-msg">🏁 Parcours terminé.</div>' : (completionNeeded ? '<div class="quiz-unlock-msg">Terminez les leçons et exercices du module pour déverrouiller la suite.</div>' : '')))
     + '<div class="quiz-result-actions">'
-    + '<button class="btn-start-quiz" onclick="startQuiz(\'' + mod + '\')">Recommencer</button>'
-    + (pass && nextUnlocked ? '<button class="btn-start-quiz" style="background:var(--accent-blue-dim);margin-left:8px" onclick="navigateTo(\'' + nextMod + '\')">Module suivant →</button>' : '')
+    + '<button class="btn-start-quiz" data-action="start-quiz" data-module="' + escapeHtml(mod) + '">Recommencer</button>'
+    + (pass && nextUnlocked ? '<button class="btn-start-quiz" style="background:var(--accent-blue-dim);margin-left:8px" data-action="navigate" data-target="' + escapeHtml(nextMod) + '">Module suivant →</button>' : '')
     + '</div></div>';
 }
 
@@ -546,7 +668,7 @@ function renderOverviewCards() {
       + '<p class="mod-card-desc">' + meta.desc + '</p>'
       + '<div class="mod-card-progress"><div class="mod-card-progress-bar"><div class="mod-card-progress-fill" style="width:' + pct + '%"></div></div><span class="mod-card-pct">' + pct + '%</span></div>'
       + (unlocked
-        ? '<button class="mod-card-btn" onclick="navigateTo(\'' + mod + '\')">Commencer <span class="arrow">→</span></button>'
+        ? '<button class="mod-card-btn" data-action="navigate" data-target="' + escapeHtml(mod) + '">Commencer <span class="arrow">→</span></button>'
         : '<button type="button" class="mod-card-btn" disabled aria-disabled="true">Verrouillé — réussissez le quiz précédent</button>');
     grid.appendChild(card);
   });
@@ -665,7 +787,7 @@ function renderNewsGrid(filter) {
           ${(n.related_modules && n.related_modules.length) ? '<div class="news-modules">' + n.related_modules.map(function(m) {
             var meta = typeof MODULE_META !== 'undefined' && MODULE_META[m];
             var label = meta ? meta.title : m.toUpperCase();
-            return '<a href="#" class="news-module-link" onclick="navigateTo(\'' + m + '\');return false">→ ' + escapeHtml(label) + '</a>';
+            return '<a href="#' + escapeHtml(m) + '" class="news-module-link" data-action="navigate" data-target="' + escapeHtml(m) + '">→ ' + escapeHtml(label) + '</a>';
           }).join('') + '</div>' : ''}
         </div>
         <div class="news-card-footer">
@@ -717,7 +839,7 @@ async function loadNews() {
       <div class="lp-error-state" role="alert">
         <div class="lp-error-icon">⚠️</div>
         <p class="lp-error-msg">Impossible de charger les actualités.</p>
-        <button class="lp-error-retry" onclick="loadNews()">↺ Réessayer</button>
+        <button class="lp-error-retry" data-action="load-news">↺ Réessayer</button>
       </div>`;
   }
 }
@@ -748,7 +870,7 @@ async function loadCheatsheet() {
       <div class="lp-error-state" role="alert">
         <div class="lp-error-icon">⚠️</div>
         <p class="lp-error-msg">Impossible de charger la cheatsheet.</p>
-        <button class="lp-error-retry" onclick="loadCheatsheet()">↺ Réessayer</button>
+        <button class="lp-error-retry" data-action="load-cheatsheet">↺ Réessayer</button>
       </div>`;
   }
 }
@@ -758,9 +880,9 @@ function buildCheatsheetFilters() {
   if (!container) return;
 
   // Keep the "Tout" button, add one per category
-  let html = '<button class="cheatsheet-filter-btn active" data-cat="all" onclick="filterCheatsheetCat(\'all\', this)">Tout</button>';
+  let html = '<button class="cheatsheet-filter-btn active" data-cat="all" data-action="filter-cheatsheet-category">Tout</button>';
   _cheatsheetData.forEach(cat => {
-    html += `<button class="cheatsheet-filter-btn" data-cat="${cat.id}" onclick="filterCheatsheetCat('${cat.id}', this)">${cat.icon} ${cat.label}</button>`;
+    html += `<button class="cheatsheet-filter-btn" data-cat="${escapeHtml(cat.id)}" data-action="filter-cheatsheet-category">${escapeHtml(cat.icon)} ${escapeHtml(cat.label)}</button>`;
   });
   container.innerHTML = html;
 }
@@ -798,7 +920,7 @@ function renderCheatsheet(filterCat) {
         </div>
         <div class="cheatsheet-cmd-list">
           ${matchedCmds.map(cmd => `
-            <div class="cheatsheet-cmd-card" onclick="copyCmd('${escapeAttr(cmd.example)}')" title="Cliquer pour copier">
+            <div class="cheatsheet-cmd-card" data-action="copy-command" data-command="${escapeHtml(cmd.example)}" title="Cliquer pour copier">
               <div class="cheatsheet-cmd-top">
                 <code class="cheatsheet-cmd">${escapeHtml(cmd.cmd)}</code>
                 <button class="cheatsheet-copy-btn" aria-label="Copier">
@@ -837,26 +959,40 @@ function filterCheatsheet() {
   renderCheatsheet(_cheatsheetActiveFilter);
 }
 
-function copyCmd(text) {
-  navigator.clipboard.writeText(text).then(() => {
-    showCheatsheetToast();
-  }).catch(() => {
-    // Fallback for older browsers
-    const el = document.createElement('textarea');
-    el.value = text;
-    el.style.position = 'fixed';
-    el.style.opacity = '0';
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-    showCheatsheetToast();
-  });
+async function copyCmd(text) {
+  let copied = false;
+  try {
+    if (!navigator.clipboard || typeof navigator.clipboard.writeText !== 'function') {
+      throw new Error('clipboard unavailable');
+    }
+    await navigator.clipboard.writeText(text);
+    copied = true;
+  } catch (_) {
+    let el = null;
+    try {
+      el = document.createElement('textarea');
+      el.value = text;
+      el.style.position = 'fixed';
+      el.style.opacity = '0';
+      document.body.appendChild(el);
+      el.select();
+      copied = document.execCommand('copy') === true;
+    } catch (_) {
+      copied = false;
+    } finally {
+      if (el && el.parentNode) el.parentNode.removeChild(el);
+    }
+  }
+  showCheatsheetToast(copied);
+  return copied;
 }
 
-function showCheatsheetToast() {
+function showCheatsheetToast(copied) {
   const toast = document.getElementById('cheatsheet-toast');
   if (!toast) return;
+  toast.textContent = copied
+    ? '✓ Copié dans le presse-papier'
+    : 'Échec de la copie — sélectionnez la commande manuellement.';
   toast.classList.add('visible');
   setTimeout(() => toast.classList.remove('visible'), 2000);
 }
@@ -907,7 +1043,7 @@ async function loadGlossary() {
       <div class="lp-error-state" role="alert">
         <div class="lp-error-icon">⚠️</div>
         <p class="lp-error-msg">Impossible de charger le glossaire.</p>
-        <button class="lp-error-retry" onclick="loadGlossary()">↺ Réessayer</button>
+        <button class="lp-error-retry" data-action="load-glossary">↺ Réessayer</button>
       </div>`;
   }
 }
@@ -916,9 +1052,9 @@ function buildGlossaryAlphaNav() {
   const nav = document.getElementById('glossary-alpha-nav');
   if (!nav) return;
   const letters = [...new Set(_glossaryData.map(t => t.letter))].sort();
-  let html = '<button class="glossary-alpha-btn active" data-letter="all" onclick="filterGlossaryLetter(\'all\', this)">Tout</button>';
+  let html = '<button class="glossary-alpha-btn active" data-letter="all" data-action="filter-glossary-letter">Tout</button>';
   letters.forEach(l => {
-    html += `<button class="glossary-alpha-btn" data-letter="${l}" onclick="filterGlossaryLetter('${l}', this)">${l}</button>`;
+    html += `<button class="glossary-alpha-btn" data-letter="${escapeHtml(l)}" data-action="filter-glossary-letter">${escapeHtml(l)}</button>`;
   });
   nav.innerHTML = html;
 }
@@ -1197,7 +1333,7 @@ function renderRoadmapTimeline() {
             </div>
             <span class="roadmap-pct-label">${pct}%</span>
           </div>` : ''}
-          <button class="roadmap-node-btn ${isLocked ? 'btn-locked' : ''}" ${btnDisabled} onclick="navigateTo('${m}')">${btnLabel}</button>
+          <button class="roadmap-node-btn ${isLocked ? 'btn-locked' : ''}" ${btnDisabled} data-action="navigate" data-target="${escapeHtml(m)}">${btnLabel}</button>
         </div>
       </div>`;
   }
@@ -1220,11 +1356,11 @@ function renderRoadmapBonus() {
   if (!el) return;
 
   el.innerHTML = bonusSections().map(s => `
-    <div class="roadmap-bonus-card" onclick="navigateTo('${s.target}')">
-      <div class="roadmap-bonus-icon">${s.icon}</div>
-      <div class="roadmap-bonus-label">${escapeHtml(s.label)}</div>
-      <div class="roadmap-bonus-desc">${escapeHtml(s.desc)}</div>
-    </div>
+    <button type="button" class="roadmap-bonus-card" data-action="navigate" data-target="${escapeHtml(s.target)}">
+      <span class="roadmap-bonus-icon" aria-hidden="true">${s.icon}</span>
+      <span class="roadmap-bonus-label">${escapeHtml(s.label)}</span>
+      <span class="roadmap-bonus-desc">${escapeHtml(s.desc)}</span>
+    </button>
   `).join('');
 }
 
@@ -1445,6 +1581,12 @@ function renderHome() {
   const mods = getPublishedModuleIds();
   const homeModulesTitle = document.getElementById('home-modules-title');
   if (homeModulesTitle) homeModulesTitle.textContent = 'Les ' + mods.length + ' modules';
+  document.querySelectorAll('.track-card[data-track]').forEach(function(card) {
+    var trackStats = stats.tracks && stats.tracks[card.dataset.track];
+    var meta = card.querySelector('h3 + p');
+    if (!trackStats || !meta) return;
+    meta.textContent = meta.textContent.replace(/~\d+\s*h/, '~' + trackStats.estimatedHours + ' h');
+  });
   let totalItems = 0, doneItems = 0, completedMods = 0;
 
   mods.forEach(m => {
@@ -1513,11 +1655,11 @@ function renderHome() {
           </h1>
 
           <div class="lp-cta-row" style="margin-top:24px">
-            <button class="lp-cta-primary" onclick="navigateTo('${resumeTarget}')">
+            <button class="lp-cta-primary" data-action="navigate" data-target="${escapeHtml(resumeTarget)}">
               ▶ Reprendre — ${escapeHtml(resumeLabel)}
             </button>
-            <button class="lp-cta-roadmap" onclick="navigateTo('roadmap')">🗺️ Ma progression</button>
-            <button class="lp-cta-secondary" onclick="document.getElementById('lp-modules').scrollIntoView({behavior:'smooth'})">Voir les modules</button>
+            <button class="lp-cta-roadmap" data-action="navigate" data-target="roadmap">🗺️ Ma progression</button>
+            <button class="lp-cta-secondary" data-action="scroll-to" data-scroll-target="lp-modules">Voir les modules</button>
           </div>
         </div>
         <div class="hero-terminal-host" data-hero-terminal-host></div>
@@ -1531,15 +1673,15 @@ function renderHome() {
           <h1 class="lp-headline">Apprenez <em>Linux</em><br>de zéro à l'administration.</h1>
           <p class="lp-sub">${stats.modules} modules, exercices pratiques, quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
           <div class="lp-cta-row">
-            <button class="lp-cta-primary" onclick="document.getElementById('track-picker').scrollIntoView({behavior:'smooth'})">Choisir mon parcours</button>
-            <button class="lp-cta-secondary" onclick="document.getElementById('lp-modules').scrollIntoView({behavior:'smooth'})">Voir les modules</button>
+            <button class="lp-cta-primary" data-action="scroll-to" data-scroll-target="track-picker">Choisir mon parcours</button>
+            <button class="lp-cta-secondary" data-action="scroll-to" data-scroll-target="lp-modules">Voir les modules</button>
           </div>
           <div class="lp-hero-stats">
             <div><div class="lp-stat-num">${stats.modules}</div><div class="lp-stat-label">Modules</div></div>
             <div><div class="lp-stat-num">${stats.lessons}</div><div class="lp-stat-label">Leçons</div></div>
             <div><div class="lp-stat-num">${stats.exercises}</div><div class="lp-stat-label">Exercices</div></div>
             <div><div class="lp-stat-num">${stats.questions}</div><div class="lp-stat-label">Questions QCM</div></div>
-            <div><div class="lp-stat-num">${stats.challenges}</div><div class="lp-stat-label">Challenges CTF</div></div>
+            <div><div class="lp-stat-num" id="home-stat-challenges">${stats.challenges}</div><div class="lp-stat-label">Challenges CTF</div></div>
           </div>
         </div>
         <div class="hero-terminal-host" data-hero-terminal-host></div>

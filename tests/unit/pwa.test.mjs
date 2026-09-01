@@ -23,3 +23,12 @@ test('the service worker only deletes linuxpath- caches and awaits cache.put', a
   assert.match(source, /await cache\.put/);
   assert.equal(source.includes('Pre-cache partiel'), false);
 });
+
+test('v86 documentation explains checksum-versioned cache lifecycle', async () => {
+  const readme = await readFile('v86/README.md', 'utf8');
+  assert.match(readme, /v86\/checksums\.sha256|checksums\.sha256/);
+  assert.match(readme, /cache[^\n]*indépendant/i);
+  assert.match(readme, /SHA-256[^\n]*manifeste/i);
+  assert.match(readme, /sans re-télécharger|ne sont pas re-téléchargés/i);
+  assert.match(readme, /linuxpath-v64/);
+});
