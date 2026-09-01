@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
-    "@playwright/test": "1.62.0",
+    "@playwright/test": "1.62.1",
     "html-validate": "10.11.0",
     "terser": "5.51.2"
   }
