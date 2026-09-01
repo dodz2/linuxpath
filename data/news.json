@@ -1,7 +1,51 @@
 {
-  "last_updated": "2026-08-30",
-  "edition": "Semaine du 30 août 2026",
+  "last_updated": "2026-09-01",
+  "edition": "Semaine du 1 septembre 2026",
   "news": [
+    {
+      "id": "news-b250ae12",
+      "date": "2026-09-01",
+      "title": "Vulnérabilité dans Mozilla Firefox pour iOS (01 septembre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Mozilla Firefox pour iOS. Elle permet à un attaquant de provoquer un contournement de la politique de sécurité.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1099/"
+    },
+    {
+      "id": "news-8ae1d3ed",
+      "date": "2026-09-01",
+      "title": "Vulnérabilité dans Kaspersky Endpoint Security Windows (01 septembre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Kaspersky Endpoint Security Windows. Elle permet à un attaquant de provoquer un contournement de la politique de sécurité.",
+      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1101/"
+    },
+    {
+      "id": "news-0142afa5",
+      "date": "2026-09-01",
+      "title": "Multiples vulnérabilités dans Mattermost Server (01 septembre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Mattermost Server. Elles permettent à un attaquant de provoquer un problème de sécurité non spécifié par l'éditeur.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1098/"
+    },
     {
       "id": "news-08f4a57f",
       "date": "2026-08-29",
@@ -469,55 +513,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/alleged-teampcp-hackers-charged-in.html"
-    },
-    {
-      "id": "news-c63cbfd0",
-      "date": "2026-08-27",
-      "title": "What the Data Says About AI in Security Operations in 2026",
-      "summary": "AI is officially mainstream in security operations. According to Prophet Security's State of AI in Security Operations 2026 report (produced from ViB’s survey of 250+ cybersecurity pros), 40% of security teams now use AI daily. Another 56% are currently testing it out, and only 4% have no plans to adopt it. For the teams already using AI, what is actually changing? Here are the ten biggest",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/what-data-says-about-ai-in-security.html"
-    },
-    {
-      "id": "news-dcb09063",
-      "date": "2026-08-27",
-      "title": "Spark RAT Targets Cambodia, Abuses Vulnerable OPSWAT Driver to Disable Security Tools",
-      "summary": "Individuals and organizations in Cambodia have emerged as the target of a new campaign that delivers an open-source remote access trojan (RAT) called Spark RAT. \"The samples employ diverse lure themes, suggesting an effort to appeal to a broad range of potential victims. These include government notices, public health materials, real estate-related content, and other topics,\" Acronis Threat",
-      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
-      "related_modules": [
-        "m14"
-      ],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/spark-rat-targets-cambodia-abuses.html"
-    },
-    {
-      "id": "news-69913762",
-      "date": "2026-08-27",
-      "title": "GoCaracal Malware Uses Ethereum Smart Contract to Fetch Replacement C2 Address",
-      "summary": "Threat actors linked by Arctic Wolf to Dark Caracal with medium confidence deployed a previously undocumented Go-based malware framework, GoCaracal, during a June 2026 intrusion at an unnamed communications organization in Venezuela. GoCaracal provides operators with remote shell access and payload execution, while the extended profile adds browser data theft, keylogging, remote desktop control",
-      "context": "Technique liée au scripting et à l'automatisation.",
-      "related_modules": [
-        "m5",
-        "m14"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/gocaracal-malware-uses-ethereum-smart.html"
     }
   ]
 }
