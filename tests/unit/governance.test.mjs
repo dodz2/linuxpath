@@ -53,6 +53,10 @@ test('repository governance files define maintainable and private security workf
   assert.match(mergeNewsJob, /needs:\s*verify/);
   assert.match(mergeNewsJob, /github\.event_name\s*==\s*'workflow_dispatch'/);
   assert.match(mergeNewsJob, /github\.ref_name\s*==\s*'news\/auto-update'/);
+  assert.match(mergeNewsJob, /statuses:\s*write/);
+  const statusIndex = mergeNewsJob.indexOf('statuses/$GITHUB_SHA');
+  const mergeIndex = mergeNewsJob.indexOf('gh pr merge');
+  assert.ok(statusIndex >= 0 && mergeIndex > statusIndex);
   assert.match(mergeNewsJob, /gh pr merge[^\n]*--squash/);
   assert.equal(/gh pr merge/.test(news), false);
 

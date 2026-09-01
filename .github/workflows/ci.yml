@@ -66,7 +66,13 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      statuses: write
     steps:
+      - name: Publish verified status
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST "repos/$GITHUB_REPOSITORY/statuses/$GITHUB_SHA" -f state=success -f context=verify -f description='LinuxPath verification passed'
+
       - name: Merge verified news
         env:
           GH_TOKEN: ${{ github.token }}
