@@ -7,6 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: write
   contents: write
   pull-requests: write
 
@@ -28,6 +29,7 @@ jobs:
         run: python3 .github/scripts/fetch_news.py
 
       - name: Open pull request
+        id: update
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ github.token }}
@@ -36,3 +38,17 @@ jobs:
           title: "📰 Actualités cyber"
           body: "Mise à jour automatique de `data/news.json`. La CI doit passer avant merge, ce qui déclenche ensuite Pages."
           add-paths: data/news.json
+
+      - name: Verify pull request
+        if: ${{ steps.update.outputs.pull-request-number }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NEWS_BRANCH: ${{ steps.update.outputs.pull-request-branch }}
+        run: gh workflow run ci.yml --ref "$NEWS_BRANCH"
+
+      - name: Merge after verification
+        if: ${{ steps.update.outputs.pull-request-number }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ steps.update.outputs.pull-request-number }}
+        run: gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --auto --squash --delete-branch

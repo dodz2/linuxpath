@@ -46,6 +46,10 @@ test('repository governance files define maintainable and private security workf
   assert.match(deploy, /verify-live-deployment\.mjs\s+"\$PAGE_URL"\s+"\$SOURCE_COMMIT"/);
   assert.match(news, /peter-evans\/create-pull-request@[0-9a-f]{40}/);
   assert.match(news, /token:\s*\$\{\{\s*github\.token\s*\}\}/);
+  assert.match(ci, /workflow_dispatch:/);
+  assert.match(news, /actions:\s*write/);
+  assert.match(news, /gh workflow run ci\.yml --ref/);
+  assert.match(news, /gh pr merge[^\n]*--auto[^\n]*--squash/);
 
   assert.match(security, /security\/advisories\/new/);
   assert.match(security, /ne (?:publiez|divulguez|déposez) pas|do not (?:publish|disclose|file)/i);
