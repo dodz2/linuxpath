@@ -1573,119 +1573,272 @@ function heroRunCommand(rawCmd) {
   }
 }
 
+function formatTrackModuleRange(moduleIds) {
+  const ids = Array.isArray(moduleIds) ? moduleIds.filter(Boolean) : [];
+  if (!ids.length) return '';
+  function label(id) {
+    return String(id).toUpperCase();
+  }
+  if (ids.length === 1) return label(ids[0]);
+  const allM = ids.every(function (id) { return /^m\d+$/i.test(id); });
+  const allHw = ids.every(function (id) { return /^hw\d+$/i.test(id); });
+  if (allM || allHw) return label(ids[0]) + ' à ' + label(ids[ids.length - 1]);
+  if (/^cs\d+$/i.test(ids[0])) {
+    const rest = ids.slice(1);
+    if (rest.length >= 2 && rest.every(function (id) { return /^m\d+$/i.test(id); })) {
+      return label(ids[0]) + ' + ' + label(rest[0]) + ' à ' + label(rest[rest.length - 1]);
+    }
+    return ids.map(label).join(' + ');
+  }
+  return ids.map(label).join(', ');
+}
+
+function getHomeProgressSnapshot() {
+  const mods = getPublishedModuleIds();
+  let totalItems = 0;
+  let doneItems = 0;
+  let completedMods = 0;
+  let inProgress = null;
+  let available = null;
+
+  mods.forEach(function (mod) {
+    const progress = getModuleProgress(mod);
+    totalItems += progress.total;
+    doneItems += progress.done;
+    if (progress.state === 'passed' || progress.state === 'mastered') completedMods += 1;
+    if (!state.unlockedModules.has(mod)) return;
+    if (progress.state === 'in_progress' && !inProgress) inProgress = mod;
+    if ((progress.state === 'available' || progress.state === 'in_progress') && !available) available = mod;
+  });
+
+  const pct = totalItems > 0 ? Math.round((doneItems / totalItems) * 100) : 0;
+  const isReturning = doneItems > 0;
+  const isComplete = isReturning
+    && (
+      (mods.length > 0 && completedMods === mods.length)
+      || (totalItems > 0 && doneItems >= totalItems)
+    )
+    && !inProgress
+    && !available;
+  const resumeTarget = isComplete ? null : (inProgress || available || 'm1');
+  const resumeLabel = resumeTarget && MODULE_META[resumeTarget] && MODULE_META[resumeTarget].title
+    ? MODULE_META[resumeTarget].title
+    : 'Module suivant';
+  const resumeStatus = inProgress ? 'in_progress' : (available ? 'available' : (isComplete ? 'complete' : 'available'));
+
+  return {
+    mods: mods,
+    totalItems: totalItems,
+    doneItems: doneItems,
+    completedMods: completedMods,
+    pct: pct,
+    isReturning: isReturning,
+    isComplete: isComplete,
+    resumeTarget: resumeTarget,
+    resumeLabel: resumeLabel,
+    resumeStatus: resumeStatus
+  };
+}
+
+function getTrackResumeTarget(trackId) {
+  const moduleIds = getTrackModuleIds(trackId);
+  let inProgress = null;
+  let available = null;
+  moduleIds.forEach(function (mod) {
+    if (!state.unlockedModules.has(mod)) return;
+    const progress = getModuleProgress(mod);
+    if (progress.state === 'in_progress' && !inProgress) inProgress = mod;
+    if ((progress.state === 'available' || progress.state === 'in_progress') && !available) available = mod;
+  });
+  if (inProgress || available) return inProgress || available;
+  const track = (typeof TRACKS !== 'undefined' ? TRACKS : []).find(function (entry) { return entry.id === trackId; });
+  return (track && track.entryModule) || moduleIds[0] || null;
+}
+
+function renderHomeStatsRow(stats) {
+  return ''
+    + '<div class="lp-hero-stats" role="list" aria-label="Statistiques du parcours">'
+    +   '<div role="listitem"><div class="lp-stat-num">' + stats.modules + '</div><div class="lp-stat-label">Modules</div></div>'
+    +   '<div role="listitem"><div class="lp-stat-num">' + stats.lessons + '</div><div class="lp-stat-label">Leçons</div></div>'
+    +   '<div role="listitem"><div class="lp-stat-num">' + stats.exercises + '</div><div class="lp-stat-label">Exercices</div></div>'
+    +   '<div role="listitem"><div class="lp-stat-num">' + stats.questions + '</div><div class="lp-stat-label">Questions QCM</div></div>'
+    +   '<div role="listitem"><div class="lp-stat-num" id="home-stat-challenges">' + stats.challenges + '</div><div class="lp-stat-label">Challenges CTF</div></div>'
+    + '</div>';
+}
+
+function renderHomeNextActionCard(snapshot) {
+  if (snapshot.isComplete) {
+    return ''
+      + '<section class="lp-home-next-card lp-home-next-card-complete" aria-label="Parcours terminé">'
+      +   '<p class="lp-home-next-kicker">Parcours terminé</p>'
+      +   '<h2 class="lp-home-next-title">Vous avez validé l’ensemble du programme publié</h2>'
+      +   '<p class="lp-home-next-copy">Continuez avec la roadmap, la sandbox Linux ou les challenges CTF.</p>'
+      +   '<div class="lp-home-next-actions">'
+      +     '<button type="button" class="lp-cta-primary" data-action="navigate" data-target="roadmap">Ouvrir la roadmap</button>'
+      +     '<button type="button" class="lp-cta-secondary" data-action="navigate" data-target="sandbox">Sandbox Linux</button>'
+      +     '<button type="button" class="lp-cta-secondary" data-action="navigate" data-target="ctf">Challenges CTF</button>'
+      +   '</div>'
+      + '</section>';
+  }
+
+  const isInProgress = snapshot.resumeStatus === 'in_progress';
+  const statusLabel = isInProgress ? 'Module en cours' : 'Prochaine étape';
+  const buttonLabel = isInProgress
+    ? 'Reprendre — ' + snapshot.resumeLabel
+    : 'Commencer — ' + snapshot.resumeLabel;
+  const copy = isInProgress
+    ? 'Reprenez exactement là où votre progression s’est arrêtée.'
+    : 'Passez au module suivant disponible de votre progression.';
+
+  return ''
+    + '<section class="lp-home-next-card" aria-label="Prochaine action">'
+    +   '<p class="lp-home-next-kicker">' + escapeHtml(statusLabel) + '</p>'
+    +   '<h2 class="lp-home-next-title">' + escapeHtml(snapshot.resumeLabel) + '</h2>'
+    +   '<p class="lp-home-next-copy">' + escapeHtml(copy) + '</p>'
+    +   '<div class="lp-home-next-actions">'
+    +     '<button type="button" class="lp-cta-primary" data-action="navigate" data-target="' + escapeHtml(snapshot.resumeTarget) + '">' + escapeHtml(buttonLabel) + '</button>'
+    +     '<button type="button" class="lp-cta-roadmap" data-action="navigate" data-target="roadmap">Roadmap</button>'
+    +   '</div>'
+    + '</section>';
+}
+
+function renderHomeDashboard(snapshot, stats) {
+  if (!snapshot.isReturning) {
+    return ''
+      + '<div class="lp-hero lp-home-dashboard">'
+      +   '<div class="lp-hero-main">'
+      +     '<p class="lp-home-kicker">Formation Linux · open source · 100% français</p>'
+      +     '<h1 class="lp-headline">Apprenez Linux de zéro à l’administration</h1>'
+      +     '<p class="lp-sub">Un parcours progressif avec leçons, exercices, quiz et terminal intégré. Choisissez un chemin, avancez à votre rythme, sans rien installer.</p>'
+      +     '<div class="lp-cta-row">'
+      +       '<button type="button" class="lp-cta-primary" data-action="scroll-to" data-scroll-target="track-picker">Choisir mon parcours</button>'
+      +       '<button type="button" class="lp-cta-secondary" data-action="scroll-to" data-scroll-target="lp-modules">Voir les modules</button>'
+      +     '</div>'
+      +     renderHomeStatsRow(stats)
+      +   '</div>'
+      +   '<aside class="hero-terminal-host lp-hero-terminal-secondary" data-hero-terminal-host aria-label="Démonstration du terminal"></aside>'
+      + '</div>';
+  }
+
+  const title = snapshot.isComplete
+    ? 'Parcours terminé'
+    : 'Continuez votre progression';
+  const lead = snapshot.isComplete
+    ? 'Vous avez complété les modules publiés. Explorez la suite ou révisez via la roadmap.'
+    : 'Voici où vous en êtes et la prochaine action utile.';
+
+  return ''
+    + '<div class="lp-hero lp-hero-returning lp-home-dashboard">'
+    +   '<div class="lp-hero-main">'
+    +     '<p class="lp-home-kicker">Votre parcours</p>'
+    +     '<h1 class="lp-headline">' + title + '</h1>'
+    +     '<p class="lp-sub">' + lead + '</p>'
+    +     '<div class="lp-home-summary" role="group" aria-label="Résumé de progression">'
+    +       '<div class="lp-home-summary-item">'
+    +         '<div class="lp-home-summary-value">' + snapshot.pct + '%</div>'
+    +         '<div class="lp-home-summary-label">Progression globale</div>'
+    +       '</div>'
+    +       '<div class="lp-home-summary-item">'
+    +         '<div class="lp-home-summary-value">' + snapshot.completedMods + '/' + snapshot.mods.length + '</div>'
+    +         '<div class="lp-home-summary-label">Modules terminés</div>'
+    +       '</div>'
+    +       '<div class="lp-home-summary-item">'
+    +         '<div class="lp-home-summary-value">' + snapshot.doneItems + '/' + snapshot.totalItems + '</div>'
+    +         '<div class="lp-home-summary-label">Éléments réalisés</div>'
+    +       '</div>'
+    +     '</div>'
+    +     '<div class="lp-return-progress-wrap">'
+    +       '<div class="lp-return-progress-bar" aria-hidden="true"><div class="lp-return-progress-fill" style="width:' + snapshot.pct + '%"></div></div>'
+    +       '<span class="lp-return-progress-label">' + snapshot.pct + '%</span>'
+    +     '</div>'
+    +     renderHomeNextActionCard(snapshot)
+    +     '<div class="lp-cta-row lp-home-secondary-actions">'
+    +       '<button type="button" class="lp-cta-secondary" data-action="scroll-to" data-scroll-target="track-picker">Voir les parcours</button>'
+    +       '<button type="button" class="lp-cta-secondary" data-action="scroll-to" data-scroll-target="lp-modules">Voir les modules</button>'
+    +     '</div>'
+    +   '</div>'
+    +   '<aside class="hero-terminal-host lp-hero-terminal-secondary" data-hero-terminal-host aria-label="Démonstration du terminal"></aside>'
+    + '</div>';
+}
+
+function renderTrackPicker(snapshot, stats) {
+  const grid = document.querySelector('#track-picker .track-grid');
+  if (!grid || !Array.isArray(TRACKS) || !TRACKS.length) {
+    document.querySelectorAll('.track-card[data-track]').forEach(function (card) {
+      const trackStats = stats.tracks && stats.tracks[card.dataset.track];
+      const meta = card.querySelector('[data-track-meta]') || card.querySelector('h3 + p');
+      if (!trackStats || !meta) return;
+      meta.textContent = meta.textContent.replace(/~\d+\s*h/, '~' + trackStats.estimatedHours + ' h');
+    });
+    return;
+  }
+
+  const sectionLabel = document.querySelector('#track-picker .lp-section-label');
+  const sectionTitle = document.querySelector('#track-picker .lp-section-title');
+  if (sectionLabel) sectionLabel.textContent = 'Parcours';
+  if (sectionTitle) {
+    sectionTitle.textContent = snapshot.isReturning
+      ? 'Progression par parcours'
+      : 'Quatre parcours pour démarrer';
+  }
+
+  grid.innerHTML = TRACKS.map(function (track) {
+    const trackStats = stats.tracks && stats.tracks[track.id] ? stats.tracks[track.id] : { estimatedHours: track.estimatedHours || 0, moduleCount: (track.modules || []).length };
+    const progress = typeof getTrackProgress === 'function' ? getTrackProgress(track.id) : { done: 0, total: 0, pct: 0 };
+    const moduleIds = Array.isArray(track.modules) ? track.modules : getTrackModuleIds(track.id);
+    const completedOnTrack = moduleIds.filter(function (mod) {
+      const stateName = getModuleProgress(mod).state;
+      return stateName === 'passed' || stateName === 'mastered';
+    }).length;
+    const range = formatTrackModuleRange(moduleIds);
+    const objective = Array.isArray(track.objectives) && track.objectives.length ? track.objectives[0] : '';
+    const hours = trackStats.estimatedHours;
+    const resumeTarget = getTrackResumeTarget(track.id);
+    const hasStarted = progress.done > 0;
+    const trackComplete = progress.total > 0 && progress.done >= progress.total;
+    let actionHtml = '';
+
+    if (trackComplete) {
+      actionHtml = '<button type="button" class="lp-cta-secondary" id="track-' + escapeHtml(track.id) + '-enter" data-action="navigate" data-target="' + escapeHtml(resumeTarget || track.entryModule || '') + '">Revoir le parcours</button>';
+    } else if (hasStarted && resumeTarget) {
+      const label = 'Reprendre';
+      actionHtml = '<button type="button" class="lp-cta-primary" id="track-' + escapeHtml(track.id) + '-enter" data-action="navigate" data-target="' + escapeHtml(resumeTarget) + '">' + label + '</button>';
+    } else {
+      const startLabel = track.id === 'linux' ? 'Commencer ici' : 'Entrer dans ce parcours';
+      actionHtml = '<button type="button" class="' + (track.id === 'linux' ? 'lp-cta-primary' : 'lp-cta-secondary') + '" id="track-' + escapeHtml(track.id) + '-enter" data-action="enter-track" data-track="' + escapeHtml(track.id) + '">' + startLabel + '</button>';
+    }
+
+    return ''
+      + '<article class="track-card' + (hasStarted ? ' track-card-active' : '') + (trackComplete ? ' track-card-complete' : '') + '" data-track="' + escapeHtml(track.id) + '">'
+      +   '<div class="track-card-top">'
+      +     '<div class="track-level">' + escapeHtml(track.level || '') + '</div>'
+      +     (hasStarted ? '<div class="track-progress-badge" aria-label="Progression du parcours : ' + progress.pct + ' %">' + progress.pct + '%</div>' : '')
+      +   '</div>'
+      +   '<h3>' + escapeHtml(track.title || track.id) + '</h3>'
+      +   '<p class="track-meta" data-track-meta">' + escapeHtml(range) + ' · ~' + hours + ' h · ' + moduleIds.length + ' module' + (moduleIds.length > 1 ? 's' : '') + '</p>'
+      +   (hasStarted
+        ? '<div class="track-progress-wrap"><div class="track-progress-bar" aria-hidden="true"><div class="track-progress-fill" style="width:' + progress.pct + '%"></div></div><p class="track-progress-copy">' + completedOnTrack + '/' + moduleIds.length + ' modules terminés · ' + progress.done + '/' + progress.total + ' éléments</p></div>'
+        : (objective
+          ? '<p class="track-objective">' + escapeHtml(objective) + '</p>'
+            + (Array.isArray(track.objectives) && track.objectives.length > 1
+              ? '<ul class="track-objectives">' + track.objectives.slice(1, 3).map(function (item) { return '<li>' + escapeHtml(item) + '</li>'; }).join('') + '</ul>'
+              : '')
+          : ''))
+      +   actionHtml
+      + '</article>';
+  }).join('');
+}
+
 function renderHome() {
   const el = document.getElementById('home-hero');
   if (!el) return;
 
   const stats = getCurriculumStats();
-  const mods = getPublishedModuleIds();
+  const snapshot = getHomeProgressSnapshot();
   const homeModulesTitle = document.getElementById('home-modules-title');
-  if (homeModulesTitle) homeModulesTitle.textContent = 'Les ' + mods.length + ' modules';
-  document.querySelectorAll('.track-card[data-track]').forEach(function(card) {
-    var trackStats = stats.tracks && stats.tracks[card.dataset.track];
-    var meta = card.querySelector('h3 + p');
-    if (!trackStats || !meta) return;
-    meta.textContent = meta.textContent.replace(/~\d+\s*h/, '~' + trackStats.estimatedHours + ' h');
-  });
-  let totalItems = 0, doneItems = 0, completedMods = 0;
+  if (homeModulesTitle) homeModulesTitle.textContent = 'Les ' + snapshot.mods.length + ' modules';
 
-  mods.forEach(m => {
-    const progress = getModuleProgress(m);
-    totalItems += progress.total;
-    doneItems += progress.done;
-    if (progress.state === 'passed' || progress.state === 'mastered') completedMods++;
-  });
-
-  const pct = totalItems > 0 ? Math.round((doneItems / totalItems) * 100) : 0;
-  const isReturning = doneItems > 0;
-
-  let resumeTarget = 'm1';
-  let inProgress = null;
-  let available = null;
-  for (const m of mods) {
-    if (!state.unlockedModules.has(m)) continue;
-    const progress = getModuleProgress(m);
-    if (progress.state === 'in_progress' && !inProgress) inProgress = m;
-    if ((progress.state === 'available' || progress.state === 'in_progress') && !available) available = m;
-  }
-  resumeTarget = inProgress || available || 'm1';
-  const resumeLabel = (MODULE_META[resumeTarget] && MODULE_META[resumeTarget].title)
-    ? MODULE_META[resumeTarget].title
-    : 'Module suivant';
-
-  if (isReturning) {
-    // ---- RETURNING USER ----
-    el.innerHTML = `
-      <div class="lp-hero lp-hero-returning">
-        <div class="lp-hero-main">
-          <div class="lp-hero-returning-top">
-            <div class="lp-return-badge">
-              <span class="lp-return-dot"></span>
-              Bon retour sur LinuxPath
-            </div>
-            <div class="lp-return-stats">
-              <div class="lp-return-stat">
-                <div class="lp-return-stat-num" style="color:var(--accent-green)">${pct}%</div>
-                <div class="lp-return-stat-label">Accompli</div>
-              </div>
-              <div class="lp-return-stat">
-                <div class="lp-return-stat-num" style="color:var(--accent-blue)">${completedMods}/${mods.length}</div>
-                <div class="lp-return-stat-label">Modules</div>
-              </div>
-              <div class="lp-return-stat">
-                <div class="lp-return-stat-num" style="color:var(--accent-purple)">${doneItems}</div>
-                <div class="lp-return-stat-label">Éléments faits</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="lp-return-progress-wrap">
-            <div class="lp-return-progress-bar">
-              <div class="lp-return-progress-fill" style="width:${pct}%"></div>
-            </div>
-            <span class="lp-return-progress-label">${pct}% du parcours complété</span>
-          </div>
-
-          <h1 class="lp-headline" style="margin-top:28px">
-            ${pct === 100
-              ? 'Félicitations, parcours <em>terminé</em> !'
-              : pct >= 50
-                ? 'Tu es à <em>mi-chemin</em>. Continue !'
-                : 'Tu progresses bien.<br>La suite t\'attend.'}
-          </h1>
-
-          <div class="lp-cta-row" style="margin-top:24px">
-            <button class="lp-cta-primary" data-action="navigate" data-target="${escapeHtml(resumeTarget)}">
-              ▶ Reprendre — ${escapeHtml(resumeLabel)}
-            </button>
-            <button class="lp-cta-roadmap" data-action="navigate" data-target="roadmap">🗺️ Ma progression</button>
-            <button class="lp-cta-secondary" data-action="scroll-to" data-scroll-target="lp-modules">Voir les modules</button>
-          </div>
-        </div>
-        <div class="hero-terminal-host" data-hero-terminal-host></div>
-      </div>`;
-  } else {
-    // ---- NEW USER ----
-    el.innerHTML = `
-      <div class="lp-hero">
-        <div class="lp-hero-main">
-          <div class="lp-badge">$ open-source · gratuit · 100% français</div>
-          <h1 class="lp-headline">Apprenez <em>Linux</em><br>de zéro à l'administration.</h1>
-          <p class="lp-sub">${stats.modules} modules, exercices pratiques, quiz de validation et un vrai terminal Linux dans votre navigateur — sans rien installer.</p>
-          <div class="lp-cta-row">
-            <button class="lp-cta-primary" data-action="scroll-to" data-scroll-target="track-picker">Choisir mon parcours</button>
-            <button class="lp-cta-secondary" data-action="scroll-to" data-scroll-target="lp-modules">Voir les modules</button>
-          </div>
-          <div class="lp-hero-stats">
-            <div><div class="lp-stat-num">${stats.modules}</div><div class="lp-stat-label">Modules</div></div>
-            <div><div class="lp-stat-num">${stats.lessons}</div><div class="lp-stat-label">Leçons</div></div>
-            <div><div class="lp-stat-num">${stats.exercises}</div><div class="lp-stat-label">Exercices</div></div>
-            <div><div class="lp-stat-num">${stats.questions}</div><div class="lp-stat-label">Questions QCM</div></div>
-            <div><div class="lp-stat-num" id="home-stat-challenges">${stats.challenges}</div><div class="lp-stat-label">Challenges CTF</div></div>
-          </div>
-        </div>
-        <div class="hero-terminal-host" data-hero-terminal-host></div>
-      </div>`;
-  }
+  el.innerHTML = renderHomeDashboard(snapshot, stats);
+  renderTrackPicker(snapshot, stats);
   renderHeroTerminal();
 }
