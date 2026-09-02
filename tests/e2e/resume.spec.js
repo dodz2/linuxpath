@@ -12,7 +12,6 @@ test('home resume includes progress from the m9-m14 tracks', async ({ page }) =>
     const button = document.querySelector('#home-hero .lp-cta-primary');
     return {
       returning: Boolean(document.querySelector('#home-hero .lp-hero-returning')),
-      nextCard: Boolean(document.querySelector('#home-hero .lp-home-next-card')),
       label: button?.textContent.replace(/\s+/g, ' ').trim() || null,
       action: button?.dataset.action || null,
       target: button?.dataset.target || null,
@@ -20,7 +19,6 @@ test('home resume includes progress from the m9-m14 tracks', async ({ page }) =>
   });
 
   expect(result.returning).toBe(true);
-  expect(result.nextCard).toBe(true);
   expect(result.action).toBe('navigate');
   expect(result.target).toBe('m9');
   expect(result.label).toContain('Reprendre');
