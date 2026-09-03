@@ -61,6 +61,20 @@
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1098/"
     },
     {
+      "id": "news-88f3d0c5",
+      "date": "2026-08-31",
+      "title": "Bulletin d'actualité CERTFR-2026-ACT-037 (31 août 2026)",
+      "summary": "Ce bulletin d'actualité du CERT-FR revient sur les vulnérabilités significatives de la semaine passée pour souligner leurs criticités. Il ne remplace pas l'analyse de l'ensemble des avis et alertes publiés par le CERT-FR dans le cadre d'une analyse de risques pour prioriser l'application des...",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/actualite/CERTFR-2026-ACT-037/"
+    },
+    {
       "id": "news-08f4a57f",
       "date": "2026-08-29",
       "title": "Berlin Refuses to Pay Hackers Who Stole Data From the City's State Network",
@@ -493,24 +507,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/amazon-kiro-prompt-injection-can.html"
-    },
-    {
-      "id": "news-8bb1ed7b",
-      "date": "2026-08-27",
-      "title": "Learn How to Build Security Operations Ready for AI-Powered Attacks",
-      "summary": "Security teams have spent years trying to detect threats faster. AI is changing the harder part: how much time defenders have left to act. Advanced AI models can now help attackers discover vulnerabilities, generate exploit code, and move through weaknesses faster than traditional security processes were built to handle. The challenge is no longer just finding another vulnerability or",
-      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
-      "related_modules": [
-        "m14"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/learn-how-to-build-security-operations.html"
     }
   ]
 }
