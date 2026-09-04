@@ -3,6 +3,26 @@
   "edition": "Semaine du 4 septembre 2026",
   "news": [
     {
+      "id": "news-4a2cd074",
+      "date": "2026-09-04",
+      "title": "Multiples vulnérabilités dans le noyau Linux d'Ubuntu (04 septembre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans le noyau Linux d'Ubuntu. Elles permettent à un attaquant de provoquer un problème de sécurité non spécifié par l'éditeur.",
+      "context": "Touche directement les systèmes Linux que tu apprends à administrer.",
+      "related_modules": [
+        "m1",
+        "m8"
+      ],
+      "severity": "unevaluated",
+      "tags": [
+        "Linux",
+        "Noyau Linux"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1117/"
+    },
+    {
       "id": "news-b8e4d26f",
       "date": "2026-09-02",
       "title": "Multiples vulnérabilités dans les produits HPE Aruba Networking (02 septembre 2026)",
@@ -15,6 +35,24 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1104/"
+    },
+    {
+      "id": "news-fccb9cb7",
+      "date": "2026-09-02",
+      "title": "Multiples vulnérabilités dans SonicWall Secure Mobile Access (02 septembre 2026)",
+      "summary": "Le 01 septembre 2026, SonicWall a publié un avis de sécurité concernant deux vulnérabilités affectant les Secure Mobile Access (SMA) 1000. La vulnérabilité critique CVE-2026-83548 permet une falsification de requêtes côté serveur (SSRF) de la part d'un attaquant non authentifié. La vulnérabilité...",
+      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
+      "related_modules": [
+        "m13"
+      ],
+      "severity": "unevaluated",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-83548",
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/alerte/CERTFR-2026-ALE-009/"
     },
     {
       "id": "news-b250ae12",
@@ -465,48 +503,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/nextjs-patches-critical-avif-and.html"
-    },
-    {
-      "id": "news-4ad4c598",
-      "date": "2026-08-27",
-      "title": "ThreatsDay: 296K IoT Botnet, 100+ Water Systems Targeted, SharePoint RCE Chain + 27 New Stories",
-      "summary": "A fake login page. A fake security scan. A fake productivity app. Apparently, pretending to be useful is still one of the easier ways into a machine. The rest of the week gets stranger: botnets borrowing AI, command traffic hiding in public infrastructure, malicious tools waiting before showing their real behavior, exposed systems getting scanned, and exploit windows shrinking again. Different",
-      "context": "Illustre des techniques de reconnaissance et d'énumération.",
-      "related_modules": [
-        "m7",
-        "m11",
-        "m14"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "Outil",
-        "Windows",
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/threatsday-296k-iot-botnet-100-water.html"
-    },
-    {
-      "id": "news-ceef8176",
-      "date": "2026-08-27",
-      "title": "Amazon Kiro Prompt Injection Can Exfiltrate Sensitive Data Through Kiro Powers",
-      "summary": "Cybersecurity researchers have disclosed details of a vulnerability in Amazon Kiro, an artificial intelligence (AI)-powered, agentic integrated development environment (IDE), that could facilitate data exfiltration via prompt injection and Kiro Powers. The security flaw, which does not have a CVE identifier, works against Kiro IDE 0.7.45 on Windows, according to Mindguard. The latest version of",
-      "context": "Concerne la sécurité des applications et services web.",
-      "related_modules": [
-        "m11",
-        "m13"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "Outil",
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/amazon-kiro-prompt-injection-can.html"
     }
   ]
 }
