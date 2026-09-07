@@ -3,6 +3,20 @@
   "edition": "Semaine du 7 septembre 2026",
   "news": [
     {
+      "id": "news-44469c3e",
+      "date": "2026-09-07",
+      "title": "Vulnérabilité dans Belden HiOS Switch Platform (07 septembre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Belden HiOS Switch Platform. Elle permet à un attaquant de provoquer un déni de service à distance.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1126/"
+    },
+    {
       "id": "news-4a2cd074",
       "date": "2026-09-04",
       "title": "Multiples vulnérabilités dans le noyau Linux d'Ubuntu (04 septembre 2026)",
@@ -483,26 +497,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/givewp-wordpress-donation-plugin-flaw-lets-hackers-execute-server-commands/"
-    },
-    {
-      "id": "news-14077168",
-      "date": "2026-08-27",
-      "title": "Next.js Patches Critical AVIF and Windows Flaws Enabling Unauthenticated RCE",
-      "summary": "Credit: Hacktron Vercel has released security patches for two critical-severity vulnerabilities in the Next.js web framework, both of which allow unauthenticated remote code execution, one exploitable via specially crafted AVIF image files and the other through a path traversal flaw affecting servers that use a Windows filesystem. The Windows path traversal, tracked as CVE-2026-75604&",
-      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
-      "related_modules": [
-        "m14"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "CVE",
-        "Outil",
-        "Windows"
-      ],
-      "cve": "CVE-2026-75604",
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/nextjs-patches-critical-avif-and.html"
     }
   ]
 }
