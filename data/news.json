@@ -3,6 +3,38 @@
   "edition": "Semaine du 8 septembre 2026",
   "news": [
     {
+      "id": "news-3697ba4d",
+      "date": "2026-09-08",
+      "title": "Vulnérabilité dans les produits Adobe (08 septembre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans les produits Adobe. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance. Adobe indique que la vulnérabilité CVE-2026-75650 est activement exploitée.",
+      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
+      "related_modules": [
+        "m13"
+      ],
+      "severity": "unevaluated",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-75650",
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1130/"
+    },
+    {
+      "id": "news-9f89ae00",
+      "date": "2026-09-08",
+      "title": "Multiples vulnérabilités dans Schneider Electric EcoStruxure (08 septembre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Schneider Electric EcoStruxure. Elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance et une falsification de requêtes côté serveur (SSRF).",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1132/"
+    },
+    {
       "id": "news-44469c3e",
       "date": "2026-09-07",
       "title": "Vulnérabilité dans Belden HiOS Switch Platform (07 septembre 2026)",
@@ -462,41 +494,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/mckesson-discloses-breach-after-shinyhunters-claims-patient-data-theft/"
-    },
-    {
-      "id": "news-e89c27ea",
-      "date": "2026-08-28",
-      "title": "PaperCut releases second emergency patch for exploited flaws",
-      "summary": "PaperCut has released a second emergency security update for two actively exploited vulnerabilities in its PaperCut NG and MF print management software after researchers discovered multiple ways to bypass the initial fixes. [...]",
-      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
-      "related_modules": [
-        "m6"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "Patch"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/papercut-releases-second-emergency-patch-for-exploited-flaws/"
-    },
-    {
-      "id": "news-ae9f4f65",
-      "date": "2026-08-28",
-      "title": "GiveWP WordPress donation plugin flaw lets hackers execute server commands",
-      "summary": "A maximum-severity vulnerability in the GiveWP plugin for WordPress allows an unauthenticated attacker to execute arbitrary commands on the hosting server. [...]",
-      "context": "Concerne la sécurité des applications et services web.",
-      "related_modules": [
-        "m10",
-        "m11"
-      ],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/givewp-wordpress-donation-plugin-flaw-lets-hackers-execute-server-commands/"
     }
   ]
 }
