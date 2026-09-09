@@ -3,6 +3,22 @@
   "edition": "Semaine du 9 septembre 2026",
   "news": [
     {
+      "id": "news-dbaf2c85",
+      "date": "2026-09-09",
+      "title": "Vulnérabilité dans Microsoft Edge (09 septembre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Microsoft Edge. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance.",
+      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1144/"
+    },
+    {
       "id": "news-3697ba4d",
       "date": "2026-09-08",
       "title": "Vulnérabilité dans les produits Adobe (08 septembre 2026)",
@@ -477,23 +493,6 @@
       "cvss": 9.8,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/snowflake-github-actions-flaw-lets.html"
-    },
-    {
-      "id": "news-2fb24448",
-      "date": "2026-08-28",
-      "title": "McKesson discloses breach after ShinyHunters claims patient data theft",
-      "summary": "Healthcare and pharmaceutical distribution giant McKesson has disclosed a cybersecurity incident involving unauthorized access to third-party applications and data theft, with the ShinyHunters extortion group claiming it stole 284 million patient data records. [...]",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [
-        "Incident",
-        "Healthcare"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/mckesson-discloses-breach-after-shinyhunters-claims-patient-data-theft/"
     }
   ]
 }
