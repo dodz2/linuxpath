@@ -3,6 +3,20 @@
   "edition": "Semaine du 16 septembre 2026",
   "news": [
     {
+      "id": "news-26f8a28e",
+      "date": "2026-09-16",
+      "title": "Vulnérabilité dans Netgate pfSense (16 septembre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Netgate pfSense. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1181/"
+    },
+    {
       "id": "news-dbaf2c85",
       "date": "2026-09-09",
       "title": "Vulnérabilité dans Microsoft Edge (09 septembre 2026)",
@@ -476,23 +490,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/android-17-adds-os-wide-ech-to-hide.html"
-    },
-    {
-      "id": "news-1debfa20",
-      "date": "2026-08-28",
-      "title": "ownCloud Flaw Exploited to Steal Nuclear Records From Philippine Research Body",
-      "summary": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) on Thursday added a critical security flaw impacting ownCloud to its Known Exploited Vulnerabilities (KEV) catalog following reports that a Chinese-speaking threat actor weaponized the vulnerability to target a nuclear research body in the Philippines. The vulnerability, tracked as CVE-2023-49105 (CVSS score: 9.8), is a case of",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "critical",
-      "tags": [
-        "CVE",
-        "Fraude"
-      ],
-      "cve": "CVE-2023-49105",
-      "cvss": 9.8,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/snowflake-github-actions-flaw-lets.html"
     }
   ]
 }
