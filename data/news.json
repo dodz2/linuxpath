@@ -3,6 +3,34 @@
   "edition": "Semaine du 17 septembre 2026",
   "news": [
     {
+      "id": "news-e9686a7b",
+      "date": "2026-09-17",
+      "title": "Vulnérabilité dans NetApp ONTAP 9 (17 septembre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans NetApp ONTAP 9. Elle permet à un attaquant de provoquer un déni de service à distance, une atteinte à la confidentialité des données et une atteinte à l'intégrité des données.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1194/"
+    },
+    {
+      "id": "news-02e56a62",
+      "date": "2026-09-17",
+      "title": "Vulnérabilité dans Nextcloud Server (17 septembre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Nextcloud Server. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1198/"
+    },
+    {
       "id": "news-26f8a28e",
       "date": "2026-09-16",
       "title": "Vulnérabilité dans Netgate pfSense (16 septembre 2026)",
@@ -455,41 +483,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/windows-11-kb5120998-update-released-with-35-changes-and-fixes/"
-    },
-    {
-      "id": "news-b31aec37",
-      "date": "2026-08-28",
-      "title": "Attackers Chain Two PaperCut Flaws to Execute Code Without Authentication",
-      "summary": "Malicious actors are exploiting a newly patched security flaw in PaperCut NG and MF to execute arbitrary code on susceptible instances, as the company released a fresh emergency fix with additional hardening. \"This vulnerability gives an unauthenticated attacker remote control over PaperCut's trusted configuration, which could be used to execute arbitrary Java code inside the application's",
-      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
-      "related_modules": [
-        "m6",
-        "m14"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "Patch"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/attackers-chain-two-papercut-flaws-to.html"
-    },
-    {
-      "id": "news-5fa8bba1",
-      "date": "2026-08-28",
-      "title": "Android 17 Adds OS-Wide ECH to Hide Website Visits From Network Providers",
-      "summary": "Google on Thursday announced new network security protections in Android 17 to bolster connection privacy, address cellular vulnerabilities, and safeguard the privacy of users' home networks. Topping the list is support for Encrypted Client Hello (ECH), a privacy standard that prevents networks from eavesdropping on which websites a user is visiting. \"This new privacy standard works in tandem",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [
-        "Réseau"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/android-17-adds-os-wide-ech-to-hide.html"
     }
   ]
 }
