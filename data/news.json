@@ -3,6 +3,20 @@
   "edition": "Semaine du 18 septembre 2026",
   "news": [
     {
+      "id": "news-f89e7bee",
+      "date": "2026-09-18",
+      "title": "Vulnérabilité dans Kaspersky Secure Mail Gateway (18 septembre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Kaspersky Secure Mail Gateway. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1201/"
+    },
+    {
       "id": "news-e9686a7b",
       "date": "2026-09-17",
       "title": "Vulnérabilité dans NetApp ONTAP 9 (17 septembre 2026)",
@@ -467,22 +481,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/servicenow-warns-of-three-max-severity-security-vulnerabilities/"
-    },
-    {
-      "id": "news-3c331cab",
-      "date": "2026-08-28",
-      "title": "Windows 11 KB5120998 update released with 35 changes and fixes",
-      "summary": "Microsoft released the KB5120998 preview cumulative update for Windows 11 versions 25H2 and 24H2, which comes with 35 changes, including improvements to the Start menu, taskbar, and Windows search. [...]",
-      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/windows-11-kb5120998-update-released-with-35-changes-and-fixes/"
     }
   ]
 }
