@@ -3,6 +3,38 @@
   "edition": "Semaine du 23 septembre 2026",
   "news": [
     {
+      "id": "news-7e7c3b5a",
+      "date": "2026-09-23",
+      "title": "Multiples vulnérabilités dans SolarWinds Observability Self-Hosted (23 septembre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans SolarWinds Observability Self-Hosted. Elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1215/"
+    },
+    {
+      "id": "news-cb7c587e",
+      "date": "2026-09-23",
+      "title": "Vulnérabilité dans Check Point Security Management Server (23 septembre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Check Point Security Management Server. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance et une atteinte à l'intégrité des données. L'éditeur indique que la vulnérabilité CVE-2026-93616 est activement exploitée. Check...",
+      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
+      "related_modules": [
+        "m13"
+      ],
+      "severity": "unevaluated",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-93616",
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1219/"
+    },
+    {
       "id": "news-ad848551",
       "date": "2026-09-22",
       "title": "Vulnérabilité dans SolarWinds Access Rights Manager (22 septembre 2026)",
@@ -445,38 +477,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/ai-is-accelerating-vulnerability-discovery-can-defenders-keep-up/"
-    },
-    {
-      "id": "news-23d8a332",
-      "date": "2026-08-28",
-      "title": "Over 8,300 Gitea servers vulnerable to code execution attacks",
-      "summary": "Over 8,300 Internet-exposed Gitea instances are still unpatched against a critical security flaw exploited in ongoing remote code execution attacks, according to cybersecurity watchdog Shadowserver. [...]",
-      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
-      "related_modules": [
-        "m14"
-      ],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/over-8-300-gitea-servers-vulnerable-to-code-execution-attacks/"
-    },
-    {
-      "id": "news-d3526dde",
-      "date": "2026-08-28",
-      "title": "Toy-making giant Hasbro disclose data breach affecting employees",
-      "summary": "Hasbro, one of the world's largest toy and game companies, has disclosed that attackers have accessed the personal and financial information of an undisclosed number of employees. [...]",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [
-        "Incident"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/toy-making-giant-hasbro-disclose-data-breach-affecting-employees/"
     }
   ]
 }
