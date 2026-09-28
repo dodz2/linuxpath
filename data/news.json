@@ -1,7 +1,21 @@
 {
-  "last_updated": "2026-09-27",
-  "edition": "Semaine du 27 septembre 2026",
+  "last_updated": "2026-09-28",
+  "edition": "Semaine du 28 septembre 2026",
   "news": [
+    {
+      "id": "news-9da1e626",
+      "date": "2026-09-28",
+      "title": "Multiples vulnérabilités dans Citrix NetScaler ADC et Gateway (28 septembre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Citrix NetScaler ADC et Gateway. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, un déni de service à distance et un contournement de la politique de sécurité. Citrix indique que les...",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1235/"
+    },
     {
       "id": "news-7e7c3b5a",
       "date": "2026-09-23",
@@ -461,22 +475,6 @@
       "cvss": null,
       "source_label": "Bleeping Computer",
       "source_url": "https://www.bleepingcomputer.com/news/security/68-year-old-imprisoned-after-making-13-million-by-pirating-iptv-services/"
-    },
-    {
-      "id": "news-cb53c020",
-      "date": "2026-08-28",
-      "title": "AI Is Accelerating Vulnerability Discovery. Can Defenders Keep Up?",
-      "summary": "AI is accelerating vulnerability discovery, putting pressure on systems built to enrich, prioritize, and remediate flaws at a slower pace. Action1 explains why defenders increasingly need to correlate multiple intelligence sources and turn vulnerability data into faster remediation. [...]",
-      "context": "Illustre des techniques de reconnaissance et d'énumération.",
-      "related_modules": [
-        "m7"
-      ],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/ai-is-accelerating-vulnerability-discovery-can-defenders-keep-up/"
     }
   ]
 }
