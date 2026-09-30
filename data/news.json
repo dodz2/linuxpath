@@ -1,7 +1,21 @@
 {
-  "last_updated": "2026-09-29",
-  "edition": "Semaine du 29 septembre 2026",
+  "last_updated": "2026-09-30",
+  "edition": "Semaine du 30 septembre 2026",
   "news": [
+    {
+      "id": "news-4e98dcec",
+      "date": "2026-09-30",
+      "title": "Point de situation de l’opération REACTIV – septembre 2026 (30 septembre 2026)",
+      "summary": "Face à l’intensification des attaques cybercriminelles liées à des violations de données affectant les services de l’État, le Premier ministre a demandé le 1er septembre 2026 à l’Agence nationale de la sécurité des systèmes d’information (ANSSI) de mettre en place une capacité renforcée de...",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/cti/CERTFR-2026-CTI-006/"
+    },
     {
       "id": "news-9da1e626",
       "date": "2026-09-28",
@@ -457,24 +471,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/apt28-linked-hookedge-backdoor-targets.html"
-    },
-    {
-      "id": "news-65933e7c",
-      "date": "2026-08-28",
-      "title": "68-year-old imprisoned after making $1.3 million by pirating IPTV services",
-      "summary": "A 68-year-old has been sentenced in the U.K. to more than six years in prison for operating an illegal IPTV (Internet Protocol Television) service that generated £980,812 ($1.3 million) over three years. [...]",
-      "context": "Implique des concepts réseau fondamentaux.",
-      "related_modules": [
-        "m4"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "Legal"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "Bleeping Computer",
-      "source_url": "https://www.bleepingcomputer.com/news/security/68-year-old-imprisoned-after-making-13-million-by-pirating-iptv-services/"
     }
   ]
 }
