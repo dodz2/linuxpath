@@ -1,7 +1,21 @@
 {
-  "last_updated": "2026-10-01",
-  "edition": "Semaine du 1 octobre 2026",
+  "last_updated": "2026-10-02",
+  "edition": "Semaine du 2 octobre 2026",
   "news": [
+    {
+      "id": "news-55c91889",
+      "date": "2026-10-02",
+      "title": "Vulnérabilités de produits du secteur santé : Retour d'expérience du CERT Santé et du CERT-FR (02 octobre 2026)",
+      "summary": "Le CERT Santé et le CERT-FR assurent le traitement des vulnérabilités qui leur sont signalées par des tiers. A ce titre, ils accompagnent les éditeurs affectés dans la conception et le suivi de plan d’action incluant le développement de correctifs et la communication vers leurs utilisateurs. Dans...",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/cti/CERTFR-2026-CTI-007/"
+    },
     {
       "id": "news-0a35f154",
       "date": "2026-10-01",
@@ -449,26 +463,6 @@
       "cvss": 10.0,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/three-cvss-100-servicenow-flaws-could.html"
-    },
-    {
-      "id": "news-49a92043",
-      "date": "2026-08-28",
-      "title": "China-Made ZBT Routers Ship With Two Implants Giving Unauthenticated Attackers Root Access",
-      "summary": "VulnCheck has disclosed two previously undocumented factory implants in firmware for routers built by Shenzhen Zhibotong Electronics (ZBT), each of which gives an unauthenticated remote attacker the ability to run commands as root on affected devices. The implants, named SPEAKINGSTONE and DARKLANTERN by the company's zero-day research team, are tracked as CVE-2026-74232 and CVE-2026-74233.",
-      "context": "En lien avec la gestion des droits et des accès système.",
-      "related_modules": [
-        "m3",
-        "m13",
-        "m14"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-74232",
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/china-made-zbt-routers-ship-with-two.html"
     }
   ]
 }
