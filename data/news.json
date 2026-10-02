@@ -17,6 +17,40 @@
       "source_url": "https://www.cert.ssi.gouv.fr/cti/CERTFR-2026-CTI-007/"
     },
     {
+      "id": "news-a7b338bd",
+      "date": "2026-10-02",
+      "title": "Vulnérabilité dans Fortinet FortiMail (02 octobre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Fortinet FortiMail. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance. Fortinet indique que la vulnérabilité CVE-2026-104286 est activement exploitée. Des indicateurs de compromission sont disponibles dans l'avis de l'éditeur.",
+      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
+      "related_modules": [
+        "m13"
+      ],
+      "severity": "unevaluated",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-104286",
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1257/"
+    },
+    {
+      "id": "news-f2a40c23",
+      "date": "2026-10-02",
+      "title": "Multiples vulnérabilités dans Apache HTTP Server (02 octobre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Apache HTTP Server. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, un déni de service à distance et une atteinte à la confidentialité des données.",
+      "context": "Touche les services réseau et leur sécurisation.",
+      "related_modules": [
+        "m10"
+      ],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1248/"
+    },
+    {
       "id": "news-0a35f154",
       "date": "2026-10-01",
       "title": "Multiples vulnérabilités dans Mozilla Thunderbird (01 octobre 2026)",
@@ -435,34 +469,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/two-unitree-g1-edu-humanoid-robot-flaws.html"
-    },
-    {
-      "id": "news-441d9ed0",
-      "date": "2026-08-28",
-      "title": "Key Reasons Why Identity Fabric Matters in 2026",
-      "summary": "An Identity Fabric knits fragmented identity systems into a coherent layer that observes how identities behave across applications, APIs, and infrastructure. As enterprise access spans more cloud services and automated workloads, identity security depends less on static configuration and more on runtime visibility. This article covers the architecture, the risks of unmanaged identities, and",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/key-reasons-why-identity-fabric-matters.html"
-    },
-    {
-      "id": "news-6a79c2bf",
-      "date": "2026-08-28",
-      "title": "Three CVSS 10.0 ServiceNow Flaws Could Let Unauthenticated Attackers Execute Code and SQL",
-      "summary": "ServiceNow has released patches for four security flaws impacting the ServiceNow AI Platform, three of them rated 10.0 on the CVSS scoring system and exploitable, in certain circumstances, by an unauthenticated attacker. The company said it deployed a security update to hosted instances and provided the update to its partners and self-hosted customers, which leaves organizations that run their",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "critical",
-      "tags": [],
-      "cve": null,
-      "cvss": 10.0,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/three-cvss-100-servicenow-flaws-could.html"
     }
   ]
 }
