@@ -3,6 +3,40 @@
   "edition": "Semaine du 5 octobre 2026",
   "news": [
     {
+      "id": "news-7d04f5c2",
+      "date": "2026-10-05",
+      "title": "Vulnérabilité dans Citrix NetScaler ADC et Gateway (05 octobre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Citrix NetScaler ADC et Gateway. Elle permet à un attaquant de provoquer un déni de service à distance. La CISA indique que la vulnérabilité CVE-2026-88779 est activement exploitée.",
+      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
+      "related_modules": [
+        "m13"
+      ],
+      "severity": "unevaluated",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-88779",
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1263/"
+    },
+    {
+      "id": "news-465dc37b",
+      "date": "2026-10-05",
+      "title": "Vulnérabilité dans Microsoft Exchange Server (05 octobre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Microsoft Exchange Server. Elle permet à un attaquant de provoquer une élévation de privilèges.",
+      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1258/"
+    },
+    {
       "id": "news-55c91889",
       "date": "2026-10-02",
       "title": "Vulnérabilités de produits du secteur santé : Retour d'expérience du CERT Santé et du CERT-FR (02 octobre 2026)",
@@ -434,41 +468,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/openai-says-reward-hacking-drove-ai.html"
-    },
-    {
-      "id": "news-1cda956d",
-      "date": "2026-08-28",
-      "title": "19 Chrome and Edge Extensions Found With Wallet-Stealing and Crypto-Draining Code",
-      "summary": "Cybersecurity researchers have discovered a cluster of 18 Google Chrome and one Microsoft Edge extensions that were published over the last six months and harbored wallet secret stealing and cryptocurrency draining capabilities. The extensions, per Socket security researcher Karlo Zanki, share similarities in code and tradecraft, with evidence indicating that the campaign may have been active",
-      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/19-chrome-and-edge-extensions-found.html"
-    },
-    {
-      "id": "news-be16a59a",
-      "date": "2026-08-28",
-      "title": "Two Unitree G1 EDU Humanoid Robot Flaws Enable Root RCE, One Starts Over Bluetooth",
-      "summary": "Security researcher Olivier Laflamme has disclosed two independent root remote code execution (RCE) chains affecting the Unitree G1 EDU, including a Bluetooth Low Energy (BLE) path that can reach root on the robot's Locomotion PC. The flaws are tracked as CVE-2026-76639 and CVE-2026-76640, with the first involving a network-adjacent path through chat_go and bashrunner and the",
-      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
-      "related_modules": [
-        "m14"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "CVE",
-        "Réseau"
-      ],
-      "cve": "CVE-2026-76639",
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/two-unitree-g1-edu-humanoid-robot-flaws.html"
     }
   ]
 }
