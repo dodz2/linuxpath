@@ -3,6 +3,20 @@
   "edition": "Semaine du 7 octobre 2026",
   "news": [
     {
+      "id": "news-dea6062a",
+      "date": "2026-10-06",
+      "title": "Vulnérabilité dans les produits Atlassian (06 octobre 2026)",
+      "summary": "Unevulnérabilité a été découverte dans les produits Atlassian. Elle permet à un attaquant de provoquer une atteinte à la confidentialité des données.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1264/"
+    },
+    {
       "id": "news-7d04f5c2",
       "date": "2026-10-05",
       "title": "Vulnérabilité dans Citrix NetScaler ADC et Gateway (05 octobre 2026)",
@@ -449,25 +463,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/cosmos-evm-flaw-exploited-after-cosmos.html"
-    },
-    {
-      "id": "news-a8ca9fe0",
-      "date": "2026-08-28",
-      "title": "OpenAI Says Reward Hacking Drove AI Agents to Exploit Zero-Days and Breach Hugging Face",
-      "summary": "OpenAI on Wednesday revealed that reward hacking was a key driver behind the artificial intelligence (AI)-powered hack of Hugging Face last month, adding that it found evidence of misaligned behavior as early as late May. The incident, the company said, took place during cybersecurity evaluations of several OpenAI models, and that it was mainly fueled by what it described as a \"highly capable",
-      "context": "Montre des techniques d'exploitation ou de post-exploitation.",
-      "related_modules": [
-        "m14"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "Incident",
-        "Outil"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/openai-says-reward-hacking-drove-ai.html"
     }
   ]
 }
