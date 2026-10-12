@@ -3,6 +3,22 @@
   "edition": "Semaine du 12 octobre 2026",
   "news": [
     {
+      "id": "news-19d6394c",
+      "date": "2026-10-12",
+      "title": "Incident de sécurité ciblant les Danfoss série AK-SM et AK-SC (12 octobre 2026)",
+      "summary": "Le CERT-FR a connaissance de nombreuses compromissions de Danfoss série AK-SM et AK-SC. L'exposition d'une interface de gestion sur Internet est contraire aux bonnes pratiques. Dans le cas où l’administration à distance est impérative, une première mesure temporaire peut consister à restreindre...",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [
+        "Incident"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/alerte/CERTFR-2026-ALE-012/"
+    },
+    {
       "id": "news-dea6062a",
       "date": "2026-10-06",
       "title": "Vulnérabilité dans les produits Atlassian (06 octobre 2026)",
@@ -449,20 +465,6 @@
       "cvss": null,
       "source_label": "The Hacker News",
       "source_url": "https://thehackernews.com/2026/08/berlin-refuses-to-pay-hackers-who-stole.html"
-    },
-    {
-      "id": "news-4e84432a",
-      "date": "2026-08-29",
-      "title": "Cosmos EVM Flaw Exploited After Cosmos Labs Knew Every Blockchain Running It Was Vulnerable",
-      "summary": "Cosmos Labs has warned that a critical balance-handling flaw in the shared Cosmos EVM module was exploited to drain funds from six blockchains between August 20 and August 25, 2026. The vulnerability, designated GHSA-7g4w-cg88-2cq2, is rated Critical by Cosmos Labs and was published without a CVE identifier, a weakness classification, or a CVSS score. Affected versions are < 0.6.2 and >=",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "The Hacker News",
-      "source_url": "https://thehackernews.com/2026/08/cosmos-evm-flaw-exploited-after-cosmos.html"
     }
   ]
 }
