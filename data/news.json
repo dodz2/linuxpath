@@ -3,6 +3,41 @@
   "edition": "Semaine du 14 octobre 2026",
   "news": [
     {
+      "id": "news-eb7239c9",
+      "date": "2026-10-14",
+      "title": "Vulnérabilité dans Symantec Endpoint Detection and Response (14 octobre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Symantec Endpoint Detection and Response. Elle permet à un attaquant de provoquer une injection de code indirecte à distance (XSS).",
+      "context": "Concerne la sécurité des applications et services web.",
+      "related_modules": [
+        "m11",
+        "m13"
+      ],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1303/"
+    },
+    {
+      "id": "news-0ad8c1a6",
+      "date": "2026-10-14",
+      "title": "Vulnérabilité dans Ivanti Connect Secure (ICS) (14 octobre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Ivanti Connect Secure (ICS). Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance, une élévation de privilèges et un contournement de la politique de sécurité. Ivanti indique que cette vulnérabilité CVE-2026-104935 est...",
+      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
+      "related_modules": [
+        "m13"
+      ],
+      "severity": "unevaluated",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-104935",
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/alerte/CERTFR-2026-ALE-013/"
+    },
+    {
       "id": "news-5b9bc7c1",
       "date": "2026-10-13",
       "title": "Vulnérabilité dans NetApp StorageGRID (13 octobre 2026)",
@@ -15,6 +50,20 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1295/"
+    },
+    {
+      "id": "news-e2c8481b",
+      "date": "2026-10-13",
+      "title": "Vulnérabilité dans Schneider Electric Harmony (13 octobre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Schneider Electric Harmony. Elle permet à un attaquant de provoquer un contournement de la politique de sécurité.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1299/"
     },
     {
       "id": "news-19d6394c",
@@ -417,50 +466,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1099/"
-    },
-    {
-      "id": "news-8ae1d3ed",
-      "date": "2026-09-01",
-      "title": "Vulnérabilité dans Kaspersky Endpoint Security Windows (01 septembre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Kaspersky Endpoint Security Windows. Elle permet à un attaquant de provoquer un contournement de la politique de sécurité.",
-      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1101/"
-    },
-    {
-      "id": "news-0142afa5",
-      "date": "2026-09-01",
-      "title": "Multiples vulnérabilités dans Mattermost Server (01 septembre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Mattermost Server. Elles permettent à un attaquant de provoquer un problème de sécurité non spécifié par l'éditeur.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1098/"
-    },
-    {
-      "id": "news-88f3d0c5",
-      "date": "2026-08-31",
-      "title": "Bulletin d'actualité CERTFR-2026-ACT-037 (31 août 2026)",
-      "summary": "Ce bulletin d'actualité du CERT-FR revient sur les vulnérabilités significatives de la semaine passée pour souligner leurs criticités. Il ne remplace pas l'analyse de l'ensemble des avis et alertes publiés par le CERT-FR dans le cadre d'une analyse de risques pour prioriser l'application des...",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/actualite/CERTFR-2026-ACT-037/"
     }
   ]
 }
