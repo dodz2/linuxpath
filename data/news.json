@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-10-14",
-  "edition": "Semaine du 14 octobre 2026",
+  "last_updated": "2026-10-15",
+  "edition": "Semaine du 15 octobre 2026",
   "news": [
     {
       "id": "news-eb7239c9",
@@ -80,6 +80,20 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/alerte/CERTFR-2026-ALE-012/"
+    },
+    {
+      "id": "news-26e2eadd",
+      "date": "2026-10-12",
+      "title": "Bulletin d'actualité CERTFR-2026-ACT-043 (12 octobre 2026)",
+      "summary": "Ce bulletin d'actualité du CERT-FR revient sur les vulnérabilités significatives de la semaine passée pour souligner leurs criticités. Il ne remplace pas l'analyse de l'ensemble des avis et alertes publiés par le CERT-FR dans le cadre d'une analyse de risques pour prioriser l'application des...",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/actualite/CERTFR-2026-ACT-043/"
     },
     {
       "id": "news-dea6062a",
@@ -452,20 +466,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/alerte/CERTFR-2026-ALE-009/"
-    },
-    {
-      "id": "news-b250ae12",
-      "date": "2026-09-01",
-      "title": "Vulnérabilité dans Mozilla Firefox pour iOS (01 septembre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Mozilla Firefox pour iOS. Elle permet à un attaquant de provoquer un contournement de la politique de sécurité.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1099/"
     }
   ]
 }
