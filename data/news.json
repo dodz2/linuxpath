@@ -3,6 +3,68 @@
   "edition": "Semaine du 15 octobre 2026",
   "news": [
     {
+      "id": "news-d38a3141",
+      "date": "2026-10-15",
+      "title": "Multiples vulnérabilités dans les produits Palo Alto Networks (15 octobre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans les produits Palo Alto Networks. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, une élévation de privilèges et un déni de service à distance. Palo Alto Networks indique que la...",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1326/"
+    },
+    {
+      "id": "news-9774b79d",
+      "date": "2026-10-15",
+      "title": "Multiples vulnérabilités dans Sonicwall Network Security Manager (15 octobre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Sonicwall Network Security Manager. Elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance et un contournement de la politique de sécurité.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [
+        "Réseau"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1320/"
+    },
+    {
+      "id": "news-fab2ad00",
+      "date": "2026-10-15",
+      "title": "Vulnérabilité dans Cisco AsyncOS Software pour Secure Email Gateway (15 octobre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Cisco AsyncOS Software pour Secure Email Gateway. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance et une atteinte à l'intégrité des données. Cisco indique que la vulnérabilité CVE-2026-76519 est activement exploitée.",
+      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
+      "related_modules": [
+        "m13"
+      ],
+      "severity": "unevaluated",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-76519",
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1325/"
+    },
+    {
+      "id": "news-4f5d8d08",
+      "date": "2026-10-15",
+      "title": "Vulnérabilité dans PostgreSQL psqlODBC (15 octobre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans PostgreSQL psqlODBC. Elle permet à un attaquant de provoquer un déni de service à distance.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1319/"
+    },
+    {
       "id": "news-eb7239c9",
       "date": "2026-10-14",
       "title": "Vulnérabilité dans Symantec Endpoint Detection and Response (14 octobre 2026)",
@@ -400,72 +462,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1132/"
-    },
-    {
-      "id": "news-44469c3e",
-      "date": "2026-09-07",
-      "title": "Vulnérabilité dans Belden HiOS Switch Platform (07 septembre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Belden HiOS Switch Platform. Elle permet à un attaquant de provoquer un déni de service à distance.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1126/"
-    },
-    {
-      "id": "news-4a2cd074",
-      "date": "2026-09-04",
-      "title": "Multiples vulnérabilités dans le noyau Linux d'Ubuntu (04 septembre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans le noyau Linux d'Ubuntu. Elles permettent à un attaquant de provoquer un problème de sécurité non spécifié par l'éditeur.",
-      "context": "Touche directement les systèmes Linux que tu apprends à administrer.",
-      "related_modules": [
-        "m1",
-        "m8"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "Linux",
-        "Noyau Linux"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1117/"
-    },
-    {
-      "id": "news-b8e4d26f",
-      "date": "2026-09-02",
-      "title": "Multiples vulnérabilités dans les produits HPE Aruba Networking (02 septembre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans les produits HPE Aruba Networking. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, une élévation de privilèges et un déni de service à distance.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1104/"
-    },
-    {
-      "id": "news-fccb9cb7",
-      "date": "2026-09-02",
-      "title": "Multiples vulnérabilités dans SonicWall Secure Mobile Access (02 septembre 2026)",
-      "summary": "Le 01 septembre 2026, SonicWall a publié un avis de sécurité concernant deux vulnérabilités affectant les Secure Mobile Access (SMA) 1000. La vulnérabilité critique CVE-2026-83548 permet une falsification de requêtes côté serveur (SSRF) de la part d'un attaquant non authentifié. La vulnérabilité...",
-      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
-      "related_modules": [
-        "m13"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-83548",
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/alerte/CERTFR-2026-ALE-009/"
     }
   ]
 }
