@@ -3,6 +3,26 @@
   "edition": "Semaine du 16 octobre 2026",
   "news": [
     {
+      "id": "news-84d194dc",
+      "date": "2026-10-16",
+      "title": "Multiples vulnérabilités dans le noyau Linux de SUSE (16 octobre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans le noyau Linux de SUSE. Certaines d'entre elles permettent à un attaquant de provoquer une élévation de privilèges, un déni de service à distance et une atteinte à la confidentialité des données.",
+      "context": "Touche directement les systèmes Linux que tu apprends à administrer.",
+      "related_modules": [
+        "m1",
+        "m8"
+      ],
+      "severity": "unevaluated",
+      "tags": [
+        "Linux",
+        "Noyau Linux"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1335/"
+    },
+    {
       "id": "news-d38a3141",
       "date": "2026-10-15",
       "title": "Multiples vulnérabilités dans les produits Palo Alto Networks (15 octobre 2026)",
@@ -448,20 +468,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1130/"
-    },
-    {
-      "id": "news-9f89ae00",
-      "date": "2026-09-08",
-      "title": "Multiples vulnérabilités dans Schneider Electric EcoStruxure (08 septembre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Schneider Electric EcoStruxure. Elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance et une falsification de requêtes côté serveur (SSRF).",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1132/"
     }
   ]
 }
