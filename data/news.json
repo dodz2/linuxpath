@@ -3,6 +3,20 @@
   "edition": "Semaine du 19 octobre 2026",
   "news": [
     {
+      "id": "news-91c316dd",
+      "date": "2026-10-19",
+      "title": "Multiples vulnérabilités dans Juniper Networks Session Smart Router (19 octobre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Juniper Networks Session Smart Router. Elles permettent à un attaquant de provoquer un problème de sécurité non spécifié par l'éditeur.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1337/"
+    },
+    {
       "id": "news-84d194dc",
       "date": "2026-10-16",
       "title": "Multiples vulnérabilités dans le noyau Linux de SUSE (16 octobre 2026)",
@@ -450,24 +464,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1144/"
-    },
-    {
-      "id": "news-3697ba4d",
-      "date": "2026-09-08",
-      "title": "Vulnérabilité dans les produits Adobe (08 septembre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans les produits Adobe. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance. Adobe indique que la vulnérabilité CVE-2026-75650 est activement exploitée.",
-      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
-      "related_modules": [
-        "m13"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-75650",
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1130/"
     }
   ]
 }
