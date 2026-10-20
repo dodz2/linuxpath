@@ -3,6 +3,20 @@
   "edition": "Semaine du 20 octobre 2026",
   "news": [
     {
+      "id": "news-250e5186",
+      "date": "2026-10-20",
+      "title": "Violations de données applicatives - Retour d’expérience du CERT-FR (20 octobre 2026)",
+      "summary": "En 2025, le CERT-FR a suivi près de 200 violations de données issues d’applications web. Dans de nombreux cas, ces exfiltrations ont été permises par des actions attaquantes d’un faible niveau de complexité, sans exploitation de vulnérabilité technique. Les divulgations de données ont des impacts...",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/cti/CERTFR-2026-CTI-008/"
+    },
+    {
       "id": "news-91c316dd",
       "date": "2026-10-19",
       "title": "Multiples vulnérabilités dans Juniper Networks Session Smart Router (19 octobre 2026)",
@@ -448,22 +462,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1181/"
-    },
-    {
-      "id": "news-dbaf2c85",
-      "date": "2026-09-09",
-      "title": "Vulnérabilité dans Microsoft Edge (09 septembre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Microsoft Edge. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance.",
-      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1144/"
     }
   ]
 }
