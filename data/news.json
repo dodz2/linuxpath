@@ -3,6 +3,23 @@
   "edition": "Semaine du 21 octobre 2026",
   "news": [
     {
+      "id": "news-b918994f",
+      "date": "2026-10-21",
+      "title": "Vulnérabilité dans MongoDB PHP Driver (21 octobre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans MongoDB PHP Driver. Elle permet à un attaquant de provoquer un déni de service à distance.",
+      "context": "Concerne la sécurité des applications et services web.",
+      "related_modules": [
+        "m10",
+        "m11"
+      ],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1347/"
+    },
+    {
       "id": "news-250e5186",
       "date": "2026-10-20",
       "title": "Violations de données applicatives - Retour d’expérience du CERT-FR (20 octobre 2026)",
@@ -448,20 +465,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1198/"
-    },
-    {
-      "id": "news-26f8a28e",
-      "date": "2026-09-16",
-      "title": "Vulnérabilité dans Netgate pfSense (16 septembre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Netgate pfSense. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1181/"
     }
   ]
 }
