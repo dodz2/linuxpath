@@ -3,6 +3,34 @@
   "edition": "Semaine du 28 octobre 2026",
   "news": [
     {
+      "id": "news-7f087602",
+      "date": "2026-10-28",
+      "title": "Multiples vulnérabilités dans Mitel OpenScape Endpoint Management (28 octobre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Mitel OpenScape Endpoint Management. Elles permettent à un attaquant de provoquer une élévation de privilèges et un contournement de la politique de sécurité.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1404/"
+    },
+    {
+      "id": "news-5c10610c",
+      "date": "2026-10-28",
+      "title": "Vulnérabilité dans Axis Camera Station Pro (28 octobre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Axis Camera Station Pro. Elle permet à un attaquant de provoquer une atteinte à la confidentialité des données.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1408/"
+    },
+    {
       "id": "news-b918994f",
       "date": "2026-10-21",
       "title": "Vulnérabilité dans MongoDB PHP Driver (21 octobre 2026)",
@@ -437,34 +465,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1201/"
-    },
-    {
-      "id": "news-e9686a7b",
-      "date": "2026-09-17",
-      "title": "Vulnérabilité dans NetApp ONTAP 9 (17 septembre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans NetApp ONTAP 9. Elle permet à un attaquant de provoquer un déni de service à distance, une atteinte à la confidentialité des données et une atteinte à l'intégrité des données.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1194/"
-    },
-    {
-      "id": "news-02e56a62",
-      "date": "2026-09-17",
-      "title": "Vulnérabilité dans Nextcloud Server (17 septembre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Nextcloud Server. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1198/"
     }
   ]
 }
