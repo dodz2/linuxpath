@@ -3,6 +3,50 @@
   "edition": "Semaine du 29 octobre 2026",
   "news": [
     {
+      "id": "news-53845fe6",
+      "date": "2026-10-29",
+      "title": "Multiples vulnérabilités dans Veeam Backup for Microsoft 365 (29 octobre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Veeam Backup for Microsoft 365. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, une élévation de privilèges et une atteinte à la confidentialité des données.",
+      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1411/"
+    },
+    {
+      "id": "news-7d44dc49",
+      "date": "2026-10-29",
+      "title": "Multiples vulnérabilités dans Elastic Cloud Enterprise (29 octobre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Elastic Cloud Enterprise. Certaines d'entre elles permettent à un attaquant de provoquer une élévation de privilèges, une atteinte à la confidentialité des données et une atteinte à l'intégrité des données.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1419/"
+    },
+    {
+      "id": "news-50c6c3aa",
+      "date": "2026-10-29",
+      "title": "Multiples vulnérabilités dans Foxit Online Services (29 octobre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Foxit Online Services. Certaines d'entre elles permettent à un attaquant de provoquer une atteinte à la confidentialité des données, une atteinte à l'intégrité des données et une falsification de requêtes côté serveur (SSRF).",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1418/"
+    },
+    {
       "id": "news-7f087602",
       "date": "2026-10-28",
       "title": "Multiples vulnérabilités dans Mitel OpenScape Endpoint Management (28 octobre 2026)",
@@ -419,52 +463,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1215/"
-    },
-    {
-      "id": "news-cb7c587e",
-      "date": "2026-09-23",
-      "title": "Vulnérabilité dans Check Point Security Management Server (23 septembre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Check Point Security Management Server. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance et une atteinte à l'intégrité des données. L'éditeur indique que la vulnérabilité CVE-2026-93616 est activement exploitée. Check...",
-      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
-      "related_modules": [
-        "m13"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-93616",
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1219/"
-    },
-    {
-      "id": "news-ad848551",
-      "date": "2026-09-22",
-      "title": "Vulnérabilité dans SolarWinds Access Rights Manager (22 septembre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans SolarWinds Access Rights Manager. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1211/"
-    },
-    {
-      "id": "news-f89e7bee",
-      "date": "2026-09-18",
-      "title": "Vulnérabilité dans Kaspersky Secure Mail Gateway (18 septembre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Kaspersky Secure Mail Gateway. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1201/"
     }
   ]
 }
