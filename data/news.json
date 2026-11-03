@@ -1,7 +1,83 @@
 {
-  "last_updated": "2026-11-02",
-  "edition": "Semaine du 2 novembre 2026",
+  "last_updated": "2026-11-03",
+  "edition": "Semaine du 3 novembre 2026",
   "news": [
+    {
+      "id": "news-d4638e69",
+      "date": "2026-11-02",
+      "title": "Multiples vulnérabilités dans Tenable Identity Exposure (02 novembre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Tenable Identity Exposure. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, un déni de service à distance et une atteinte à la confidentialité des données.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1436/"
+    },
+    {
+      "id": "news-1ae76863",
+      "date": "2026-11-02",
+      "title": "Multiples vulnérabilités dans les produits Synology (02 novembre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans les produits Synology. Elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1435/"
+    },
+    {
+      "id": "news-dbf651ed",
+      "date": "2026-11-02",
+      "title": "Multiples vulnérabilités dans Ivanti Connect Secure (02 novembre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Ivanti Connect Secure. Elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, une élévation de privilèges et un contournement de la politique de sécurité. Ivanti indique que les vulnérabilités CVE-2026-104935,...",
+      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
+      "related_modules": [
+        "m13"
+      ],
+      "severity": "unevaluated",
+      "tags": [
+        "CVE"
+      ],
+      "cve": "CVE-2026-104935",
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1442/"
+    },
+    {
+      "id": "news-036c7900",
+      "date": "2026-11-02",
+      "title": "Vulnérabilité dans Microsoft Visual Studio (02 novembre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Microsoft Visual Studio. Elle permet à un attaquant de provoquer un contournement de la politique de sécurité.",
+      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [
+        "Windows"
+      ],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1441/"
+    },
+    {
+      "id": "news-b5f70935",
+      "date": "2026-11-02",
+      "title": "Vulnérabilité dans Traefik (02 novembre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Traefik. Elle permet à un attaquant de provoquer un déni de service à distance.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1439/"
+    },
     {
       "id": "news-ac94a09f",
       "date": "2026-10-30",
@@ -386,86 +462,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1258/"
-    },
-    {
-      "id": "news-55c91889",
-      "date": "2026-10-02",
-      "title": "Vulnérabilités de produits du secteur santé : Retour d'expérience du CERT Santé et du CERT-FR (02 octobre 2026)",
-      "summary": "Le CERT Santé et le CERT-FR assurent le traitement des vulnérabilités qui leur sont signalées par des tiers. A ce titre, ils accompagnent les éditeurs affectés dans la conception et le suivi de plan d’action incluant le développement de correctifs et la communication vers leurs utilisateurs. Dans...",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/cti/CERTFR-2026-CTI-007/"
-    },
-    {
-      "id": "news-a7b338bd",
-      "date": "2026-10-02",
-      "title": "Vulnérabilité dans Fortinet FortiMail (02 octobre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Fortinet FortiMail. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance. Fortinet indique que la vulnérabilité CVE-2026-104286 est activement exploitée. Des indicateurs de compromission sont disponibles dans l'avis de l'éditeur.",
-      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
-      "related_modules": [
-        "m13"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-104286",
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1257/"
-    },
-    {
-      "id": "news-f2a40c23",
-      "date": "2026-10-02",
-      "title": "Multiples vulnérabilités dans Apache HTTP Server (02 octobre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Apache HTTP Server. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, un déni de service à distance et une atteinte à la confidentialité des données.",
-      "context": "Touche les services réseau et leur sécurisation.",
-      "related_modules": [
-        "m10"
-      ],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1248/"
-    },
-    {
-      "id": "news-0a35f154",
-      "date": "2026-10-01",
-      "title": "Multiples vulnérabilités dans Mozilla Thunderbird (01 octobre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Mozilla Thunderbird. Certaines d'entre elles permettent à un attaquant de provoquer une élévation de privilèges, un déni de service à distance et une atteinte à la confidentialité des données.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1244/"
-    },
-    {
-      "id": "news-01cfd6ed",
-      "date": "2026-10-01",
-      "title": "Vulnérabilité dans Cisco Catalyst SD-WAN (01 octobre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Cisco Catalyst SD-WAN. Elle permet à un attaquant de provoquer un contournement de la politique de sécurité. Cisco indique que la vulnérabilité CVE-2026-76504 est activement exploitée.",
-      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
-      "related_modules": [
-        "m13"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-76504",
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1246/"
     }
   ]
 }
