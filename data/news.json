@@ -241,6 +241,23 @@
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1337/"
     },
     {
+      "id": "news-ab36c242",
+      "date": "2026-10-19",
+      "title": "Multiples vulnérabilités dans Roundcube Webmail (19 octobre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Roundcube Webmail. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, une falsification de requêtes côté serveur (SSRF) et une injection de code indirecte à distance (XSS).",
+      "context": "Concerne la sécurité des applications et services web.",
+      "related_modules": [
+        "m11",
+        "m13"
+      ],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1340/"
+    },
+    {
       "id": "news-84d194dc",
       "date": "2026-10-16",
       "title": "Multiples vulnérabilités dans le noyau Linux de SUSE (16 octobre 2026)",
@@ -446,22 +463,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1263/"
-    },
-    {
-      "id": "news-465dc37b",
-      "date": "2026-10-05",
-      "title": "Vulnérabilité dans Microsoft Exchange Server (05 octobre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Microsoft Exchange Server. Elle permet à un attaquant de provoquer une élévation de privilèges.",
-      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1258/"
     }
   ]
 }
