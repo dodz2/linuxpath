@@ -3,6 +3,34 @@
   "edition": "Semaine du 10 novembre 2026",
   "news": [
     {
+      "id": "news-dc97e144",
+      "date": "2026-11-10",
+      "title": "Vulnérabilité dans Atlassian Confluence Data Center (10 novembre 2026)",
+      "summary": "Une vulnérabilité a été découverte dans Atlassian Confluence Data Center. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1492/"
+    },
+    {
+      "id": "news-fea8845d",
+      "date": "2026-11-10",
+      "title": "Multiples vulnérabilités dans le greffon OpenID Connect OpenID Provider (OIDC OP) pour Shibboleth (10 novembre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans le greffon OpenID Connect OpenID Provider (OIDC OP) pour Shibboleth. Elles permettent à un attaquant de provoquer un contournement de la politique de sécurité.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1491/"
+    },
+    {
       "id": "news-7ed0a924",
       "date": "2026-11-09",
       "title": "Activités cyber offensives ciblant la France menées par des acteurs iraniens liés au CGRI (09 novembre 2026)",
@@ -431,36 +459,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1299/"
-    },
-    {
-      "id": "news-19d6394c",
-      "date": "2026-10-12",
-      "title": "Incident de sécurité ciblant les Danfoss série AK-SM et AK-SC (12 octobre 2026)",
-      "summary": "Le CERT-FR a connaissance de nombreuses compromissions de Danfoss série AK-SM et AK-SC. L'exposition d'une interface de gestion sur Internet est contraire aux bonnes pratiques. Dans le cas où l’administration à distance est impérative, une première mesure temporaire peut consister à restreindre...",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [
-        "Incident"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/alerte/CERTFR-2026-ALE-012/"
-    },
-    {
-      "id": "news-26e2eadd",
-      "date": "2026-10-12",
-      "title": "Bulletin d'actualité CERTFR-2026-ACT-043 (12 octobre 2026)",
-      "summary": "Ce bulletin d'actualité du CERT-FR revient sur les vulnérabilités significatives de la semaine passée pour souligner leurs criticités. Il ne remplace pas l'analyse de l'ensemble des avis et alertes publiés par le CERT-FR dans le cadre d'une analyse de risques pour prioriser l'application des...",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/actualite/CERTFR-2026-ACT-043/"
     }
   ]
 }
