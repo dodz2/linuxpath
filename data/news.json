@@ -1,7 +1,37 @@
 {
-  "last_updated": "2026-11-09",
-  "edition": "Semaine du 9 novembre 2026",
+  "last_updated": "2026-11-10",
+  "edition": "Semaine du 10 novembre 2026",
   "news": [
+    {
+      "id": "news-7ed0a924",
+      "date": "2026-11-09",
+      "title": "Activités cyber offensives ciblant la France menées par des acteurs iraniens liés au CGRI (09 novembre 2026)",
+      "summary": "Les membres du **Centre de Coordination des Crises Cyber (C4)** \\* ont observé plusieurs attaques à but de déstabilisation menées à l’encontre des intérêts français, qu’ils sont en mesure d’imputer **aux unités cyber-offensives Shahid Shoostari et Shahid Kaveh, opérant au sein du Centre...",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/cti/CERTFR-2026-CTI-009/"
+    },
+    {
+      "id": "news-4f992301",
+      "date": "2026-11-09",
+      "title": "Multiples vulnérabilités dans Apache HTTP Server (09 novembre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Apache HTTP Server. Elles permettent à un attaquant de provoquer un problème de sécurité non spécifié par l'éditeur.",
+      "context": "Touche les services réseau et leur sécurisation.",
+      "related_modules": [
+        "m10"
+      ],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1484/"
+    },
     {
       "id": "news-d4638e69",
       "date": "2026-11-02",
@@ -431,38 +461,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/actualite/CERTFR-2026-ACT-043/"
-    },
-    {
-      "id": "news-dea6062a",
-      "date": "2026-10-06",
-      "title": "Vulnérabilité dans les produits Atlassian (06 octobre 2026)",
-      "summary": "Unevulnérabilité a été découverte dans les produits Atlassian. Elle permet à un attaquant de provoquer une atteinte à la confidentialité des données.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1264/"
-    },
-    {
-      "id": "news-7d04f5c2",
-      "date": "2026-10-05",
-      "title": "Vulnérabilité dans Citrix NetScaler ADC et Gateway (05 octobre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Citrix NetScaler ADC et Gateway. Elle permet à un attaquant de provoquer un déni de service à distance. La CISA indique que la vulnérabilité CVE-2026-88779 est activement exploitée.",
-      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
-      "related_modules": [
-        "m13"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-88779",
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1263/"
     }
   ]
 }
