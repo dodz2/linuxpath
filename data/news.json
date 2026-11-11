@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-11-10",
-  "edition": "Semaine du 10 novembre 2026",
+  "last_updated": "2026-11-11",
+  "edition": "Semaine du 11 novembre 2026",
   "news": [
     {
       "id": "news-dc97e144",
@@ -59,6 +59,20 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1484/"
+    },
+    {
+      "id": "news-0799f1ba",
+      "date": "2026-11-09",
+      "title": "Bulletin d'actualité CERTFR-2026-ACT-047 (09 novembre 2026)",
+      "summary": "Ce bulletin d'actualité du CERT-FR revient sur les vulnérabilités significatives de la semaine passée pour souligner leurs criticités. Il ne remplace pas l'analyse de l'ensemble des avis et alertes publiés par le CERT-FR dans le cadre d'une analyse de risques pour prioriser l'application des...",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/actualite/CERTFR-2026-ACT-047/"
     },
     {
       "id": "news-d4638e69",
@@ -445,20 +459,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1295/"
-    },
-    {
-      "id": "news-e2c8481b",
-      "date": "2026-10-13",
-      "title": "Vulnérabilité dans Schneider Electric Harmony (13 octobre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Schneider Electric Harmony. Elle permet à un attaquant de provoquer un contournement de la politique de sécurité.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1299/"
     }
   ]
 }
