@@ -1,7 +1,21 @@
 {
-  "last_updated": "2026-11-11",
-  "edition": "Semaine du 11 novembre 2026",
+  "last_updated": "2026-11-12",
+  "edition": "Semaine du 12 novembre 2026",
   "news": [
+    {
+      "id": "news-185aae1c",
+      "date": "2026-11-12",
+      "title": "Point de situation de l’opération REACTIV – octobre 2026 (12 novembre 2026)",
+      "summary": "Face à l’intensification des attaques cybercriminelles liées à des violations de données affectant les services de l’État, le Premier ministre a demandé le 1er septembre 2026 à l’Agence nationale de la sécurité des systèmes d’information (ANSSI) de mettre en place une capacité renforcée de...",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/cti/CERTFR-2026-CTI-010/"
+    },
     {
       "id": "news-dc97e144",
       "date": "2026-11-10",
@@ -441,24 +455,6 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1303/"
-    },
-    {
-      "id": "news-0ad8c1a6",
-      "date": "2026-10-14",
-      "title": "Vulnérabilité dans Ivanti Connect Secure (ICS) (14 octobre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Ivanti Connect Secure (ICS). Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance, une élévation de privilèges et un contournement de la politique de sécurité. Ivanti indique que cette vulnérabilité CVE-2026-104935 est...",
-      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
-      "related_modules": [
-        "m13"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-104935",
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/alerte/CERTFR-2026-ALE-013/"
     }
   ]
 }
