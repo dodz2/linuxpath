@@ -1,7 +1,344 @@
 {
-  "last_updated": "2026-11-17",
-  "edition": "Semaine du 17 novembre 2026",
+  "last_updated": "2026-11-20",
+  "edition": "Semaine du 20 novembre 2026",
   "news": [
+    {
+      "id": "news-e2f0ea26",
+      "date": "2026-11-20",
+      "title": "Multiples vulnérabilités dans Siemens Industrial Edge (20 novembre 2026)",
+      "summary": "De multiples vulnérabilités ont été découvertes dans Siemens Industrial Edge. Elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance.",
+      "context": "Renforce ta culture de cybersécurité.",
+      "related_modules": [],
+      "severity": "unevaluated",
+      "tags": [],
+      "cve": null,
+      "cvss": null,
+      "source_label": "CERT-FR",
+      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1590/"
+    },
+    {
+      "id": "news-9809396a",
+      "date": "2026-11-20",
+      "title": "CISA Adds Four Known Exploited Vulnerabilities to Catalog",
+      "summary": "CISA has added four new vulnerabilities to its Known Exploited Vulnerabilities (KEV) Catalog , based on evidence of active exploitation. CVE-2025-42884 SAP NetWeaver Improper Neutralization of Special Elements in Data Query Logic Vulnerability CVE-2026-76466 Cisco Expressway Series Use of Hard-coded Credentials Vulnerability CVE-2026-123890 VMWare vCenter Authentication Bypass Using an Alternate…",
+      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
+      "related_modules": [
+        "m6",
+        "m10",
+        "m13"
+      ],
+      "severity": "unevaluated",
+      "tags": [
+        "CVE",
+        "Patch"
+      ],
+      "cve": "CVE-2025-42884",
+      "cvss": null,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/alerts/2026/11/20/cisa-adds-four-known-exploited-vulnerabilities-catalog"
+    },
+    {
+      "id": "news-7a42a37f",
+      "date": "2026-11-19",
+      "title": "Elecbrakes EB2, VM1, ELBC2000",
+      "summary": "View CSAF Summary Successful exploitation of these vulnerabilities could allow an attacker to gain control of the brakes of a trailer, modify the firmware, disable the brake lights, modify the brake conditions or disable other critical safety features. The following versions of Elecbrakes EB2, VM1, ELBC2000 are affected: EB2 <=3.0.4.2.0 (CVE-2026-124281, CVE-2026-125273, CVE-2026-96805) ELBC2000…",
+      "context": "Technique liée au scripting et à l'automatisation.",
+      "related_modules": [
+        "m5",
+        "m6",
+        "m9"
+      ],
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil",
+        "Réseau",
+        "Fraude"
+      ],
+      "cve": "CVE-2026-124281",
+      "cvss": 3.1,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-323-02"
+    },
+    {
+      "id": "news-85316083",
+      "date": "2026-11-19",
+      "title": "libumqtt",
+      "summary": "View CSAF Summary Successful exploitation of this vulnerability could allow a remote attacker to cause a denial of service, memory corruption, or information disclosure. The following versions of libumqtt are affected: libumqtt <=1.1.1 (CVE-2026-125132) CVSS Vendor Equipment v3 8.6 libumqtt libumqtt 1 Vulnerability Integer Underflow (Wrap or Wraparound) Background Critical Infrastructure Sectors:…",
+      "context": "Touche les services réseau et leur sécurisation.",
+      "related_modules": [
+        "m9",
+        "m10",
+        "m13"
+      ],
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Outil",
+        "Réseau",
+        "Fraude"
+      ],
+      "cve": "CVE-2026-125132",
+      "cvss": 3.1,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-323-03"
+    },
+    {
+      "id": "news-5fec6ed3",
+      "date": "2026-11-19",
+      "title": "Autonomy Logic OpenPLC Runtime",
+      "summary": "View CSAF Summary Successful exploitation of this vulnerability could allow several unauthenticated admin accounts to be created. The following versions of Autonomy Logic OpenPLC Runtime are affected: OpenPLC Runtime <=4.2.4 (CVE-2026-126088) CVSS Vendor Equipment v3 8.1 Autonomy Logic OpenPLC Runtime 1 Vulnerability Concurrent Execution using Shared Resource with Improper Synchronization ('Race…",
+      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
+      "related_modules": [
+        "m6",
+        "m9",
+        "m10"
+      ],
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil",
+        "Réseau",
+        "Fraude"
+      ],
+      "cve": "CVE-2026-126088",
+      "cvss": 3.1,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-323-01"
+    },
+    {
+      "id": "news-aae8d2d0",
+      "date": "2026-11-17",
+      "title": "Siemens Simcenter Femap",
+      "summary": "View CSAF Summary Simcenter Femap is affected by an out of bounds read vulnerability that could be triggered when the application reads files in X_T format. This could allow an attacker to crash the application or execute arbitrary code. Siemens has released a new version for Simcenter Femap and recommends to update to the latest version. The following versions of Siemens Simcenter Femap are…",
+      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
+      "related_modules": [
+        "m6",
+        "m9",
+        "m10"
+      ],
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil",
+        "Réseau"
+      ],
+      "cve": "CVE-2026-64629",
+      "cvss": 3.1,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-10"
+    },
+    {
+      "id": "news-be93c547",
+      "date": "2026-11-17",
+      "title": "Dorsett Controls InfoScan",
+      "summary": "View CSAF Summary Successful exploitation of these vulnerabilities could allow an attacker to retrieve sensitive system information, access application data without authorization, recover stored credentials, or intercept and manipulate network communications. The following versions of Dorsett Controls InfoScan are affected: InfoScan <=1.45.0 (CVE-2026-117659, CVE-2026-120157, CVE-2026-120255,…",
+      "context": "En lien avec la gestion des droits et des accès système.",
+      "related_modules": [
+        "m3",
+        "m6",
+        "m9"
+      ],
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil",
+        "Windows",
+        "Réseau"
+      ],
+      "cve": "CVE-2026-117659",
+      "cvss": 3.1,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-01"
+    },
+    {
+      "id": "news-1394381f",
+      "date": "2026-11-17",
+      "title": "Siemens Mendix Studio Pro",
+      "summary": "View CSAF Summary Mendix Studio Pro contains multiple vulnerabilities in the MCP Server, that could allow an attacker with network access to interact with the server remotely or trick a user's browser into sending unauthorized requests, potentially leading to unauthorized data access, tool execution, or system compromise. Siemens has released new versions for the affected products and recommends…",
+      "context": "En lien avec la gestion des droits et des accès système.",
+      "related_modules": [
+        "m3",
+        "m6",
+        "m9"
+      ],
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil",
+        "Windows",
+        "Réseau"
+      ],
+      "cve": "CVE-2026-112136",
+      "cvss": 3.1,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-05"
+    },
+    {
+      "id": "news-d7c3b216",
+      "date": "2026-11-17",
+      "title": "Siemens .NET Client Library for SIMATIC S7 Webserver API",
+      "summary": "View CSAF Summary .NET Client Library for SIMATIC S7 Webserver API contains multiple vulnerabilities that could allow an attacker to obtain sensitive information or write arbitrary files outside the intended download directory. Siemens has released a new version for .NET Client Library for SIMATIC S7 Webserver API and recommends to update to the latest version. The following versions of Siemens…",
+      "context": "En lien avec la gestion des droits et des accès système.",
+      "related_modules": [
+        "m3",
+        "m6",
+        "m9"
+      ],
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil",
+        "Réseau"
+      ],
+      "cve": "CVE-2026-85114",
+      "cvss": 3.1,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-02"
+    },
+    {
+      "id": "news-86d3ccd9",
+      "date": "2026-11-17",
+      "title": "Critical Java Vulnerability Requires Immediate Patching",
+      "summary": "Purpose CISA strongly urges organizations to immediately patch the recently disclosed Oracle Java vulnerability CVE-2026-114938 . This critical memory-corruption vulnerability, known as “Java4Shell,” affects the Base64 decoder of the x86-64 HotSpot Java Virtual Machine (JVM), which is part of the Java Development Kit (JDK). Specially crafted Base64 input could crash the JVM and allow for…",
+      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
+      "related_modules": [
+        "m6",
+        "m8",
+        "m10"
+      ],
+      "severity": "unevaluated",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Réseau"
+      ],
+      "cve": "CVE-2026-114938",
+      "cvss": null,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/alerts/2026/11/17/critical-java-vulnerability-requires-immediate-patching"
+    },
+    {
+      "id": "news-6ef4b4f2",
+      "date": "2026-11-17",
+      "title": "Siemens Industrial Software Products",
+      "summary": "View CSAF Summary On October 21, 2026, the Node.js project released security updates addressing a critical vulnerability in the Brotli decoder bundled with Node.js, commonly referred to as \"Node2Shell\" (tracked as CVE-2026-111497). The vulnerability is an out-of-bounds write that could allow a remote attacker to cause memory corruption and potentially execute arbitrary code. This advisory covers…",
+      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
+      "related_modules": [
+        "m6",
+        "m9",
+        "m10"
+      ],
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil",
+        "Réseau"
+      ],
+      "cve": "CVE-2026-111497",
+      "cvss": 3.1,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-04"
+    },
+    {
+      "id": "news-02823862",
+      "date": "2026-11-17",
+      "title": "Siemens ROS#",
+      "summary": "View CSAF Summary ROS# before version 2.3.1 contains a code injection vulnerability that could allow an attacker that is able to pass a crafted message definition file to the user to inject arbitrary code into the generated program. Siemens has released a new version for ROS# and recommends to update to the latest version. The following versions of Siemens ROS# are affected: ROS#…",
+      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
+      "related_modules": [
+        "m6",
+        "m9",
+        "m10"
+      ],
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil",
+        "Réseau"
+      ],
+      "cve": "CVE-2026-109097",
+      "cvss": 3.1,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-06"
+    },
+    {
+      "id": "news-6b134c65",
+      "date": "2026-11-17",
+      "title": "Siemens RUGGEDCOM APE1808",
+      "summary": "View CSAF Summary Fortinet has published information on a Double Free vulnerability in FortiOS. This advisory lists the related Siemens Industrial products. Siemens recommends to update Fortigate NGFW to V7.6.9 or later following the secure update recommendation procedure. Contact customer support to receive detailed information The following versions of Siemens RUGGEDCOM APE1808 are affected:…",
+      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
+      "related_modules": [
+        "m6",
+        "m9",
+        "m10"
+      ],
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil",
+        "Réseau"
+      ],
+      "cve": "CVE-2026-106175",
+      "cvss": 3.1,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-07"
+    },
+    {
+      "id": "news-8e438b33",
+      "date": "2026-11-17",
+      "title": "Siemens SIMATIC WinCC",
+      "summary": "View CSAF Summary Graphics Designer of SIMATIC WinCC before V8.2 contains an implicit active content execution vulnerability upon opening files, which could allow an attacker to cause arbitrary code execution on the device. Siemens is preparing fixes and recommends specific mitigations for products where fixes are not or not yet available. The following versions of Siemens SIMATIC WinCC are…",
+      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
+      "related_modules": [
+        "m6",
+        "m9",
+        "m10"
+      ],
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil",
+        "Réseau"
+      ],
+      "cve": "CVE-2026-59082",
+      "cvss": 3.1,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-09"
+    },
+    {
+      "id": "news-3c3bfd2f",
+      "date": "2026-11-17",
+      "title": "Siemens meta-iot2050",
+      "summary": "View CSAF Summary meta-iot2050 (https://github.com/siemens/meta-iot2050) from V01.03.01 contains a Command Injection vulnerability in the firmware update tool that could allow an attacker which is able to manipulate a configuration file to have arbitrary commands run as root. Siemens is preparing fixes and recommends mitigations for products where fixes are not or not yet available. The following…",
+      "context": "Technique liée au scripting et à l'automatisation.",
+      "related_modules": [
+        "m5",
+        "m6",
+        "m9"
+      ],
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil",
+        "Réseau"
+      ],
+      "cve": "CVE-2026-109830",
+      "cvss": 3.1,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-11"
+    },
     {
       "id": "news-3e15ac7e",
       "date": "2026-11-13",
@@ -71,6 +408,54 @@
       "cvss": null,
       "source_label": "CERT-FR",
       "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1503/"
+    },
+    {
+      "id": "news-d92d7640",
+      "date": "2026-11-12",
+      "title": "Siemens Building Automation and Energy Products",
+      "summary": "View CSAF Summary On October 21, 2026, the PHP project and security researchers disclosed two critical, unauthenticated remote code execution vulnerabilities in the core PHP language runtime known as \"php2shell\" (tracked as CVE-2026-109618 and CVE-2026-109619). This advisory covers the status of impact of various Siemens software products. As a general security measure, Siemens strongly…",
+      "context": "Touche directement les systèmes Linux que tu apprends à administrer.",
+      "related_modules": [
+        "m1",
+        "m6",
+        "m9"
+      ],
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil",
+        "Linux",
+        "Windows"
+      ],
+      "cve": "CVE-2026-109618",
+      "cvss": 3.1,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-01"
+    },
+    {
+      "id": "news-4c61d41b",
+      "date": "2026-11-12",
+      "title": "Siemens Desigo, Gridscale",
+      "summary": "View CSAF Summary On October 21, 2026, the Node.js project released security updates addressing a critical vulnerability in the Brotli decoder bundled with Node.js, commonly referred to as \"Node2Shell\" (tracked as CVE-2026-111497). The vulnerability is an out-of-bounds write that could allow a remote attacker to cause memory corruption and potentially execute arbitrary code. This advisory covers…",
+      "context": "Concerne l'administration et le maintien sécurisé des systèmes.",
+      "related_modules": [
+        "m6",
+        "m9",
+        "m10"
+      ],
+      "severity": "info",
+      "tags": [
+        "CVE",
+        "Patch",
+        "Outil",
+        "Windows",
+        "Réseau"
+      ],
+      "cve": "CVE-2026-111497",
+      "cvss": 3.1,
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-02"
     },
     {
       "id": "news-dc97e144",
@@ -159,293 +544,43 @@
       "source_url": "https://www.cert.cyber.gouv.fr/actualite/CERTFR-2026-ACT-047/"
     },
     {
-      "id": "news-d4638e69",
-      "date": "2026-11-02",
-      "title": "Multiples vulnérabilités dans Tenable Identity Exposure (02 novembre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Tenable Identity Exposure. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, un déni de service à distance et une atteinte à la confidentialité des données.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1436/"
-    },
-    {
-      "id": "news-1ae76863",
-      "date": "2026-11-02",
-      "title": "Multiples vulnérabilités dans les produits Synology (02 novembre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans les produits Synology. Elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1435/"
-    },
-    {
-      "id": "news-dbf651ed",
-      "date": "2026-11-02",
-      "title": "Multiples vulnérabilités dans Ivanti Connect Secure (02 novembre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Ivanti Connect Secure. Elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, une élévation de privilèges et un contournement de la politique de sécurité. Ivanti indique que les vulnérabilités CVE-2026-104935,...",
-      "context": "Alerte sur des vulnérabilités à connaître et analyser.",
+      "id": "news-f1955ab1",
+      "date": "2026-11-05",
+      "title": "US Government Partners Urge Hardening Industrial Refrigeration and Cold Chain Monitoring Systems",
+      "summary": "Overview The Cybersecurity and Infrastructure Security Agency (CISA), Federal Bureau of Investigation (FBI), Health and Human Services (HHS), U.S. Department of Agriculture (USDA), and the Department of Transportation (DoT)—hereafter referred to as “the authoring organizations”—are aware of malicious cyber activity targeting industrial refrigeration and cold chain monitoring systems globally.…",
+      "context": "En lien avec la gestion des droits et des accès système.",
       "related_modules": [
-        "m13"
-      ],
-      "severity": "unevaluated",
-      "tags": [
-        "CVE"
-      ],
-      "cve": "CVE-2026-104935",
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1442/"
-    },
-    {
-      "id": "news-036c7900",
-      "date": "2026-11-02",
-      "title": "Vulnérabilité dans Microsoft Visual Studio (02 novembre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Microsoft Visual Studio. Elle permet à un attaquant de provoquer un contournement de la politique de sécurité.",
-      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1441/"
-    },
-    {
-      "id": "news-b5f70935",
-      "date": "2026-11-02",
-      "title": "Vulnérabilité dans Traefik (02 novembre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Traefik. Elle permet à un attaquant de provoquer un déni de service à distance.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1439/"
-    },
-    {
-      "id": "news-ac94a09f",
-      "date": "2026-10-30",
-      "title": "Vulnérabilité dans Stormshield Management Center (30 octobre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Stormshield Management Center. Elle permet à un attaquant de provoquer une exécution de code arbitraire à distance.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1429/"
-    },
-    {
-      "id": "news-5bf33d57",
-      "date": "2026-10-30",
-      "title": "Vulnérabilité dans Tenable Nessus Plugin (30 octobre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Tenable Nessus Plugin. Elle permet à un attaquant de provoquer une atteinte à la confidentialité des données.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1425/"
-    },
-    {
-      "id": "news-4a3592cd",
-      "date": "2026-10-30",
-      "title": "Vulnérabilité dans Ruby on Rails trilogy (30 octobre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Ruby on Rails trilogy. Elle permet à un attaquant de provoquer une injection SQL (SQLi).",
-      "context": "Concerne la sécurité des applications et services web.",
-      "related_modules": [
-        "m11",
-        "m13"
-      ],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1424/"
-    },
-    {
-      "id": "news-53845fe6",
-      "date": "2026-10-29",
-      "title": "Multiples vulnérabilités dans Veeam Backup for Microsoft 365 (29 octobre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Veeam Backup for Microsoft 365. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, une élévation de privilèges et une atteinte à la confidentialité des données.",
-      "context": "Utile pour comprendre les enjeux en environnement mixte Windows/Linux.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [
-        "Windows"
-      ],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1411/"
-    },
-    {
-      "id": "news-7d44dc49",
-      "date": "2026-10-29",
-      "title": "Multiples vulnérabilités dans Elastic Cloud Enterprise (29 octobre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Elastic Cloud Enterprise. Certaines d'entre elles permettent à un attaquant de provoquer une élévation de privilèges, une atteinte à la confidentialité des données et une atteinte à l'intégrité des données.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1419/"
-    },
-    {
-      "id": "news-50c6c3aa",
-      "date": "2026-10-29",
-      "title": "Multiples vulnérabilités dans Foxit Online Services (29 octobre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Foxit Online Services. Certaines d'entre elles permettent à un attaquant de provoquer une atteinte à la confidentialité des données, une atteinte à l'intégrité des données et une falsification de requêtes côté serveur (SSRF).",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1418/"
-    },
-    {
-      "id": "news-7f087602",
-      "date": "2026-10-28",
-      "title": "Multiples vulnérabilités dans Mitel OpenScape Endpoint Management (28 octobre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Mitel OpenScape Endpoint Management. Elles permettent à un attaquant de provoquer une élévation de privilèges et un contournement de la politique de sécurité.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1404/"
-    },
-    {
-      "id": "news-5c10610c",
-      "date": "2026-10-28",
-      "title": "Vulnérabilité dans Axis Camera Station Pro (28 octobre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans Axis Camera Station Pro. Elle permet à un attaquant de provoquer une atteinte à la confidentialité des données.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1408/"
-    },
-    {
-      "id": "news-b918994f",
-      "date": "2026-10-21",
-      "title": "Vulnérabilité dans MongoDB PHP Driver (21 octobre 2026)",
-      "summary": "Une vulnérabilité a été découverte dans MongoDB PHP Driver. Elle permet à un attaquant de provoquer un déni de service à distance.",
-      "context": "Concerne la sécurité des applications et services web.",
-      "related_modules": [
-        "m10",
-        "m11"
-      ],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1347/"
-    },
-    {
-      "id": "news-250e5186",
-      "date": "2026-10-20",
-      "title": "Violations de données applicatives - Retour d’expérience du CERT-FR (20 octobre 2026)",
-      "summary": "En 2025, le CERT-FR a suivi près de 200 violations de données issues d’applications web. Dans de nombreux cas, ces exfiltrations ont été permises par des actions attaquantes d’un faible niveau de complexité, sans exploitation de vulnérabilité technique. Les divulgations de données ont des impacts...",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/cti/CERTFR-2026-CTI-008/"
-    },
-    {
-      "id": "news-91c316dd",
-      "date": "2026-10-19",
-      "title": "Multiples vulnérabilités dans Juniper Networks Session Smart Router (19 octobre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Juniper Networks Session Smart Router. Elles permettent à un attaquant de provoquer un problème de sécurité non spécifié par l'éditeur.",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1337/"
-    },
-    {
-      "id": "news-ab36c242",
-      "date": "2026-10-19",
-      "title": "Multiples vulnérabilités dans Roundcube Webmail (19 octobre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans Roundcube Webmail. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, une falsification de requêtes côté serveur (SSRF) et une injection de code indirecte à distance (XSS).",
-      "context": "Concerne la sécurité des applications et services web.",
-      "related_modules": [
-        "m11",
-        "m13"
-      ],
-      "severity": "unevaluated",
-      "tags": [],
-      "cve": null,
-      "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.cyber.gouv.fr/avis/CERTFR-2026-AVI-1340/"
-    },
-    {
-      "id": "news-84d194dc",
-      "date": "2026-10-16",
-      "title": "Multiples vulnérabilités dans le noyau Linux de SUSE (16 octobre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans le noyau Linux de SUSE. Certaines d'entre elles permettent à un attaquant de provoquer une élévation de privilèges, un déni de service à distance et une atteinte à la confidentialité des données.",
-      "context": "Touche directement les systèmes Linux que tu apprends à administrer.",
-      "related_modules": [
-        "m1",
+        "m3",
+        "m6",
         "m8"
       ],
       "severity": "unevaluated",
       "tags": [
-        "Linux",
-        "Noyau Linux"
+        "Incident",
+        "Outil",
+        "Réseau",
+        "Fraude"
       ],
       "cve": null,
       "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1335/"
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/resources-tools/resources/us-government-partners-urge-hardening-industrial-refrigeration-and-cold-chain-monitoring-systems"
     },
     {
-      "id": "news-d38a3141",
-      "date": "2026-10-15",
-      "title": "Multiples vulnérabilités dans les produits Palo Alto Networks (15 octobre 2026)",
-      "summary": "De multiples vulnérabilités ont été découvertes dans les produits Palo Alto Networks. Certaines d'entre elles permettent à un attaquant de provoquer une exécution de code arbitraire à distance, une élévation de privilèges et un déni de service à distance. Palo Alto Networks indique que la...",
-      "context": "Renforce ta culture de cybersécurité.",
-      "related_modules": [],
+      "id": "news-b2a98b69",
+      "date": "2026-11-05",
+      "title": "Post-Quantum Questions to Ask Your Vendors",
+      "summary": "CISA, the Australian Signals Directorate’s Australian Cyber Security Centre (ASD’s ACSC) and the National Security Agency (NSA) released joint guidance and an accompanying quick-reference list to help organizations assess vendor readiness for transitioning to post-quantum cryptography (PQC). As quantum computing advances, widely used public-key cryptography will become vulnerable to compromise…",
+      "context": "Touche les services réseau et leur sécurisation.",
+      "related_modules": [
+        "m10"
+      ],
       "severity": "unevaluated",
       "tags": [],
       "cve": null,
       "cvss": null,
-      "source_label": "CERT-FR",
-      "source_url": "https://www.cert.ssi.gouv.fr/avis/CERTFR-2026-AVI-1326/"
+      "source_label": "CISA",
+      "source_url": "https://www.cisa.gov/resources-tools/resources/post-quantum-questions-ask-your-vendors"
     }
   ]
 }
